@@ -44,10 +44,10 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	private boolean stopOnEmptyActiveAgents;
 	private boolean stopOnFailedUpdates;
 
-	private TestEngineDriver(String pluginFolders) {
+	public TestEngineDriver(String pluginFolders, java.util.Properties properties) {
 		runningInstances.add(this);
 		CoreASMGlobal.setRootFolder(Tools.getRootFolder());
-		engine = (Engine) org.coreasm.engine.CoreASMEngineFactory.createEngine();
+		engine = (Engine) org.coreasm.engine.CoreASMEngineFactory.createEngine(properties);
 		engine.addObserver(this);
 
 		if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
@@ -90,7 +90,11 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	}
 
 	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders) {
-		TestEngineDriver td = new TestEngineDriver(pluginFolders);
+		return TestEngineDriver.newLaunch(abspathname, pluginFolders, new java.util.Properties());
+	}
+
+	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders, java.util.Properties properties) {
+		TestEngineDriver td = new TestEngineDriver(pluginFolders, properties);
 		td.setDefaultConfig();
 		td.dolaunch(abspathname);
 		return td;
