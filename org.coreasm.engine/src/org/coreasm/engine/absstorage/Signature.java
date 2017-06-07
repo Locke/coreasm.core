@@ -155,4 +155,39 @@ public class Signature {
         
         return ret;
     }
+
+    public boolean checkArguments(ElementList args, AbstractStorage storage) {
+        // check that the Location has enough arguments
+        if (args.size() != this.getArity()) {
+            return false;
+        }
+        else {
+            // if the sizes matches
+            // check that all the arguments are in the domains of the function
+            int i = 0;
+            for (String domName : this.getDomain()) {
+                final Element arg = args.get(i);
+                if (!arg.equals(Element.UNDEF) ) {
+                    AbstractUniverse domain = storage.getUniverse(domName);
+                    if (domain != null) {
+                        if (!domain.member(arg)) {
+                            if (domain instanceof UniverseElement) {
+                                // remember: `extend U with x do R` creates a new element `x` and adds it to the Universe `U` only after `R` is evaluated
+                                // if we are in `R` we have no chance to check if `arg` is a newly created element but not yet added to `U`
+                                // therefore we cannot check such arguments and have to assume that `arg` will be added to the domain later on..
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                i++;
+            }
+        }
+
+        return true;
+    }
 }

@@ -809,6 +809,16 @@ public class HashStorage implements AbstractStorage {
 				}
 				if (id instanceof FunctionElement) {
 					FunctionElement f = (FunctionElement)id;
+
+					Signature signature = f.getSignature();
+					if (signature != null) {
+						// TODO: test the Signature.TypeChecking property
+						if (!signature.checkArguments(loc.args, capi.getStorage())) {
+							String msg = "Reading '" + loc + "' might result in an undef value as the domain of '" + loc.name + "' is '" + signature.getDomain() + "'.";
+							capi.warning("Abstract Storage", msg);
+						}
+					}
+
 					if (f.isReadable()) 
 						return ((FunctionElement)id).getValue(loc.args);
 					else {
