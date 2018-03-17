@@ -69,7 +69,7 @@ public class EngineProperties extends Properties {
 	 */
 	public void setDefaults() {
 		this.setProperty(PRINT_STACK_TRACE, NO);
-		this.setProperty(MAX_PROCESSORS, "1");
+		//this.setProperty(MAX_PROCESSORS, "1"); // not needed as default
 		this.setProperty(PRINT_PROCESSOR_STATS_PROPERTY, "no");
 	}
 
