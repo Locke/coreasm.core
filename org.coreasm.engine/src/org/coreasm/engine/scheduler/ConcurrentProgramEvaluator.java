@@ -14,6 +14,7 @@
 
 package org.coreasm.engine.scheduler;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
@@ -52,6 +53,8 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	private final int start;
 	private final int end;
 	private final int batchSize;
+	private final boolean shouldPrintExecutionStats;
+	private StringBuilder executionStats;
 	
 	/**
 	 * Creates a new program evaluator working on agents [start, ..., end-1] in the list.
@@ -61,8 +64,8 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	 * @param start
 	 * @param end
 	 */
-	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents, int start, int end) {
-		this(capi, agentContextMap, agents, start, end, DEFAULT_BATCH_SIZE);
+	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents, int start, int end, boolean shouldPrintExecutionStats) {
+		this(capi, agentContextMap, agents, start, end, DEFAULT_BATCH_SIZE, shouldPrintExecutionStats);
 	}
 	
 	/**
@@ -73,7 +76,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	 * @param start
 	 * @param end
 	 */
-	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents,  int start, int end, int batchSize) {
+	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents,  int start, int end, int batchSize, boolean shouldPrintExecutionStats) {
 		this.agents = agents;
 		this.capi = capi;
 		this.storage = capi.getStorage();
@@ -81,14 +84,15 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		this.end = end;
 		this.batchSize = batchSize;
 		this.agentContextMap = agentContextMap;
+		this.shouldPrintExecutionStats = shouldPrintExecutionStats;
 	}
 
 	@Override
 	public UpdateMultiset compute() {
 		if (end - start > batchSize) {
 			int cut = start + (end - start) / 2;
-			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut);
-			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end);
+			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut, shouldPrintExecutionStats);
+			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end, shouldPrintExecutionStats);
 
 			cpe2.fork();
 			UpdateMultiset result1 = cpe1.invoke();
@@ -101,16 +105,22 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
 				if (result2 == null) {
 					return null;
-				} else {
-					UpdateMultiset result = new UpdateMultiset(result1);
-					result.addAll(result2);
-					return result;
 				}
+
+				if (shouldPrintExecutionStats) {
+					executionStats = new StringBuilder(cpe1.executionStats).append(cpe2.executionStats);
+				}
+
+				UpdateMultiset result = new UpdateMultiset(result1);
+				result.addAll(result2);
+				return result;
 			}
 		} else {
+			long startTime = System.nanoTime();
+
 			UpdateMultiset aggregatedResult = new UpdateMultiset();
-			for (int i=start; i < end; i++) {
-				Element agent = agents.get(i);
+			List<? extends Element> myAgents = agents.subList(start, end);
+			for (Element agent : myAgents) {
 				UpdateMultiset result;
 				try {
 					result = evaluate(agent);
@@ -119,6 +129,19 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 				}
 				aggregatedResult.addAll(result);
 			}
+
+			if (shouldPrintExecutionStats) {
+				executionStats = new StringBuilder()
+						.append(Thread.currentThread().toString())
+						.append(" took ")
+						.append((System.nanoTime() - startTime) / 1e6)
+						.append("ms to evaluate ")
+						.append(end - start)
+						.append(" agent(s): ")
+						.append(Arrays.toString(myAgents.toArray()))
+						.append("\n");
+			}
+
 			return aggregatedResult;
 		}
 	}
@@ -180,6 +203,10 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 			logger.debug("Updates are: " + result.toString());
 
 		return result;
+	}
+
+	public String getExecutionStats() {
+		return executionStats.toString();
 	}
 	
 }

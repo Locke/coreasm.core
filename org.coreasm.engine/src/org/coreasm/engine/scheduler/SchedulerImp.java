@@ -70,7 +70,7 @@ public class SchedulerImp implements Scheduler {
 	private int numberOfCPUs = -1;
 	private SchedulingPolicy schedulingPolicy = null;
 	private Iterator<Set<Element>> schedule = null;
-	private boolean shouldPrintProcessorStats = false;
+	private boolean shouldPrintExecutionStats = false;
 
 	// TODO: may want to define it as a long
 	private int stepCount;
@@ -98,7 +98,7 @@ public class SchedulerImp implements Scheduler {
 
 		loadSchedulingPolicy();
 
-		shouldPrintProcessorStats = (capi.getProperty(
+		shouldPrintExecutionStats = (capi.getProperty(
 				EngineProperties.PRINT_PROCESSOR_STATS_PROPERTY, "no")
 				.toUpperCase().equals("YES"));
 
@@ -221,6 +221,8 @@ public class SchedulerImp implements Scheduler {
 	 */
 
 	public void executeAgentPrograms() throws EngineException {
+		final long startTime = System.nanoTime();
+		
 		ArrayList<Element> agentsList = new ArrayList<Element>(selectedAgentSet);
 
 		/*
@@ -255,7 +257,7 @@ public class SchedulerImp implements Scheduler {
 		final ForkJoinPool forkJoinPool = new ForkJoinPool(numberOfCPUs);
 
 		ConcurrentProgramEvaluator cpe = new ConcurrentProgramEvaluator(capi,
-				agentContextMap, agentsList, 0, agentsList.size(), batchSize);
+				agentContextMap, agentsList, 0, agentsList.size(), batchSize, shouldPrintExecutionStats);
 
 		UpdateMultiset updates;
 		try {
@@ -264,9 +266,10 @@ public class SchedulerImp implements Scheduler {
 			forkJoinPool.shutdownNow();
 		}
 
-		// TODO: it is no longer possible to print processor stats
-		//if (shouldPrintProcessorStats)
-		//	runnerGroup.stats();
+		if (shouldPrintExecutionStats) {
+			String executionStats = cpe.getExecutionStats();
+			logger.info("executeAgentPrograms took " + ((System.nanoTime() - startTime) / 1e6) + "ms total\n" + executionStats);
+		}
 
 		if (updates == null) {
 			throw new EngineException("A fatal error occurred that could not be transported.");
