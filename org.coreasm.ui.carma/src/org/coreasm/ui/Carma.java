@@ -134,7 +134,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private boolean printLoadedSpec = false;
 	private boolean toLatex = false;
 	private String[] engineProperties = null;
-	private int maxThreads = 1;
+	private int maxThreads = -1;
 	private String[] arguments = null;
 	
 	/* Other information gathered in run */
@@ -172,7 +172,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			            new FlaggedOption( ARG_STEPS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 's', ARG_STEPS, 
 				                "Sets the maximum number of steps before termination."),
 				            
-			        	new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS, 
+			        	new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS,
 				                "Sets the maximum number of execution threads to be used for simulation."),
 				
 				        propOption,
@@ -564,7 +564,11 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		
 		int currentStep = 1;
 		//int agentsSum = 0;
-		logln("Starting the execution using " + maxThreads + " thread(s).\n");
+		if (maxThreads != -1)
+			logln("Starting the execution using " + maxThreads + " thread(s).\n");
+		else
+			logln("Starting the execution.\n");
+
 		do {
 			if (currentStep == 1)
 				lastUpdateSet = new UpdateMultiset();
@@ -618,7 +622,10 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	}
 	
 	private void setEngineProperties(CoreASMEngine engine) {
-		engine.setProperty(EngineProperties.MAX_PROCESSORS, String.valueOf(maxThreads));
+		if (maxThreads != -1) {
+			engine.setProperty(EngineProperties.MAX_PROCESSORS, String.valueOf(maxThreads));
+		}
+
 		if (engineProperties != null && engineProperties.length > 0) {
 			String prop;
 			String value;
