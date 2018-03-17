@@ -410,8 +410,7 @@ public class SchedulerImp implements Scheduler {
 	 * user, returns the number of processors to be used for simulation.
 	 */
 	private static int getNumberOfProcessorsToBeUsed(ControlAPI capi) {
-		// int cpus = Runtime.getRuntime().availableProcessors();
-		int limit = 1;
+		int limit = -1;
 		String limitStr = capi.getProperty(EngineProperties.MAX_PROCESSORS);
 		if (limitStr != null) {
 			try {
@@ -422,6 +421,18 @@ public class SchedulerImp implements Scheduler {
 						+ "\" engine property (" + limitStr + ").");
 			}
 		}
+
+		if (limit == -1) {
+			int cpus = Runtime.getRuntime().availableProcessors();
+
+			if (cpus < 4) {
+				limit = 1;
+			}
+			else {
+				limit = cpus - 2;
+			}
+		}
+
 		return limit;
 	}
 
