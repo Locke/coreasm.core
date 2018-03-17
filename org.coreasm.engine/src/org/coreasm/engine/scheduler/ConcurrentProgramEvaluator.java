@@ -15,6 +15,7 @@
 package org.coreasm.engine.scheduler;
 
 import java.util.List;
+import java.util.concurrent.RecursiveTask;
 
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineException;
@@ -28,7 +29,6 @@ import org.coreasm.engine.interpreter.InterpreterImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import EDU.oswego.cs.dl.util.concurrent.FJTask;
 
 /**
  * Evaluates programs of a set of agents in parallel using
@@ -38,7 +38,7 @@ import EDU.oswego.cs.dl.util.concurrent.FJTask;
  *
  */
 
-public class ConcurrentProgramEvaluator extends FJTask {
+public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
 	public static final int DEFAULT_BATCH_SIZE = 1;
 
@@ -49,8 +49,6 @@ public class ConcurrentProgramEvaluator extends FJTask {
 	private final ControlAPI capi;
 	private final AbstractStorage storage;
 	private List<? extends Element> agents = null;
-	private UpdateMultiset result = null;
-	private Throwable error = null;
 	private final int start;
 	private final int end;
 	private final int batchSize;
@@ -84,58 +82,51 @@ public class ConcurrentProgramEvaluator extends FJTask {
 		this.batchSize = batchSize;
 		this.agentContextMap = agentContextMap;
 	}
-	
-	public void run() {
+
+	@Override
+	public UpdateMultiset compute() {
 		if (end - start > batchSize) {
 			int cut = start + (end - start) / 2;
 			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut);
 			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end);
-			
-			coInvoke(cpe1, cpe2);
-			
-			UpdateMultiset result1 = cpe1.getResultantUpdateSet();
-			UpdateMultiset result2 = cpe2.getResultantUpdateSet();
-			
+
+			cpe2.fork();
+			UpdateMultiset result1 = cpe1.invoke();
+
 			if (result1 == null) {
-				result = null;
-				error = cpe1.error;
-			} else 
+				cpe2.cancel(true);
+				return null;
+			} else {
+				UpdateMultiset result2 = cpe2.join();
+
 				if (result2 == null) {
-					result = null;
-					error = cpe2.error;
+					return null;
 				} else {
-					result = new UpdateMultiset(cpe1.getResultantUpdateSet());
-					result.addAll(cpe2.getResultantUpdateSet());
+					UpdateMultiset result = new UpdateMultiset(result1);
+					result.addAll(result2);
+					return result;
 				}
+			}
 		} else {
 			UpdateMultiset aggregatedResult = new UpdateMultiset();
 			for (int i=start; i < end; i++) {
 				Element agent = agents.get(i);
+				UpdateMultiset result;
 				try {
-					evaluate(agent);
-				} catch(Exception e) {
-					result = null;
-					error = e;
-					return;
+					result = evaluate(agent);
+				} catch(EngineException e) {
+					throw new RuntimeException("could not evaluate agent", e);
 				}
 				aggregatedResult.addAll(result);
 			}
-			result = aggregatedResult;
+			return aggregatedResult;
 		}
-	}
-
-	public UpdateMultiset getResultantUpdateSet() {
-		return result;
-	}
-	
-	public Throwable getError() {
-		return error;
 	}
 	
 	/*
 	 * Evaluates the program of the given agent.
 	 */
-	private void evaluate(Element agent) throws EngineException {
+	private UpdateMultiset evaluate(Element agent) throws EngineException {
 		AgentContext context = agentContextMap.get(agent); 
 		Interpreter inter;
 		if (context == null) {
@@ -148,10 +139,8 @@ public class ConcurrentProgramEvaluator extends FJTask {
 			inter.cleanUp();
 		}
 		inter.cleanUp();
-		Element program = null;
-		ASTNode rootNode = null;
-		
-		program = storage.getChosenProgram(agent);
+
+		Element program = storage.getChosenProgram(agent);
 		if (program.equals(Element.UNDEF)) 
 			throw new EngineException("Program of agent " + agent.denotation() + " is undefined.");
 		if (!(program instanceof RuleElement)) 
@@ -159,7 +148,7 @@ public class ConcurrentProgramEvaluator extends FJTask {
 		inter.setSelf(agent);
 		
 		ASTNode ruleNode = ((RuleElement)program).getBody();
-		rootNode = context.nodeCopyCache.get(ruleNode);
+		ASTNode rootNode = context.nodeCopyCache.get(ruleNode);
 		if (rootNode == null) {
 			rootNode = (ASTNode)inter.copyTree(ruleNode); 
 			context.nodeCopyCache.put(ruleNode, rootNode);
@@ -181,6 +170,7 @@ public class ConcurrentProgramEvaluator extends FJTask {
 			throw new EngineException("AST of " + agent.denotation() + program.denotation() + " has been corrupted.");
 		
 		// if an error occurred in the engine, just return an empty multiset
+		UpdateMultiset result;
 		if (capi.hasErrorOccurred()) 
 			result = new UpdateMultiset();
 		else
@@ -189,6 +179,7 @@ public class ConcurrentProgramEvaluator extends FJTask {
 		if (logger.isDebugEnabled())
 			logger.debug("Updates are: " + result.toString());
 
+		return result;
 	}
 	
 }

@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
@@ -39,10 +40,9 @@ import org.coreasm.engine.plugin.SchedulerPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import EDU.oswego.cs.dl.util.concurrent.FJTaskRunnerGroup;
 
 /**
- * Implemetation of scheduler.
+ * Implementation of scheduler.
  * 
  * @author George Ma
  * 
@@ -251,38 +251,27 @@ public class SchedulerImp implements Scheduler {
 						+ " agent(s) per thread.");
 			}
 		}
-		final FJTaskRunnerGroup runnerGroup = new FJTaskRunnerGroup(
-				numberOfCPUs);
+
+		final ForkJoinPool forkJoinPool = new ForkJoinPool(numberOfCPUs);
 
 		ConcurrentProgramEvaluator cpe = new ConcurrentProgramEvaluator(capi,
 				agentContextMap, agentsList, 0, agentsList.size(), batchSize);
+
+		UpdateMultiset updates;
 		try {
-			runnerGroup.invoke(cpe);
-		} catch (InterruptedException e) {
-			runnerGroup.interruptAll();
-			throw new EngineException(
-					"Could not finish program evaluation due to "
-							+ "the following interrupted exception: " + e);
+			updates = forkJoinPool.invoke(cpe);
+		} finally {
+			forkJoinPool.shutdownNow();
 		}
 
-		if (shouldPrintProcessorStats)
-			runnerGroup.stats();
-
-		UpdateMultiset updates = cpe.getResultantUpdateSet();
+		// TODO: it is no longer possible to print processor stats
+		//if (shouldPrintProcessorStats)
+		//	runnerGroup.stats();
 
 		if (updates == null) {
-			if (cpe.getError() == null)
-				throw new EngineException("A fatal error occurred that could not be caught.");
-			logger.error(cpe.getError().toString());
-			StackTraceElement[] trace = cpe.getError().getStackTrace();
-			for (StackTraceElement ste : trace)
-				logger.error(ste.toString());
-			
-			throw new EngineException(cpe.getError());
-			// capi.error(cpe.getError());
+			throw new EngineException("A fatal error occurred that could not be transported.");
 		}
 
-		runnerGroup.interruptAll();
 		updateInstructions = updates;
 	}
 
