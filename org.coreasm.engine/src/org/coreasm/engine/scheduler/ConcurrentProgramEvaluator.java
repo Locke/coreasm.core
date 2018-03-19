@@ -14,6 +14,7 @@
 
 package org.coreasm.engine.scheduler;
 
+import java.util.Set;
 import java.util.concurrent.RecursiveTask;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import org.coreasm.engine.EngineException;
 import org.coreasm.engine.absstorage.AbstractStorage;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.RuleElement;
+import org.coreasm.engine.absstorage.Update;
 import org.coreasm.engine.absstorage.UpdateMultiset;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
@@ -44,6 +46,8 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	private final ControlAPI capi;
 	private final AbstractStorage storage;
 	private final Element agent;
+	private Set<Update> injectUpdates = null;
+
 	private final boolean shouldPrintExecutionStats;
 	private String executionStats;
 
@@ -58,6 +62,18 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		this.capi = capi;
 		this.storage = capi.getStorage();
 		this.shouldPrintExecutionStats = shouldPrintExecutionStats;
+	}
+
+	/**
+	 * Creates a new program evaluator.
+	 *
+	 * @param capi
+	 * @param agent
+	 * @param injectUpdates
+	 */
+	public ConcurrentProgramEvaluator(ControlAPI capi, Element agent, Set<Update> injectUpdates, boolean shouldPrintExecutionStats) {
+		this(capi, agent, shouldPrintExecutionStats);
+		this.injectUpdates = injectUpdates;
 	}
 
 	@Override
@@ -85,6 +101,12 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	 * Evaluates the program of the given agent.
 	 */
 	private UpdateMultiset evaluate(Element agent) throws EngineException {
+		if (this.injectUpdates != null) {
+			storage.pushState("ProgramEvaluatorTask");
+			storage.apply(this.injectUpdates);
+			logger.info("applying injected Updates: " + this.injectUpdates);
+		}
+
 		final InterpreterCache context = InterpreterCache.get(capi);
 
 		final Interpreter inter = context.interpreter;
@@ -121,7 +143,15 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 			result = rootNode.getUpdates();
 
 		if (logger.isDebugEnabled())
-			logger.debug("Updates are: " + result.toString());
+			logger.info("Updates are: " + result.toString());
+
+		if (this.injectUpdates != null) {
+			// automatically discard the injected updates, and returns only the updates computed from this agent
+			storage.popState("ProgramEvaluatorTask");
+		}
+
+		if (logger.isDebugEnabled())
+			logger.info("composed updates are: " + result.toString());
 
 		return result;
 	}
