@@ -65,8 +65,7 @@ public class SchedulerImp implements Scheduler {
 
 	private Element initAgent;
 
-	// private FJTaskRunnerGroup runnerGroup = null;
-	private int numberOfCPUs = -1;
+	private final ForkJoinPool forkJoinPool;
 	private SchedulingPolicy schedulingPolicy = null;
 	private Iterator<Set<Element>> schedule = null;
 	private boolean shouldPrintExecutionStats = false;
@@ -87,6 +86,8 @@ public class SchedulerImp implements Scheduler {
 		selectedAgentSet = new HashSet<Element>();
 		lastSelectedAgents = null;
 		agentContextMap = new AgentContextMap();
+
+		forkJoinPool = new ForkJoinPool(getNumberOfProcessorsToBeUsed(engine));
 	}
 
 	public void prepareInitialState() throws InvalidSpecificationException {
@@ -241,16 +242,6 @@ public class SchedulerImp implements Scheduler {
 		 * "Using a batch size of " + batchSize + " agent(s) per thread."); } }
 		 */
 
-		if (numberOfCPUs == -1) {
-			numberOfCPUs = getNumberOfProcessorsToBeUsed(capi);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Using " + numberOfCPUs + " thread(s) on "
-						+ Runtime.getRuntime().availableProcessors()
-						+ " processors.");
-			}
-		}
-
-		final ForkJoinPool forkJoinPool = new ForkJoinPool(numberOfCPUs);
 
 		UpdateMultiset updates = new UpdateMultiset();
 		try {
@@ -266,6 +257,8 @@ public class SchedulerImp implements Scheduler {
 				UpdateMultiset result = cpe.join();
 
 				if (result == null) {
+					forkJoinPool.shutdownNow();
+
 					throw new EngineException("A fatal error occurred that could not be transported.");
 				}
 
@@ -276,8 +269,9 @@ public class SchedulerImp implements Scheduler {
 					logger.info(executionStats);
 				}
 			}
-		} finally {
+		} catch (RuntimeException e) {
 			forkJoinPool.shutdownNow();
+			throw e;
 		}
 
 		if (shouldPrintExecutionStats) {
@@ -439,5 +433,6 @@ public class SchedulerImp implements Scheduler {
 	@Override
 	public void dispose() {
 		agentContextMap.clear();
+		forkJoinPool.shutdown();
 	}
 }
