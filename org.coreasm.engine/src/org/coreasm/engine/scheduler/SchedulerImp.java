@@ -78,8 +78,6 @@ public class SchedulerImp implements Scheduler {
 	/* to cache the list with minimum change to the code */
 	private Set<Element> lastSelectedAgents;
 
-	private AgentContextMap agentContextMap;
-
 	public SchedulerImp(ControlAPI engine) {
 		this.capi = engine;
 		updateInstructions = new UpdateMultiset();
@@ -87,7 +85,6 @@ public class SchedulerImp implements Scheduler {
 		agentSet = null;
 		selectedAgentSet = new HashSet<Element>();
 		lastSelectedAgents = null;
-		agentContextMap = new AgentContextMap();
 
 		forkJoinPool = new ForkJoinPool(getNumberOfProcessorsToBeUsed(engine));
 	}
@@ -104,8 +101,6 @@ public class SchedulerImp implements Scheduler {
 		shouldPrintExecutionStats = (capi.getProperty(
 				EngineProperties.PRINT_PROCESSOR_STATS_PROPERTY, "no")
 				.toUpperCase().equals("YES"));
-
-		agentContextMap = new AgentContextMap();
 
 		logger.debug("Done preparing the initial state.");
 	}
@@ -262,7 +257,7 @@ public class SchedulerImp implements Scheduler {
 			ArrayList<ConcurrentProgramEvaluator> evaluators = new ArrayList<>(agentsList.size());
 			for (Element agent : agentsList) {
 				ConcurrentProgramEvaluator cpe = new ConcurrentProgramEvaluator(capi,
-						agentContextMap, agent, shouldPrintExecutionStats);
+						agent, shouldPrintExecutionStats);
 				forkJoinPool.submit(cpe);
 				evaluators.add(cpe);
 			}
@@ -467,7 +462,6 @@ public class SchedulerImp implements Scheduler {
 
 	@Override
 	public void dispose() {
-		agentContextMap.clear();
 		forkJoinPool.shutdown();
 	}
 }
