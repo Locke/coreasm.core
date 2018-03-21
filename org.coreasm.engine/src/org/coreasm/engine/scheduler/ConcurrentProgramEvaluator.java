@@ -14,19 +14,13 @@
 
 package org.coreasm.engine.scheduler;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineException;
-import org.coreasm.engine.absstorage.AbstractStorage;
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.RuleElement;
-import org.coreasm.engine.absstorage.UpdateMultiset;
+import org.coreasm.engine.absstorage.*;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
-import org.coreasm.engine.interpreter.InterpreterImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +36,6 @@ import org.slf4j.LoggerFactory;
 public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
 	protected static final Logger logger = LoggerFactory.getLogger(ConcurrentProgramEvaluator.class);
-
-	private final AgentContextMap agentContextMap;
 	
 	private final ControlAPI capi;
 	private final AbstractStorage storage;
@@ -55,14 +47,12 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	 * Creates a new program evaluator.
 	 * 
 	 * @param capi
-	 * @param agentContextMap
 	 * @param agent
 	 */
-	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, Element agent, boolean shouldPrintExecutionStats) {
+	public ConcurrentProgramEvaluator(ControlAPI capi, Element agent, boolean shouldPrintExecutionStats) {
 		this.agent = agent;
 		this.capi = capi;
 		this.storage = capi.getStorage();
-		this.agentContextMap = agentContextMap;
 		this.shouldPrintExecutionStats = shouldPrintExecutionStats;
 	}
 
@@ -91,17 +81,9 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	 * Evaluates the program of the given agent.
 	 */
 	private UpdateMultiset evaluate(Element agent) throws EngineException {
-		AgentContext context = agentContextMap.get(agent); 
-		Interpreter inter;
-		if (context == null) {
-			context = new AgentContext(agent);
-			agentContextMap.put(agent, context);
-			context.interpreter = new InterpreterImp(capi);
-			inter = context.interpreter;
-		} else {
-			inter = context.interpreter;
-			inter.cleanUp();
-		}
+		final InterpreterCache context = InterpreterCache.get(capi);
+
+		final Interpreter inter = context.interpreter;
 		inter.cleanUp();
 
 		Element program = storage.getChosenProgram(agent);
@@ -112,13 +94,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		inter.setSelf(agent);
 		
 		ASTNode ruleNode = ((RuleElement)program).getBody();
-		ASTNode rootNode = context.nodeCopyCache.get(ruleNode);
-		if (rootNode == null) {
-			rootNode = (ASTNode)inter.copyTree(ruleNode); 
-			context.nodeCopyCache.put(ruleNode, rootNode);
-		} else {
-			inter.clearTree(rootNode);
-		}
+		ASTNode rootNode = context.getCleanCopy(ruleNode);
 		
 		inter.setPosition(rootNode);
 		// allow the interpreter to perform internal initialization 
