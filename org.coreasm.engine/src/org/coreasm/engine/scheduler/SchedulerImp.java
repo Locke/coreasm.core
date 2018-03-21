@@ -60,7 +60,7 @@ public class SchedulerImp implements Scheduler {
 
 	private Element initAgent;
 
-	private final ForkJoinPool forkJoinPool;
+	public final ForkJoinPool forkJoinPool;
 	private SchedulingPolicy schedulingPolicy = null;
 	private Iterator<Set<Element>> schedule = null;
 	private boolean shouldPrintExecutionStats = false;
