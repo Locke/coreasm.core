@@ -190,14 +190,14 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 				// both contain same number of members
 				if (intSize() == oMap.enumerate().size())
 				{
-					Collection<Element> oSetMember = oMap.enumerate();
+					Collection<Element> oMapMember = oMap.enumerate();
 					int matchCounter = 0;
 
 					// for all members of this set
 					for (Element m : enumerate())
 					{
 						// if any one member in this set is not contained in other set, break
-						if (!oSetMember.contains(m))
+						if (!oMapMember.contains(m))
 							break;
 							// else add one to match counter
 						else
