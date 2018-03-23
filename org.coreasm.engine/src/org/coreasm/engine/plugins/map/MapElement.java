@@ -161,6 +161,80 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
+	/**
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public boolean equals(Object anElement) {
+
+		boolean equals = false;
+
+		// if both java objects are idential, no further checks are required
+		if (super.equals(anElement))
+			equals = true;
+			// else both java objects are not identical, have to check that
+			// both are set elements, both have same size, and same members
+		else
+		{
+			// both set elements
+			if (anElement instanceof MapElement)
+			{
+				MapElement oMap = (MapElement)anElement;
+
+				// both contain same number of members
+				if (intSize() == oMap.enumerate().size())
+				{
+					Collection<Element> oSetMember = oMap.enumerate();
+					int matchCounter = 0;
+
+					// for all members of this set
+					for (Element m : enumerate())
+					{
+						// if any one member in this set is not contained in other set, break
+						if (!oSetMember.contains(m))
+							break;
+							// else add one to match counter
+						else
+							matchCounter++;
+
+					}
+
+					// if number of matches is the same as size of this set
+					// then other set is indeed equal to this set
+					if (intSize() == matchCounter)
+						equals = true;
+
+				}
+			}
+		}
+
+		return equals;
+	}
+
+	/**
+	 * Hashcode for Set elements. Must be overridden because equality is overridden.
+	 *
+	 * @see Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		// two set elements with the same members will have members with the same
+		// hashCodes so add it up
+
+		int resultantHashCode = 0;
+
+		// sum up hashcode of member elements
+		for (Element e : enumerate())
+			resultantHashCode = resultantHashCode + (e==null ? 0 : e.hashCode());
+
+		return resultantHashCode;
+	}
 
 	/**
 	 * @return returns the values-set of this map.

@@ -111,6 +111,7 @@ import org.coreasm.engine.ControlAPI;
  	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
  	 * of <code>Element</code>
  	 */
+ 	@Override
  	public boolean equals(Object anElement) {
 		if (anElement == null)
 			return false;
@@ -119,6 +120,11 @@ import org.coreasm.engine.ControlAPI;
  		else
  			throw new IllegalArgumentException("Cannot compare to non-Elements.");
  	}
+
+	@Override
+	public int hashCode() {
+		return (int) this.id;
+	}
  	
 
  	/** 

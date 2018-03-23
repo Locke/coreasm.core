@@ -128,4 +128,37 @@ public class RuleElement extends Element {
 	public String toString() {
 		return "@" + this.getName();
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		boolean equals = false;
+
+		// if both java objects are idential, no further checks are required
+		if (super.equals(o))
+			equals = true;
+			// else both java objects are not identical, have to check that
+			// both are set elements, both have same size, and same members
+		else
+		{
+			// both set elements
+			if (o instanceof RuleElement)
+			{
+				RuleElement other = (RuleElement)o;
+				/*
+				if (!this.name.equals(other.name)) {
+					return false;
+				}
+				*/
+
+				throw new IllegalArgumentException("RuleElement.equals: possibly same??? this = " + this + "; other = " + other);
+			}
+		}
+
+		return equals;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.node.hashCode() + this.name.hashCode() + this.param.hashCode() + this.body.hashCode();
+	}
 }
