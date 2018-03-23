@@ -240,7 +240,7 @@ public class HashStorage implements AbstractStorage {
 			if (p instanceof RuleElement)
 				return p;
 			else {
-				capi.error("Value of program(" + agent + ") is not a Rule element.");
+				logger.error("Value of program(" + agent + ") is not a Rule element: " + p);
 				return Element.UNDEF;
 			}
 		} catch (InvalidLocationException e) {

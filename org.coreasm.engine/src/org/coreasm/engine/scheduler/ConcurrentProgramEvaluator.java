@@ -108,7 +108,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		if (program.equals(Element.UNDEF)) 
 			throw new EngineException("Program of agent " + agent.denotation() + " is undefined.");
 		if (!(program instanceof RuleElement)) 
-			throw new EngineException("Program of agent " + agent.denotation() + " is not a rule element.");
+			throw new EngineException("Program of agent " + agent.denotation() + " is not a rule element: " + program);
 		inter.setSelf(agent);
 		
 		ASTNode ruleNode = ((RuleElement)program).getBody();
