@@ -121,6 +121,11 @@ import org.coreasm.engine.ControlAPI;
 			throw new IllegalArgumentException("Cannot compare to non-Elements.");
 	}
 
+	@Override
+	public int hashCode() {
+		return (int) this.id;
+	}
+
 
 	/**
 	 * Returns the denotational form of this element.
