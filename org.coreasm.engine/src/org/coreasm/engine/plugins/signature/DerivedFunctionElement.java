@@ -39,7 +39,7 @@ public class DerivedFunctionElement extends FunctionElement {
 	protected final String name;
 	protected final List<String> params;
 	protected final ASTNode expr;
-	protected final Map<ASTNode, ASTNode> exprCopies = new IdentityHashMap<ASTNode, ASTNode>();
+	protected final ThreadLocal<Map<ASTNode, ASTNode>> exprCopiesCache = new ThreadLocal<>();
 	
 	/**
 	 * Creates a new derived function with the given list 
@@ -66,22 +66,27 @@ public class DerivedFunctionElement extends FunctionElement {
 		if (args.size() == params.size()) {
 			Interpreter interpreter = capi.getInterpreter().getInterpreterInstance();
 			bindArguments(interpreter, args);
-			
-			synchronized(this) {
-				ASTNode exprCopy = exprCopies.get(interpreter.getPosition());
-				if (exprCopy == null) {
-					exprCopy = (ASTNode)interpreter.copyTree(expr);
-					exprCopies.put(interpreter.getPosition(), exprCopy);
-				}
-				try {
-					interpreter.interpret(exprCopy, interpreter.getSelf());
-					if (exprCopy.getValue() != null)
-						result = exprCopy.getValue();
-				} catch (InterpreterException e) {
-					capi.error(e, expr, interpreter);
-				} finally {
-					unbindArguments(interpreter);
-				}
+
+			Map<ASTNode, ASTNode> cache = exprCopiesCache.get();
+			if (cache == null) {
+				cache = new IdentityHashMap<ASTNode, ASTNode>();
+				exprCopiesCache.set(cache);
+			}
+
+			ASTNode exprCopy = cache.get(interpreter.getPosition());
+			if (exprCopy == null) {
+				exprCopy = (ASTNode)interpreter.copyTree(expr);
+				cache.put(interpreter.getPosition(), exprCopy);
+			}
+
+			try {
+				interpreter.interpret(exprCopy, interpreter.getSelf());
+				if (exprCopy.getValue() != null)
+					result = exprCopy.getValue();
+			} catch (InterpreterException e) {
+				capi.error(e, expr, interpreter);
+			} finally {
+				unbindArguments(interpreter);
 				interpreter.clearTree(exprCopy);
 			}
 		}
