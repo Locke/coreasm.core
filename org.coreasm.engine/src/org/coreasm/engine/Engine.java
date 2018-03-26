@@ -886,7 +886,6 @@ public class Engine implements ControlAPI {
 
 						case emTerminating:
 							terminating = true;
-							next(EngineMode.emTerminated);
 							break;
 
 						case emStartingStep:
@@ -1033,7 +1032,7 @@ public class Engine implements ControlAPI {
 
 							break;
 						case emTerminated:
-						break;
+							throw new IllegalStateException("should not happen!");
 						default:
 						break;
 
@@ -1064,6 +1063,13 @@ public class Engine implements ControlAPI {
 				for (Plugin p: pluginLoader.getPlugins())
 					p.terminate();
 
+				try {
+					next(EngineMode.emTerminated);
+				}
+				catch (EngineException e) {
+					error(e);
+					logger.error("Error occurred!", e);
+				}
 			} catch (Error e) {
 				// "Errors are serious problems that a reasonable application should not try to catch"
 				// TODO: discuss, if the Error should be re-thrown as soon as possible (as implemented now),
