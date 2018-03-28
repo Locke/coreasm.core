@@ -1045,7 +1045,8 @@ public class Engine implements ControlAPI {
 
 							break;
 						case emTerminated:
-							throw new IllegalStateException("should not happen!");
+							break;
+							//throw new IllegalStateException("should not happen!");
 						default:
 						break;
 
