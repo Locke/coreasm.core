@@ -17,6 +17,7 @@ package org.coreasm.engine.absstorage;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -131,34 +132,18 @@ public class RuleElement extends Element {
 
 	@Override
 	public boolean equals(Object o) {
-		boolean equals = false;
-
-		// if both java objects are idential, no further checks are required
-		if (super.equals(o))
-			equals = true;
-			// else both java objects are not identical, have to check that
-			// both are set elements, both have same size, and same members
-		else
-		{
-			// both set elements
-			if (o instanceof RuleElement)
-			{
-				RuleElement other = (RuleElement)o;
-				/*
-				if (!this.name.equals(other.name)) {
-					return false;
-				}
-				*/
-
-				throw new IllegalArgumentException("RuleElement.equals: possibly same??? this = " + this + "; other = " + other);
-			}
-		}
-
-		return equals;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		RuleElement that = (RuleElement) o;
+		return Objects.equals(node, that.node) &&
+				Objects.equals(body, that.body) &&
+				Objects.equals(param, that.param) &&
+				Objects.equals(name, that.name);
 	}
 
 	@Override
 	public int hashCode() {
-		return this.node.hashCode() + this.name.hashCode() + this.param.hashCode() + this.body.hashCode();
+		return Objects.hash(super.hashCode(), node, body, param, name);
 	}
 }
