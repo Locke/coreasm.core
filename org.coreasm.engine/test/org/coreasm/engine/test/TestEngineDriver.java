@@ -1,6 +1,7 @@
 package org.coreasm.engine.test;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -115,20 +116,22 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		engine.waitWhileBusy();
 	}
 
-	private void executeStepsImpl(int stepsLimit)
+	private List<Set<Update>> executeStepsImpl(int stepsLimit)
 	{
 		boolean doShutdown = false;
 
-		Set<Update> updates, prevupdates = null;
+		List<Set<Update>> allUpdates = new ArrayList<>(stepsLimit);
 
 		try {
 
 			if (engine.getEngineMode() != EngineMode.emIdle) {
 				handleError();
-				return;
+				return allUpdates;
 			}
 
 			int step = 0;
+
+			Set<Update> prevupdates = null;
 
 			while (engine.getEngineMode() == EngineMode.emIdle) {
 				status = TestEngineDriverStatus.running;
@@ -139,7 +142,8 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 				step++;
 				engine.waitWhileBusy();
 
-				updates = engine.getUpdateSet(0);
+				Set<Update> updates = engine.getUpdateSet(0);
+				allUpdates.add(updates);
 				if (terminated(updates, prevupdates)) {
 					doShutdown = true;
 					break;
@@ -166,6 +170,8 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 				status = TestEngineDriverStatus.paused;
 			}
 		}
+
+		return allUpdates;
 	}
 
 	public void stop() {
@@ -185,11 +191,11 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		}
 	}
 
-	public void executeSteps(int numberOfSteps) {
+	public List<Set<Update>> executeSteps(int numberOfSteps) {
 		if (numberOfSteps == 0)
 			numberOfSteps = -1; //means infinite steps
 
-		executeStepsImpl(numberOfSteps);
+		return executeStepsImpl(numberOfSteps);
 	}
 
 
