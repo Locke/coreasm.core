@@ -253,23 +253,6 @@ public class HashStorage implements AbstractStorage {
 		}
 	}
 
-//	/**
-//	 * @see org.coreasm.engine.absstorage.AbstractStorage#getState()
-//	 */
-//	public State getState() {
-//		return this;
-//	}
-//
-//	/** 
-//	 * @see org.coreasm.engine.absstorage.AbstractStorage#setState(org.coreasm.engine.absstorage.State)
-//	 */
-//	public void setState(State newState) {
-//		if (!stateStacked) 
-//			this.state = newState;
-//		else
-//			throw new EngineError("Cannot set state when the state stack is not empty.");
-//	}
-//
 	public Element getValue(Location l) throws InvalidLocationException {
 		Element e = null;
 		FunctionElement f = this.getFunction(l.name);
@@ -369,9 +352,9 @@ public class HashStorage implements AbstractStorage {
 		CompositionAPIImp compAPI = new CompositionAPIImp();
 		compAPI.setUpdateInstructions(updateSet1, updateSet2);
 		
-		for (Aggregator p: aggregatorPlugins) 
+		for (Aggregator p : aggregatorPlugins)
 //			synchronized (p) {
-				((Aggregator)p).compose(compAPI);
+				p.compose(compAPI);
 //			}
 		
 //		if (compAPI.isConsistent() == false)
@@ -391,10 +374,10 @@ public class HashStorage implements AbstractStorage {
 		aggAPI.setUpdateInstructions(updateInsts);
 		
 		// for each plugin
-		for (Aggregator p: aggregatorPlugins) 
-			((Aggregator)p).aggregateUpdates(aggAPI);
+		for (Aggregator p : aggregatorPlugins)
+			p.aggregateUpdates(aggAPI);
 		
-		if (aggAPI.isConsistent() == false) {
+		if (!aggAPI.isConsistent()) {
 			String msg = "Inconsistent aggregated results.";
 			
 			if (aggAPI.getFailedInstructions().size() > 0) {
@@ -576,17 +559,6 @@ public class HashStorage implements AbstractStorage {
 	@Override
 	public synchronized void clearState() {
 		state = new HashState();
-		/*
-		 * The following universe and functions are moved to Kernel
-		try {
-			state.addFunction(SELF_FUNCTION_NAME, new MapFunction(Element.UNDEF));
-			state.addFunction(PROGRAM_FUNCTION_NAME, new MapFunction(Element.UNDEF));
-			state.addUniverse(AGENTS_UNIVERSE_NAME, new UniverseElement());
-		} catch (NameConflictException e) {
-			// This should not happen!
-			throw new EngineError(e);
-		}
-		/**/
 	}
 
     public String getFunctionName(FunctionElement function) {
@@ -737,10 +709,17 @@ public class HashStorage implements AbstractStorage {
 			functionElements.setValue(FUNCTION_ELEMENT_FUNCTION_NAME, functionElements);
 		}
 
+		@Override
 		public Map<String,AbstractUniverse> getUniverses() {
 			return universeElements.getTableClone();
 		}
 
+		@Override
+		public AbstractUniverse getUniverse(String name) {
+			return universeElements.getValue(name);
+		}
+
+		@Override
 		public synchronized void addUniverse(String name, AbstractUniverse universe) throws NameConflictException {
 			if (universe == null)
 				throw new NullPointerException();
@@ -749,10 +728,36 @@ public class HashStorage implements AbstractStorage {
 			universeElements.setValue(name, universe);
 		}
 
+		@Override
 		public Map<String,FunctionElement> getFunctions() {
 			return functionElements.getTableClone();
 		}
 
+		@Override
+		public FunctionElement getFunction(String name) {
+			FunctionElement res = functionElements.getValue(name);
+			if (res == null)
+				res = universeElements.getValue(name);
+			return res;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.coreasm.engine.absstorage.State#getFunctionName(org.coreasm.engine.absstorage.FunctionElement)
+		 */
+		@Override
+		public String getFunctionName(FunctionElement function) {
+			for (Entry<String, FunctionElement> f: functionElements.table.entrySet()) {
+				if (f.getValue().equals(function))
+					return f.getKey();
+			}
+			for (Entry<String, AbstractUniverse> u : universeElements.table.entrySet()) {
+				if (u.getValue().equals(function))
+					return u.getKey();
+			}
+			return null;
+		}
+
+		@Override
 		public synchronized void addFunction(String name, FunctionElement function) throws NameConflictException {
 			if (function instanceof AbstractUniverse)
 				addUniverse(name, (AbstractUniverse)function);
@@ -763,10 +768,17 @@ public class HashStorage implements AbstractStorage {
 			functionElements.setValue(name, function);
 		}
 
+		@Override
 		public Map<String,RuleElement> getRules() {
 			return ruleElements.getTableClone();
 		}
 
+		@Override
+		public RuleElement getRule(String name) {
+			return ruleElements.getValue(name);
+		}
+
+		@Override
 		public synchronized void addRule(String name, RuleElement rule) throws NameConflictException {
 			if (rule == null)
 				throw new NullPointerException();
@@ -775,6 +787,7 @@ public class HashStorage implements AbstractStorage {
 			ruleElements.setValue(name, rule);
 		}
 
+		@Override
 		public Set<Location> getLocations() {
 			HashSet<Location> locations = new HashSet<Location>();
 			Map<String,FunctionElement> funcs = getFunctions();
@@ -784,6 +797,7 @@ public class HashStorage implements AbstractStorage {
 			return locations;
 		}
 
+		@Override
 		public Element getValue(Location loc) throws InvalidLocationException {
 			if (nameExists(loc.name)) {
 				Element id;
@@ -822,6 +836,7 @@ public class HashStorage implements AbstractStorage {
 		 * @throws InvalidLocationException if the location is not modifiable.
 		 * @see State#setValue(Location, Element)
 		 */
+		@Override
 		public synchronized void setValue(Location l, Element v) throws InvalidLocationException {
 			if (!nameExists(l.name)) {
 		        FunctionElement f = new MapFunction(Element.UNDEF);
@@ -850,30 +865,6 @@ public class HashStorage implements AbstractStorage {
 				throw new InvalidLocationException(l + " is not a valid location.");
 		}
 
-		/*
-		public synchronized void setValue(Location l, Element v) throws InvalidLocationException {
-			if (nameExists(l.name)) {
-				Element id;
-				try {
-					id = getIdentifier(l.name);
-				} catch (IdentifierNotFoundException e) {
-					throw new InvalidLocationException(e);
-				}
-				if (id instanceof FunctionElement && ((FunctionElement)id).isModifiable())
-					try {
-						((FunctionElement) id).setValue(l.args, v);
-					} catch (UnmodifiableFunctionException e) {
-						throw new InvalidLocationException(e);
-					}
-				else
-					throw new InvalidLocationException("Not a valid location.");
-			} else {
-		        FunctionElement f = new MapFunction(Element.UNDEF);
-	            addFunction(id, f); 
-				throw new InvalidLocationException("There is no such function in the state.");
-			}
-		}
-		*/
 
 		/**
 		 * Returns the rule/function/universe in the state
@@ -884,7 +875,7 @@ public class HashStorage implements AbstractStorage {
 		 * @throws IdentifierNotFoundException if there 
 		 * is no such rule/function/universe in the state
 		 */
-		public Element getIdentifier(String name)
+		private Element getIdentifier(String name)
 				throws IdentifierNotFoundException {
 			Element id = null;
 			id = (Element)universeElements.getValue(name);
@@ -913,21 +904,6 @@ public class HashStorage implements AbstractStorage {
 			return universeElements.containsName(name)
 					|| functionElements.containsName(name)
 					|| ruleElements.containsName(name);
-		}
-
-		public FunctionElement getFunction(String name) {
-			FunctionElement res = functionElements.getValue(name);
-			if (res == null) 
-				res = universeElements.getValue(name);
-			return res;
-		}
-
-		public AbstractUniverse getUniverse(String name) {
-			return universeElements.getValue(name);
-		}
-
-		public RuleElement getRule(String name) {
-			return ruleElements.getValue(name);
 		}
 
 		public String toString() {
@@ -991,21 +967,6 @@ public class HashStorage implements AbstractStorage {
 			return strWriter.toString();
 		}
 
-		/* (non-Javadoc)
-         * @see org.coreasm.engine.absstorage.State#getFunctionName(org.coreasm.engine.absstorage.FunctionElement)
-         */
-        public String getFunctionName(FunctionElement function) {
-            for (Entry<String, FunctionElement> f: functionElements.table.entrySet()) {
-                if (f.getValue().equals(function))
-                	return f.getKey();
-            }
-            for (Entry<String, AbstractUniverse> u : universeElements.table.entrySet()) {
-            	if (u.getValue().equals(function))
-            		return u.getKey();
-            }
-            return null;
-        }
-
 		/*
 		 * Cut the string to a specific length
 		 */
@@ -1020,15 +981,18 @@ public class HashStorage implements AbstractStorage {
 			
 			return result.toString();
 		}
-		
+
+		@Override
 		public FunctionElement getFunctionElementFunction() {
 			return functionElements;
 		}
 
+		@Override
 		public FunctionElement getRuleElementFunction() {
 			return ruleElements;
 		}
 
+		@Override
 		public FunctionElement getUniverseElementFunction() {
 			return universeElements;
 		}
