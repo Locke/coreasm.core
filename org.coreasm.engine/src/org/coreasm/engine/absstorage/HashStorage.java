@@ -140,7 +140,8 @@ public class HashStorage implements AbstractStorage {
 	private boolean isStateStacked() {
 		return !getUpdateStack().isEmpty();
 	}
-	
+
+	@Override
 	public void initAbstractStorage() {
 		clearState();
 		
@@ -217,7 +218,8 @@ public class HashStorage implements AbstractStorage {
 				addRule(name, veRules.get(name));
 			}
 	}
-	
+
+	@Override
 	public synchronized void fireUpdateSet(Set<Update> updateSet) throws InvalidLocationException {
 		// Cannot fire updates while state stack is not empty.
 		// Doing this check will allow us to bypass calling setValue(...)
@@ -231,6 +233,7 @@ public class HashStorage implements AbstractStorage {
 		monitoredCache.clear();
 	}
 
+	@Override
 	public Element getChosenProgram(Element agent) {
 		Element p = null;
 		Element s = null;
@@ -339,6 +342,7 @@ public class HashStorage implements AbstractStorage {
 		return null;
 	}
 
+	@Override
 	public void aggregateUpdates() {
 		logger.debug("Aggregating updates.");
 		UpdateMultiset updateInsts = capi.getScheduler().getUpdateInstructions();
@@ -359,6 +363,7 @@ public class HashStorage implements AbstractStorage {
 	/**
 	 * @see AbstractStorage#compose(UpdateMultiset, UpdateMultiset)
 	 */
+	@Override
 	public UpdateMultiset compose(UpdateMultiset updateSet1, UpdateMultiset updateSet2) {
 		// instantiate engine composition API, and set update multiset
 		CompositionAPIImp compAPI = new CompositionAPIImp();
@@ -379,6 +384,7 @@ public class HashStorage implements AbstractStorage {
 	/**
 	 * @see AbstractStorage#performAggregation(UpdateMultiset)
 	 */
+	@Override
 	public Set<Update> performAggregation(UpdateMultiset updateInsts) {
 		// instantiate engine aggregation API, and set update multiset
 		AggregationAPIImp aggAPI = new AggregationAPIImp();
@@ -405,7 +411,8 @@ public class HashStorage implements AbstractStorage {
 		// get resultant updates from agg API
 		return aggAPI.getResultantUpdates();
 	}
-	
+
+	@Override
 	public synchronized boolean isConsistent(Collection<Update> updateSet) {
 		Collection<Update> uSet = updateSet;
 		lastInconsistentUpdates = null;
@@ -430,6 +437,7 @@ public class HashStorage implements AbstractStorage {
 		return true;
 	}
 
+	@Override
 	public Element getNewElement() {
 		return new Element();
 	}
@@ -481,8 +489,9 @@ public class HashStorage implements AbstractStorage {
 	 * This method should only be called when there is a state in the stack.
 	 * 
 	 * @param updates the update multiset
-	 * @see #pushState()
+	 * @see #pushState(String pluginName)
 	 */
+	@Override
 	public synchronized void apply(Set<Update> updates) {
 		if (isStateStacked()) {
 			Stack<Map<Location, Element>> updateStack = getUpdateStack();
@@ -541,6 +550,7 @@ public class HashStorage implements AbstractStorage {
 	 * Return <code>true</code> if the given name is the name
 	 * of a function in the state.
 	 */
+	@Override
 	public boolean isFunctionName(String token) {
 		return getFunction(token) != null;
 	}
@@ -549,6 +559,7 @@ public class HashStorage implements AbstractStorage {
 	 * Return <code>true</code> if the given name is the name
 	 * of a function in the state.
 	 */
+	@Override
 	public boolean isUniverseName(String token) {
 		return getUniverse(token) != null;
 	}
@@ -557,10 +568,12 @@ public class HashStorage implements AbstractStorage {
 	 * Return <code>true<code> if the given name is the name
 	 * of a rule in the state.
 	 */
+	@Override
 	public boolean isRuleName(String token) {
 		return getRule(token) != null;
 	}
 
+	@Override
 	public synchronized void clearState() {
 		state = new HashState();
 		/*
@@ -584,6 +597,7 @@ public class HashStorage implements AbstractStorage {
 		return state.toString();
 	}
 
+	@Override
 	public Set<Update> getLastInconsistentUpdate() {
 		return lastInconsistentUpdates;
 	}
