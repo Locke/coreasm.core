@@ -36,11 +36,11 @@ public class CoreASMIssue extends Error {
 	public final String message; 
 	public final Throwable cause;
 	public final CharacterPosition pos;
-	public final Node node;
-	public final Stack<CallStackElement> callStack;
+	public transient final Node node;
+	public transient final Stack<CallStackElement> callStack;
 	
-	protected Parser parser = null;
-	protected Specification spec = null;
+	protected transient Parser parser = null;
+	protected transient Specification spec = null;
 	
 	@SuppressWarnings("unchecked")
 	public CoreASMIssue(String msg, Throwable cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
