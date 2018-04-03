@@ -746,8 +746,6 @@ public class SignaturePlugin extends Plugin
         	functionsWithInit = new IdentityHashMap<FunctionNode, FunctionElement>();
         
         ASTNode node = capi.getParser().getRootNode().getFirst();
-        
-    	Interpreter interpreter = capi.getInterpreter().getInterpreterInstance(); 
 
     	while (node != null) {
             if ((node.getGrammarRule() != null) && node.getGrammarRule().equals("Signature")) {
@@ -756,16 +754,16 @@ public class SignaturePlugin extends Plugin
 
             	while (currentSignature != null) {
                     if (currentSignature instanceof EnumerationNode) {
-                        createEnumeration(currentSignature, interpreter);
+                        createEnumeration(currentSignature);
                     }
                     else if (currentSignature instanceof FunctionNode) {
-                        createFunction(currentSignature, interpreter);
+                        createFunction(currentSignature);
                     }
                     else if (currentSignature instanceof UniverseNode) {
-                        createUniverse(currentSignature, interpreter);
+                        createUniverse(currentSignature);
                     }
                     else if (currentSignature instanceof DerivedFunctionNode) {
-                    	createDerivedFunction(currentSignature, interpreter);
+                    	createDerivedFunction(currentSignature);
                     }
                     
 //                    else if (currentSignature.getToken().equals("checkmode")) {
@@ -803,37 +801,37 @@ public class SignaturePlugin extends Plugin
         processingSignatures = false;
     }   
     
-    private void addUniverse(String name, UniverseElement universe, ASTNode node, Interpreter interpreter) {
+    private void addUniverse(String name, UniverseElement universe, ASTNode node) {
     	/*
         if (universes.containsKey(name)) {
             capi.error("Universe with name '"+name+"' already exists.",node);
         }        
         */
-    	if (checkNameUniqueness(name, "universe", node, interpreter))
+    	if (checkNameUniqueness(name, "universe", node))
     		universes.put(name, universe);
     }
     
-    private void addBackground(String name, BackgroundElement background, ASTNode node, Interpreter interpreter) {
+    private void addBackground(String name, BackgroundElement background, ASTNode node) {
     	/*
         if (backgrounds.containsKey(name)) {
             capi.error("Background with name '"+name+"' already exists.",node);
         }        
         */
-    	if (checkNameUniqueness(name, "background", node, interpreter))
+    	if (checkNameUniqueness(name, "background", node))
         backgrounds.put(name, background);
     }
     
-    private void addFunction(String name, FunctionElement function, ASTNode node, Interpreter interpreter) {
+    private void addFunction(String name, FunctionElement function, ASTNode node) {
     	/*
         if (functions.containsKey(name)) {
             capi.error("Function with name '"+name+"' already exists.",node);
         } 
         */
-    	if (checkNameUniqueness(name, "function", node, interpreter))
+    	if (checkNameUniqueness(name, "function", node))
     		functions.put(name, function);
     }
     
-    private boolean checkNameUniqueness(String name, String type, ASTNode node, Interpreter interpreter) {
+    private boolean checkNameUniqueness(String name, String type, ASTNode node) {
     	boolean result = true;
         if (rules.containsKey(name)) {
         	throw new CoreASMError("Cannot add " + type + " '" + name + "'." + 
@@ -857,11 +855,11 @@ public class SignaturePlugin extends Plugin
         return result;
     }
     
-    private void createUniverse(ASTNode currentSignature, Interpreter interpreter) {
+    private void createUniverse(ASTNode currentSignature) {
         UniverseNode universeNode = (UniverseNode) currentSignature;        
         UniverseElement u = new UniverseElement();
         
-        addUniverse(universeNode.getName(),u,currentSignature, interpreter);
+        addUniverse(universeNode.getName(),u,currentSignature);
         
         ASTNode member = universeNode.getFirst().getNext();
         
@@ -873,11 +871,11 @@ public class SignaturePlugin extends Plugin
             try {
                 f.setValue(ElementList.NO_ARGUMENT, e);
             } catch (UnmodifiableFunctionException e1) {
-                capi.error("Cannot modify unmodifiable function.", universeNode, interpreter);
+                capi.error("Cannot modify unmodifiable function.", universeNode, null);
             }
             
             f.setFClass(FunctionClass.fcStatic);            
-            addFunction(member.getToken(), f, universeNode, interpreter);
+            addFunction(member.getToken(), f, universeNode);
             member = member.getNext();
         }        
     }
@@ -885,7 +883,7 @@ public class SignaturePlugin extends Plugin
     /**
      * @param currentSignature
      */
-    private void createEnumeration(ASTNode currentSignature, Interpreter interpreter) {
+    private void createEnumeration(ASTNode currentSignature) {
         EnumerationNode enumerationNode = (EnumerationNode) currentSignature;
         List<EnumerationElement> members = enumerationNode.getMembers();
         String enumName = enumerationNode.getName();
@@ -896,21 +894,21 @@ public class SignaturePlugin extends Plugin
             try {
                 f.setValue(ElementList.NO_ARGUMENT,e);
             } catch (UnmodifiableFunctionException e1) {
-                capi.error("Cannot modify unmodifiable function.", enumerationNode, interpreter);
+                capi.error("Cannot modify unmodifiable function.", enumerationNode, null);
             }
             f.setFClass(FunctionClass.fcStatic);
-            addFunction(e.getName(),f,enumerationNode, interpreter);
+            addFunction(e.getName(),f,enumerationNode);
             e.setBackground(enumName);
         }
         
-        addBackground(enumName,background,enumerationNode, interpreter);
+        addBackground(enumName,background,enumerationNode);
     }
 
     
     /**
      * @param currentSignature
      */
-    private void createFunction(ASTNode currentSignature, Interpreter interpreter) {
+    private void createFunction(ASTNode currentSignature) {
         FunctionNode functionNode = (FunctionNode) currentSignature;
         MapFunction function;
         
@@ -929,7 +927,7 @@ public class SignaturePlugin extends Plugin
         function.setSignature(signature);
 
         if (!functionNode.getName().equals(AbstractStorage.PROGRAM_FUNCTION_NAME)) {
-            addFunction(functionNode.getName(),function,functionNode, interpreter);
+            addFunction(functionNode.getName(),function,functionNode);
         }
     
         
@@ -939,7 +937,7 @@ public class SignaturePlugin extends Plugin
         	function.setFClass(functionNode.getFunctionClass());
     }
     
-    private void createDerivedFunction(ASTNode currentSignature, Interpreter interpreter) {
+    private void createDerivedFunction(ASTNode currentSignature) {
         DerivedFunctionNode derivedFuncNode = (DerivedFunctionNode) currentSignature;        
 
         ASTNode exprNode = derivedFuncNode.getExpressionNode();
@@ -960,7 +958,7 @@ public class SignaturePlugin extends Plugin
 
 		DerivedFunctionElement func = new DerivedFunctionElement(capi, id, params, exprNode);
 		
-		addFunction(id, func, currentSignature, interpreter);
+		addFunction(id, func, currentSignature);
 
 		/* 
          * The following code creates a new rule that returns 
