@@ -1313,6 +1313,8 @@ public class InterpreterImp implements Interpreter {
 			throw new IllegalStateException("Called from wrong Thread!");
 		envMap.clear();
 		hiddenEnvMaps.clear();
+		if (!hiddenEnvMapNames.empty())
+			throw new IllegalStateException("hiddenEnvMapNames is not empty: " + hiddenEnvMapNames);
 		hiddenEnvMapNames.clear();
 		ruleCallStack.clear();
 	}
