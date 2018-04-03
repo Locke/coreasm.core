@@ -105,7 +105,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		final InterpreterCache context = InterpreterCache.get(capi);
 
 		final Interpreter inter = context.interpreter;
-		inter.cleanUp();
+		//inter.cleanUp(); // FIXME: disable for now; there might be dragons around here on recursion..
 
 		Element program = storage.getChosenProgram(agent);
 		if (program.equals(Element.UNDEF)) 

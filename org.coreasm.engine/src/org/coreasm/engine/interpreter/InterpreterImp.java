@@ -81,7 +81,10 @@ public class InterpreterImp implements Interpreter {
 	private final ControlAPI capi;
 
 	private Map<String,Stack<Element>> envMap;
-	private Stack<Map<String,Stack<Element>>> hiddenEnvMaps;
+	private final Stack<Map<String,Stack<Element>>> hiddenEnvMaps;
+	private final Stack<String> hiddenEnvMapNames;
+
+	private final Thread thread;
 	
 	/** Work copy of a tree */
 	private final Map<ASTNode,Map<String, ASTNode>> workCopies;
@@ -103,7 +106,9 @@ public class InterpreterImp implements Interpreter {
 		((ch.qos.logback.classic.Logger)logger).setLevel(ch.qos.logback.classic.Level.ERROR);	// added this line to temporarily turn off the logger
 		this.capi = capi;
 		this.hiddenEnvMaps = new Stack<Map<String, Stack<Element>>>();
+		this.hiddenEnvMapNames = new Stack<String>();
 		this.envMap = new HashMap<String, Stack<Element>>();
+		this.thread = Thread.currentThread();
 		this.storage = capi.getStorage();
 		this.workCopies = new IdentityHashMap<ASTNode,Map<String, ASTNode>>();
 	}
@@ -301,19 +306,37 @@ public class InterpreterImp implements Interpreter {
 	*/
 	
 	@Override
-	public void hideEnvVars() {
+	public void hideEnvVars(String name) {
+		if (name.equals("VerifyProcess"))
+			logger.debug("called for VerifyProcess..");
+
+		if (this.thread != Thread.currentThread())
+			throw new IllegalStateException("Called from wrong Thread!");
+
 		hiddenEnvMaps.push(envMap);
+		hiddenEnvMapNames.push(name);
 		envMap = new HashMap<String, Stack<Element>>();
 	}
 	
 	@Override
-	public void unhideEnvVars() {
+	public void unhideEnvVars(String name) {
+		if (name.equals("VerifyProcess"))
+			logger.debug("called for VerifyProcess..");
+		if (hiddenEnvMapNames.contains("VerifyProcess"))
+			logger.debug("hiddenEnvMaps contains VerifyProcess..");
+		if (this.thread != Thread.currentThread())
+			throw new IllegalStateException("Called from wrong Thread!");
 		if (hiddenEnvMaps.isEmpty())
 			throw new IllegalStateException("There are no hidden environment variables.");
+		if (!hiddenEnvMapNames.peek().equals(name))
+			throw new IllegalStateException("Illegal unhide of environment variables from '" + name + "', last hide was from '" + hiddenEnvMapNames.peek() + "'");
 		envMap = hiddenEnvMaps.pop();
+		hiddenEnvMapNames.pop();
 	}
 
 	public void addEnv(String name, Element value) {
+		if (this.thread != Thread.currentThread())
+			throw new IllegalStateException("Called from wrong Thread!");
 		if (name == null)
 			throw new IllegalArgumentException("The name of an environment variable must not be null.");
 		if (value == null)
@@ -946,7 +969,7 @@ public class InterpreterImp implements Interpreter {
 			wCopy.setParent(pos);
 			notifyOnRuleCall(rule, injectEnvVars(args), pos, self);
 			
-			hideEnvVars();
+			hideEnvVars(rule.name);
 			return wCopy; // as new value of 'pos'
 		} else { // if there already is a work copy
 			Element value = wCopy.getValue();
@@ -959,7 +982,7 @@ public class InterpreterImp implements Interpreter {
 			ruleCallStack.pop();
 			notifyOnRuleExit(rule, args, pos, self);
 			
-			unhideEnvVars();
+			unhideEnvVars(rule.name);
 			return pos;
 		}
 	}
@@ -1234,6 +1257,8 @@ public class InterpreterImp implements Interpreter {
 	 * @see Interpreter#initProgramExecution()
 	 */
 	public void initProgramExecution() {
+		if (this.thread != Thread.currentThread())
+			throw new IllegalStateException("Called from wrong Thread!");
 		// clearing the program tree is not needed in the
 		// concurrent version of the Engine
 		// clearTree(pos);
@@ -1283,8 +1308,11 @@ public class InterpreterImp implements Interpreter {
 	}
 
 	public void cleanUp() {
+		if (this.thread != Thread.currentThread())
+			throw new IllegalStateException("Called from wrong Thread!");
 		envMap.clear();
 		hiddenEnvMaps.clear();
+		hiddenEnvMapNames.clear();
 		ruleCallStack.clear();
 		interpreters.set(this);
 	}

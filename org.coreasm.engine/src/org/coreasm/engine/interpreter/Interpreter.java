@@ -158,12 +158,12 @@ public interface Interpreter {
 	/**
 	 * Hide the current environment variables
 	 */
-	public void hideEnvVars();
+	public void hideEnvVars(String name);
 	
 	/**
 	 * Unhide the previously hidden environment variables
 	 */
-	public void unhideEnvVars();
+	public void unhideEnvVars(String name);
 	
 	/**
 	 * Returns a copy of the current call stack.

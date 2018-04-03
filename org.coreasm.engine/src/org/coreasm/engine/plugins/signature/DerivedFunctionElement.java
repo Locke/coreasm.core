@@ -95,7 +95,7 @@ public class DerivedFunctionElement extends FunctionElement {
 	}
 
 	protected void bindArguments(Interpreter interpreter, List<? extends Element> values) {
-		interpreter.hideEnvVars();
+		interpreter.hideEnvVars("DerivedFunctionElement");
 		for (int i=0; i < params.size(); i++)
 			interpreter.addEnv(params.get(i), values.get(i));
 	}
@@ -103,6 +103,6 @@ public class DerivedFunctionElement extends FunctionElement {
 	protected void unbindArguments(Interpreter interpreter) {
 		for (int i=0; i < params.size(); i++)
 			interpreter.removeEnv(params.get(i));
-		interpreter.unhideEnvVars();
+		interpreter.unhideEnvVars("DerivedFunctionElement");
 	}
 }
