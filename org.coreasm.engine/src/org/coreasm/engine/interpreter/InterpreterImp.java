@@ -110,13 +110,14 @@ public class InterpreterImp implements Interpreter {
 		this.thread = Thread.currentThread();
 		this.storage = capi.getStorage();
 		this.workCopies = new IdentityHashMap<ASTNode,Map<String, ASTNode>>();
+		interpreters.set(this);
 	}
 
 	@Override
 	public Interpreter getInterpreterInstance() {
 		Interpreter result = interpreters.get();
 		if (result == null)
-			return this;
+			throw new IllegalStateException("No interpreter for your thread!");
 		else
 			return result;
 	}
@@ -1327,7 +1328,6 @@ public class InterpreterImp implements Interpreter {
 		hiddenEnvMaps.clear();
 		hiddenEnvMapNames.clear();
 		ruleCallStack.clear();
-		interpreters.set(this);
 	}
 
 	@Override
