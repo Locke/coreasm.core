@@ -13,6 +13,7 @@
 package org.coreasm.engine.absstorage;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
@@ -108,7 +109,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	public Set<Update> getResultantUpdates() {
 
 		// set keys of this hashtable is essentailly resultant update set
-		return htResultantUpdatesToPlugins.keySet();
+		return new HashSet<Update>(Collections.list(htResultantUpdatesToPlugins.keys()));
 	}
 
 	/* (non-Javadoc)
