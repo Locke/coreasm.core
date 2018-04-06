@@ -498,26 +498,27 @@ public class IOPlugin extends Plugin implements
 		return VERSION_INFO;
 	}
 
+	@Override
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
-		synchronized (this) {
-			aggregatePrint(pluginAgg);
-			aggregateWrite(pluginAgg);
-			aggregateAppend(pluginAgg);
-		}
+		//synchronized (this) {
+			aggregatePrint(pluginAgg, this);
+			aggregateWrite(pluginAgg, this);
+			aggregateAppend(pluginAgg, this);
+		//}
 	}
 
 	/**
 	 * Aggregate updates for each write locations. Whenever write as well as append updates for the same location exists, the updates are not consistent.
 	 * @param pluginAgg
 	 */
-	public void aggregateWrite(PluginAggregationAPI pluginAgg) {
+	public static void aggregateWrite(PluginAggregationAPI pluginAgg, Plugin self) {
 		Set<Location> writeLocsToAggregate = pluginAgg.getLocsWithAnyAction(WRITE_ACTION);
 		Set<Location> appendLocsToAggregate = pluginAgg.getLocsWithAnyAction(APPEND_ACTION);
 
 		for (Location writeLoc : writeLocsToAggregate) {
 			// if regular update affects this location
 			if (pluginAgg.regularUpdatesAffectsLoc(writeLoc)) {
-				pluginAgg.handleInconsistentAggregationOnLocation(writeLoc, this);
+				pluginAgg.handleInconsistentAggregationOnLocation(writeLoc, self);
 			}
 			else {
 				Element locValue = null;
@@ -526,15 +527,15 @@ public class IOPlugin extends Plugin implements
 					if (WRITE_ACTION.equals(update.action)) {
 						//different values for the same location
 						if (locValue != null && locValue.equals(update.value))
-							pluginAgg.flagUpdate(update, Flag.FAILED, this);
+							pluginAgg.flagUpdate(update, Flag.FAILED, self);
 						else {
 							locValue = update.value;
 							//append and write within the same step for the same location
 							if (appendLocsToAggregate.contains(writeLoc)) {
-								pluginAgg.flagUpdate(update, Flag.FAILED, this);
+								pluginAgg.flagUpdate(update, Flag.FAILED, self);
 							}
 							else {
-								pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, this);
+								pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, self);
 							}
 						}
 						if (!(update.value instanceof ListElement)) {
@@ -545,12 +546,12 @@ public class IOPlugin extends Plugin implements
 											update.action,
 											update.agents,
 											update.sources),
-									this);
+									self);
 						}
 						else {
 							pluginAgg.addResultantUpdate(
 									update,
-									this);
+									self);
 						}
 					}
 				}
@@ -562,14 +563,14 @@ public class IOPlugin extends Plugin implements
 	 * Aggregate updates for each append location. Whenever write as well as append updates for the same location exists, the updates are not consistent.
 	 * @param pluginAgg
 	 */
-	public void aggregateAppend(PluginAggregationAPI pluginAgg) {
+	public static void aggregateAppend(PluginAggregationAPI pluginAgg, Plugin self) {
 		Set<Location> writeLocsToAggregate = pluginAgg.getLocsWithAnyAction(WRITE_ACTION);
 		Set<Location> appendLocsToAggregate = pluginAgg.getLocsWithAnyAction(APPEND_ACTION);
 
 		for (Location appendLoc : appendLocsToAggregate) {
 			// if regular update affects this location
 			if (pluginAgg.regularUpdatesAffectsLoc(appendLoc)) {
-				pluginAgg.handleInconsistentAggregationOnLocation(appendLoc, this);
+				pluginAgg.handleInconsistentAggregationOnLocation(appendLoc, self);
 			}
 			else {
 				//mark at least one inconsistent update
@@ -577,14 +578,14 @@ public class IOPlugin extends Plugin implements
 					if (APPEND_ACTION.equals(update.action)) {
 						//append and write within the same step for the same location
 						if (writeLocsToAggregate.contains(appendLoc)) {
-							pluginAgg.flagUpdate(update, Flag.FAILED, this);
+							pluginAgg.flagUpdate(update, Flag.FAILED, self);
 						}
 						else {
-							pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, this);
+							pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, self);
 						}
 						pluginAgg.addResultantUpdate(
 								update,
-								this);
+								self);
 					}
 				}
 			}
@@ -595,7 +596,7 @@ public class IOPlugin extends Plugin implements
 	 * Aggregate updates for the print location.
 	 * @param pluginAgg
 	 */
-	public void aggregatePrint(PluginAggregationAPI pluginAgg) {
+	public static void aggregatePrint(PluginAggregationAPI pluginAgg, Plugin self) {
 		// all locations on which contain print actions
 		Set<Location> locsToAggregate = pluginAgg.getLocsWithAnyAction(PRINT_ACTION);
 		Set<Element> contributingAgents = new HashSet<Element>();
@@ -608,14 +609,14 @@ public class IOPlugin extends Plugin implements
 
 				// if regular update affects this location
 				if (pluginAgg.regularUpdatesAffectsLoc(l)) {
-					pluginAgg.handleInconsistentAggregationOnLocation(l, this);
+					pluginAgg.handleInconsistentAggregationOnLocation(l, self);
 				}
 				else {
 					for (Update update : pluginAgg.getLocUpdates(l)) {
 						if (update.action.equals(PRINT_ACTION)) {
 							outputResult += update.value.toString() + "\n";
 							// flag update aggregation as successful for this update
-							pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, this);
+							pluginAgg.flagUpdate(update, Flag.SUCCESSFUL, self);
 							contributingAgents.addAll(update.agents);
 							contributingNodes.addAll(update.sources);
 						}
@@ -628,7 +629,7 @@ public class IOPlugin extends Plugin implements
 								Update.UPDATE_ACTION,
 								contributingAgents,
 								contributingNodes),
-						this);
+						self);
 			}
 		}
 
@@ -639,17 +640,17 @@ public class IOPlugin extends Plugin implements
 	 * @param compAPI
 	 */
 	public void compose(PluginCompositionAPI compAPI) {
-		synchronized (this) {
-			composePrint(compAPI);
-			composeAppend(compAPI);
-		}
+		//synchronized (this) {
+			composePrint(compAPI, this);
+			composeAppend(compAPI, this);
+		//}
 	}
 
 	/**
 	 * Compose write and append print updates. The type write or append as well as the order of the updates are taken into account.
 	 * @param compAPI
 	 */
-	private void composeAppend(PluginCompositionAPI compAPI) {
+	private static void composeAppend(PluginCompositionAPI compAPI, Plugin self) {
 		for (Location l : compAPI.getAffectedLocations()) {
 			if (!FILE_OUTPUT_FUNC_NAME.equals(l.name))
 				continue;
@@ -702,12 +703,12 @@ public class IOPlugin extends Plugin implements
 				}
 				compAPI.addComposedUpdate(new Update(l,
 						new ListElement(new ArrayList<Element>(outputResult)),
-						action, contributingAgents, contributingNodes), this);
+						action, contributingAgents, contributingNodes), self);
 			}
 		}
 	}
 
-	private void composePrint(PluginCompositionAPI compAPI) {
+	private static void composePrint(PluginCompositionAPI compAPI, Plugin self) {
 			String outputResult1 = "";
 			String outputResult2 = "";
 			Set<Element> contributingAgents = new HashSet<Element>();
@@ -723,7 +724,7 @@ public class IOPlugin extends Plugin implements
 					contributingNodes.addAll(u.sources);
 				}
 			else
-					compAPI.addComposedUpdate(u, this);
+					compAPI.addComposedUpdate(u, self);
 			}
 			
 			// if the second set does not have a basic update, 
@@ -738,7 +739,7 @@ public class IOPlugin extends Plugin implements
 						contributingNodes.addAll(u.sources);
 					}
 				else
-						compAPI.addComposedUpdate(u, this);
+						compAPI.addComposedUpdate(u, self);
 				}
 			}
 			if (!outputResult1.isEmpty() || !outputResult2.isEmpty()) {
@@ -749,7 +750,7 @@ public class IOPlugin extends Plugin implements
 					outputResult = outputResult1 + '\n' + outputResult2;
 				compAPI.addComposedUpdate(new Update(PRINT_OUTPUT_FUNC_LOC, 
 						new StringElement(outputResult), 
-						PRINT_ACTION, contributingAgents, contributingNodes), this);
+						PRINT_ACTION, contributingAgents, contributingNodes), self);
 			}
 	}
 

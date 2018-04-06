@@ -82,7 +82,7 @@ public class HashStorage implements AbstractStorage {
 	private final ConcurrentMap<Location,Element> monitoredCache;
 	
 	/** keeps the last inconsistent updates */
-	private Set<Update> lastInconsistentUpdates; 
+	private Set<Update> lastInconsistentUpdates;
 	
 	/** a cache of aggregator plugins */
 	private Set<Aggregator> aggregatorPlugins = new HashSet<Aggregator>(); 
@@ -389,9 +389,9 @@ public class HashStorage implements AbstractStorage {
 	}
 
 	@Override
-	public synchronized boolean isConsistent(Collection<Update> updateSet) {
+	public boolean isConsistent(Collection<Update> updateSet) {
 		Collection<Update> uSet = updateSet;
-		lastInconsistentUpdates = null;
+		//lastInconsistentUpdates = null;
 
 		// updateMap is a hashmap from locations to updates. 
 		// every update in the updateSet is added to the updateMap, 
@@ -402,9 +402,10 @@ public class HashStorage implements AbstractStorage {
 		HashMap<Location, Update> updateMap = new HashMap<Location, Update>();
 		for (Update u: uSet) {
 			if (updateMap.containsKey(u.loc)) {
-				lastInconsistentUpdates = new HashSet<Update>();
-				lastInconsistentUpdates.add(u);
-				lastInconsistentUpdates.add(updateMap.get(u.loc));
+				Set<Update> x = new HashSet<Update>();
+				x.add(u);
+				x.add(updateMap.get(u.loc));
+				lastInconsistentUpdates = x;
 				return false;
 			}
 			else
@@ -468,16 +469,17 @@ public class HashStorage implements AbstractStorage {
 	 * @see #pushState(String pluginName)
 	 */
 	@Override
-	public synchronized void apply(Set<Update> updates) {
+	public void apply(Set<Update> updates) {
 		if (isStateStacked()) {
-			Stack<Map<Location, Element>> updateStack = getUpdateStack();
+			final Stack<Map<Location, Element>> updateStack = getUpdateStack();
 
-			// adding updates to the current update set in the stack
-			// this will overwrite updates to the same location
-			Map<Location,Element> lastUpdates = updateStack.peek();
-			for (Update u: updates)
-				lastUpdates.put(u.loc, u.value);
-			
+			synchronized (updateStack) {
+				// adding updates to the current update set in the stack
+				// this will overwrite updates to the same location
+				Map<Location, Element> lastUpdates = updateStack.peek();
+				for (Update u : updates)
+					lastUpdates.put(u.loc, u.value);
+			}
 		} else
 			capi.error("Cannot apply updates when state stack is empty.");
 	}
