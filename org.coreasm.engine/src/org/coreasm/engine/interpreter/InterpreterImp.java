@@ -115,11 +115,13 @@ public class InterpreterImp implements Interpreter {
 
 	@Override
 	public Interpreter getInterpreterInstance() {
-		Interpreter result = interpreters.get();
-		if (result == null)
-			throw new IllegalStateException("No interpreter for your thread!");
-		else
-			return result;
+		Interpreter interpreter = interpreters.get();
+		if (interpreter == null) {
+			logger.error("expected an existing Interpreter!");
+			interpreter = new InterpreterImp(this.capi);
+			interpreters.set(interpreter);
+		}
+		return interpreter;
 	}
 
 	@Override
