@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.coreasm.engine.plugins.signature.DerivedFunctionElement;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
@@ -252,6 +253,9 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 						if (fe.getFClass().equals(FunctionElement.FunctionClass.fcStatic)) {
 							// value can be returned directly
 							fname = null;
+						}
+						else if (fe instanceof DerivedFunctionElement) {
+							fname = ((DerivedFunctionElement) fe).getName();
 						}
 						else {
 							// look for the function in the state
