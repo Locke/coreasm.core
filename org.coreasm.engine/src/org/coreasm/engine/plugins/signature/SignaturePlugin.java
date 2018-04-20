@@ -944,6 +944,7 @@ public class SignaturePlugin extends Plugin
 
         ASTNode exprNode = derivedFuncNode.getExpressionNode();
 		ASTNode idNode = derivedFuncNode.getNameSignatureNode().getFirst();
+		final String id = idNode.getToken();
 		
 		// create structure for all parameters
 		ArrayList<String> params = new ArrayList<String>();
@@ -957,9 +958,9 @@ public class SignaturePlugin extends Plugin
 		}
 		params.trimToSize();
 
-		DerivedFunctionElement func = new DerivedFunctionElement(capi, params, exprNode);
+		DerivedFunctionElement func = new DerivedFunctionElement(capi, id, params, exprNode);
 		
-		addFunction(idNode.getToken(), func, currentSignature, interpreter);
+		addFunction(id, func, currentSignature, interpreter);
 
 		/* 
          * The following code creates a new rule that returns 

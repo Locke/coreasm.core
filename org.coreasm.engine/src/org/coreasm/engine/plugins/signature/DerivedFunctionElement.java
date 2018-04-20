@@ -36,6 +36,7 @@ import org.coreasm.engine.interpreter.InterpreterException;
 public class DerivedFunctionElement extends FunctionElement {
 
 	protected final ControlAPI capi;
+	protected final String name;
 	protected final List<String> params;
 	protected final ASTNode expr;
 	protected final Map<ASTNode, ASTNode> exprCopies = new IdentityHashMap<ASTNode, ASTNode>();
@@ -44,11 +45,16 @@ public class DerivedFunctionElement extends FunctionElement {
 	 * Creates a new derived function with the given list 
 	 * of parameters.
 	 */
-	public DerivedFunctionElement(ControlAPI capi, List<String> params, ASTNode expr) {
+	public DerivedFunctionElement(ControlAPI capi, String name, List<String> params, ASTNode expr) {
 		this.capi = capi;
+		this.name = name;
 		this.params = Collections.unmodifiableList(params);
 		this.expr = expr;
 		setFClass(FunctionClass.fcDerived);
+	}
+
+	public String getName() {
+		return this.name;
 	}
 	
 	/*
