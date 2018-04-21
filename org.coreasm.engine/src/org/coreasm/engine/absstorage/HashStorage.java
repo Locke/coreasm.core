@@ -473,7 +473,7 @@ public class HashStorage implements AbstractStorage {
 		if (isStateStacked()) {
 			final Stack<Map<Location, Element>> updateStack = getUpdateStack();
 
-			synchronized (updateStack) {
+			synchronized (updateStack) { // TODO: not needed, as updateStack is ThreadLocal
 				// adding updates to the current update set in the stack
 				// this will overwrite updates to the same location
 				Map<Location, Element> lastUpdates = updateStack.peek();
