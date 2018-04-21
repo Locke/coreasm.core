@@ -66,7 +66,6 @@ public class SchedulerImp implements Scheduler {
 	private Element initAgent;
 
 	// private FJTaskRunnerGroup runnerGroup = null;
-	private int batchSize = -1;
 	private int numberOfCPUs = -1;
 	private SchedulingPolicy schedulingPolicy = null;
 	private Iterator<Set<Element>> schedule = null;
@@ -242,37 +241,47 @@ public class SchedulerImp implements Scheduler {
 		 * "Using a batch size of " + batchSize + " agent(s) per thread."); } }
 		 */
 
-		if (batchSize == -1) {
-			numberOfCPUs = getNumberOfProcessorsToBeUsed();
-			batchSize = getThreadBatchSize();
+		if (numberOfCPUs == -1) {
+			numberOfCPUs = getNumberOfProcessorsToBeUsed(capi);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Using " + numberOfCPUs + " thread(s) on "
 						+ Runtime.getRuntime().availableProcessors()
 						+ " processors.");
-				logger.debug("Using a batch size of " + batchSize
-						+ " agent(s) per thread.");
 			}
 		}
 
 		final ForkJoinPool forkJoinPool = new ForkJoinPool(numberOfCPUs);
 
-		ConcurrentProgramEvaluator cpe = new ConcurrentProgramEvaluator(capi,
-				agentContextMap, agentsList, 0, agentsList.size(), batchSize, shouldPrintExecutionStats);
-
-		UpdateMultiset updates;
+		UpdateMultiset updates = new UpdateMultiset();
 		try {
-			updates = forkJoinPool.invoke(cpe);
+			ArrayList<ConcurrentProgramEvaluator> evaluators = new ArrayList<>(agentsList.size());
+			for (Element agent : agentsList) {
+				ConcurrentProgramEvaluator cpe = new ConcurrentProgramEvaluator(capi,
+						agentContextMap, agent, shouldPrintExecutionStats);
+				forkJoinPool.submit(cpe);
+				evaluators.add(cpe);
+			}
+
+			for (ConcurrentProgramEvaluator cpe : evaluators) {
+				UpdateMultiset result = cpe.join();
+
+				if (result == null) {
+					throw new EngineException("A fatal error occurred that could not be transported.");
+				}
+
+				updates.addAll(result);
+
+				if (shouldPrintExecutionStats) {
+					String executionStats = cpe.getExecutionStats();
+					logger.info(executionStats);
+				}
+			}
 		} finally {
 			forkJoinPool.shutdownNow();
 		}
 
 		if (shouldPrintExecutionStats) {
-			String executionStats = cpe.getExecutionStats();
-			logger.info("executeAgentPrograms took " + ((System.nanoTime() - startTime) / 1e6) + "ms total\n" + executionStats);
-		}
-
-		if (updates == null) {
-			throw new EngineException("A fatal error occurred that could not be transported.");
+			logger.info("executeAgentPrograms took " + ((System.nanoTime() - startTime) / 1e6) + "ms total");
 		}
 
 		updateInstructions = updates;
@@ -400,7 +409,7 @@ public class SchedulerImp implements Scheduler {
 	 * Based on the number of processors on the machine and the limit set by the
 	 * user, returns the number of processors to be used for simulation.
 	 */
-	private int getNumberOfProcessorsToBeUsed() {
+	private static int getNumberOfProcessorsToBeUsed(ControlAPI capi) {
 		// int cpus = Runtime.getRuntime().availableProcessors();
 		int limit = 1;
 		String limitStr = capi.getProperty(EngineProperties.MAX_PROCESSORS);
@@ -414,24 +423,6 @@ public class SchedulerImp implements Scheduler {
 			}
 		}
 		return limit;
-	}
-
-	/*
-	 * Returns the user defined value for the minimum number of agents to be
-	 * assigned to every execution thread during the simulation.
-	 */
-	private int getThreadBatchSize() {
-		int size = 1;
-		String sizeStr = capi.getProperty(
-				EngineProperties.AGENT_EXECUTION_THREAD_BATCH_SIZE, "1");
-		try {
-			size = Integer.valueOf(sizeStr);
-		} catch (NumberFormatException e) {
-			logger.warn("Invalid value for \""
-					+ EngineProperties.AGENT_EXECUTION_THREAD_BATCH_SIZE
-					+ "\" engine property (" + sizeStr + ").");
-		}
-		return size;
 	}
 
 	@Override

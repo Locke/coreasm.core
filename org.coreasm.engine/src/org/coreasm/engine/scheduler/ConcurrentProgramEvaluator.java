@@ -41,109 +41,50 @@ import org.slf4j.LoggerFactory;
 
 public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
-	public static final int DEFAULT_BATCH_SIZE = 1;
-
 	protected static final Logger logger = LoggerFactory.getLogger(ConcurrentProgramEvaluator.class);
 
-	public final AgentContextMap agentContextMap;
+	private final AgentContextMap agentContextMap;
 	
 	private final ControlAPI capi;
 	private final AbstractStorage storage;
-	private List<? extends Element> agents = null;
-	private final int start;
-	private final int end;
-	private final int batchSize;
+	private final Element agent;
 	private final boolean shouldPrintExecutionStats;
-	private StringBuilder executionStats;
-	
+	private String executionStats;
+
 	/**
-	 * Creates a new program evaluator working on agents [start, ..., end-1] in the list.
+	 * Creates a new program evaluator.
 	 * 
 	 * @param capi
-	 * @param agents
-	 * @param start
-	 * @param end
+	 * @param agentContextMap
+	 * @param agent
 	 */
-	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents, int start, int end, boolean shouldPrintExecutionStats) {
-		this(capi, agentContextMap, agents, start, end, DEFAULT_BATCH_SIZE, shouldPrintExecutionStats);
-	}
-	
-	/**
-	 * Creates a new program evaluator working on agents [start, ..., end-1] in the list.
-	 * 
-	 * @param capi
-	 * @param agents
-	 * @param start
-	 * @param end
-	 */
-	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, List<? extends Element> agents,  int start, int end, int batchSize, boolean shouldPrintExecutionStats) {
-		this.agents = agents;
+	public ConcurrentProgramEvaluator(ControlAPI capi, AgentContextMap agentContextMap, Element agent, boolean shouldPrintExecutionStats) {
+		this.agent = agent;
 		this.capi = capi;
 		this.storage = capi.getStorage();
-		this.start = start;
-		this.end = end;
-		this.batchSize = batchSize;
 		this.agentContextMap = agentContextMap;
 		this.shouldPrintExecutionStats = shouldPrintExecutionStats;
 	}
 
 	@Override
 	public UpdateMultiset compute() {
-		if (end - start > batchSize) {
-			int cut = start + (end - start) / 2;
-			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut, batchSize, shouldPrintExecutionStats);
-			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end, batchSize, shouldPrintExecutionStats);
+		long startTime = System.nanoTime();
 
-			cpe2.fork();
-			UpdateMultiset result1 = cpe1.invoke();
-
-			if (result1 == null) {
-				cpe2.cancel(true);
-				return null;
-			} else {
-				UpdateMultiset result2 = cpe2.join();
-
-				if (result2 == null) {
-					return null;
-				}
-
-				if (shouldPrintExecutionStats) {
-					executionStats = new StringBuilder(cpe1.executionStats).append(cpe2.executionStats);
-				}
-
-				UpdateMultiset result = new UpdateMultiset(result1);
-				result.addAll(result2);
-				return result;
-			}
-		} else {
-			long startTime = System.nanoTime();
-
-			UpdateMultiset aggregatedResult = new UpdateMultiset();
-			List<? extends Element> myAgents = agents.subList(start, end);
-			for (Element agent : myAgents) {
-				UpdateMultiset result;
-				try {
-					result = evaluate(agent);
-				} catch(EngineException e) {
-					throw new RuntimeException("could not evaluate agent", e);
-				}
-				aggregatedResult.addAll(result);
-			}
-
-			if (shouldPrintExecutionStats) {
-				executionStats = new StringBuilder()
-						.append(Thread.currentThread().toString())
-						.append(" took ")
-						.append((System.nanoTime() - startTime) / 1e6)
-						.append("ms to evaluate ")
-						.append(end - start)
-						.append(" agent(s): ")
-						.append(Arrays.toString(myAgents.toArray()))
-						.append("\n");
-			}
-
-			return aggregatedResult;
+		UpdateMultiset result;
+		try {
+			result = evaluate(agent);
+		} catch(EngineException e) {
+			throw new RuntimeException("could not evaluate agent", e);
 		}
+
+		if (shouldPrintExecutionStats) {
+			executionStats = Thread.currentThread().toString() +
+					" took " +
+					(System.nanoTime() - startTime) / 1e6 +
+					"ms to evaluate agent " + agent;
+		}
+
+		return result;
 	}
 	
 	/*
@@ -206,7 +147,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	}
 
 	public String getExecutionStats() {
-		return executionStats.toString();
+		return executionStats;
 	}
 	
 }
