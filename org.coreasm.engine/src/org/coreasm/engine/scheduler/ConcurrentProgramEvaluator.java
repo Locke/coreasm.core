@@ -91,8 +91,8 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	public UpdateMultiset compute() {
 		if (end - start > batchSize) {
 			int cut = start + (end - start) / 2;
-			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut, shouldPrintExecutionStats);
-			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end, shouldPrintExecutionStats);
+			ConcurrentProgramEvaluator cpe1 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, start, cut, batchSize, shouldPrintExecutionStats);
+			ConcurrentProgramEvaluator cpe2 = new ConcurrentProgramEvaluator(capi, agentContextMap, agents, cut, end, batchSize, shouldPrintExecutionStats);
 
 			cpe2.fork();
 			UpdateMultiset result1 = cpe1.invoke();
