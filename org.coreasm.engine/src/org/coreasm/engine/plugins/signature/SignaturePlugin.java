@@ -871,7 +871,8 @@ public class SignaturePlugin extends Plugin
             try {
                 f.setValue(ElementList.NO_ARGUMENT, e);
             } catch (UnmodifiableFunctionException e1) {
-                capi.error("Cannot modify unmodifiable function.", universeNode, null);
+                Interpreter interpreter = capi.getInterpreter().getInterpreterInstance();
+                capi.error("Cannot modify unmodifiable function.", universeNode, interpreter);
             }
             
             f.setFClass(FunctionClass.fcStatic);            
@@ -894,7 +895,8 @@ public class SignaturePlugin extends Plugin
             try {
                 f.setValue(ElementList.NO_ARGUMENT,e);
             } catch (UnmodifiableFunctionException e1) {
-                capi.error("Cannot modify unmodifiable function.", enumerationNode, null);
+                Interpreter interpreter = capi.getInterpreter().getInterpreterInstance();
+                capi.error("Cannot modify unmodifiable function.", enumerationNode, interpreter);
             }
             f.setFClass(FunctionClass.fcStatic);
             addFunction(e.getName(),f,enumerationNode);
