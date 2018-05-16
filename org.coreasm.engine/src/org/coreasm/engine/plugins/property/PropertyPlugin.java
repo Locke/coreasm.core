@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
+import org.jparsec.Parser;
+import org.jparsec.Parsers;
 import org.coreasm.engine.VersionInfo;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.interpreter.ASTNode;
@@ -170,8 +170,9 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
  		public PropertyParseMap() {
  			super(PLUGIN_NAME);
  		}
- 		
- 		public Node map(Object[] vals) {
+
+ 		@Override
+ 		public Node apply(Object[] vals) {
 	        PropertyListNode node = new PropertyListNode(null);
 	        addChildren(node, vals);
 	        node.setScannerInfo(node.getFirstCSTNode());

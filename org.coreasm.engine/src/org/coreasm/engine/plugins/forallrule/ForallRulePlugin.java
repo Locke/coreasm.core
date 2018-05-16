@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
+import org.jparsec.Parser;
+import org.jparsec.Parsers;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.forall.CompilerForallRulePlugin;
 import org.coreasm.engine.CoreASMError;
@@ -323,7 +323,8 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 			super(PLUGIN_NAME);
 		}
 
-		public Node map(Object[] vals) {
+		@Override
+		public Node apply(Object[] vals) {
 			nextChildName = "alpha";
             Node node = new ForallRuleNode(((Node)vals[0]).getScannerInfo());
             addChildren(node, vals);

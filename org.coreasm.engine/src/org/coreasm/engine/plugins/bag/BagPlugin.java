@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
+import org.jparsec.Parser;
+import org.jparsec.Parsers;
 import org.coreasm.engine.EngineError;
 import org.coreasm.engine.EngineException;
 import org.coreasm.engine.VersionInfo;
@@ -1087,8 +1087,9 @@ public class BagPlugin extends Plugin
 		public BagEnumerateParseMap() {
 			super(PLUGIN_NAME);
 		}
-		
-		public Node map(Object[] vals) {
+
+		@Override
+		public Node apply(Object[] vals) {
 			Node node = new BagEnumerateNode(((Node)vals[0]).getScannerInfo());
 			addChildren(node, vals);
 			return node;
@@ -1101,8 +1102,9 @@ public class BagPlugin extends Plugin
 		public BagComprehensionParseMap() {
 			super(PLUGIN_NAME);
 		}
-		
-		public Node map(Object[] vals) {
+
+		@Override
+		public Node apply(Object[] vals) {
 			Node node = null;
 			// if there is an 'is' clause
 			if (vals[1] != null && vals[1] instanceof Object[]) {
