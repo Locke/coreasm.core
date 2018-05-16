@@ -102,7 +102,6 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private static final String ARG_PRINT_LAST_AGENTS = "print-agents";
 	private static final String ARG_PRINT_PROCESSOR_STATS = "print-processor-stats";
 	private static final String ARG_MAX_THREADS = "max-threads";
-	private static final String ARG_MIN_BATCH_SIZE = "thread-batch-size";
 	private static final String ARG_PRINT_SPEC = "print-spec";
 	private static final String ARG_PRINT_LOADED_SPEC = "print-loaded-spec";
 	private static final String ARG_LATEX_OUTPUT = "tolatex";
@@ -136,7 +135,6 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private boolean toLatex = false;
 	private String[] engineProperties = null;
 	private int maxThreads = 1;
-	private int batchSize = 1;
 	private String[] arguments = null;
 	
 	/* Other information gathered in run */
@@ -176,9 +174,6 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				            
 			        	new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS, 
 				                "Sets the maximum number of execution threads to be used for simulation."),
-				            
-			        	new FlaggedOption( ARG_MIN_BATCH_SIZE, JSAP.INTEGER_PARSER, "1", JSAP.REQUIRED, JSAP.NO_SHORTFLAG , ARG_MIN_BATCH_SIZE, 
-				                "Sets the minimum number of agents assigned to every thread in a multi-threaded simulation."),
 				
 				        propOption,
 				        
@@ -272,7 +267,6 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		printProcessorStats = config.getBoolean(ARG_PRINT_PROCESSOR_STATS);
 		printInfo = config.getBoolean(ARG_PRINT_INFO);
 		maxThreads = config.getInt(ARG_MAX_THREADS);
-		batchSize = config.getInt(ARG_MIN_BATCH_SIZE);
 		toLatex = config.getBoolean(ARG_LATEX_OUTPUT);
 		printSpec = config.getBoolean(ARG_PRINT_SPEC);
 		printLoadedSpec = config.getBoolean(ARG_PRINT_LOADED_SPEC);
@@ -625,7 +619,6 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	
 	private void setEngineProperties(CoreASMEngine engine) {
 		engine.setProperty(EngineProperties.MAX_PROCESSORS, String.valueOf(maxThreads));
-		engine.setProperty(EngineProperties.AGENT_EXECUTION_THREAD_BATCH_SIZE, String.valueOf(batchSize));
 		if (engineProperties != null && engineProperties.length > 0) {
 			String prop;
 			String value;

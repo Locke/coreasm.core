@@ -37,9 +37,6 @@ public class EngineProperties extends Properties {
 	/** 'yes': the engine will print some stats on processor utilization after every step */
 	public static final String PRINT_PROCESSOR_STATS_PROPERTY = "scheduler.printProcessorStats";
 
-	/** in a multi-threaded simulation, this is the minimum number of agents assigned to every thread */
-	public static String AGENT_EXECUTION_THREAD_BATCH_SIZE = "scheduler.threadBatchSize";
-
 	/** a colon-separated list of folders that include additional plugins */
 	public static String PLUGIN_FOLDERS_PROPERTY = "engine.pluginFolders";
 
@@ -74,7 +71,6 @@ public class EngineProperties extends Properties {
 		this.setProperty(PRINT_STACK_TRACE, NO);
 		this.setProperty(MAX_PROCESSORS, "1");
 		this.setProperty(PRINT_PROCESSOR_STATS_PROPERTY, "no");
-		this.setProperty(AGENT_EXECUTION_THREAD_BATCH_SIZE, "1");
 	}
 
 }
