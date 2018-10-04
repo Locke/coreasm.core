@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>org.coreasm.ui.carma</artifactId>
 	<name>CoreASM Carma</name>
-	<version>0.8.1-locke-SNAPSHOT</version>
+	<version>0.8.1-locke-1</version>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>org.coreasm</groupId>
 			<artifactId>org.coreasm.engine</artifactId>
-			<version>1.7.3-locke-SNAPSHOT</version>
+			<version>1.7.3-locke-1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
