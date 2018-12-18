@@ -65,6 +65,10 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 
 	private static final String[] keywords = {"CoreModule", "include"};
 	private static final String[] operators = {};
+
+	// compile pattern to find "include " directives using regular expression
+	private static final String includeRegex = "^[\\s]*include[\\s]+(\"([^\"]+)\"|([^\"]+))";
+	public static final Pattern includePattern = Pattern.compile(includeRegex);
 	
     private Map<String, GrammarRule> parsers = null;
 
@@ -230,23 +234,21 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	private ArrayList<SpecLine> injectModules(List<SpecLine> lines, String relativePath) {
 		// CHANGE: Includes inside included specifications will be looked up relative to the including specification now
 		ArrayList<SpecLine> newSpec = new ArrayList<SpecLine>();
-		// compile pattern to find "include " directives using regular expression
-		String useRegex = "^[\\s]*[i][n][c][l][u][d][e][\\s]+";
-		Pattern usePattern = Pattern.compile(useRegex);
 
 		for (SpecLine line : lines) {
 			// get an "include" directive matcher object for the line
-			Matcher useMatcher = usePattern.matcher(line.text);
+			Matcher includeMatcher = includePattern.matcher(line.text);
 
 			// if match found
-			if (useMatcher.find()) {
+			if (includeMatcher.find()) {
 				// are there inner include files?
 
 				// get the include file name and load the file
-				String fileName = useMatcher.replaceFirst("").trim();
-				// remove potential quotation marks
-				while (fileName.startsWith("\"") && fileName.endsWith("\"")) 
-					fileName = fileName.substring(1, fileName.length()-1);
+				String fileName = includeMatcher.group(2);
+
+				if (fileName.contains("\""))
+					capi.error("ModularityPlugin: unexpected quotation mark in module name '" + fileName + "'");
+
 				// CHANGE: make sure that filenames have the same format to ensure that equal paths match, not only equal include statements
 				try {
 					fileName = (new File(relativePath, fileName)).getCanonicalPath();
