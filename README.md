@@ -25,6 +25,8 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
   - Exceptions are no longer caught and stored, but use the native error handling
   - as `java.util.concurrent.ForkJoinPool` no longer offers stats a custom measurement of execution times has been added
   - batched execution ([recursive] evaluation of multiple agents in one tasks) has been removed, as the ForkJoinPool can better distribute the work across workers
+  - TODO: determine number of processors to be used
+- [emError-deadlock](https://github.com/Locke/coreasm.core/tree/emError-deadlock), Pull Request at [PR31](https://github.com/CoreASM/coreasm.core/pull/31)
 
 The [fixes](https://github.com/Locke/coreasm.core/tree/fixes) branch contains various small fixes / changes; Pull Requests will be created for these at some time.
 
