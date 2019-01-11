@@ -44,6 +44,8 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	private boolean stopOnEmptyActiveAgents;
 	private boolean stopOnFailedUpdates;
 
+	public boolean throwErrors;
+
 	public TestEngineDriver(String pluginFolders, java.util.Properties properties) {
 		runningInstances.add(this);
 		CoreASMGlobal.setRootFolder(Tools.getRootFolder());
@@ -226,6 +228,9 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		String message;
 
 		if (lastError != null) {
+			if (throwErrors)
+				throw lastError;
+
 			message = lastError.showError();
 		}
 		else {
