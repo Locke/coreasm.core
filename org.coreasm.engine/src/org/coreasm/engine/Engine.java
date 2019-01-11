@@ -1041,6 +1041,10 @@ public class Engine implements ControlAPI {
 						//   logger.error( ste.toString());
 					}
 				}
+
+				if (Thread.interrupted()) {
+					logger.debug("Engine had been interrupted, possibly because of a call of hardInterrupt.");
+				}
 				
 				storage.clearState();
 				scheduler.dispose();
