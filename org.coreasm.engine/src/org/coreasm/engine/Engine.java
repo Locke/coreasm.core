@@ -1053,6 +1053,10 @@ public class Engine implements ControlAPI {
 					}
 				}
 
+				if (Thread.interrupted()) {
+					logger.debug("Engine had been interrupted, possibly because of a call of hardInterrupt.");
+				}
+
 				storage.clearState();
 				scheduler.dispose();
 				ParserTools.removeInstance(Engine.this);
