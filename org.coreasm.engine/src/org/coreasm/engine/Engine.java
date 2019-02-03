@@ -472,7 +472,7 @@ public class Engine implements ControlAPI {
 	@Override
 	public void run(int i) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun,
-				new Integer(i)));
+				Integer.valueOf(i)));
 	}
 
 	@Override
