@@ -215,9 +215,8 @@ public class CoreASMCompiler implements CompilerEngine {
 			addTiming("Cleanup");
 			
 			if(options.logTimings){
-				Iterator<String> it = timings.iterator();
-				while(it.hasNext()){
-					System.out.println(it.next());
+				for (String timing : timings) {
+					System.out.println(timing);
 				}
 			}
 		}
@@ -377,8 +376,8 @@ public class CoreASMCompiler implements CompilerEngine {
 			result.appendLine("@decl(CompilerRuntime.Element, lhs)=(CompilerRuntime.Element)evalStack.pop();\n");
 			
 			List<CompilerPlugin> tmp = binaryOperators.get(node.getToken());
-			for(int i = 0; i < tmp.size(); i++){
-				String s = ((CompilerOperatorPlugin)tmp.get(i)).compileBinaryOperator(node.getToken());
+			for (CompilerPlugin compilerPlugin : tmp) {
+				String s = ((CompilerOperatorPlugin) compilerPlugin).compileBinaryOperator(node.getToken());
 				result.appendLine(s);
 			}
 			
@@ -393,8 +392,8 @@ public class CoreASMCompiler implements CompilerEngine {
 			result.appendLine("@decl(CompilerRuntime.Element, lhs)=(CompilerRuntime.Element)evalStack.pop();\n");
 			
 			List<CompilerPlugin> tmp = unaryOperators.get(node.getToken());
-			for(int i = 0; i < tmp.size(); i++){
-				String s = ((CompilerOperatorPlugin)tmp.get(i)).compileUnaryOperator(node.getToken());
+			for (CompilerPlugin compilerPlugin : tmp) {
+				String s = ((CompilerOperatorPlugin) compilerPlugin).compileUnaryOperator(node.getToken());
 				result.appendLine(s);
 			}
 			

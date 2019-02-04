@@ -237,12 +237,12 @@ public class ParserTools
 					info
 					);
 
-			for (int i=0; i < vals.length; i++) {
-				Node child = (Node)vals[i];
+			for (Object val : vals) {
+				Node child = (Node) val;
 				if (child != null)
 					// to give proper names to ASTNode children:
 					if (child instanceof ASTNode) {
-						if (((ASTNode)child).getGrammarClass().equals("RuleSignature"))
+						if (((ASTNode) child).getGrammarClass().equals("RuleSignature"))
 							node.addChild("alpha", child);
 						else
 							node.addChild("beta", child);

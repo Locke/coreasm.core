@@ -46,8 +46,8 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 
 		
 		// request basic code for all other nodes
-		for (Iterator<ASTNode> it = children.iterator(); it.hasNext();) {
-			engine.compile((ASTNode) it.next(), CodeType.BASIC);
+		for (ASTNode child : children) {
+			engine.compile(child, CodeType.BASIC);
 		}
 	}
 

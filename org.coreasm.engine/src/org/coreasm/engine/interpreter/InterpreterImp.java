@@ -718,31 +718,22 @@ public class InterpreterImp implements Interpreter {
 			// TODO What is the diff between returning 'null' and throwing an exception?
 			
 			// for each possible implementation
-			Iterator<String> itImpPlugins = impPlugins.iterator();
-			while (itImpPlugins.hasNext())
-			{
+			for (String pluginName : impPlugins) {
 				// load plugin
-				String pluginName = itImpPlugins.next();
-				OperatorProvider opImp = (OperatorProvider)capi.getPlugin(pluginName);
-				
+				OperatorProvider opImp = (OperatorProvider) capi.getPlugin(pluginName);
+
 				// result can be a value or an interpreter exception thrown.
-				try
-				{
-					Element result = null;
-					result = opImp.interpretOperatorNode(this, pos);
-					
+				try {
+					Element result = opImp.interpretOperatorNode(this, pos);
+
 					if (result == null)
 						nullReturns.add(pluginName);
 					else
-						impResults.put(pluginName,result);
-				}
-				catch (InterpreterException error)
-				{
+						impResults.put(pluginName, result);
+				} catch (InterpreterException error) {
 					// add error to hash table
-					impErrors.put(pluginName,error);
+					impErrors.put(pluginName, error);
 				}
-				
-				
 			}
 			
 			// decide on what final result of operator evaluation is:
@@ -754,7 +745,7 @@ public class InterpreterImp implements Interpreter {
 
 			// if one of the results is undef but there are other results as well,
 			// remove the undef value
-			if ((setResultElements.size() > 1) && setResultElements.contains(Element.UNDEF)) 
+			if ((setResultElements.size() > 1) && setResultElements.contains(Element.UNDEF))
 				setResultElements.remove(Element.UNDEF);
 			
 			// one result so return it

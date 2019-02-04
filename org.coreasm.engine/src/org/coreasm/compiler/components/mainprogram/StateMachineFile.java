@@ -105,8 +105,8 @@ public class StateMachineFile extends MemoryInclude{
 		isLoaded.put(kernel, true);
 		
 		//load remaining plugins
-		for(int i = 0; i < vocabularyExtenderPlugins.size(); i++){
-			attemptLoad(isLoaded, pluginMapping, (CompilerVocabularyExtender)vocabularyExtenderPlugins.get(i));
+		for (CompilerPlugin vocabularyExtenderPlugin : vocabularyExtenderPlugins) {
+			attemptLoad(isLoaded, pluginMapping, (CompilerVocabularyExtender) vocabularyExtenderPlugin);
 		}
 	}
 	

@@ -110,34 +110,30 @@ public class DummyLoader implements PluginLoader {
 		//walk through the tree and add used plugins
 		//this will find Interpreter Plugins and Operator Providers
 		List<Plugin> tmp = visitNode(cae, (ASTNode) cae.getSpec().getRootNode());
-		for(int i = 0; i < tmp.size(); i++){
-			if(allPlugins.get(tmp.get(i).getName()) == null){
+		for (Plugin plugin : tmp) {
+			if (allPlugins.get(plugin.getName()) == null) {
 				//add the plugin
-				try{
-					putPlugin(tmp.get(i), cae);
-				}
-				catch(NotCompilableException exc){
-					if(tmp.get(i) instanceof ExtensionPointPlugin){
-						engine.addWarning("plugin " + tmp.get(i).getName() + " is not compilable and might not be required, continuing without it");
-					}
-					else{
-						engine.getLogger().error(DummyLoader.class, "plugin " + tmp.get(i).getName() + " is not compilable but mandatory");
-						engine.addError("plugin " + tmp.get(i).getName() + " is not compilable but mandatory");
-						notCompilable.add(tmp.get(i).getName());
+				try {
+					putPlugin(plugin, cae);
+				} catch (NotCompilableException exc) {
+					if (plugin instanceof ExtensionPointPlugin) {
+						engine.addWarning("plugin " + plugin.getName() + " is not compilable and might not be required, continuing without it");
+					} else {
+						engine.getLogger().error(DummyLoader.class, "plugin " + plugin.getName() + " is not compilable but mandatory");
+						engine.addError("plugin " + plugin.getName() + " is not compilable but mandatory");
+						notCompilable.add(plugin.getName());
 					}
 				}
 				//process dependencies and add all dependencies to the list
-				for(String dep : tmp.get(i).getDependencyNames()){
-					if(allPlugins.get(dep) == null){
+				for (String dep : plugin.getDependencyNames()) {
+					if (allPlugins.get(dep) == null) {
 						ICoreASMPlugin depplugin = cae.getPlugin(dep);
-						try{
+						try {
 							putPlugin(depplugin, cae);
-						}
-						catch(NotCompilableException e){
-							if(depplugin instanceof ExtensionPointPlugin){
+						} catch (NotCompilableException e) {
+							if (depplugin instanceof ExtensionPointPlugin) {
 								engine.addWarning("plugin " + depplugin.getName() + " is not compilable and might not be required, continuing without it");
-							}
-							else{
+							} else {
 								engine.getLogger().error(DummyLoader.class, "plugin " + depplugin.getName() + " is not compilable but mandatory");
 								engine.addError("plugin " + depplugin.getName() + " is not compilable but mandatory");
 								notCompilable.add(depplugin.getName());
@@ -236,9 +232,9 @@ public class DummyLoader implements PluginLoader {
 			//engine.getLogger().warn(DummyLoader.class, "Found null plugin, replacing with kernel");
 			pluginList.add(cae.getPlugin("Kernel"));
 		}
-			
-		for(Iterator<ASTNode> it = n.getAbstractChildNodes().iterator(); it.hasNext(); ){
-			pluginList.addAll(visitNode(cae, it.next()));
+
+		for (ASTNode astNode : n.getAbstractChildNodes()) {
+			pluginList.addAll(visitNode(cae, astNode));
 		}
 		
 		return pluginList;
