@@ -300,14 +300,14 @@ public class HashStorage implements AbstractStorage {
 		for (UpdateAggregator p: runtime.getAggregators()) 
 			p.aggregateUpdates(aggAPI);
 		
-		if (aggAPI.isConsistent() == false) {
+		if (!aggAPI.isConsistent()) {
 			String msg = "Inconsistent aggregated results.";
 			
-			if (aggAPI.getFailedInstructions().size() > 0) {
-				msg = msg + "\nFailed instructions: " + "\n" + aggAPI.getFailedInstructions();
+			if (!aggAPI.getFailedInstructions().isEmpty()) {
+				msg += "\nFailed instructions: " + "\n" + aggAPI.getFailedInstructions();
 			}
-			if (aggAPI.getUnprocessedInstructions().size() > 0) {
-				msg = msg + "\nUnprocessed instructions: " + "\n" + aggAPI.getUnprocessedInstructions();
+			if (!aggAPI.getUnprocessedInstructions().isEmpty()) {
+				msg += "\nUnprocessed instructions: " + "\n" + aggAPI.getUnprocessedInstructions();
 			}
 			throw new EngineError(msg);
 		}
