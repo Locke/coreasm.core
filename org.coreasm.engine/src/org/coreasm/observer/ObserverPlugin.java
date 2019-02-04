@@ -276,17 +276,15 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		Element result = output.createElement("updateset");
 		
 		Set<Update> updateset = capi.getUpdateSet(0);
-		if (updateset.size() > 0) {
-			for (Update u: updateset) {
-				if (locationList == null || locationList.contains(u.loc.name)) {
-					Element updateElement = output.createElement("update");
-					for (org.coreasm.engine.absstorage.Element a: u.agents) {
-						updateElement.appendChild(agentToXML(a));
-					}
-					updateElement.appendChild(locationToXML(u.loc));
-					updateElement.appendChild(valueToXML(u.value));
-					result.appendChild(updateElement);
+		for (Update u: updateset) {
+			if (locationList == null || locationList.contains(u.loc.name)) {
+				Element updateElement = output.createElement("update");
+				for (org.coreasm.engine.absstorage.Element a: u.agents) {
+					updateElement.appendChild(agentToXML(a));
 				}
+				updateElement.appendChild(locationToXML(u.loc));
+				updateElement.appendChild(valueToXML(u.value));
+				result.appendChild(updateElement);
 			}
 		}
 		
