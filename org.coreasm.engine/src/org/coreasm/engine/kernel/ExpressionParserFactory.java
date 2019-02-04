@@ -246,7 +246,7 @@ public class ExpressionParserFactory {
 		if (pluginNames == null) {
 			pluginNames = oprRule.contributor;
 		} else
-			if (pluginNames.indexOf(oprRule.contributor) < 0)
+			if (!pluginNames.contains(oprRule.contributor))
 				pluginNames = pluginNames + ", " + oprRule.contributor;
 			else
 				return;
