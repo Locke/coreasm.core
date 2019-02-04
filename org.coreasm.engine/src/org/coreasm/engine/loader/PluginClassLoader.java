@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -99,7 +100,7 @@ public class PluginClassLoader {
 			if (dirURL.getProtocol().equals("jar")) {
 				/* A JAR path */
 				String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); //strip out only the JAR file
-				JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+				JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
 				Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 				Set<JarEntry> result = new HashSet<JarEntry>(); //avoid duplicates in case it is a subdirectory
 				while (entries.hasMoreElements()) {
