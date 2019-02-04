@@ -26,7 +26,7 @@ public class MainClass extends MemoryInclude {
 	protected String buildContent(String entryName) throws Exception {
 		String stateMachineName = engine.getPath().getEntryName(LibraryEntryType.DYNAMIC, "StateMachine", "Kernel");
 		String content = "";
-		if(engine.getPath().basePkg() != "")
+		if(!engine.getPath().basePkg().equals(""))
 			content += "package " + getPackage(entryName) + ";\n";
 		content += "public class Main{\n";
 		content += "\tpublic static void main(String[] args){\n";
