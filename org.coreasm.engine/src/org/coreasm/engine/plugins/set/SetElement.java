@@ -249,7 +249,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 		// a value. In any case, 'false' is always 
 		// among its values
 		if (value.equals(BooleanElement.TRUE)) {
-			return members.size() > 0;
+			return !members.isEmpty();
 		} else
 			if (value.equals(BooleanElement.FALSE))
 				return true;
@@ -280,7 +280,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 	
 	@Override
 	public Collection<Element> values() {
-		if (members.size() > 0)
+		if (!members.isEmpty())
 			return booleanValues;
 		else
 			return falseValues;

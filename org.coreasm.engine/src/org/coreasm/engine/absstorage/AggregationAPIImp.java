@@ -76,7 +76,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 		
 		// if all instructions processed, and no failed instructions then aggregation completed
 		// successfully
-		if (getUnprocessedInstructions().size() == 0 && getFailedInstructions().size() == 0)
+		if (getUnprocessedInstructions().isEmpty() && getFailedInstructions().isEmpty())
 			return true;
 		// else aggregation failed
 		else

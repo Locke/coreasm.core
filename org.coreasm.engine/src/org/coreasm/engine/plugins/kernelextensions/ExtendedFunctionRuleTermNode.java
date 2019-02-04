@@ -62,7 +62,7 @@ public class ExtendedFunctionRuleTermNode extends ASTNode {
 	public List<ASTNode> getArguments() {
 		if (argsList == null) {
 			List<Node> args = this.getChildNodes("lambda");
-			if (args.size() == 0)
+			if (args.isEmpty())
 				argsList = Collections.emptyList();
 			else {
 				argsList = new ArrayList<ASTNode>();

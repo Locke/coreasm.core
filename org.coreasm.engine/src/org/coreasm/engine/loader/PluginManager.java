@@ -82,7 +82,7 @@ public class PluginManager {
 	}
 	
 	public boolean hasLoadedPlugins(){
-		return loadedPlugins.size() > 0;
+		return !loadedPlugins.isEmpty();
 	}
 	
 	/**

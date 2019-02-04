@@ -477,7 +477,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			List<Node> argsNode = node.getChildNodes("lambda");
 			
 			// pattern: 'import' 'native' x 'into' l
-			if (argsNode.size() == 0) {
+			if (argsNode.isEmpty()) {
 				try {
 					c.getConstructor();
 				} catch (Exception e) {
@@ -673,7 +673,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 */
 	private Constructor<?> findConstructor(Class<?> clazz, List<? extends Object> arguments) throws SecurityException, NoSuchMethodException {
 		// if looking for the default constructor
-		if (arguments.size() == 0) 
+		if (arguments.isEmpty())
 			return clazz.getConstructor();
 	
 		// otherwise
@@ -819,7 +819,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		// A-1) CREATE
 		for (Entry<Location, Multiset<JasmineUpdateElement>> pair: ue.createLocations.entrySet()) {
 			// No other create
-			if (pair.getValue().size() > 1) {
+			if (!pair.getValue().isEmpty()) {
 				pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 				Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: Cannot have two import rules on the same location (" + pair.getKey() + ").");
 				return;
@@ -841,7 +841,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			
 			// if multiple STOREs are performed on the same field of the
 			// same object, they must all assign the same value.
-			if (pair.getValue().size() > 1) {
+			if (!pair.getValue().isEmpty()) {
 				Map<String, Object> fieldValues = new HashMap<String, Object>();
 				for (JasmineUpdateElement jue: pair.getValue()) {
 					String field = jue.getStoreField();
@@ -898,7 +898,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				Object result = null;
 				
 				// if there is no argument
-				if (args.size() == 0) {
+				if (args.isEmpty()) {
 					try {
 						cons = c.getConstructor();
 					} catch (Exception e) {
@@ -1063,7 +1063,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			if (u.value instanceof JasmineAbstractUpdateElement)
 				set2.add((JasmineAbstractUpdateElement)u.value);
 		
-		if (set1.size() == 0 && set2.size() == 0)
+		if (set1.isEmpty() && set2.isEmpty())
 			return;
 		
 		// put both sets in a list

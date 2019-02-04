@@ -134,7 +134,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 				 * Print a copy of the initial state only if this is the first step 
 				 * and user provided a list of locations to be monitored. 
 				 */
-				if (locationList != null && locationList.size() > 0) {
+				if (locationList != null && !locationList.isEmpty()) {
 					coreasmrun.appendChild(state2XML());
 				}
 			}

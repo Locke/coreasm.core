@@ -93,7 +93,7 @@ public class PlotPanel extends JPanel {
 			/* we can only draw a function that provides us with 
 			 * the set of all its defined locations
 			 */
-			if (f != null && f.getLocations("f").size() != 0) {
+			if (f != null && !f.getLocations("f").isEmpty()) {
 				ArrayList<DPoint> list = new ArrayList<DPoint>();
 
 				for (Location l: f.getLocations("f")) {
@@ -120,7 +120,7 @@ public class PlotPanel extends JPanel {
 			}
 		}
 
-		if (points.keySet().size() > 0) {
+		if (!points.keySet().isEmpty()) {
 			double scaleX = wp / (maxX - minX);
 			double scaleY = hp / (maxY - minY);
 	

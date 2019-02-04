@@ -907,7 +907,7 @@ public class Engine implements ControlAPI {
 							break;
 
 						case emRunningAgents:
-							if (scheduler.getSelectedAgentSet().size() == 0)
+							if (scheduler.getSelectedAgentSet().isEmpty())
 								next(EngineMode.emAggregation);
 							else {
 								scheduler.executeAgentPrograms();
@@ -1291,7 +1291,7 @@ public class Engine implements ControlAPI {
 		if (withResults)
 			result = new HashMap<String, Object>();
 
-		if (set != null && set.size() > 0) {
+		if (set != null && !set.isEmpty()) {
 			for (ServiceProvider sp: set) {
 				Object retres = sp.call(sr);
 				if (retres != null && result != null)

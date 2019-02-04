@@ -119,7 +119,7 @@ public class RuleElement extends Element {
 	 * @param param The param to set.
 	 */
 	public void setParam(List<String> param) {
-		if (param == null || param.size() == 0)
+		if (param == null || param.isEmpty())
 			this.param = Collections.emptyList();
 		else
 			this.param = Collections.unmodifiableList(new ArrayList<String>(param));

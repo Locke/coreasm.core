@@ -284,7 +284,7 @@ public class InterpreterImp implements Interpreter {
 
 	public Element getEnv(String token) {
 		Stack<Element> stack = envMap.get(token);
-		if (stack == null || stack.size() == 0) 
+		if (stack == null || stack.isEmpty())
 			return null;
 		else
 			return stack.peek();
@@ -594,7 +594,7 @@ public class InterpreterImp implements Interpreter {
 				pos.getFirst().setNode(null, null, theRule);	// Make sure we can always return from the rule
 				if (args.isEmpty()) { // If the current node is of the form 'x' with no arguments
 					if (pos instanceof MacroCallRuleNode) {
-						if (theRule.getParam().size() == 0)
+						if (theRule.getParam().isEmpty())
 							pos = ruleCall(theRule, theRule.getParam(), null, pos);
 						else
 							capi.error("The number of arguments passed to '" + theRule.getName() + 
@@ -1207,7 +1207,7 @@ public class InterpreterImp implements Interpreter {
 			capi.error("Init rule '" + initRuleName + "' does not exists.", initNode, this);
 			return;
 		} else
-			if (initRule.getParam().size() > 0) {
+			if (!initRule.getParam().isEmpty()) {
 				logger.error("Init rule cannot have parameters.");
 				capi.error("Init rule '" + initRuleName + "' should not have parameters.", initNode, this);
 				return;

@@ -380,11 +380,11 @@ public class HashStorage implements AbstractStorage {
 		if (!aggAPI.isConsistent()) {
 			String msg = "Inconsistent aggregated results.";
 			
-			if (aggAPI.getFailedInstructions().size() > 0) {
+			if (!aggAPI.getFailedInstructions().isEmpty()) {
 				msg = msg + "\nFailed instructions: " + Tools.getEOL()
 						+ EngineTools.getContextInfo("", aggAPI.getFailedInstructions(), capi.getParser(), capi.getSpec());
 			}
-			if (aggAPI.getUnprocessedInstructions().size() > 0) {
+			if (!aggAPI.getUnprocessedInstructions().isEmpty()) {
 				msg = msg + "\nUnprocessed instructions: " + Tools.getEOL()
 						+ EngineTools.getContextInfo("", aggAPI.getUnprocessedInstructions(), capi.getParser(), capi.getSpec());
 			}
@@ -931,7 +931,7 @@ public class HashStorage implements AbstractStorage {
 					StringBuffer str = new StringBuffer();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
-							if (l.args.size() > 0) {
+							if (!l.args.isEmpty()) {
 								str.append(l.args.get(0).denotation() + ", ");
 							}
 						}

@@ -270,7 +270,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 	
 	@Override
 	public Collection<Element> values() {
-		if (members.values().size() == 0)
+		if (members.values().isEmpty())
 			return Collections.emptyList();
 
 		Collection<Element> result = new ArrayList<Element>();

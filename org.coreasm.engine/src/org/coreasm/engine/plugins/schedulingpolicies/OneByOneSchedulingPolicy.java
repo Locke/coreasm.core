@@ -81,9 +81,9 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 			this.handle = groupHandle;
 			if (handle != null) {
 				memory = groupMemory.get(handle);
-				if (workingSet.size() > 0) {
+				if (!workingSet.isEmpty()) {
 					workingSet.removeAll(memory);
-					if (workingSet.size() == 0)
+					if (workingSet.isEmpty())
 						resetMemory();
 				}					
 			} else
@@ -91,7 +91,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 		}
 		
 		public boolean hasNext() {
-			if (!chosenOnce && workingSet.size() > 0) 
+			if (!chosenOnce && !workingSet.isEmpty())
 				return true;
 			else 
 				return false;

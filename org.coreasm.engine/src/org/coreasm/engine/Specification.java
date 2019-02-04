@@ -264,7 +264,7 @@ public class Specification {
 	public SpecLine getLine(int line) {
 		SpecLine l = null;
 		
-		if (getLines() != null && getLines().size() > 0) {
+		if (getLines() != null && !getLines().isEmpty()) {
 			try {
 				l = getLines().get(line - 1);
 			} catch (IndexOutOfBoundsException e) {

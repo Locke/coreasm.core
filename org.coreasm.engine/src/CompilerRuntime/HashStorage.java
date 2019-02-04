@@ -387,9 +387,9 @@ public class HashStorage implements AbstractStorage {
 	public void popState() {
 		Stack<Map<Location, Element>> updateStack = getUpdateStack();
 
-		if (updateStack.size() > 0)
+		if (!updateStack.isEmpty())
 			updateStack.pop();
-		if (updateStack.size() == 0)
+		if (updateStack.isEmpty())
 			setStateStackedFlag(false);
 	}
 
@@ -805,7 +805,7 @@ public class HashStorage implements AbstractStorage {
 					StringBuffer str = new StringBuffer();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
-							if (l.args.size() > 0) {
+							if (!l.args.isEmpty()) {
 								str.append(l.args.get(0).denotation() + ", ");
 							}
 						}

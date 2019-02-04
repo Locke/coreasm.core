@@ -83,7 +83,7 @@ public class ElementList extends ArrayList<Element> {
 	 * @return a new <code>ElementList</code> containing the given elements.
 	 */
 	public static ElementList create(Collection<? extends Element> c) {
-		if (c.size() == 0)
+		if (c.isEmpty())
 			return NO_ARGUMENT;
 		else
 			return new ElementList(c);

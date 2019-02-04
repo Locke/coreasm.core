@@ -206,7 +206,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 	}
 
 	private void writeDebugInfo(String ch, String msg) {
-		if (activeChannels != null && activeChannels.size() > 0) {
+		if (activeChannels != null && !activeChannels.isEmpty()) {
 			if (activeChannels.contains(ALL_CHANNELS_ID) || activeChannels.contains(ch))
 				if (outputStream != null)
 					outputStream.println("DEBUG INFO (" + ch + "): " + msg);

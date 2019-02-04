@@ -65,7 +65,7 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	 * 
 	 */
 	public void setValue(List<? extends Element> args, Element value) {
-		if (args.size() == 0 && value instanceof UniverseElement) {
+		if (args.isEmpty() && value instanceof UniverseElement) {
 			UniverseElement universe = (UniverseElement)value;
 			elements.clear();
 			elements.addAll(universe.elements);

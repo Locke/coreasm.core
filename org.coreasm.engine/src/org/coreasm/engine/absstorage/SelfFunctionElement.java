@@ -42,7 +42,7 @@ public class SelfFunctionElement extends FunctionElement {
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (args.size() == 0)
+		if (args.isEmpty())
 			return agent;
 		else
 			return Element.UNDEF;
@@ -50,7 +50,7 @@ public class SelfFunctionElement extends FunctionElement {
 	
 	@Override
 	public void setValue(List<? extends Element> args, Element agent) {
-		if (args.size() == 0) {
+		if (args.isEmpty()) {
 			if (agent != null)
 				this.agent = agent;
 			else

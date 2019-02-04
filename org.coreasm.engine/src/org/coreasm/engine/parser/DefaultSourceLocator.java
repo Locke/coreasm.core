@@ -73,8 +73,7 @@ public class DefaultSourceLocator {
 	 * characters. This assumes that all line-break characters before {@code ind} are already scanned.
 	 */
 	private CharacterPosition lookup(int index) {
-		int size = lineBreakIndices.size();
-		if (size == 0) return location(0, index);
+		if (lineBreakIndices.isEmpty()) return location(0, index);
 		int lineNumber = binarySearch(lineBreakIndices, index);
 		if (lineNumber == 0) return location(0, index);
 		int previousBreak = lineBreakIndices.get(lineNumber - 1);

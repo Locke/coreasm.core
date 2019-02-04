@@ -329,7 +329,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			logln("Stopped as the same update set is computed in two consecutive steps.");
 			return true;
 		}
-		if (stopEmptyActiveAgents && engine.getAgentSet().size() < 1) {
+		if (stopEmptyActiveAgents && engine.getAgentSet().isEmpty()) {
 			silentLogln("");
 			logln("Stopped as there is no agent with a defined program.");
 			return true;
@@ -363,7 +363,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			return;
 		
 		List<CoreASMWarning> warnings = engine.getWarnings();
-		if (warnings.size() > 0) {
+		if (!warnings.isEmpty()) {
 			logln("The following warning " + (warnings.size()==1?"message":"messages") + " has also been issued during the last step:");
 			for (CoreASMWarning w: warnings) 
 				logln(w.showWarning());
@@ -584,7 +584,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			if (updateFailed)
 				break;
 
-			if (markSteps && engine.getAgentSet().size() > 0) {
+			if (markSteps && !engine.getAgentSet().isEmpty()) {
 				silentLogln("");
 				logln(" + ----- end of STEP " + currentStep + " ----- + \n");
 			}

@@ -43,7 +43,7 @@ public class EngineTools {
 	 */
 	public static String getContextInfo(String indent, Collection<Update> updates, Parser parser, Specification spec) {
 		StringBuffer result = new StringBuffer();
-		if (updates != null && updates.size() > 0) {
+		if (updates != null && !updates.isEmpty()) {
 			for (Update u: updates) {
 				result.append(getContextInfo(indent, u, parser, spec));
 			}
@@ -81,7 +81,7 @@ public class EngineTools {
 	 * @throws InterpreterException if a node in the list does not have a value
 	 */
 	public static ElementList getValueList(List<ASTNode> nodes) throws InterpreterException {
-		if (nodes.size() == 0)
+		if (nodes.isEmpty())
 			return ElementList.NO_ARGUMENT;
 		
 		ArrayList<Element> vList = new ArrayList<Element>();

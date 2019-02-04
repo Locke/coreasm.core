@@ -193,7 +193,7 @@ public class BagPlugin extends Plugin
 					nextPos = pos;
 					
 					List<Element> elements = null;
-					if (seNode.getAllMembers().size() == 0)
+					if (seNode.getAllMembers().isEmpty())
 						elements = Collections.emptyList();
 					else {
 						elements = new ArrayList<Element>();
@@ -239,7 +239,7 @@ public class BagPlugin extends Plugin
 								return pos;
 							} else 
 								// if any domain is empty, the whole result is also empty
-								if (((Enumerable)domain.getValue()).enumerate().size() == 0) { 
+								if (((Enumerable)domain.getValue()).enumerate().isEmpty()) {
 									pos.setNode(null, null, new BagElement());
 									return pos;
 								}
@@ -304,7 +304,7 @@ public class BagPlugin extends Plugin
 						Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
 						
 						// if there is more combination to be tried...
-						if (possibleBindings.size() > 0) {
+						if (!possibleBindings.isEmpty()) {
 
 							// pick the next combination
 							Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -335,7 +335,7 @@ public class BagPlugin extends Plugin
 					result.add(expression.getValue());
 					// get the remaining combinations
 					Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
-					if (possibleBindings.size() > 0) {
+					if (!possibleBindings.isEmpty()) {
 
 						// pick the first combination
 						Map<String,Element> nextBinding = possibleBindings.iterator().next();

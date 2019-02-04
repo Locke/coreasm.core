@@ -40,7 +40,7 @@ public class FileReadFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		String path;
 		// get the message argument
-		if (args.size() == 0)
+		if (args.isEmpty())
 			path = "";
 		else// get the source file argument
 			path = args.get(0).toString();

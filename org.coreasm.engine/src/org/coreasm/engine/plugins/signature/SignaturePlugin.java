@@ -496,7 +496,7 @@ public class SignaturePlugin extends Plugin
 	            
 	            Element initValue = functionNode.getInitNode().getValue();            
 	            
-	            if (functionNode.getDomain().size() == 0) {
+	            if (functionNode.getDomain().isEmpty()) {
 	                try {
 	                    function.setValue(ElementList.NO_ARGUMENT, initValue);
 	                } catch (UnmodifiableFunctionException e) {

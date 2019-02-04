@@ -69,7 +69,7 @@ public class FunctionRuleTermNode extends ASTNode {
 	public List<ASTNode> getArguments() {
 		if (argsList == null) {
 			final List<Node> args = getActualFunctionRuleNode().getChildNodes("lambda");
-			if (args.size() == 0)
+			if (args.isEmpty())
 				argsList = Collections.emptyList();
 			else {
 				argsList = new AbstractList<ASTNode>() {
