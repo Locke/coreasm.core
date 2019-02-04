@@ -37,7 +37,7 @@ public class CompilationErrorHelper {
 	 * @return The nodes character position
 	 */
 	public static CharacterPosition getNodePos(ASTNode node, CoreASMEngine engine){
-		return ((Node) node).getCharPos(((ControlAPI) engine).getParser());
+		return node.getCharPos(((ControlAPI) engine).getParser());
 	}
 	
 	private static ASTNode getLast(ASTNode node){

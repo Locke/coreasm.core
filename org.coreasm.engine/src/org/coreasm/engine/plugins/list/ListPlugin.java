@@ -338,7 +338,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 							if (node.isLeft) {
 								shifted = listData.remove(0);
 							} else {
-								shifted = listData.remove(((ListElement)list).intSize()-1);
+								shifted = listData.remove(list.intSize()-1);
 							}
 							
 							Update u1 = new Update(loc, 

@@ -30,7 +30,7 @@ public class CompilerDriver {
 			maxSteps = minSteps;
 		
 		//create a CoreASM engine
-		CoreASMEngine engine = (Engine) CoreASMEngineFactory.createEngine();
+		CoreASMEngine engine = CoreASMEngineFactory.createEngine();
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
 		String pluginFolders = Tools.getRootFolder(Engine.class)+"/plugins";
 		if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
