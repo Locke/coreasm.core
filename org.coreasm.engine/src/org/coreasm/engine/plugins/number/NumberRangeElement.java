@@ -12,9 +12,7 @@
  
 package org.coreasm.engine.plugins.number;
 
-import java.util.AbstractList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Enumerable;
@@ -60,7 +58,7 @@ public class NumberRangeElement extends Element implements Enumerable {
         this.start = start;
         this.end = end;
         this.step = step;
-        this.hashCode = new Double(start + end + step).hashCode();
+        this.hashCode = Arrays.hashCode(new double[]{start, end, step});
     }
 	
     public String getBackground() {
