@@ -903,7 +903,7 @@ public class SignaturePlugin extends Plugin
      */
     private void createFunction(ASTNode currentSignature, Interpreter interpreter) {
         FunctionNode functionNode = (FunctionNode) currentSignature;
-        MapFunction function = null;
+        MapFunction function;
         
         if (functionNode.getName().equals(AbstractStorage.PROGRAM_FUNCTION_NAME)) {
             // TODO: check signature for correct signature of program function

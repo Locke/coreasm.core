@@ -31,7 +31,7 @@ public class CoreASMParseMap extends ParseMapN<Node> {
 	}
 	
 	public Node map(Object... vals) {
-		ScannerInfo info = null;
+		ScannerInfo info;
 		
 		// consider the possiblity of starting with a 
 		// comment or whitespace

@@ -87,7 +87,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
         if (pos instanceof LetRuleNode) {
            LetRuleNode letNode = (LetRuleNode) (pos);
-           Map<String, ASTNode> variableMap = null;
+           Map<String, ASTNode> variableMap;
            AbstractStorage storage = capi.getStorage();
 
            try {

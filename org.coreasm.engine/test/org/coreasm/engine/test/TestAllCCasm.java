@@ -62,20 +62,18 @@ public class TestAllCCasm {
 	
 	@Test
 	public void performTest(){
-		TestReport t = null;
 		boolean successful = true;
 		//check if there are files for testing for this class
 		if (testFiles.isEmpty()) {
-			t = new TestReport(null, "no test file found!", -1, false);
+			TestReport t = new TestReport(null, "no test file found!", -1, false);
 			successful = false;
 		}
 		//perform test for all test files, output result, and modify test result if test has failed
 		for (File testFile : testFiles) {
-			t = CompilerDriver.runSpecification(testFile);
+			TestReport t = CompilerDriver.runSpecification(testFile);
 			if (!t.successful())
 				successful = false;
 			t.print(origOutput, origError);
-			t = null;
 		}
 		//report overall test result
 		//test failed if at least one test has failed

@@ -55,7 +55,7 @@ public class TestAllCasm {
 		Pattern pattern = Pattern.compile(filter + ".*");
 		try {
 			input = new BufferedReader(new FileReader(file));
-			String line = null; //not declared within while loop
+			String line; //not declared within while loop
 			while ((line = input.readLine()) != null) {
 				Matcher matcher = pattern.matcher(line);
 				if (matcher.find()) {
@@ -82,7 +82,7 @@ public class TestAllCasm {
 		Pattern pattern = Pattern.compile("@" + name + "\\s*(\\d+)");
 		try {
 			input = new BufferedReader(new FileReader(file));
-			String line = null;
+			String line;
 			while ((line = input.readLine()) != null) {
 				Matcher matcher = pattern.matcher(line);
 				if (matcher.find()) {
@@ -152,20 +152,18 @@ public class TestAllCasm {
 
 	@Test
 	public void performTest() {
-		TestReport t = null;
 		boolean successful = true;
 		//check if there are files for testing for this class
 		if (testFiles.isEmpty()) {
-			t = new TestReport(null, "no test file found!", -1, false);
+			TestReport t = new TestReport(null, "no test file found!", -1, false);
 			successful = false;
 		}
 		//perform test for all test files, output result, and modify test result if test has failed
 		for (File testFile : testFiles) {
-			t = runSpecification(testFile);
+			TestReport t = runSpecification(testFile);
 			if (!t.successful())
 				successful = false;
 			t.print(origOutput, origError);
-			t = null;
 		}
 		//report overall test result
 		//test failed if at least one test has failed

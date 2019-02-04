@@ -333,7 +333,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 						if (list.intSize() > 0) {
 							UpdateMultiset updates = new UpdateMultiset();
 							ArrayList<Element> listData = new ArrayList<Element>(list.enumerate());
-							Element shifted = Element.UNDEF;
+							Element shifted;
 							
 							if (node.isLeft) {
 								shifted = listData.remove(0);

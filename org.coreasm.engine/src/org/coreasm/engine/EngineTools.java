@@ -85,9 +85,8 @@ public class EngineTools {
 			return ElementList.NO_ARGUMENT;
 		
 		ArrayList<Element> vList = new ArrayList<Element>();
-		Element value = null;
 		for (ASTNode n: nodes) {
-			value = n.getValue();
+			Element value = n.getValue();
 			if (value == null) 
 				throw new InterpreterException("Expecting expression as argument.");
 			vList.add(n.getValue());

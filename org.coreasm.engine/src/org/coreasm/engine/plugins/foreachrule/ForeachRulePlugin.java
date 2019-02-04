@@ -131,7 +131,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
             ForeachRuleNode foreachNode = (ForeachRuleNode) pos;
             Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
             Map<Node, UpdateMultiset> updates = getUpdatesMap();
-            Map<String, ASTNode> variableMap = null;
+            Map<String, ASTNode> variableMap;
             AbstractStorage storage = capi.getStorage();
             
             try {
@@ -235,7 +235,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
                      !foreachNode.getDoRule().isEvaluated() &&
                      (foreachNode.getIfnoneRule() == null || !foreachNode.getIfnoneRule().isEvaluated())) {
                 
-                boolean value = false;            
+                boolean value;
                 if (foreachNode.getCondition().getValue() instanceof BooleanElement) {
                     value = ((BooleanElement) foreachNode.getCondition().getValue()).getValue();
                 }

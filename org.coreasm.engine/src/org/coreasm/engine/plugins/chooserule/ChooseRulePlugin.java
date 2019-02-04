@@ -230,7 +230,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     	else if (node.getDomain().getValue() instanceof Enumerable) {
         	// s := enumerate(v)
 			Enumerable domain = (Enumerable)node.getDomain().getValue();
-			List<Element> elements = null;
+			List<Element> elements;
 			if (domain.supportsIndexedView())
 				elements = domain.getIndexedView();
 			else
@@ -303,7 +303,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 
     	// if domain 'E' is evaluated and condition 'C' is evaluated
     	else {
-            boolean value = false;            
+            boolean value;
             if (node.getCondition().getValue() instanceof BooleanElement) {
                 value = ((BooleanElement) node.getCondition().getValue()).getValue();
             }
@@ -340,7 +340,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
      */
 	private ASTNode interpretChooseRule_NoCondition_NoIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = chooseNode.getVariableMap();
@@ -363,7 +363,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	    		if (variable.getValue().getValue() instanceof Enumerable) {
 	            	// s := enumerate(v)
 	    			Enumerable domain = (Enumerable) variable.getValue().getValue();
-	    			List<Element> s = null;
+	    			List<Element> s;
 	    			if (domain.supportsIndexedView())
 	    				s = domain.getIndexedView();
 	    			else 
@@ -414,7 +414,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
      */
     private ASTNode interpretChooseRule_NoCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = chooseNode.getVariableMap();
@@ -437,7 +437,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	    		if (variable.getValue().getValue() instanceof Enumerable) {
 	            	// s := enumerate(v)
 	    			Enumerable domain = (Enumerable) variable.getValue().getValue();
-	    			List<Element> s = null;
+	    			List<Element> s;
 	    			if (domain.supportsIndexedView())
 	    				s = domain.getIndexedView();
 	    			else 
@@ -496,7 +496,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	private ASTNode interpretChooseRule_WithCondition_NoIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<Node, Iterator<Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = chooseNode.getVariableMap();
@@ -522,7 +522,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 
     	// if domain 'E' is evaluated, condition 'C' is evaluated, but rule 'R' is not evaluated
     	else if (!chooseNode.getDoRule().isEvaluated()) {
-            boolean value = false;            
+            boolean value;
             if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
                 value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
             }
@@ -564,7 +564,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     private ASTNode interpretChooseRule_WithCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<Node, Iterator<Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = chooseNode.getVariableMap();
@@ -590,7 +590,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 
     	// if domain 'E' is evaluated, condition 'C' is evaluated, but neither of the rules 'R1' or 'R2' are evaluated
     	else if (chooseNode.getCondition().isEvaluated() && !chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
-            boolean value = false;            
+            boolean value;
             if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
                 value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
             }

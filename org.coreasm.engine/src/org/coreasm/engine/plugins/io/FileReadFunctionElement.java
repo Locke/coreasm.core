@@ -44,7 +44,7 @@ public class FileReadFunctionElement extends FunctionElement {
 			path = "";
 		else// get the source file argument
 			path = args.get(0).toString();
-		ListElement lines = new ListElement();
+		ListElement lines;
 		try {
 			lines = this.plugin.readFromFile(path);
 		}

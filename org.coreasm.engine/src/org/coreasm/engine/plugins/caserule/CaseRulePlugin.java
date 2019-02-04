@@ -133,8 +133,7 @@ public class CaseRulePlugin extends Plugin
             	// return the case term for evaluation
             	return caseNode.getCaseTerm();
             } else {
-            	Map<ASTNode, ASTNode> caseMap = new IdentityHashMap<ASTNode, ASTNode>();
-            	caseMap = caseNode.getCaseMap();
+            	Map<ASTNode, ASTNode> caseMap = caseNode.getCaseMap();
             	
             	// evaluate all case guards
             	for (ASTNode guard: caseMap.keySet()) {

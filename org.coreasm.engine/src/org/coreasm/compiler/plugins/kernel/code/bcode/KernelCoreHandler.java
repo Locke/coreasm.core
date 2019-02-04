@@ -21,8 +21,7 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		List<ASTNode> children = new ArrayList<ASTNode>();
-		children.addAll(node.getAbstractChildNodes());
+		List<ASTNode> children = new ArrayList<>(node.getAbstractChildNodes());
 
 		// Find the id node and drop all use nodes
 		ASTNode id = null;

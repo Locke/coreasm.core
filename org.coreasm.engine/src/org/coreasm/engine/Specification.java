@@ -391,7 +391,7 @@ public class Specification {
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
 			
 		// while not at end of file, read a line and
-		String line = null;
+		String line;
 		int c = 1;
 		while ((line = specFileReader.readLine()) != null) {
 			// add line to vector
@@ -419,7 +419,7 @@ public class Specification {
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
 			
 		// while not at end of file, read a line and
-		String line = null;
+		String line;
 		int c = 1;
 		while ((line = specFileReader.readLine()) != null) {
 			// add line to vector
@@ -440,7 +440,7 @@ public class Specification {
 	 */
 	private static InputStream getInputStream(File file) throws FileNotFoundException
 	{
-		InputStream result = null;
+		InputStream result;
 		try	{
 			result = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE);
 		} catch (FileNotFoundException e) {

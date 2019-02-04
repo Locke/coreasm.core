@@ -78,9 +78,9 @@ public class SignatureHandler implements CompilerCodeHandler {
 
 	private void parseFunction(ASTNode node, CompilerEngine engine) throws CompilerException{
 		// first node is either the function id or the function class
-		String name = null;
+		String name;
 		String fclass = null;
-		int pos = 0;
+		int pos;
 		List<ASTNode> children = node.getAbstractChildNodes();
 		if (children.get(0).getGrammarRule().equals("ID")) {
 			name = children.get(0).getToken();
@@ -119,7 +119,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 	private void parseDerivedFunction(ASTNode node, CompilerEngine engine) throws CompilerException{
 		ASTNode signature = node.getAbstractChildNodes().get(0);
 		
-		CodeFragment body = null;
+		CodeFragment body;
 		try{
 			body = engine.compile(node.getAbstractChildNodes().get(1), CodeType.R);
 		}

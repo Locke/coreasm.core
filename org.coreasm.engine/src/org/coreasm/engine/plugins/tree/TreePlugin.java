@@ -672,7 +672,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		if(list == null)
 			return null;
 
-		TreeNodeElement tree = new TreeNodeElement(); 
+		TreeNodeElement tree;
 
 		String listFormat = getInputListFormatOption(capi);		
 

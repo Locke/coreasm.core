@@ -34,7 +34,7 @@ public class BasicASMPlugins extends Plugin implements PackagePlugin {
 	
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 0, "");
 
-	private Set<String> names = null;
+	private Set<String> names;
 	
 	public BasicASMPlugins() {
 		names = new HashSet<String>();

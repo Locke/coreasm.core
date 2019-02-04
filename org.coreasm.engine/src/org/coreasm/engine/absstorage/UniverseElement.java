@@ -90,9 +90,8 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
-		Location loc = null;
 		for (Element e : elements) {
-			loc = new Location(name, ElementList.create(e));
+			Location loc = new Location(name, ElementList.create(e));
 			locSet.add(loc);
 		}
 		return locSet;

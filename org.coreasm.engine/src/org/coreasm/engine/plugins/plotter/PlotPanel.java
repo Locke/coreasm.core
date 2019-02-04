@@ -97,14 +97,12 @@ public class PlotPanel extends JPanel {
 				ArrayList<DPoint> list = new ArrayList<DPoint>();
 
 				for (Location l: f.getLocations("f")) {
-					DPoint p = null;
-					
 					if (l.args.size() == 1) {
 						Element arg = l.args.get(0);
 						if (arg instanceof NumberElement) {
 							Element v = f.getValue(l.args);
 							if (v instanceof NumberElement) {
-								p = new DPoint();
+								DPoint p = new DPoint();
 								p.x = ((NumberElement)arg).getNumber();
 								p.y = ((NumberElement)v).getNumber();
 								if (p.x < minX) minX = p.x;

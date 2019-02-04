@@ -108,10 +108,9 @@ public abstract class AbstractMapElement extends FunctionElement implements Enum
 		Set<ElementList> argSet = new HashSet<ElementList>();
 		for (Element value: keySet())
 			argSet.add(ElementList.create(value));
-		Location loc = null;
 		for (ElementList l : argSet) {
 			if (!getValue(l).equals(defaultValue)) {
-				loc = new Location(name, l);
+				Location loc = new Location(name, l);
 				locSet.add(loc);
 			}
 		}

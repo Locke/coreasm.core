@@ -462,7 +462,7 @@ public class Node implements Serializable {
 	 * node is not duplicated nor are they copied (they will be <code>null</code>). 
 	 */
 	public final Node duplicate() {
-		Node node = null;
+		Node node;
 		try {
 			Class<? extends Node> c = this.getClass();
             node = (Node)c.getConstructor(c).newInstance(this);

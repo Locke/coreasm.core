@@ -192,7 +192,7 @@ public class BagPlugin extends Plugin
 					// set next pos to current position
 					nextPos = pos;
 					
-					List<Element> elements = null;
+					List<Element> elements;
 					if (seNode.getAllMembers().isEmpty())
 						elements = Collections.emptyList();
 					else {

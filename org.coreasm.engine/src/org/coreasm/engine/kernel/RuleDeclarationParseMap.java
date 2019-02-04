@@ -31,8 +31,7 @@ public class RuleDeclarationParseMap extends ParseMapN<Node> {
 	}
 	
 	public Node map(Object... vals) {
-		ScannerInfo info = null;
-		info = ((Node)vals[0]).getScannerInfo();
+		ScannerInfo info = ((Node)vals[0]).getScannerInfo();
 		
 		Node node = new ASTNode(
 				null,

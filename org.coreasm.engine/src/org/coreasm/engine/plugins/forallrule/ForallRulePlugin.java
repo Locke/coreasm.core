@@ -147,7 +147,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
             ForallRuleNode forallNode = (ForallRuleNode) pos;
             Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
             Map<Node, UpdateMultiset> updates = getUpdatesMap();
-            Map<String, ASTNode> variableMap = null;
+            Map<String, ASTNode> variableMap;
             
             try {
             	variableMap = forallNode.getVariableMap();
@@ -248,7 +248,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
                      !forallNode.getDoRule().isEvaluated() &&
                      (forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated())) {
                 
-                boolean value = false;            
+                boolean value;
                 if (forallNode.getCondition().getValue() instanceof BooleanElement) {
                     value = ((BooleanElement) forallNode.getCondition().getValue()).getValue();
                 }

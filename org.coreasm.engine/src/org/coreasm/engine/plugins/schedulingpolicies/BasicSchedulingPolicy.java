@@ -30,7 +30,7 @@ import org.coreasm.engine.scheduler.DefaultSchedulingPolicy;
  */
 public class BasicSchedulingPolicy extends DefaultSchedulingPolicy {
 
-	protected Set<Element> suspendedAgents = null;
+	protected Set<Element> suspendedAgents;
 	
 	/**
 	 * Creates a new basic scheduling policy with a reference to a set 

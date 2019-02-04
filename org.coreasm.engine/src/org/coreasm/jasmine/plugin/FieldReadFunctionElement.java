@@ -53,7 +53,7 @@ public class FieldReadFunctionElement extends FunctionElement {
 		if (args.size() == 2) {
 			String fieldName = ((StringElement)args.get(0)).getValue();
 			JObjectElement jobj = (JObjectElement)args.get(1);
-			Field field = null;
+			Field field;
 			
 			// get the field
 			try {
@@ -63,7 +63,7 @@ public class FieldReadFunctionElement extends FunctionElement {
 			}
 			
 			// get the value of the field
-			Object fieldValue = null;
+			Object fieldValue;
 			try {
 				fieldValue = field.get(jobj.object);
 			} catch (Exception e) {

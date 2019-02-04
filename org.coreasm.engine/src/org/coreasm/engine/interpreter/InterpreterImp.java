@@ -863,11 +863,10 @@ public class InterpreterImp implements Interpreter {
 	 * Kernel's default behavior to handle undefined identifier 
 	 */
     private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
-    	Element value = null;
     	Location loc = new Location(id, list);
     	try {
     		// in case there is a value in the stack
-			value = storage.getValue(loc);
+			Element value = storage.getValue(loc);
 	        pos.setNode(loc, null, value);
 		} catch (InvalidLocationException e) {
 	        pos.setNode(loc, null, Element.UNDEF);

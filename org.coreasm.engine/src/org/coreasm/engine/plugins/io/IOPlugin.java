@@ -147,7 +147,7 @@ public class IOPlugin extends Plugin implements
 
 		//Construct BufferedReader from InputStreamReader
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		String line = null;
+		String line;
 		while ((line = br.readLine()) != null) {
 			lines.add(new StringElement(line));
 		}

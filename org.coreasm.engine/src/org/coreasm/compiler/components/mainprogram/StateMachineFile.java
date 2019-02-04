@@ -163,13 +163,11 @@ public class StateMachineFile extends MemoryInclude{
 		//generate the state machine
 		MainFileHelper.populateStateMachine(this.stateMachine, engine);
 		//generate the state machines code
-		CodeFragment smcode = null;	
-		smcode = new CodeFragment("");
+		CodeFragment smcode = new CodeFragment("");
 		
 		//find scheduler policy
 		
 		LibraryEntry scheduler = null;
-		CodeFragment finalContent = null;
 		for(MainFileEntry mfe : extensions){
 			if(mfe.entryType == EntryType.SCHEDULER){
 				if(scheduler == null) scheduler = mfe.classFile;
@@ -190,8 +188,8 @@ public class StateMachineFile extends MemoryInclude{
 			engine.addError("state machine generated invalid code");
 			throw new LibraryEntryException(e);
 		}
-		
-		finalContent = new CodeFragment();
+
+		CodeFragment finalContent = new CodeFragment();
 		finalContent.appendLine("package " + getPackage(entryName) + ";\n");
 		finalContent.appendLine("public class StateMachine implements @RuntimePkg@.Runtime, Runnable{\n");
 		finalContent.appendLine("\tprivate java.util.Map<Thread, @RuntimePkg@.Element> selfEntries = new java.util.HashMap<Thread, @RuntimePkg@.Element>();\n");

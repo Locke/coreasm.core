@@ -466,7 +466,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			
 			String x = node.getClassName().trim(); 
 			
-			Class<? extends Object> c = null;
+			Class<? extends Object> c;
 			try {
 				c = JasmineUtil.getJavaClass(x, this.loader);
 			} catch (Exception e) {
@@ -885,7 +885,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				List<?> args = (List<?>)jue.arguments.get(2);  // the '<...>' in (l, x, <...>)
 
 				// get the class object
-				Class<?> c = null;
+				Class<?> c;
 				try {
 					c = JasmineUtil.getJavaClass(className, this.loader);
 				} catch (ClassNotFoundException e) {
@@ -894,8 +894,8 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 					return;
 				}
-				Constructor<?> cons = null;
-				Object result = null;
+				Constructor<?> cons;
+				Object result;
 				
 				// if there is no argument
 				if (args.isEmpty()) {
@@ -958,7 +958,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				String fieldName = jue.getStoreField();
 				Object value = jue.getStoreValue();
 				
-				Field field = null;
+				Field field;
 				
 				// get the field
 				try {
@@ -988,8 +988,8 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				String methodName = (String)jue.arguments.get(2);  // the 'x'
 				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments 
 				
-				Method method = null;
-				Object result = null;
+				Method method;
+				Object result;
 				
 				// get the method
 				try {
@@ -1288,7 +1288,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						FIELD_ACCESS_OPERATOR + 
 						"' is not a Java field.");
 			
-			String fieldName = null;
+			String fieldName;
 			// if field is an id
 			if (right.getFirst() != null)
 				fieldName = right.getFirst().getToken();
@@ -1299,7 +1299,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			if (termNode.getValue() instanceof JObjectElement) {
 				JObjectElement jobj = (JObjectElement)termNode.getValue();
 				
-				Field field = null;
+				Field field;
 				
 				// get the field
 				try {

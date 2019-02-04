@@ -166,7 +166,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 				return nrNode.getStep();
 			} else {
 				Element fromElement = nrNode.getStart().getValue();
-				double from = 0;
+				double from;
 
 				if (fromElement instanceof NumberElement) {
 					from = ((NumberElement) fromElement).value;
@@ -177,7 +177,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 				}
 
 				Element toElement = nrNode.getEnd().getValue();
-				double to = 0;
+				double to;
 				if (toElement instanceof NumberElement) {
 					to = ((NumberElement) toElement).value;
 				} else {
@@ -197,10 +197,9 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 						return pos;
 					}
 				}
-
-				NumberRangeElement rangeElement = null;
+;
 				try {
-					rangeElement = numberRangeBackgroundElement.getNewValue(
+					NumberRangeElement rangeElement = numberRangeBackgroundElement.getNewValue(
 							from, to, step);
 					pos.setNode(null, null, rangeElement);
 				} catch (IllegalArgumentException e) {

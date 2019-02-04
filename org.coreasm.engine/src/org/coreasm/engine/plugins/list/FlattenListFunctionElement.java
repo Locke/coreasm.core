@@ -63,13 +63,12 @@ public class FlattenListFunctionElement extends FunctionElement {
 	 * Flattens a list of elements such that all the immediate list elements are expanded.
 	 */
 	protected List<? extends Element> flattenList(List<? extends Element> list) {
-		ArrayList<Element> result = null;
 		boolean compound = false;
 		for (Element e: list) 
 			if (e instanceof AbstractListElement) 
 				compound = true;
 		if (compound) {
-			result = new ArrayList<Element>();
+			ArrayList<Element> result = new ArrayList<Element>();
 			for (Element e: list) 
 				if (e instanceof AbstractListElement)
 					result.addAll(flattenList(((AbstractListElement) e).getList()));

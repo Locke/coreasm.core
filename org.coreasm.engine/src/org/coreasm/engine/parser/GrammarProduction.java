@@ -137,7 +137,6 @@ public class GrammarProduction {
 		String productionDelimiter = "\n\t "+CoreASMGlobal.getProperty("parser.grammar.production.productionDelimiter")+" "; // delimiters to be used between productions
 		
 		Iterator<BodySegmentContributor> itBC =  bodyContributors.values().iterator(); // iterator
-		String production = ""; // production being built
 			
 		if (parser == null)
 		{
@@ -146,7 +145,7 @@ public class GrammarProduction {
 		}
 				
 		// add delimiter between nonterminal and body
-		production = nonterminal + nonterminalBodyDelimiter;
+		String production = nonterminal + nonterminalBodyDelimiter;
 		
 		// add body delimiter between body's
 		int i = 0;
@@ -316,10 +315,9 @@ public class GrammarProduction {
 			String contributorDelimiter = ", ";
 			
 			Iterator<String> itContributors =  contributors.iterator(); // iterator
-			String bodyContributors = ""; // string to be built
 					
 			// add body
-			bodyContributors = body;
+			String bodyContributors = body;
 			
 			// add contributors
 			bodyContributors += singleLineCommentPrefix;

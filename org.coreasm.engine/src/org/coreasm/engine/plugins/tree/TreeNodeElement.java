@@ -819,16 +819,14 @@ public class TreeNodeElement extends Element implements Enumerable {
 	
 	
 	public NumberElement getIndex(TreeNodeElement aChild) {
-		NumberElement result = null;
-
 		int idx = 1;
 		TreeNodeElement child = getFirst();
 		while(child != null && child != aChild) {
 			idx++;
 			child = child.getNext();
 		} // while
-		
-		result = NumberElement.getInstance(idx);
+
+		NumberElement result = NumberElement.getInstance(idx);
 
 		return result;
 	} // getIndex
@@ -931,7 +929,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		if(anotherNode == null)
 			throw new IllegalArgumentException("Null parameter");
 
-		boolean isAncestor = false;
+		boolean isAncestor;
 		TreeNodeElement parent = this;
 		do {
 			parent = parent.getParent();
@@ -944,9 +942,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		if(anotherNode == null)
 			throw new IllegalArgumentException("Null parameter");
 
-		boolean isDescendant = false;
-		
-			isDescendant = anotherNode.isNodeAncestor(this);
+		boolean isDescendant = anotherNode.isNodeAncestor(this);
 		return isDescendant;
 	} // isNodeDescendant
 
@@ -1206,9 +1202,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 	} // getLongString
 
 	protected String getLongStringRec() {
-		String res = "";
-
-		res = L_BRACKET + valueToString(getValue()) + ", " + L_BRACKET; 
+		String res = L_BRACKET + valueToString(getValue()) + ", " + L_BRACKET;
 
 		TreeNodeElement child = getFirst();
 		if(child != null) {
