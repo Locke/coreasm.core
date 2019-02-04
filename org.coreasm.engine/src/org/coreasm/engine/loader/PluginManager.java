@@ -123,19 +123,10 @@ public class PluginManager {
 			sortedList.add(p);
 		}
 
-		Collections.sort(sortedList, new Comparator<Plugin>() {
+		sortedList.sort(new Comparator<Plugin>() {
 			@Override
-			public int compare(Plugin o1, Plugin o2) {
-				Plugin p1 = (Plugin)o1;
-				Plugin p2 = (Plugin)o2;
-
-				if (p1.getLoadPriority() < p2.getLoadPriority())
-					return -1;
-				else
-					if (p1.getLoadPriority() > p2.getLoadPriority())
-						return 1;
-					else
-						return 0;
+			public int compare(Plugin p1, Plugin p2) {
+				return Double.compare(p1.getLoadPriority(), p2.getLoadPriority());
 			}
 		});
 
