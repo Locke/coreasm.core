@@ -42,7 +42,7 @@ public class EngineTools {
 	 * @param spec a link to the specification
 	 */
 	public static String getContextInfo(String indent, Collection<Update> updates, Parser parser, Specification spec) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		if (updates != null && !updates.isEmpty()) {
 			for (Update u: updates) {
 				result.append(getContextInfo(indent, u, parser, spec));

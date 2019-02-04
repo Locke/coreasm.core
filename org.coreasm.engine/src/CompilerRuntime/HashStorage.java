@@ -800,7 +800,7 @@ public class HashStorage implements AbstractStorage {
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
 							if (!l.args.isEmpty()) {
-								str.append(l.args.get(0).denotation() + ", ");
+								str.append(l.args.get(0).denotation()).append(", ");
 							}
 						}
 					}

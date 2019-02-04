@@ -147,7 +147,7 @@ public class TabBlocksPlugin extends Plugin implements ExtensionPointPlugin {
     }
 
     private String produceTabs(int i) {
-    	StringBuffer str = new StringBuffer();
+    	StringBuilder str = new StringBuilder();
     	while (i > 0) {
     		str.append('\t');
     		i--;
