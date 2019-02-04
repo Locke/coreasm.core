@@ -21,10 +21,10 @@ import org.coreasm.compiler.exception.EntryAlreadyExistsException;
  *
  */
 public class ClassLibrary {
-	private List<LibraryEntry> entries;
-	private List<RuleClassFile> rules;
-	private CompilerEngine engine;
-	private Map<String, String> packageReplacements;
+	private final List<LibraryEntry> entries;
+	private final List<RuleClassFile> rules;
+	private final CompilerEngine engine;
+	private final Map<String, String> packageReplacements;
 	
 	/**
 	 * Constructs a new ClassLibrary

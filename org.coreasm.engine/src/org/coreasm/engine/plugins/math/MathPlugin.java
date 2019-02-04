@@ -59,7 +59,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	
 	private Map<String, FunctionElement> functions = null;
 	
-	private Set<String> dependencyNames;
+	private final Set<String> dependencyNames;
 
 	private String[] keywords = {KW_RANDOM_VALUE};
 	private String[] operators = {};

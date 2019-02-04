@@ -36,7 +36,7 @@ public class BooleanElement extends Element {
  	 * Holds the value of this Boolean Element as a 
  	 * Java boolean value 
  	 */
- 	private Boolean value;
+ 	private final Boolean value;
  	
  	/**
  	 * Represents the 'true' value in ASM.

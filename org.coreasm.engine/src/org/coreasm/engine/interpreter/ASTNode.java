@@ -355,8 +355,8 @@ public class ASTNode extends Node implements Serializable {
 	 * @author Roozbeh Farahbod
 	 */
 	public final class NameAbstractNodeTuple implements Cloneable {
-		public String name;
-		public ASTNode node;
+		public final String name;
+		public final ASTNode node;
 		
 		/** 
 		 * Create a name-node tuple with the given name and node.

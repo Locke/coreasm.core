@@ -38,7 +38,7 @@ public class EnumerationBackgroundElement extends BackgroundElement
     implements Enumerable {
 
     private final List<EnumerationElement> members;
-    private List<Element> enumCache;
+    private final List<Element> enumCache;
     
     public EnumerationBackgroundElement(List<EnumerationElement> members) {
         this.members = members;

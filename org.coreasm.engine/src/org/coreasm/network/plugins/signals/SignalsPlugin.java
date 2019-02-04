@@ -83,7 +83,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	private Map<String, BackgroundElement> backgrounds = null;
     //private ThreadLocal<Map<Node,List<Element>>> remained;
     private Map<String, GrammarRule> parsers;
-    private Set<String> dependencies;
+    private final Set<String> dependencies;
 
     private ThreadLocal<Map<Node, SignalElement>> signals;
 
