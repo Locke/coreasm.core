@@ -15,14 +15,8 @@
 
 package org.coreasm.engine.kernel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
@@ -210,10 +204,8 @@ public class Kernel extends Plugin
        	for (Plugin p: plugins) 
        		if (p instanceof ParserPlugin) {
        			ParserPlugin pp = (ParserPlugin)p;
-       			for (String kw: pp.getKeywords())
-       				kws.add(kw);
-       			for (String opr: pp.getOperators())
-       				oprs.add(opr);
+        		kws.addAll(Arrays.asList(pp.getKeywords()));
+        		oprs.addAll(Arrays.asList(pp.getOperators()));
        			if ( p != this )
        				lexers.addAll(pp.getLexers());
        		}
