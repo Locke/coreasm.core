@@ -680,10 +680,8 @@ public class SetPlugin extends Plugin
 					else if (x.equals(SETUNION_OP))
 					{
 						// add elements from both
-						for (Element m : eL.enumerate())
-							resultSet.add(m);
-						for (Element m : eR.enumerate())
-							resultSet.add(m);
+						resultSet.addAll(eL.enumerate());
+						resultSet.addAll(eR.enumerate());
 					}
 					
 					if (result == null)
