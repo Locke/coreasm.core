@@ -1108,8 +1108,7 @@ public class BagPlugin extends Plugin
 			if (vals[1] != null && vals[1] instanceof Object[]) {
 				Object[] newVals = new Object[vals.length - 1];
 				newVals[0] = vals[0];
-				for (int i = 1; i < newVals.length; i++)
-					newVals[i] = vals[i + 1];
+				System.arraycopy(vals, 2, newVals, 1, newVals.length - 1);
 				vals = newVals;
 			}
 			node = new BagCompNode(((Node)vals[0]).getScannerInfo());
