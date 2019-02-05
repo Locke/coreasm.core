@@ -306,7 +306,7 @@ public class IOPlugin extends Plugin implements
 					new UpdateMultiset(
 							new Update(
 									new Location(FILE_OUTPUT_FUNC_NAME,
-											ElementList.create(Arrays.asList(pos.getFileName().getValue()))),
+											ElementList.create(pos.getFileName().getValue())),
 									new StringElement(pos.getMessage().getValue().toString()),
 									(pos.isAppend() ? APPEND_ACTION : WRITE_ACTION),
 									interpreter.getSelf(),
