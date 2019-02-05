@@ -42,7 +42,7 @@ public class EnumerationBackgroundElement extends BackgroundElement
     
     public EnumerationBackgroundElement(List<EnumerationElement> members) {
         this.members = members;
-        enumCache =  Collections.unmodifiableList(new ArrayList<Element>(members));
+        enumCache = List.copyOf(members);
     }
 
     @Override

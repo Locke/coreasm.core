@@ -122,7 +122,7 @@ public class RuleElement extends Element {
 		if (param == null || param.isEmpty())
 			this.param = Collections.emptyList();
 		else
-			this.param = Collections.unmodifiableList(new ArrayList<String>(param));
+			this.param = List.copyOf(param);
 	}
 
 	public String toString() {

@@ -302,7 +302,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (enumListCache == null)
-			enumListCache = Collections.unmodifiableList(new ArrayList<Element>(this.keySet()));
+			enumListCache = List.copyOf(this.keySet());
 		return enumListCache;
 	}
 
