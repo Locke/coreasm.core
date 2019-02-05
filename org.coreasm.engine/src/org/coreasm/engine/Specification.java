@@ -23,14 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.coreasm.engine.absstorage.BackgroundElement;
 import org.coreasm.engine.absstorage.FunctionElement;
@@ -500,8 +494,7 @@ public class Specification {
 				keywords = new HashSet<String>();
 				for (Plugin p: requiredPlugins) {
 					if (p instanceof ParserPlugin)
-						for (String kw: ((ParserPlugin)p).getKeywords())
-							keywords.add(kw);
+						keywords.addAll(Arrays.asList(((ParserPlugin) p).getKeywords()));
 				}
 			}
 		}
@@ -520,8 +513,7 @@ public class Specification {
 				operators = new HashSet<String>();
 				for (Plugin p: requiredPlugins) {
 					if (p instanceof ParserPlugin)
-						for (String kw: ((ParserPlugin)p).getKeywords())
-							operators.add(kw);
+						operators.addAll(Arrays.asList(((ParserPlugin) p).getKeywords()));
 				}
 			}
 		}

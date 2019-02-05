@@ -569,8 +569,7 @@ public class Engine implements ControlAPI {
 		pNames.addAll(pluginLoader.getRequestedPlugins());
 
 		// Adding kernel plugin names
-		for (String name: CoreASMEngine.KERNEL_PLUGINS)
-			pNames.add(name);
+		pNames.addAll(Arrays.asList(CoreASMEngine.KERNEL_PLUGINS));
 
 		for (String pName: pNames) {
 			Plugin p = pluginLoader.getPlugin(pName);//allPlugins.get(pName);
