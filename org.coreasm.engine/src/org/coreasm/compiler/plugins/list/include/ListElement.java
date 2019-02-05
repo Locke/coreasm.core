@@ -78,14 +78,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	 * @param elements An array of elements
 	 */
 	public ListElement(Element ... elements) {
-		if (elements.length == 0)
-			listElements = Collections.emptyList();
-		else {
-			listElements = new ArrayList<Element>();
-			for (Element e: elements) 
-				listElements.add(e);
-			listElements = Collections.unmodifiableList(listElements);
-		}
+		listElements = List.of(elements);
 	}
 	
 	/**

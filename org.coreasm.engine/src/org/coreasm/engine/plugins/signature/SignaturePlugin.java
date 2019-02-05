@@ -118,7 +118,7 @@ public class SignaturePlugin extends Plugin
 
 	private final String[] keywords = {"enum", "universe", "controlled", "monitored", "static", "function", "initially", "initialized", "by", "derived"};
 	private final String[] operators = {"=", "{", "}", ",", ":", "->"};
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { NO_UNDEFINED_ID_PROPERTY, TYPE_CHECKING_PROPERTY })));
+	private static final Set<String> options = Set.of(NO_UNDEFINED_ID_PROPERTY, TYPE_CHECKING_PROPERTY);
 	
 	private final CompilerPlugin compilerPlugin = new CompilerSignaturePlugin(this);
 	

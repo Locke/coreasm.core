@@ -127,7 +127,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	public static final String JASMINE_CLASSPATH__SYSTEM = "JASMINE_CLASSPATH";
 	public static final String JASMINE_CLASSPATH__ENGINE = "JASMine.ClassPath";
 	
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { CONVERSION_MODE_PROPERTY, JASMINE_CLASSPATH__ENGINE })));
+	private static final Set<String> options = Set.of(CONVERSION_MODE_PROPERTY, JASMINE_CLASSPATH__ENGINE);
 	
 	private ClassLoader loader = null;
 	private boolean classPathUpdatedThroughOptions = false;

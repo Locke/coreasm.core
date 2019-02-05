@@ -13,11 +13,7 @@
  
 package org.coreasm.jasmine.plugin;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Location;
@@ -53,18 +49,12 @@ public class JasmineUpdateElement extends JasmineAbstractUpdateElement {
 	 */
 	public JasmineUpdateElement(Element agent, Type type, ScannerInfo sinfo, Object... args) {
 		this.type = type;
-		List<Object> arguments = new ArrayList<Object>();
-		for (Object arg: args)
-			arguments.add(arg);
+		List<Object> arguments = new ArrayList<Object>(Arrays.asList(args));
 		this.arguments = Collections.unmodifiableList(arguments);
 		this.agent = agent;
-		Set<Element> set = new HashSet<Element>();
-		set.add(agent);
-		this.agents = Collections.unmodifiableSet(set);
+		this.agents = Set.of(agent);
 		this.sinfo = sinfo;
-		Set<ScannerInfo> iset = new HashSet<ScannerInfo>();
-		iset.add(sinfo);
-		this.sinfos = Collections.unmodifiableSet(iset);
+		this.sinfos = Set.of(sinfo);
 	}
 	
 	/**

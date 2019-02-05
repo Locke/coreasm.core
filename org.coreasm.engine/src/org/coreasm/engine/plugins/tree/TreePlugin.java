@@ -117,7 +117,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	// Keywords (Used by CoreASM in the construction of the lexer
 	private final String[] keywords = {ADD_STR, CHILD_STR, TO_STR, AT_STR, REMOVE_STR, FROM_STR, MAKE_STR, INTO_STR, TREE_STR};
 	private final String[] operators = {};
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { TREE_TRAVERSAL_OPT, TREE_OUTPUT_STRING_OPT, LIST_FOR_TREES_OPT })));
+	private static final Set<String> options = Set.of(TREE_TRAVERSAL_OPT, TREE_OUTPUT_STRING_OPT, LIST_FOR_TREES_OPT);
 
 	// XXX REMOVE
 	// private Parser<Node>[] treeTermParserArray = new Parser[1];

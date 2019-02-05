@@ -90,7 +90,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	protected String outputFileName = null;
 	protected String outputFileNameProperty = null;
 	
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { OBSERVER_OUTPUT_FILE })));
+	private static final Set<String> options = Set.of(OBSERVER_OUTPUT_FILE);
 	
 	int stepCounter = 0;
 	

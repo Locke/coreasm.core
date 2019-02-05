@@ -14,13 +14,8 @@
 
 package org.coreasm.engine.plugins.schedulingpolicies;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
@@ -107,7 +102,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 
 	private final String[] keywords = {RESUME_AGENT_KEYWORD, SUSPEND_AGENT_KEYWORD, TERMINATE_AGENT_KEYWORD, SHUTDOWN_KEYWORD};
 	private final String[] operators = {};
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { POLICY_PROPERTY })));
+	private static final Set<String> options = Set.of(POLICY_PROPERTY);
 	private Map<EngineMode, Integer> targetModes = null;
 	
 	private SchedulingPolicy currentPolicy = null;

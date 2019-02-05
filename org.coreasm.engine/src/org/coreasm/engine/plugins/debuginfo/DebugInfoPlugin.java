@@ -81,7 +81,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 
 	private final String[] keywords = {DEBUGINFO_KEYWORD};
 	private final String[] operators = {};
-	private static final Set<String> options = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(ACTIVE_CHANNELS_PROPERTY)));
+	private static final Set<String> options = Set.of(ACTIVE_CHANNELS_PROPERTY);
 
 	@Override
 	public void initialize() throws InitializationFailedException {

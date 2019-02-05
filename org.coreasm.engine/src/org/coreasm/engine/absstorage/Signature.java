@@ -100,14 +100,7 @@ public class Signature {
      * Sets the domain of this signature.
      */
     public void setDomain(String ... domain) {
-    	if (domain.length == 0) 
-    		this.domain = Collections.emptyList();
-    	else {
-    		this.domain = new ArrayList<String>();
-    		for (String s: domain)
-    			this.domain.add(s);
-    		this.domain = Collections.unmodifiableList(this.domain);
-    	}
+        this.domain = List.of(domain);
     }
     
     /**

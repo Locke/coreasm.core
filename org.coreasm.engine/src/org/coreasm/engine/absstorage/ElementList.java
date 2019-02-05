@@ -16,6 +16,7 @@ package org.coreasm.engine.absstorage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /** 
  *	A helper class that implements an umodifiable list of Elements.
@@ -56,11 +57,7 @@ public class ElementList extends ArrayList<Element> {
 	 * @param args Elements
 	 */
 	public ElementList(Element ... args) {
-		super();
-		for (int i=0; i < args.length; i++) {
-			super.add(args[i]);
-		}
-		
+		super(List.of(args));
 	}
 
 	/** 
