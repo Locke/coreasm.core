@@ -65,8 +65,7 @@ public class PreprocessorDataManager {
 			if(pos >= value.length) {
 				return inheritRules;
 			}
-			List<InheritRule> result = new ArrayList<org.coreasm.compiler.components.preprocessor.InheritRule>();
-			result.addAll(nullelement.getInheritRules(pos + 1, value));
+			List<InheritRule> result = new ArrayList<>(nullelement.getInheritRules(pos + 1, value));
 			if(value[pos] != null){
 				Storage nxt = data.get(value[pos]);
 				if(nxt != null){
@@ -84,8 +83,7 @@ public class PreprocessorDataManager {
 			if(pos >= value.length) {
 				return synthRules;
 			}
-			List<SynthesizeRule> result = new ArrayList<org.coreasm.compiler.components.preprocessor.SynthesizeRule>();
-			result.addAll(nullelement.getSynthesizeRules(pos + 1, value));
+			List<SynthesizeRule> result = new ArrayList<>(nullelement.getSynthesizeRules(pos + 1, value));
 			if(value[pos] != null){
 				Storage nxt = data.get(value[pos]);
 				if(nxt != null){

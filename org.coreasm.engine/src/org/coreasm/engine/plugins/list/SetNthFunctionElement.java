@@ -74,9 +74,7 @@ public class SetNthFunctionElement extends ListFunctionElement {
 					"Index out of range for " + NAME
 							+ ". Second parameter must be a number which is at most the number of list elements.");
 
-		List<Element> resultValues = new ArrayList<Element>();
-		for (Element e: list.enumerate()) 
-			resultValues.add(e);
+		List<Element> resultValues = new ArrayList<>(list.enumerate());
 		resultValues.set((int)n.getValue()-1, args.get(2));
 		
 		return new ListElement(resultValues);

@@ -739,9 +739,7 @@ public class InterpreterImp implements Interpreter {
 			// decide on what final result of operator evaluation is:
 			
 			// put results into a set
-			final HashSet<Element> setResultElements = new HashSet<Element>();
-			for(Element result: impResults.values())
-					setResultElements.add(result);
+			final HashSet<Element> setResultElements = new HashSet<Element>(impResults.values());
 
 			// if one of the results is undef but there are other results as well,
 			// remove the undef value
