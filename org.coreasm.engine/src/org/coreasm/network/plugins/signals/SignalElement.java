@@ -54,12 +54,16 @@ public class SignalElement extends Element {
 			this.type = Element.UNDEF;
 		else
 			this.type = type;
-		this.src = src;
-		this.target = trg;
-		if (this.src == null)
+
+		if (src == null)
 			this.src = Element.UNDEF;
-		if (this.target == null)
+		else
+			this.src = src;
+
+		if (trg == null)
 			this.target = Element.UNDEF;
+		else
+			this.target = trg;
 	}
 	
 	@Override
