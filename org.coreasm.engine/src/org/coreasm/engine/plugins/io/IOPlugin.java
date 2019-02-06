@@ -543,7 +543,7 @@ public class IOPlugin extends Plugin implements
 							pluginAgg.addResultantUpdate(
 									new Update(
 											writeLoc,
-											new ListElement(Arrays.asList(new Element[] { update.value })),
+											new ListElement(Collections.singletonList(update.value)),
 											update.action,
 											update.agents,
 											update.sources),
@@ -668,7 +668,7 @@ public class IOPlugin extends Plugin implements
 					if (APPEND_ACTION.equals(update.action) || WRITE_ACTION.equals(update.action)) {
 						Element value = update.value;
 						if (!(update.value instanceof ListElement))
-							value = new ListElement(Arrays.asList(new Element[] { value }));
+							value = new ListElement(Collections.singletonList(value));
 						ListElement list = (ListElement) value;
 						elems1.addAll(list.getList());
 						contributingAgents.addAll(update.agents);
@@ -682,7 +682,7 @@ public class IOPlugin extends Plugin implements
 				if (APPEND_ACTION.equals(update.action) || WRITE_ACTION.equals(update.action)) {
 					Element value = update.value;
 					if (!(update.value instanceof ListElement))
-						value = new ListElement(Arrays.asList(new Element[] { value }));
+						value = new ListElement(Collections.singletonList(value));
 					ListElement list = (ListElement) value;
 					elems2.addAll(list.getList());
 					contributingAgents.addAll(update.agents);
