@@ -131,9 +131,8 @@ class StreamGobbler implements Runnable{
 	}
 
 	@Override
-	public void run(){
-		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+	public void run() {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
 
 			while (!quit) {
 				String line = br.readLine();
@@ -143,9 +142,7 @@ class StreamGobbler implements Runnable{
 				else
 					output.append("\n").append(line);
 			}
-			br.close();
-		}
-		catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
