@@ -78,20 +78,18 @@ public class OperatorContributor {
 	 * @return contributors as a comma delimited string <code>String</code>
 	 */
 	public String getContributorsAsString() {
-		String contributorsStr = "";
-		
-		Iterator<String> it = contributors.iterator();
-		
+		StringBuilder contributorsStr = new StringBuilder();
+
 		// put contributors into comma delimited string
-		while(it.hasNext()) {
+		for (String contributor : contributors) {
 			if (contributorsStr.length() > 0) {
-				contributorsStr += ", ";
+				contributorsStr.append(", ");
 			}
-			
-			contributorsStr += it.next();
+
+			contributorsStr.append(contributor);
 		}
 		
-		return contributorsStr;
+		return contributorsStr.toString();
 	}
 	
 	/**

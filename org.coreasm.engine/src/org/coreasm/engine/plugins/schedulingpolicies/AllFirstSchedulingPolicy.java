@@ -65,14 +65,14 @@ public class AllFirstSchedulingPolicy extends BasicSchedulingPolicy {
 		
 		public boolean hasNext() {
 			if (firstTime)
-				return set.size() > 0;
+				return !set.isEmpty();
 			else
 				return iterator.hasNext();
 		}
 
 		public Set<Element> next() {
 			if (firstTime) {
-				if (set.size() == 0)
+				if (set.isEmpty())
 					throw new NoSuchElementException("There is no possible combination left.");
 				firstTime = false;
 				return set;

@@ -210,14 +210,14 @@ public class PluginClassLoader {
 	 * Loads a single plugin class from the given list of resources.
 	 */
 	public static Plugin loadPlugin(String pName, String className, URL... urls) throws EngineException {
-		URLClassLoader loader = null;
+		URLClassLoader loader;
 		if (classLoader == null)
 			loader = new URLClassLoader(urls);
 		else
 			loader = new URLClassLoader(urls, classLoader);
 
-		Object o = null;
-		Class<?> pc = null;
+		Object o;
+		Class<?> pc;
 		try {
 			logger.debug( "Loading plugin: {}", className);
 			

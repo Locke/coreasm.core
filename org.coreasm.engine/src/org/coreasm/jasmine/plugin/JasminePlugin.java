@@ -463,7 +463,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			
 			String x = node.getClassName().trim(); 
 			
-			Class<? extends Object> c = null;
+			Class<? extends Object> c;
 			try {
 				c = JasmineUtil.getJavaClass(x, this.loader);
 			} catch (Exception e) {
@@ -474,7 +474,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			List<Node> argsNode = node.getChildNodes("lambda");
 			
 			// pattern: 'import' 'native' x 'into' l
-			if (argsNode.size() == 0) {
+			if (argsNode.isEmpty()) {
 				try {
 					c.getConstructor();
 				} catch (Exception e) {
@@ -670,7 +670,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 */
 	private Constructor<?> findConstructor(Class<?> clazz, List<? extends Object> arguments) throws SecurityException, NoSuchMethodException {
 		// if looking for the default constructor
-		if (arguments.size() == 0) 
+		if (arguments.isEmpty())
 			return clazz.getConstructor();
 	
 		// otherwise
@@ -816,7 +816,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		// A-1) CREATE
 		for (Entry<Location, Multiset<JasmineUpdateElement>> pair: ue.createLocations.entrySet()) {
 			// No other create
-			if (pair.getValue().size() > 1) {
+			if (!pair.getValue().isEmpty()) {
 				pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 				Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: Cannot have two import rules on the same location (" + pair.getKey() + ").");
 				return;
@@ -838,7 +838,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			
 			// if multiple STOREs are performed on the same field of the
 			// same object, they must all assign the same value.
-			if (pair.getValue().size() > 1) {
+			if (!pair.getValue().isEmpty()) {
 				Map<String, Object> fieldValues = new HashMap<String, Object>();
 				for (JasmineUpdateElement jue: pair.getValue()) {
 					String field = jue.getStoreField();
@@ -882,7 +882,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				List<?> args = (List<?>)jue.arguments.get(2);  // the '<...>' in (l, x, <...>)
 
 				// get the class object
-				Class<?> c = null;
+				Class<?> c;
 				try {
 					c = JasmineUtil.getJavaClass(className, this.loader);
 				} catch (ClassNotFoundException e) {
@@ -891,11 +891,11 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 					return;
 				}
-				Constructor<?> cons = null;
-				Object result = null;
+				Constructor<?> cons;
+				Object result;
 				
 				// if there is no argument
-				if (args.size() == 0) {
+				if (args.isEmpty()) {
 					try {
 						cons = c.getConstructor();
 					} catch (Exception e) {
@@ -955,7 +955,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				String fieldName = jue.getStoreField();
 				Object value = jue.getStoreValue();
 				
-				Field field = null;
+				Field field;
 				
 				// get the field
 				try {
@@ -985,8 +985,8 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				String methodName = (String)jue.arguments.get(2);  // the 'x'
 				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments 
 				
-				Method method = null;
-				Object result = null;
+				Method method;
+				Object result;
 				
 				// get the method
 				try {
@@ -1060,7 +1060,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			if (u.value instanceof JasmineAbstractUpdateElement)
 				set2.add((JasmineAbstractUpdateElement)u.value);
 		
-		if (set1.size() == 0 && set2.size() == 0)
+		if (set1.isEmpty() && set2.isEmpty())
 			return;
 		
 		// put both sets in a list
@@ -1286,7 +1286,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						FIELD_ACCESS_OPERATOR + 
 						"' is not a Java field.");
 			
-			String fieldName = null;
+			String fieldName;
 			// if field is an id
 			if (right.getFirst() != null)
 				fieldName = right.getFirst().getToken();
@@ -1297,7 +1297,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			if (termNode.getValue() instanceof JObjectElement) {
 				JObjectElement jobj = (JObjectElement)termNode.getValue();
 				
-				Field field = null;
+				Field field;
 				
 				// get the field
 				try {

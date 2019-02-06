@@ -347,7 +347,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			
 			if (!secondRule.isEvaluated()) {
 				// Aggregate updates of the first rule
-				Set<Update> aggregatedUpdate = null;
+				Set<Update> aggregatedUpdate;
 				try {
 					aggregatedUpdate = 
 						storage.performAggregation(firstRule.getUpdates());
@@ -386,9 +386,8 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 				} else {
 					UpdateMultiset u = childRule.getUpdates();
 					if (!u.isEmpty()) {
-						Set<Update> uSet = null;
 						try {
-							uSet = storage.performAggregation(u);
+							Set<Update> uSet = storage.performAggregation(u);
 							composedUpdates.put(pos, storage.compose(composedUpdates.get(pos), u));
 							if (storage.isConsistent(uSet)) {
 								storage.apply(uSet);
@@ -424,9 +423,8 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 							return childRule;
 						UpdateMultiset u = childRule.getUpdates();
 						if (!u.isEmpty()) {
-							Set<Update> uSet = null;
 							try {
-								uSet = storage.performAggregation(u);
+								Set<Update> uSet = storage.performAggregation(u);
 								composedUpdates.put(pos, storage.compose(composedUpdates.get(pos), u));
 								if (storage.isConsistent(uSet))
 									storage.apply(uSet);
@@ -491,9 +489,8 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 							
 							if (!exp.isEvaluated()) {
 								// Aggregate updates of the rule
-								Set<Update> aggregatedUpdate = null;
 								try {
-									aggregatedUpdate = 
+									Set<Update> aggregatedUpdate =
 										storage.performAggregation(rule.getUpdates());
 									if (storage.isConsistent(aggregatedUpdate)) {
 										pushState();

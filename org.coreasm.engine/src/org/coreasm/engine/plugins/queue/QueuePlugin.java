@@ -223,7 +223,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 						if (eNode.getValue() != null) {
 							
 							Update u1 = new Update(queueNode.getLocation(), 
-									queue.concat(new ListElement(new Element[] {eNode.getValue()})), 
+									queue.concat(new ListElement(eNode.getValue())),
 									Update.UPDATE_ACTION,
 									interpreter.getSelf(),
 									pos.getScannerInfo());

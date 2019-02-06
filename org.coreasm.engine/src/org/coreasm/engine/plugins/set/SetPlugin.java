@@ -252,7 +252,7 @@ public class SetPlugin extends Plugin
 								return pos;
 							} else 
 								// if any domain is empty, the whole result is also empty
-								if (((Enumerable)domain.getValue()).enumerate().size() == 0) { 
+								if (((Enumerable)domain.getValue()).enumerate().isEmpty()) {
 									pos.setNode(null, null, new SetElement());
 									return pos;
 								}
@@ -317,7 +317,7 @@ public class SetPlugin extends Plugin
 						Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
 						
 						// if there is more combination to be tried...
-						if (possibleBindings.size() > 0) {
+						if (!possibleBindings.isEmpty()) {
 
 							// pick the next combination
 							Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -348,7 +348,7 @@ public class SetPlugin extends Plugin
 					result.add(expression.getValue());
 					// get the remaining combinations
 					Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
-					if (possibleBindings.size() > 0) {
+					if (!possibleBindings.isEmpty()) {
 
 						// pick the first combination
 						Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -397,7 +397,7 @@ public class SetPlugin extends Plugin
 		String var = allVariables.get(index);
 		ArrayList<Element> values = new ArrayList<Element>(possibleValues.get(var));
 		
-		while (values.size() > 0) {
+		while (!values.isEmpty()) {
 			// get the first element of those values
 			Element value = values.get(0);
 			
@@ -680,10 +680,8 @@ public class SetPlugin extends Plugin
 					else if (x.equals(SETUNION_OP))
 					{
 						// add elements from both
-						for (Element m : eL.enumerate())
-							resultSet.add(m);
-						for (Element m : eR.enumerate())
-							resultSet.add(m);
+						resultSet.addAll(eL.enumerate());
+						resultSet.addAll(eR.enumerate());
 					}
 					
 					if (result == null)
@@ -1168,8 +1166,7 @@ public class SetPlugin extends Plugin
 			if (vals[1] != null && vals[1] instanceof Object[]) {
 				Object[] newVals = new Object[vals.length - 1];
 				newVals[0] = vals[0];
-				for (int i = 1; i < newVals.length; i++)
-					newVals[i] = vals[i + 1];
+				System.arraycopy(vals, 2, newVals, 1, newVals.length - 1);
 				vals = newVals;
 			}
 			Node node = new SetCompNode(((Node)vals[0]).getScannerInfo());

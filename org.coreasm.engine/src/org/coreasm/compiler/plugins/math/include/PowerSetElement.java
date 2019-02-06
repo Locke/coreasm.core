@@ -292,10 +292,8 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 					}
 					smallIndex++;
 				}
-				
-				Set<Element> result = new HashSet<Element>();
-				for (Element e: resultSet)
-					result.add(e);
+
+				Set<Element> result = new HashSet<>(resultSet);
 				return new SetElement(result);
 
 			} else

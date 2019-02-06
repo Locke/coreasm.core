@@ -292,7 +292,7 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 						final List<ASTNode> args = pnode.getArguments();
 						final List<String> params = re.getParam();
 						if (args.size() == params.size()) {
-							if (args.size()==0)
+							if (args.isEmpty())
 								pos = capi.getInterpreter().ruleCall(re, re.getParam(), null, pos);
 							else
 								pos = capi.getInterpreter().ruleCall(re, re.getParam(), args, pos);

@@ -192,8 +192,8 @@ public class BagPlugin extends Plugin
 					// set next pos to current position
 					nextPos = pos;
 					
-					List<Element> elements = null;
-					if (seNode.getAllMembers().size() == 0)
+					List<Element> elements;
+					if (seNode.getAllMembers().isEmpty())
 						elements = Collections.emptyList();
 					else {
 						elements = new ArrayList<Element>();
@@ -239,7 +239,7 @@ public class BagPlugin extends Plugin
 								return pos;
 							} else 
 								// if any domain is empty, the whole result is also empty
-								if (((Enumerable)domain.getValue()).enumerate().size() == 0) { 
+								if (((Enumerable)domain.getValue()).enumerate().isEmpty()) {
 									pos.setNode(null, null, new BagElement());
 									return pos;
 								}
@@ -304,7 +304,7 @@ public class BagPlugin extends Plugin
 						Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
 						
 						// if there is more combination to be tried...
-						if (possibleBindings.size() > 0) {
+						if (!possibleBindings.isEmpty()) {
 
 							// pick the next combination
 							Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -335,7 +335,7 @@ public class BagPlugin extends Plugin
 					result.add(expression.getValue());
 					// get the remaining combinations
 					Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
-					if (possibleBindings.size() > 0) {
+					if (!possibleBindings.isEmpty()) {
 
 						// pick the first combination
 						Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -1109,8 +1109,7 @@ public class BagPlugin extends Plugin
 			if (vals[1] != null && vals[1] instanceof Object[]) {
 				Object[] newVals = new Object[vals.length - 1];
 				newVals[0] = vals[0];
-				for (int i = 1; i < newVals.length; i++)
-					newVals[i] = vals[i + 1];
+				System.arraycopy(vals, 2, newVals, 1, newVals.length - 1);
 				vals = newVals;
 			}
 			Node node = new BagCompNode(((Node)vals[0]).getScannerInfo());

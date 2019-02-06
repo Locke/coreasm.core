@@ -43,7 +43,7 @@ public class StepCountFunctionElement extends FunctionElement {
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (args.size() > 0) 
+		if (!args.isEmpty())
 			return Element.UNDEF;
 		else
 			return NumberElement.getInstance(capi.getStepCount());

@@ -23,14 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.coreasm.engine.absstorage.BackgroundElement;
 import org.coreasm.engine.absstorage.FunctionElement;
@@ -264,7 +258,7 @@ public class Specification {
 	public SpecLine getLine(int line) {
 		SpecLine l = null;
 		
-		if (getLines() != null && getLines().size() > 0) {
+		if (getLines() != null && !getLines().isEmpty()) {
 			try {
 				l = getLines().get(line - 1);
 			} catch (IndexOutOfBoundsException e) {
@@ -391,7 +385,7 @@ public class Specification {
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
 			
 		// while not at end of file, read a line and
-		String line = null;
+		String line;
 		int c = 1;
 		while ((line = specFileReader.readLine()) != null) {
 			// add line to vector
@@ -419,7 +413,7 @@ public class Specification {
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
 			
 		// while not at end of file, read a line and
-		String line = null;
+		String line;
 		int c = 1;
 		while ((line = specFileReader.readLine()) != null) {
 			// add line to vector
@@ -440,7 +434,7 @@ public class Specification {
 	 */
 	private static InputStream getInputStream(File file) throws FileNotFoundException
 	{
-		InputStream result = null;
+		InputStream result;
 		try	{
 			result = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE);
 		} catch (FileNotFoundException e) {
@@ -500,8 +494,7 @@ public class Specification {
 				keywords = new HashSet<String>();
 				for (Plugin p: requiredPlugins) {
 					if (p instanceof ParserPlugin)
-						for (String kw: ((ParserPlugin)p).getKeywords())
-							keywords.add(kw);
+						keywords.addAll(Arrays.asList(((ParserPlugin) p).getKeywords()));
 				}
 			}
 		}
@@ -520,8 +513,7 @@ public class Specification {
 				operators = new HashSet<String>();
 				for (Plugin p: requiredPlugins) {
 					if (p instanceof ParserPlugin)
-						for (String kw: ((ParserPlugin)p).getKeywords())
-							operators.add(kw);
+						operators.addAll(Arrays.asList(((ParserPlugin) p).getKeywords()));
 				}
 			}
 		}

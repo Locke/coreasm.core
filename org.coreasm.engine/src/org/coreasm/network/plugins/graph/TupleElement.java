@@ -105,10 +105,9 @@ public abstract class TupleElement extends AbstractListElement {
 	@Override
 	public Element get(Element index) {
 		if (containsKey(index)) {
-			Element result = null;
 			int i = ((NumberElement)index).intValue();
 			// note: in CoreASM list indices start from 1
-			result = getTuple().get(i - 1);
+			Element result = getTuple().get(i - 1);
 			if (result == null) 
 				result = defaultValue;
 			return result;

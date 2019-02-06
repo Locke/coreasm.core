@@ -171,8 +171,6 @@ public class PlotterPlugin extends Plugin implements
 			/* get the function part and the window part */
 			ASTNode functionNode = ((PlotRuleNode)pos).getFunctionNode();
 			ASTNode idNode = ((PlotRuleNode)pos).getWindowId();
-			Element window = null;
-			Location l = null;
 			
 			if (!functionNode.isEvaluated()) 
 				return functionNode;
@@ -186,6 +184,7 @@ public class PlotterPlugin extends Plugin implements
 					 * either create a new window element (through its background)
 					 * or use the one that is provided.
 					 */
+					Element window;
 					if (idNode == null) {
 						window = pwBackground.getNewValue();
 					}
@@ -197,7 +196,7 @@ public class PlotterPlugin extends Plugin implements
 							return pos;
 						}
 					/* create an update of the form: 'nextPlotFunctions(window, function) := true' */
-					l = new Location(PLOT_LOCATION_NAME, ElementList.create(window, functionNode.getValue(), getStringRep(functionNode)));
+					Location l = new Location(PLOT_LOCATION_NAME, ElementList.create(window, functionNode.getValue(), getStringRep(functionNode)));
 					Update update = new Update(l, BooleanElement.TRUE, Update.UPDATE_ACTION, interpreter.getSelf(), pos.getScannerInfo());
 					pos.setNode(null, new UpdateMultiset(update), null);
 				} else

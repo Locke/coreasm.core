@@ -40,9 +40,8 @@ public class ToNumberFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (args.size() == 1) {
 			String arg = args.get(0).toString();
-			Double d = null;
 			try {
-				d = Double.valueOf(arg);
+				Double d = Double.valueOf(arg);
 				return NumberElement.getInstance(d);
 			} catch (NumberFormatException e) {
 				return Element.UNDEF;

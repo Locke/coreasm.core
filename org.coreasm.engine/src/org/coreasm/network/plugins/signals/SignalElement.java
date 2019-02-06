@@ -25,10 +25,10 @@ public class SignalElement extends Element {
 	public final Element type;
 	
 	/** source of this signal */
-	public Element src = Element.UNDEF; 
+	public Element src;
 	
 	/** target of this signal */
-	public Element target = Element.UNDEF;
+	public Element target;
 	
 	/**
 	 * Creates a new signal with a defined type. 

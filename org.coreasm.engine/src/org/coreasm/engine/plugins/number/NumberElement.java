@@ -37,7 +37,7 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 	 */
 	protected NumberElement(double number)
 	{
-		this.value = new Double(number);
+		this.value = Double.valueOf(number);
 		this.isInteger = (this.value - this.value.longValue() == 0);
 	}
 	

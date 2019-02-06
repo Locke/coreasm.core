@@ -47,10 +47,9 @@ public class ImportRuleParseMap extends ParseMap<Object[], Node> {
 			if (v[2] instanceof ArrayList) {
 				@SuppressWarnings("unchecked")
 				ArrayList<Object[]>furtherIds = (ArrayList<Object[]>)v[2];
-				for (int i = 0; i < furtherIds.size();i++) {
-					final Object[] tuple = (Object[])furtherIds.get(i);
+				for (Object[] tuple : furtherIds) {
 					if (tuple[1] instanceof ASTNode) {
-						node.addChild((ASTNode)tuple[1]); 	// ID
+						node.addChild((ASTNode) tuple[1]);    // ID
 					}
 				}
 			}

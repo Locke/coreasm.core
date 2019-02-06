@@ -462,7 +462,7 @@ public class Node implements Serializable {
 	 * node is not duplicated nor are they copied (they will be <code>null</code>). 
 	 */
 	public final Node duplicate() {
-		Node node = null;
+		Node node;
 		try {
 			Class<? extends Node> c = this.getClass();
             node = (Node)c.getConstructor(c).newInstance(this);
@@ -589,16 +589,16 @@ public class Node implements Serializable {
 	 {
 		 String spacerStr = "\t"; // spaces between levels
 		 String branchStr = "--"; // the look of a vertical branch
-		 String returnStr = ""; // string to be returned for this branch
+		 StringBuilder returnStr = new StringBuilder(); // string to be returned for this branch
 		 
 	     for (int i=0; i < level; i++)
 	     {
-	    	 returnStr += spacerStr;
+	    	 returnStr.append(spacerStr);
 	     }
 	     if (level > 0)
-	    	 returnStr += "("+Integer.toString(level)+")"+branchStr;
+	    	 returnStr.append("(").append(level).append(")").append(branchStr);
 	     
-	     return returnStr;
+	     return returnStr.toString();
 	 }
 
 	/**

@@ -47,7 +47,7 @@ public class ConstantFunction extends FunctionElement {
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (args.size() == 0)
+		if (args.isEmpty())
 			return constantValue;
 		else
 			return Element.UNDEF;

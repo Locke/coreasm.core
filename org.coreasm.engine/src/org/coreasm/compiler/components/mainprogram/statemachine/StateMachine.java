@@ -94,34 +94,30 @@ public class StateMachine {
 		ArrayList<EngineTransition> finalTransitions = new ArrayList<EngineTransition>();
 		
 		//transitions from start to end
-		HashMap<String, ArrayList<EngineTransition>> tmp = transitions.get(start);
+		HashMap<String, ArrayList<EngineTransition>> transitionsFromStartToEnd = transitions.get(start);
 		CodeFragment result = new CodeFragment();
-		if(tmp != null){
-			ArrayList<EngineTransition> t = tmp.get(end);
+		if(transitionsFromStartToEnd != null){
+			ArrayList<EngineTransition> t = transitionsFromStartToEnd.get(end);
 			if(t != null){
-				for(EngineTransition et : t){
-					finalTransitions.add(et);
-				}
-				
+				finalTransitions.addAll(t);
 			}
 		}
+
 		//general transitions
 		for(EngineTransition cf : general){
 			result.appendFragment(cf.getCode());
 		}
+
 		//transitions to end
-		ArrayList<EngineTransition> list = onEnter.get(end);
-		if(list != null){
-			for(EngineTransition et : list){
-				finalTransitions.add(et);
-			}
+		ArrayList<EngineTransition> transitionsToEnd = onEnter.get(end);
+		if(transitionsToEnd != null){
+			finalTransitions.addAll(transitionsToEnd);
 		}
+
 		//transitions from start
-		list = onLeave.get(end);
-		if(list != null){
-			for(EngineTransition et : list){
-				finalTransitions.add(et);
-			}
+		ArrayList<EngineTransition> transitionsFromStart = onLeave.get(end);
+		if(transitionsFromStart != null){
+			finalTransitions.addAll(transitionsFromStart);
 		}
 		
 		//sort by priority

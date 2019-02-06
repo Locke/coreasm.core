@@ -144,7 +144,7 @@ public class CoreASMIssue extends Error {
 	 */
 	private String printCallStack(Stack<CallStackElement> stack) {
 		String result = "";
-		if (stack.size() > 0) { 
+		if (!stack.isEmpty()) {
 			result += "    in " + stack.lastElement() + "\n";
 			for (int i = stack.size() - 2; i >= 0; i--) {
 				CallStackElement cse = stack.get(i); 

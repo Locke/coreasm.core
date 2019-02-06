@@ -284,7 +284,7 @@ public class Preprocessor {
 	public void preprocessSpecification(ASTNode specRoot) throws Exception{
 		if(root == null) root = specRoot;
 		int runCounter = 0;
-		boolean changed = false;
+		boolean changed;
 		do{
 			changed = false;
 			changed = processBottomUp(specRoot) || changed;

@@ -49,7 +49,7 @@ public class NullaryFunctionElement extends FunctionElement {
 
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (args.size() == 0)
+		if (args.isEmpty())
 			return value;
 		else
 			return Element.UNDEF;
@@ -68,7 +68,7 @@ public class NullaryFunctionElement extends FunctionElement {
 	public void setValue(List<? extends Element> args, Element value)
 			throws UnmodifiableFunctionException {
 		super.setValue(args, value);
-		if (args.size() == 0)
+		if (args.isEmpty())
 			setValue(value);
 	}
 

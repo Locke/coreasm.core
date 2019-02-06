@@ -48,8 +48,8 @@ public class FunctionEntry extends MemoryInclude {
 			if(this.fclass != null) result += "this.setFClass(" + "FunctionClass.fc" + fclass + ");\n";
 			result += "" + runtimePkg() + ".Signature sig = new " + runtimePkg() + ".Signature();\n";
 			result += "java.util.List<String> list = new java.util.ArrayList<String>();\n";
-			for(int i = 0; i < domain.size(); i++){
-				result += "list.add(\"" + domain.get(i) + "\");\n";
+			for (String s : domain) {
+				result += "list.add(\"" + s + "\");\n";
 			}
 			result += "sig.setDomain(list);\n";
 			result += "sig.setRange(\"" + range + "\");\n";

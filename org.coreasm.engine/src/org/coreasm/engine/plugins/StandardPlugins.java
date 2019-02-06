@@ -30,7 +30,7 @@ public class StandardPlugins extends Plugin implements PackagePlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 0, "beta");
 	
-	private Set<String> names = null;
+	private final Set<String> names;
 
 	public StandardPlugins() {
 		names = new HashSet<String>();

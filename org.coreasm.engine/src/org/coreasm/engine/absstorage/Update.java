@@ -14,6 +14,7 @@
  
 package org.coreasm.engine.absstorage;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -137,16 +138,10 @@ public class Update {
 	 * Creates a new set of agents (elements in general) with the given elements.
 	 */
 	private HashSet<Element> newAgentSet(Element ... agents) {
-		HashSet<Element> result = new HashSet<Element>();
-		for (Element a: agents)
-			result.add(a);
-		return result;
+		return new HashSet<>(Arrays.asList(agents));
 	}
 	
 	private HashSet<ScannerInfo> newSourceSet(ScannerInfo ... sources) {
-		HashSet<ScannerInfo> result = new HashSet<ScannerInfo>();
-		for (ScannerInfo a: sources)
-			result.add(a);
-		return result;
+		return new HashSet<>(Arrays.asList(sources));
 	}
 }

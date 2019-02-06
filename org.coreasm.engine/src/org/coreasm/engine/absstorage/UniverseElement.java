@@ -65,7 +65,7 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	 * 
 	 */
 	public void setValue(List<? extends Element> args, Element value) {
-		if (args.size() == 0 && value instanceof UniverseElement) {
+		if (args.isEmpty() && value instanceof UniverseElement) {
 			UniverseElement universe = (UniverseElement)value;
 			elements.clear();
 			elements.addAll(universe.elements);
@@ -90,9 +90,8 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
-		Location loc = null;
 		for (Element e : elements) {
-			loc = new Location(name, ElementList.create(e));
+			Location loc = new Location(name, ElementList.create(e));
 			locSet.add(loc);
 		}
 		return locSet;

@@ -251,7 +251,6 @@ public class HashStorage implements AbstractStorage {
 	}
 
 	public Element getValue(Location l) throws InvalidLocationException {
-		Element e = null;
 		FunctionElement f = this.getFunction(l.name);
 		
 		if (f != null) {
@@ -263,7 +262,7 @@ public class HashStorage implements AbstractStorage {
 			}
 		}
 
-		e = this.getValueOverStack(l);
+		Element e = this.getValueOverStack(l);
 		
 		if (f == null) {
 			if (e == null)
@@ -311,9 +310,8 @@ public class HashStorage implements AbstractStorage {
 
 		// Looking through the stack from the top...
 		// This relies on the Vector implementation of the stack
-		Map<Location,Element> um = null;
 		for (int i=updateStack.size()-1; i >= 0; i--) {
-			um = updateStack.get(i);
+			Map<Location,Element> um = updateStack.get(i);
 			// Look in all the update multisets
 			Element value = um.get(loc);
 			if (value != null)
@@ -326,9 +324,7 @@ public class HashStorage implements AbstractStorage {
 	public void aggregateUpdates() {
 		logger.debug("Aggregating updates.");
 		UpdateMultiset updateInsts = capi.getScheduler().getUpdateInstructions();
-		Collection<Update> tempUpdateSet = null;
-
-		tempUpdateSet = performAggregation(updateInsts);
+		Collection<Update> tempUpdateSet = performAggregation(updateInsts);
 		
 		Collection<Update> uSet = capi.getScheduler().getUpdateSet();
 		// clear the updateset of the scheduler 
@@ -377,11 +373,11 @@ public class HashStorage implements AbstractStorage {
 		if (!aggAPI.isConsistent()) {
 			String msg = "Inconsistent aggregated results.";
 			
-			if (aggAPI.getFailedInstructions().size() > 0) {
+			if (!aggAPI.getFailedInstructions().isEmpty()) {
 				msg = msg + "\nFailed instructions: " + Tools.getEOL()
 						+ EngineTools.getContextInfo("", aggAPI.getFailedInstructions(), capi.getParser(), capi.getSpec());
 			}
-			if (aggAPI.getUnprocessedInstructions().size() > 0) {
+			if (!aggAPI.getUnprocessedInstructions().isEmpty()) {
 				msg = msg + "\nUnprocessed instructions: " + Tools.getEOL()
 						+ EngineTools.getContextInfo("", aggAPI.getUnprocessedInstructions(), capi.getParser(), capi.getSpec());
 			}
@@ -878,8 +874,7 @@ public class HashStorage implements AbstractStorage {
 		 */
 		private Element getIdentifier(String name)
 				throws IdentifierNotFoundException {
-			Element id = null;
-			id = (Element)universeElements.getValue(name);
+			Element id = universeElements.getValue(name);
 			// Fix for consistency issues with UniverseElements in sequential rules
 			if (id != null) {
 				Element e = getStackedValue(new Location(name, ElementList.NO_ARGUMENT));
@@ -910,7 +905,6 @@ public class HashStorage implements AbstractStorage {
 		public String toString() {
 			StringWriter strWriter = new StringWriter();
 			PrintWriter writer = new PrintWriter(strWriter);
-			String tempStr = null;
 			
 //			writer.println("State #" + this.id);
 			
@@ -932,8 +926,8 @@ public class HashStorage implements AbstractStorage {
 					StringBuffer str = new StringBuffer();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
-							if (l.args.size() > 0) {
-								str.append(l.args.get(0).denotation() + ", ");
+							if (!l.args.isEmpty()) {
+								str.append(l.args.get(0).denotation()).append(", ");
 							}
 						}
 					}
@@ -953,7 +947,7 @@ public class HashStorage implements AbstractStorage {
 					writer.println("    - " + name);
 					for (Location l: f.getLocations(name)) {
 						writer.print("      " + name + "(");
-						tempStr = "";
+						String tempStr = "";
 						for (Element arg: l.args)
 							tempStr = tempStr + arg.denotation() + ", ";
 						if (tempStr.length() > 0)

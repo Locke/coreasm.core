@@ -219,9 +219,8 @@ public class CodeFragment {
 		VarManager vman = engine.getVarManager();
 		
 		StringBuilder result = new StringBuilder();
-		
-		List<String> myCodeList = new ArrayList<String>();
-		myCodeList.addAll(codeList);
+
+		List<String> myCodeList = new ArrayList<>(codeList);
 		
 		//first, replace all occurrences of global macros
 		Map<String, String> global = engine.getGlobalMakros();

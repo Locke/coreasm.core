@@ -18,7 +18,7 @@ public class JarLoader {
 	 * Loads a plugin from a Jar file.
 	 */
 	public static Plugin loadPluginClassesFromJarFile(File file) throws EngineException{
-		String className = null;
+		String className;
 		try {
 			className = getJarPluginClassName(new FileInputStream(file));
 		} catch (IOException e) {
@@ -33,7 +33,7 @@ public class JarLoader {
 	 * Loads a plugin from a Jar file.
 	 */
 	public static Plugin loadPluginClassesFromJarFile(JarFile jar, JarEntry entry) throws EngineException {
-		String className = null;
+		String className;
 		try {
 			className = getJarPluginClassName(jar.getInputStream(entry));
 		}
@@ -65,7 +65,7 @@ public class JarLoader {
 	private static String getJarPluginClassName(InputStream inputStream) throws IOException,
 			EngineException {
 		JarInputStream stream = new JarInputStream(inputStream);
-		JarEntry jEntry = null;
+		JarEntry jEntry;
 		boolean found = false;
 		do {
 			jEntry = stream.getNextJarEntry();

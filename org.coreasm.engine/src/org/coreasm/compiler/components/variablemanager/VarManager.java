@@ -42,9 +42,8 @@ public class VarManager {
 	 */
 	public void startContext(){
 		contextCount++;
-		for(Iterator<Entry<String, Stack<Integer>>> it = contexts.entrySet().iterator(); it.hasNext(); ){
-			Entry<String, Stack<Integer>> entry = it.next();
-			entry.getValue().push(variables.get(entry.getKey()));		
+		for (Entry<String, Stack<Integer>> entry : contexts.entrySet()) {
+			entry.getValue().push(variables.get(entry.getKey()));
 		}
 		
 	}
@@ -57,10 +56,9 @@ public class VarManager {
 	 */
 	public void endContext() throws EmptyContextStackException{
 		try{
-			for(Iterator<Entry<String, Stack<Integer>>> it = contexts.entrySet().iterator(); it.hasNext(); ){
-				Entry<String, Stack<Integer>> entry = it.next();
+			for (Entry<String, Stack<Integer>> entry : contexts.entrySet()) {
 				Integer c = entry.getValue().pop();
-				variables.put(entry.getKey(), c);		
+				variables.put(entry.getKey(), c);
 			}
 			contextCount--;
 		}

@@ -54,7 +54,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 		}
 		
 		public boolean hasNext() {
-			if (originalSet.size() > 0) 
+			if (!originalSet.isEmpty())
 				return true;
 			else 
 				return false;

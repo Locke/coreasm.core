@@ -178,10 +178,10 @@ public class JasmineUtil {
 				else
 				*/
 				if (d > Integer.MIN_VALUE && d < Integer.MAX_VALUE)
-					return new Integer(D.intValue());
+					return Integer.valueOf(D.intValue());
 				else
 				if (d > Long.MIN_VALUE && d < Long.MAX_VALUE)
-					return new Long(D.longValue());
+					return Long.valueOf(D.longValue());
 				else
 					return D;
 			} else {

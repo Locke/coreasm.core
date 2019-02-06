@@ -46,7 +46,7 @@ public class OutputFunctionElement extends FunctionElement {
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (args.size() == 0)
+		if (args.isEmpty())
 			return outputValues;
 		else
 			return Element.UNDEF;
@@ -57,7 +57,7 @@ public class OutputFunctionElement extends FunctionElement {
 	 * is no argument.
 	 */
 	public void setValue(List<? extends Element> args, Element value) {
-		if (args.size() == 0) {
+		if (args.isEmpty()) {
 			if (value instanceof StringElement) 
 				outputValues = (StringElement)value;
 			else

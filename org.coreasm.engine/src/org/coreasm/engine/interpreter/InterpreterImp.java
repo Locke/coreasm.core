@@ -284,7 +284,7 @@ public class InterpreterImp implements Interpreter {
 
 	public Element getEnv(String token) {
 		Stack<Element> stack = envMap.get(token);
-		if (stack == null || stack.size() == 0) 
+		if (stack == null || stack.isEmpty())
 			return null;
 		else
 			return stack.peek();
@@ -601,7 +601,7 @@ public class InterpreterImp implements Interpreter {
 				pos.getFirst().setNode(null, null, theRule);	// Make sure we can always return from the rule
 				if (args.isEmpty()) { // If the current node is of the form 'x' with no arguments
 					if (pos instanceof MacroCallRuleNode) {
-						if (theRule.getParam().size() == 0)
+						if (theRule.getParam().isEmpty())
 							pos = ruleCall(theRule, theRule.getParam(), null, pos);
 						else
 							capi.error("The number of arguments passed to '" + theRule.getName() + 
@@ -725,43 +725,32 @@ public class InterpreterImp implements Interpreter {
 			// TODO What is the diff between returning 'null' and throwing an exception?
 			
 			// for each possible implementation
-			Iterator<String> itImpPlugins = impPlugins.iterator();
-			while (itImpPlugins.hasNext())
-			{
+			for (String pluginName : impPlugins) {
 				// load plugin
-				String pluginName = itImpPlugins.next();
-				OperatorProvider opImp = (OperatorProvider)capi.getPlugin(pluginName);
-				
+				OperatorProvider opImp = (OperatorProvider) capi.getPlugin(pluginName);
+
 				// result can be a value or an interpreter exception thrown.
-				try
-				{
-					Element result = null;
-					result = opImp.interpretOperatorNode(this, pos);
-					
+				try {
+					Element result = opImp.interpretOperatorNode(this, pos);
+
 					if (result == null)
 						nullReturns.add(pluginName);
 					else
-						impResults.put(pluginName,result);
-				}
-				catch (InterpreterException error)
-				{
+						impResults.put(pluginName, result);
+				} catch (InterpreterException error) {
 					// add error to hash table
-					impErrors.put(pluginName,error);
+					impErrors.put(pluginName, error);
 				}
-				
-				
 			}
 			
 			// decide on what final result of operator evaluation is:
 			
 			// put results into a set
-			final HashSet<Element> setResultElements = new HashSet<Element>();
-			for(Element result: impResults.values())
-					setResultElements.add(result);
+			final HashSet<Element> setResultElements = new HashSet<Element>(impResults.values());
 
 			// if one of the results is undef but there are other results as well,
 			// remove the undef value
-			if ((setResultElements.size() > 1) && setResultElements.contains(Element.UNDEF)) 
+			if ((setResultElements.size() > 1) && setResultElements.contains(Element.UNDEF))
 				setResultElements.remove(Element.UNDEF);
 			
 			// one result so return it
@@ -870,11 +859,10 @@ public class InterpreterImp implements Interpreter {
 	 * Kernel's default behavior to handle undefined identifier 
 	 */
     private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
-    	Element value = null;
     	Location loc = new Location(id, list);
     	try {
     		// in case there is a value in the stack
-			value = storage.getValue(loc);
+			Element value = storage.getValue(loc);
 	        pos.setNode(loc, null, value);
 		} catch (InvalidLocationException e) {
 	        pos.setNode(loc, null, Element.UNDEF);
@@ -1214,7 +1202,7 @@ public class InterpreterImp implements Interpreter {
 			capi.error("Init rule '" + initRuleName + "' does not exists.", initNode, this);
 			return;
 		} else
-			if (initRule.getParam().size() > 0) {
+			if (!initRule.getParam().isEmpty()) {
 				logger.error("Init rule cannot have parameters.");
 				capi.error("Init rule '" + initRuleName + "' should not have parameters.", initNode, this);
 				return;

@@ -51,7 +51,7 @@ public class DirectoryLoader {
 
 			} else
 				if (Tools.find(LoadingTools.PLUGIN_ID_FILE_NAME, contents) > -1) {
-					String className = "";
+					String className;
 					try {
 						className = LoadingTools.getPluginClassName(
 								new FileInputStream(file.getAbsolutePath() + File.separator + LoadingTools.PLUGIN_ID_FILE_NAME));

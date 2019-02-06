@@ -36,7 +36,7 @@ public class BFTFunctionElement extends FunctionElement {
 	/* If valuesOnly is set to true, the BFT returns the values contained
 	 * in the nodes. If set to false, the BFT returns the node themselves.
 	 */
-	protected boolean valuesOnly;
+	protected final boolean valuesOnly;
 
 	public BFTFunctionElement(boolean valuesOnly) {
 		this.valuesOnly = valuesOnly;

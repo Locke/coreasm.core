@@ -233,10 +233,9 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 		if (index instanceof NumberElement 
 				&& isValidIndex((NumberElement)index)
 				&& ((NumberElement)index).getValue() <= this.intSize()) {
-			Element result = null;
 			int i = ((NumberElement)index).intValue();
 			// note: in CoreASM list indices start from 1
-			result = listElements.get(i - 1);
+			Element result = listElements.get(i - 1);
 			if (result == null) 
 				result = defaultValue;
 			return result;
@@ -335,10 +334,9 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 		Set<ElementList> argSet = new HashSet<ElementList>();
 		for (Element value: keySet())
 			argSet.add(ElementList.create(value));
-		Location loc = null;
 		for (ElementList l : argSet) {
 			if (!getValue(l).equals(defaultValue)) {
-				loc = new Location(name, l);
+				Location loc = new Location(name, l);
 				locSet.add(loc);
 			}
 		}

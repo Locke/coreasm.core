@@ -472,7 +472,7 @@ public class Engine implements ControlAPI {
 	@Override
 	public void run(int i) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun,
-				new Integer(i)));
+				Integer.valueOf(i)));
 	}
 
 	@Override
@@ -569,8 +569,7 @@ public class Engine implements ControlAPI {
 		pNames.addAll(pluginLoader.getRequestedPlugins());
 
 		// Adding kernel plugin names
-		for (String name: CoreASMEngine.KERNEL_PLUGINS)
-			pNames.add(name);
+		pNames.addAll(Arrays.asList(CoreASMEngine.KERNEL_PLUGINS));
 
 		for (String pName: pNames) {
 			Plugin p = pluginLoader.getPlugin(pName);//allPlugins.get(pName);
@@ -907,7 +906,7 @@ public class Engine implements ControlAPI {
 							break;
 
 						case emRunningAgents:
-							if (scheduler.getSelectedAgentSet().size() == 0)
+							if (scheduler.getSelectedAgentSet().isEmpty())
 								next(EngineMode.emAggregation);
 							else {
 								scheduler.executeAgentPrograms();
@@ -1301,7 +1300,7 @@ public class Engine implements ControlAPI {
 		if (withResults)
 			result = new HashMap<String, Object>();
 
-		if (set != null && set.size() > 0) {
+		if (set != null && !set.isEmpty()) {
 			for (ServiceProvider sp: set) {
 				Object retres = sp.call(sr);
 				if (retres != null && result != null)

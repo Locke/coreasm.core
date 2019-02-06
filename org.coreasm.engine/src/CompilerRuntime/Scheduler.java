@@ -165,7 +165,7 @@ public class Scheduler {
 			r.initRule(new java.util.ArrayList<CompilerRuntime.RuleParam>(), null);
 		}
 		
-		java.util.List<java.util.concurrent.Future<CompilerRuntime.RuleResult>> tmpUpdateList = null;
+		java.util.List<java.util.concurrent.Future<CompilerRuntime.RuleResult>> tmpUpdateList;
 				
 		try {
 			tmpUpdateList = threadPool.invokeAll(agentsList);

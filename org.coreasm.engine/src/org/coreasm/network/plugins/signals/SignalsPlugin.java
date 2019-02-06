@@ -83,7 +83,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	private Map<String, BackgroundElement> backgrounds = null;
     //private ThreadLocal<Map<Node,List<Element>>> remained;
     private Map<String, GrammarRule> parsers;
-    private Set<String> dependencies = null;
+    private final Set<String> dependencies;
 
     private ThreadLocal<Map<Node, SignalElement>> signals;
 
@@ -263,7 +263,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
             // 1. before evaluating the rule
             
             if (!onsignalNode.getDoRule().isEvaluated()) {
-            	Element inbox = null;
+            	Element inbox;
             	
             	// 1-1. get signal inbox
             	try {

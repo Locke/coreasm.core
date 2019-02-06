@@ -147,7 +147,7 @@ public class IOPlugin extends Plugin implements
 
 		//Construct BufferedReader from InputStreamReader
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		String line = null;
+		String line;
 		while ((line = br.readLine()) != null) {
 			lines.add(new StringElement(line));
 		}
@@ -304,7 +304,7 @@ public class IOPlugin extends Plugin implements
 					new UpdateMultiset(
 							new Update(
 									new Location(FILE_OUTPUT_FUNC_NAME,
-											ElementList.create(Arrays.asList(pos.getFileName().getValue()))),
+											ElementList.create(pos.getFileName().getValue())),
 									new StringElement(pos.getMessage().getValue().toString()),
 									(pos.isAppend() ? APPEND_ACTION : WRITE_ACTION),
 									interpreter.getSelf(),
@@ -541,7 +541,7 @@ public class IOPlugin extends Plugin implements
 							pluginAgg.addResultantUpdate(
 									new Update(
 											writeLoc,
-											new ListElement(Arrays.asList(new Element[] { update.value })),
+											new ListElement(Collections.singletonList(update.value)),
 											update.action,
 											update.agents,
 											update.sources),
@@ -666,7 +666,7 @@ public class IOPlugin extends Plugin implements
 					if (APPEND_ACTION.equals(update.action) || WRITE_ACTION.equals(update.action)) {
 						Element value = update.value;
 						if (!(update.value instanceof ListElement))
-							value = new ListElement(Arrays.asList(new Element[] { value }));
+							value = new ListElement(Collections.singletonList(value));
 						ListElement list = (ListElement) value;
 						elems1.addAll(list.getList());
 						contributingAgents.addAll(update.agents);
@@ -680,7 +680,7 @@ public class IOPlugin extends Plugin implements
 				if (APPEND_ACTION.equals(update.action) || WRITE_ACTION.equals(update.action)) {
 					Element value = update.value;
 					if (!(update.value instanceof ListElement))
-						value = new ListElement(Arrays.asList(new Element[] { value }));
+						value = new ListElement(Collections.singletonList(value));
 					ListElement list = (ListElement) value;
 					elems2.addAll(list.getList());
 					contributingAgents.addAll(update.agents);

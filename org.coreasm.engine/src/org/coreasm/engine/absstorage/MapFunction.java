@@ -102,10 +102,9 @@ public class MapFunction extends FunctionElement {
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
 		Set<ElementList> argSet = table.keySet();
-		Location loc = null;
 		for (ElementList l : argSet) {
 			if (!table.get(l).equals(defaultValue)) {
-				loc = new Location(name, l);
+				Location loc = new Location(name, l);
 				locSet.add(loc);
 			}
 		}

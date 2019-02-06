@@ -42,8 +42,8 @@ public class EngineTools {
 	 * @param spec a link to the specification
 	 */
 	public static String getContextInfo(String indent, Collection<Update> updates, Parser parser, Specification spec) {
-		StringBuffer result = new StringBuffer();
-		if (updates != null && updates.size() > 0) {
+		StringBuilder result = new StringBuilder();
+		if (updates != null && !updates.isEmpty()) {
 			for (Update u: updates) {
 				result.append(getContextInfo(indent, u, parser, spec));
 			}
@@ -81,13 +81,12 @@ public class EngineTools {
 	 * @throws InterpreterException if a node in the list does not have a value
 	 */
 	public static ElementList getValueList(List<ASTNode> nodes) throws InterpreterException {
-		if (nodes.size() == 0)
+		if (nodes.isEmpty())
 			return ElementList.NO_ARGUMENT;
 		
 		ArrayList<Element> vList = new ArrayList<Element>();
-		Element value = null;
 		for (ASTNode n: nodes) {
-			value = n.getValue();
+			Element value = n.getValue();
 			if (value == null) 
 				throw new InterpreterException("Expecting expression as argument.");
 			vList.add(n.getValue());

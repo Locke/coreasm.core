@@ -49,7 +49,7 @@ public class InputFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		String msg;
 		// get the message argument
-		if (args.size() == 0)
+		if (args.isEmpty())
 			msg = "";
 		else
 			msg = args.get(0).toString();

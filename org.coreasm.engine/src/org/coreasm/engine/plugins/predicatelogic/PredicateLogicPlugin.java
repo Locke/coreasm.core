@@ -388,7 +388,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
         ExistsExpNode existsExpNode = (ExistsExpNode) pos;
         
         Map<ASTNode, Iterator<? extends Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = existsExpNode.getVariableMap();
@@ -509,7 +509,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
         ForallExpNode forallExpNode = (ForallExpNode) pos;
         
         Map<ASTNode, Iterator<? extends Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap = null;
+        Map<String, ASTNode> variableMap;
         
         try {
         	variableMap = forallExpNode.getVariableMap();

@@ -27,11 +27,11 @@ public class UpdateList extends ArrayList<Update>{
 
 	@Override
 	public String toString(){
-		String s = "UpdateList\n";
-		for(int i = 0; i < this.size(); i++){
-			s = s + "(" + this.get(i).loc + ", " + this.get(i).action + ", " + this.get(i).value + ")\n";
+		StringBuilder s = new StringBuilder("UpdateList\n");
+		for (Update update : this) {
+			s.append("(").append(update.loc).append(", ").append(update.action).append(", ").append(update.value).append(")\n");
 		}
-		return s;
+		return s.toString();
 	}
 	
 	@Override

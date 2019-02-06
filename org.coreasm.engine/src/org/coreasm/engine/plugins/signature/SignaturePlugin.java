@@ -503,7 +503,7 @@ public class SignaturePlugin extends Plugin
 	            
 	            Element initValue = functionNode.getInitNode().getValue();            
 	            
-	            if (functionNode.getDomain().size() == 0) {
+	            if (functionNode.getDomain().isEmpty()) {
 	                try {
 	                    function.setValue(ElementList.NO_ARGUMENT, initValue);
 	                } catch (UnmodifiableFunctionException e) {
@@ -692,9 +692,9 @@ public class SignaturePlugin extends Plugin
     }
     
     private String getContextInfo(Update u) {
-    	StringBuffer result = new StringBuffer();
+    	StringBuilder result = new StringBuilder();
     	if (u.sources != null) {
-    		result.append(Tools.getEOL() + EngineTools.getContextInfo("", u, capi.getParser(), capi.getSpec()));
+    		result.append(Tools.getEOL()).append(EngineTools.getContextInfo("", u, capi.getParser(), capi.getSpec()));
 //    		org.coreasm.engine.parser.Parser parser = capi.getParser();
 //    		Specification spec = capi.getSpec();
 //    		result.append(Tools.getEOL() + "Check the following " + ((u.sources.size()>1)?"lines":"line") + " of the specification:" + Tools.getEOL());
@@ -912,7 +912,7 @@ public class SignaturePlugin extends Plugin
      */
     private void createFunction(ASTNode currentSignature, Interpreter interpreter) {
         FunctionNode functionNode = (FunctionNode) currentSignature;
-        MapFunction function = null;
+        MapFunction function;
         
         if (functionNode.getName().equals(AbstractStorage.PROGRAM_FUNCTION_NAME)) {
             // TODO: check signature for correct signature of program function

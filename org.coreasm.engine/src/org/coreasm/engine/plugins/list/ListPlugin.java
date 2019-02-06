@@ -333,12 +333,12 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 						if (list.intSize() > 0) {
 							UpdateMultiset updates = new UpdateMultiset();
 							ArrayList<Element> listData = new ArrayList<Element>(list.enumerate());
-							Element shifted = Element.UNDEF;
+							Element shifted;
 							
 							if (node.isLeft) {
 								shifted = listData.remove(0);
 							} else {
-								shifted = listData.remove(((ListElement)list).intSize()-1);
+								shifted = listData.remove(list.intSize()-1);
 							}
 							
 							Update u1 = new Update(loc, 
@@ -394,7 +394,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 							return pos;
 						} else 
 							// if any domain is empty, the whole result is also empty
-							if (((Enumerable)domain.getValue()).enumerate().size() == 0) { 
+							if (((Enumerable)domain.getValue()).enumerate().isEmpty()) {
 								pos.setNode(null, null, new ListElement());
 								return pos;
 							}
@@ -450,7 +450,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 					Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
 					
 					// if there is more combination to be tried...
-					if (possibleBindings.size() > 0) {
+					if (!possibleBindings.isEmpty()) {
 
 						// pick the next combination
 						Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -480,7 +480,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 				result.add(expression.getValue());
 				// get the remaining combinations
 				Collection<Map<String,Element>> possibleBindings = tobeConsidered.get(pos);
-				if (possibleBindings.size() > 0) {
+				if (!possibleBindings.isEmpty()) {
 
 					// pick the first combination
 					Map<String,Element> nextBinding = possibleBindings.iterator().next();
@@ -527,7 +527,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 		String var = allVariables.get(index);
 		ArrayList<Element> values = new ArrayList<Element>(possibleValues.get(var));
 		
-		while (values.size() > 0) {
+		while (!values.isEmpty()) {
 			// get the first element of those values
 			Element value = values.get(0);
 			

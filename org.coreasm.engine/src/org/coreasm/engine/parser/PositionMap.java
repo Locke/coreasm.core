@@ -46,9 +46,8 @@ public class PositionMap {
 	 * @param index index in the character sequence
 	 */
 	public CharacterPosition getPosition(int index) {
-		CharacterPosition pos = null;
  		try {
-			pos = dsl.locate(index);
+			CharacterPosition pos = dsl.locate(index);
 			return new CharacterPosition(pos.line, pos.column);
 		} catch (Exception e) {
 			return CharacterPosition.NO_POSITION;

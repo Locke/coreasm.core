@@ -210,7 +210,6 @@ public class HashStorage implements AbstractStorage {
 //	}
 //
 	public Element getValue(Location l) throws InvalidLocationException {
-		Element e = null;
 		FunctionElement f = this.getFunction(l.name);
 		
 		if (f != null) {
@@ -222,7 +221,7 @@ public class HashStorage implements AbstractStorage {
 			}
 		}
 
-		e = this.getValueOverStack(l);
+		Element e = this.getValueOverStack(l);
 		
 		if (f == null) {
 			if (e == null)
@@ -259,9 +258,8 @@ public class HashStorage implements AbstractStorage {
 
 			// Looking through the stack from the top...
 			// This relies on the Vector implementation of the stack
-			Map<Location,Element> um = null;
 			for (int i=updateStack.size()-1; i >= 0; i--) {
-				um = updateStack.get(i);
+				Map<Location,Element> um = updateStack.get(i);
 				// Look in all the update multisets
 				Element value = um.get(loc);
 				if (value != null)
@@ -273,9 +271,7 @@ public class HashStorage implements AbstractStorage {
 
 	public void aggregateUpdates() {	
 		UpdateList updateInsts = runtime.getScheduler().getUpdateInstructions();
-		UpdateList tempUpdateSet = null;
-
-		tempUpdateSet = performAggregation(updateInsts);
+		UpdateList tempUpdateSet = performAggregation(updateInsts);
 		
 		runtime.getScheduler().getUpdateSet().clear();
 		runtime.getScheduler().getUpdateSet().addAll(tempUpdateSet);
@@ -304,14 +300,14 @@ public class HashStorage implements AbstractStorage {
 		for (UpdateAggregator p: runtime.getAggregators()) 
 			p.aggregateUpdates(aggAPI);
 		
-		if (aggAPI.isConsistent() == false) {
+		if (!aggAPI.isConsistent()) {
 			String msg = "Inconsistent aggregated results.";
 			
-			if (aggAPI.getFailedInstructions().size() > 0) {
-				msg = msg + "\nFailed instructions: " + "\n" + aggAPI.getFailedInstructions();
+			if (!aggAPI.getFailedInstructions().isEmpty()) {
+				msg += "\nFailed instructions: " + "\n" + aggAPI.getFailedInstructions();
 			}
-			if (aggAPI.getUnprocessedInstructions().size() > 0) {
-				msg = msg + "\nUnprocessed instructions: " + "\n" + aggAPI.getUnprocessedInstructions();
+			if (!aggAPI.getUnprocessedInstructions().isEmpty()) {
+				msg += "\nUnprocessed instructions: " + "\n" + aggAPI.getUnprocessedInstructions();
 			}
 			throw new EngineError(msg);
 		}
@@ -387,9 +383,9 @@ public class HashStorage implements AbstractStorage {
 	public void popState() {
 		Stack<Map<Location, Element>> updateStack = getUpdateStack();
 
-		if (updateStack.size() > 0)
+		if (!updateStack.isEmpty())
 			updateStack.pop();
-		if (updateStack.size() == 0)
+		if (updateStack.isEmpty())
 			setStateStackedFlag(false);
 	}
 
@@ -746,8 +742,7 @@ public class HashStorage implements AbstractStorage {
 		 */
 		public Element getIdentifier(String name)
 				throws IdentifierNotFoundException {
-			Element id = null;
-			id = (Element)universeElements.getValue(name);
+			Element id = universeElements.getValue(name);
 			if (id == null) {
 				id = functionElements.getValue(name);
 				if (id == null) {
@@ -783,7 +778,6 @@ public class HashStorage implements AbstractStorage {
 		public String toString() {
 			StringWriter strWriter = new StringWriter();
 			PrintWriter writer = new PrintWriter(strWriter);
-			String tempStr = null;
 			
 //			writer.println("State #" + this.id);
 			
@@ -805,8 +799,8 @@ public class HashStorage implements AbstractStorage {
 					StringBuffer str = new StringBuffer();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
-							if (l.args.size() > 0) {
-								str.append(l.args.get(0).denotation() + ", ");
+							if (!l.args.isEmpty()) {
+								str.append(l.args.get(0).denotation()).append(", ");
 							}
 						}
 					}
@@ -826,7 +820,7 @@ public class HashStorage implements AbstractStorage {
 					writer.println("    - " + name);
 					for (Location l: f.getLocations(name)) {
 						writer.print("      " + name + "(");
-						tempStr = "";
+						String tempStr = "";
 						for (Element arg: l.args)
 							tempStr = tempStr + arg.denotation() + ", ";
 						if (tempStr.length() > 0)
