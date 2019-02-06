@@ -22,8 +22,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
+import org.jparsec.Parser;
+import org.jparsec.Parsers;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.set.CompilerSetPlugin;
 import org.coreasm.engine.EngineError;
@@ -470,7 +470,7 @@ public class SetPlugin extends Plugin
 			Parser<Node> setEnumerateParser = Parsers.array(
 					new Parser[] {
 							pTools.getOprParser("{"),
-							pTools.csplus(termParser).optional(),
+							pTools.csplus(termParser).optional(null),
 							pTools.getOprParser("}")
 							}).map(
 					new SetEnumerateParseMap());
@@ -491,7 +491,7 @@ public class SetPlugin extends Plugin
 						termParser)),
 					Parsers.array(
 						pTools.getKeywParser("with", PLUGIN_NAME),
-						guardParser).optional(),
+						guardParser).optional(null),
 					pTools.getOprParser("}")
 				}),
 				Parsers.array(new Parser[] {
@@ -507,7 +507,7 @@ public class SetPlugin extends Plugin
 						termParser)),
 					Parsers.array(
 						pTools.getKeywParser("with", PLUGIN_NAME),
-						guardParser).optional(),
+						guardParser).optional(null),
 					pTools.getOprParser("}")
 				})
 			).map(new SetComprehensionParseMap());
@@ -1146,8 +1146,9 @@ public class SetPlugin extends Plugin
 		public SetEnumerateParseMap() {
 			super(PLUGIN_NAME);
 		}
-		
-		public Node map(Object[] vals) {
+
+		@Override
+		public Node apply(Object[] vals) {
 			Node node = new SetEnumerateNode(((Node)vals[0]).getScannerInfo());
 			addChildren(node, vals);
 			return node;
@@ -1160,9 +1161,9 @@ public class SetPlugin extends Plugin
 		public SetComprehensionParseMap() {
 			super(PLUGIN_NAME);
 		}
-		
-		public Node map(Object[] vals) {
-			Node node = null;
+
+		@Override
+		public Node apply(Object[] vals) {
 			// if there is an 'is' clause
 			if (vals[1] != null && vals[1] instanceof Object[]) {
 				Object[] newVals = new Object[vals.length - 1];
@@ -1171,7 +1172,7 @@ public class SetPlugin extends Plugin
 					newVals[i] = vals[i + 1];
 				vals = newVals;
 			}
-			node = new SetCompNode(((Node)vals[0]).getScannerInfo());
+			Node node = new SetCompNode(((Node)vals[0]).getScannerInfo());
 			addChildren(node, vals);
 			return node;
 		}
