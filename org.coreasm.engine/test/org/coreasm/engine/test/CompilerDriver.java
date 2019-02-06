@@ -130,23 +130,18 @@ class StreamGobbler implements Runnable{
 		output = new StringBuilder();
 	}
 	
-	public void run(){
-		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-			String line = null;
-			
-			while(true){
-				if(quit) break;
-				line = br.readLine();
-				if(line == null) continue;
-				if(output.length() == 0)
+	public void run() {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
+
+			while (!quit) {
+				String line = br.readLine();
+				if (line == null) continue;
+				if (output.length() == 0)
 					output.append(line);
 				else
 					output.append("\n").append(line);
 			}
-			br.close();
-		}
-		catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
