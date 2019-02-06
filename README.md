@@ -25,6 +25,8 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
 - [emError-deadlock](https://github.com/Locke/coreasm.core/tree/emError-deadlock), Pull Request at [PR31](https://github.com/CoreASM/coreasm.core/pull/31)
   - resolves an assertion error
   - add blocking wait for next command in emError
+- [codestyle](https://github.com/Locke/coreasm.core/tree/codestyle)
+  - various code improvements
 - [ForkJoinPool](https://github.com/Locke/coreasm.core/tree/ForkJoinPool), Pull Request pending
   - migrate from `EDU.oswego.cs.dl.util.concurrent` to `java.util.concurrent`, as it has been deprecated and merged into Java 7, where support continues
   - Exceptions are no longer caught and stored, but use the native error handling
