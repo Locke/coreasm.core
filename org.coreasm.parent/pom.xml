@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.coreasm</groupId>
 	<artifactId>org.coreasm.parent</artifactId>
-	<version>1.7.3-locke-SNAPSHOT</version>
+	<version>1.7.3-locke-2</version>
 	<packaging>pom</packaging>
 	<name>CoreASM Parent Project</name>
 	<url>https://github.com/coreasm/coreasm.core</url>
