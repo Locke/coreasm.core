@@ -56,6 +56,12 @@ Releases
 
 Releases are tagged with the suffix `-locke-N`. Their history will not be rewritten.
 
+- [1.7.3-locke-2](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-2) at 2019-02-07 14:47:32
+  - based on upstream commit 7c119d93
+  - jParsec 3.1
+  - ForkJoinPool
+  - various changes from the branches `codestyle`, `fixes` and `locke`
+
 - [1.7.3-locke-1](https://github.com/Locke/coreasm.core/releases/tag/locke-1) at 2018-10-04 12:39:00
   - based on upstream commit 7c119d93, which already includes the `nanoTime`, `test-jar` and `avoid-yield` branches
   - jParsec 3.0
