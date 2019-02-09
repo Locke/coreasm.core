@@ -1,0 +1,39 @@
+CoreASM SteppedFold
+
+use Standard
+
+init Start
+
+function myNumbers : -> SET
+function myAdd : NUMBER * NUMBER -> NUMBER
+
+/*
+ * @minsteps 1
+ * @maxsteps 2
+ *
+ * @require "myNumbers: {1, 2}"
+ * @require "addedNumbersL: 3"
+ * @require "addedNumbersR: 3"
+ * @refuse "undef"
+ */
+rule Start =
+    if (myNumbers = undef) then {
+        myNumbers := {1, 2}
+
+        myAdd(0, 0) := 0
+
+        myAdd(1, 0) := 1
+        myAdd(0, 1) := 1
+
+        myAdd(2, 0) := 2
+        myAdd(0, 2) := 2
+
+        myAdd(2, 1) := 3
+        myAdd(1, 2) := 3
+    }
+    else {
+        print "myNumbers: " + myNumbers
+
+        print "addedNumbersL: " + foldl(myNumbers, @myAdd, 0)
+        print "addedNumbersR: " + foldr(myNumbers, @myAdd, 0)
+    }

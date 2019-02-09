@@ -1,0 +1,34 @@
+CoreASM StackedFilter
+
+use Standard
+
+init Start
+
+function myNumbers : -> SET
+function keepNumber : NUMBER -> BOOLEAN
+
+/*
+ * @minsteps 1
+ * @maxsteps 1
+ *
+ * @require "myNumbers: {1, 2}"
+ * @require "keepNumber(1): true"
+ * @require "keepNumber(2): false"
+ * @require "remainingNumbers: {1}"
+ * @refuse "{undef}"
+ */
+rule Start =
+    seq {
+        myNumbers := {1, 2}
+        keepNumber(1) := true
+        keepNumber(2) := false
+    }
+    next {
+        print "myNumbers: " + myNumbers
+
+        forall n in myNumbers do {
+            print "keepNumber(" + n + "): " + keepNumber(n)
+        }
+
+        print "remainingNumbers: " + filter(myNumbers, @keepNumber)
+    }

@@ -1,0 +1,31 @@
+CoreASM SteppedMap
+
+use Standard
+
+init Start
+
+function myNumbers : -> SET
+function numberData : NUMBER -> STRING
+
+/*
+ * @minsteps 1
+ * @maxsteps 2
+ *
+ * @require "data(1): one"
+ * @require "data(2): two"
+ * @require "data: {one, two}"
+ * @refuse "{undef}"
+ */
+rule Start =
+    if myNumbers = undef then {
+        myNumbers := {1, 2}
+        numberData(1) := "one"
+        numberData(2) := "two"
+    }
+    else {
+        forall n in myNumbers do {
+            print "data(" + n + "): " + numberData(n)
+        }
+
+        print "data: " + map(myNumbers, @numberData)
+    }
