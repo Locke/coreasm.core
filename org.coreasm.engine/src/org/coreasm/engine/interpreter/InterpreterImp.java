@@ -1189,8 +1189,11 @@ public class InterpreterImp implements Interpreter {
 	public void clearTree(ASTNode root) {
 		if (root != null) {
 			root.setNode(null, null, null);
-			for (ASTNode child = root.getFirst(); child != null; child = child.getNext())
-				clearTree(child);
+			for (NameNodeTuple namedNode : root.children) {
+				if (namedNode.node instanceof ASTNode) {
+					clearTree((ASTNode) namedNode.node);
+				}
+			}
 		}
 	}
 	
