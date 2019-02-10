@@ -12,12 +12,7 @@
 
 package org.coreasm.engine.scheduler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 
 import org.coreasm.engine.ControlAPI;
@@ -220,6 +215,8 @@ public class SchedulerImp implements Scheduler {
 	 * capi.getStorage().setChosenAgent(chosenAgent); } }
 	 */
 
+	private LinkedList<Long> runsWindow = new LinkedList<>();
+
 	public void executeAgentPrograms() throws EngineException {
 		final long startTime = System.nanoTime();
 		
@@ -275,7 +272,19 @@ public class SchedulerImp implements Scheduler {
 		}
 
 		if (shouldPrintExecutionStats) {
-			logger.info("executeAgentPrograms took " + ((System.nanoTime() - startTime) / 1e6) + "ms total");
+			final long endTime = System.nanoTime();
+
+			logger.info("executeAgentPrograms took " + ((endTime - startTime) / 1e6) + "ms total");
+
+			runsWindow.add(endTime);
+
+			final long prevEndTime = endTime - 1000 * 1000 * 1000;
+
+			while (runsWindow.peek() < prevEndTime) {
+				runsWindow.removeFirst();
+			}
+
+			logger.info("currently " + runsWindow.size() + " steps per second");
 		}
 
 		updateInstructions = updates;
