@@ -140,7 +140,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		if (logger.isDebugEnabled())
 			logger.info("Updates are: " + result.toString());
 
-		if (this.injectUpdates != null) {
+		if (this.injectUpdates != null && !capi.hasErrorOccurred()) {
 			// automatically discard the injected updates, and returns only the updates computed from this agent
 			storage.popState("ProgramEvaluatorTask");
 		}
