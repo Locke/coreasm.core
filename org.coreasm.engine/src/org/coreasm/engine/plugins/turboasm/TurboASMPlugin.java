@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.coreasm.engine.EngineTools;
+import org.coreasm.engine.Specification;
+import org.coreasm.util.Tools;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
@@ -347,9 +350,8 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			
 			if (!secondRule.isEvaluated()) {
 				// Aggregate updates of the first rule
-				Set<Update> aggregatedUpdate;
 				try {
-					aggregatedUpdate = 
+					Set<Update> aggregatedUpdate =
 						storage.performAggregation(firstRule.getUpdates());
 					if (storage.isConsistent(aggregatedUpdate)) {
 						pushState();
@@ -357,11 +359,22 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 						return secondRule; 
 					}
 				} catch (EngineError e) {
+					capi.warning(PLUGIN_NAME, e.getMessage(), secondRule, interpreter);
 				}
+
 				// inconsistent aggregation or inconsistent updateset
-				capi.warning(PLUGIN_NAME, "TurboASM Plugin: Inconsistent updates computed in sequence. Leaving the sequence", 
-						secondRule, interpreter);
-				//TODO better logging (tell where was it)
+
+				String message = "TurboASM Plugin: Inconsistent updates computed in sequence. Leaving the sequence";
+
+				if (storage.getLastInconsistentUpdate() != null) {
+					org.coreasm.engine.parser.Parser engineParser = this.capi.getParser();
+					Specification spec = this.capi.getSpec();
+					message += Tools.getEOL() + Tools.getEOL() + "Incosistent updates: " + Tools.getEOL();
+					message += EngineTools.getContextInfo("", storage.getLastInconsistentUpdate(), engineParser, spec);
+				}
+
+				capi.warning(PLUGIN_NAME, message, secondRule, interpreter);
+
 				pos.setNode(null, firstRule.getUpdates(), null);
 			} else {
 				// second rule is evaluated...
