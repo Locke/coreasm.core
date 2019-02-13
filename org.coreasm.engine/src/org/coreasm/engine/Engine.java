@@ -742,6 +742,11 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
+	public CoreASMError getError() {
+		return lastError;
+	}
+
+	@Override
 	public void waitWhileBusy() {
 		isBusyLock.lock();
 		try {
