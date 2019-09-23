@@ -54,6 +54,12 @@
 		<developer>
 			<name>Michael Stegmaier</name>
 		</developer>
+		<developer>
+			<id>locke</id>
+			<name>André Wolski</name>
+			<email>andre.wolski@stud.tu-darmstadt.de</email>
+			<url>https://athalis.de</url>
+		</developer>
 	</developers>
 
 	<contributors>
