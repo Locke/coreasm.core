@@ -1,5 +1,6 @@
 package org.coreasm.compiler.exception;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,14 +10,14 @@ import java.util.List;
  */
 public class NotCompilableException extends Exception {
 	private static final long serialVersionUID = -2956569025051079022L;
-	private List<String> plugin;
+	private List<String> plugins;
 	
 	/**
 	 * Creates a new Exception, specifying the error source
 	 * @param pluginsrc The uncompilable plugin name
 	 */
 	public NotCompilableException(List<String> pluginsrc){
-		this.plugin = pluginsrc;
+		this.plugins = pluginsrc;
 	}
 	
 	/**
@@ -24,6 +25,11 @@ public class NotCompilableException extends Exception {
 	 * @return The name of the faulty plugin
 	 */
 	public List<String> getPlugins(){
-		return plugin;
+		return plugins;
+	}
+
+	@Override
+	public String toString() {
+		return "NotCompilableException: " + Arrays.toString(plugins.toArray());
 	}
 }
