@@ -6,7 +6,7 @@ This repository is forked from https://github.com/CoreASM/coreasm.core. CoreASM 
 
 This repository contains changes to the CoreASM Engine that have been created to better support a CoreASM-based S-BPM interpreter and a semantic verification.
 
-The separate releases are necessary, as important bug fixes were only published as SNAPSHOT version (see [Issue 24](https://github.com/CoreASM/coreasm.core/issues/24)) and some Pull Requests are still pending a review.
+The separate releases are necessary, as important bug fixes were only published as SNAPSHOT version (see [Issue 24](https://github.com/CoreASM/coreasm.core/issues/24)) and important Pull Requests are still without any feedback. Until the currently open PRs are not merged I won't create additional PRs upstream.
 
 
 
