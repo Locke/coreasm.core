@@ -44,7 +44,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 			File f = null;
 			try {
 				String entryName = path.getEntryName(entry);
-				f = new File(engine.getOptions().tempDirectory.getAbsolutePath() + "\\" + path.getEntryPath(entry));
+				f = new File(engine.getOptions().tempDirectory.getAbsolutePath(), path.getEntryPath(entry));
 				//make parent directory
 				f.getParentFile().mkdirs();
 				BufferedWriter bw = new BufferedWriter(new FileWriter(f));
