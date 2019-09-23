@@ -676,11 +676,21 @@ public class CoreASMCompiler implements CompilerEngine {
 		if(fileWriter == null) fileWriter = (CompilerFileWriter) back;
 		if(filePacker == null) filePacker = (CompilerPacker) back;
 
-		//dump class library
-		List<LibraryEntry> entries = classLibrary.buildLibrary();
+		// dump initial class library
+		List<LibraryEntry> knownEntries = new ArrayList<>();
+		List<LibraryEntry> addEntries = classLibrary.buildLibrary();
+		List<File> files = new ArrayList<>();
+		while (!addEntries.isEmpty()) {
+			knownEntries.addAll(addEntries);
 
-		//dump files
-		List<File> files = fileWriter.writeEntriesToDisk(entries, this);
+			//dump files
+			List<File> additionalFiles = fileWriter.writeEntriesToDisk(addEntries, this);
+			files.addAll(additionalFiles);
+
+			List<LibraryEntry> postEntries = classLibrary.buildLibrary();
+			addEntries = new ArrayList<>(postEntries);
+			addEntries.removeAll(knownEntries);
+		}
 
 		//compile TODO: perhaps include some configurability here?
 		if(!options.noCompile){

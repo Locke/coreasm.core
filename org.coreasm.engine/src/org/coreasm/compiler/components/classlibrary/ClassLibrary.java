@@ -111,6 +111,6 @@ public class ClassLibrary {
 					((JarInclude) l).addPackageReplacement(e.getKey(), e.getValue());
 			}
 		}
-		return Collections.unmodifiableList(entries);
+		return List.copyOf(entries);
 	}
 }
