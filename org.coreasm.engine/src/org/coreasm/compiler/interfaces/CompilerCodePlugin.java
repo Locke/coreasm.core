@@ -83,7 +83,7 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 			throw new CompilerException("no handler registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
 		else if(h.size() > 1){
-			throw new CompilerException("two handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");			
+			throw new CompilerException("multiple handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
 		
 		CompilerCodeHandler current = (CompilerCodeHandler) h.get(0);

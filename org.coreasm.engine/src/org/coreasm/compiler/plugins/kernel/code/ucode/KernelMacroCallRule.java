@@ -60,7 +60,7 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 					result.appendLine("return (@RuntimePkg@.Location) evalStack.pop();\n");
 				}
 				catch(Exception e){
-					result.appendLine("throw new Exception(\"This ruleparam cannot be evaluated as a location\");\n");					
+					result.appendLine("throw new Exception(\"This ruleparam could not be evaluated as a location at compile time\");\n");
 				}
 				result.appendLine("}\n");
 				
