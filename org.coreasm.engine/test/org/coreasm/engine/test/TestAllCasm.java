@@ -17,12 +17,13 @@ import java.util.regex.Pattern;
 
 import org.coreasm.engine.Engine;
 import org.coreasm.util.Tools;
+
+import org.junit.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 public class TestAllCasm {
 
