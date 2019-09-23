@@ -3,6 +3,7 @@
 	<artifactId>org.coreasm.ui.carma</artifactId>
 	<name>CoreASM Carma</name>
 	<version>0.8.1-locke-SNAPSHOT</version>
+	<groupId>org.coreasm</groupId>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -80,7 +81,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.martiansoftware</groupId>
@@ -88,5 +89,4 @@
 			<version>2.1</version>
 		</dependency>
 	</dependencies>
-	<groupId>org.coreasm</groupId>
 </project>
