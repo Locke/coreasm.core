@@ -36,10 +36,10 @@ public class CompilerDriver {
 		engine.waitWhileBusy();
 		//Create compiler options, set the maximum step count and activate necessary output
 		CompilerOptions options = new CompilerOptions();
-		File targetDirectory = new File(Tools.getRootFolder(Engine.class), "..");
+		File targetDirectory = new File(Tools.getRootFolder(Engine.class)).getParentFile();
 		options.enginePath = new File(targetDirectory, "org.coreasm.engine-library.jar");
 		System.out.println("enginePath: " + options.enginePath);
-		options.outputFile = new File("compiledTest.jar");
+		options.outputFile = new File(targetDirectory, "compiledTest.jar");
 		options.removeExistingFiles = true;
 		options.SpecificationName = testCase.testFile;
 		options.terminateOnStepCount = testCase.maxSteps + 1;
