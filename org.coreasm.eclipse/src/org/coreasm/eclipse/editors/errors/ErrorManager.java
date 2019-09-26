@@ -7,8 +7,9 @@ import java.util.Observer;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.codehaus.jparsec.error.ParseErrorDetails;
-import org.codehaus.jparsec.error.ParserException;
+import org.jparsec.error.ParseErrorDetails;
+import org.jparsec.error.ParserException;
+
 import org.coreasm.eclipse.editors.ASMDocument;
 import org.coreasm.eclipse.editors.ASMEditor;
 import org.coreasm.eclipse.editors.ASMParser.ParsingResult;

@@ -8,8 +8,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.error.ParserException;
+import org.jparsec.Parser;
+import org.jparsec.error.ParserException;
+
 import org.coreasm.eclipse.CoreASMPlugin;
 import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
 import org.coreasm.eclipse.debug.core.model.ASMLineBreakpoint;

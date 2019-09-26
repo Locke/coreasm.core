@@ -9,10 +9,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
-import org.codehaus.jparsec.error.ParseErrorDetails;
-import org.codehaus.jparsec.error.ParserException;
+import org.jparsec.Parser;
+import org.jparsec.Parsers;
+import org.jparsec.error.ParseErrorDetails;
+import org.jparsec.error.ParserException;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.Specification;

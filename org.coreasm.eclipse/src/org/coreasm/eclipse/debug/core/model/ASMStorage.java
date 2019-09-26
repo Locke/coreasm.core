@@ -6,7 +6,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import org.codehaus.jparsec.Parser;
+import org.jparsec.Parser;
+
 import org.coreasm.eclipse.debug.ui.views.ASMUpdate;
 import org.coreasm.eclipse.engine.debugger.WatchExpressionAPI;
 import org.coreasm.engine.ControlAPI;
