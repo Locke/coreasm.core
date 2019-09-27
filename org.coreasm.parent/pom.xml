@@ -1,270 +1,452 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.coreasm</groupId>
-	<artifactId>org.coreasm.parent</artifactId>
-	<version>1.7.3-locke-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>CoreASM Parent Project</name>
-	<url>https://github.com/coreasm/coreasm.core</url>
-	<description>The CoreASM project focuses on the design of a lean executable ASM (Abstract State Machines) language, in combination with a supporting tool environment for high-level design, experimental validation and formal verification (where appropriate) of abstract system models.</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<modules>
-		<module>../org.coreasm.util</module>
-		<module>../org.coreasm.config</module>
-		<module>../org.coreasm.engine</module>
-	</modules>
+    <groupId>de.athalis.coreasm</groupId>
+    <artifactId>coreasm-parent</artifactId>
+    <version>${revision}</version>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <name>CoreASM Parent Project</name>
+    <url>https://github.com/Locke/coreasm.core</url>
+    <description>
+        This is a fork of the CoreASM project from https://github.com/coreasm/coreasm.core
 
-	<licenses>
-		<license>
-			<name>CoreASM License</name>
-			<url>http://www.coreasm.org/afl-3.0.php</url>
-			<comments> The CoreASM project is licensed under the Academic Free License version 3.0. This includes: -CoreASM Engine (also read JParsec-license.txt) -Standard plugins of the engine -Carma (command line driver of the engine) -CoreASM Eclipse Plugin A copy of this license can be found here: http://www.opensource.org/licenses/afl-3.0.php http://www.coreasm.org/afl-3.0.php</comments>
-		</license>
-	</licenses>
+        The CoreASM project focuses on the design of a lean executable ASM (Abstract State Machines) language,
+        in combination with a supporting tool environment for high-level design, experimental validation and formal
+        verification (where appropriate) of abstract system models.
+    </description>
 
-	<developers>
-		<developer>
-			<name>Roozbeh Farahbod</name>
-			<url>http://roozbeh.ca</url>
-		</developer>
-		<developer>
-			<name>Vincenzo Gervasi</name>
-			<url>http://circe.di.unipi.it/~gervasi/main/</url>
-		</developer>
-		<developer>
-			<name>Piper Jackson</name>
-		</developer>
-		<developer>
-			<name>George Ma</name>
-		</developer>
-		<developer>
-			<name>Mashaal Memon</name>
-		</developer>
-		<developer>
-			<name>Marcel Dausend</name>
-			<url>http://www.uni-ulm.de/en/in/pm/staff/dausend.html</url>
-		</developer>
-		<developer>
-			<name>Markus Müller</name>
-		</developer>
-		<developer>
-			<name>Michael Stegmaier</name>
-		</developer>
-		<developer>
-			<id>locke</id>
-			<name>André Wolski</name>
-			<email>andre.wolski@stud.tu-darmstadt.de</email>
-			<url>https://athalis.de</url>
-		</developer>
-	</developers>
+    <packaging>pom</packaging>
 
-	<contributors>
-		<contributor>
-			<name>Uwe Glässer</name>
-			<url>http://www.cs.sfu.ca/~glaesser</url>
-		</contributor>
-	</contributors>
+    <modules>
+        <module>../org.coreasm.util</module>
+        <module>../org.coreasm.config</module>
+        <module>../org.coreasm.engine</module>
+        <module>../org.coreasm.ui.carma</module>
+    </modules>
 
-	<scm>
-		<url>https://github.com/coreasm/coreasm.core</url>
-		<connection>scm:git:git://github.com/CoreASM/coreasm.core.git</connection>
-		<developerConnection>scm:git:git@github.com:CoreASM/coreasm.core.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+    <properties>
+        <revision>1.7.3-locke-SNAPSHOT</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skipTests>false</skipTests>
+    </properties>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+    <licenses>
+        <license>
+            <name>Academic Free License 3.0</name>
+            <url>https://opensource.org/licenses/afl-3.0.php</url>
+            <comments>
+                The CoreASM project is licensed under the Academic Free License version 3.0.
+                This includes:
+                -CoreASM Engine (also read JParsec-license.txt)
+                -Standard plugins of the engine
+                -Carma (command line driver of the engine)
+                -CoreASM Eclipse Plugin
+                A copy of this license can be found here: https://www.opensource.org/licenses/afl-3.0.php
+            </comments>
+        </license>
+    </licenses>
 
-<build>
-	<sourceDirectory>src</sourceDirectory>
-	<resources>
-		<resource>
-			<directory>rsc</directory>
-		</resource>
-	</resources>
-	<testSourceDirectory>test</testSourceDirectory>
-	<testResources>
-		<testResource>
-			<directory>test-rsc</directory>
-		</testResource>
-	</testResources>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.8.1</version>
-			<configuration>
-				<source>11</source>
-				<target>11</target>
-				<useIncrementalCompilation>false</useIncrementalCompilation>
-			</configuration>
-			</plugin>
+    <developers>
+        <developer>
+            <name>Roozbeh Farahbod</name>
+            <url>http://roozbeh.ca</url>
+        </developer>
+        <developer>
+            <name>Vincenzo Gervasi</name>
+            <url>http://circe.di.unipi.it/~gervasi/main/</url>
+        </developer>
+        <developer>
+            <name>Piper Jackson</name>
+        </developer>
+        <developer>
+            <name>George Ma</name>
+        </developer>
+        <developer>
+            <name>Mashaal Memon</name>
+        </developer>
+        <developer>
+            <name>Marcel Dausend</name>
+            <url>http://www.uni-ulm.de/en/in/pm/staff/dausend.html</url>
+        </developer>
+        <developer>
+            <name>Markus Müller</name>
+        </developer>
+        <developer>
+            <name>Michael Stegmaier</name>
+        </developer>
+        <developer>
+            <id>locke</id>
+            <name>André Wolski</name>
+            <email>andre.wolski@stud.tu-darmstadt.de</email>
+            <url>https://athalis.de</url>
+        </developer>
+    </developers>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<releaseProfiles>release</releaseProfiles>
-				</configuration>
-			</plugin>
+    <contributors>
+        <contributor>
+            <name>Uwe Glässer</name>
+            <url>http://www.cs.sfu.ca/~glaesser</url>
+        </contributor>
+    </contributors>
 
-		</plugins>
-</build>
+    <scm>
+        <url>https://github.com/Locke/coreasm.core</url>
+        <connection>scm:git:git://github.com/Locke/coreasm.core.git</connection>
+        <developerConnection>scm:git:git@github.com:Locke/coreasm.core.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
-<profiles>
-	<profile>
-		<id>release</id>
-		<activation>
-			<activeByDefault>false</activeByDefault>
-		</activation>
-		<!-- requires the following entries in your maven setting.xml:
-			* ossrh account with access to https://issues.sonatype.org/browse/OSSRH-11541 (CoreASM at osshr)
-			* gpg2 / pgp signing information for ossrh maven central repository (default key of the system is used)
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
-			<settings>
-				<servers>
-					<server>
-						<id>ossrh</id>
-						<username>XXXXXXXXX</username>
-						<password>XXXXXXXXX</password>
-					</server>
-				</servers>
-				<profiles>
-					<profile>
-						<id>deploy</id>
-						<properties>
-							<gpg.executable>gpg2</gpg.executable>
-							<gpg.passphrase>XXXXXXXXX</gpg.passphrase>
-						</properties>
-					</profile>
-				</profiles>
-			</settings>
-		-->
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>rsc</directory>
+            </resource>
+        </resources>
+        <testSourceDirectory>test</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>test-rsc</directory>
+            </testResource>
+        </testResources>
 
-		<build>
-			<plugins>
+        <pluginManagement>
+            <plugins>
 
-				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.6.6</version>
-					<extensions>true</extensions>
-					<configuration>
-						<serverId>ossrh</serverId>
-						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.shared</groupId>
+                            <artifactId>maven-dependency-analyzer</artifactId>
+                            <version>1.11.1</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
-					<configuration>
-						<autoVersionSubmodules>true</autoVersionSubmodules>
-						<!-- Keep changes in the local repo, push will be done afterwards -->
-						<pushChanges>false</pushChanges>
-						<localCheckout>true</localCheckout>
-						<!-- Use a better name for the tag -->
-						<tagNameFormat>v@{project.version}</tagNameFormat>
-						<goals>deploy</goals>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.maven.scm</groupId>
-								<artifactId>maven-scm-provider-gitexe</artifactId>
-								<version>1.9</version>
-							</dependency>
-						</dependencies>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M3</version>
+                    <configuration>
+                        <skipTests>${skipTests}</skipTests>
+                        <reuseForks>false</reuseForks>
+                        <forkCount>0</forkCount>
+                    </configuration>
+                </plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>3.1.0</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>11</source>
+                        <target>11</target>
+                    </configuration>
+                </plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.1.1</version>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-							<configuration>
-								<additionalparam>-Xdoclint:none</additionalparam>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
 
-				<!--
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.5</version>
-					<executions>
-						<execution>
-							<id>sign-artifacts</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>sign</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                </plugin>
 
-			</plugins>
-		</build>
-	</profile>
-</profiles>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <releaseProfiles>release</releaseProfiles>
+                    </configuration>
+                </plugin>
 
-	<dependencies>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>3.1</version>
-		</dependency>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.1.0</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.28</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-	</dependencies>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.5</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <additionalparam>-Xdoclint:none</additionalparam>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.6</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <releaseProfiles>release</releaseProfiles>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <!-- requires the following entries in your maven setting.xml:
+                * ossrh account with access to https://issues.sonatype.org/browse/OSSRH-11541 (CoreASM at osshr)
+                * gpg2 / pgp signing information for ossrh maven central repository (default key of the system is used)
+
+                <settings>
+                    <servers>
+                        <server>
+                            <id>ossrh</id>
+                            <username>XXXXXXXXX</username>
+                            <password>XXXXXXXXX</password>
+                        </server>
+                    </servers>
+                    <profiles>
+                        <profile>
+                            <id>deploy</id>
+                            <properties>
+                                <gpg.executable>gpg2</gpg.executable>
+                                <gpg.passphrase>XXXXXXXXX</gpg.passphrase>
+                            </properties>
+                        </profile>
+                    </profiles>
+                </settings>
+            -->
+
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <!-- Keep changes in the local repo, push will be done afterwards -->
+                            <pushChanges>false</pushChanges>
+                            <localCheckout>true</localCheckout>
+                            <!-- Use a better name for the tag -->
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                            <goals>deploy</goals>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.apache.maven.scm</groupId>
+                                    <artifactId>maven-scm-provider-gitexe</artifactId>
+                                    <version>1.9</version>
+                                </dependency>
+                            </dependencies>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- common dependencies -->
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.28</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+
+            <!-- engine dependencies -->
+
+            <dependency>
+                <groupId>jgraph</groupId>
+                <artifactId>jgraph</artifactId>
+                <version>5.13.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jgrapht</groupId>
+                <artifactId>jgrapht</artifactId>
+                <version>0.8.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jparsec</groupId>
+                <artifactId>jparsec</artifactId>
+                <version>3.1</version>
+            </dependency>
+
+            <!-- carma dependencies -->
+
+            <dependency>
+                <groupId>com.martiansoftware</groupId>
+                <artifactId>jsap</artifactId>
+                <version>2.1</version>
+            </dependency>
+
+            <!-- inter-module dependencies -->
+
+            <dependency>
+                <groupId>de.athalis.coreasm</groupId>
+                <artifactId>coreasm-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.athalis.coreasm</groupId>
+                <artifactId>coreasm-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 </project>

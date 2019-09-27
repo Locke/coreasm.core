@@ -1,9 +1,11 @@
+.idea
 /*/bin/
 /*/target/
 /*/report/
 tmp*
 .metadata
 .DS_Store
+.flattened-pom.xml
 **/*.class
 **/*.iml
 **/*.prefs

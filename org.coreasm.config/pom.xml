@@ -1,21 +1,42 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.coreasm.config</artifactId>
-	<name>CoreASM Configuration Component</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>org.coreasm.parent</artifactId>
-		<groupId>org.coreasm</groupId>
-		<version>1.7.3-locke-SNAPSHOT</version>
-		<relativePath>../org.coreasm.parent</relativePath>
-	</parent>
+    <artifactId>coreasm-config</artifactId>
+    <name>CoreASM Configuration Component</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.coreasm</groupId>
-			<artifactId>org.coreasm.util</artifactId>
-			<version>1.7.3-locke-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+    <parent>
+        <groupId>de.athalis.coreasm</groupId>
+        <artifactId>coreasm-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../org.coreasm.parent</relativePath>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- inter-module dependencies -->
+
+        <dependency>
+            <groupId>de.athalis.coreasm</groupId>
+            <artifactId>coreasm-util</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
