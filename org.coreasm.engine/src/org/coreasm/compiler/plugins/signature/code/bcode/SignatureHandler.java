@@ -59,7 +59,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 			elements[i - 1] = node.getAbstractChildNodes().get(i).getToken();
 		}
 
-		parent.addEntry(name, parent.new IncludeEntry(
+		parent.addEntry(name, new CompilerSignaturePlugin.IncludeEntry(
 				SignatureEntryType.UNIVERSE, new UniverseEntry(name, elements, engine)));
 		// universes.put(name, new UniverseEntry(name, elements));
 	}
@@ -71,7 +71,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 			elements[i - 1] = node.getAbstractChildNodes().get(i).getToken();
 		}
 
-		parent.addEntry(name, parent.new IncludeEntry(SignatureEntryType.ENUM,
+		parent.addEntry(name, new CompilerSignaturePlugin.IncludeEntry(SignatureEntryType.ENUM,
 				new EnumBackgroundEntry(name, elements, engine)));
 		// enums.put(name, new EnumBackgroundEntry(name, elements));
 	}
@@ -109,9 +109,9 @@ public class SignatureHandler implements CompilerCodeHandler {
 		}
 
 		// add the function element
-		parent.addEntry(name, parent.new IncludeEntry(
+		parent.addEntry(name, new CompilerSignaturePlugin.IncludeEntry(
 				SignatureEntryType.FUNCTION, new FunctionEntry(name, fclass,
-						domain, range, init, engine)));
+				domain, range, init, engine)));
 		// functions.put(name, new FunctionEntry(name, fclass, domain, range,
 		// init));
 	}
@@ -146,7 +146,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 			params[i - 1] = signature.getAbstractChildNodes().get(i).getToken();
 		}
 		
-		parent.addEntry(name, parent.new IncludeEntry(SignatureEntryType.DERIVED, new DerivedFunctionEntry(name, params, body, engine)));
+		parent.addEntry(name, new CompilerSignaturePlugin.IncludeEntry(SignatureEntryType.DERIVED, new DerivedFunctionEntry(name, params, body, engine)));
 		//derived.put(name, new DerivedFunctionEntry(name, params, body));
 	}
 }

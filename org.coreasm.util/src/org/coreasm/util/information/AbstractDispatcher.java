@@ -63,8 +63,7 @@ abstract class AbstractDispatcher {
 	 * @param iStorageAndDispatchObserver
 	 */
 	protected static void deleteSuperObserver(InformationObserver iStorageAndDispatchObserver) {
-		if (observers.containsKey(iStorageAndDispatchObserver.getClass().getCanonicalName()))
-			observers.remove(iStorageAndDispatchObserver.getClass().getCanonicalName());
+		observers.remove(iStorageAndDispatchObserver.getClass().getCanonicalName());
 	}
 
 	/**

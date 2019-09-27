@@ -163,13 +163,11 @@ public class Logger {
 	
 	private static String getCurrentTime() {
 		Calendar cal = Calendar.getInstance();
-		StringBuffer str = new StringBuffer();
-		str.append(cal.get(Calendar.YEAR) + "-");
-		str.append(cal.get(Calendar.MONTH) + "-");
-		str.append(cal.get(Calendar.DAY_OF_MONTH) + " ");
-		str.append(cal.get(Calendar.HOUR_OF_DAY) + ":");
-		str.append(cal.get(Calendar.MINUTE) + ":");
-		str.append(cal.get(Calendar.SECOND));
-		return str.toString();
+		return cal.get(Calendar.YEAR) + "-" +
+				cal.get(Calendar.MONTH) + "-" +
+				cal.get(Calendar.DAY_OF_MONTH) + " " +
+				cal.get(Calendar.HOUR_OF_DAY) + ":" +
+				cal.get(Calendar.MINUTE) + ":" +
+				cal.get(Calendar.SECOND);
 	}
 }

@@ -77,7 +77,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	 * @author Roozbeh Farahbod
 	 *
 	 */
-	protected class DefaultIterator implements Iterator<Set<Element>> {
+	protected static class DefaultIterator implements Iterator<Set<Element>> {
 		
 		private final List<Element> list;
 		private final List<Integer> iteratedIndices;

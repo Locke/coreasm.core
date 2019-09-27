@@ -52,7 +52,7 @@ public class InformationObject implements Serializable{
 	}
 
 	public InformationObject(AbstractDispatcher sender, String message, ResponseHandler responseHandler) {
-		this(sender, message, VerbosityLevel.WARNING, Collections.<String, String>emptyMap(), responseHandler);
+		this(sender, message, VerbosityLevel.WARNING, Collections.emptyMap(), responseHandler);
 	}
 
 	public String getMessage() {

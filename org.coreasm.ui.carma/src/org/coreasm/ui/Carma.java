@@ -225,7 +225,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
         if ( jsap.messagePrinted() ) System.exit( 1 );
         
         String  vLevel = config.getString(ARG_ENGINE_VERBOSITY).toUpperCase();
-        Logger root = (Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         
         if (root instanceof ch.qos.logback.classic.Logger) {
         	ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger)root;
@@ -636,7 +636,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				if (i < 1 || i == ep.length() - 1) 
 					error(engine, "Invalid property-value option: " + ep);
 				prop = ep.substring(0, i);
-				value = ep.substring(i + 1, ep.length());
+				value = ep.substring(i + 1);
 				logger.info("Setting value of engine property '{}' to '{}'.", prop, value);
 				engine.setProperty(prop, value);
 			}

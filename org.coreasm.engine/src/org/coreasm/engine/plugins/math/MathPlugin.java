@@ -158,8 +158,8 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 			descr.append(fname + ", ");
 		}
 		PluginInfo info = new PluginInfo("Roozbeh Farahbod", 
-				getVersionInfo().toString(), 
-				descr.substring(0, descr.length() - 2).toString());
+				getVersionInfo().toString(),
+				descr.substring(0, descr.length() - 2));
 		return info;
 	}
 

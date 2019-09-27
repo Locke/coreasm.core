@@ -183,7 +183,7 @@ public class FunctionNode extends ASTNode {
    
    public List<String> getInitializerParams() {
 	   if (!hasInitializer() || !(getInitNode() instanceof FunctionRuleTermNode))
-		   return Collections.<String>emptyList();
+		   return Collections.emptyList();
 	   FunctionRuleTermNode frNode = (FunctionRuleTermNode)getInitNode();
 	   List<String> params = new ArrayList<String>();
 	   for (ASTNode argNode : frNode.getArguments()) {

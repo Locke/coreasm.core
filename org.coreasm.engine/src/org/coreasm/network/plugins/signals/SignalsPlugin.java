@@ -517,7 +517,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * Inbox functions on sinals.
 	 */
-	public class SignalInboxFunctionElement extends FunctionElement {
+	public static class SignalInboxFunctionElement extends FunctionElement {
 
 		private final Signature signature = 
 			new Signature(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME, SetBackgroundElement.SET_BACKGROUND_NAME);

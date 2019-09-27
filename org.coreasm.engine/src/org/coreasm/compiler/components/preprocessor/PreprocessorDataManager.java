@@ -32,7 +32,7 @@ public class PreprocessorDataManager {
 	 * @author Markus Brenner
 	 *
 	 */
-	private class Storage{
+	private static class Storage{
 		private HashMap<String, Storage> data;
 		private Storage nullelement;
 		private int layer;

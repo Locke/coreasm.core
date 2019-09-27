@@ -52,7 +52,7 @@ public class AllFirstSchedulingPolicy extends BasicSchedulingPolicy {
 	}
 	*/
 	
-	protected class ExtendedIterator implements Iterator<Set<Element>> {
+	protected static class ExtendedIterator implements Iterator<Set<Element>> {
 
 		private final Iterator<Set<Element>> iterator;
 		private final Set<Element> set;

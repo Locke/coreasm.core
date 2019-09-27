@@ -201,7 +201,7 @@ public class GrammarProduction {
 		}
 		// else add body segment and its contributor
 		else
-			bodyContributors.put(body, new BodySegmentContributor(body, contributor));	
+			bodyContributors.put(body, new BodySegmentContributor(body, contributor));
 	}
 	
 	/**
@@ -224,7 +224,7 @@ public class GrammarProduction {
 		}
 		// else add body segment and its contributors
 		else
-			bodyContributors.put(body, new BodySegmentContributor(body, contributors));	
+			bodyContributors.put(body, new BodySegmentContributor(body, contributors));
 	}
 	
 	/**
@@ -250,7 +250,7 @@ public class GrammarProduction {
 	 *  @author  Mashaal Memon
 	 *  
 	 */
-	private class BodySegmentContributor {
+	private static class BodySegmentContributor {
 		
 		private final String body;
 		private final HashSet<String> contributors = new HashSet<String>(); // a body may potentially have multiple contributors

@@ -144,7 +144,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			for (Element k: map.keySet())
 				result.append(k.denotation() + "->" + map.get(k).denotation() + ", ");
 			
-			return result.substring(0, result.length() - 2).toString() + "}";
+			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
 
@@ -158,7 +158,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			for (Element k: map.keySet())
 				result.append(k.toString() + "->" + map.get(k) + ", ");
 			
-			return result.substring(0, result.length() - 2).toString() + "}";
+			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
 

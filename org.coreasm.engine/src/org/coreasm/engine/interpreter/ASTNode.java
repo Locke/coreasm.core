@@ -292,7 +292,7 @@ public class ASTNode extends Node implements Serializable {
 			
 			for (NameNodeTuple t : children)
 				if (t.node instanceof ASTNode)
-					result.add(new NameAbstractNodeTuple(t.name, (ASTNode)t.node));
+					result.add(new NameAbstractNodeTuple(t.name, (ASTNode) t.node));
 			return result;
 		}
 	}
@@ -354,7 +354,7 @@ public class ASTNode extends Node implements Serializable {
 	 * 
 	 * @author Roozbeh Farahbod
 	 */
-	public final class NameAbstractNodeTuple implements Cloneable {
+	public static final class NameAbstractNodeTuple implements Cloneable {
 		public final String name;
 		public final ASTNode node;
 		
@@ -420,7 +420,7 @@ public class ASTNode extends Node implements Serializable {
 			};
 		}
 		
-		private final class VariableMapIterator implements Iterator<Entry<String, ASTNode>> {
+		private static final class VariableMapIterator implements Iterator<Entry<String, ASTNode>> {
 			private ASTNode current;
 
 			VariableMapIterator(ASTNode node) {

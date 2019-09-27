@@ -321,15 +321,17 @@ public class HashStorage implements AbstractStorage {
 		UpdateList uSet = updateSet;
 		lastInconsistentUpdates = null;
 		
-		for (Update u: uSet) 
-			if (!u.action.equals(Update.UPDATE_ACTION))
+		for (Update u: uSet) {
+			if (!u.action.equals(Update.UPDATE_ACTION)) {
 				isRegularUpdateSet = false;
+				break;
+			}
+		}
+
 		if (!isRegularUpdateSet) {
-			if (uSet instanceof UpdateList) {
-				uSet = performAggregation(uSet);
-			} else
-				throw new EngineError("Consistency check expects an update multiset.");
-		}                
+			uSet = performAggregation(uSet);
+		}
+
         HashMap<Location,Update> updateMap = new HashMap<Location,Update>();
 		for (Update u: uSet) {
 			if (updateMap.containsKey(u.loc)) {
@@ -528,7 +530,7 @@ public class HashStorage implements AbstractStorage {
 		}
 		
 		public Collection<E> values() {
-			return (Collection<E>)table.values();
+			return table.values();
 		}
 
 		public Collection<String> getNames() {

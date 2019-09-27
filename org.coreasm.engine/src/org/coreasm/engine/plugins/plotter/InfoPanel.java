@@ -92,7 +92,7 @@ public class InfoPanel extends JPanel {
 	}
 	
 	public void addFunction(FunctionElement f,Color c, String name) {
-		if (!fColors.keySet().contains(f)) {
+		if (!fColors.containsKey(f)) {
 			fColors.put(f,c);
 			fNames.put(f, name);
 		}

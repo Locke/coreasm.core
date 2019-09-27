@@ -64,9 +64,14 @@ public class FlattenListFunctionElement extends FunctionElement {
 	 */
 	protected List<? extends Element> flattenList(List<? extends Element> list) {
 		boolean compound = false;
-		for (Element e: list) 
-			if (e instanceof AbstractListElement) 
+
+		for (Element e: list) {
+			if (e instanceof AbstractListElement) {
 				compound = true;
+				break;
+			}
+		}
+
 		if (compound) {
 			ArrayList<Element> result = new ArrayList<Element>();
 			for (Element e: list) 

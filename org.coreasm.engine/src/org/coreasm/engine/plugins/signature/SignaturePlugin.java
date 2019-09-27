@@ -1067,7 +1067,7 @@ public class SignaturePlugin extends Plugin
     public void handleUndefinedIndentifier(Interpreter interpreter, ASTNode pos, String id, List<? extends Element> args) {
     	getIdCheckMode();
         if (processingSignatures || idCheckingMode != CheckMode.OFF) {
-            if (functions.keySet().contains(id)) {
+            if (functions.containsKey(id)) {
                 FunctionElement f = functions.get(id);
                 Location l = new Location(id,args);
                 pos.setNode(l, null, f.getValue(l.args));

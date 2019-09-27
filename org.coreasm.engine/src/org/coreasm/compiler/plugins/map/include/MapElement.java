@@ -157,12 +157,12 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		if (intSize() == 0) 
 			return "{ -> }";
 		else {
-			StringBuffer result = new StringBuffer("{");
+			StringBuilder result = new StringBuilder("{");
 			
 			for (Element k: map.keySet())
-				result.append(k.denotation() + "->" + map.get(k).denotation() + ", ");
+				result.append(k.denotation()).append("->").append(map.get(k).denotation()).append(", ");
 			
-			return result.substring(0, result.length() - 2).toString() + "}";
+			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
 
@@ -176,7 +176,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			for (Element k: map.keySet())
 				result.append(k.toString() + "->" + map.get(k) + ", ");
 			
-			return result.substring(0, result.length() - 2).toString() + "}";
+			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
 

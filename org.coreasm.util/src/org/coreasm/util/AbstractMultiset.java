@@ -12,11 +12,8 @@
  
 package org.coreasm.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +52,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 */
 	public AbstractMultiset(E ... elements){ 
 		this();
-		for (E e: elements)
-			this.add(e);
+		Collections.addAll(this, elements);
 	}
 
 	/**
@@ -78,7 +74,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	public int multiplicity(Object element) {
 		Integer i = map.get(element);
 		if (i != null)
-			return i.intValue();
+			return i;
 		else
 			return 0;
 	}
@@ -89,7 +85,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	public int size() {
 		int i = 0;
 		for (Integer i_s: map.values())
-			i += i_s.intValue(); 
+			i += i_s;
 		return i;
 	}
 
@@ -121,7 +117,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		Object[] a = new Object[this.size()];
 		int i = 0;
 		for (E e: map.keySet()) {
-			for (int j=0; j < map.get(e).intValue(); j++) {
+			for (int j = 0; j < map.get(e); j++) {
 				a[i] = e;
 				i++;
 			}
@@ -140,7 +136,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
             		a.getClass().getComponentType(), size);
 		int i = 0;
 		for (E e: map.keySet()) {
-			for (int j=0; j < map.get(e).intValue(); j++) {
+			for (int j = 0; j < map.get(e); j++) {
 				a[i] = (T)e;
 				i++;
 			}
@@ -152,7 +148,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 * @see java.util.Collection#add(E)
 	 */
 	public boolean add(E o) {
-		map.put(o, new Integer(this.multiplicity(o) + 1));
+		map.put(o, this.multiplicity(o) + 1);
 		return true;
 	}
 
@@ -163,13 +159,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	public boolean remove(Object o) {
 		int m = this.multiplicity(o);
 		if (m == 0) {
-			// remove zero counts
-			if (map.containsKey(o))
-				map.remove(o);
+			// remove zero counts if present
+			map.remove(o);
 			return false;
 		}
 		if (m > 1) 
-			map.put((E)o, new Integer(m -1));
+			map.put((E)o, m - 1);
 		if (m == 1)
 			map.remove(o);
 		return true;
@@ -229,11 +224,11 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	public abstract Set<E> toSet();
 
 	public String toString() {
-		StringBuffer str = new StringBuffer();
+		StringBuilder str = new StringBuilder();
 		
 		str.append("{| ");
 		for (E e: this)
-			str.append(e.toString() + ", ");
+			str.append(e.toString()).append(", ");
 		if (!isEmpty()) 
 			str.replace(str.length() - 2, str.length() - 1, "");
 		str.append("|}");
@@ -258,7 +253,6 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		
 		/**
 		 * Creates a new iterator based on the given iterator
-		 * @param base
 		 */
 		public Itr() {
 			baseItr = map.entrySet().iterator();
@@ -287,7 +281,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 			if (currentElement == null || currentElementRemains == 0) {
 				Entry<E, Integer> entry = baseItr.next();
 				currentElement = entry.getKey();
-				currentElementRemains = entry.getValue().intValue() - 1;
+				currentElementRemains = entry.getValue() - 1;
 			} else 
 				// otherwise, reduce the remain count of the current element 
 				currentElementRemains--;

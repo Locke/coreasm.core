@@ -180,7 +180,7 @@ public class PlotPanel extends JPanel {
 	 * to be drawn.
 	 */
 	public void addFunction(FunctionElement f) {
-		if (!fs.keySet().contains(f)) {
+		if (!fs.containsKey(f)) {
 			fs.put(f, COLORS[colorIndex++]);
 			if (colorIndex >= COLORS.length)
 				colorIndex = 0;
@@ -192,7 +192,7 @@ public class PlotPanel extends JPanel {
 	}
 	
 	/* to keep a point */
-	private class DPoint {
+	private static class DPoint {
 		public double x, y;
 	}
 }

@@ -23,11 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,10 +71,8 @@ public class Tools {
 		if (initL >= d) 
 			return String.valueOf(v);
 		char[] zeros = new char[d - initL];
-		for (int i=0; i < zeros.length; i++)
-			zeros[i] = '0';
-		String s = new String(zeros) + String.valueOf(v);
-		return s;
+		Arrays.fill(zeros, '0');
+		return new String(zeros) + String.valueOf(v);
 	}
 	
 	/**

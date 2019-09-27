@@ -43,7 +43,7 @@ public class FunctionRuleTermNode extends ASTNode {
 	}
 
     public FunctionRuleTermNode(FunctionRuleTermNode node) {
-    	super((ASTNode)node);
+    	super(node);
    }
 
     protected void checkNodeValidity() {

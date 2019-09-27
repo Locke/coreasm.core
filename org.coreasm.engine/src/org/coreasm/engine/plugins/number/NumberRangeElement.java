@@ -159,7 +159,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
     	if (enumeration == null) {
-    		final int size = (int)Math.min((end - start) / step + 1.0, (double)Integer.MAX_VALUE);
+    		final int size = (int)Math.min((end - start) / step + 1.0, Integer.MAX_VALUE);
 	        enumeration = new AbstractList<Element>() {
 
 				@Override

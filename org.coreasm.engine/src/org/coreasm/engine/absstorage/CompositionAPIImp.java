@@ -163,7 +163,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 	 * 
 	 * @author Roozbeh Farahbod
 	 */
-	private class UpdatePluginPair {
+	private static class UpdatePluginPair {
 		public final Update update;
 		//private final Plugin plugin;
 		

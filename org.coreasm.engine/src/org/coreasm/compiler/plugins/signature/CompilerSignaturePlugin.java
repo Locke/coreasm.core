@@ -79,7 +79,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
      * @author Spellmaker
      *
      */
-    public class IncludeEntry{
+    public static class IncludeEntry{
     	SignatureEntryType type;
     	LibraryEntry entry;
     	

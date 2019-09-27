@@ -465,7 +465,7 @@ public class Node implements Serializable {
 		Node node;
 		try {
 			Class<? extends Node> c = this.getClass();
-            node = (Node)c.getConstructor(c).newInstance(this);
+            node = c.getConstructor(c).newInstance(this);
             node.id = this.id;
         } catch (Exception e) {
             throw new EngineError("Cannot duplicate node of (" + this.getClass().getName() + ").");

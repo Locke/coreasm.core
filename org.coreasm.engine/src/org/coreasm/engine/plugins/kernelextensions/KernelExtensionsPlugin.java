@@ -147,7 +147,7 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
        					@Override
 						public Node apply(Object[] vals) {
 							Node node = new ExtendedFunctionRuleTermNode(((Node)vals[0]).getScannerInfo());
-							addChild(node, (new FunctionRuleTermParseMap()).map((Node)vals[0], (Node)vals[1]));
+							addChild(node, (new FunctionRuleTermParseMap()).map(vals[0], vals[1]));
 							for (Node n: ((Node)vals[2]).getChildNodes())
 								if (n instanceof ASTNode) 
 									node.addChild("lambda", n);
