@@ -237,7 +237,7 @@ public class PluginClassLoader {
 				}
 			}
 			*/
-			o = pc.newInstance();
+			o = pc.getConstructor().newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Cannot load plugin '{}'. Skipping this plugin. Error: {}", pName, e.getMessage());
