@@ -1,3 +1,4 @@
+[![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
 
 About
 =====
