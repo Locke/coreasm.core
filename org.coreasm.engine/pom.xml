@@ -10,7 +10,6 @@
         <groupId>de.athalis.coreasm</groupId>
         <artifactId>coreasm-parent</artifactId>
         <version>${revision}</version>
-        <relativePath>../org.coreasm.parent</relativePath>
     </parent>
 
     <packaging>jar</packaging>
