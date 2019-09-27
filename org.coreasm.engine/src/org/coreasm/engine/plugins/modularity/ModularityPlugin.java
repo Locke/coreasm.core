@@ -150,7 +150,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 		return operators;
 	}
 
-	/**
+	/* (non-Javadoc)
 	 * This plugin requires "String" because of the new "include" parser.
 	 * 
 	 * @author Markus

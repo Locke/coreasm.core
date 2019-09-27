@@ -1,14 +1,14 @@
-/**
- * ModifiableCollection.java 		$Revision: 140 $
- * 
- * Copyright (c) 2007 Roozbeh Farahbod
- *
- * Last modified by $Author: rfarahbod $ on $Date: 2010-04-24 01:06:58 +0200 (Sa, 24 Apr 2010) $.
- *
- * Licensed under the Academic Free License version 3.0 
- *   http://www.opensource.org/licenses/afl-3.0.php
- *   http://www.coreasm.org/afl-3.0.php
- *
+/*
+  ModifiableCollection.java 		$Revision: 140 $
+
+  Copyright (c) 2007 Roozbeh Farahbod
+
+  Last modified by $Author: rfarahbod $ on $Date: 2010-04-24 01:06:58 +0200 (Sa, 24 Apr 2010) $.
+
+  Licensed under the Academic Free License version 3.0
+    http://www.opensource.org/licenses/afl-3.0.php
+    http://www.coreasm.org/afl-3.0.php
+
  */
 
 package org.coreasm.engine.plugins.collection;

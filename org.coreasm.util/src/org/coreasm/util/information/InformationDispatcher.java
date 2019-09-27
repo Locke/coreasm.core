@@ -11,7 +11,7 @@ public class InformationDispatcher extends AbstractDispatcher {
 	static HashMap<String, InformationDispatcher> infoDispatcher = new HashMap<String, InformationDispatcher>();
 
 	/**
-	 * @param stackTrace e.g. the plugin which will distribute some error information
+	 * @param sourceId e.g. the plugin which will distribute some error information
 	 */
 	private InformationDispatcher(String sourceId) {
 		super(sourceId);
@@ -22,7 +22,7 @@ public class InformationDispatcher extends AbstractDispatcher {
 	/**
 	 * used to send information to all observers
 	 *
-	 * @param informationSource
+	 * @param sourceId
 	 * @return informationDispatcher
 	 */
 	public static InformationDispatcher getInstance(String sourceId){

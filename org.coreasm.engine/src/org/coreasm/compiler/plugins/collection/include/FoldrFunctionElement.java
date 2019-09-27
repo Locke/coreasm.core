@@ -34,7 +34,7 @@ import org.coreasm.engine.plugins.collection.CollectionFunctionElement;
  */
 public class FoldrFunctionElement extends CollectionFunctionElement {
 
-	/** suggested names for this function */
+	/* suggested names for this function */
 	/**
 	 * Name for the fold function
 	 * Same as foldl

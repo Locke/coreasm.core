@@ -14,9 +14,9 @@
 package org.coreasm.engine.parser;
 
 /** 
- * A wrapper around {@link DefaultPositionMap}. 
+ * A wrapper around {@link DefaultSourceLocator}.
  *   
- * @see DefaultPositionMap
+ * @see DefaultSourceLocator
  * 
  * @author  Roozbeh Farahbod
  * 
@@ -26,14 +26,14 @@ public class PositionMap {
 	DefaultSourceLocator dsl;
 
 	/**
-	 * @see DefaultPositionMap#DefaultPositionMap(CharSequence, int, int)
+	 * @see DefaultSourceLocator#DefaultSourceLocator(CharSequence, int, int)
 	 */
 	public PositionMap(CharSequence src, int lno, int cno) {
 		dsl = new DefaultSourceLocator(src, lno, cno);
 	}
 
 	/**
-	 * @see DefaultPositionMap#DefaultPositionMap(CharSequence, int, int, char)
+	 * @see DefaultSourceLocator#DefaultSourceLocator(CharSequence, int, int, char)
 	 */
 	public PositionMap(CharSequence src, int lno, int cno, char line_break) {
 		dsl = new DefaultSourceLocator(src, lno, cno, line_break);

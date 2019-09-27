@@ -57,7 +57,7 @@ public interface OperatorProvider {
 	 * @return an <code>Element</code> which is the result of an 
 	 * operator behavior evaluating a node.
 	 * 
-	 * @throws an <code>Interpreter</code> Exception if the result of
+	 * @throws InterpreterException if the result of
 	 * interpreting this node is an error.
 	 */
 	public abstract Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException;

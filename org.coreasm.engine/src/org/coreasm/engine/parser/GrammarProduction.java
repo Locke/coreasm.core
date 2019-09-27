@@ -80,7 +80,7 @@ public class GrammarProduction {
 	/**
 	 * Sets the parser for this grammar production.
 	 * 
-	 * @param parser a {@link jfun.parsec.Parser}.
+	 * @param parser a {@link org.jparsec.Parser}.
 	 */
 	public void setParser(Parser<Node> parser) {
 		if (this.parser == null)

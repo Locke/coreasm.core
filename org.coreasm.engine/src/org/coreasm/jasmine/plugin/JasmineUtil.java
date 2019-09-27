@@ -47,7 +47,7 @@ public class JasmineUtil {
 	 * loader. Otherwise, the default loader is used.
 	 * 
 	 * @param x name of the class
-	 * @param capi an instance of {@link ControlAPI}; can be <code>null</code>.
+	 * @param loader an instance of {@link ClassLoader}; can be <code>null</code>.
 	 * @return the corresponding class
 	 * 
 	 * @throws ClassNotFoundException if a class with the given name cannot be loaded.
@@ -65,7 +65,7 @@ public class JasmineUtil {
 	/**
 	 * Returns <code>true</code> if a class with the given name is available and can be loaded.
 	 * 
-	 * @see #getJavaClass(String, ControlAPI)
+	 * @see #getJavaClass(String, ClassLoader)
 	 */
 	public static boolean isJavaClassName(String x, ClassLoader loader) {
 		try {

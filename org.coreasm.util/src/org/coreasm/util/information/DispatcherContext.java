@@ -11,11 +11,11 @@ class DispatcherContext {
 
 	public DispatcherContext(InformationObject info, String action) {
 
-		/** elementary data of the InformationObject */
+		/* elementary data of the InformationObject */
 		this.action = action;
 		this.info = info;
 
-		/** additional helpful data of the information object */
+		/* additional helpful data of the information object */
 		this.timestamp = new Date();
 	}
 

@@ -70,7 +70,7 @@ public class ScannerInfo implements Serializable {
 	 * Creates a scanner information object
 	 * from the given token.
 	 * 
-	 * @param data a {@link Tok} object
+	 * @param data a {@link Token} object
 	 */
 	public ScannerInfo(Token data) {
 		charPosition = data.index();

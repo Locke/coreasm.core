@@ -1,10 +1,10 @@
-/**
- * ExpressionParserFactory.java 		$Revision: 243 $
- * 
- * Copyright (c) 2007 Roozbeh Farahbod
- *
- * Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $
- *
+/*
+  ExpressionParserFactory.java 		$Revision: 243 $
+
+  Copyright (c) 2007 Roozbeh Farahbod
+
+  Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $
+
  */
 
 package org.coreasm.engine.kernel;

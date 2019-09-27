@@ -1,10 +1,10 @@
-/**
- * Copyright (C) 2012 Roozbeh Farahbod 
- * 
- * Licensed under the Academic Free License version 3.0 
- *   http://www.opensource.org/licenses/afl-3.0.php
- *   http://www.coreasm.org/afl-3.0.php
- *
+/*
+  Copyright (C) 2012 Roozbeh Farahbod
+
+  Licensed under the Academic Free License version 3.0
+    http://www.opensource.org/licenses/afl-3.0.php
+    http://www.coreasm.org/afl-3.0.php
+
  */
 package org.coreasm.engine.config;
 
@@ -93,7 +93,7 @@ public interface IConfiguration {
 
 	/**
 	 * Returns the configured value of the given property as a Long value. This
-	 * method uses the {@link Long.#parseLong(String)} to interpret the values.
+	 * method uses the {@link Long#parseLong(String)} to interpret the values.
 	 * If the value of the given property is <code>null</code> it returns the
 	 * passed default value.
 	 * 
@@ -110,7 +110,7 @@ public interface IConfiguration {
 
 	/**
 	 * Returns the configured value of the given property as an Integer value.
-	 * This method uses the {@link Integer.#parseInt(String)} to interpret the
+	 * This method uses the {@link Integer#parseInt(String)} to interpret the
 	 * values. If the value of the given property is <code>null</code> it
 	 * returns the passed default value.
 	 * 

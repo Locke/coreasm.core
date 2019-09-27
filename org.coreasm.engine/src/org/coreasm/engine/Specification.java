@@ -447,7 +447,7 @@ public class Specification {
 	/**
 	 * Close file for specification given reader to close.
 	 *
-	 * @param a <code>BufferedReader</code> for the spec file stream, which we would like to close
+	 * @param specFileReader a <code>BufferedReader</code> for the spec file stream, which we would like to close
 	 *
 	 * @throws IOException while specfile cannot be closed.
 	 */

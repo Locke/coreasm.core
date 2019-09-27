@@ -108,7 +108,7 @@ public interface ICoreASMPlugin extends VersionInfoProvider {
 	 * loading plug-ins. All plug-ins with the same priority level will
 	 * be loaded in a non-deterministic order.
 	 * 
-	 * @see #DEFAULT_LOAD_PRIORITY
+	 * @see org.coreasm.engine.plugin.Plugin#DEFAULT_LOAD_PRIORITY
 	 */
 	public double getLoadPriority();
 	
