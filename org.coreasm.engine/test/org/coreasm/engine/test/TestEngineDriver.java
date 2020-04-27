@@ -1,6 +1,8 @@
 package org.coreasm.engine.test;
 
-import java.io.PrintStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -92,24 +94,44 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		return runningInstances.contains(this);
 	}
 
-	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders) {
+	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders) throws IOException {
 		return TestEngineDriver.newLaunch(abspathname, pluginFolders, new java.util.Properties());
 	}
 
-	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders, java.util.Properties properties) {
+	public static TestEngineDriver newLaunch(String abspathname, String pluginFolders, java.util.Properties properties) throws IOException {
+		Path path = new File(abspathname).toPath();
+
+		return TestEngineDriver.newLaunch(path, pluginFolders, properties);
+	}
+
+	public static TestEngineDriver newLaunch(Path path, String pluginFolders) throws IOException {
+		return TestEngineDriver.newLaunch(path, pluginFolders, new java.util.Properties());
+	}
+
+	public static TestEngineDriver newLaunch(Path path, String pluginFolders, java.util.Properties properties) throws IOException {
+		Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(path)));
+
+		return TestEngineDriver.newLaunch(path.getFileName().toString(), reader, pluginFolders, properties);
+	}
+
+	public static TestEngineDriver newLaunch(String name, Reader src) {
+		return TestEngineDriver.newLaunch(name, src, null, new java.util.Properties());
+	}
+
+	public static TestEngineDriver newLaunch(String name, Reader src, String pluginFolders, java.util.Properties properties) {
 		TestEngineDriver td = new TestEngineDriver(pluginFolders, properties);
 		td.setDefaultConfig();
-		td.dolaunch(abspathname);
+		td.doLaunch(name, src);
 		return td;
 	}
 
-	private void dolaunch(String abspathname) {
+	private void doLaunch(String name, Reader src) {
 		if (engine.getEngineMode() == EngineMode.emError) {
 			engine.recover();
 			engine.waitWhileBusy();
 		}
 
-		engine.loadSpecification(abspathname);
+		engine.loadSpecification(name, src);
 		engine.waitWhileBusy();
 	}
 
