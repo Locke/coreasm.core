@@ -1,4 +1,4 @@
-[![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
+[![build status](https://travis-ci.org/Locke/coreasm.core.svg?branch=locke)](https://travis-ci.org/Locke/coreasm.core) [![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
 
 About
 =====
@@ -36,6 +36,11 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
   - TODO: determine number of processors to be used
 
 The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch.
+
+There are some additional major differences to upstream:
+- targets Java 11
+- the maven layout has been changed
+  - the eclipse modules are not yet supported
 
 Development of new features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
 
