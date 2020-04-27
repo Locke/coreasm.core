@@ -1,0 +1,14 @@
+language: java
+
+branches:
+  except:
+  - master
+  - upstream
+
+jdk:
+  - openjdk11
+
+cache:
+  directories:
+  - $HOME/.m2
+
