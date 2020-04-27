@@ -50,10 +50,12 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		engine = (Engine) org.coreasm.engine.CoreASMEngineFactory.createEngine(properties);
 		engine.addObserver(this);
 
-		if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
-			pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
-					+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
-		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
+		if (pluginFolders != null) {
+			if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
+				pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
+						+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
+			engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
+		}
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
 		engine.initialize();
 		engine.waitWhileBusy();
