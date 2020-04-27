@@ -1,5 +1,10 @@
 language: java
 
+branches:
+  except:
+  - master
+  - upstream
+
 jdk:
   - openjdk11
 
