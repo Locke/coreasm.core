@@ -50,10 +50,12 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		engine = (Engine) org.coreasm.engine.CoreASMEngineFactory.createEngine(properties);
 		engine.addObserver(this);
 
-		if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
-			pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
-					+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
-		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
+		if (pluginFolders != null) {
+			if (System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY) != null)
+				pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
+						+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
+			engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
+		}
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
 		engine.initialize();
 		engine.waitWhileBusy();
@@ -64,12 +66,13 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	}
 
 	public void setOutputStream(PrintStream outputStream) {
-		PluginServiceInterface pi = engine.getPluginInterface("IOPlugin");
-		if (pi != null)
-			((IOPluginPSI)pi).setOutputStream(outputStream);
-		pi = engine.getPluginInterface("DebugInfoPlugin");
-		if (pi != null)
-			((DebugInfoPSI)pi).setOutputStream(outputStream);
+		PluginServiceInterface ioPluginInterface = engine.getPluginInterface("IOPlugin");
+		if (ioPluginInterface != null)
+			((IOPluginPSI)ioPluginInterface).setOutputStream(outputStream);
+
+		PluginServiceInterface debugInfoPluginInterface = engine.getPluginInterface("DebugInfoPlugin");
+		if (debugInfoPluginInterface != null)
+			((DebugInfoPSI)debugInfoPluginInterface).setOutputStream(outputStream);
 	}
 
 	public void setDefaultConfig()
@@ -112,8 +115,6 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 
 	private void executeStepsImpl(int stepsLimit)
 	{
-		int step = 0;
-
 		boolean doShutdown = false;
 
 		Set<Update> updates, prevupdates = null;
@@ -124,6 +125,8 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 				handleError();
 				return;
 			}
+
+			int step = 0;
 
 			while (engine.getEngineMode() == EngineMode.emIdle) {
 				status = TestEngineDriverStatus.running;
@@ -220,7 +223,8 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	}
 
 	protected void handleError() {
-		String message = "";
+		String message;
+
 		if (lastError != null)
 			message = lastError.showError();
 		else
