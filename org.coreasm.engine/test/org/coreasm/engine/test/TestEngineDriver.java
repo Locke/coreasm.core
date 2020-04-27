@@ -64,12 +64,13 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 	}
 
 	public void setOutputStream(PrintStream outputStream) {
-		PluginServiceInterface pi = engine.getPluginInterface("IOPlugin");
-		if (pi != null)
-			((IOPluginPSI)pi).setOutputStream(outputStream);
-		pi = engine.getPluginInterface("DebugInfoPlugin");
-		if (pi != null)
-			((DebugInfoPSI)pi).setOutputStream(outputStream);
+		PluginServiceInterface ioPluginInterface = engine.getPluginInterface("IOPlugin");
+		if (ioPluginInterface != null)
+			((IOPluginPSI)ioPluginInterface).setOutputStream(outputStream);
+
+		PluginServiceInterface debugInfoPluginInterface = engine.getPluginInterface("DebugInfoPlugin");
+		if (debugInfoPluginInterface != null)
+			((DebugInfoPSI)debugInfoPluginInterface).setOutputStream(outputStream);
 	}
 
 	public void setDefaultConfig()
