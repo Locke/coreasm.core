@@ -1,3 +1,4 @@
+[![build status](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml/badge.svg?branch=locke)](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml) [![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
 
 About
 =====
@@ -6,7 +7,7 @@ This repository is forked from https://github.com/CoreASM/coreasm.core. CoreASM 
 
 This repository contains changes to the CoreASM Engine that have been created to better support a CoreASM-based S-BPM interpreter and a semantic verification.
 
-The separate releases are necessary, as important bug fixes were only published as SNAPSHOT version (see [Issue 24](https://github.com/CoreASM/coreasm.core/issues/24)) and some Pull Requests are still pending a review.
+The separate releases are necessary, as important bug fixes were only published as SNAPSHOT version (see [Issue 24](https://github.com/CoreASM/coreasm.core/issues/24)) and important Pull Requests are still without any feedback. Until the currently open PRs are not merged I won't create additional PRs upstream.
 
 
 
@@ -25,6 +26,8 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
 - [emError-deadlock](https://github.com/Locke/coreasm.core/tree/emError-deadlock), Pull Request at [PR31](https://github.com/CoreASM/coreasm.core/pull/31)
   - resolves an assertion error
   - add blocking wait for next command in emError
+- [codestyle](https://github.com/Locke/coreasm.core/tree/codestyle)
+  - various code improvements
 - [ForkJoinPool](https://github.com/Locke/coreasm.core/tree/ForkJoinPool), Pull Request pending
   - migrate from `EDU.oswego.cs.dl.util.concurrent` to `java.util.concurrent`, as it has been deprecated and merged into Java 7, where support continues
   - Exceptions are no longer caught and stored, but use the native error handling
@@ -32,9 +35,25 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
   - batched execution ([recursive] evaluation of multiple agents in one tasks) has been removed, as the ForkJoinPool can better distribute the work across workers
   - TODO: determine number of processors to be used
 
-The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch.
+The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch. It is also used for changes, that are not too experimental.
 
-Development of new features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
+There are some additional major differences to upstream & changes in the "locke" branch, that are not in any feature branch:
+
+- targets Java 11 (instead of Java 7)
+- the maven layout has been changed
+  - the eclipse modules are not yet supported
+- TestEngineDriver: public constructor with properties
+- robustness, performance and codestyle improvements
+
+Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
+
+Some noteworthy changes of the "dev" branch, not in any feature nor the "locke" branch:
+
+- SchedulerImp: public ForkJoinPool
+- ConcurrentProgramEvaluator: removed AgentContext, added InterpreterCache
+- ConcurrentProgramEvaluator: injectUpdates
+- TestEngineDriver: return list of updates
+
 
 Upstream Merged PRs
 -------------------
@@ -54,8 +73,7 @@ Releases
 
 Releases are tagged with the suffix `-locke-N`. Their history will not be rewritten.
 
-- [1.7.3-locke-1](https://github.com/Locke/coreasm.core/releases/tag/locke-1) at 2018-10-04 12:39:00
-  - based on upstream commit 7c119d93, which already includes the `nanoTime`, `test-jar` and `avoid-yield` branches
-  - jParsec 3.0
-  - ForkJoinPool
-  - various changes from the branches `fixes` and `locke`
+- [1.7.3-locke-4](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-4) at 2019-09-27
+- [1.7.3-locke-3](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-3) at 2019-09-23
+- [1.7.3-locke-2](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-2) at 2019-02-07
+- [1.7.3-locke-1](https://github.com/Locke/coreasm.core/releases/tag/locke-1) at 2018-10-04
