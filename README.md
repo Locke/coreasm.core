@@ -35,14 +35,25 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
   - batched execution ([recursive] evaluation of multiple agents in one tasks) has been removed, as the ForkJoinPool can better distribute the work across workers
   - TODO: determine number of processors to be used
 
-The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch.
+The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch. It is also used for changes, that are not too experimental.
 
-There are some additional major differences to upstream:
-- targets Java 11
+There are some additional major differences to upstream & changes in the "locke" branch, that are not in any feature branch:
+
+- targets Java 11 (instead of Java 7)
 - the maven layout has been changed
   - the eclipse modules are not yet supported
+- TestEngineDriver: public constructor with properties
+- robustness, performance and codestyle improvements
 
-Development of new features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
+Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
+
+Some noteworthy changes of the "dev" branch, not in any feature nor the "locke" branch:
+
+- SchedulerImp: public ForkJoinPool
+- ConcurrentProgramEvaluator: removed AgentContext, added InterpreterCache
+- ConcurrentProgramEvaluator: injectUpdates
+- TestEngineDriver: return list of updates
+
 
 Upstream Merged PRs
 -------------------
@@ -62,6 +73,7 @@ Releases
 
 Releases are tagged with the suffix `-locke-N`. Their history will not be rewritten.
 
+- [1.7.3-locke-4](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-4) at 2019-09-27
 - [1.7.3-locke-3](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-3) at 2019-09-23
 - [1.7.3-locke-2](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-2) at 2019-02-07
 - [1.7.3-locke-1](https://github.com/Locke/coreasm.core/releases/tag/locke-1) at 2018-10-04
