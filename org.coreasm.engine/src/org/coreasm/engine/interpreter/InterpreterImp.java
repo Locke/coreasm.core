@@ -100,7 +100,6 @@ public class InterpreterImp implements Interpreter {
 	 * ControlAPI module.
 	 */
 	public InterpreterImp(ControlAPI capi) {
-		((ch.qos.logback.classic.Logger)logger).setLevel(ch.qos.logback.classic.Level.ERROR);	// added this line to temporarily turn off the logger
 		this.capi = capi;
 		this.hiddenEnvMaps = new Stack<Map<String, Stack<Element>>>();
 		this.envMap = new HashMap<String, Stack<Element>>();

@@ -119,11 +119,6 @@
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>jgraph</groupId>
             <artifactId>jgraph</artifactId>
         </dependency>
