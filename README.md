@@ -73,6 +73,7 @@ Releases
 
 Releases are tagged with the suffix `-locke-N`. Their history will not be rewritten.
 
+- [1.7.3-locke-5](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-5) at 2022-01-10
 - [1.7.3-locke-4](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-4) at 2019-09-27
 - [1.7.3-locke-3](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-3) at 2019-09-23
 - [1.7.3-locke-2](https://github.com/Locke/coreasm.core/releases/tag/v1.7.3-locke-2) at 2019-02-07
