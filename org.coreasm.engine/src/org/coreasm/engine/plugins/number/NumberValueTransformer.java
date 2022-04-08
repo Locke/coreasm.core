@@ -17,7 +17,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  *
  */
 public class NumberValueTransformer implements SynthesizeRule {
-	private List<String> ops;
+	private final List<String> ops;
 
 	/**
 	 * Initializes the rule

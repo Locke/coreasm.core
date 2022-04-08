@@ -92,7 +92,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 	private List<OperatorRule> operatorRules = null;
 	private HashSet<String> depencyList = new HashSet<String>();
 
-	Parser.Reference<Node> refListTermParser = Parser.newReference();
+	final Parser.Reference<Node> refListTermParser = Parser.newReference();
 
 	private Map<String, BackgroundElement> backgrounds = null;
 	private Map<String, FunctionElement> functions = null;

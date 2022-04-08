@@ -26,7 +26,7 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberIntegerFunction extends FunctionElement {
 
-	public static String NUMBER_INTEGER_FUNCTION_NAME = "isIntegerNumber";
+	public static final String NUMBER_INTEGER_FUNCTION_NAME = "isIntegerNumber";
 
 	/**
 	 * Creates a new NumberIntegerFunction

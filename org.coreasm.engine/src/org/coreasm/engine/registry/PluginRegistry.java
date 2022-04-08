@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PluginRegistry implements IPluginRegistry {
 
-	private static Logger logger = LoggerFactory.getLogger(PluginRegistry.class);
+	private static final Logger logger = LoggerFactory.getLogger(PluginRegistry.class);
 
 	public static final String DEFAULT_PLUGINS_FOLDER_IN_CLASSPATH = "plugins";
 

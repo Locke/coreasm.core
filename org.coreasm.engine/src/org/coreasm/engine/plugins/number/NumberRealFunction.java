@@ -26,7 +26,7 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberRealFunction extends FunctionElement {
 
-	public static String NUMBER_REAL_FUNCTION_NAME = "isRealNumber";
+	public static final String NUMBER_REAL_FUNCTION_NAME = "isRealNumber";
 
 	/**
 	 * Creates a new NumberRealFunction

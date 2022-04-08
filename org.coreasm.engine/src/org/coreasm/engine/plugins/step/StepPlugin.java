@@ -55,8 +55,8 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 
 	public static final String CTL_STATE_FUNC_NAME = "stepControlState";
 
-	private String[] keywords = {"step", "then", "stepwise"};
-	private String[] operators = {};
+	private final String[] keywords = {"step", "then", "stepwise"};
+	private final String[] operators = {};
 
 	private ParserFragments parsers;
 	private HashSet<String> functionNames;

@@ -98,9 +98,9 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	public static final String LIST_FOR_TREES_OPT = "LIST_FOR_TREES";
 
 	// Values for LIST_FOR_TREES_OPT option
-	protected static String LIST_FOR_TREES_OPT_SHORT = "short";
-	protected static String LIST_FOR_TREES_OPT_LONG = "long";
-	protected static String LIST_FOR_TREES_OPT_DEFAULT = LIST_FOR_TREES_OPT_SHORT;
+	protected static final String LIST_FOR_TREES_OPT_SHORT = "short";
+	protected static final String LIST_FOR_TREES_OPT_LONG = "long";
+	protected static final String LIST_FOR_TREES_OPT_DEFAULT = LIST_FOR_TREES_OPT_SHORT;
 
 
 	// Background offered by this plugin

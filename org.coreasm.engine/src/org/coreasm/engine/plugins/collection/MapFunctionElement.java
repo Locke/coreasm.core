@@ -36,7 +36,7 @@ public class MapFunctionElement extends CollectionFunctionElement {
 	/** suggested name for this function */
 	public static final String NAME = "map";
 
-	private Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT");
+	private final Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT");
 
 	public MapFunctionElement(ControlAPI capi) {
 		super(capi);

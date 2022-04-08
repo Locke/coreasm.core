@@ -119,7 +119,7 @@ public class SetPlugin extends Plugin
 	private Map<String,BackgroundElement> backgrounds = null;
 	private Map<String, GrammarRule> parsers = null;
 
-	Parser.Reference<Node> refSetTermParser = Parser.newReference();
+	final Parser.Reference<Node> refSetTermParser = Parser.newReference();
 
 	private CompilerPlugin compilerPlugin = new CompilerSetPlugin(this);
 

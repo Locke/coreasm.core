@@ -26,7 +26,7 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberEvenFunction extends FunctionElement {
 
-	public static String NUMBER_EVEN_FUNCTION_NAME = "isEvenNumber";
+	public static final String NUMBER_EVEN_FUNCTION_NAME = "isEvenNumber";
 
 	/**
 	 * Create a new instance of NumberEvenFunction

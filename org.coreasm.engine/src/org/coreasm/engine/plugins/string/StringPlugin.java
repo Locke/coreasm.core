@@ -76,7 +76,7 @@ public class StringPlugin extends Plugin
 
 	//private final Parser<Node>[] stringTermParserArray = new Parser[1];
 	//private final Parser<Node> stringTermParser = ParserTools.lazy("StringTerm", stringTermParserArray);
-	Parser.Reference<Node> refStringTermParser = Parser.newReference();
+	final Parser.Reference<Node> refStringTermParser = Parser.newReference();
 
 	Parser<String> tokenizer_str = null;
 

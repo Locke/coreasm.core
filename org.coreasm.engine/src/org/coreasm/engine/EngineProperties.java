@@ -38,16 +38,16 @@ public class EngineProperties extends Properties {
 	public static final String PRINT_PROCESSOR_STATS_PROPERTY = "scheduler.printProcessorStats";
 
 	/** a colon-separated list of folders that include additional plugins */
-	public static String PLUGIN_FOLDERS_PROPERTY = "engine.pluginFolders";
+	public static final String PLUGIN_FOLDERS_PROPERTY = "engine.pluginFolders";
 
 	/** Delimiter string for the list of plugin folders */
-	public static String PLUGIN_FOLDERS_DELIM = ";";
+	public static final String PLUGIN_FOLDERS_DELIM = ";";
 
 	/** a comma separated list of plugins to be loaded in addition to the specification plugins */
-	public static String PLUGIN_LOAD_REQUEST_PROPERTY = "engine.pluginLoadRequest";
+	public static final String PLUGIN_LOAD_REQUEST_PROPERTY = "engine.pluginLoadRequest";
 
 	/** Delimiter string for the list of plugins in {@link #PLUGIN_LOAD_REQUEST_PROPERTY} */
-	public static String PLUGIN_LOAD_REQUEST_DELIM = ",";
+	public static final String PLUGIN_LOAD_REQUEST_DELIM = ",";
 
 	private static final long serialVersionUID = 1L;
 

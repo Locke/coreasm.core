@@ -23,7 +23,7 @@ import org.coreasm.engine.absstorage.Element;
 public class EnumerationElement extends Element {
 
 	/** name of this element */
-	private String name;
+	private final String name;
 
 	private String backgroundName = null;
 
