@@ -65,7 +65,7 @@ public class DerivedMapFunction extends MapFunction {
 	}
 
 	protected void unbindArguments(Interpreter interpreter) {
-		for (int i=0; i < params.size(); i++)
-			interpreter.removeEnv(params.get(i));
+		for (String param : params)
+			interpreter.removeEnv(param);
 	}
 }

@@ -85,8 +85,8 @@ public class Tools {
 		String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 		str.toUpperCase().getChars(0, str.length(), chars, 0);
-		for (int i=0; i < chars.length; i++) {
-			if (alphabets.indexOf(chars[i]) < 0)
+		for (char aChar : chars) {
+			if (alphabets.indexOf(aChar) < 0)
 				return false;
 		}
 		return true;

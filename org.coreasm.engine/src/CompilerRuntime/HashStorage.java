@@ -182,10 +182,9 @@ public class HashStorage implements AbstractStorage {
 
 		//System.out.println("firing update set:");
 		//TODO this should be done in a transactional fashion
-		for (Iterator<Update> it = ul.iterator(); it.hasNext(); ) {
-			Update u = it.next();
+		for (Update u : ul) {
 			//System.out.println(u.toString());
-			if(u.action.equals(Update.UPDATE_ACTION)){
+			if (u.action.equals(Update.UPDATE_ACTION)) {
 				state.setValue(u.loc, u.value);
 			}
 		}
@@ -578,9 +577,7 @@ public class HashStorage implements AbstractStorage {
 
 		public Map<String,E> getTableClone() {
 			Map<String,E> result = new HashMap<String,E>();
-			for (Entry<String,E> e: table.entrySet()) {
-				result.put(e.getKey(), e.getValue());
-			}
+			result.putAll(table);
 			return result;
 		}
 
