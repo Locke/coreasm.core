@@ -11,7 +11,7 @@ import java.util.Map;
  * <li>Description: A description of the error, as deliverd by the parser.</li>
  * <li>Line & Column: The position of the syntax error, as returned by the parser.</li>
  * </ul>
- * @author Markus Müller
+ * @author Markus MÃ¼ller
  */
 public class UndefinedError
 extends AbstractError

@@ -9,7 +9,7 @@ import org.eclipse.jface.text.rules.Token;
 
 /**
  * This class defines the rules for partitions of CoreASM specifications.
- * @author Markus Müller
+ * @author Markus MÃ¼ller
  */
 public class ASMPartitionScanner
 extends RuleBasedPartitionScanner
