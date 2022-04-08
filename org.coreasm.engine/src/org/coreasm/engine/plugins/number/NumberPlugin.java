@@ -146,6 +146,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
 		ASTNode nextPos = pos;
@@ -247,6 +248,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return nextPos;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		if (lexers == null) {
 			lexers = new HashSet<Parser<? extends Object>>();
@@ -270,10 +272,12 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/*
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return exposedParsers.get(nonterminal);
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -365,6 +369,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functionElements == null) {
 			functionElements = new HashMap<String, FunctionElement>();
@@ -406,6 +411,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		// no universe
 		return Collections.emptyMap();
@@ -414,6 +420,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		if (backgroundElements == null) {
 			backgroundElements = new HashMap<String, BackgroundElement>();
@@ -437,10 +444,12 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return backgroundElements;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -449,6 +458,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	// Operator Implementor Interface
 	// --------------------------------
 
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 
 		ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
@@ -487,6 +497,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @see org.coreasm.engine.OperatorImplementor#interpretOperatorNode(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode)
 			throws InterpreterException {
 		Element result = null;
@@ -603,14 +614,17 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		getUniverses();
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return getBackgrounds().keySet();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
@@ -623,14 +637,17 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return numberRangeBackgroundElement;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}

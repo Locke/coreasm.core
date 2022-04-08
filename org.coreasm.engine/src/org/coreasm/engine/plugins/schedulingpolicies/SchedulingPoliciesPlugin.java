@@ -118,11 +118,13 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		agentSchedulingStatusFunction.clear();
 	}
 
+	@Override
 	public SchedulingPolicy getPolicy() {
 		currentPolicy = createPolicy();
 		return currentPolicy;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -151,14 +153,17 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		throw new EngineError("Scheduling policy '" + policyName + "' not found.");
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -177,10 +182,12 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 			throw new CoreASMError("Scheduling policy '" + value + "' not found.");
 	}
 
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers  == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -274,6 +281,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos)
 			throws InterpreterException {
 
@@ -365,18 +373,22 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		return new Location(AGENT_SCHEDULING_STATUS_FUNC_NAME, new ElementList(agent));
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (funcs == null) {
 			funcs = new HashMap<String, FunctionElement>();
@@ -385,22 +397,27 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		return funcs;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target)
 			throws EngineException {
 		if (target.equals(EngineMode.emStartingStep)) {
@@ -416,10 +433,12 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		}
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();

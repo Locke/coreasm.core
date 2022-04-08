@@ -35,6 +35,7 @@ public abstract class AbstractSetElement extends AbstractBagElement {
 	 * Creates a new instance of this element loaded with the given
 	 * set of elements.
 	 */
+	@Override
 	public abstract AbstractSetElement getNewInstance(Collection<? extends Element> set);
 
 	/**
@@ -44,6 +45,7 @@ public abstract class AbstractSetElement extends AbstractBagElement {
 	 *
 	 * @throws IllegalArgumentException if the given map is not of the form Element to BooleanElement.
 	 */
+	@Override
 	public AbstractSetElement getNewInstance(Map<? extends Element, ? extends Element> map) {
 		Set<Element> set = new HashSet<Element>();
 

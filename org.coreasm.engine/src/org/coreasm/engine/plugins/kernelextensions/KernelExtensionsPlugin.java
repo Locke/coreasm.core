@@ -84,6 +84,7 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 
 	public KernelExtensionsPlugin() {
 		terms = new ThreadLocal<Map<Node,Node>>() {
+			@Override
 			protected Map<Node, Node> initialValue() {
 				return new IdentityHashMap<Node, Node>();
 			}

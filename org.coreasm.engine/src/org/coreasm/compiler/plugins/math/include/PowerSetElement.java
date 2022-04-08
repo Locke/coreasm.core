@@ -63,11 +63,13 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.Enumerable#contains(org.coreasm.engine.absstorage.Element)
 	 */
+	@Override
 	public boolean contains(Element e) {
 		// Make sure you change both contians methods
 		return containsElement(e);
 	}
 
+	@Override
 	public boolean contains(Object o) {
 		// Make sure you change both contians methods
 		return containsElement(o);
@@ -90,6 +92,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
 	 */
+	@Override
 	public Collection<Element> enumerate() {
 		return this;
 	}
@@ -119,18 +122,22 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		return elements.hashCode();
 	}
 
+	@Override
 	public boolean add(Element o) {
 		throw new UnsupportedOperationException("Cannot add an element to a powerset value.");
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends Element> c) {
 		throw new UnsupportedOperationException("Cannot add an element to a powerset value.");
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException("Cannot clear a powerset.");
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> c) {
 		for (Object obj: c)
 			if (!contains(obj))
@@ -138,26 +145,32 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		return true;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return elements.isEmpty();
 	}
 
+	@Override
 	public Iterator<Element> iterator() {
 		return new PowerSetIterator(elements);
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException("Cannot remove an element from powerset value.");
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Cannot remove an element from powerset value.");
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException("PowerSet.retainAll(...) is not supported.");
 	}
 
+	@Override
 	public int size() {
 		if (elements.size() > MAX_SIZE) {
 			System.out.println(
@@ -167,6 +180,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			return (int)Math.pow(2, elements.size());
 	}
 
+	@Override
 	public Object[] toArray() {
 		Object[] result = new Object[this.size()];
 		int i = 0;
@@ -178,6 +192,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		return result;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
@@ -207,6 +222,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			return "{}";
 	}
 
+	@Override
 	public String denotation() {
 		if (denotationalValue == null) {
 			denotationalValue = "P({";
@@ -254,6 +270,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 
 		}
 
+		@Override
 		public boolean hasNext() {
 			if (overSizeBaseSet)
 				return bigIndex.compareTo(powersetSize) < 0;
@@ -261,6 +278,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 				return smallIndex < smallPowersetSize;
 		}
 
+		@Override
 		public Element next() {
 			if (hasNext()) {
 				Collection<Element> resultSet = new ArrayList<Element>();
@@ -300,6 +318,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 				throw new NoSuchElementException("No more elements in the powerset.");
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException("Cannot remove elements from powerset iterators.");
 		}
@@ -315,10 +334,12 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			this.value = value;
 		}
 
+		@Override
 		public boolean contains(Element e) {
 			return value.contains(e);
 		}
 
+		@Override
 		public Collection<Element> enumerate() {
 			return Collections.unmodifiableCollection(value);
 		}
@@ -334,10 +355,12 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Powerset is not an indexed collection.");
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return false;
 	}

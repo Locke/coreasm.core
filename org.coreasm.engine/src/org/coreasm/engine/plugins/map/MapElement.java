@@ -99,6 +99,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		return keySet;
 	}
 
+	@Override
 	public int size() {
 		return map.size();
 	}
@@ -118,12 +119,14 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		return valueCollection;
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		if (enumeration == null)
 			enumerate();
 		return enumeration.contains(e);
 	}
 
+	@Override
 	public Collection<Element> enumerate() {
 		if (enumeration == null) {
 			enumeration = new HashSet<Element>();
@@ -204,12 +207,14 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		return Collections.unmodifiableMap(map);
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (enumListCache == null)
 			enumListCache = Collections.unmodifiableList(new ArrayList<Element>(enumerate()));
 		return enumListCache;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}

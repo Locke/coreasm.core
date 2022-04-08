@@ -79,6 +79,7 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 							paramkeyw,
 							pTools.getIdParser()
 					}).map(new ArrayParseMap(PLUGIN_NAME){
+						@Override
 						public Node apply(Object[] vals){
 							Node node = new ASTNode(PLUGIN_NAME, ASTNode.RULE_CLASS, "PARAM", null, ((Node)vals[0]).getScannerInfo());
 							addChildren(node, vals);

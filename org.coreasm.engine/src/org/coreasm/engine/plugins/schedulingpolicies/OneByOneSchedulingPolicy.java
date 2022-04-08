@@ -47,18 +47,22 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 		super(suspendedAgents);
 	}
 
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(Set<? extends Element> set) {
 		return new ExtendedIterator(filteredSet(set), null);
 	}
 
+	@Override
 	public void clearGroup(Object groupHandle) {
 		groupMemory.remove(groupHandle);
 	}
 
+	@Override
 	public Object getNewGroup() {
 		return handle++;
 	}
 
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(Object groupHandle, Set<? extends Element> set) {
 		Set<Object> memory = groupMemory.get(groupHandle);
 		if (memory == null) {
@@ -90,6 +94,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 				memory = null;
 		}
 
+		@Override
 		public boolean hasNext() {
 			if (!chosenOnce && !workingSet.isEmpty())
 				return true;
@@ -97,6 +102,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 				return false;
 		}
 
+		@Override
 		public Set<Element> next() {
 			if (!hasNext())
 				throw new NoSuchElementException("There is no possible combination left.");
@@ -119,6 +125,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 			workingSet.addAll(originalSet);
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

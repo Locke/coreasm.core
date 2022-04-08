@@ -106,10 +106,12 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 		return iterators.get();
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -129,6 +131,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.OperatorProvider#getOperatorRules()
 	 */
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 
 		if (opRules == null) {
@@ -181,6 +184,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.OperatorProvider#interpretOperatorNode(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		Element result = null;
 		String x = opNode.getToken();
@@ -286,6 +290,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 	// ParserPlugin Interface
 	//--------------------------------
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -293,10 +298,12 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+   @Override
    public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -369,6 +376,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.InterpreterPlugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 		if (pos instanceof ExistsExpNode) {
 			return interpretExists(interpreter, pos);
@@ -621,6 +629,7 @@ public class PredicateLogicPlugin extends Plugin implements OperatorProvider, Pa
 		return pos;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

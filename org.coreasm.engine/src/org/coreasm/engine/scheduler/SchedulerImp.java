@@ -85,6 +85,7 @@ public class SchedulerImp implements Scheduler {
 		forkJoinPool = new ForkJoinPool(getNumberOfProcessorsToBeUsed(engine));
 	}
 
+	@Override
 	public void prepareInitialState() throws InvalidSpecificationException {
 		Interpreter interpreter = capi.getInterpreter();
 
@@ -102,23 +103,28 @@ public class SchedulerImp implements Scheduler {
 		logger.debug("Done preparing the initial state.");
 	}
 
+	@Override
 	@Deprecated
 	public void executeInitialization() throws InvalidSpecificationException {
 		prepareInitialState();
 	}
 
+	@Override
 	public Set<Update> getUpdateSet() {
 		return updateSet;
 	}
 
+	@Override
 	public UpdateMultiset getUpdateInstructions() {
 		return updateInstructions;
 	}
 
+	@Override
 	public synchronized Set<Element> getAgentSet() {
 		return new HashSet<Element>(agentSet);
 	}
 
+	@Override
 	public Set<Element> getSelectedAgentSet() {
 		return selectedAgentSet;
 	}
@@ -127,6 +133,7 @@ public class SchedulerImp implements Scheduler {
 	 * public Element getChosenAgent() { return chosenAgent; }
 	 */
 
+	@Override
 	public synchronized void startStep() {
 		updateInstructions = new UpdateMultiset();
 		// changed by Roozbeh
@@ -136,6 +143,7 @@ public class SchedulerImp implements Scheduler {
 		selectedAgentSet.clear();
 	}
 
+	@Override
 	public synchronized void retrieveAgents() {
 		// debugged by Roozbeh Farahbod, 17-Jan-2006
 		AbstractStorage storage = capi.getStorage();
@@ -180,6 +188,7 @@ public class SchedulerImp implements Scheduler {
 		schedule = schedulingPolicy.getNewSchedule(schedulingPolicy, agentSet);
 	}
 
+	@Override
 	public boolean selectAgents() {
 		if (agentsCombinationExists()) {
 			selectedAgentSet = schedule.next();
@@ -217,6 +226,7 @@ public class SchedulerImp implements Scheduler {
 
 	private LinkedList<Long> runsWindow = new LinkedList<>();
 
+	@Override
 	public void executeAgentPrograms() throws EngineException {
 		final long startTime = System.nanoTime();
 
@@ -318,6 +328,7 @@ public class SchedulerImp implements Scheduler {
 	 * //capi.getInterpreter().clearTree(capi.getInterpreter().getPosition()); }
 	 */
 
+	@Override
 	public void handleFailedUpdate() {
 		// does not need to do anything.
 	}
@@ -326,6 +337,7 @@ public class SchedulerImp implements Scheduler {
 	 * public RuleElement getChosenProgram() { return chosenProgram; }
 	 */
 
+	@Override
 	public boolean isSingleAgentInconsistent() {
 		// check to see if the inconsistency is from one single agent
 		// or due to a combination of agents -- Roozbeh F., March 2008
@@ -346,6 +358,7 @@ public class SchedulerImp implements Scheduler {
 		return result;
 	}
 
+	@Override
 	public boolean agentsCombinationExists() {
 		return schedule.hasNext();
 	}
@@ -355,26 +368,32 @@ public class SchedulerImp implements Scheduler {
 	 * program; }
 	 */
 
+	@Override
 	public Element getInitAgent() {
 		return initAgent;
 	}
 
+	@Override
 	public void setInitAgent(Element agent) {
 		initAgent = agent;
 	}
 
+	@Override
 	public int getStepCount() {
 		return stepCount;
 	}
 
+	@Override
 	public void incrementStepCount() {
 		stepCount++;
 	}
 
+	@Override
 	public void setStepCount(int count) {
 		stepCount = count;
 	}
 
+	@Override
 	public Set<Element> getLastSelectedAgents() {
 		if (lastSelectedAgents != null)
 			return Collections.unmodifiableSet(lastSelectedAgents);

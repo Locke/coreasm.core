@@ -94,6 +94,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -101,11 +102,13 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getOperators()
 	 */
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -115,6 +118,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		if (parsers != null)
 			return parsers.get(nonterminal).parser;
@@ -125,6 +129,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -242,6 +247,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#fireOnModeTransition(org.coreasm.engine.CoreASMEngine.EngineMode, org.coreasm.engine.CoreASMEngine.EngineMode)
 	 */
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		if (source == EngineMode.emParsingSpec)
 			loadProperties();
@@ -318,6 +324,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getSourceModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return sourceModes;
 	}
@@ -325,6 +332,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getTargetModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		return targetModes;
 	}
@@ -332,6 +340,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

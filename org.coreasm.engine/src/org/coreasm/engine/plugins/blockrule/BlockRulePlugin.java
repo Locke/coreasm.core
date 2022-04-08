@@ -67,6 +67,7 @@ public class BlockRulePlugin extends Plugin
 
 	private final CompilerPlugin compilerPlugin = new CompilerBlockRulePlugin(this);
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 		String gRule = pos.getGrammarRule();
 
@@ -114,10 +115,12 @@ public class BlockRulePlugin extends Plugin
 
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -125,10 +128,12 @@ public class BlockRulePlugin extends Plugin
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -160,6 +165,7 @@ public class BlockRulePlugin extends Plugin
 							return node;
 						}
 
+						@Override
 						public void addChild(Node parent, Node child) {
 							if (child instanceof ASTNode)
 								parent.addChild("lambda", child);
@@ -176,10 +182,12 @@ public class BlockRulePlugin extends Plugin
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}

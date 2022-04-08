@@ -34,6 +34,7 @@ public abstract class AbstractListElement extends AbstractBagElement {
 	 *
 	 * @param collection a non-null collection of elements
 	 */
+	@Override
 	public abstract AbstractListElement getNewInstance(Collection<? extends Element> collection);
 
 
@@ -47,6 +48,7 @@ public abstract class AbstractListElement extends AbstractBagElement {
 	 *
 	 * @param index an instance of {@link NumberElement}.
 	 */
+	@Override
 	public abstract Element get(Element index);
 
 	/**

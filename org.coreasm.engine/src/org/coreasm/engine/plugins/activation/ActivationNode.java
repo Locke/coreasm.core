@@ -62,6 +62,7 @@ public class ActivationNode extends ASTNode {
 	 *
 	 * @return <code>Location</code> of the trigger variable.
 	 */
+	@Override
 	public Location getLocation()
 	{
 		Location loc = this.getFirst().getLocation();

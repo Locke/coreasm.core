@@ -90,10 +90,12 @@ public class StringPlugin extends Plugin
 		return compilerPlugin;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -101,6 +103,7 @@ public class StringPlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
 		ASTNode nextPos = pos;
@@ -124,6 +127,7 @@ public class StringPlugin extends Plugin
 		return nextPos;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		if (lexers == null) {
 			lexers = new HashSet<Parser<? extends Object>>();
@@ -137,6 +141,7 @@ public class StringPlugin extends Plugin
 	/*
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		if (nonterminal.equals("StringTerm"))
 			return refStringTermParser.lazy();
@@ -145,6 +150,7 @@ public class StringPlugin extends Plugin
 	}
 
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			//org.coreasm.engine.parser.Parser parser = capi.getParser();
@@ -177,6 +183,7 @@ public class StringPlugin extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		if (funcs == null) {
 			funcs = new HashMap<String,FunctionElement>();
@@ -194,10 +201,12 @@ public class StringPlugin extends Plugin
 		return funcs;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -205,6 +214,7 @@ public class StringPlugin extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String,UniverseElement> getUniverses() {
 		// no universes
 		return Collections.emptyMap();
@@ -213,6 +223,7 @@ public class StringPlugin extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String,BackgroundElement> getBackgrounds() {
 		if (backgroundElements == null) {
 			backgroundElements = new HashMap<String,BackgroundElement>();
@@ -228,6 +239,7 @@ public class StringPlugin extends Plugin
 	// Operator Implementor Interface
 	//--------------------------------
 
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 
 		ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
@@ -241,6 +253,7 @@ public class StringPlugin extends Plugin
 		return opRules;
 	}
 
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		Element result = null;
 		String x = opNode.getToken();
@@ -280,6 +293,7 @@ public class StringPlugin extends Plugin
 	/**
 	 * This plugin requires "NumberPlugin".
 	 */
+	@Override
 	public Set<String> getDependencyNames() {
 		Set<String> names = new HashSet<String>(super.getDependencyNames());
 		names.add("NumberPlugin");
@@ -287,18 +301,22 @@ public class StringPlugin extends Plugin
 	}
 
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return backgroundElements.keySet();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return funcs.keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

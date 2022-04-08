@@ -70,6 +70,7 @@ public class PlotWindow extends JFrame implements ActionListener {
 		pack();
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("close")) {
 			setVisible(false);
@@ -98,6 +99,7 @@ public class PlotWindow extends JFrame implements ActionListener {
 	 *
 	 * @see JFrame#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean b) {
 		super.setVisible(b);
 		if (killed && !isVisible())

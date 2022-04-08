@@ -89,6 +89,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgroundNames()
 	 */
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
@@ -96,6 +97,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
@@ -103,6 +105,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctionNames()
 	 */
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
@@ -110,6 +113,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null)
 			functions = MathFunction.createFunctions(capi);
@@ -119,6 +123,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverseNames()
 	 */
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
@@ -126,14 +131,17 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -141,6 +149,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return vInfo;
 	}

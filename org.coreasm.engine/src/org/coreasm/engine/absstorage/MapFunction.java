@@ -65,6 +65,7 @@ public class MapFunction extends FunctionElement {
 	 * assigned to the given arugments.
 	 * @see #defaultValue
 	 */
+	@Override
 	public Element getValue(List<? extends Element> args) {
 		ElementList el;
 		if (args instanceof ElementList)
@@ -81,6 +82,7 @@ public class MapFunction extends FunctionElement {
 	/**
 	 * @see FunctionElement#setValue(List, Element)
 	 */
+	@Override
 	public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
 		super.setValue(args, value);
 
@@ -99,6 +101,7 @@ public class MapFunction extends FunctionElement {
 	/**
 	 * @see FunctionElement#getLocations(String)
 	 */
+	@Override
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
 		Set<ElementList> argSet = table.keySet();
@@ -116,6 +119,7 @@ public class MapFunction extends FunctionElement {
 	 *
 	 * @see FunctionElement#getRange()
 	 */
+	@Override
 	public Set<? extends Element> getRange() {
 		return new HashSet<Element>(table.values());
 	}

@@ -668,6 +668,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		writer.close();
 	}
 
+	@Override
 	public void update(EngineEvent event) {
 
 		// Looking for StepFailed
@@ -687,10 +688,12 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		}
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String getValue(String message) {
 		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print(message + " ");
@@ -722,6 +725,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	/**
 	 * Executes a thread. Necessary to implement Runnable.
 	 */
+	@Override
 	public void run() {
 		if( arguments != null )
 			run( arguments );

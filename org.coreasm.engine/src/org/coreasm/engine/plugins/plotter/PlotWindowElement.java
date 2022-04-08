@@ -33,6 +33,7 @@ public class PlotWindowElement extends Element {
 		window = new PlotWindow();
 	}
 
+	@Override
 	public String getBackground() {
 		return PlotWindowBackground.NAME;
 	}

@@ -69,6 +69,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -76,10 +77,12 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getOperators()
 	 */
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -87,6 +90,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
@@ -94,6 +98,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -159,6 +164,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.InterpreterPlugin#interpret(org.coreasm.engine.interpreter.ASTNode)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (pos instanceof DequeueRuleNode) {
@@ -240,6 +246,7 @@ public class QueuePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

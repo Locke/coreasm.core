@@ -73,10 +73,12 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		return compilerPlugin;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -84,6 +86,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 		if (pos instanceof LetRuleNode) {
 		   LetRuleNode letNode = (LetRuleNode) (pos);
@@ -188,6 +191,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		return pos;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -196,10 +200,12 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -299,6 +305,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		}
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

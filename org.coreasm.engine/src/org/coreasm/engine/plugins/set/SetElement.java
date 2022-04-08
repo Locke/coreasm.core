@@ -70,6 +70,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 		this(anotherSet.members);
 	}
 
+	@Override
 	public String getBackground() {
 		return SetBackgroundElement.SET_BACKGROUND_NAME;
 	}
@@ -222,11 +223,13 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 			return BooleanElement.FALSE;
 	}
 
+	@Override
 	public UpdateMultiset computeAddUpdate(Location loc, Element e, Element agent, Node node) {
 		Update u = new Update(loc, e, SetPlugin.SETADD_ACTION, agent, node.getScannerInfo());
 		return new UpdateMultiset(u);
 	}
 
+	@Override
 	public UpdateMultiset computeRemoveUpdate(Location loc, Element e, Element agent, Node node) {
 		Update u = new Update(loc, e, SetPlugin.SETREMOVE_ACTION, agent, node.getScannerInfo());
 		return new UpdateMultiset(u);
@@ -266,6 +269,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 		return Collections.unmodifiableSet(members);
 	}
 
+	@Override
 	public int size() {
 		return members.size();
 	}
@@ -289,22 +293,26 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 	// Enumerable Interface
 	//----------------------
 
+	@Override
 	public Collection<Element> enumerate() {
 		if (enumCache == null)
 			enumCache = Collections.unmodifiableSet(this.keySet());
 		return enumCache;
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		return this.keySet().contains(e);
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (enumListCache == null)
 			enumListCache = List.copyOf(this.keySet());
 		return enumListCache;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}

@@ -61,6 +61,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 		this.hashCode = Arrays.hashCode(new double[]{start, end, step});
 	}
 
+	@Override
 	public String getBackground() {
 		return NumberRangeBackgroundElement.NUMBER_RANGE_BACKGROUND_NAME;
 	}
@@ -76,6 +77,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
 	 */
+	@Override
 	public Collection<Element> enumerate() {
 		return getIndexedView();
 	}
@@ -119,6 +121,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 		return equals;
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		if (NumberUtil.isInteger(e)) {
 			NumberElement n = (NumberElement) e;
@@ -157,6 +160,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 		return step;
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (enumeration == null) {
 			final int size = (int)Math.min((end - start) / step + 1.0, Integer.MAX_VALUE);
@@ -176,10 +180,12 @@ public class NumberRangeElement extends Element implements Enumerable {
 		return enumeration;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}
 
+	@Override
 	public int size() {
 		return getIndexedView().size();
 	}

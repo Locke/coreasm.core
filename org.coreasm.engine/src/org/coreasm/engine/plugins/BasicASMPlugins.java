@@ -57,10 +57,12 @@ public class BasicASMPlugins extends Plugin implements PackagePlugin {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public Set<String> getEnclosedPluginNames() {
 		return names;
 	}

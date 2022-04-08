@@ -38,6 +38,7 @@ public class FlattenListFunctionElement extends FunctionElement {
 		setFClass(FunctionClass.fcDerived);
 	}
 
+	@Override
 	public Signature getSignature() {
 		if (signature == null) {
 			signature = new Signature();

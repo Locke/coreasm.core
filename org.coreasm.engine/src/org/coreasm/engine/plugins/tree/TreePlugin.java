@@ -147,6 +147,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	} // VersionInfo getVersionInfo
 
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		// No particular lexers.
 		return Collections.emptySet();
@@ -157,6 +158,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		return options;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if(parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();

@@ -36,6 +36,7 @@ public abstract class AbstractBagElement extends AbstractMapElement {
 	 *
 	 * @param collection a non-null collection of elements
 	 */
+	@Override
 	public abstract AbstractBagElement getNewInstance(Collection<? extends Element> collection);
 
 	/**
@@ -46,6 +47,7 @@ public abstract class AbstractBagElement extends AbstractMapElement {
 	 *
 	 * @throws IllegalArgumentException if the given map is not of the form Element to NumberElement.
 	 */
+	@Override
 	public AbstractBagElement getNewInstance(Map<? extends Element, ? extends Element> map) {
 		Collection<Element> bag = new ArrayList<Element>();
 

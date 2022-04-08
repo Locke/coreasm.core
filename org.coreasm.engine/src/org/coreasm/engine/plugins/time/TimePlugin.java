@@ -71,6 +71,7 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 	/**
 	 * Returns the list of functions provided by this plugin.
 	 */
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String,FunctionElement>();
@@ -84,14 +85,17 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Map<String,UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -99,6 +103,7 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Map<String,BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
@@ -111,17 +116,21 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 		return this.dependencyList;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

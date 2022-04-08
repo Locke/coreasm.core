@@ -70,10 +70,12 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -89,10 +91,12 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
@@ -100,6 +104,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -165,6 +170,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.InterpreterPlugin#interpret(org.coreasm.engine.interpreter.ASTNode)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (pos instanceof PopRuleNode) {
@@ -256,6 +262,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgroundNames()
 	 */
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
@@ -263,6 +270,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return null;
 	}
@@ -270,6 +278,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctionNames()
 	 */
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
@@ -277,6 +286,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
@@ -289,6 +299,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getRuleNames()
 	 */
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
@@ -296,6 +307,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getRules()
 	 */
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -303,6 +315,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverseNames()
 	 */
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
@@ -310,6 +323,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return null;
 	}
@@ -317,6 +331,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

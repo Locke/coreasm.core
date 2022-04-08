@@ -27,6 +27,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 	protected Map<Location, UpdateMultiset> locUpdates1;
 	protected Map<Location, UpdateMultiset> locUpdates2;
 
+	@Override
 	public void setUpdateInstructions(UpdateMultiset updates1, UpdateMultiset updates2) {
 		this.updates[1] = new UpdateMultiset(updates1);
 		this.updates[2] = new UpdateMultiset(updates2);
@@ -37,6 +38,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		affectedLocationsComputed = false;
 	}
 
+	@Override
 	public UpdateMultiset getComposedUpdates() {
 		UpdateMultiset result = new UpdateMultiset();
 
@@ -46,6 +48,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return result;
 	}
 
+	@Override
 	public Set<Location> getAffectedLocations() {
 		if (!affectedLocationsComputed) {
 			locUpdates1 = new HashMap<Location, UpdateMultiset>();
@@ -90,6 +93,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return affectedLocations;
 	}
 
+	@Override
 	public UpdateMultiset getLocUpdates(int setIndex, Location l) {
 		UpdateMultiset locUpdates;
 		Map<Location, UpdateMultiset> locUpdateMap;
@@ -137,6 +141,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return locations;
 	}
 
+	@Override
 	public boolean isLocUpdatedWithActions(int setIndex, Location l, String... action) {
 		for (String act: action) {
 			if (getActionLocations(setIndex, act).contains(l))
@@ -146,14 +151,17 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return false;
 	}
 
+	@Override
 	public boolean isLocationUpdated(int setIndex, Location l) {
 		return !getLocUpdates(setIndex, l).isEmpty();
 	}
 
+	@Override
 	public UpdateMultiset getAllUpdates(int setIndex) {
 		return updates[setIndex];
 	}
 
+	@Override
 	public void addComposedUpdate(Update update, Plugin plugin) {
 		composedUpdates.add(new UpdatePluginPair(update, plugin));
 	}

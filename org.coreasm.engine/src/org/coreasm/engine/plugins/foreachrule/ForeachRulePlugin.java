@@ -81,15 +81,18 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 		return updates.get();
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -125,6 +128,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (pos instanceof ForeachRuleNode) {
@@ -300,6 +304,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 		return pos;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -342,10 +347,12 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}

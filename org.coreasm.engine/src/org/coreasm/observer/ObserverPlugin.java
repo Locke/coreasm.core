@@ -117,10 +117,12 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		}
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public void fireOnModeTransition(EngineMode src, EngineMode target) {
 		if (target.equals(CoreASMEngine.EngineMode.emStepSucceeded)) {
 			ensureLocationListIsLoaded();
@@ -153,6 +155,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		}
 	}
 
+	@Override
 	public void terminate() {
 		setFileName();
 		try {
@@ -178,10 +181,12 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		return options;
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();

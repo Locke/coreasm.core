@@ -66,6 +66,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 		this(anotherBag.members);
 	}
 
+	@Override
 	public String getBackground() {
 		return BagBackgroundElement.BAG_BACKGROUND_NAME;
 	}
@@ -215,12 +216,14 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 			return NumberElement.getInstance(0);
 	}
 
+	@Override
 	public UpdateMultiset computeAddUpdate(Location loc, Element e, Element agent, Node node) {
 		Update u = new Update(loc, new BagUpdateElement(BagUpdateType.ADD, e), BagPlugin.BAG_UPDATE_ACTION, agent, node.getScannerInfo());
 		//Update u = new Update(loc, e, BagPlugin.BAG_ADD_ACTION);
 		return new UpdateMultiset(u);
 	}
 
+	@Override
 	public UpdateMultiset computeRemoveUpdate(Location loc, Element e, Element agent, Node node) {
 		Update u = new Update(loc, new BagUpdateElement(BagUpdateType.REMOVE, e), BagPlugin.BAG_UPDATE_ACTION, agent, node.getScannerInfo());
 		//Update u = new Update(loc, e, BagPlugin.BAG_REMOVE_ACTION);
@@ -253,6 +256,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 		return Collections.unmodifiableSet(members.keySet());
 	}
 
+	@Override
 	public int size() {
 		return intSize();
 	}
@@ -283,10 +287,12 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 	// Enumerable Interface
 	//----------------------
 
+	@Override
 	public Collection<Element> enumerate() {
 		return getIndexedView();
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		return this.containsKey(e);
 	}
@@ -301,6 +307,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 		return result;
 	}
 
+	@Override
 	public List<Element> getIndexedView()
 			throws UnsupportedOperationException {
 		if (enumerationCache == null) {
@@ -315,6 +322,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 		return enumerationCache;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}

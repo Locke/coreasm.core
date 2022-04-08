@@ -55,6 +55,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.EngineAggregationAPI#setUpdateInstructions(org.coreasm.engine.absstorage.UpdateMultiset)
 	 */
+	@Override
 	public void setUpdateInstructions(UpdateMultiset updates) {
 
 		// store update multiset produced
@@ -72,6 +73,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.EngineAggregationAPI#isConsistent()
 	 */
+	@Override
 	public boolean isConsistent() {
 
 		// if all instructions processed, and no failed instructions then aggregation completed
@@ -86,6 +88,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.EngineAggregationAPI#getFailedInstructions()
 	 */
+	@Override
 	public Collection<Update> getFailedInstructions() {
 		return htFailedUpdatesToPlugin.keySet();
 	}
@@ -93,6 +96,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.EngineAggregationAPI#getUnprocessedInstructions()
 	 */
+	@Override
 	public Collection<Update> getUnprocessedInstructions() {
 		return unprocessedUpdates.toSet();
 	}
@@ -100,6 +104,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.EngineAggregationAPI#getResultantUpdates()
 	 */
+	@Override
 	public Set<Update> getResultantUpdates() {
 
 		// set keys of this hashtable is essentailly resultant update set
@@ -109,6 +114,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#getLocsWithAnyAction(java.lang.String...)
 	 */
+	@Override
 	public Set<Location> getLocsWithAnyAction(String... actions) {
 
 		// collection of locations to be returned
@@ -130,6 +136,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#getLocsWithActionOnly(java.lang.String)
 	 */
+	@Override
 	public Set<Location> getLocsWithActionOnly(String action) {
 
 		// collection of locations to be returned
@@ -171,6 +178,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#getLocUpdates(org.coreasm.engine.absstorage.Location)
 	 */
+	@Override
 	public UpdateMultiset getLocUpdates(Location loc) {
 		return htLocToUpdates.get(loc);
 	}
@@ -178,6 +186,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#regularUpdatesAffectsLoc(org.coreasm.engine.absstorage.Location)
 	 */
+	@Override
 	public boolean regularUpdatesAffectsLoc(Location loc)
 	{
 		UpdateMultiset locUpdates = getLocUpdates(loc);
@@ -194,6 +203,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#inconsistentRegularUpdatesOnLoc(org.coreasm.engine.absstorage.Location)
 	 */
+	@Override
 	public boolean inconsistentRegularUpdatesOnLoc(Location loc)
 	{
 		UpdateMultiset locUpdates = getLocUpdates(loc);
@@ -215,6 +225,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#flagUpdate(org.coreasm.engine.absstorage.Update, org.coreasm.engine.absstorage.PluginAggregationAPI.Flag, org.coreasm.engine.Plugin)
 	 */
+	@Override
 	public void flagUpdate(Update update, Flag flag, Plugin plugin) {
 
 		// remove update from unprocessed updates
@@ -247,6 +258,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#handleInconsistentAggregationOnLocation(org.coreasm.engine.absstorage.Location, org.coreasm.engine.Plugin)
 	 */
+	@Override
 	public void handleInconsistentAggregationOnLocation(Location loc, Plugin plugin)
 	{
 		UpdateMultiset locUpdates = getLocUpdates(loc);
@@ -260,6 +272,7 @@ public class AggregationAPIImp implements EngineAggregationAPI, PluginAggregatio
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.PluginAggregationAPI#addResultantUpdate(org.coreasm.engine.absstorage.Update, org.coreasm.engine.Plugin)
 	 */
+	@Override
 	public void addResultantUpdate(Update update, Plugin plugin) {
 
 		// create an entry in hashtable for update if it doesn't exist

@@ -411,36 +411,44 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (indexedView != null)
 			return indexedView;
 		return indexedView = new PowerSetIndexedView();
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return elements.size() < Integer.SIZE - 1;
 	}
 
+	@Override
 	public boolean add(Element o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends Element> c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}

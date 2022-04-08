@@ -45,6 +45,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 		super();
 	}
 
+	@Override
 	public int size() {
 		return table.size();
 	}
@@ -61,6 +62,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 *
 	 * @return <tt>true</tt> if this map contains no key-value mappings.
 	 */
+	@Override
 	public boolean isEmpty() {
 		return table.isEmpty();
 	}
@@ -75,6 +77,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 *
 	 * @see Map#containsKey(Object)
 	 */
+	@Override
 	public boolean containsKey(Element key) {
 		return table.containsKey(key);
 	}
@@ -88,6 +91,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 *         specified value.
 	 * @see Map#containsValue(Object)
 	 */
+	@Override
 	public boolean containsValue(Element value) {
 		return table.containsValue(value);
 	}
@@ -99,6 +103,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 * @see Element#UNDEF
 	 * @see Map#get(Object)
 	 */
+	@Override
 	public Element get(Element key) {
 		Element result = table.get(key);
 		if (result == null)
@@ -175,6 +180,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 *
 	 * @see Map#keySet()
 	 */
+	@Override
 	public Set<? extends Element> keySet() {
 		return table.keySet();
 	}
@@ -186,6 +192,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
 	 *
 	 * @return a collection view of the values contained in this map.
 	 */
+	@Override
 	public Collection<? extends Element> values() {
 		return table.values();
 	}

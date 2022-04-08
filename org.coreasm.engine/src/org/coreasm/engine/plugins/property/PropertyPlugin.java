@@ -66,6 +66,7 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
@@ -73,10 +74,12 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -111,19 +114,23 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 		return parsers;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 		if (opRules == null) {
 			opRules = new ArrayList<OperatorRule>();
@@ -160,6 +167,7 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 		return opRules;
 	}
 
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		// TODO Auto-generated method stub
 		return null;

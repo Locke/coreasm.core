@@ -134,23 +134,28 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -336,6 +341,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		AbstractStorage storage = capi.getStorage();
 
@@ -589,6 +595,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 		return interpreter.ruleCall(rule, exParams, exArgs, pos);
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -609,6 +616,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			return node;
 		}
 
+		@Override
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode) {
 				parent.addChild(nextChildName, child);
@@ -635,6 +643,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			return node;
 		}
 
+		@Override
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode) {
 				parent.addChild(nextChildName, child);
@@ -663,6 +672,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			return node;
 		}
 
+		@Override
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode) {
 				parent.addChild(nextChildName, child);
@@ -735,18 +745,22 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 		}
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
@@ -767,18 +781,22 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 		return resultFunction;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}

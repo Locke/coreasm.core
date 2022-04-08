@@ -71,6 +71,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see org.coreasm.util.Multiset#multiplicity(E)
 	 */
+	@Override
 	public int multiplicity(Object element) {
 		Integer i = map.get(element);
 		if (i != null)
@@ -82,6 +83,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#size()
 	 */
+	@Override
 	public int size() {
 		int i = 0;
 		for (Integer i_s: map.values())
@@ -92,6 +94,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() {
 		return map.isEmpty();
 	}
@@ -99,6 +102,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#contains(java.lang.Object)
 	 */
+	@Override
 	public boolean contains(Object o) {
 		return map.containsKey(o);
 	}
@@ -106,6 +110,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#iterator()
 	 */
+	@Override
 	public Iterator<E> iterator() {
 		return new Itr();
 	}
@@ -113,6 +118,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#toArray()
 	 */
+	@Override
 	public Object[] toArray() {
 		Object[] a = new Object[this.size()];
 		int i = 0;
@@ -128,6 +134,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#toArray(T[])
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
@@ -147,6 +154,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#add(E)
 	 */
+	@Override
 	public boolean add(E o) {
 		map.put(o, this.multiplicity(o) + 1);
 		return true;
@@ -155,6 +163,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#remove(java.lang.Object)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public boolean remove(Object o) {
 		int m = this.multiplicity(o);
@@ -173,6 +182,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#containsAll(java.util.Collection)
 	 */
+	@Override
 	public boolean containsAll(Collection<?> c) {
 		return map.keySet().containsAll(c);
 	}
@@ -180,6 +190,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#addAll(java.util.Collection)
 	 */
+	@Override
 	public boolean addAll(Collection<? extends E> c) {
 		int size = this.size();
 		for (E e: c)
@@ -190,6 +201,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#removeAll(java.util.Collection)
 	 */
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		int size = this.size();
 		for (Object o: c)
@@ -200,6 +212,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#retainAll(java.util.Collection)
 	 */
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		logger.warn("AbstractMultiset.retainAll(c) is not tested.");
 		boolean pass = false;  // is this multiset object changed?
@@ -214,6 +227,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/* (non-Javadoc)
 	 * @see java.util.Collection#clear()
 	 */
+	@Override
 	public void clear() {
 		map.clear();
 	}
@@ -221,6 +235,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/**
 	 * @see Multiset#toSet()
 	 */
+	@Override
 	public abstract Set<E> toSet();
 
 	public String toString() {
@@ -261,6 +276,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		/**
 		 * @see Iterator#hasNext()
 		 */
+		@Override
 		public boolean hasNext() {
 			// If there are more of the current element left, return true
 			if (currentElementRemains > 0)
@@ -272,6 +288,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		/**
 		 * @see Iterator#next()
 		 */
+		@Override
 		public E next() {
 			if (!this.hasNext())
 				throw new java.util.NoSuchElementException("next() has no more element.");
@@ -293,6 +310,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		/**
 		 * @see Iterator#remove()
 		 */
+		@Override
 		public void remove() {
 			if (lastElementFetched != null) {
 				map.remove(lastElementFetched);
