@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Terminals;
-import org.jparsec.Token;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.string.CompilerStringPlugin;
 import org.coreasm.engine.VersionInfo;

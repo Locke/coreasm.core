@@ -22,9 +22,7 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
-import org.jparsec.Scanners;
 import org.jparsec.Terminals;
-import org.jparsec.Token;
 import org.jparsec.Tokens;
 import org.jparsec.Tokens.Fragment;
 import org.jparsec.Tokens.Tag;
