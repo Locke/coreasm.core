@@ -1,0 +1,18 @@
+CoreASM Time1
+
+use Standard
+use UUID
+
+init Start
+
+/*
+ * @minsteps 1
+ * @maxsteps 2
+ *
+ * @require "UUID: 00000000-0000-0000-0000-000000000000"
+ */
+rule Start =
+	seqblock
+		print "UUID: " + nilUUID()
+		print "UUID: " + randomUUID()
+	endseqblock
