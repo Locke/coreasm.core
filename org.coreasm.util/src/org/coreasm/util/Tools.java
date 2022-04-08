@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -372,22 +373,17 @@ public class Tools {
 		}
 
 
-		try {
-			fullPath = URLDecoder.decode(fullPath, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			logger.warn("{} UTF-8 encoding is not supported.", baseErrorMsg);
-			return ".";
-		}
+		fullPath = URLDecoder.decode(fullPath, StandardCharsets.UTF_8);
 
-		if (fullPath.indexOf("file:") > -1) {
+		if (fullPath.contains("file:")) {
 			fullPath = fullPath.replaceFirst("file:", "").replaceFirst(classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
 		}
-		if (fullPath.indexOf("jar:") > -1) {
+		if (fullPath.contains("jar:")) {
 			fullPath = fullPath.replaceFirst("jar:", "").replaceFirst("!" + classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
 		}
-		if (fullPath.indexOf("bundleresource:") > -1) {
+		if (fullPath.contains("bundleresource:")) {
 			fullPath = fullPath.substring(0, fullPath.indexOf(sampleClassFile));
 		}
 
