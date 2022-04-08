@@ -350,7 +350,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					);
 
 			Parser<Node> javaIdParser =
-					pTools.seq("JavaIdParser", getBasicJavaIdParser(), repeated).map(
+					pTools.seq(getBasicJavaIdParser(), repeated).map(
 					new JavaIdParseMap());
 
 			Parser<Node> importRuleParser = Parsers.array(
