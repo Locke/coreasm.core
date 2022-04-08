@@ -37,35 +37,35 @@ import org.xml.sax.SAXException;
 
 public class ODTImporter {
 
-	private static final String CONTENTSENTRYNAME = "content.xml";
-	private static final String PAR_NODE_NAME = "text:p";
-	private static final String STYLE_ATTR_NAME = "text:style-name";
-	private static final String STYLE_ATTR_VALUE = "CoreASM_20_Code"; 		// Style name for code blocks
-	private static final String TAB_NODE_NAME = "text:tab";					// node name for tabs
-	private static final String LINEBREAK_NODE_NAME = "text:line-break";	// node name for "soft" line-breaks
-	private static final String NOTE_NODE_NAME = "text:note";				// node name for notes
-	private static final String STYLE_DEF_NODE_NAME = "style:style";
+	private static final String CONTENTSENTRYNAME      = "content.xml";
+	private static final String PAR_NODE_NAME          = "text:p";
+	private static final String STYLE_ATTR_NAME        = "text:style-name";
+	private static final String STYLE_ATTR_VALUE       = "CoreASM_20_Code"; // Style name for code blocks
+	private static final String TAB_NODE_NAME          = "text:tab";        // node name for tabs
+	private static final String LINEBREAK_NODE_NAME    = "text:line-break"; // node name for "soft" line-breaks
+	private static final String NOTE_NODE_NAME         = "text:note";       // node name for notes
+	private static final String STYLE_DEF_NODE_NAME    = "style:style";
 	private static final String STYLE_PARENT_ATTR_NAME = "style:parent-style-name";
-	private static final String STYLE_DEF_NAME_ATTR = "style:name";
+	private static final String STYLE_DEF_NAME_ATTR    = "style:name";
 
 	// A simple command-line main; it will translate all the files whose names are provided as arguments,
 	// saving the results in files with the same base name, but ".odt" substituted by ".coreasm" (if the
 	// extension is not .odt, the .coreasm is simply added to the name).
 
-	public static void main(String args[])
+	public static void main(String[] args)
 	{
-		String buffer=null;
-		for (String s:args) {
+		String buffer = null;
+		for (String s : args) {
 			try {
-				buffer=null; // so we can tell whether importODT() worked or there was an exception
-				buffer=importODT(s);
+				buffer = null; // so we can tell whether importODT() worked or there was an exception
+				buffer = importODT(s);
 			} catch (FileNotFoundException e) {
 				System.err.println("Could not find file '"+s+"' -- file ignored.");
 			} catch (IOException e) {
 				System.err.println("General I/O error in '"+s+"' -- file ignored. Details follow:");
 				e.printStackTrace();
 			}
-			if (buffer!=null) {
+			if (buffer != null) {
 				// Ok, everything went well. Save the file and go to the next one
 				PrintWriter out;
 				String outfile=s.replaceAll("\\.odt$", "")+".coreasm";
@@ -91,49 +91,49 @@ public class ODTImporter {
 	 * @throws IOException
 	 */
 	public static String importODT(String fileName) throws FileNotFoundException, IOException {
-		StringBuffer buffer=new StringBuffer(16*1024);
-		ZipInputStream zis=new ZipInputStream(new FileInputStream(fileName));
+		StringBuffer buffer = new StringBuffer(16*1024);
+		ZipInputStream zis = new ZipInputStream(new FileInputStream(fileName));
 		ZipEntry ze;
 		do {
-			ze=zis.getNextEntry();
-		} while (ze!=null && !ze.getName().equalsIgnoreCase(CONTENTSENTRYNAME));
-		if (ze!=null) {
+			ze = zis.getNextEntry();
+		} while (ze != null && !ze.getName().equalsIgnoreCase(CONTENTSENTRYNAME));
+		if (ze != null) {
 			process(zis,buffer);
 		}
 		return buffer.toString().replace('\u201c', '"').replace('\u201d','"');
 	}
 
 	private static void process(InputStream is, StringBuffer buffer) throws IOException {
-		boolean inblock=true;
-		Document doc=parseXml(is);
+		boolean inBlock = true;
+		Document doc = parseXml(is);
 
 		// Process new style information
 		Set<String> coreasmStyles = new HashSet<String>();
 		NodeList styleDefs = doc.getElementsByTagName(STYLE_DEF_NODE_NAME);
 		if (styleDefs != null) {
-			for (int i=0; i < styleDefs.getLength(); i++){
+			for (int i = 0; i < styleDefs.getLength(); i++){
 				Element def = (Element)styleDefs.item(i);
 				if (STYLE_ATTR_VALUE.equals(def.getAttribute(STYLE_PARENT_ATTR_NAME)))
 					coreasmStyles.add(def.getAttribute(STYLE_DEF_NAME_ATTR));
 			}
 		}
 
-		NodeList paragraphs=doc.getElementsByTagName(PAR_NODE_NAME);
-		if (paragraphs!=null) {
-			for (int i=0;i<paragraphs.getLength();i++) {
-				Element par=(Element)paragraphs.item(i);
+		NodeList paragraphs = doc.getElementsByTagName(PAR_NODE_NAME);
+		if (paragraphs != null) {
+			for (int i = 0; i < paragraphs.getLength(); i++) {
+				Element par = (Element)paragraphs.item(i);
 				final String styleName = par.getAttribute(STYLE_ATTR_NAME);
 				if (styleName.equals(STYLE_ATTR_VALUE)
 						|| coreasmStyles.contains(styleName)) {
-					if (inblock==false) {
+					if (!inBlock) {
 						buffer.append("\n");
-						inblock=true;
+						inBlock = true;
 					}
 					// recurse into children
 					handleChildren(par.getChildNodes(), buffer);
 					buffer.append("\n");
 				} else
-					inblock=false;
+					inBlock = false;
 			}
 
 		}
@@ -174,7 +174,7 @@ public class ODTImporter {
 			 * -- non-elements (text nodes) are appended
 			 */
 			else {
-				if (n2!=null) {
+				if (n2 != null) {
 					buffer.append(n2.getTextContent());
 				}
 			}
