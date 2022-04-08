@@ -73,7 +73,7 @@ public abstract class CompilerPathConfig {
 	public String getEntryName(LibraryEntryType type, String entryName, String source){
 		switch(type){
 		case BASE:
-			return basePkg() + ((basePkg() == "") ? "" : ".") + entryName;
+			return basePkg() + ((basePkg().equals("")) ? "" : ".") + entryName;
 		case DYNAMIC:
 			return pluginDynamicPkg() + "." + source + "." + entryName;
 		case RULE:

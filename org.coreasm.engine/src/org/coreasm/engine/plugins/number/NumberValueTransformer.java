@@ -56,7 +56,7 @@ public class NumberValueTransformer implements SynthesizeRule {
 				String type1 = (String) lhs.getInformation("type").getValue();
 				String type2 = (String) rhs.getInformation("type").getValue();
 
-				if(type1 != "NUMBER" || type2 != "NUMBER"){
+				if(!type1.equals("NUMBER") || !type2.equals("NUMBER")){
 					return null;
 				}
 
