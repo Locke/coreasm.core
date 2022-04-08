@@ -35,7 +35,7 @@ import org.coreasm.engine.plugins.turboasm.ReturnTermNode;
 
 public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 	private final ASMEditor parentEditor;
-	
+
 	public NumberOfArgumentsWarningRecognizer(ASMEditor parentEditor) {
 		this.parentEditor = parentEditor;
 	}
@@ -45,12 +45,12 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		List<AbstractWarning> warnings = new LinkedList<AbstractWarning>();
 		HashMap<String, Declaration> declarations = new HashMap<String, Declaration>();
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
-		
+
 		for (Declaration declaration : ASMDeclarationWatcher.getDeclarations(parentEditor.getInputFile(), true)) {
 			if (!(declaration instanceof RuleDeclaration))
 				declarations.put(declaration.getName(), declaration);
 		}
-		
+
 		for (ASTNode declarationNode = ((ASTNode)document.getRootnode()).getFirst(); declarationNode != null; declarationNode = declarationNode.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(declarationNode.getGrammarClass())) {
 				if (Kernel.GR_RULEDECLARATION.equals(declarationNode.getGrammarRule())
@@ -95,7 +95,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 				}
 			}
 		}
-		
+
 		return warnings;
 	}
 
@@ -124,7 +124,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return true;
 		return false;
 	}
-	
+
 	private boolean isParam(FunctionRuleTermNode frNode) {
 		final ASTNode ruleNode = getParentRuleNode(frNode);
 		if (ruleNode != null) {
@@ -136,14 +136,14 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ASTNode getParentRuleNode(ASTNode node) {
 		ASTNode parentRuleNode = node.getParent();
 		while (parentRuleNode != null && !Kernel.GR_RULEDECLARATION.equals(parentRuleNode.getGrammarRule()) && !"DerivedFunctionDeclaration".equals(parentRuleNode.getGrammarRule()))
 			parentRuleNode = parentRuleNode.getParent();
 		return parentRuleNode;
 	}
-	
+
 	private boolean isInLetVariableMap(FunctionRuleTermNode frNode) {
 		for (LetRuleNode letRuleNode = getParentLetRuleNode(frNode); letRuleNode != null; letRuleNode = getParentLetRuleNode(letRuleNode)) {
 			try {
@@ -163,7 +163,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (LetRuleNode)letRuleNode;
 		return null;
 	}
-	
+
 	private boolean isLocalFunction(FunctionRuleTermNode frNode) {
 		for (LocalRuleNode localRuleNode = getParentLocalRuleNode(frNode); localRuleNode != null; localRuleNode = getParentLocalRuleNode(localRuleNode)) {
 			if (localRuleNode.getFunctionNames().contains(frNode.getName()))
@@ -173,7 +173,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return true;
 		return false;
 	}
-	
+
 	private LocalRuleNode getParentLocalRuleNode(ASTNode node) {
 		ASTNode localRuleNode = node.getParent();
 		while (localRuleNode != null && !(localRuleNode instanceof LocalRuleNode))
@@ -182,7 +182,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (LocalRuleNode)localRuleNode;
 		return null;
 	}
-	
+
 	private boolean isForallRuleVariable(FunctionRuleTermNode frNode) {
 		for (ForallRuleNode forallRuleNode = getParentForallRuleNode(frNode); forallRuleNode != null; forallRuleNode = getParentForallRuleNode(forallRuleNode)) {
 			if (forallRuleNode.getVariableMap().containsKey(frNode.getName()))
@@ -190,7 +190,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ForallRuleNode getParentForallRuleNode(ASTNode node) {
 		ASTNode forallRuleNode = node.getParent();
 		while (forallRuleNode != null && !(forallRuleNode instanceof ForallRuleNode))
@@ -199,7 +199,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ForallRuleNode)forallRuleNode;
 		return null;
 	}
-	
+
 	private boolean isForallExpVariable(FunctionRuleTermNode frNode) {
 		for (ForallExpNode forallExpNode = getParentForallExpNode(frNode); forallExpNode != null; forallExpNode = getParentForallExpNode(forallExpNode)) {
 			if (forallExpNode.getVariableMap().containsKey(frNode.getName()))
@@ -207,7 +207,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ForallExpNode getParentForallExpNode(ASTNode node) {
 		ASTNode forallExpNode = node.getParent();
 		while (forallExpNode != null && !(forallExpNode instanceof ForallExpNode))
@@ -216,7 +216,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ForallExpNode)forallExpNode;
 		return null;
 	}
-	
+
 	private boolean isExistsExpVariable(FunctionRuleTermNode frNode) {
 		for (ExistsExpNode existsExpNode = getParentExistsExpNode(frNode); existsExpNode != null; existsExpNode = getParentExistsExpNode(existsExpNode)) {
 			if (existsExpNode.getVariableMap().containsKey(frNode.getName()))
@@ -224,7 +224,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ExistsExpNode getParentExistsExpNode(ASTNode node) {
 		ASTNode existsExpNode = node.getParent();
 		while (existsExpNode != null && !(existsExpNode instanceof ExistsExpNode))
@@ -233,7 +233,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ExistsExpNode)existsExpNode;
 		return null;
 	}
-	
+
 	private boolean isChooseVariable(FunctionRuleTermNode frNode) {
 		for (ChooseRuleNode chooseRuleNode = getParentChooseRuleNode(frNode); chooseRuleNode != null; chooseRuleNode = getParentChooseRuleNode(chooseRuleNode)) {
 			if (chooseRuleNode.getVariableMap().containsKey(frNode.getName()))
@@ -241,7 +241,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ChooseRuleNode getParentChooseRuleNode(ASTNode node) {
 		ASTNode chooseRuleNode = node.getParent();
 		while (chooseRuleNode != null && !(chooseRuleNode instanceof ChooseRuleNode))
@@ -250,7 +250,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ChooseRuleNode)chooseRuleNode;
 		return null;
 	}
-	
+
 	private boolean isPickExpVariable(FunctionRuleTermNode frNode) {
 		for (PickExpNode pickExpNode = getParentPickExpNode(frNode); pickExpNode != null; pickExpNode = getParentPickExpNode(pickExpNode)) {
 			if (pickExpNode.getVariable().getToken().equals(frNode.getName()))
@@ -258,7 +258,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private PickExpNode getParentPickExpNode(ASTNode node) {
 		ASTNode pickExpNode = node.getParent();
 		while (pickExpNode != null && !(pickExpNode instanceof PickExpNode))
@@ -267,7 +267,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (PickExpNode)pickExpNode;
 		return null;
 	}
-	
+
 	private boolean isExtendRuleVariable(FunctionRuleTermNode frNode) {
 		for (ExtendRuleNode extendRuleNode = getParentExtendRuleNode(frNode); extendRuleNode != null; extendRuleNode = getParentExtendRuleNode(extendRuleNode)) {
 			if (extendRuleNode.getIdNode().getToken().equals(frNode.getName()))
@@ -275,7 +275,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ExtendRuleNode getParentExtendRuleNode(ASTNode node) {
 		ASTNode extendRuleNode = node.getParent();
 		while (extendRuleNode != null && !(extendRuleNode instanceof ExtendRuleNode))
@@ -284,7 +284,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ExtendRuleNode)extendRuleNode;
 		return null;
 	}
-	
+
 	private boolean isSetComprehensionConstrainerVariable(FunctionRuleTermNode frNode) {
 		for (SetCompNode setCompNode = getParentSetCompNode(frNode); setCompNode != null; setCompNode = getParentSetCompNode(setCompNode)) {
 			try {
@@ -297,7 +297,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private SetCompNode getParentSetCompNode(ASTNode node) {
 		ASTNode setCompNode = node.getParent();
 		while (setCompNode != null && !(setCompNode instanceof SetCompNode))
@@ -306,7 +306,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (SetCompNode)setCompNode;
 		return null;
 	}
-	
+
 	private boolean isListComprehensionVariable(FunctionRuleTermNode frNode) {
 		for (ListCompNode listCompNode = getParentListCompNode(frNode); listCompNode != null; listCompNode = getParentListCompNode(listCompNode)) {
 			try {
@@ -319,7 +319,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ListCompNode getParentListCompNode(ASTNode node) {
 		ASTNode listCompNode = node.getParent();
 		while (listCompNode != null && !(listCompNode instanceof ListCompNode))
@@ -328,7 +328,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ListCompNode)listCompNode;
 		return null;
 	}
-	
+
 	private boolean isReturnTermExpression(FunctionRuleTermNode frNode) {
 		for (ReturnTermNode returnTermNode = getParentReturnTermNode(frNode); returnTermNode != null; returnTermNode = getParentReturnTermNode(returnTermNode)) {
 			ASTNode expression = returnTermNode.getExpressionNode();
@@ -337,7 +337,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ReturnTermNode getParentReturnTermNode(ASTNode node) {
 		ASTNode returnTermNode = node.getParent();
 		while (returnTermNode != null && !(returnTermNode instanceof ReturnTermNode))
@@ -346,7 +346,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 			return (ReturnTermNode)returnTermNode;
 		return null;
 	}
-	
+
 	private boolean isImportRuleVariable(FunctionRuleTermNode frNode) {
 		for (ASTNode importRuleNode = getParentImportRuleNode(frNode); importRuleNode != null; importRuleNode = getParentImportRuleNode(importRuleNode)) {
 			if (importRuleNode.getFirst().getToken().equals(frNode.getName()))
@@ -354,7 +354,7 @@ public class NumberOfArgumentsWarningRecognizer implements IWarningRecognizer {
 		}
 		return false;
 	}
-	
+
 	private ASTNode getParentImportRuleNode(ASTNode node) {
 		ASTNode importRuleNode = node.getParent();
 		while (importRuleNode != null && !"ImportRule".equals(importRuleNode.getGrammarRule()))

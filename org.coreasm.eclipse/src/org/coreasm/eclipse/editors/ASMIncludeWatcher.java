@@ -39,7 +39,7 @@ implements Observer, IResourceChangeListener, IResourceDeltaVisitor
 		this.editor = editor;
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
 	}
-	
+
 	/**
 	 * Returns the specifications that are included in the given file.
 	 * @param file file to return the included specifications of
@@ -51,7 +51,7 @@ implements Observer, IResourceChangeListener, IResourceDeltaVisitor
 		collectIncludedFiles(file, transitive, includedFiles);
 		return includedFiles;
 	}
-	
+
 	/**
 	 * Collects the specifications that are included in the given file.
 	 * @param file file to collect the included specifications of
@@ -83,7 +83,7 @@ implements Observer, IResourceChangeListener, IResourceDeltaVisitor
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Returns the specifications that are including the given file.
 	 * @param file file to return the including specifications of
@@ -94,7 +94,7 @@ implements Observer, IResourceChangeListener, IResourceDeltaVisitor
 		collectIncludingFiles(includedFile, includedFile.getProject(), includingFiles);
 		return includingFiles.toArray(new IFile[includingFiles.size()]);
 	}
-	
+
 	/**
 	 * Collects the specifications that are including the given file.
 	 * @param file file to collect the including specifications of
@@ -126,7 +126,7 @@ implements Observer, IResourceChangeListener, IResourceDeltaVisitor
 		} catch (CoreException e) {
 		}
 	}
-	
+
 	/**
 	 * Returns the including and the included files of the given file.
 	 * @param file file to return the included and including specifications of

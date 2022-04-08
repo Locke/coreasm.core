@@ -21,17 +21,17 @@ public class ForallRuleHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		
+
 		ForallRuleNode forall = (ForallRuleNode) node;
-		
+
 		Map<String, ASTNode> vars = forall.getVariableMap();
-		
+
 		result.appendLine("//forall starts here\n");
 		result.appendLine("localStack.pushLayer();\n");
 		int varcount = 0;
-		
+
 		String[] varnames = new String[vars.size()];
-		
+
 		//compile the sources
 		result.appendLine("@decl(boolean,hasempty) = false;\n");
 		for(Entry<String, ASTNode> e : vars.entrySet()){
@@ -44,13 +44,13 @@ public class ForallRuleHandler implements CompilerCodeHandler {
 
 		result.appendLine("@decl(int, exec) = 0;\n");
 		result.appendLine("if(!@hasempty@){\n");
-		
+
 		//open for loops
 		for(int i = 0; i < varcount; i++){
 			result.appendLine("for(@decl(int, i" + i + ")=0; @i" + i + "@ < @var" + i + "@.size(); @i" + i + "@++){\n");
 			result.appendLine("localStack.put(\"" + varnames[i] + "\", @var" + i + "@.get(@i" + i + "@));\n");
 		}
-		
+
 		if(forall.getCondition() != null){
 			result.appendFragment(engine.compile(forall.getCondition(), CodeType.R));
 			result.appendLine("if(evalStack.pop().equals(@RuntimePkg@.BooleanElement.TRUE)){\n");
@@ -62,14 +62,14 @@ public class ForallRuleHandler implements CompilerCodeHandler {
 			result.appendLine("@exec@++;\n");
 			result.appendFragment(engine.compile(forall.getDoRule(), CodeType.U));
 		}
-		
+
 		//close for loops
 		for(int i = 0; i < varcount; i++){
 			result.appendLine("}\n");
 		}
 		result.appendLine("}\n");
 		result.appendLine("localStack.popLayer();\n");
-		
+
 		if(forall.getIfnoneRule() == null){
 			result.appendLine("@decl(@RuntimePkg@.UpdateList, res) = new @RuntimePkg@.UpdateList();\n");
 			result.appendLine("for(@decl(int,v)=0; @v@ < @exec@; @v@++){\n");

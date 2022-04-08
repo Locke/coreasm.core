@@ -4,7 +4,7 @@ public class ASMCompareViewElement {
 	private String name;
 	private String[] values;
 	private boolean difference;
-	
+
 	public ASMCompareViewElement(String name, String[] values) {
 		super();
 		this.name = name;
@@ -27,7 +27,7 @@ public class ASMCompareViewElement {
 	public String[] getValues() {
 		return values;
 	}
-	
+
 	public boolean hasDifference() {
 		return difference;
 	}

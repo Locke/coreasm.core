@@ -1,6 +1,6 @@
-/*	
- * SignalsPlugin.java 	
- * 
+/*
+ * SignalsPlugin.java
+ *
  * Copyright (c) 2010 Roozbeh Farahbod
  *
  * Licensed under the Academic Free License version 3.0
@@ -8,7 +8,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.network.plugins.signals;
 
 import java.util.Collections;
@@ -55,9 +55,9 @@ import org.coreasm.engine.plugins.set.SetPlugin;
 import org.coreasm.network.plugins.signals.SignalsPlugin.SignalAttributesFunctionElement.AttType;
 import org.coreasm.util.Logger;
 
-/** 
+/**
  *	Plugin for Signalling mechanisms between agents
- *   
+ *
  *  @author  Roozbeh Farahbod
  *  @version 1.0.0-beta
  */
@@ -65,20 +65,20 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
         InterpreterPlugin, VocabularyExtender {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 0, "beta");
-	
+
 	public static final String PLUGIN_NAME = SignalsPlugin.class.getSimpleName();
 
 	public static final String SIG_TYPE_FUNC_NAME = "signalType";
 	public static final String SIG_SRC_FUNC_NAME = "signalSource";
 	public static final String SIG_TRG_FUNC_NAME = "signalTarget";
 	public static final String SIG_INBOX_FUNC_NAME = "signalInbox";
-	
+
 	protected static final String VARIABLE_NODE_NAME = "variable";
 	protected static final String RULE_NODE_NAME = "dorule";
 
 	private final String[] keywords = {"signal", "onsignal", "with", "as", "do", "of"};
 	private final String[] operators = {};
-	
+
 	private Map<String, FunctionElement> functions = null;
 	private Map<String, BackgroundElement> backgrounds = null;
     //private ThreadLocal<Map<Node,List<Element>>> remained;
@@ -91,7 +91,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
     	dependencies = new HashSet<String>();
     	dependencies.add("SetPlugin");
     }
-    
+
     @Override
     public void initialize() {
         signals = new ThreadLocal<Map<Node, SignalElement>>() {
@@ -106,11 +106,11 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
     		getFunctions();
     	}
     }
-    
+
     private Map<Node, SignalElement> getSignalsMap() {
     	return signals.get();
     }
-    
+
 
 	@Override
 	public void setControlAPI(ControlAPI capi) {
@@ -120,7 +120,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -140,16 +140,16 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
-			
+
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
 			//Parser<Node> guardParser = kernel.getGuardParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			// SignalRule : 'signal' Term 'with' Term ('as' ID 'do' Rule)?
 			Parser<Node> signalRuleParser = Parsers.array(
 					new Parser[] {
@@ -165,7 +165,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 					}).map(
 					new SignalRuleParseMap());
 
-			parsers.put(signalRuleParser.toString(), 
+			parsers.put(signalRuleParser.toString(),
 					new GrammarRule(signalRuleParser.toString(),
 							"'signal' Term 'with' Term ('as' ID 'do' Rule)?", signalRuleParser, PLUGIN_NAME));
 
@@ -197,24 +197,24 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
         if (pos instanceof SignalRuleNode) {
             SignalRuleNode signalNode = (SignalRuleNode) pos;
-            
+
             // 1. evaluate first three parameters
-            
+
             if (!signalNode.getTargetAgent().isEvaluated())
             	return signalNode.getTargetAgent();
-            
+
             if (!signalNode.getType().isEvaluated())
             	return signalNode.getType();
-            
-            // 2. create a signal, 
+
+            // 2. create a signal,
             //    only if there is no rule or the rule is not evaluated yet
             Element agent = signalNode.getTargetAgent().getValue();
-            
+
             if (signalNode.getDoRule() == null || !signalNode.getDoRule().isEvaluated()) {
             	SignalElement signal = new SignalElement(signalNode.getType().getValue());
             	Map<Node, SignalElement> signalsMap = getSignalsMap();
             	signalsMap.put(pos, signal);
-            	
+
 	            if (agent.equals(Element.UNDEF)) {
 	            	String msg = "Cannot send a signal to an undefined agent.";
 	            	capi.error(msg, pos, interpreter);
@@ -234,37 +234,37 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
             	}
             }
 
-            // 4. gather the updates 
+            // 4. gather the updates
             UpdateMultiset updates = new UpdateMultiset();
-            
+
             if (signalNode.getDoRule() != null) {
             	String varname = signalNode.getVariable().getToken();
             	interpreter.removeEnv(varname);
             	updates.addAll(signalNode.getDoRule().getUpdates());
-            }	
+            }
             Location inboxLoc = new Location(SIG_INBOX_FUNC_NAME, new ElementList(agent));
             SignalElement newSignal = getSignalsMap().get(pos);
             updates.add(new Update(inboxLoc, newSignal, SetPlugin.SETADD_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
             getSignalsMap().remove(pos);
             pos.setNode(null, updates, null);
-            
+
             ServiceRequest sr = new ServiceRequest("debuginfo");
             sr.parameters.put("message", "Signal to be sent: " + newSignal);
             sr.parameters.put("channel", "Signals");
             capi.serviceCall(sr, false);
         }
-        
+
         else if (pos instanceof OnSignalRuleNode) {
         	OnSignalRuleNode onsignalNode = (OnSignalRuleNode)pos;
-        	
+
             if (!onsignalNode.getType().isEvaluated())
             	return onsignalNode.getType();
-            
+
             // 1. before evaluating the rule
-            
+
             if (!onsignalNode.getDoRule().isEvaluated()) {
             	Element inbox;
-            	
+
             	// 1-1. get signal inbox
             	try {
 					inbox = capi.getStorage().getValue(new Location(SIG_INBOX_FUNC_NAME, new ElementList(interpreter.getSelf())));
@@ -272,12 +272,12 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 					capi.error(e, pos, interpreter);
 					return pos;
 				}
-				
+
 				// 1-2. look for a matching signal
 				if (inbox instanceof Enumerable) {
 					Enumerable einbox = (Enumerable)inbox;
 					SignalElement matchingSignal = null;
-					for (Element s: einbox.enumerate()) 
+					for (Element s: einbox.enumerate())
 						if (s instanceof SignalElement) {
 							SignalElement se = (SignalElement)s;
 							if (se.type.equals(onsignalNode.getType().getValue())) {
@@ -285,15 +285,15 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 								break;
 							}
 						}
-					
+
 					// if a matching signal found,
 					// set the value of the env variable and evaluate the rule
 					if (matchingSignal != null) {
 						getSignalsMap().put(pos, matchingSignal);
 						interpreter.addEnv(onsignalNode.getVariable().getToken(), matchingSignal);
-			            
+
 						ServiceRequest sr = new ServiceRequest("debuginfo");
-			            sr.parameters.put("message", "Signal observed: " + matchingSignal + " by " 
+			            sr.parameters.put("message", "Signal observed: " + matchingSignal + " by "
 			            		+ interpreter.getSelf());
 			            sr.parameters.put("channel", "Signals");
 			            capi.serviceCall(sr, false);
@@ -359,7 +359,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 			functions.put(SIG_TYPE_FUNC_NAME, new SignalAttributesFunctionElement(AttType.type));
 			functions.put(SIG_SRC_FUNC_NAME, new SignalAttributesFunctionElement(AttType.src));
 			functions.put(SIG_TRG_FUNC_NAME, new SignalAttributesFunctionElement(AttType.trg));
-			
+
 			functions.put(SIG_INBOX_FUNC_NAME, new SignalInboxFunctionElement());
 		}
 		return functions;
@@ -384,7 +384,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
-	
+
 	@Override
 	public Set<String> getDependencyNames() {
 		return dependencies;
@@ -392,7 +392,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 
 	/**
 	 * Mapping of node elements into the signal rule node.
-	 *   
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	public static class SignalRuleParseMap extends ParserTools.ArrayParseMap {
@@ -411,7 +411,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 			addChildren(node, v);
 			return node;
 		}
-		
+
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode)
 				parent.addChild(nextChildName, child);
@@ -426,10 +426,10 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 		}
 
 	}
-	
+
 	/**
 	 * Mapping of node elements to the onsignal rule node.
-	 *   
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	public static class OnSignalRuleParseMap extends ParserTools.ArrayParseMap {
@@ -445,28 +445,28 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 			return node;
 		}
 	}
-	
+
 	/**
 	 * Attribute functions on sinals.
 	 */
 	public static class SignalAttributesFunctionElement extends FunctionElement {
 
 		protected static enum AttType {type, src, trg};
-		private static final Signature signature = 
+		private static final Signature signature =
 			new Signature(SignalBackgroundElement.SIGNAL_BACKGROUND_NAME, ElementBackgroundElement.ELEMENT_BACKGROUND_NAME);
-		
+
 		protected final AttType ftype;
-		
+
 		public SignalAttributesFunctionElement(AttType type) {
 			this.ftype = type;
 		}
-		
+
 		@Override
 		public Element getValue(List<? extends Element> args) {
 			if (args.size() == 1 && args.get(0) instanceof SignalElement) {
 				SignalElement signal = (SignalElement)args.get(0);
 				switch (ftype) {
-				case type:	
+				case type:
 					return signal.type;
 				case src:
 					return signal.src;
@@ -484,7 +484,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 			return signature;
 		}
 
-		
+
 		@Override
 		public FunctionClass getFClass() {
 			if (ftype == AttType.type)
@@ -498,7 +498,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 				throws UnmodifiableFunctionException {
 			if (ftype == AttType.type)
 				throw new UnmodifiableFunctionException("Cannot change the type of a signal");
-			
+
 			if (args.size() == 1 && args.get(0) instanceof SignalElement) {
 				SignalElement signal = (SignalElement)args.get(0);
 				switch (ftype) {
@@ -509,9 +509,9 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 				default:
 					return;
 				}
-			} 
+			}
 		}
-		
+
 	}
 
 	/**
@@ -519,17 +519,17 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	 */
 	public static class SignalInboxFunctionElement extends FunctionElement {
 
-		private final Signature signature = 
+		private final Signature signature =
 			new Signature(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME, SetBackgroundElement.SET_BACKGROUND_NAME);
-		
+
 		private HashMap<Element, Element> inboxTable = new HashMap<Element, Element>();
-		
+
 		@Override
 		public Element getValue(List<? extends Element> args) {
 			if (args.size() == 1) {
-				Element agent = args.get(0); 
+				Element agent = args.get(0);
 				Element inbox = inboxTable.get(agent);
-				if (inbox == null) { 
+				if (inbox == null) {
 					inbox = new SetElement();
 					inboxTable.put(agent, inbox);
 				}
@@ -553,7 +553,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 				inboxTable.put(agent, value);
 			}
 		}
-		
+
 	}
 
 }

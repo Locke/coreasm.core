@@ -26,12 +26,12 @@ import org.eclipse.jface.text.BadLocationException;
  * syntax errors. Each instance of ASMEditor creates an ErrorManager
  * and binds it to its ASMParser as an Observer. So the ErrorManager
  * gets notified each time the parser was run.
- * 
+ *
  * An ErrorManager manages a list of objects implementing the IErrorRecognizer
  * interface. These objects are doing the actual error checking, each error
  * recognizer searches for a certain kind of errors. The ErrorManager executes
  * these ErrorRegognizers after each run of the parser.
- * 
+ *
  * @author Markus Müller
  */
 public class ErrorManager implements Observer
@@ -40,7 +40,7 @@ public class ErrorManager implements Observer
 	private List<ITextErrorRecognizer> listTextParsers;
 	private List<ITreeErrorRecognizer> listTreeParsers;
 	private List<IWarningRecognizer> warningRecognizers;
-	
+
 	/**
 	 * Generates a new ErrorManager and adds all available ErrorRecognizers to itself.
 	 * @param asmEditor	The ASMEditor instance the generated ErrorManager belongs to.
@@ -63,7 +63,7 @@ public class ErrorManager implements Observer
 		addWarningRecognizer(new CoreASMWarningRecognizer(asmEditor));
 		addWarningRecognizer(new DanglingElseWarningRecognizer());
 	}
-	
+
 	/**
 	 * Adds an ErrorRegognizer to this ErrorManager, so the ErrorRecognizer will
 	 * be run after each run of the parser.
@@ -72,11 +72,11 @@ public class ErrorManager implements Observer
 	{
 		if (errorRecognizer instanceof ITextErrorRecognizer)
 			listTextParsers.add((ITextErrorRecognizer) errorRecognizer);
-		
+
 		if (errorRecognizer instanceof ITreeErrorRecognizer)
 			listTreeParsers.add((ITreeErrorRecognizer) errorRecognizer);
 	}
-	
+
 	/**
 	 * Adds a WarningRecognizer to this ErrorManager.
 	 * @param warningRecognizer
@@ -84,7 +84,7 @@ public class ErrorManager implements Observer
 	public void addWarningRecognizer(IWarningRecognizer warningRecognizer) {
 		warningRecognizers.add(warningRecognizer);
 	}
-	
+
 	/**
 	 * Executes all ErrorRecognizers implementing the ITextErrorRecognizer interface and
 	 * collects the errors which were found in a list.
@@ -99,7 +99,7 @@ public class ErrorManager implements Observer
 			errorParser.checkForErrors(document, errors);
 		return errors;
 	}
-	
+
 	/**
 	 * Executes all ErrorRecognizers implementing the ITreeErrorRecognizer interface and
 	 * collects the errors which were found in a list.
@@ -114,7 +114,7 @@ public class ErrorManager implements Observer
 			errorParser.checkForErrors(document, errors);
 		return errors;
 	}
-	
+
 	/**
 	 * Executes all ErrorRecognizers (both TextErrorRecognizers and TreeErrorRecognizers)
 	 * interface and collects the errors which were found in a list.
@@ -122,15 +122,15 @@ public class ErrorManager implements Observer
 	 * @return			A list with all errors which have been found.
 	 * @see				org.coreasm.eclipse.editors.errors.ITextErrorRecognizer
 	 * @see				org.coreasm.eclipse.editors.errors.ITreeErrorRecognizer
-	 */	
-	public List<AbstractError> checkAllErrorRecognizer(ASMDocument document) 
+	 */
+	public List<AbstractError> checkAllErrorRecognizer(ASMDocument document)
 	{
 		List<AbstractError> errors = new LinkedList<AbstractError>();
 		errors.addAll(checkAllTextErrorRecognizers(document));
 		errors.addAll(checkAllTreeErrorRecognizers(document));
 		return errors;
 	}
-	
+
 	/**
 	 * Execute all WarningRecognizers.
 	 * @param document document to be checked
@@ -149,7 +149,7 @@ public class ErrorManager implements Observer
 	 * was successful and creates an error marker for each error. It also creates
 	 * a marker if the parser delivered a syntax error or an unknown error.
 	 * @param o		The observable which has called this method. This must be
-	 * 				the parser instance which is bound to the same instance of 
+	 * 				the parser instance which is bound to the same instance of
 	 * 				ASMEditor than this ErrorManager.
 	 * @param arg	The data the Observable delivered. This must be an instance
 	 * 				of ParsingResult.
@@ -163,17 +163,17 @@ public class ErrorManager implements Observer
 			return;
 		ParsingResult result = (ParsingResult) arg;
 		List<AbstractError> errors = new LinkedList<AbstractError>();
-		
+
 		// clear old markers
 		asmEditor.removeMarkers(IMarker.PROBLEM);
-		
+
 		// always run TextErrorRecognizers
 		errors.addAll(checkAllTextErrorRecognizers(result.document));
-		
+
 		// run TreeErrorRecognizers only if there was no syntax error
 		if (result.wasSuccessful == true)
 			errors.addAll(checkAllTreeErrorRecognizers(result.document));
-		
+
 		// create markers for all errors
 		for (AbstractError error: errors) {
 			if (error instanceof SimpleError)
@@ -181,7 +181,7 @@ public class ErrorManager implements Observer
 			else
 				asmEditor.createErrorMark(error);
 		}
-		
+
 		if (result.wasSuccessful) {
 			for (AbstractWarning warning : checkAllWarnings(result.document))
 				asmEditor.createWarningMark(warning);
@@ -191,7 +191,7 @@ public class ErrorManager implements Observer
 		if (result.exception != null) {
 			ParserException pe = result.exception;
 			ParseErrorDetails perr = pe.getErrorDetails();
-			
+
 			if (perr != null) {
 				// SYNTAX ERROR
 				int line = asmEditor.getSpec().getLine(pe.getLocation().line).line;
@@ -224,18 +224,18 @@ public class ErrorManager implements Observer
 				// create error object
 				UndefinedError error = new UndefinedError(message, line, col);
 				asmEditor.createUndefinedMark(error, IMarker.SEVERITY_ERROR);
-			}				
-			
+			}
+
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	// ==============================
 	// Helper methods for update(...)
 	// ==============================
-	
+
 	private int getErrorLength(String token, String strDoc, int index)
 	{
 		if (token.equals("EOF"))
@@ -244,7 +244,7 @@ public class ErrorManager implements Observer
 			return token.length()+2;
 		return token.length();
 	}
-	
+
 	private void deleteDuplicatesAndSortList(List<String> list)
 	{
 		SortedSet<String> setEntries = new TreeSet<String>();
@@ -254,5 +254,5 @@ public class ErrorManager implements Observer
 		list.clear();
 		list.addAll(setEntries);
 	}
-	
+
 }

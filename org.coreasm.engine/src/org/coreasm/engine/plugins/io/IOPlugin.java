@@ -1,6 +1,6 @@
-/*	
+/*
  * IOPlugin.java 	1.
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod, Michael Stegmaier, Marcel Dausend
  *
  * Licensed under the Academic Free License version 3.0
@@ -8,7 +8,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.io;
 
 import java.io.BufferedReader;
@@ -67,13 +67,13 @@ import org.coreasm.engine.plugins.list.ListElement;
 import org.coreasm.engine.plugins.string.StringElement;
 import org.coreasm.util.Tools;
 
-/** 
+/**
  * A plugin that provides Input/Output services to a CoreASM specification.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
-public class IOPlugin extends Plugin implements 
+public class IOPlugin extends Plugin implements
 		ParserPlugin, InterpreterPlugin, VocabularyExtender, ExtensionPointPlugin, Aggregator {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 3, 2, "");
@@ -96,27 +96,27 @@ public class IOPlugin extends Plugin implements
 	public static final String APPEND_ACTION = "appendAction";
 	public static final String FILE_OUTPUT_FUNC_NAME = "writeOutput";
 	public static final String[] UPDATE_ACTIONS = { PRINT_ACTION, WRITE_ACTION, APPEND_ACTION };
-	
+
 	/** The input function */
 	public static final String INPUT_FUNC_NAME = "input";
 	public static final Location INPUT_FUNC_LOC = new Location(IOPlugin.INPUT_FUNC_NAME, ElementList.NO_ARGUMENT);
 
 	/** The read function */
 	public static final String READ_FUNC_NAME = "read";
-	
+
 	private final Set<String> dependencyList;
-	
-	/** 
-	 * List of all the messages generated in the current run. 
-	 * This list will be empty if an output stream is set (i.e., {@link #outputStream} is not null). 
+
+	/**
+	 * List of all the messages generated in the current run.
+	 * This list will be empty if an output stream is set (i.e., {@link #outputStream} is not null).
 	 */
 	public List<String> outputMessages;
-	
+
 	private Map<EngineMode, Integer> sourceModes;
 	private Map<EngineMode, Integer> targetModes;
 	private HashSet<String> functionNames;
 	private Map<String,FunctionElement> functions = null;
-	
+
 	protected Map<String, GrammarRule> parsers = null;
 	protected IOPluginPSI pluginPSI;
 	protected InputProvider inputProvider;
@@ -124,14 +124,14 @@ public class IOPlugin extends Plugin implements
 
 	private final String[] keywords = { PRINT_KEYWORD, KEYWORD_TO, KEYWORD_INTO };
 	private final String[] operators = { OPERATOR_LINUX_TO, OPERATOR_LINUX_INTO };
-	
+
 	private final CompilerPlugin compilerPlugin = new CompilerIOPlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 	/**
 	 *  create a list of StringElements from a given file where each line corresponds to one StringElement
 	 * @param path	path of the file to read from
@@ -161,7 +161,7 @@ public class IOPlugin extends Plugin implements
 		return new ListElement(linesInTextOrder);
 	}
 	/**
-	 * 
+	 *
 	 */
 	public IOPlugin() {
 		super();
@@ -215,9 +215,9 @@ public class IOPlugin extends Plugin implements
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools npTools = ParserTools.getInstance(capi);
 
 			Parser<Node> printParser = Parsers.array(
@@ -258,7 +258,7 @@ public class IOPlugin extends Plugin implements
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		// Print Rule
 		if (pos instanceof PrintRuleNode) {
-			return interpretPrint(interpreter, (PrintRuleNode)pos); 
+			return interpretPrint(interpreter, (PrintRuleNode)pos);
 		}
 		if (pos instanceof PrintToFileRuleNode) {
 			return interpretPrintToFile(interpreter, (PrintToFileRuleNode) pos);
@@ -274,7 +274,7 @@ public class IOPlugin extends Plugin implements
 			return pos.getMessage();
 		} else {
 			pos.setNode(
-					null, 
+					null,
 					new UpdateMultiset(
 							new Update(
 									PRINT_OUTPUT_FUNC_LOC,
@@ -282,7 +282,7 @@ public class IOPlugin extends Plugin implements
 									PRINT_ACTION,
 									interpreter.getSelf(),
 									pos.getScannerInfo()
-									)), 
+									)),
 					null);
 		}
 		return pos;
@@ -300,7 +300,7 @@ public class IOPlugin extends Plugin implements
 		}
 		else {
 			pos.setNode(
-					null, 
+					null,
 					new UpdateMultiset(
 							new Update(
 									new Location(FILE_OUTPUT_FUNC_NAME,
@@ -313,7 +313,7 @@ public class IOPlugin extends Plugin implements
 		}
 		return pos;
 	}
-	
+
 	/**
 	 * Returns a set containing the following functions:
 	 * <ul>
@@ -354,12 +354,12 @@ public class IOPlugin extends Plugin implements
 	public Set<String> getDependencyNames() {
 		return this.dependencyList;
 	}
-	
+
 	/**
 	 * Interface of the IOPlugin to engine environment
-	 * 
+	 *
 	 * @author Roozbeh Farahbod
-	 * 
+	 *
 	 */
 	public class IOPluginPSI implements PluginServiceInterface {
 
@@ -387,7 +387,7 @@ public class IOPlugin extends Plugin implements
 		/**
 		 * Sets the output stream for 'print' rules.
 		 * @param output a <code>PrintStream</code> object
-		 */	
+		 */
 		public void setOutputStream(PrintStream output) {
 			synchronized (pluginPSI) {
 				outputStream = output;
@@ -397,7 +397,7 @@ public class IOPlugin extends Plugin implements
 
 	/**
 	 * Write updates to files and print updates on the console.
-	 * 
+	 *
 	 * @param source
 	 * @param target
 	 * @throws UnmodifiableFunctionException
@@ -415,7 +415,7 @@ public class IOPlugin extends Plugin implements
 
 	/**
 	 * Writes all updates into files taking into account weather they should be appended to the file or not. Existing files are overwritten without any further warnings.
-	 * 
+	 *
 	 * @throws UnmodifiableFunctionException
 	 */
 	private void writePrintInToFileUpdates() throws UnmodifiableFunctionException {
@@ -659,7 +659,7 @@ public class IOPlugin extends Plugin implements
 			Set<ScannerInfo> contributingNodes = new HashSet<ScannerInfo>();
 			String action = APPEND_ACTION;
 
-			// if the second set does not have a basic update, 
+			// if the second set does not have a basic update,
 			// add all the updates from the first set as well
 			if (!compAPI.isLocUpdatedWithActions(2, l, Update.UPDATE_ACTION)) {
 				for (Update update : compAPI.getLocUpdates(1, l)) {
@@ -712,7 +712,7 @@ public class IOPlugin extends Plugin implements
 			String outputResult2 = "";
 			Set<Element> contributingAgents = new HashSet<Element>();
 			Set<ScannerInfo> contributingNodes = new HashSet<ScannerInfo>();
-			
+
 			// First, add all the updates in the second set
 			for (Update u: compAPI.getLocUpdates(2, PRINT_OUTPUT_FUNC_LOC)) {
 				if (u.action.equals(PRINT_ACTION)) {
@@ -725,8 +725,8 @@ public class IOPlugin extends Plugin implements
 			else
 					compAPI.addComposedUpdate(u, this);
 			}
-			
-			// if the second set does not have a basic update, 
+
+			// if the second set does not have a basic update,
 			// add all the updates from the first set as well
 			if (!compAPI.isLocUpdatedWithActions(2, PRINT_OUTPUT_FUNC_LOC, Update.UPDATE_ACTION)) {
 				for (Update u: compAPI.getLocUpdates(1, PRINT_OUTPUT_FUNC_LOC)) {
@@ -747,8 +747,8 @@ public class IOPlugin extends Plugin implements
 					outputResult = outputResult2;
 				else if (!outputResult2.isEmpty())
 					outputResult = outputResult1 + '\n' + outputResult2;
-				compAPI.addComposedUpdate(new Update(PRINT_OUTPUT_FUNC_LOC, 
-						new StringElement(outputResult), 
+				compAPI.addComposedUpdate(new Update(PRINT_OUTPUT_FUNC_LOC,
+						new StringElement(outputResult),
 						PRINT_ACTION, contributingAgents, contributingNodes), this);
 			}
 	}

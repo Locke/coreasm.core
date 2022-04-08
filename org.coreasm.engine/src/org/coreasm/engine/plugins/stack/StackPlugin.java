@@ -1,6 +1,6 @@
-/*	
+/*
  * StackPlugin.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.stack;
 
 import java.util.Collections;
@@ -42,33 +42,33 @@ import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.engine.plugins.list.HeadLastFunctionElement;
 import org.coreasm.engine.plugins.list.ListElement;
 
-/** 
+/**
  * Provides stack operations on Indexed Enumerables (e.g., lists).
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class StackPlugin extends Plugin implements ParserPlugin,
 		InterpreterPlugin, VocabularyExtender {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 1, "");
-	
+
 	public static final String PLUGIN_NAME = StackPlugin.class.getSimpleName();
-	
+
 	public static final String PEEK_FUNCTION_NAME = "peek";
-	
+
 	private Map<String, GrammarRule> parsers = null;
 	private Map<String, FunctionElement> functions = null;
 	private HashSet<String> depencyList = new HashSet<String>();
 
 	private final String[] keywords = {"push", "into", "pop", "from"};
 	private final String[] operators = {};
-	
+
 	public StackPlugin() {
 		super();
 		depencyList.add("ListPlugin");
 	}
-	
+
 
 	public String[] getKeywords() {
 		return keywords;
@@ -109,7 +109,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 			Parser<Node> termParser = kernel.getTermParser();
 
 			ParserTools pTools = ParserTools.getInstance(capi);
-			
+
 			Parser<Node> pushRuleParser = Parsers.array(
 					new Parser[] {
 						pTools.getKeywParser("push", PLUGIN_NAME),
@@ -129,7 +129,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 			parsers.put("StackPushRule",
 					new GrammarRule("StackPushRule", "'push' Term 'into' Term",
 							pushRuleParser, PLUGIN_NAME));
-			
+
 			//
 			Parser<Node> popRuleParser = Parsers.array(
 					new Parser[] {
@@ -157,7 +157,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 							Parsers.or(pushRuleParser, popRuleParser), PLUGIN_NAME));
 
 		}
-		
+
 		return parsers;
 
 	}
@@ -166,44 +166,44 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	 * @see org.coreasm.engine.plugin.InterpreterPlugin#interpret(org.coreasm.engine.interpreter.ASTNode)
 	 */
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-		
+
 		if (pos instanceof PopRuleNode) {
 			PopRuleNode node = (PopRuleNode)pos;
 			ASTNode stackNode = node.getStackNode();
 			ASTNode locNode = node.getLocationNode();
-			
+
 			// Evaluate elements
-			if (!stackNode.isEvaluated()) 
+			if (!stackNode.isEvaluated())
 				return stackNode;
 
 			// if the stack element is some kind of a list
 			if (stackNode.getValue() instanceof ListElement) {
-				
+
 				// if stack can be updated
 				if (stackNode.getLocation() != null) {
 					ListElement stack = (ListElement)stackNode.getValue();
-					
+
 					if (stack.intSize() > 0) {
 						// evaluate the location node
 						if (!locNode.isEvaluated())
 							return locNode;
-						
+
 						// if we have a location
 						if (locNode.getLocation() != null) {
-								
+
 							Update u1 = new Update(
-									locNode.getLocation(), 
-									stack.head(), 
-									Update.UPDATE_ACTION, 
-									interpreter.getSelf(),
-									pos.getScannerInfo());
-							Update u2 = new Update(
-									stackNode.getLocation(), 
-									stack.tail(), 
+									locNode.getLocation(),
+									stack.head(),
 									Update.UPDATE_ACTION,
 									interpreter.getSelf(),
 									pos.getScannerInfo());
-							
+							Update u2 = new Update(
+									stackNode.getLocation(),
+									stack.tail(),
+									Update.UPDATE_ACTION,
+									interpreter.getSelf(),
+									pos.getScannerInfo());
+
 							pos.setNode(null, new UpdateMultiset(u1, u2), null);
 						} else
 							capi.error("Cannot pop into a non-location.", pos, interpreter);
@@ -213,37 +213,37 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 					capi.error("Cannot pop from stack constants.", pos, interpreter);
 			} else
 				capi.error("Cannot pop from non-stacks.", pos, interpreter);
-			
+
 		} else
 			if (pos instanceof PushRuleNode) {
 				PushRuleNode node = (PushRuleNode)pos;
 				ASTNode stackNode = node.getStackNode();
 				ASTNode eNode = node.getElementNode();
-				
+
 				// Evaluate elements
-				if (!stackNode.isEvaluated()) 
+				if (!stackNode.isEvaluated())
 					return stackNode;
 
 				// if the stack element is some kind of a list
 				if (stackNode.getValue() instanceof ListElement) {
-					
+
 					// if stack can be updated
 					if (stackNode.getLocation() != null) {
 						ListElement stack = (ListElement)stackNode.getValue();
-						
+
 						// evaluate the location node
 						if (!eNode.isEvaluated())
 							return eNode;
-						
+
 						if (eNode.getValue() != null) {
 							Update u1 = new Update(
-									stackNode.getLocation(), 
-									stack.cons(eNode.getValue()), 
-									Update.UPDATE_ACTION, 
+									stackNode.getLocation(),
+									stack.cons(eNode.getValue()),
+									Update.UPDATE_ACTION,
 									interpreter.getSelf(),
 									pos.getScannerInfo());
 							pos.setNode(null, new UpdateMultiset(u1), null);
-						} else 
+						} else
 							capi.error("There is no value to push into stack", eNode, interpreter);
 					} else
 						capi.error("Cannot push into stack constants.", pos, interpreter);
@@ -280,7 +280,7 @@ public class StackPlugin extends Plugin implements ParserPlugin,
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
-			
+
 			functions.put(PEEK_FUNCTION_NAME, new HeadLastFunctionElement(capi, true));
 		}
 		return functions;

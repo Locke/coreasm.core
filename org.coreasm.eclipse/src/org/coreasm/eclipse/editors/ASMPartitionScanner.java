@@ -16,21 +16,21 @@ extends RuleBasedPartitionScanner
 {
 	public final static String ASM_DEFAULT = ASMEditor.PARTITION_CODE;
 	public final static String ASM_COMMENT = ASMEditor.PARTITION_COMMENT;
-	
+
 	public ASMPartitionScanner()
 	{
 		IToken asmComment = new Token(ASM_COMMENT);
 		IToken asmDefault = new Token(ASM_DEFAULT);
-		
+
 		setDefaultReturnToken(asmDefault);
-		
+
 		IPredicateRule[] rules = new IPredicateRule[3];
 		rules[0] = new MultiLineRule("/*", "*/", asmComment);
 		rules[1] = new EndOfLineRule("//", asmComment);
 		rules[2] = new ASMCodeRule(asmDefault);
-		
+
 		setPredicateRules(rules);
 	}
-	
-	
+
+
 }

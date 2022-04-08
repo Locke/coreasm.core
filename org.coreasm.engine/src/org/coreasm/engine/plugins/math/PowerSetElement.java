@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provide the powerset of an enumerable.
- *   
+ *
  * @author Michael Stegmaier
  *
  */
@@ -36,16 +36,16 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 
 	private final ArrayList<Element> elements;
 	private String denotationalValue = null;
-	
+
 	private PowerSetIndexedView indexedView = null;
-	
+
 	public PowerSetElement(Enumerable baseSet) {
 		Collection<? extends Element> base = baseSet.enumerate();
 		if (base.size() >= Integer.SIZE - 1)
 			logger.warn("MathPlugin: Powerset function over a collection of more than " + (Integer.SIZE - 2) + " elements.");
 		elements = new ArrayList<Element>(base);
 	}
-	
+
 	@Override
 	public boolean contains(Element e) {
 		return contains((Object)e);
@@ -61,7 +61,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 		return true;
 	}
-	
+
 	@Override
 	public Collection<Element> enumerate() {
 		if (supportsIndexedView())
@@ -92,12 +92,12 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		return false;
 	}
-	
+
 	@Override
 	public int size() {
 		if (elements.size() >= Integer.SIZE - 1)
@@ -143,7 +143,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			string += (string.isEmpty() ? " " : ", ") + member;
 		return "{" + string + " }";
 	}
-	
+
 	@Override
 	public String denotation() {
 		if (denotationalValue == null) {
@@ -154,7 +154,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 		return denotationalValue;
 	}
-	
+
 	@Override
 	public Iterator<Element> iterator() {
 		return new PowerSetIterator();
@@ -162,11 +162,11 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 
 	private class PowerSetIterator implements Iterator<Element>  {
 		private final BigInteger powersetSize;
-		private final long smallPowersetSize; 
+		private final long smallPowersetSize;
 		private final boolean overSizeBaseSet;
 		private BigInteger bigIndex;
 		private long smallIndex;
-		
+
 		public PowerSetIterator() {
 			final int baseSize = elements.size();
 			overSizeBaseSet = baseSize >= Long.SIZE - 1;
@@ -183,7 +183,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 
 		@Override
 		public boolean hasNext() {
-			return overSizeBaseSet && bigIndex.compareTo(powersetSize) < 0 || smallIndex < smallPowersetSize;  
+			return overSizeBaseSet && bigIndex.compareTo(powersetSize) < 0 || smallIndex < smallPowersetSize;
 		}
 
 		@Override
@@ -198,24 +198,24 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			return new PowerSetMember(smallIndex++);
 		}
 	}
-	
+
 	private class PowerSetMember extends AbstractSetElement {
 		private final BitSet keys = new BitSet();
-		
+
 		public PowerSetMember(int index) {
 			for (int i = elements.size() - 1; i >= 0; i--) {
 				if ((index & (1 << i)) != 0)
 					keys.set(i);
 			}
 		}
-		
+
 		public PowerSetMember(long index) {
 			for (int i = elements.size() - 1; i >= 0; i--) {
 				if ((index & (1L << i)) != 0)
 					keys.set(i);
 			}
 		}
-		
+
 		public PowerSetMember(BigInteger index) {
 			for (int i = elements.size() - 1; i >= 0; i--) {
 				if ((index.and(BigInteger.ONE.shiftLeft(i))).compareTo(BigInteger.ZERO) != 0)
@@ -353,7 +353,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 						}
 					};
 				}
-				
+
 				@Override
 				public boolean contains(Object o) {
 					if (!(o instanceof Element))
@@ -396,7 +396,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			return keys.equals(other.keys);
 		}
 	}
-	
+
 	private class PowerSetIndexedView extends AbstractList<Element> implements List<Element> {
 		private final int size = PowerSetElement.this.size();
 
@@ -404,7 +404,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		public int size() {
 			return size;
 		}
-		
+
 		@Override
 		public Element get(int index) {
 			return new PowerSetMember(index);
@@ -420,7 +420,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	public boolean supportsIndexedView() {
 		return elements.size() < Integer.SIZE - 1;
 	}
-	
+
 	public boolean add(Element o) {
 		throw new UnsupportedOperationException();
 	}

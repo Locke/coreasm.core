@@ -21,7 +21,7 @@ import org.eclipse.debug.core.model.IWatchExpressionListener;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
 
 public class WatchExpressionDelegate implements IWatchExpressionDelegate {
-	
+
 
 	@Override
 	public void evaluateExpression(final String expression, IDebugElement context, IWatchExpressionListener listener) {
@@ -50,7 +50,7 @@ public class WatchExpressionDelegate implements IWatchExpressionDelegate {
 		private IValue value = null;
 		private DebugException exception = null;
 		private String error = null;
-		
+
 		public EvaluationJob(String expression, ASMStackFrame frame, IWatchExpressionListener listener) {
 			super("EvaluationJob");
 			setSystem(true);
@@ -58,7 +58,7 @@ public class WatchExpressionDelegate implements IWatchExpressionDelegate {
 			this.expression = expression;
 			this.listener = listener;
 		}
-		
+
 		@Override
 		protected IStatus run(IProgressMonitor arg0) {
 			try {
@@ -80,29 +80,29 @@ public class WatchExpressionDelegate implements IWatchExpressionDelegate {
 				}
 			} catch (Throwable t) {
 				error = t.getClass().getSimpleName() + ": " + t.getLocalizedMessage();
-			} 
+			}
 			listener.watchEvaluationFinished(new IWatchExpressionResult() {
-				
+
 				@Override
 				public boolean hasErrors() {
 					return value == null;
 				}
-				
+
 				@Override
 				public IValue getValue() {
 					return value;
 				}
-				
+
 				@Override
 				public String getExpressionText() {
 					return expression;
 				}
-				
+
 				@Override
 				public DebugException getException() {
 					return exception;
 				}
-				
+
 				@Override
 				public String[] getErrorMessages() {
 					if (value == null) {
@@ -116,6 +116,6 @@ public class WatchExpressionDelegate implements IWatchExpressionDelegate {
 			((ASMDebugTarget)frame.getDebugTarget()).fireSuspendEvent(DebugEvent.EVALUATION_IMPLICIT);
 			return Status.OK_STATUS;
 		}
-		
+
 	}
 }

@@ -9,7 +9,7 @@ import java.util.*;
 public class SecondSamplePlugin extends Plugin implements VocabularyExtender{
 
     public static final VersionInfo verInfo = new VersionInfo(0, 2, 1, "alpha");
-    
+
     private Map<String,FunctionElement> functions = null;
     private FunctionElement hashValueFunction;
     private final Set<String> dependencySet;
@@ -34,7 +34,7 @@ public class SecondSamplePlugin extends Plugin implements VocabularyExtender{
     public Set<String> getDependencyNames() {
         return this.dependencySet;
     }
-	
+
     public Map<String,FunctionElement> getFunctions() {
         if (functions == null) {
             functions = new HashMap<String,FunctionElement>();

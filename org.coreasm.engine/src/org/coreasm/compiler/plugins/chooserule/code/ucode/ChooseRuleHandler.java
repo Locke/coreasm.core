@@ -24,12 +24,12 @@ public class ChooseRuleHandler implements CompilerCodeHandler {
 		try {
 			if(!(node instanceof ChooseRuleNode)) throw new CompilerException("wrong node type in compilation for chooserule");
 			ChooseRuleNode chooseRule = (ChooseRuleNode) node;
-			
+
 			Map<String, ASTNode> vars = chooseRule.getVariableMap();
 			ASTNode doRule = chooseRule.getDoRule();
 			ASTNode condition = chooseRule.getCondition();
 			ASTNode ifnone = chooseRule.getIfnoneRule();
-			
+
 			result.appendLine("//--------------start choose\n");
 			//evaluate sources
 			int cnt = 0;
@@ -41,7 +41,7 @@ public class ChooseRuleHandler implements CompilerCodeHandler {
 				result.appendLine("@srclist@.add(new java.util.ArrayList<@RuntimePkg@.Element>(((@RuntimePkg@.Enumerable)evalStack.pop()).enumerate()));");
 				cnt++;
 			}
-			
+
 			//note: each of these two forks ends with a state, in which:
 			//1. a layer is opened on the localStack
 			//2. a selection has been choosen and was pushed to the localStack
@@ -95,12 +95,12 @@ public class ChooseRuleHandler implements CompilerCodeHandler {
 				}
 				result.appendLine("@combinations@.add(@tmpcombination@);\n");
 				result.appendLine("}\n");
-				
+
 				//close for loops; effectively doing nothing
 				for(int i = 0; i < vars.size(); i++){
 					result.appendLine("}\n");
 				}
-				
+
 				//determine the final state; selected is false, if it is false or the combination list is empty
 				//if it is true, then put a random combination to the local state
 				result.appendLine("@selected@ = @selected@ && @combinations@.size() >= 1;\n");

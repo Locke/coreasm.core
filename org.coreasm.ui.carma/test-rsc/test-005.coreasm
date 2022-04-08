@@ -11,7 +11,7 @@ use StandardPlugins
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	seq
 	par
 	   program(self) := undef
@@ -24,7 +24,7 @@ rule InitRule =
 	     par
 	       b := x
 	       c := 3 * x
-	     endpar	  
+	     endpar
 	   ifnone
 	       b := 1337
 	   endchoose
@@ -41,5 +41,3 @@ rule InitRule =
 	endpar
 	next
 		print |d| + " " + foundM + " " + notFoundM
-
-	

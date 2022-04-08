@@ -1,34 +1,34 @@
-/*	
+/*
  * Signature.java 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2005-2007 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005-2007 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** 
+/**
  *	Holds the signature of a function.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class Signature {
-    
+
     private List<String> domain;
     private String range;
-    
+
     /**
      * Creates a new signature of the form:
      * <p>
@@ -39,12 +39,12 @@ public class Signature {
        domain = Collections.emptyList();
        range = ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
     }
-	
+
 	/**
 	 * Creates a new signature of the form:
 	 * <p>
 	 * signature[0] * signature[1] * ... * signature[n-1] -> signature[n]
-	 * 
+	 *
 	 * @param signature an array of domain names ended with the range name
 	 */
 	public Signature(String ... signature) {
@@ -92,7 +92,7 @@ public class Signature {
     public void setDomain(List<String> domain) {
         if (domain != null)
         	this.domain = Collections.unmodifiableList(domain);
-        else 
+        else
         	this.domain = Collections.emptyList();
     }
 
@@ -102,7 +102,7 @@ public class Signature {
     public void setDomain(String ... domain) {
         this.domain = List.of(domain);
     }
-    
+
     /**
      * Returns the range of this signature as
      * a name of a universe.
@@ -113,26 +113,26 @@ public class Signature {
 
     /**
      * Sets the range of this signature.
-     *  
+     *
      * @param range the name of the range universe
      */
     public void setRange(String range) {
         this.range = range;
     }
- 
+
     /**
      * Returns the arity of this signature.
      */
     public int getArity() {
     	return domain.size();
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     public String toString() {
         String ret = "";
-        
+
         if (domain != null) {
             for (int i = 0; i < domain.size(); i++) {
                 if (i == 0) {
@@ -143,9 +143,9 @@ public class Signature {
                 }
             }
         }
-        
+
         ret += " -> " + range;
-        
+
         return ret;
     }
 

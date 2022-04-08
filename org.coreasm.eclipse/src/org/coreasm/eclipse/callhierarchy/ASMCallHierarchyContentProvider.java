@@ -18,12 +18,12 @@ public class ASMCallHierarchyContentProvider implements ITreeContentProvider {
 	public Object[] getChildren(Object parentElement) {
 		if (!(parentElement instanceof ASMCallHierarchyNode))
 			return new Object[0];
-		
+
 		ASMCallHierarchyNode parentNode = (ASMCallHierarchyNode) parentElement;
-		
+
 		if (!parentNode.hasChildren())
 			return new Object[0];
-		
+
 		return parentNode.getChildren().toArray();
 	}
 

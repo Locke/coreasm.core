@@ -11,14 +11,14 @@ use Standard
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	par
 		program(self) := ruleelement Main
 		setOfNumbers := {1,2,3}
 	endpar
-	
 
-rule Main = 
+
+rule Main =
 	seqblock
 	   inTrue := 1 memberof setOfNumbers
 	   intFalse := 32 memberof setOfNumbers
@@ -38,4 +38,3 @@ rule Main =
 		print {"a", "b", 3} subset {"a", "b", 3}
 		print {1, 5} subset {1, 20}
 	endseqblock
-	

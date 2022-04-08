@@ -11,11 +11,11 @@ import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.number.NumberBackgroundElement;
 import org.coreasm.engine.plugins.number.NumberElement;
 
-/** 
+/**
  * Function element providing the 'replicate' function.
- *   
+ *
  * @author Michael Stegmaier
- * 
+ *
  */
 public class ReplicateFunctionElement extends ListFunctionElement {
 
@@ -37,7 +37,7 @@ public class ReplicateFunctionElement extends ListFunctionElement {
 	public Signature getSignature() {
 		return signature;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
 	 */
@@ -45,7 +45,7 @@ public class ReplicateFunctionElement extends ListFunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!checkArguments(args))
 			throw new CoreASMError("Illegal arguments for " + NAME + ".");
-		
+
 		NumberElement n = (NumberElement)args.get(1);
 		return new ListElement(replicate(args.get(0), n));
 	}

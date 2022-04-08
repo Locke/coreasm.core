@@ -39,7 +39,7 @@ public class ASMWizardPage extends WizardPage {
 
 	/**
 	 * Constructor for SampleNewWizardPage.
-	 * 
+	 *
 	 * @param pageName
 	 */
 	public ASMWizardPage(ISelection selection) {
@@ -48,9 +48,9 @@ public class ASMWizardPage extends WizardPage {
 //		ImageDescriptor id=ImageDescriptor.createFromFile(CoreASMPlugin.class,"../../icons/CoreASM-logo48.gif");
 		ImageDescriptor id=CoreASMPlugin.getImageDescriptor("icons/logo-96x.png");
 		setImageDescriptor(id);
-		setDescription("This wizard creates a new file with *." 
-				+ CoreASMPlugin.COREASM_FILE_EXT_1 + " or *." 
-				+ CoreASMPlugin.COREASM_FILE_EXT_2 
+		setDescription("This wizard creates a new file with *."
+				+ CoreASMPlugin.COREASM_FILE_EXT_1 + " or *."
+				+ CoreASMPlugin.COREASM_FILE_EXT_2
 				+ " extension containing a standard (almost empty) CoreASM specification.");
 		this.selection = selection;
 	}
@@ -172,9 +172,9 @@ public class ASMWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase(CoreASMPlugin.COREASM_FILE_EXT_1) == false 
+			if (ext.equalsIgnoreCase(CoreASMPlugin.COREASM_FILE_EXT_1) == false
 					&& ext.equalsIgnoreCase(CoreASMPlugin.COREASM_FILE_EXT_2) == false) {
-				updateStatus("File extension must be \"" 
+				updateStatus("File extension must be \""
 						+ CoreASMPlugin.COREASM_FILE_EXT_1 + "\" or \""
 						+ CoreASMPlugin.COREASM_FILE_EXT_2 + "\".");
 				return;

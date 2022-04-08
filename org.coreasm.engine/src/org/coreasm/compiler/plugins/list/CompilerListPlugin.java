@@ -51,7 +51,7 @@ import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPlugin, CompilerVocabularyExtender, CompilerOperatorPlugin, CompilerMakroProvider{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -59,13 +59,13 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 	public CompilerListPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
 
-	
+
 	@Override
 	public String getName() {
 		return "ListPlugin";
@@ -74,7 +74,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 	@Override
 	public List<String> unaryOperations() {
 		List<String> result = new ArrayList<String>();
-		
+
 		return result;
 	}
 
@@ -83,14 +83,14 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 		List<String> result = new ArrayList<String>();
 
 		result.add("+");
-		
+
 		return result;
 	}
 
 	@Override
 	public String compileBinaryOperator(String token)
 			throws CompilerException {
-		
+
 		String result = "";
 		String listelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "ListElement", "ListPlugin");
 		if(token.equals("+")){
@@ -102,9 +102,9 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 			result += "}\n";
 		}
 		else throw new CompilerException("unkown operator: ListPlugin, " + token);
-		
+
 		result = result + " else ";
-		
+
 		return result;
 	}
 
@@ -117,10 +117,10 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
-		
+
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -135,13 +135,13 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListFunctionElement", "plugins.ListPlugin.ListFunctionElement");
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListBackgroundElement", "plugins.ListPlugin.ListBackgroundElement");
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListElement", "plugins.ListPlugin.ListElement");*/
-				
+
 				//package replacements for classes accessible from other plugins
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListFunctionElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "ListFunctionElement", "ListPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "ListBackgroundElement", "ListPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "ListElement", "ListPlugin"));
-				
-				
+
+
 				//elements provided by the plugins include
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/compiler/plugins/list/include/LastFunctionElement.java", EntryType.FUNCTION_CAPI, HeadLastFunctionElement.LAST_FUNC_NAME).
@@ -169,7 +169,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 				throw new CompilerException(e);
 			}
 		}
-		
+
 		return result;
 	}
 

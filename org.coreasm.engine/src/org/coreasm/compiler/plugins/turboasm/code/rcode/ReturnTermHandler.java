@@ -22,10 +22,10 @@ public class ReturnTermHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		
+
 		CodeFragment exp = engine.compile(node.getAbstractChildNodes().get(0), CodeType.R);
 		CodeFragment rule = engine.compile(node.getAbstractChildNodes().get(1), CodeType.U);
-		
+
 		result.appendFragment(rule);
 		result.appendLine("@decl(@RuntimePkg@.UpdateList,updates)=(@RuntimePkg@.UpdateList)evalStack.pop();\n");
 		result.appendLine("@decl(@RuntimePkg@.AbstractStorage,storage)=@RuntimeProvider@.getStorage();\n");

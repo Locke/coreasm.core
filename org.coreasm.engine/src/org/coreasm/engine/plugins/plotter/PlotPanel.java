@@ -1,6 +1,6 @@
-/*	
+/*
  * PlotPanel.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.plotter;
 
 import java.awt.Color;
@@ -31,21 +31,21 @@ import org.coreasm.engine.absstorage.Location;
 import org.coreasm.engine.plugins.number.NumberElement;
 import org.coreasm.util.Tools;
 
-/** 
- * A JPanel that can draw a function element. 
- *   
+/**
+ * A JPanel that can draw a function element.
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class PlotPanel extends JPanel {
 
 	/* keeps the mapping of functions to colors */
 	private Map<FunctionElement,Color> fs;
-	
+
 	private static final int MINIMUM_WIDTH = 500;
 	private static final int MINIMUM_HEIGHT = 500;
-	
+
 	/* array of colors */
 	private static final Color[] COLORS = {
 		Color.BLUE, Color.RED, Color.GREEN, Color.CYAN,
@@ -53,14 +53,14 @@ public class PlotPanel extends JPanel {
 		Color.PINK
 	};
 	private int colorIndex = 0;
-	
-	
+
+
 	public PlotPanel() {
 		super();
 		initComponent();
 		fs = new HashMap<FunctionElement,Color>();
 	}
-	
+
 	/**
 	 * Initializes this panel
 	 */
@@ -70,7 +70,7 @@ public class PlotPanel extends JPanel {
 		//setMinimumSize(new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT));
 		setPreferredSize(new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT));
 	}
-	
+
 	public void paint(Graphics g) {
 		super.paint(g);
 
@@ -79,18 +79,18 @@ public class PlotPanel extends JPanel {
 		int delta = 25;
 		int hp = h - 2 * delta;
 		int wp = w - 2 * delta;
-		
+
 		Map<Collection<DPoint>,Color> points = new HashMap<Collection<DPoint>,Color>();
-		
+
 		double minX = Double.MAX_VALUE;
 		double minY = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
 		double maxY = Double.MIN_VALUE;
-		
+
 		for (FunctionElement f: fs.keySet()) {
 			Color color = fs.get(f);
-			
-			/* we can only draw a function that provides us with 
+
+			/* we can only draw a function that provides us with
 			 * the set of all its defined locations
 			 */
 			if (f != null && !f.getLocations("f").isEmpty()) {
@@ -121,7 +121,7 @@ public class PlotPanel extends JPanel {
 		if (!points.keySet().isEmpty()) {
 			double scaleX = wp / (maxX - minX);
 			double scaleY = hp / (maxY - minY);
-	
+
 			g.setColor(Color.GRAY);
 			int mx = delta + (int)Math.round((-minX) * scaleX);
 			int my = h - delta - (int)Math.round((-minY) * scaleY);
@@ -131,7 +131,7 @@ public class PlotPanel extends JPanel {
 			drawStringAt(g, Tools.dFormat(minY, 3), mx, h - delta, 'b');
 			drawStringAt(g, Tools.dFormat(maxX, 3), w - delta, my, 'r');
 			drawStringAt(g, Tools.dFormat(minX, 3), delta, my, 'l');
-	
+
 			for (Collection<DPoint> l: points.keySet()) {
 				g.setColor(points.get(l));
 				for (DPoint p: l) {
@@ -143,7 +143,7 @@ public class PlotPanel extends JPanel {
 		}
 
 	}
-	
+
 	/*
 	 * Draws a string at a given point on a certain direction.
 	 */
@@ -155,28 +155,28 @@ public class PlotPanel extends JPanel {
 		case 'c':
 			g.drawString(str, x - (int)textBox.getWidth() / 2, y + (int)textBox.getHeight() / 2);
 			break;
-			
+
 		case 'l':
 			g.drawString(str, x, y + (int)textBox.getHeight());
 			break;
-			
+
 		case 't':
 			g.drawString(str, x - (int)textBox.getWidth()/2, y - 5);
 			break;
-			
+
 		case 'b':
 			g.drawString(str, x - (int)textBox.getWidth()/2, y + (int)textBox.getHeight() + 5);
 			break;
-			
+
 		case 'r':
 			g.drawString(str, x - (int)textBox.getWidth(), y + (int)textBox.getHeight());
 			break;
-			
+
 		}
 	}
 
 	/**
-	 * Adds a new function element to its set of functions 
+	 * Adds a new function element to its set of functions
 	 * to be drawn.
 	 */
 	public void addFunction(FunctionElement f) {
@@ -186,11 +186,11 @@ public class PlotPanel extends JPanel {
 				colorIndex = 0;
 		}
 	}
-	
+
 	public Map<FunctionElement,Color> getColorMap(){
 		return fs;
 	}
-	
+
 	/* to keep a point */
 	private static class DPoint {
 		public double x, y;

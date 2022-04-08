@@ -1,10 +1,10 @@
-/*  
+/*
  * Implementation of the Complete Synod Protocol as in Chapter 2.2 - 2.4 of
  * The Part-Time Parliament, ACM Transactions on Computer Systems, Volume 16 ,  Issue 2  (May 1998)
  *
- * (c) 2008 Paolo Herms 
- */ 
- 
+ * (c) 2008 Paolo Herms
+ */
+
 
 CoreASM synod
 
@@ -22,10 +22,10 @@ universe Votes
 universe Decrees
 universe Ballots
 universe Messages
-universe Priests //every priest has an agent, 
-	// seperation to guarantee each agent only accesses it's own state 
-	// (local state functions have agent-identifiers as arguments 
-	//  and agents never use other agent-identifiers other than self)   
+universe Priests //every priest has an agent,
+	// seperation to guarantee each agent only accesses it's own state
+	// (local state functions have agent-identifiers as arguments
+	//  and agents never use other agent-identifiers other than self)
 
 enum STATE = {idle,president,initiatingBallot,awaitingVotes}
 
@@ -54,9 +54,9 @@ function votedMessagePriest: Messages -> Priests
 function currentPresident: -> Priests
 function isInside: Priests -> BOOLEAN
 function incomingMessages: Priests -> SET
-// set of messages each priest has received, 
+// set of messages each priest has received,
 // messages are sent by adding them into the set of the receiver
-  
+
 // local state
 function state: Agents -> STATE
 function timer: Agents -> NUMBER
@@ -68,7 +68,7 @@ function decree: Agents -> Decrees
 function outcome: Agents -> Decrees
 
 function nextBallot: Agents -> Ballots
-function prevVote: Agents -> Votes 
+function prevVote: Agents -> Votes
 
 function priestOfAgent: Agents -> Priests
 function stayOther: Agents -> NUMBER
@@ -120,11 +120,11 @@ rule Priest =
 			else
 				seq
 					StepInside
-				next 
+				next
 					Inside
 	endpar
 
-rule StepOutside = 
+rule StepOutside =
 	if isInside (mePriest) then par
 		if currentPresident = mePriest then
 			currentPresident := undef
@@ -132,7 +132,7 @@ rule StepOutside =
 		Info ("going out")
 	endpar
 
-rule StepInside = 
+rule StepInside =
 	if not isInside (mePriest) then par
 		state (self) := idle
 		incomingMessages (mePriest) := { }
@@ -144,10 +144,10 @@ rule Inside = par
 	Main
 	HandleIncomingMessages
 endpar
-	 			 
+
 // Main rule: Control State behaviour is controlled here
 rule Main = par
-		
+
 	if (state (self) = idle) then
 		if currentPresident = mePriest then
 			state (self) := president
@@ -189,44 +189,44 @@ endpar
 rule ResetTimer =
 	timer (self) := now
 
-rule InitiateBallot = 
-	extend Ballots with b do 
+rule InitiateBallot =
+	extend Ballots with b do
 	extend Messages with msg do par
 		lastTried (self) := b
 		ballotOwner (b) := mePriest
-		let n = ballotNumber (lastTried (self)) in 
+		let n = ballotNumber (lastTried (self)) in
 			if n < 0 then
 				ballotNumber (b) := 0
 			else
-				ballotNumber (b) := n + 1 
+				ballotNumber (b) := n + 1
 		prevVotes (self) := { }
 		messageType (msg) := MSG_NextBallot
 		nextBallotMessageBallot (msg) := b
 		SendAll (Priests,  msg)
 	endpar
-	
+
 rule BeginBallot =
 	seq par
 		quorum (self) := { p is votePriest (v) | v in prevVotes (self) }
 		voters (self) := { }
 		choose maxVote in prevVotes (self) with
-			voteBallot (maxVote) != undef and 
+			voteBallot (maxVote) != undef and
 			forall v in prevVotes (self) holds ballotNumber (voteBallot (v)) <= ballotNumber (voteBallot (maxVote))
 		do
 			decree (self) := voteDecree (maxVote)
 		ifnone
 			extend Decrees with new do
-				decree (self) := new 
+				decree (self) := new
 	endpar
-	next 
+	next
 		extend Messages with msg do par
 			messageType (msg) := MSG_BeginBallot
 			beginBallotMessageDecree (msg) := decree (self)
 			beginBallotMessageBallot (msg) := lastTried (self)
-			SendAll (quorum (self), msg) 
+			SendAll (quorum (self), msg)
 		endpar
 
-rule Success = 
+rule Success =
 	extend Messages with msg do par
 		outcome (self) := decree (self)
 		messageType (msg) := MSG_Success
@@ -235,11 +235,11 @@ rule Success =
 		Info ("Passing decree " + decree (self))
 	endpar
 
-rule HandleLastVote (b, v) = 
-	if b = lastTried (self) then 
+rule HandleLastVote (b, v) =
+	if b = lastTried (self) then
 		add v to prevVotes (self)
 
-rule HandleVoted (b, q) = 
+rule HandleVoted (b, q) =
 	if b = lastTried (self) then
 		add q to voters (self)
 
@@ -255,27 +255,27 @@ rule HandleMessage (m) = par
 		HandleNextBallot (nextBallotMessageBallot (m))
 	if messageType (m) = MSG_BeginBallot then
 		HandleBeginBallot (beginBallotMessageBallot (m), beginBallotMessageDecree (m))
-	if messageType (m) = MSG_Success then 
+	if messageType (m) = MSG_Success then
 		HandleSuccess (successMessageDecree (m))
-	if messageType (m) = MSG_LastVote and state (self) = initiatingBallot then 
+	if messageType (m) = MSG_LastVote and state (self) = initiatingBallot then
 		HandleLastVote (lastVoteMessageBallot (m), lastVoteMessageVote (m))
-	if messageType (m) = MSG_Voted and state (self) = awaitingVotes then 
+	if messageType (m) = MSG_Voted and state (self) = awaitingVotes then
 		HandleVoted (votedMessageBallot (m), votedMessagePriest (m))
 endpar
-		
+
 rule HandleNextBallot (b) =
-	if ballotNumber (b) > ballotNumber (nextBallot (self)) then 
+	if ballotNumber (b) > ballotNumber (nextBallot (self)) then
 		extend Messages with msg do par
 			nextBallot (self) := b
 			messageType (msg) := MSG_LastVote
 			lastVoteMessageBallot (msg) := b
-			lastVoteMessageVote (msg) := prevVote (self) 
+			lastVoteMessageVote (msg) := prevVote (self)
 			Send (ballotOwner (b), msg)
 		endpar
-		
+
 rule HandleBeginBallot (b, d) =
-	if b = nextBallot (self) and ballotNumber (nextBallot (self)) > ballotNumber (voteBallot (prevVote (self))) then 
-		extend Votes with vote do 
+	if b = nextBallot (self) and ballotNumber (nextBallot (self)) > ballotNumber (voteBallot (prevVote (self))) then
+		extend Votes with vote do
 		extend Messages with msg do par
 			prevVote (self) := vote
 			votePriest (vote) := mePriest
@@ -286,28 +286,28 @@ rule HandleBeginBallot (b, d) =
 			votedMessageBallot (msg) := b
 			Send (ballotOwner (b), msg)
 		endpar
-		
+
 rule HandleSuccess (d) = par
 	if outcome (self) = undef then
 		outcome (self) := d
 	CheckAndExit (d)
 endpar
 
-rule SendAll (rcvs, msg) = 
+rule SendAll (rcvs, msg) =
 	forall p in rcvs do
 		Send (p, msg)
 
-rule Send (rcv, msg) = 
+rule Send (rcv, msg) =
 	if isInside (rcv) then
 		add msg to incomingMessages (rcv)
 
 rule CheckAndExit (d) = par
-	Assert (forall a in Agents holds outcome (a) = undef or outcome (a) = d, "Decrees inconsistent") 
+	Assert (forall a in Agents holds outcome (a) = undef or outcome (a) = d, "Decrees inconsistent")
 	choose a in Agents with a != self and priestOfAgent (a) != undef and outcome (a) = undef do
-		outcome (a) := undef // ensures only one agent selected at last step of execution, 
-							// rely on the fact that CoreASM deselects agents which create 
+		outcome (a) := undef // ensures only one agent selected at last step of execution,
+							// rely on the fact that CoreASM deselects agents which create
 							// conflicting update sets - this may change in future versions!
-	ifnone 
+	ifnone
 		if terminateOnSuccess then
 			KillallPrint ("SUCCESS")
 endpar
@@ -317,9 +317,9 @@ rule Info (text) =
 		print "President: " + text
 	else
 		print self + ": " + text
-	
+
 rule Assert (c, text) =
-	if not c then 
+	if not c then
 		KillallPrint ("Assertion Error (" + self + "): " + text)
 
 rule KillallPrint (s) = par
@@ -328,16 +328,16 @@ rule KillallPrint (s) = par
 		program(a) := undef
 endpar
 
-rule PrintMessage (m) = 
+rule PrintMessage (m) =
 	let s = "received message - " + messageType (m) in par
 		if messageType (m) = MSG_NextBallot then
 			Info (s + " { ballot = " + nextBallotMessageBallot (m) + " }")
 		if messageType (m) = MSG_BeginBallot then
 			Info (s + " { ballot = " + beginBallotMessageBallot (m) + "; decree = " + beginBallotMessageDecree (m) + " }")
-		if messageType (m) = MSG_Success then 
+		if messageType (m) = MSG_Success then
 			Info (s + " { decree = " + successMessageDecree (m) + " } ")
-		if messageType (m) = MSG_LastVote then 
+		if messageType (m) = MSG_LastVote then
 			Info (s + " { ballot = " + lastVoteMessageBallot (m) + "; vote = " +  stringOfVote (lastVoteMessageVote (m)) + " }")
-		if messageType (m) = MSG_Voted then 
+		if messageType (m) = MSG_Voted then
 			Info (s + " { ballot = " + votedMessageBallot (m) + "; priest = " + votedMessagePriest (m) + " }")
 	endpar

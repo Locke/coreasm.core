@@ -46,10 +46,10 @@ import org.coreasm.compiler.components.variablemanager.VarManager;
  * CodeFragment object. Child CodeFragments (attached via appendFragment) won't see them
  * and can declare the same name again.
  * Additional lines of code added via appendLine can see the temporary name.
- * 
+ *
  * A CodeFragment is finalized using a specific compiler engine. This compiler engine can define
  * global variables, which will be applied to all CodeFragments.
- * 
+ *
  * @author Markus Brenner
  *
  */
@@ -61,7 +61,7 @@ public class CodeFragment {
 	private int sizeInBytes = 0;
 	private int id;
 	private static int count = 0;
-	
+
 	/**
 	 * Creates a new CodeFragment with the given code.
 	 * @param s A piece of code
@@ -69,14 +69,14 @@ public class CodeFragment {
 	public CodeFragment(String s){
 		this.id = count;
 		count++;
-		
-		
+
+
 		codeList = new ArrayList<String>();
 		children = new HashMap<Integer, CodeFragment>();
-		
+
 		appendLine(s);
 	}
-	
+
 	/**
 	 * Creates a new CodeFragment with the given code and the given info string.
 	 * The info string will be used to print a comment at the beginning and at the end of
@@ -87,28 +87,28 @@ public class CodeFragment {
 	public CodeFragment(String s, String info){
 		this.id = count;
 		count++;
-		
+
 		codeList = new ArrayList<String>();
 		children = new HashMap<Integer, CodeFragment>();
-		
+
 		appendLine(s);
 		this.generationInfo = info;
 		sizeInBytes = this.generationInfo.getBytes().length + 10;
 	}
-	
+
 	/**
 	 * Creates an empty CodeFragment
 	 */
 	public CodeFragment(){
 		this.id = count;
 		count++;
-		
+
 		codeList = new ArrayList<String>();
 		children = new HashMap<Integer, CodeFragment>();
-		
+
 		appendLine("");
 	}
-	
+
 	private int tryFill(int count, CodeFragment code){
 		for(int i = 0; i < codeList.size(); i++){
 			if(children.get(i) == null){
@@ -125,7 +125,7 @@ public class CodeFragment {
 		}
 		return count;
 	}
-	
+
 	/**
 	 * Tries to fill the gap with the number count.
 	 * The gaps are numbered as if all code of this and child fragments was
@@ -138,7 +138,7 @@ public class CodeFragment {
 		if(tryFill(count, code) != -1)
 			throw new CodeFragmentException("CodeFragment has no gap with number " + count);
 	}
-	
+
 	/**
 	 * Appends a line of code.
 	 * All declared temporary variable identifiers are valid in this line.
@@ -146,19 +146,19 @@ public class CodeFragment {
 	 */
 	public void appendLine(String s) {
 		String[] tmp = s.split("@@");
-		
+
 		if(codeList.size() >= 1){
 			codeList.set(codeList.size() - 1, codeList.get(codeList.size() - 1) + tmp[0]);
 		}
 		else{
 			codeList.add(tmp[0]);
 		}
-		
+
 		for(int i = 1; i < tmp.length; i++){
 			codeList.add(tmp[i]);
 			children.put(codeList.size() - 1, null);
 		}
-		
+
 		sizeInBytes += s.getBytes().length;
 	}
 
@@ -168,7 +168,7 @@ public class CodeFragment {
 	 * of the father will not be viable in this child fragment.
 	 * @param code A CodeFragment
 	 */
-	public void appendFragment(CodeFragment code){		
+	public void appendFragment(CodeFragment code){
 		children.put(codeList.size() - 1, code);
 		codeList.add("");
 	}
@@ -178,13 +178,13 @@ public class CodeFragment {
 		int errorlength = errorSnippet;
 		for(int k = pos; (k < tmp.length) && (errorstring.length() < errorlength); k++){
 			errorstring = errorstring + tmp[k];
-		}						
+		}
 		if(errorstring.length() > errorlength){
 			errorstring = errorstring.substring(0, errorlength);
 		}
 		return errorstring;
 	}
-	
+
 	/**
 	 * Prints the code of this CodeFragment.
 	 * The process will replace all macros, generating actual variable names.
@@ -194,10 +194,10 @@ public class CodeFragment {
 	 */
 	public String generateCode(CompilerEngine engine) throws CodeFragmentException{
 		List<Integer> ids = new ArrayList<Integer>();
-		
-		
+
+
 		String result = genCode(ids, engine);
-		
+
 		if(result.contains("@")){
 			String warn = result.substring(result.indexOf("@"));
 			if(warn.length() > errorSnippet){
@@ -207,21 +207,21 @@ public class CodeFragment {
 			engine.getLogger().warn(CodeFragment.class, text);
 			engine.addWarning(text);
 		}
-		
+
 		return result;
 	}
-	
+
 	//internal function for code generation. Introduced to decide recursive calls
 	//to child fragments from the initial generate call
 	private String genCode(List<Integer> ids, CompilerEngine engine) throws CodeFragmentException{
 		List<String> names = new ArrayList<String>();
-		
+
 		VarManager vman = engine.getVarManager();
-		
+
 		StringBuilder result = new StringBuilder();
 
 		List<String> myCodeList = new ArrayList<>(codeList);
-		
+
 		//first, replace all occurrences of global macros
 		Map<String, String> global = engine.getGlobalMakros();
 		for(Entry<String, String> m : global.entrySet()){
@@ -229,7 +229,7 @@ public class CodeFragment {
 				myCodeList.set(i, myCodeList.get(i).replaceAll("@" + m.getKey() + "@", m.getValue()));
 			}
 		}
-		
+
 		for(int i = 0; i < myCodeList.size(); i++){
 			//replace declarations in own namespace
 			String[] tmp = myCodeList.get(i).split("@decl");
@@ -250,18 +250,18 @@ public class CodeFragment {
 					throw new CodeFragmentException("trying to redeclare the variable '" + name + "' near '" + buildErrorString(tmp, j) + "'");
 				}
 				//add the variable to the list of already declared names
-				names.add(name);  
-				
+				names.add(name);
+
 				CompilerVariable cv = vman.createVariable(type);
 				//replace all occurences in the same codeList entry
-				for(int k = j; k < tmp.length; k++){						
+				for(int k = j; k < tmp.length; k++){
 					tmp[k] = tmp[k].replaceAll("@" + name + "@", cv.toString());
 				}
 				//replace all occurences in the following codeList entries
 				for(int k = i + 1; k < myCodeList.size(); k++){
 					myCodeList.set(k, myCodeList.get(k).replaceAll("@" + name + "@", cv.toString()));
 				}
-				
+
 				result.append(cv.declare());
 				result.append(tmp[j].substring(tmp[j].indexOf(")") + 1));
 			}
@@ -274,12 +274,12 @@ public class CodeFragment {
 					if(i != codeList.size() - 1){
 						error += "@@" + codeList.get(i + 1);
 					}
-					
+
 					if(error.length() > errorSnippet){
 						error = error.substring(0, errorSnippet);
 					}
-					
-					
+
+
 					throw new CodeFragmentException("Code Fragment has an open gap near '" + error + "'");
 				}
 			}
@@ -293,7 +293,7 @@ public class CodeFragment {
 		}
 		return result.toString();
 	}
-	
+
 	@Override
 	public String toString(){
 		StringBuilder result = new StringBuilder();
@@ -321,7 +321,7 @@ public class CodeFragment {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Returns the id of the codefragment.
 	 * Used for debugging purposes. The id of a specific code fragment

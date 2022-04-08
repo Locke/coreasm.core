@@ -30,8 +30,8 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 	private static String CLASSNAME = PluginErrorRecognizer.class.getCanonicalName();
 	public static String NO_PLUGIN = "NoPlugin";
 	private static String DEPENDENCY = "Dependency";
-	
-	public PluginErrorRecognizer(ASMParser parser) 
+
+	public PluginErrorRecognizer(ASMParser parser)
 	{
 		super();
 	}
@@ -40,11 +40,11 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 	public void checkForErrors(ASMDocument document, List<AbstractError> errors)
 	{
 		Pattern usePattern = Pattern.compile("^[\\s]*[uU][sS][eE][\\s]+");
-		
+
 		Set<String> usedPlugins = new HashSet<String>();
 		Map<String, Integer> usePositions = new HashMap<String, Integer>();
 		Map<String, Integer> lengths = new HashMap<String, Integer>();
-		
+
 		for (int i = 0; i < document.getNumberOfLines(); i++) {
 			try {
 				int pos = document.getLineOffset(i);
@@ -64,7 +64,7 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 						if (usedPlugins.add(p.getName())) {
 							usePositions.put(p.getName(), pos + useMatcher.end());
 							lengths.put(p.getName(), pluginName.length());
-	
+
 							if (p instanceof PackagePlugin)
 								usedPlugins.addAll(((PackagePlugin)p).getEnclosedPluginNames());
 						}
@@ -90,7 +90,7 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 			}
 		}
 	}
-	
+
 	private Set<String> checkPluginDependency(Collection<String> usedPlugins, Plugin p) {
 		Map<String, VersionInfo> depends = p.getDependencies();
 		Set<String> missingDependencies = new HashSet<String>();
@@ -104,23 +104,23 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 				}
 			}
 		}
-		
+
 		return missingDependencies;
 	}
-	
+
 	public static List<AbstractQuickFix> getQuickFixes(String errorID)
 	{
 		List<AbstractQuickFix> fixes = new LinkedList<AbstractQuickFix>();
-		
+
 		if (errorID.equals(DEPENDENCY))
 			fixes.add(new QF_Dependency_AddAll());
-		
+
 		return fixes;
 	}
 
 	/**
 	 * Quick fix for adding use clauses for missing plugins
-	 * 
+	 *
 	 * @author Michael Stegmaier
 	 */
 	public static class QF_Dependency_AddAll
@@ -140,18 +140,18 @@ public class PluginErrorRecognizer implements ITextErrorRecognizer
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
-				
+
 				int pos = sError.getDescription().indexOf("requires") + "requires".length();
-				
+
 				String useStatements = "";
 				for (String pluginName: sError.getDescription().substring(pos).trim().split(", "))
 					useStatements += "use " + pluginName.substring(0, pluginName.indexOf("Plugin")) + "\n";
-				
+
 				proposals.add(new CompletionProposal(useStatements, error.getPosition() - 4, 0, 0, IconManager.getIcon("/icons/editor/bullet.gif"), prompt, null, null));
 			}
 		}
 	}
 
-	
+
 
 }

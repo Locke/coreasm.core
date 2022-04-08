@@ -1,6 +1,6 @@
-/*	
+/*
  * RemoveChildFromRuleNode.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -15,16 +15,16 @@ package org.coreasm.engine.plugins.tree;
 import org.coreasm.engine.interpreter.ASTNode;
 
 
-/** 
+/**
  *	AST node rule elements: 'remove child NODE from NODE'.
- *   
+ *
  *  @author  Franco Alberto Cardillo (facardillo@gmail.com)
  */
 public class RemoveChildFromRuleNode extends ASTNode  {
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class RemoveChildFromRuleNode extends ASTNode  {
 		super(node);
 	}
 
-	
+
 	/**
 	 * @return returns the second parameter of this rule
 	 */

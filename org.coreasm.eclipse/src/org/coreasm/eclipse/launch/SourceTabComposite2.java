@@ -56,7 +56,7 @@ public class SourceTabComposite2 extends Composite {
 	private Label label12 = null;
 
 	/**
-	 * This method initializes group	
+	 * This method initializes group
 	 *
 	 */
 	private void createGroup() {
@@ -92,7 +92,7 @@ public class SourceTabComposite2 extends Composite {
 	}
 
 	/**
-	 * This method initializes group1	
+	 * This method initializes group1
 	 *
 	 */
 	private void createGroup1() {
@@ -117,7 +117,7 @@ public class SourceTabComposite2 extends Composite {
 		group1.setText("Termination condition");
 		group1.setLayout(gridLayout1);
 		group1.setLayoutData(gridData1);
-		
+
 		Composite comp1 = new Composite(group1, SWT.NONE);
 		GridLayout compLayout = new GridLayout();
 		compLayout.marginHeight = 0;
@@ -131,7 +131,7 @@ public class SourceTabComposite2 extends Composite {
 		stopOnFailedUpdates = new Button(comp1, SWT.CHECK);
 		label3 = new Label(comp1, SWT.NONE);
 		label3.setText("Upon failed updates");
-		
+
 		stopOnEmptyUpdates = new Button(group1, SWT.CHECK);
 		label4 = new Label(group1, SWT.NONE);
 		label4.setText("When a step returns an empty set of updates");
@@ -152,7 +152,7 @@ public class SourceTabComposite2 extends Composite {
 	}
 
 	/**
-	 * This method initializes group2	
+	 * This method initializes group2
 	 *
 	 */
 	private void createGroup2() {
@@ -170,7 +170,7 @@ public class SourceTabComposite2 extends Composite {
 	}
 
 	/**
-	 * This method initializes composite	
+	 * This method initializes composite
 	 *
 	 */
 	private void createComposite() {
@@ -185,7 +185,7 @@ public class SourceTabComposite2 extends Composite {
 	}
 
 	/**
-	 * This method initializes combo	
+	 * This method initializes combo
 	 *
 	 */
 	private void createCombo() {
@@ -197,7 +197,7 @@ public class SourceTabComposite2 extends Composite {
 	}
 
 	/**
-	 * This method initializes composite1	
+	 * This method initializes composite1
 	 *
 	 */
 	private void createComposite1() {
@@ -227,8 +227,8 @@ public class SourceTabComposite2 extends Composite {
 	 */
 	public static void main(String[] args) {
 		/* Before this is run, be sure to set up the launch configuration (Arguments->VM Arguments)
-		 * for the correct SWT library path in order to run with the SWT dlls. 
-		 * The dlls are located in the SWT plugin jar.  
+		 * for the correct SWT library path in order to run with the SWT dlls.
+		 * The dlls are located in the SWT plugin jar.
 		 * For example, on Windows the Eclipse SWT 3.1 plugin jar is:
 		 *       installation_directory\plugins\org.eclipse.swt.win32_3.1.0.jar
 		 */
@@ -339,7 +339,7 @@ public class SourceTabComposite2 extends Composite {
 	public Button getStopOnEmptyActiveAgents() {
 		return stopOnEmptyActiveAgents;
 	}
-	
+
 	/**
 	 * @return Returns the browseProjectButton.
 	 */
@@ -367,9 +367,9 @@ public class SourceTabComposite2 extends Composite {
 	public Button getMarkSteps() {
 		return markSteps;
 	}
-	
+
 	public Button getPrintAgents() {
 		return printAgents;
 	}
-	
+
 }  //  @jve:decl-index=0:visual-constraint="10,10"

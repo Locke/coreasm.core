@@ -30,7 +30,7 @@ import ch.qos.logback.core.joran.spi.JoranException;
 
 /**
  * The default implementation of a configuration component for CoreASM.
- * 
+ *
  * @author Roozbeh Farahbod
  */
 public class Configuration implements IConfiguration {
@@ -48,7 +48,7 @@ public class Configuration implements IConfiguration {
 	 */
 	protected Configuration(Class<?> mainClass) {
 		try {
-			logger.info("Initializing CoreASM configuration component{}.", 
+			logger.info("Initializing CoreASM configuration component{}.",
 					(mainClass == null ? "" : " with main class "
 					+ mainClass.getName() + ""));
 			setDefaultValues(mainClass);
@@ -59,7 +59,7 @@ public class Configuration implements IConfiguration {
 
 	/**
 	 * Sets the default property values.
-	 * 
+	 *
 	 * @throws ConfigurationException
 	 */
 	private void setDefaultValues(Class<?> mainClass) throws ConfigurationException {
@@ -69,7 +69,7 @@ public class Configuration implements IConfiguration {
 		getAppRootDirectory();
 		loadConfiguration(defaultValues, this.getClass().getClassLoader(), DEFAULT_CONFIG_FILE_NAME);
 	}
-	
+
 	/**
 	 * Loads configuration into a configuration map.
 	 */
@@ -77,7 +77,7 @@ public class Configuration implements IConfiguration {
 			throws ConfigurationException {
 		InputStream in = null;
 		try {
-			in = Tools.findConfigFileAsInputStream(classLoader, 
+			in = Tools.findConfigFileAsInputStream(classLoader,
 					getAppRootDirectory(), DEFAULT_CONFIG_FOLDER_NAME, fileName);
 		} catch (FileNotFoundException e) {
 			logger.warn("Exception caught: {}", e);
@@ -101,7 +101,7 @@ public class Configuration implements IConfiguration {
 	/**
 	 * Loads configuration from a stream into the destination
 	 * configuration holder.
-	 * 
+	 *
 	 * @param stream
 	 *            the input stream
 	 */
@@ -124,7 +124,7 @@ public class Configuration implements IConfiguration {
 	@Override
 	public Object getProperty(String key) {
 		Object value = properties.get(key);
-		
+
 		// if this property is not configured, check system properties
 		if (value == null) {
 			value = System.getProperty(key);
@@ -154,7 +154,7 @@ public class Configuration implements IConfiguration {
 		if (value == null) {
 			return defaultValue;
 		} else {
-			return "true".equalsIgnoreCase(value.trim()) 
+			return "true".equalsIgnoreCase(value.trim())
 					|| "yes".equalsIgnoreCase(value.trim());
 		}
 
@@ -251,7 +251,7 @@ public class Configuration implements IConfiguration {
 
 				configurator
 						.doConfigure(Tools.findConfigFileAsInputStream(
-								ClassLoader.getSystemClassLoader(), getAppRootDirectory(), 
+								ClassLoader.getSystemClassLoader(), getAppRootDirectory(),
 								null, fileName));
 			} catch (JoranException je) {
 				logger.warn(
@@ -285,7 +285,7 @@ public class Configuration implements IConfiguration {
 
 		logger.debug("Configuration file written to {}.", fileName);
 	}
-	
+
 	private void copyConfigItem(Entry<String, Object> e, Properties destination) {
 		if (e.getValue() instanceof Number || e.getValue() instanceof Boolean || e.getValue() instanceof String) {
 			destination.setProperty(e.getKey(), e.getValue().toString());

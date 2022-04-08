@@ -19,18 +19,18 @@ public class ConstantValueNode extends ASTNode {
 		super(node);
 		setValue(node.getValue());
 	}
-	
+
 	public ConstantValueNode(ScannerInfo info, Element value) {
 		super(Kernel.PLUGIN_NAME, ASTNode.EXPRESSION_CLASS, "", null, info);
 		setValue(value);
 	}
-	
+
 	public void setValue(Element value) {
 		if (value == null)
 			throw new CoreASMError("Constant value must not be null", this);
 		super.setNode(null, new UpdateMultiset(), value);
 	}
-	
+
 	@Override
 	public void setNode(Location loc, UpdateMultiset updates, Element value) {
 	}

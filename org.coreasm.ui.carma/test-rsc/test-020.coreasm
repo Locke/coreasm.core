@@ -5,7 +5,7 @@ use MathPlugin
 
 init Init
 
-rule Init = 
+rule Init =
    par
       program(self) := @Main
       a(1) := 5
@@ -13,7 +13,7 @@ rule Init =
       a(100) := 500
    endpar
 
-rule Main = 
+rule Main =
    let e = MathE in
    seqblock
    	  program(self) := undef
@@ -25,4 +25,3 @@ rule Main =
       print "sum( {1, 2, 100} ) = " + sum({1, 2, 100})
       print "sum( {1, 2, 100}, @a ) = " + sum({1, 2, 100}, @a)
    endseqblock
-

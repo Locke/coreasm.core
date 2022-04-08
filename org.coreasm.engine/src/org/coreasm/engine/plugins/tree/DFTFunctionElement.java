@@ -1,6 +1,6 @@
-/*	
+/*
  * DFTFunctionElement.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -23,9 +23,9 @@ import org.coreasm.engine.plugins.list.ListBackgroundElement;
 import org.coreasm.engine.plugins.list.ListElement;
 
 
-/** 
+/**
  * Function returning an enumeration of the values contained in the tree performing a depth first traversal
- *   
+ *
  * @author  Franco Alberto Cardillo (facardillo@gmail.com)
  */
 public class DFTFunctionElement extends FunctionElement {
@@ -37,7 +37,7 @@ public class DFTFunctionElement extends FunctionElement {
 	/**
 	 * If valuesOnly is set to true, the function returns the values contained
 	 * in the nodes with a BFT. If set to false, the function returns the nodes
-	 * themselves 
+	 * themselves
 	 */
 	protected boolean valuesOnly;
 
@@ -53,7 +53,7 @@ public class DFTFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!checkArguments(args))
 			throw new CoreASMError("Illegal arguments for " + (valuesOnly ? DFT_FUNC_NAME : DFT_NODES_FUNC_NAME) + ".");
-		
+
 		TreeNodeElement node = (TreeNodeElement) args.get(0);
 
 		// Enumeration

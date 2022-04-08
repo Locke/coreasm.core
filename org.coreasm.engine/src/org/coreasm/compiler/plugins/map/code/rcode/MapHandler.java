@@ -21,7 +21,7 @@ public class MapHandler implements CompilerCodeHandler {
 		result.appendLine("@decl(java.util.Map<@RuntimePkg@.Element,@RuntimePkg@.Element>,mp)=new java.util.HashMap<>();\n");
 		if (node.getAbstractChildNodes().size() > 0)
 			result.appendLine("@decl(@RuntimePkg@.Element,tmp)=null;\n");
-		
+
 		for (ASTNode maplet : node.getAbstractChildNodes()) {
 			result.appendFragment(engine.compile(
 					maplet.getAbstractChildNodes().get(0), CodeType.R));

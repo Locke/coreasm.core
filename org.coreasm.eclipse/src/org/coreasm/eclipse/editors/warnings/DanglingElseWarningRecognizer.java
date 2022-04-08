@@ -22,7 +22,7 @@ public class DanglingElseWarningRecognizer implements IWarningRecognizer {
 	public List<AbstractWarning> checkForWarnings(ASMDocument document) {
 		List<AbstractWarning> warnings = new LinkedList<AbstractWarning>();
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
-		
+
 		for (ASTNode declarationNode = ((ASTNode)document.getRootnode()).getFirst(); declarationNode != null; declarationNode = declarationNode.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(declarationNode.getGrammarClass())) {
 				if (Kernel.GR_RULEDECLARATION.equals(declarationNode.getGrammarRule())
@@ -46,10 +46,10 @@ public class DanglingElseWarningRecognizer implements IWarningRecognizer {
 				}
 			}
 		}
-		
+
 		return warnings;
 	}
-	
+
 	private static final Node findElseKeyWord(ConditionalRuleNode conditionalRuleNode) {
 		for (Node node : conditionalRuleNode.getChildNodes()) {
 			if ("else".equals(node.getToken()))
@@ -57,7 +57,7 @@ public class DanglingElseWarningRecognizer implements IWarningRecognizer {
 		}
 		return null;
 	}
-	
+
 	private static final Node getLastChildNode(ConditionalRuleNode conditionalRuleNode) {
 		Node last = null;
 		for (Node node : conditionalRuleNode.getChildNodes())

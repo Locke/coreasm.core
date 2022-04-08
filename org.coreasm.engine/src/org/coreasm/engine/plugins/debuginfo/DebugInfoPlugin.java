@@ -1,7 +1,7 @@
-/*	
+/*
 
  * DebugInfoPlugin.java  	$Revision: 236 $
- * 
+ *
  * Copyright (C) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-02-03 12:47:12 +0100 (Do, 03 Feb 2011) $.
@@ -49,29 +49,29 @@ import org.coreasm.util.Tools;
  * <p>
  * <code>'debuginfo'</b> ID TERM</code>
  * <p>
- * which, upon evaluation, adds the string representation of the given term to the logging channel identified by  
- * given ID. 
- *   
+ * which, upon evaluation, adds the string representation of the given term to the logging channel identified by
+ * given ID.
+ *
  * The set of active channels are to be defined as a space-separated list of channel ids, set as the value
  * of the <code>DebugInfo.activeChannels</code> engine property. (see {@link DebugInfoPlugin#ACTIVE_CHANNELS_PROPERTY})
- *  
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class DebugInfoPlugin extends Plugin implements ParserPlugin, InterpreterPlugin, ServiceProvider {
 
 	public static final String PLUGIN_NAME = DebugInfoPlugin.class.getSimpleName();
-	
+
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 1, 1, "");
 
 	private static final String ACTIVE_CHANNELS_PROPERTY = "activeChannels";
-	
+
 	public static final String DEBUGINFO_KEYWORD = "debuginfo";
-	
+
 	public static final String ALL_CHANNELS_ID = "ALL";
 
 	public static final String DEBUG_SERVICE_TYPE = "debuginfo";
-	
+
 	/** Output stream of this plugin */
 	protected PrintStream outputStream;
 	protected PluginServiceInterface pluginPSI;
@@ -90,7 +90,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		activeChannels = null;
 		capi.addServiceProvider(DEBUG_SERVICE_TYPE, this);
 	}
-	
+
 	protected void updateChannelsList() {
 		if (activeChannels == null) {
 			activeChannels = new HashSet<String>();
@@ -100,8 +100,8 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 				StringTokenizer tokenizer = new StringTokenizer(channels, " ," + Tools.getEOL());
 				while (tokenizer.hasMoreTokens()) {
 					String cid = tokenizer.nextToken();
-					
-					// if 'ALL' is mentioned as a channel, ignore the list and 
+
+					// if 'ALL' is mentioned as a channel, ignore the list and
 					// add only 'ALL' to the channel list. This will make all
 					// channels to become active.
 					if (cid.equalsIgnoreCase(ALL_CHANNELS_ID)) {
@@ -122,7 +122,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 	public String[] getKeywords() {
 		return keywords;
 	}
-	
+
 	@Override
 	public Set<String> getOptions() {
 		return options;
@@ -148,12 +148,12 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			// 'debuginfo' ID TERM
 			Parser<Node> debugInfoParser = Parsers.array(
 					new Parser[] {
@@ -171,34 +171,34 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 							node.addChild("beta", (Node)vals[2]);
 							return node;
 						}
-				
+
 					});
 
-			parsers.put("Rule", 
+			parsers.put("Rule",
 					new GrammarRule("DebugInfoRule",
 							"'debuginfo' ID TERM", debugInfoParser, PLUGIN_NAME));
 		}
-		
+
 		return parsers;
 	}
 
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos)
 			throws InterpreterException {
-		
+
 		if (pos instanceof DebugInfoNode) {
 			DebugInfoNode node = (DebugInfoNode)pos;
 			updateChannelsList();
-			
+
 			if (!node.getMessage().isEvaluated())
 				return node.getMessage();
-			
+
 			String channel = node.getId().getToken();
 			String msg = node.getMessage().getValue().toString();
 			writeDebugInfo(channel, msg);
-			
+
 			pos.setNode(null, new UpdateMultiset(), null);
 		}
-		
+
 		return pos;
 	}
 
@@ -213,18 +213,18 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 					outputStream.println("DEBUG INFO (" + ch + "): " + msg);
 		}
 	}
-	
+
 	/**
 	 * Interface of the DebugInfoPlugin to engine environment
-	 * 
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	public class DebugInfoPSI implements PluginServiceInterface {
-		
+
 		/**
 		 * Sets the output stream for printing out debug info.
 		 * @param output a <code>PrintStream</code> object
-		 */	
+		 */
 		public void setOutputStream(PrintStream output) {
 			synchronized (pluginPSI) {
 				outputStream = output;

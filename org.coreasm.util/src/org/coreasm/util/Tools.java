@@ -1,18 +1,18 @@
-/*	
+/*
 
  * Tools.java 	1.0 	$Revision: 243 $
  * The CoreASM Project
  *
- * Copyright (C) 2005-2009 Roozbeh Farahbod 
- * 
+ * Copyright (C) 2005-2009 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.util;
 
 import java.io.File;
@@ -28,26 +28,26 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
- *	Provides some general functionalities 
- *   
+/**
+ *	Provides some general functionalities
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class Tools {
-	
+
 	private static final String CONF_COREASM_ENGINE_ROOT_FOLDER = "org.coreasm.engine.rootFolder";
 
 	private final static Logger logger = LoggerFactory.getLogger(Tools.class);
 
 	private static String eol = null;
-	
+
 	public static final int DEFAULT_STRING_LENGTH_LIMIT =   40;
 
 	public static final String COREASM_ENGINE_LIB_PATH = "coreasm.engine.lib.path";
 
 	private static Random random = new Random();
-	
+
 	/**
 	 * Formats a <code>double</code> value into a <code>String</code>
 	 * with <i>d</i> digits after decimal point.
@@ -58,23 +58,23 @@ public class Tools {
 	}
 
 	/**
-	 * Formats an integer (<code>long</code>) value into a <code>String</code> 
+	 * Formats an integer (<code>long</code>) value into a <code>String</code>
 	 * with possibly leading zeros so that the result has at least <i>d</i> digits.
 	 */
 	public static String lFormat(long v, int d) {
 		int initL;
-		
+
 		if (v == 0)
 			initL = 1;
 		else
 			initL = 1 + (int)Math.floor(Math.log(v) / Math.log(10));
-		if (initL >= d) 
+		if (initL >= d)
 			return String.valueOf(v);
 		char[] zeros = new char[d - initL];
 		Arrays.fill(zeros, '0');
 		return new String(zeros) + String.valueOf(v);
 	}
-	
+
 	/**
 	 * @param str A string
 	 * @return returns <code>true</code> if the string contains only alphabetic characters; <code>false</code> otherwise.
@@ -82,26 +82,26 @@ public class Tools {
 	public static boolean isAlphabets(String str) {
 		char[] chars = new char[str.length()];
 		String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		
+
 		str.toUpperCase().getChars(0, str.length(), chars, 0);
 		for (int i=0; i < chars.length; i++) {
-			if (alphabets.indexOf(chars[i]) < 0) 
+			if (alphabets.indexOf(chars[i]) < 0)
 				return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Returns a random integer number in [0 .. max).
 	 */
 	public static int randInt(int max) {
 		return random.nextInt(max);
 	}
-	
+
 	/**
 	 * Returns a String version of the given integer
 	 * in an ordered form; i.e., "1st", "32nd", "54th", etc.
-	 * 
+	 *
 	 * @param i the order
 	 * @return the string version of the order
 	 */
@@ -124,11 +124,11 @@ public class Tools {
 	}
 
 	/**
-	 * Converts all occurrences of special characters such as new-line and tab, 
+	 * Converts all occurrences of special characters such as new-line and tab,
 	 * to their corresponding escape sequences.
 	 * <p>
 	 * The supported escape sequences are: <code>\\, \n, \t, \r, \"</code>
-	 * 
+	 *
 	 *  @return the same string with all the special characters converted to escape sequences
 	 */
 	public static String convertToEscapeSqeuence(String string) {
@@ -170,20 +170,20 @@ public class Tools {
 			srcIndex++;
 			resIndex++;
 		}
-		
+
 		return new String(result, 0, resIndex);
 	}
 
 	/**
-	 * Converts escape sequences to their corresponding characters. 
+	 * Converts escape sequences to their corresponding characters.
 	 * This method replaces all escape sequences to their corresponding special
 	 * characters.
 	 * <p>
 	 * The supported escape sequences are: <code>\\, \n, \t, \r, \"</code>
 	 *
-	 *  @return the same string with all the escape sequences converted to their 
+	 *  @return the same string with all the escape sequences converted to their
 	 *  		corresponding special characters
-	 *   
+	 *
 	 */
 	public static String convertFromEscapeSequence(String str) {
 		char[] chars = new char[str.length()];
@@ -219,24 +219,24 @@ public class Tools {
 			srcIndex++;
 			resIndex++;
 		}
-		
+
 		if (chars.length > 0 && srcIndex < chars.length ) {
 			result[resIndex] = chars[srcIndex];
 			srcIndex++;
 			resIndex++;
 		}
-			
+
 		return new String(result, 0, resIndex);
 	}
 
 	/**
 	 * If length of <code>value</code> is longer than <code>limit</code>
-	 * cuts a piece from the center of <code>value</code> and replaces it with 
+	 * cuts a piece from the center of <code>value</code> and replaces it with
 	 * '<code>...</code>' so that it fits in the <code>limit</code>. Otherwise,
 	 * returns <code>value</code>.
 	 */
 	public static String sizeLimit(String value, int limit) {
-		if (value.length() <= limit) 
+		if (value.length() <= limit)
 			return value;
 		else {
 			int d = limit - 3;
@@ -247,15 +247,15 @@ public class Tools {
 	}
 
 	/**
-	 * If length of <code>value</code> is longer than {@link #DEFAULT_STRING_LENGTH_LIMIT} 
-	 * cuts a piece from the center of <code>value</code> and replaces it with 
+	 * If length of <code>value</code> is longer than {@link #DEFAULT_STRING_LENGTH_LIMIT}
+	 * cuts a piece from the center of <code>value</code> and replaces it with
 	 * '<code>...</code>' so that it fits in the limit. Otherwise,
 	 * returns <code>value</code>.
 	 */
 	public static String sizeLimit(String value) {
 		return sizeLimit(value, DEFAULT_STRING_LENGTH_LIMIT);
 	}
-	
+
 	/**
 	 * @return a system independent EOL string.
 	 */
@@ -267,9 +267,9 @@ public class Tools {
 		}
 		return eol;
 	}
-	
+
 	/**
-	 * If the given string is enclosed in double quotes, returns the portion of 
+	 * If the given string is enclosed in double quotes, returns the portion of
 	 * the string which is enclosed in the double quotes.
 	 */
 	public static String trimDoubleQuotes(String str) {
@@ -277,10 +277,10 @@ public class Tools {
 			str = str.substring(1, str.length() - 1);
 		return str;
 	}
-	
+
 	/**
-	 * If the given string is enclosed in double quotes, removes all such double quotes and 
-	 * returns the portion of 
+	 * If the given string is enclosed in double quotes, removes all such double quotes and
+	 * returns the portion of
 	 * the string which is enclosed in the double quotes.
 	 */
 	public static String trimAllDoubleQuotes(String str) {
@@ -292,7 +292,7 @@ public class Tools {
 
 	/**
 	 * A wrapper for the String tokenizer of the standard Java library.
-	 * 
+	 *
 	 * @param input the string of values separated by the delimiter
 	 * @param delim the delimiter
 	 * @return an {@link ArrayList} of {@link String} values
@@ -306,25 +306,25 @@ public class Tools {
 	}
 
 	/**
-	 * Searches for the first occurrence of <code>object</code> in the given 
+	 * Searches for the first occurrence of <code>object</code> in the given
 	 * array and returns the index. If none is found or the list is empty, returns -1.
-	 *  
+	 *
 	 * @param <T>
 	 * @param object
 	 * @param list
 	 * @return the index of the found node
 	 */
 	public static <T> int find(T object, T[] list) {
-		if (list.length < 1) 
+		if (list.length < 1)
 			return -1;
-		for (int i=0; i < list.length; i++) 
+		for (int i=0; i < list.length; i++)
 			if (object.equals(list[i]))
 				return i;
 		return -1;
 	}
 
 	// TODO later move all these to a configuration class
-	
+
 	/**
 	 * Detects and returns the root folder of the running application.
 	 */
@@ -339,7 +339,7 @@ public class Tools {
 
 	/**
 	 * Sets the root folder of the CoreASM engine
-	 * 
+	 *
 	 * @param rootFolder the full path to the root folder
 	 */
 	public static void setRootFolder(String rootFolder) {
@@ -352,7 +352,7 @@ public class Tools {
 	public static String getRootFolder(Class<?> mainClass) {
 		if (mainClass == null)
 			mainClass = Tools.class;
-		
+
 		final String baseErrorMsg = "Cannot locate root folder.";
 
 		final String classFile = mainClass.getName().replaceAll("\\.", "/") + ".class";
@@ -370,19 +370,19 @@ public class Tools {
 		} else {
 			fullPath = classURL.toString();
 		}
-		
-		
+
+
 		try {
 			fullPath = URLDecoder.decode(fullPath, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			logger.warn("{} UTF-8 encoding is not supported.", baseErrorMsg);
 			return ".";
 		}
-		
+
 		if (fullPath.indexOf("file:") > -1) {
 			fullPath = fullPath.replaceFirst("file:", "").replaceFirst(classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
-		} 
+		}
 		if (fullPath.indexOf("jar:") > -1) {
 			fullPath = fullPath.replaceFirst("jar:", "").replaceFirst("!" + classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
@@ -390,28 +390,28 @@ public class Tools {
 		if (fullPath.indexOf("bundleresource:") > -1) {
 			fullPath = fullPath.substring(0, fullPath.indexOf(sampleClassFile));
 		}
-		
-		// replace the java separator with the 
+
+		// replace the java separator with the
 		fullPath = fullPath.replace('/', File.separatorChar);
-		
+
 		// remove leading backslash
 		if (fullPath.startsWith("\\")){
 			fullPath = fullPath.substring(1);
 		}
-		
+
 		// remove the final 'bin'
 		final int binIndex = fullPath.indexOf(File.separator + "bin");
 		if (binIndex == fullPath.length() - 4)
 			fullPath = fullPath.substring(0, binIndex);
-		
+
 		logger.debug("Root folder is detected at {}.", fullPath);
-		
+
 		return fullPath;
 	}
-	
+
 	/**
 	 * @return a time stamp of the format "yy.MM.dd - HH:mm" for the given date.
-	 * 
+	 *
 	 * @param date the base date
 	 */
 	public static String getTimeStamp(Date date) {
@@ -421,7 +421,7 @@ public class Tools {
 
 	/**
 	 * @return a time stamp for the current time and date.
-	 * 
+	 *
 	 * @see #getTimeStamp(Date)
 	 */
 	public static String getTimeStamp() {
@@ -431,7 +431,7 @@ public class Tools {
 	/**
 	 * Adds a sequence of the given character to the beginning of the given
 	 * string until it reaches the given length.
-	 * 
+	 *
 	 * @param src
 	 *            source string
 	 * @param filler
@@ -451,7 +451,7 @@ public class Tools {
 	/**
 	 * Given a base directory and a path to a file, it concatenates the two
 	 * parts and takes care of missing file separators.
-	 * 
+	 *
 	 * @param baseDir
 	 *            base directory
 	 * @param fileName
@@ -476,7 +476,7 @@ public class Tools {
 	 * Given a base directory and a path to a file, it creates a full path to
 	 * the file. If the base directory is not absolute, it adds the application
 	 * root directory It also takes care of missing file separators.
-	 * 
+	 *
 	 * @param baseDir
 	 *            base directory
 	 * @param fileName
@@ -498,7 +498,7 @@ public class Tools {
 
 	/**
 	 * @return true if the given filename has is an absolute path.
-	 * 
+	 *
 	 * @param fileName a file name
 	 */
 	public static boolean isAbsolutePath(String fileName) {
@@ -508,7 +508,7 @@ public class Tools {
 
 	/**
 	 * @return <code>true</code> if the given file exists.
-	 * 
+	 *
 	 * @param fileName
 	 *            a file name
 	 */
@@ -528,14 +528,14 @@ public class Tools {
 	 * <li>and finally the classpath.</li>
 	 * </ol>
 	 * where classpath is determined by the given class loader.
-	 * 
+	 *
 	 * @param classLoader the class loader
-	 * @param rootDir the application root directory 
+	 * @param rootDir the application root directory
 	 * @param container the container folder where the file is expected to be
 	 * @param fileName the name of the file
-	 * 
+	 *
 	 * @return the input stream
-	 * 
+	 *
 	 * @throws FileNotFoundException if the file is not found
 	 */
 	public static InputStream findConfigFileAsInputStream(
@@ -588,4 +588,3 @@ public class Tools {
 	}
 
 }
-

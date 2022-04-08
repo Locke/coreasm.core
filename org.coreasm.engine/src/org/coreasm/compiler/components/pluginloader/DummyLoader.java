@@ -46,7 +46,7 @@ import de.spellmaker.coreasmc.plugins.dummy.turboasmplugin.TurboASMPlugin;*/
 /**
  * Implementation of the Plugin Loader interface.
  * Loads and manages plugins used by a specification
- *  
+ *
  * @author Markus Brenner
  *
  */
@@ -56,7 +56,7 @@ public class DummyLoader implements PluginLoader {
 	private HashMap<String, CompilerPlugin> replacements;
 	private List<String> notCompilable;
 	private CompilerEngine engine;
-	
+
 	/**
 	 * Creates a new dummy loader
 	 * and initializes the internal data structures
@@ -67,23 +67,23 @@ public class DummyLoader implements PluginLoader {
 		allPlugins = new HashMap<String, CompilerPlugin>();
 		pluginMap = new HashMap<Class<?>, Map<String,CompilerPlugin>>();
 		notCompilable = new ArrayList<String>();
-		
+
 		//until coreasmc is merged with coreasm,
 		//add new compilable plugins to this list
 		replacements = new HashMap<String, CompilerPlugin>();
 	}
-	
+
 	@Override
-	public void loadPlugins(Engine cae) throws NotCompilableException {	
+	public void loadPlugins(Engine cae) throws NotCompilableException {
 		notCompilable.clear();
 		allPlugins.clear();
 		pluginMap.clear();
-		
+
 		//add all plugins which provide code but won't appear in the
 		//parse tree body
 		for(ICoreASMPlugin icp : cae.getPlugins()){
 			if(allPlugins.get(icp.getName()) != null) continue; //don't load plugins more than once
-			
+
 			try{
 				//try to load the plugin
 				putPlugin(icp, cae);
@@ -94,7 +94,7 @@ public class DummyLoader implements PluginLoader {
 				if(icp instanceof Aggregator ||
 						icp instanceof SchedulerPlugin ||
 						icp instanceof OperatorProvider ||
-						icp instanceof VocabularyExtender){		
+						icp instanceof VocabularyExtender){
 					engine.getLogger().error(DummyLoader.class, "plugin " + icp.getName() + " is not compilable but mandatory");
 					engine.addError("plugin " + icp.getName() + " is not compilable but mandatory");
 					notCompilable.add(icp.getName());
@@ -105,8 +105,8 @@ public class DummyLoader implements PluginLoader {
 				}
 			}
 		}
-		
-		
+
+
 		//walk through the tree and add used plugins
 		//this will find Interpreter Plugins and Operator Providers
 		List<Plugin> tmp = visitNode(cae, (ASTNode) cae.getSpec().getRootNode());
@@ -143,7 +143,7 @@ public class DummyLoader implements PluginLoader {
 				}
 			}
 		}
-		
+
 		if(notCompilable.size() > 0){
 			throw new NotCompilableException(notCompilable);
 		}
@@ -164,15 +164,15 @@ public class DummyLoader implements PluginLoader {
 			engine.getLogger().error(DummyLoader.class, "replacing plugin " + name + " with dummy plugin");
 			return result;
 		}
-		
+
 		ICoreASMPlugin icap = cae.getPlugin(name);
 		CompilerPlugin comp = icap.getCompilerPlugin();
-		
+
 		return comp;
 		//if(icap instanceof CompilerPlugin) return (CompilerPlugin) icap;
-		//return null;		
+		//return null;
 	}
-	
+
 	private void addToMap(Class<?> type, CompilerPlugin plugin){
 		Map<String, CompilerPlugin> m = pluginMap.get(type);
 		if(m == null){
@@ -181,17 +181,17 @@ public class DummyLoader implements PluginLoader {
 		}
 		m.put(plugin.getName(), plugin);
 	}
-	
+
 	private void putPlugin(ICoreASMPlugin icap, Engine cae) throws NotCompilableException{
 		CompilerPlugin cp = requestPlugin(icap.getName(), cae);
-		
+
 		if(cp == null){
 			throw new NotCompilableException(null);
 		}
-		
+
 		//add the plugin to the pluginMap, allowing to choose plugins by plugin interface / class
 		Class<?> pluginClass = cp.getClass();
-		
+
 		//handle superclasses
 		Class<?> superClass = pluginClass.getSuperclass();
 		while(!superClass.equals(Object.class)){
@@ -202,29 +202,29 @@ public class DummyLoader implements PluginLoader {
 		for(Class<?> c : pluginClass.getInterfaces()){
 			addToMap(c, cp);
 		}
-		
+
 		//finally, add it to the allPlugin list and to the list of ICoreASMPlugins
 		allPlugins.put(icap.getName(), cp);
 		cp.init(engine);
-		
+
 		engine.getLogger().debug(DummyLoader.class, "loaded " + icap.getName());
 	}
-	
+
 	@Override
 	public CompilerPlugin getPlugin(String name) {
 		if(name == null){
 			//NOTE: This actually hides a bug in the parser. In some cases, the plugin name field is null instead of kernel
 			//engine.getLogger().warn(DummyLoader.class, "Warning: null name found, assuming kernel");
-			
+
 			return allPlugins.get("Kernel");
 		}
 
 		return allPlugins.get(name);
 	}
-	
+
 	private List<Plugin> visitNode(Engine cae, ASTNode n){
 		List<Plugin> pluginList = new ArrayList<Plugin>();
-		
+
 		if(n.getPluginName() != null){
 			pluginList.add(cae.getPlugin(n.getPluginName()));
 		}
@@ -236,7 +236,7 @@ public class DummyLoader implements PluginLoader {
 		for (ASTNode astNode : n.getAbstractChildNodes()) {
 			pluginList.addAll(visitNode(cae, astNode));
 		}
-		
+
 		return pluginList;
 	}
 
@@ -252,5 +252,5 @@ public class DummyLoader implements PluginLoader {
 		}
 		return result;
 	}
-	
+
 }

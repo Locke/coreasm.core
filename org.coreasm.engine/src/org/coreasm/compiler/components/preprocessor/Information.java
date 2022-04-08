@@ -20,14 +20,14 @@ import org.coreasm.compiler.components.preprocessor.Information;
 public class Information {
 	private Map<String, Information> information;
 	private Object value;
-	
+
 	/**
 	 * Constructs an empty Information object
 	 */
 	public Information(){
 		information = new HashMap<String, Information>();
 	}
-	
+
 	/**
 	 * Obtains the value of this instance
 	 * @return The Object stored
@@ -35,17 +35,17 @@ public class Information {
 	public Object getValue(){
 		return value;
 	}
-	
+
 	/**
 	 * Finds all direct children of this information object.
 	 * Does not return the information objects, but their
 	 * respective child paths starting at this node.
 	 * @return A list of strings representing the children of this information node
 	 */
-	public List<String> getChildren(){		
+	public List<String> getChildren(){
 		return Collections.unmodifiableList(new ArrayList<String>(information.keySet()));
 	}
-	
+
 	/**
 	 * Searches for an information object with the given path
 	 * @param path The path to the information object
@@ -54,7 +54,7 @@ public class Information {
 	public Information getInformation(String ...path){
 		return find(false, path);
 	}
-	
+
 	/**
 	 * Sets the value of the information object with the given path.
 	 * Will override already existing values and will create the given
@@ -68,11 +68,11 @@ public class Information {
 			i.value = o;
 		}
 	}
-	
+
 	private Information find(boolean create, String ...path){
 		//search for an information object at the given path
 		Information current = this;
-		
+
 		if(path == null) return this;
 		//iterate over the path until the end is reached
 		for(String s : path){
@@ -91,29 +91,29 @@ public class Information {
 		}
 		return current;
 	}
-	
+
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Information){
 			Information i = (Information) o;
-			
+
 			boolean valueequal = (value == null && i.value == null) || (value != null && value.equals(i.value));
 			boolean informationequal = information.equals(i.information);
-			
+
 			return valueequal && informationequal;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString(){
 		String result = "(";
-		
+
 		result += "[" + value + "]; ";
 		for(Entry<String, Information> e : information.entrySet()){
 			result += e.getKey() + " : " + e.getValue() + ", ";
 		}
-		
+
 		result += ")";
 		return result;
 	}

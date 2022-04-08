@@ -25,7 +25,7 @@ public class LetRuleHandler implements CompilerCodeHandler {
 		try {
 			LetRuleNode letrule = (LetRuleNode) node;
 			Map<String, ASTNode> letmap = letrule.getVariableMap();
-			
+
 			result.appendLine("//start of let\n");
 			result.appendLine("localStack.pushLayer();\n");
 			for(Entry<String, ASTNode> entry : letmap.entrySet()){
@@ -33,7 +33,7 @@ public class LetRuleHandler implements CompilerCodeHandler {
 				result.appendFragment(val);
 				result.appendLine("localStack.put(\"" + entry.getKey() + "\", evalStack.pop());\n");
 			}
-			
+
 			result.appendFragment(engine.compile(letrule.getInRule(), CodeType.U));
 			result.appendLine("localStack.popLayer();\n");
 			result.appendLine("//end of let\n");

@@ -22,20 +22,20 @@ public class IDSpawner implements SynthesizeRule {
 		//lift ids on function rule term
 		if(n.getGrammarClass().equals("FunctionRule") && n.getGrammarRule().equals("FunctionRuleTerm")){
 			if(children.size() <= 0) return null;
-			
+
 			Map<String, Information> first = children.get(0);
 			if(first == null) return null;
 		}
 		else if(n.getGrammarClass().equals("Id") && n.getGrammarRule().equals("ID")){
 			Information inf = new Information();
 			inf.setValue(n.getToken());
-			
+
 			Map<String, Information> result = new HashMap<String, Information>();
 			result.put("ID", inf);
 			return result;
 		}
-		
-		
+
+
 		//default behaviour is to remove ids after one step
 		return null;
 	}

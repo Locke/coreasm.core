@@ -1,10 +1,10 @@
-/*	
+/*
  * SchedulerImp.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2005 George Ma
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -38,9 +38,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of scheduler.
- * 
+ *
  * @author George Ma
- * 
+ *
  */
 public class SchedulerImp implements Scheduler {
 
@@ -196,20 +196,20 @@ public class SchedulerImp implements Scheduler {
 
 	/*
 	 * Removed from the concurrent version of the engine.
-	 * 
+	 *
 	 * public void chooseAgent() { // if there are no more agents, we are done
 	 * this step if (selectedAgentSet.size() == 0) { chosenAgent = null; } else
 	 * if (selectedAgentSet.size() == 1) { ArrayList<Element> agentsList = new
 	 * ArrayList<Element>(selectedAgentSet); chosenAgent = agentsList.get(0); }
 	 * else { Random random = new Random();
-	 * 
+	 *
 	 * // chose an agent from the selected agent set randomly int
 	 * chosenAgentIndex = random.nextInt(selectedAgentSet.size());
-	 * 
+	 *
 	 * // this may be inefficient ArrayList<Element> agentsList = new
 	 * ArrayList<Element>(selectedAgentSet); chosenAgent =
 	 * agentsList.get(chosenAgentIndex); }
-	 * 
+	 *
 	 * // debugged by Roozbeh Farahbod, 18-Jan-2006 if (chosenAgent != null) {
 	 * selectedAgentSet.remove(chosenAgent);
 	 * capi.getStorage().setChosenAgent(chosenAgent); } }
@@ -219,16 +219,16 @@ public class SchedulerImp implements Scheduler {
 
 	public void executeAgentPrograms() throws EngineException {
 		final long startTime = System.nanoTime();
-		
+
 		ArrayList<Element> agentsList = new ArrayList<Element>(selectedAgentSet);
 
 		/*
 		 * Old Code
-		 * 
+		 *
 		 * Before, we would keep a copy of the runnerGroup and reuse it. This
 		 * appeared to be problamatic with regard to memory issues. Changing it
 		 * to one instance per time...
-		 * 
+		 *
 		 * if (runnerGroup == null) { //TODO the number of available processes
 		 * may change! int cpus = getNumberOfProcessorsToBeUsed(); batchSize =
 		 * getThreadBatchSize(); runnerGroup = new FJTaskRunnerGroup(cpus); if
@@ -292,24 +292,24 @@ public class SchedulerImp implements Scheduler {
 
 	/*
 	 * removed from the concurrent version of the Engine
-	 * 
+	 *
 	 * @SuppressWarnings("unchecked") public void accumulateUpdates() { //
 	 * Edited by Roozbeh Farahbod, 18-Jan-2006 Logger.log(Logger.INFORMATION,
 	 * Logger.scheduler, "Accumulating updates."); Collection c =
 	 * chosenProgram.getBody().getUpdates();
-	 * 
+	 *
 	 * // 'if' Added by Roozbeh Farahbod, 29-Sep-2006 if (c == null) { String
 	 * msg = "Rule '" + chosenProgram.getName() + "' provides no updates.";
 	 * Logger.log(Logger.ERROR, Logger.scheduler, msg); throw new
 	 * EngineError(msg); }
-	 * 
+	 *
 	 * updateInstructions.addAll(c); Logger.log(Logger.INFORMATION,
 	 * Logger.scheduler, "Updates are: " + c.toString()); }
 	 */
 
 	/*
 	 * removed from the concurrent version of the Engine
-	 * 
+	 *
 	 * public void initiateExecution() {
 	 * capi.getInterpreter().setPosition(chosenProgram.getBody()); //
 	 * 'initiateProgramExecution' replaces the clearTree method call // to allow

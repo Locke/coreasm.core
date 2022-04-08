@@ -1,11 +1,11 @@
 /*
  * InvokeRuleNode.java 		$Revision: 9 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 10:03:22 +0100 (Mi, 28 Jan 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -19,7 +19,7 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 /**
  * Node type of JASMine invoke rule.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -27,7 +27,7 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 public class InvokeRuleNode extends ASTNode {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7843096318742864554L;
 
@@ -49,7 +49,7 @@ public class InvokeRuleNode extends ASTNode {
 				info
 				);
 	}
-	
+
 	/**
 	 * Returns true if this invoke rule
 	 * does not have a 'result into' clause.

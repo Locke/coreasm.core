@@ -14,7 +14,7 @@ public class RandomElementIterator implements Iterator<Element> {
 	private BitSet considered;
 	private int numConsidered;
 	private List<Element> remaining;
-	
+
 	public RandomElementIterator(Enumerable enumerable) {
 		if (enumerable.supportsIndexedView()) {
 			elements = enumerable.getIndexedView();

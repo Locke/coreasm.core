@@ -4,7 +4,7 @@ use StandardPlugins
 
 init Init
 
-rule Init = 
+rule Init =
    par
       emptyMap := { -> }
 	  aMap := {"a"->"b", 1 -> 3}

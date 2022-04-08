@@ -1,6 +1,6 @@
-/*	
+/*
  * BagUpdateContainerTest.java  	$Revision: 7 $
- * 
+ *
  * Copyright (C) 2008 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-01-28 07:54:19 +0100 (Mi, 28 Jan 2009) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.bag;
 
 import static org.junit.Assert.*;
@@ -29,9 +29,9 @@ import org.coreasm.util.Multiset;
 import org.junit.Before;
 import org.junit.Test;
 
-/** 
+/**
  * Testing the BagUpdateContainer and its composition/aggregation algorithms.
- *   
+ *
  * @author  Roozbeh Farahbod
  * @version $Revision: 7 $, Last modified: $Date: 2009-01-28 07:54:19 +0100 (Mi, 28 Jan 2009) $
  */
@@ -55,7 +55,7 @@ public class BagUpdateContainerTest {
 	BagUpdateContainer composed4;
 	BagUpdateContainer updates1;
 	BagUpdateContainer updates2;
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -75,7 +75,7 @@ public class BagUpdateContainerTest {
 		list.add(strHi);
 		list.add(n43);
 		bag1 = new BagElement(list);
-		
+
 		list = new ArrayList<Element>();
 		list.add(n43);
 		list.add(n43);
@@ -89,7 +89,7 @@ public class BagUpdateContainerTest {
 		set1.add(bue12);
 		set1.add(bue13);
 		BagUpdateContainer buc1 = new BagUpdateContainer(set1);
-		
+
 		BagUpdateElement bue21 = new BagUpdateElement(BagUpdateType.ADD, n52);
 		BagUpdateElement bue22 = new BagUpdateElement(BagUpdateType.ADD, n43);
 		BagUpdateElement bue23 = new BagUpdateElement(BagUpdateType.ADD, n43);
@@ -110,14 +110,14 @@ public class BagUpdateContainerTest {
 		list1.add(bue31);
 		list1.add(bue32);
 		BagUpdateContainer buc21 = new BagUpdateContainer(list1);
-		
+
 		BagUpdateElement bue41 = new BagUpdateElement(BagUpdateType.REMOVE, n1);
 		BagUpdateElement bue42 = new BagUpdateElement(BagUpdateType.REMOVE, n6);
 		List<BagUpdateElement> list2 = new ArrayList<BagUpdateElement>();
 		list2.add(bue41);
 		list2.add(bue42);
 		BagUpdateContainer buc22 = new BagUpdateContainer(list2);
-		
+
 		BagUpdateElement bue51 = new BagUpdateElement(BagUpdateType.ADD, n7);
 		BagUpdateElement bue52 = new BagUpdateElement(BagUpdateType.ADD, n6);
 		BagUpdateElement bue53 = new BagUpdateElement(BagUpdateType.REMOVE, n7);
@@ -126,17 +126,17 @@ public class BagUpdateContainerTest {
 		list3.add(bue52);
 		list3.add(bue53);
 		BagUpdateContainer buc23 = new BagUpdateContainer(list3);
-		
+
 		composed3 = BagUpdateContainer.compose(BagUpdateContainer.compose(buc21, buc22), buc23);
-		
+
 		Set<BagAbstractUpdateElement> set3 = new HashSet<BagAbstractUpdateElement>();
 		set3.add(buc21);
 		set3.add(buc22);
 		set3.add(buc23);
 		set3.add(composed2);
-		
+
 		updates1 = new BagUpdateContainer(set3);
-		
+
 		composed4 = BagUpdateContainer.compose(buc21, buc2);
 
 		Set<BagAbstractUpdateElement> set4 = new HashSet<BagAbstractUpdateElement>();
@@ -144,9 +144,9 @@ public class BagUpdateContainerTest {
 		set4.add(buc22);
 		set4.add(buc23);
 		set4.add(composed4);
-		
+
 		updates2 = new BagUpdateContainer(set4);
-		
+
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class BagUpdateContainerTest {
 	@Test
 	public void testAggregateUpdates() {
 		Multiset<Element> mset;
-		
+
 		mset = new HashMultiset<Element>();
 		mset.add(strYou);
 		mset.add(n43);
@@ -163,20 +163,20 @@ public class BagUpdateContainerTest {
 		mset.add(n43);
 		mset.add(n52);
 		BagElement result1 = new BagElement(mset);
-		
+
 		mset = new HashMultiset<Element>();
 		mset.add(strYou);
 		mset.add(n43);
 		mset.add(n43);
 		mset.add(n43);
 		BagElement result2 = new BagElement(mset);
-		
+
 		mset = new HashMultiset<Element>();
 		mset.add(n6);
 		mset.add(n43);
 		mset.add(n43);
 		BagElement result3 = new BagElement(mset);
-		
+
 		mset = new HashMultiset<Element>();
 		mset.add(strYou);
 		mset.add(n43);
@@ -185,7 +185,7 @@ public class BagUpdateContainerTest {
 		mset.add(n1);
 		mset.add(n6);
 		BagElement result4 = new BagElement(mset);
-		
+
 		mset = new HashMultiset<Element>();
 		mset.add(n52);
 		mset.add(n43);
@@ -196,7 +196,7 @@ public class BagUpdateContainerTest {
 		mset.add(n1);
 		mset.add(n6);
 		BagElement result5 = new BagElement(mset);
-		
+
 		boolean output = false;
 
 		if (output) {
@@ -214,8 +214,8 @@ public class BagUpdateContainerTest {
 			System.out.println();
 		}
 		assertEquals(result2, composed2.aggregateUpdates(bag1));
-		
-		
+
+
 		if (output) {
 			System.out.println(bag2);
 			System.out.println(composed3);
@@ -224,7 +224,7 @@ public class BagUpdateContainerTest {
 			System.out.println();
 		}
 		assertEquals(result3, composed3.aggregateUpdates(bag2));
-		
+
 		if (output) {
 			System.out.println(bag2);
 			System.out.println(updates1);

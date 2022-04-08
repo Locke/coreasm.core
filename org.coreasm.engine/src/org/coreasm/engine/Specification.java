@@ -1,16 +1,16 @@
 /*
  * Specification.java 	$Revision: 243 $
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mär 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine;
 
 import java.io.BufferedInputStream;
@@ -43,9 +43,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Wrapper around a CoreASM specification.
- * 
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 
 public class Specification {
@@ -54,33 +54,33 @@ public class Specification {
 	private static final int BUFFER_SIZE = 512 * 1024;
 
 	private static final Logger logger = LoggerFactory.getLogger(Specification.class);
-	
+
 	/** is the specification modified? */
 	public boolean isModified = false;
-	
+
 	/* source of the specification */
 	private final Object source;
-	
+
 	/** Root node of the parsed specification */
 	private ASTNode rootNode = null;
-	
+
 	/** Specification text */
 	private String text;
 	/** Specification lines */
-	private List<SpecLine> lines; 
-	
+	private List<SpecLine> lines;
+
 	/* link to the engine */
 	private final ControlAPI engine;
-	
+
 	/* name of the specification file (computed based on the absolute path) */
 	private String fileName = null;
-	/* directory of the specification file (computed based on the absolute path) */ 
+	/* directory of the specification file (computed based on the absolute path) */
 	private String fileDir = null;
-	/* absolute path to the specification file */ 
+	/* absolute path to the specification file */
 	private String absolutePath = null;
-	
+
 	private String name = null;
-	
+
 	private Set<Plugin> requiredPlugins = null;
 	private Set<String> requiredPluginNames = null;
 	private Set<String> keywords = null;
@@ -90,19 +90,19 @@ public class Specification {
 	private Set<UniverseInfo> universes = null;
 	private Set<BackgroundInfo> backgrounds = null;
 	private Set<RuleInfo> rules = null;
-	
-	/* 
-	 * list of all the nodes in the tree sorted 
-	 * by the position in the text 
+
+	/*
+	 * list of all the nodes in the tree sorted
+	 * by the position in the text
 	 */
 	private ArrayList<Node> sortedNodes = null;
-	
+
 	/**
 	 * Creates a new CoreASM Specification object based on the given file.
-	 * If the file is an ODT file (the name ends with ".odt", case insensitive), 
-	 * this constructor will use the {@link ODTImporter} class to extract the 
+	 * If the file is an ODT file (the name ends with ".odt", case insensitive),
+	 * this constructor will use the {@link ODTImporter} class to extract the
 	 * CoreASM specification from the ODT file.
-	 *  
+	 *
 	 */
 	public Specification(ControlAPI engine, File file) throws IOException {
 		this.rootNode = null;
@@ -114,11 +114,11 @@ public class Specification {
 		updateLines(loadSpec(file));
 		logger.debug("New specification created from {}", this.absolutePath);
 	}
-	
-	/* 
+
+	/*
 	 * Creates a new CoreASM Specification object with the given engine
 	 * and the text of the specification.
-	 *  
+	 *
 	 * If the file name is not null, it is recorded as the original file name of the specification.
 	 *
 	public Specification(ControlAPI engine, String text, String fileName) throws IOException {
@@ -138,11 +138,11 @@ public class Specification {
 		Logger.log(Logger.INFORMATION, Logger.controlAPI, "New specification created.");
 	}
 	*/
-	
-	/** 
+
+	/**
 	 * Creates a new CoreASM Specification object with the given engine
 	 * and a reader providing the text of the specification.
-	 *  
+	 *
 	 * If the file name is not null, it is recorded as the original file name of the specification.
 	 */
 	public Specification(ControlAPI engine, Reader reader, String fileName) throws IOException {
@@ -161,14 +161,14 @@ public class Specification {
 			updateLines(loadSpec(reader, this.absolutePath));
 		logger.debug("New specification created.");
 	}
-	
-	/** 
-	 * Updates the text of the specification with a new text. This does not change the {@link #source} 
+
+	/**
+	 * Updates the text of the specification with a new text. This does not change the {@link #source}
 	 * of the specification.
-	 * 
+	 *
 	 * @param text new text
 	 * @param filename name of the file providing the text
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void updateText(String text, String filename) throws IOException {
 		this.text = text;
@@ -176,10 +176,10 @@ public class Specification {
 		this.rootNode = null;
 	}
 
-	/** 
-	 * Updates the text of the specification with a new text. This does not change the source 
+	/**
+	 * Updates the text of the specification with a new text. This does not change the source
 	 * of the specification.
-	 * 
+	 *
 	 * @param lines new text
 	 */
 	public void updateLines(ArrayList<SpecLine> lines) {
@@ -194,14 +194,14 @@ public class Specification {
 		this.text = txt.toString();
 		this.rootNode = null;
 	}
-	
+
 	/**
 	 * Returns the source of the this specification.
-	 */ 
+	 */
 	public Object getSource() {
 		return source;
 	}
-	
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -225,39 +225,39 @@ public class Specification {
 		backgrounds = null;
 		rules = null;
 	}
-	
+
 	/**
 	 * Returns the root node of the parsed specification
 	 */
 	public Node getRootNode() {
 		return rootNode;
 	}
-	
+
 	/**
 	 * Returns the text of the given specification.
 	 */
 	public String getText() {
 		return text;
 	}
-	
+
 	/**
 	 * Returns the text of the given specification.
 	 */
 	public List<SpecLine> getLines() {
 		return lines;
 	}
-	
+
 	/**
 	 * Returns a specific line of the spec.
-	 * 
+	 *
 	 * @param line line number
-	 * @return returns an instance of {@link SpecLine} or <code>null</code> if 
-	 * the spec is empty. If the requested line index is beyond the number of 
+	 * @return returns an instance of {@link SpecLine} or <code>null</code> if
+	 * the spec is empty. If the requested line index is beyond the number of
 	 * specification lines, returns the last line of the spec.
 	 */
 	public SpecLine getLine(int line) {
 		SpecLine l = null;
-		
+
 		if (getLines() != null && !getLines().isEmpty()) {
 			try {
 				l = getLines().get(line - 1);
@@ -280,7 +280,7 @@ public class Specification {
 		}
 		return name;
 	}
-	
+
 	/**
 	 * Returns true if the specification is parsed.
 	 */
@@ -294,24 +294,24 @@ public class Specification {
 	 */
 	public void setPluginNames(Set<String> pluginNames) {
 		if (requiredPluginNames != null)
-			throw new IllegalStateException("The set of required plug-ins can be set only once for every specification."); 
+			throw new IllegalStateException("The set of required plug-ins can be set only once for every specification.");
 		requiredPluginNames = Collections.unmodifiableSet(pluginNames);
 	}
-	
+
 	/**
-	 * Returns the names of plug-ins that are required by this 
+	 * Returns the names of plug-ins that are required by this
 	 * specification.
 	 */
 	public Set<String> getPluginNames() {
 		return requiredPluginNames;
 	}
-	
+
 	/**
 	 * Read text from a file and returns an array of {@link SpecLine}.
-	 * 
+	 *
 	 * @param mainSpec a link to the main specification (used to find the root directory)
-	 * @param fileName the name of the file to be read; if the file name is absolute, the specification reference should be null. 
-	 * 
+	 * @param fileName the name of the file to be read; if the file name is absolute, the specification reference should be null.
+	 *
 	 * @throws IOException when a spec file cannot be opened or closed
 	 * @throws FileNotFoundException when the spec file cannot be found
 	 * @see #loadSpec(String)
@@ -326,35 +326,35 @@ public class Specification {
 	}
 
 	/**
-	 * Read text from a file (either plain text or ODT file) and returns an array 
-	 * of {@link SpecLine}. If the file name ends in ".odt" (case insensitive), 
+	 * Read text from a file (either plain text or ODT file) and returns an array
+	 * of {@link SpecLine}. If the file name ends in ".odt" (case insensitive),
 	 * it is treated as an ODT file.
-	 * 
-	 * @param fileName the full name of the file to be read. 
-	 * 
+	 *
+	 * @param fileName the full name of the file to be read.
+	 *
 	 * @throws IOException when a spec file cannot be opened or closed
 	 * @throws FileNotFoundException when the spec file cannot be found
-	 * 
+	 *
 	 * @see #loadSpec(File)
 	 */
 	public static ArrayList<SpecLine> loadSpec(String fileName) throws IOException {
 		return loadSpec(new File(fileName));
 	}
 
-	
+
 	/**
-	 * Read text from a file (either plain text or ODT file) and returns an array 
-	 * of {@link SpecLine}. If the file name ends in ".odt" (case insensitive), 
+	 * Read text from a file (either plain text or ODT file) and returns an array
+	 * of {@link SpecLine}. If the file name ends in ".odt" (case insensitive),
 	 * it is treated as an ODT file.
-	 * 
+	 *
 	 * @param file a file handle
-	 * 
+	 *
 	 * @throws IOException when a spec file cannot be opened or closed
 	 * @throws FileNotFoundException when the spec file cannot be found
 	 */
 	public static ArrayList<SpecLine> loadSpec(File file) throws IOException {
 		String fname = file.getAbsolutePath();
-		
+
 		if (fname.toLowerCase().endsWith(".odt")) {
 			String coreasmSpec = ODTImporter.importODT(fname) + Tools.getEOL();
 			StringReader reader = new StringReader(coreasmSpec);
@@ -365,25 +365,25 @@ public class Specification {
 
 	/**
 	 * Read specification text from a reader that provides plain text.
-	 * 
+	 *
 	 * @param reader an instance of a {@link Reader}
-	 * @param fileName the full name of the file to be read. 
-	 * 
+	 * @param fileName the full name of the file to be read.
+	 *
 	 * @return an array of {@link SpecLine}
-	 * 
+	 *
 	 * @throws IOException when a spec file cannot be opened or closed
 	 * @throws FileNotFoundException when the spec file cannot be found
 	 */
 	public static ArrayList<SpecLine> loadSpec(Reader reader, String fileName) throws IOException {
 		// buffered reader to be used to read spec file;
 		BufferedReader specFileReader;
-		
+
 		// open specification stream/reader;
 		specFileReader = new BufferedReader(reader);
-		
+
 		// Create new list
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
-			
+
 		// while not at end of file, read a line and
 		String line;
 		int c = 1;
@@ -394,7 +394,7 @@ public class Specification {
 		}
 		// close the specification stream/reader
 		specFileReader.close();
-		
+
 		return specText;
 	}
 
@@ -405,13 +405,13 @@ public class Specification {
 	private ArrayList<SpecLine> loadLines(String text, String fileName) throws IOException {
 		// buffered reader to be used to read spec file;
 		BufferedReader specFileReader;
-		
+
 		// open specification stream/reader;
 		specFileReader = new BufferedReader(new StringReader(text));
-		
+
 		// Create new list
 		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
-			
+
 		// while not at end of file, read a line and
 		String line;
 		int c = 1;
@@ -422,13 +422,13 @@ public class Specification {
 		}
 		// close the specification stream/reader
 		closeSpec(specFileReader);
-		
+
 		return specText;
 	}
 
 	/**
 	 * Loads the specification file to an input stream.
-	 * 
+	 *
 	 * @param file specification file
 	 * @throws FileNotFoundException
 	 */
@@ -440,7 +440,7 @@ public class Specification {
 		} catch (FileNotFoundException e) {
 			logger.error("CoreASM specification file \"" + file.getAbsolutePath() + "\" cannot be found.");
 			throw e;
-		}		
+		}
 		return result;
 	}
 
@@ -461,7 +461,7 @@ public class Specification {
 		}
 	}
 
-	/* 
+	/*
 	 * Caching plugin lookups.
 	 */
 	private Set<Plugin> getRequiredPlugins() {
@@ -470,7 +470,7 @@ public class Specification {
 							" Cannot compute the set of required plugins.");
 			return Collections.emptySet();
 		}
-		if (requiredPluginNames == null) 
+		if (requiredPluginNames == null)
 			return null;
 		if (requiredPlugins == null) {
 			requiredPlugins = new HashSet<Plugin>();
@@ -481,9 +481,9 @@ public class Specification {
 		}
 		return requiredPlugins;
 	}
-	
+
 	/**
-	 * Returns the list of keywords defined by the plug-ins of this 
+	 * Returns the list of keywords defined by the plug-ins of this
 	 * specifications.
 	 */
 	public Set<String> getKeywords() {
@@ -500,9 +500,9 @@ public class Specification {
 		}
 		return keywords;
 	}
-	
+
 	/**
-	 * Returns the list of operators defined by the plug-ins of this 
+	 * Returns the list of operators defined by the plug-ins of this
 	 * specifications.
 	 */
 	public Set<String> getOperators() {
@@ -519,9 +519,9 @@ public class Specification {
 		}
 		return operators;
 	}
-	
+
 	/**
-	 * Returns the set of options defined by the plug-ins of this 
+	 * Returns the set of options defined by the plug-ins of this
 	 * specifications.
 	 */
 	public Set<String> getOptions() {
@@ -543,7 +543,7 @@ public class Specification {
 
 	/**
 	 * Returns information on the functions defined for this specification.
-	 * The result may vary depending on the specification being parsed 
+	 * The result may vary depending on the specification being parsed
 	 * or not.
 	 */
 	public Set<FunctionInfo> getDefinedFunctions() {
@@ -567,10 +567,10 @@ public class Specification {
 		}
 		return functions;
 	}
-	
+
 	/**
 	 * Returns information on the universes defined for this specification.
-	 * The result may vary depending on the specification being parsed 
+	 * The result may vary depending on the specification being parsed
 	 * or not.
 	 */
 	public Set<UniverseInfo> getDefinedUniverses() {
@@ -594,10 +594,10 @@ public class Specification {
 		}
 		return universes;
 	}
-	
+
 	/**
 	 * Returns information on the backgrounds defined for this specification.
-	 * The result may vary depending on the specification being parsed 
+	 * The result may vary depending on the specification being parsed
 	 * or not.
 	 */
 	public Set<BackgroundInfo> getDefinedBackgrounds() {
@@ -621,10 +621,10 @@ public class Specification {
 		}
 		return backgrounds;
 	}
-	
+
 	/**
 	 * Returns information on the rules defined for this specification.
-	 * The result may vary depending on the specification being parsed 
+	 * The result may vary depending on the specification being parsed
 	 * or not.
 	 */
 	public Set<RuleInfo> getDefinedRules() {
@@ -650,32 +650,32 @@ public class Specification {
 	}
 
 	/**
-	 * Returns the Node (in the abstract syntax tree) 
+	 * Returns the Node (in the abstract syntax tree)
 	 * at the given location in the specification.
 	 * If the specification is not parsed (see {@link #isParsed()})
 	 * this method returns null.
-	 *  
+	 *
 	 * @param index character index in the specification text
 	 */
 	public ASTNode getNodeAt(int index) {
 		if (!isParsed())
 			return null;
-		
+
 		if (sortedNodes == null) {
 			sortedNodes = new ArrayList<Node>();
 			loadSortedNodes(rootNode);
 		}
-		
+
 		Node result = sortedNodes.get(findLastNode(sortedNodes, index, 0, sortedNodes.size()-1));
 		while (!(result instanceof ASTNode))
 			result = result.getParent();
-		
+
 		return (ASTNode)result;
 	}
-	
+
 	/**
 	 * Two specifications are equal if they have exactly the same text.
-	 * 
+	 *
 	 * @see Object#equals(Object)
 	 */
 	public boolean equals(Object obj) {
@@ -691,7 +691,7 @@ public class Specification {
 			result += ": " + absolutePath;
 		return result;
 	}
-	
+
 	/*
 	 * Creates a list of nodes sorted by their
 	 * character position
@@ -703,7 +703,7 @@ public class Specification {
 		if (node.getNextCSTNode() != null)
 			loadSortedNodes(node.getNextCSTNode());
 	}
-	
+
 	/*
 	 * Insert a new node into the sorted list
 	 */
@@ -717,9 +717,9 @@ public class Specification {
 			list.add(lastPos, node);
 		}
 	}
-	
+
 	/*
-	 * Finds a position in the current list of sorted nodes that 
+	 * Finds a position in the current list of sorted nodes that
 	 * that is the largest position equal or smaller than the given 'pos'.
 	 */
 	private int findLastNode(List<Node> list, int pos, int start, int end) {
@@ -728,42 +728,42 @@ public class Specification {
 		else {
 			int midpoint = (start + end) / 2;
 			int midNodePos = list.get(midpoint).getScannerInfo().charPosition;
-			if (midNodePos > pos) 
+			if (midNodePos > pos)
 				return findLastNode(list, pos, start, midpoint);
-			else 
+			else
 				if (midNodePos == pos)
 					return midpoint;
-				else 
+				else
 					if (list.size() > midpoint + 1 && list.get(midpoint+1).getScannerInfo().charPosition > pos)
 						return midpoint;
 					else
 						return findLastNode(list, pos, midpoint + 1, end);
 		}
 	}
-	
-	/* 
+
+	/*
 	 * ------------------------------------
 	 *  Static Classes
 	 * ------------------------------------
 	 */
-	
+
 	/**
-	 * Metadata for functions.    
+	 * Metadata for functions.
 	 */
 	public static class FunctionInfo {
-		
+
 		/** name of the function */
 		public final String name;
-		
+
 		/** name of the plug-in that provides this function */
 		public final String plugin;
-		
+
 		/** whether this function is modifiable or not */
 		public final boolean isModifiable;
-		
+
 		/** the signature of this function */
 		public final Signature signature;
-		
+
 		public FunctionInfo(String plugin, String name, FunctionElement f) {
 			this.plugin = plugin;
 			this.name = name;
@@ -773,42 +773,40 @@ public class Specification {
 	}
 
 	/**
-	 * Metadata for universes.    
+	 * Metadata for universes.
 	 */
 	public static class UniverseInfo extends FunctionInfo {
-		
+
 		public UniverseInfo(String plugin, String name, UniverseElement u) {
 			super(plugin, name, u);
 		}
 	}
 
 	/**
-	 * Metadata for backgrounds.    
+	 * Metadata for backgrounds.
 	 */
 	public static class BackgroundInfo extends FunctionInfo {
-		
+
 		public BackgroundInfo(String plugin, String name, BackgroundElement u) {
 			super(plugin, name, u);
 		}
 	}
 
 	/**
-	 * Metadata for rules.    
+	 * Metadata for rules.
 	 */
 	public static class RuleInfo {
-		
+
 		/** name of the function */
 		public final String name;
-		
+
 		/** name of the plug-in that provides this function */
 		public final String plugin;
-		
+
 		public RuleInfo(String plugin, String name, RuleElement r) {
 			this.plugin = plugin;
 			this.name = name;
 		}
 	}
-	
+
 }
-
-

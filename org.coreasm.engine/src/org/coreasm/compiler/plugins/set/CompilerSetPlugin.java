@@ -32,7 +32,7 @@ import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlugin, CompilerVocabularyExtender, CompilerOperatorPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -45,7 +45,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -59,7 +59,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 	@Override
 	public List<String> unaryOperations() {
 		List<String> result = new ArrayList<String>();
-		
+
 		return result;
 	}
 
@@ -79,12 +79,12 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 		String result = "";
 		String abstractsetelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "AbstractSetElement", "CollectionPlugin");
 		String setelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "SetElement", "SetPlugin");
-		
+
 		result = "if((@lhs@ instanceof " + abstractsetelement + ") && (@rhs@ instanceof " + abstractsetelement + ")){\n";
 		result = result
 				+ "@decl(" + abstractsetelement + ",set1)=(" + abstractsetelement + ")@lhs@;\n"
 				+ "@decl(" + abstractsetelement + ",set2)=(" + abstractsetelement + ")@rhs@;\n";
-		
+
 		if(token.equals("union")){
 			result += "@decl(java.util.List<@RuntimePkg@.Element>,result)=new java.util.ArrayList<@RuntimePkg@.Element>();\n";
 			result += "@decl(java.util.List<@RuntimePkg@.Element>,el1)=new java.util.ArrayList<@RuntimePkg@.Element>(@set1@.enumerate());\n";
@@ -132,7 +132,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 
 		result += "}\n";
 		result = result + " else ";
-		
+
 		return result;
 	}
 
@@ -142,12 +142,12 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -156,7 +156,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 			try {
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.set.SetBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "SetBackgroundElement", "SetPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.set.SetElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "SetElement", "SetPlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/set/SetBackgroundElement.java", EntryType.BACKGROUND, SetBackgroundElement.SET_BACKGROUND_NAME).
 						includeStatic("org/coreasm/compiler/plugins/set/include/SetCardinalityFunctionElement.java", EntryType.FUNCTION, SetCardinalityFunctionElement.SET_CARINALITY_FUNCTION_NAME).

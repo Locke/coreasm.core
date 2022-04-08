@@ -45,16 +45,16 @@ public class CompileJob extends Job {
 		MessageConsole myConsole = new MessageConsole(name, null);
 		conMan.addConsoles(new IConsole[]{myConsole});
 		console = myConsole;
-		
+
 		options.enginePath = new File(System.getProperty(Tools.COREASM_ENGINE_LIB_PATH));
-		
+
 		CoreASMCompiler comp = new CoreASMCompiler(options, CoreASMEngineFactory.createCoreASMEngine());
 		CompilerLogger logger = new CompilerLogger(console);
-		
+
 		//comp.getLogger().addListener(Level.DEBUG, logger);
 		comp.getLogger().addListener(Level.ERROR, logger);
 		comp.getLogger().addListener(Level.WARN, logger);
-				
+
 		Exception err = null;
 		try{
 			comp.compile();
@@ -62,7 +62,7 @@ public class CompileJob extends Job {
 		catch(Exception exc){
 			err = exc;
 		}
-		
+
 		comp.getLogger().removeListener(Level.DEBUG, logger);
 		comp.getLogger().removeListener(Level.ERROR, logger);
 		comp.getLogger().removeListener(Level.WARN, logger);
@@ -75,15 +75,15 @@ public class CompileJob extends Job {
 		}
 		List<String> errors = comp.getErrors();
 		List<String> warnings = comp.getWarnings();
-		
-		IStatus result = null; 
+
+		IStatus result = null;
 		if(err == null){
-			
+
 			MultiStatus r = new MultiStatus("CoreASM", IStatus.OK, "Compilation successfull", null);
 			for(String s : warnings){
 				r.add(new Status(IStatus.WARNING, "CoreASM", s));
 			}
-			
+
 			if(options.keepTempFiles){
 				MessageConsoleStream out = console.newMessageStream();
 				out.print("Created source files preserved in temp directory" + System.getProperty("line.separator"));
@@ -95,22 +95,22 @@ public class CompileJob extends Job {
 					//mask exception
 				}
 			}
-			
+
 			if(run){
 				String cmd = "java -jar " + options.outputFile;
 				try{
 					Process p = Runtime.getRuntime().exec(cmd);
-					
+
 					InputStream is = p.getInputStream();
 					//OutputStream os = p.getOutputStream();
 					//InputStream es = p.getErrorStream();
-					
+
 					MessageConsoleStream out = console.newMessageStream();
 					if(options.terminateOnStepCount < 0) out.println("Warning: No max step count set, program might not terminate on its own");
 					out.println("Running created jar");
-					
+
 					Exception term = null;
-					
+
 					while(term == null){
 						int c = -1;
 						if((c = is.read()) != -1){
@@ -135,7 +135,7 @@ public class CompileJob extends Job {
 			}
 			result = r;
 		}
-		else{	
+		else{
 			MultiStatus r = new MultiStatus("CoreASM", IStatus.ERROR, "Compilation failed", null);
 			for(String s : errors){
 				r.add(new Status(IStatus.ERROR, "CoreASM", s));
@@ -145,7 +145,7 @@ public class CompileJob extends Job {
 			}
 			result = r;
 		}
-		
+
 		return result;
 	}
 

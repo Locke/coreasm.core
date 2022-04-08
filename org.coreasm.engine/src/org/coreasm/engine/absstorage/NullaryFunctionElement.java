@@ -1,6 +1,6 @@
-/*	
- * NullaryFunctionElement.java 
- * 
+/*
+ * NullaryFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -19,14 +19,14 @@ import java.util.Set;
 
 /**
  * Base implementation of a nullary function, one that has no argument.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class NullaryFunctionElement extends FunctionElement {
 
-	private Element value; 
-	
+	private Element value;
+
 	public NullaryFunctionElement() {
 		super();
 	}
@@ -58,10 +58,10 @@ public class NullaryFunctionElement extends FunctionElement {
 	/**
 	 * If the list of arguments is empty, it sets the value of this function
 	 * to the given value. Otherwise, does nothing.
-	 * 
+	 *
 	 *  @param args list of arguments
 	 *  @param value the new value of this function
-	 *  
+	 *
 	 *  @see FunctionElement#setValue(List, Element)
 	 */
 	@Override
@@ -74,7 +74,7 @@ public class NullaryFunctionElement extends FunctionElement {
 
 	/**
 	 * Sets the new value of this function.
-	 * 
+	 *
 	 * @param value an instance of {@link Element}.
 	 */
 	public void setValue(Element value) {

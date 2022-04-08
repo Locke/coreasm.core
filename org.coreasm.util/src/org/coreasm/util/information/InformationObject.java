@@ -22,9 +22,9 @@ public class InformationObject implements Serializable{
 	private final String message;
 	/** tag for verbosity level of the information (default: WARNING) */
 	private final VerbosityLevel verbosity;
-	
+
 	private final Map<String, String> data;
-	
+
 	private final ResponseHandler responseHandler;
 
 	public InformationObject(AbstractDispatcher sender, String message, VerbosityLevel verbosity, Map<String, String> data, ResponseHandler responseHandler) {
@@ -34,11 +34,11 @@ public class InformationObject implements Serializable{
 		this.data = data;
 		this.responseHandler = responseHandler;
 	}
-	
+
 	public InformationObject(AbstractDispatcher sender, String message, VerbosityLevel verbosity, Map<String, String> data) {
 		this(sender, message, verbosity, data, null);
 	}
-	
+
 	public InformationObject(AbstractDispatcher sender, String message, Map<String, String> data) {
 		this(sender, message, data, null);
 	}
@@ -46,7 +46,7 @@ public class InformationObject implements Serializable{
 	public InformationObject(AbstractDispatcher sender, String message, Map<String, String> data, ResponseHandler responseHandler) {
 		this(sender, message, VerbosityLevel.WARNING, data, responseHandler);
 	}
-	
+
 	public InformationObject(AbstractDispatcher sender, String message) {
 		this(sender, message, (ResponseHandler)null);
 	}
@@ -58,7 +58,7 @@ public class InformationObject implements Serializable{
 	public String getMessage() {
 		return message;
 	}
-	
+
 	public String getSender() {
 		return sender.getId();
 	}
@@ -70,7 +70,7 @@ public class InformationObject implements Serializable{
 	public Map<String, String> getData() {
 		return data;
 	}
-	
+
 	public void respond(Map<String, String> response) {
 		responseHandler.handleResponse(response);
 	}

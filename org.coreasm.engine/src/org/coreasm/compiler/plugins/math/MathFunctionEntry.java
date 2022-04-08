@@ -14,7 +14,7 @@ import org.coreasm.compiler.components.classlibrary.MemoryInclude;
 public class MathFunctionEntry extends MemoryInclude {
 	private String name;
 	private CodeFragment body;
-	
+
 	/**
 	 * Initializes the function entry
 	 * @param name The name of the function
@@ -33,11 +33,11 @@ public class MathFunctionEntry extends MemoryInclude {
 				+ "import java.util.List;\n"
 				+ "import " + engine.getPath().pluginStaticPkg() + ".NumberPlugin.NumberElement;\n"
 				+ "public class " + name + " extends MathFunction{\n";
-		
+
 		result += body.generateCode(engine);
-		
+
 		result += "}\n";
-	
+
 		return result;
 	}
 }

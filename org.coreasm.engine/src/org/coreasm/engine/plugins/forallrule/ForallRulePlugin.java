@@ -1,6 +1,6 @@
-/*	
+/*
  * ForallRulePlugin.java 	1.5 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 George Ma
  * Copyright (c) 2007 Roozbeh Farahbod
  *
@@ -11,7 +11,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.forallrule;
 
 import java.util.Collections;
@@ -44,34 +44,34 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Tools;
 
-/** 
+/**
  *	Plugin for forall rule
- *   
+ *
  *  @author  George Ma, Roozbeh Farahbod, Michael Stegmaier
- *  
+ *
  */
 public class ForallRulePlugin extends Plugin implements ParserPlugin,
         InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 3, "");
-	
+
 	public static final String PLUGIN_NAME = ForallRulePlugin.class.getSimpleName();
-	
+
 	private final String[] keywords = {"forall", "in", "with", "do", "ifnone", "endforall"};
 	private final String[] operators = {};
-	
+
     private ThreadLocal<Map<Node,Iterator<? extends Element>>> iterators;
     private ThreadLocal<Map<Node,UpdateMultiset>> updates;
-    
+
     private Map<String, GrammarRule> parsers;
-    
+
     private final CompilerPlugin compilerPlugin = new CompilerForallRulePlugin(this);
-    
+
     @Override
     public CompilerPlugin getCompilerPlugin(){
     	return compilerPlugin;
     }
-    
+
     @Override
     public void initialize() {
         //considered = new IdentityHashMap<Node,ArrayList<Element>>();
@@ -84,11 +84,11 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
         updates= new ThreadLocal<Map<Node,UpdateMultiset>>() {
 			@Override
 			protected Map<Node, UpdateMultiset> initialValue() {
-				return new IdentityHashMap<Node, UpdateMultiset>(); 
+				return new IdentityHashMap<Node, UpdateMultiset>();
 			}
         };
     }
- 
+
     private Map<Node, Iterator<? extends Element>> getIteratorMap() {
     	return iterators.get();
     }
@@ -104,20 +104,20 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	public String[] getOperators() {
 		return operators;
 	}
- 
-    
+
+
     public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
 			Parser<Node> guardParser = kernel.getGuardParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			Parser<Node> forallParser = Parsers.array( new Parser[] {
 					pTools.getKeywParser("forall", PLUGIN_NAME),
 					pTools.csplus(Parsers.array(idParser,
@@ -134,21 +134,21 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 					pTools.getKeywParser("endforall", PLUGIN_NAME).optional(null)
 					}).map(
 					new ForallParseMap());
-			parsers.put("Rule", 
-					new GrammarRule("ForallRule", 
+			parsers.put("Rule",
+					new GrammarRule("ForallRule",
 							"'forall' ID 'in' Term (',' ID 'in' Term) ('with' Guard)? 'do' Rule ('ifnone' Rule)? ('endforall')?", forallParser, PLUGIN_NAME));
 		}
 		return parsers;
     }
 
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-        
+
         if (pos instanceof ForallRuleNode) {
             ForallRuleNode forallNode = (ForallRuleNode) pos;
             Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
             Map<Node, UpdateMultiset> updates = getUpdatesMap();
             Map<String, ASTNode> variableMap;
-            
+
             try {
             	variableMap = forallNode.getVariableMap();
             }
@@ -156,18 +156,18 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
             	capi.error(e);
             	return pos;
             }
-            
+
             // evaluate all domains
             for (ASTNode domain : variableMap.values()) {
             	if (!domain.isEvaluated()) {
             		// SPEC: considered := {}
                 	iterators.remove(domain);
-                    
+
                     // SPEC: pos := beta
             		return domain;
             	}
             }
-            
+
             if (!forallNode.getDoRule().isEvaluated() &&
             		(forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated()) &&
                     // depending on short circuit evaluation
@@ -180,8 +180,8 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
             	boolean shouldChoose = true;
             	for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
 	                if (variable.getValue().getValue() instanceof Enumerable) {
-	                    
-	                    // SPEC: s := enumerate(v)/considered                    
+
+	                    // SPEC: s := enumerate(v)/considered
 	                	Iterator<? extends Element> it = iterators.get(variable.getValue());
 	                	if (it == null) {
 	            			Enumerable domain = (Enumerable)variable.getValue().getValue();
@@ -208,16 +208,16 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	                	}
 	                	else if (shouldChoose)
 	                		interpreter.removeEnv(variable.getKey());
-	                	
+
 	                	if (shouldChoose) {
 		                    if (it.hasNext()) {
 		                    	// SPEC: considered := considered union {t}
 		                        Element chosen = it.next();
 		                        shouldChoose = false;
-		                        
+
 		                        // SPEC: AddEnv(x,t)
 		                        interpreter.addEnv(variable.getKey(),chosen);
-		                    }   
+		                    }
 		                    else {
 		                        iterators.remove(variable.getValue());
 		                        if (pos != forallNode.getIfnoneRule())
@@ -247,7 +247,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
             else if (((forallNode.getCondition() != null) && forallNode.getCondition().isEvaluated()) &&
                      !forallNode.getDoRule().isEvaluated() &&
                      (forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated())) {
-                
+
                 boolean value;
                 if (forallNode.getCondition().getValue() instanceof BooleanElement) {
                     value = ((BooleanElement) forallNode.getCondition().getValue()).getValue();
@@ -256,7 +256,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
                     capi.error("Value of forall condition is not Boolean.", forallNode.getCondition(), interpreter);
                     return pos;
                 }
-                
+
                 if (value) {
                     // pos := delta
                     return forallNode.getDoRule();
@@ -264,33 +264,33 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
                 else {
                     // ClearTree(gamma)
                     interpreter.clearTree(forallNode.getCondition());
-                    
+
                     // pos := beta
                     return forallNode;
                 }
-                
+
             }
-            else if (((forallNode.getCondition() == null) || forallNode.getCondition().isEvaluated()) && 
-                    (forallNode.getDoRule().isEvaluated())) {    
-                
+            else if (((forallNode.getCondition() == null) || forallNode.getCondition().isEvaluated()) &&
+                    (forallNode.getDoRule().isEvaluated())) {
+
             	UpdateMultiset updateSet = updates.get(pos);
             	if (updateSet == null) {
 	            	// SPEC: [pos] := {undef,{},undef}
             		updateSet = new UpdateMultiset();
 	                updates.put(pos,updateSet);
             	}
-                // [pos] := (undef,updates(pos) union u,undef)                
+                // [pos] := (undef,updates(pos) union u,undef)
                 if (forallNode.getDoRule().getUpdates() != null)
                 	updateSet.addAll(forallNode.getDoRule().getUpdates());
-                
+
                 // ClearTree(gamma/delta)
                 interpreter.clearTree(forallNode.getDoRule());
-                
+
                 if (forallNode.getCondition() != null) {
                     // ClearTree(gamma)
                     interpreter.clearTree(forallNode.getCondition());
                 }
-                
+
                 return pos;
             }
             else if (forallNode.getIfnoneRule() != null && forallNode.getIfnoneRule().isEvaluated()) {
@@ -306,7 +306,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
         		}
             }
         }
-        
+
         return pos;
     }
 
@@ -318,7 +318,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	extends ParserTools.ArrayParseMap {
 
 		String nextChildName = "alpha";
-		
+
 		public ForallParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -346,7 +346,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 				super.addChild(parent, child);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -359,5 +359,5 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 }

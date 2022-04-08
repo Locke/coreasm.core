@@ -4,7 +4,7 @@ use Standard
 
 init R1
 
-rule R1 = 
+rule R1 =
 	if mode = 1 then
 		par
 			program(self) := undef

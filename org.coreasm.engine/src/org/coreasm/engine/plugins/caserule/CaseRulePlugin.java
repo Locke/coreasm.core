@@ -1,15 +1,15 @@
-/*	
+/*
  * CaseRulePlugin.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.caserule;
 
 import java.util.Collections;
@@ -37,29 +37,29 @@ import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 
-/** 
+/**
  *	Plugin for case rule.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
-public class CaseRulePlugin extends Plugin 
+public class CaseRulePlugin extends Plugin
     implements ParserPlugin, InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 1, 1, "beta");
-	
+
 	public static final String PLUGIN_NAME = CaseRulePlugin.class.getSimpleName();
-	
+
 	public static final String CASE_ITEM_RULE_DELIMITER = ":";
 
 	private final String[] keywords = {"case", "of", "endcase"};
 	private final String[] operators = {CASE_ITEM_RULE_DELIMITER};
-	
+
     private Map<String, GrammarRule> parsers = null;
     private ThreadLocal<Map<Node,Set<ASTNode>>> matchingRules;
 
     private final CompilerPlugin compilerPlugin = new CompilerCaseRulePlugin(this);
-    
+
     @Override
     public void initialize() {
         matchingRules = new ThreadLocal<Map<Node, Set<ASTNode>>>() {
@@ -89,12 +89,12 @@ public class CaseRulePlugin extends Plugin
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
-			
+
 			Parser<Node> caseRuleParser = Parsers.array(
 				new Parser[] {
 					pTools.getKeywParser("case", PLUGIN_NAME),
@@ -109,10 +109,10 @@ public class CaseRulePlugin extends Plugin
 					pTools.getKeywParser("endcase", PLUGIN_NAME)
 				}).map(
 				new CaseParseMap());
-			
+
 				parsers.put("Rule",
 					new GrammarRule("CaseRule",
-							"'case' Term 'of' (Term '" + CASE_ITEM_RULE_DELIMITER + "' Rule)+ 'endcase'", 
+							"'case' Term 'of' (Term '" + CASE_ITEM_RULE_DELIMITER + "' Rule)+ 'endcase'",
 							caseRuleParser, PLUGIN_NAME));
 		}
 		return parsers;
@@ -122,31 +122,31 @@ public class CaseRulePlugin extends Plugin
      * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
      */
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
-       
+
         if (pos instanceof CaseRuleNode) {
             CaseRuleNode caseNode = (CaseRuleNode) pos;
-            
+
             if (!caseNode.getCaseTerm().isEvaluated()) {
-            	// clear the cache of the rules whose guard 
+            	// clear the cache of the rules whose guard
             	// will match the value of the case term
             	matchingRules.get().remove(caseNode);
             	// return the case term for evaluation
             	return caseNode.getCaseTerm();
             } else {
             	Map<ASTNode, ASTNode> caseMap = caseNode.getCaseMap();
-            	
+
             	// evaluate all case guards
             	for (ASTNode guard: caseMap.keySet()) {
             		if (!guard.isEvaluated())
             			return guard;
             	}
-            	
+
             	Set<ASTNode> matchingRules = this.matchingRules.get().get(caseNode);
             	if (matchingRules == null) {
             		matchingRules = new HashSet<ASTNode>();
             		this.matchingRules.get().put(caseNode, matchingRules);
             	}
-            	
+
             	// At this point, all guards are evaluated
             	// It's time to evaluate rules with a matching guard
             	for (Entry<ASTNode, ASTNode> pair: caseMap.entrySet()) {
@@ -155,24 +155,24 @@ public class CaseRulePlugin extends Plugin
             			capi.error("Case guard does not have a value.", pair.getKey(), interpreter);
             			return pos;
             		}
-        			if (!pair.getValue().isEvaluated()) 
+        			if (!pair.getValue().isEvaluated())
         				if (value.equals(caseNode.getCaseTerm().getValue())) {
         					// add this rule to the cache
         					matchingRules.add(pair.getValue());
-        					return pair.getValue(); 
+        					return pair.getValue();
         				}
             	}
-            	
+
             	// At this point all matching rules are evaluated
             	// Time to put all the updates together
             	UpdateMultiset result = new UpdateMultiset();
             	for (ASTNode rule: matchingRules) {
             		result.addAll(rule.getUpdates());
             	}
-            	
+
             	pos.setNode(null, result, null);
             	return pos;
-            	
+
             }
         }
         else {
@@ -183,7 +183,7 @@ public class CaseRulePlugin extends Plugin
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -191,7 +191,7 @@ public class CaseRulePlugin extends Plugin
 	public static class CaseParseMap //extends ParseMapN<Node> {
 	extends ParserTools.ArrayParseMap {
 		String nextChildName;
-		
+
 		public CaseParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -212,7 +212,7 @@ public class CaseRulePlugin extends Plugin
 					nextChildName = "beta";
 			} else {
 				parent.addChild(child);
-				if (child.getToken().equals("of")) 				// case item 
+				if (child.getToken().equals("of")) 				// case item
 					nextChildName = "beta";
 				else
 					if (child.getToken().equals(CASE_ITEM_RULE_DELIMITER))		// case rule
@@ -220,7 +220,7 @@ public class CaseRulePlugin extends Plugin
 			}
 		}
 	}
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;

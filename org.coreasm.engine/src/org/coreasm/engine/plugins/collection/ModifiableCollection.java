@@ -21,7 +21,7 @@ import org.coreasm.engine.interpreter.Node;
 
 /**
  * The interface for all modifiable collections.
- *   
+ *
  * @author Roozbeh Farahbod
  * @see CollectionPlugin
  */
@@ -30,24 +30,24 @@ public interface ModifiableCollection {
 
 	/**
 	 * Computes an update-set that would add a new element to this collection.
-	 * 
+	 *
 	 * @param loc the location of the update
 	 * @param e the new element
 	 * @param agent the contributing agent
 	 * @param node the parse-tree node responsible for this change; can be null.
-	 * 
+	 *
 	 * @throws InterpreterException if there is a problem with evaluating the update set
 	 */
 	public abstract UpdateMultiset computeAddUpdate(Location loc, Element e, Element agent, Node node) throws InterpreterException;
 
 	/**
 	 * Computes an update-set that would remove the given element from this collection.
-	 * 
+	 *
 	 * @param loc the location of the update
 	 * @param e the element to be removed
-	 * @param agent the contributing agent  
+	 * @param agent the contributing agent
 	 * @param node the parse-tree node responsible for this change; can be null.
-	 * 
+	 *
 	 * @throws InterpreterException if there is a problem with evaluating the update set
 	 */
 	public abstract UpdateMultiset computeRemoveUpdate(Location loc, Element e, Element agent, Node node) throws InterpreterException;

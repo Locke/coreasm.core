@@ -1,18 +1,18 @@
-/*	
+/*
  * ExistsExpNode.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
  * Copyright (C) 2007 Roozbeh Farahbod
- * 
+ *
  * Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $ by $Author: rfarahbod $
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.predicatelogic;
 
 import java.util.Map;
@@ -22,17 +22,17 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  *	ExistsExpNode is a Node for exists expressions.
- *   
+ *
  *  @author  George Ma and Roozbeh Farahbod
- *  
+ *
  */
 
 public class ExistsExpNode extends ASTNode {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private VariableMap variableMap;
@@ -52,7 +52,7 @@ public class ExistsExpNode extends ASTNode {
     public ExistsExpNode(ExistsExpNode node) {
     	super(node);
     }
-    
+
     @Override
 	public void addChild(String name, Node node) {
 		if (node instanceof ASTNode) {
@@ -68,7 +68,7 @@ public class ExistsExpNode extends ASTNode {
 		}
 		super.addChild(name, node);
 	}
-    
+
     /**
      * Returns a map of the variable names to the nodes which
      * represent the domains that variable should be taken from
@@ -78,7 +78,7 @@ public class ExistsExpNode extends ASTNode {
     		return variableMap;
     	return variableMap = new VariableMap(this);
     }
-    
+
     /**
      * Returns the node representing the condition of the Exists expression.
      */

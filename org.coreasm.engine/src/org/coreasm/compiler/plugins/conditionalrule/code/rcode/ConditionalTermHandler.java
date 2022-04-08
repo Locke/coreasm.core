@@ -20,7 +20,7 @@ public class ConditionalTermHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		if(!(node instanceof ConditionalTermNode)) throw new CompilerException("invalid node type in conditionalterm");
 		ConditionalTermNode cond = (ConditionalTermNode) node;
-		
+
 		result.appendFragment(engine.compile(cond.getCondition(), CodeType.R));
 		result.appendLine("if(@RuntimePkg@.BooleanElement.TRUE.equals(evalStack.pop())){\n");
 		result.appendFragment(engine.compile(cond.getIfTerm(), CodeType.R));

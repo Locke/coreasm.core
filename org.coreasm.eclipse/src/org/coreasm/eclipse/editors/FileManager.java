@@ -28,22 +28,22 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author Markus M�ller
  *
  */
-public class FileManager 
+public class FileManager
 {
 	private static final String INVALID_CHARS_WIN = "\\:*?\"<>|";
 	private static final String INVALID_CHARS_MAC = ":";
 	private static final String INVALID_CHARS_UNIX = "";
 	private static final String INVALID_CHARS = getInvalidChars();
-	
+
 	/**
-	 * Returns a reference to the project the currently edited file belongs to. 
+	 * Returns a reference to the project the currently edited file belongs to.
 	 */
 	public static IProject getActiveProject()
 	{
 		WorbenchWindowRetriever wwr = new WorbenchWindowRetriever();
 		Display.getDefault().syncExec(wwr);
 		IWorkbenchWindow win = wwr.wbwin;
-		
+
 		IWorkbenchPage page = win.getActivePage();
 		if (page == null)
 			return null;
@@ -51,11 +51,11 @@ public class FileManager
 		// and is opening an editor which was open when eclipse was closed last time.
 		// However, the document will be parsed again later, when there is a page.
 		// Can this behavior be changed?
-		
+
 		FileEditorInput fileInput = (FileEditorInput) page.getActiveEditor().getEditorInput();
 		return fileInput.getFile().getProject();
 	}
-	
+
 	/**
 	 * Returns a reference to the active editor.
 	 */
@@ -64,14 +64,14 @@ public class FileManager
 		WorbenchWindowRetriever wwr = new WorbenchWindowRetriever();
 		Display.getDefault().syncExec(wwr);
 		IWorkbenchWindow win = wwr.wbwin;
-		
+
 		IWorkbenchPage page = win.getActivePage();
 		if (page == null) return null;
-		
+
 		return page.getActiveEditor();
 	}
-	
-	
+
+
 	private static String getInvalidChars()
 	{
 		String os = System.getProperty("os.name").toLowerCase();
@@ -85,16 +85,16 @@ public class FileManager
 	}
 
 	/**
-	 * Returns the project to which a certain file belongs to. 
+	 * Returns the project to which a certain file belongs to.
 	 */
 	public static IProject getProject(IFile file)
 	{
 		return file.getProject();
 	}
-	
+
 	/**
 	 * Translates the name of a file, which is relative to another file, into a name
-	 * which is relative to the project both files belong to. Returns null if the 
+	 * which is relative to the project both files belong to. Returns null if the
 	 * filename leads out of the project.
 	 */
 	public static String getFilenameRelativeToProject(String filename, IFile sourcefile)
@@ -102,9 +102,9 @@ public class FileManager
 		if (filename.startsWith("/"))
 //			return filename;
 			filename = filename.substring(1);
-			
+
 		IPath folder = sourcefile.getParent().getProjectRelativePath();
-		
+
 		while (filename.startsWith("../")) {
 			// check if we're leaving the project root
 			if (folder.lastSegment() ==  null)
@@ -112,16 +112,16 @@ public class FileManager
 			folder = folder.removeLastSegments(1);
 			filename = filename.substring(3);
 		}
-		
+
 		String foldername = folder.toString();
-		
+
 		if (foldername == null || foldername.equals(""))
 			return filename;
 		else
 			return foldername + "/" + filename;
-		 
+
 	}
-	
+
 	/**
 	 * Returns an IFile object for a file given by its name within a project
 	 * @param filename	the name of the file, relative to the project root
@@ -132,11 +132,11 @@ public class FileManager
 	{
 		if (filename == null)
 			return null;
-		
+
 		IFile file = project.getFile(filename);
 		return file;
 	}
-	
+
 	/**
 	 * Creates a new file, given by its name, in a certain project, and fills it
 	 * with a default content ("<code>// CoreASM specification</code>")
@@ -160,26 +160,26 @@ public class FileManager
 			IPath path = newfile.getLocation().removeLastSegments(1);
 			for (int i=path.segmentCount(); i>=0; i--) {
 				IPath fPath = path.removeLastSegments(i);
-				
+
 				java.io.File jFile = new File(fPath.toString());
 				if (jFile.exists() && jFile.isDirectory()==false)
 					throw new RuntimeException("cannot create directory");
 				if (!jFile.exists())
 					folderWasCreated = jFile.mkdir();
 			}
-			
+
 			if (folderWasCreated) {
 				getActiveProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-				Logger.log(Logger.INFORMATION, Logger.ui, "created directory: " + newfile.getProjectRelativePath().removeLastSegments(1).toString());	
+				Logger.log(Logger.INFORMATION, Logger.ui, "created directory: " + newfile.getProjectRelativePath().removeLastSegments(1).toString());
 			}
-			
+
 			newfile.create(is,  false, null);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		return newfile;
 	}
-	
+
 	/**
 	 * Checks if a certain file, given by its IFile object, is existing
 	 */
@@ -190,7 +190,7 @@ public class FileManager
 		java.io.File jFile = file.getLocation().toFile();
 		return jFile.exists();
 	}
-	
+
 	/**
 	 * Checks if a certain file, given by its filename and its object, is existing
 	 * @param filename	the name of the file, relative to the project root
@@ -200,7 +200,7 @@ public class FileManager
 	{
 		return fileExists(getFile(filename, project));
 	}
-	
+
 	/**
 	 * Checks if a filename is valid within the current operating system.
 	 */
@@ -211,7 +211,7 @@ public class FileManager
 				return false;
 		return true;
 	}
-	
+
 	/**
 	 * Opens an editor for a file specified by its filename and its project.
 	 */
@@ -223,7 +223,7 @@ public class FileManager
 		IWorkbenchPage page = win.getActivePage();
 
 		IFile file = getFile(filename, project);
-		
+
 		if (!fileExists(file)) {
 			MessageBox mb = new MessageBox(win.getShell(), SWT.ICON_ERROR);
 			mb.setText("File not found");
@@ -231,7 +231,7 @@ public class FileManager
 			mb.open();
 			return;
 		}
-		
+
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filename);
 		if (desc == null)
 			return;
@@ -251,12 +251,10 @@ public class FileManager
 	private static class WorbenchWindowRetriever implements Runnable
 	{
 		IWorkbenchWindow wbwin;
-		
+
 		@Override
 		public void run() {
 			wbwin = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		}
 	}
 }
-
-

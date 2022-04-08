@@ -1,6 +1,6 @@
-/*	
+/*
  * ConstantFunction.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.Collections;
@@ -18,20 +18,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** 
+/**
  * Base of all constant functions.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class ConstantFunction extends FunctionElement {
 
 	protected final Element constantValue;
 	protected final Set<? extends Element> range;
-	
+
 	/**
 	 * Creates a constant function that returns a constant value.
-	 * 
+	 *
 	 * @param constantValue the constant value
 	 */
 	public ConstantFunction(Element constantValue) {
@@ -75,5 +75,5 @@ public class ConstantFunction extends FunctionElement {
 		locSet.add(new Location(name, ElementList.NO_ARGUMENT));
 		return locSet;
 	}
-	
+
 }

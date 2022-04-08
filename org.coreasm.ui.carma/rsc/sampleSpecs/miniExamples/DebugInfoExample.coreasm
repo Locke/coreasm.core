@@ -22,4 +22,3 @@ rule R1 = {
 		counter := counter + 1
 	}
 }
-

@@ -5,10 +5,10 @@ import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 
 /**
- * 
- * This class is used to notify a view whenever a certain status 
+ *
+ * This class is used to notify a view whenever a certain status
  * change of an IEditorPart occurs.
- * 
+ *
  * @author marcel
  *
  */

@@ -12,7 +12,7 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntry;
  */
 public interface CompilerMainClassProvider {
 	/**
-	 * Gets a LibraryEntry for the main class 
+	 * Gets a LibraryEntry for the main class
 	 * @return The main class as a library entry
 	 */
 	public LibraryEntry getMainClass();

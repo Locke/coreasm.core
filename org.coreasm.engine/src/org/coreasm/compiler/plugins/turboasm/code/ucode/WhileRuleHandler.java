@@ -16,7 +16,7 @@ public class WhileRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {		
+			throws CompilerException {
 		result.appendLine("@decl(@RuntimePkg@.AbstractStorage,storage)=@RuntimeProvider@.getStorage();\n");
 		result.appendLine("@decl(@RuntimePkg@.UpdateList,composed)=new @RuntimePkg@.UpdateList();\n");
 		result.appendLine("@decl(boolean,guard)=true;\n");

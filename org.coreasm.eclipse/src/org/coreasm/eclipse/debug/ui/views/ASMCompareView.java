@@ -78,19 +78,19 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 	}
 	class NameSorter extends ViewerSorter {
 	}
-	
+
 	public ASMCompareView() {
 	}
-	
+
 	@Override
 	public void dispose() {
 		DebugUITools.getDebugContextManager().getContextService(getSite().getWorkbenchWindow()).removeDebugContextListener(this);
 		super.dispose();
 	}
-	
+
 	public void refresh() {
 		Display.getDefault().asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				if (viewer != null) {
@@ -116,7 +116,7 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 //		hookDoubleClickAction();
 		hookLocalPullDown();
 	}
-	
+
 	private void createNameColumn() {
 		TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
 		column.getColumn().setWidth(100);
@@ -126,7 +126,7 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 			public String getText(Object element) {
 				return ((ASMCompareViewElement)element).getName();
 			}
-			
+
 			@Override
 			public Color getBackground(Object element) {
 				if (((ASMCompareViewElement)element).hasDifference())
@@ -135,7 +135,7 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 			}
 		});
 	}
-	
+
 	private TableViewerColumn createColumn(int step, final int index) {
 		TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
 		column.getColumn().setText("Step " + (step < 0 ? -step - 1 + "*" : step));
@@ -155,7 +155,7 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 		});
 		return column;
 	}
-	
+
 	private void clearColumns() {
 		for (TableViewerColumn column : columns)
 			column.getColumn().dispose();
@@ -197,12 +197,12 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 //			}
 //		});
 //	}
-	
+
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	@Override
 	public void debugContextChanged(DebugContextEvent event) {
 		ISelection context = event.getContext();
@@ -222,7 +222,7 @@ public class ASMCompareView extends ViewPart implements IDebugContextListener {
 					}
 				}
 			}
-			
+
 			HashMap<String, String[]> variableValues = new HashMap<String, String[]>();
 			if (!variables.isEmpty() && variables.get(0) != null) {
 				for (int i = 0; i < selectedSteps; i++) {

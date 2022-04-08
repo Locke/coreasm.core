@@ -1,6 +1,6 @@
-/*	
+/*
  * RemoveChildFromAtNode.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -15,16 +15,16 @@ package org.coreasm.engine.plugins.tree;
 import org.coreasm.engine.interpreter.ASTNode;
 
 
-/** 
+/**
  *	AST node rule elements: 'remove child at IDX from NODE'.
- *   
+ *
  *  @author  Franco Alberto Cardillo
  */
 public class RemoveChildAtRuleNode extends ASTNode  {
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,9 +44,9 @@ public class RemoveChildAtRuleNode extends ASTNode  {
 		super(node);
 	}
 
-	
+
 	/**
-	 * @return the second parameter 
+	 * @return the second parameter
 	 */
 	public ASTNode getSecond() {
 		return getFirst().getNext();

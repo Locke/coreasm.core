@@ -24,7 +24,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  * as the preprocessor doesn't check for cycles and might fail to terminate.
  * Plugins can also contribute default rules for analyses, to bridge possibly unimplemented parts
  * arising from newly implemented plugins.
- * 
+ *
  * @author Markus Brenner
  *
  */
@@ -48,7 +48,7 @@ public class Preprocessor {
 		defaultInheritBehaviour = new HashMap<String, InheritRule>();
 		root = null;
 	}
-	
+
 	/**
 	 * Finds the information mapping stored about the given node.
 	 * Returns an empty Map if there is no information stored.
@@ -58,10 +58,10 @@ public class Preprocessor {
 	public Map<String, Information> getNodeInformation(ASTNode n){
 		Map<String, Information> result = informationMap.get(n);
 		if(result == null) return new HashMap<String, Information>();
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Loads a list of preprocessor plugins providing rules and default behaviours.
 	 * @param list A list of preprocessor plugins
@@ -70,7 +70,7 @@ public class Preprocessor {
 	public void loadPlugins(List<CompilerPlugin> list) throws Exception {
 		engine.getLogger().debug(Preprocessor.class, "loading preprocessor plugins");
 		manager = new PreprocessorDataManager(list);
-		
+
 		for (CompilerPlugin cp : list) {
 			CompilerPreprocessorPlugin p = (CompilerPreprocessorPlugin) cp;
 			//transformers.addAll(p.getTransformers());
@@ -85,7 +85,7 @@ public class Preprocessor {
 					defaultSynthBehaviour.put(d.getKey(), d.getValue());
 				}
 			}
-			
+
 			if(p.getInheritDefaultBehaviours() != null){
 				//Main.getEngine().addWarning("warning : plugin " + ((CompilerPlugin) p).getName() + " provided a null inherit behaviour list");
 				for (Entry<String, InheritRule> d : p.getInheritDefaultBehaviours().entrySet()) {
@@ -97,10 +97,10 @@ public class Preprocessor {
 					defaultInheritBehaviour.put(d.getKey(), d.getValue());
 				}
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * Gets the information mapping of the root node
 	 * @return The mapping of the root node
@@ -108,26 +108,26 @@ public class Preprocessor {
 	public Map<String, Information> getGeneralInfo(){
 		return this.informationMap.get(root);
 	}
-	
+
 	private boolean mergeInformation(Map<String, Information> original, Map<String, Information> additional){
 		//merge all changes in the map additional into the map original and return true, if any changes to original were made
 		boolean result = false;
 		for(Entry<String, Information> e : additional.entrySet()){
 			if(original.containsKey(e.getKey())){
-				//when a key already exists, only put it, if it differs from the previous value				
+				//when a key already exists, only put it, if it differs from the previous value
 				Information newInf = e.getValue();
 				Information oldInf = original.get(e.getKey());
-		
+
 				Information comp = newInf;
 				Information other = oldInf;
 				if(comp == null){
 					comp = oldInf;
 					other = null;
 				}
-				
+
 				if(comp != null && !comp.equals(other)){
 					result = true;
-					
+
 					original.put(e.getKey(), e.getValue());
 				}
 			}
@@ -141,7 +141,7 @@ public class Preprocessor {
 
 	private boolean processBottomUp(ASTNode root){
 		//process the specification bottom up, generating synthesized information
-		
+
 		boolean changed = false;
 		//preprocess the child nodes first
 		List<Map<String, Information>> children = new ArrayList<Map<String, Information>>();
@@ -149,24 +149,24 @@ public class Preprocessor {
 			changed = processBottomUp(n) || changed;
 			children.add(informationMap.get(n));
 		}
-		
+
 		Map<String, Information> current = new HashMap<String, Information>();
 		List<String> colliding = new ArrayList<String>();
-		
+
 		for(SynthesizeRule t : manager.getSynthesizeRules(root)){
 			Map<String, Information> res = t.transform(root, children);
 			if(res == null) continue;
 			colliding.addAll(findColliding(current, res));
 			current.putAll(res);
 		}
-		
+
 		for(String s : colliding){
 			System.out.println("warning, polluted entry for " + s);
 			engine.addWarning("warning: colliding entries in preprocessor for entry " + s);
 			current.remove(s);
 		}
 		colliding.clear();
-		
+
 		for(Map<String, Information> c : children){
 			for(Entry<String, Information> e : c.entrySet()){
 				if(!current.containsKey(e.getKey())){
@@ -180,38 +180,38 @@ public class Preprocessor {
 				}
 			}
 		}
-		
+
 		for(String s : colliding){
 			current.remove(s);
 		}
-		
+
 		//merge the new information with the generated information
 		Map<String, Information> old = informationMap.get(root);
 		if(old == null) old = new HashMap<String, Information>();
-		
+
 		changed = mergeInformation(old, current) || changed;
-		
+
 		informationMap.put(root, old);
-		
+
 		return changed;
 	}
-	
+
 	private boolean processTopDown(ASTNode root){
 		//process the specification top down, generating inherited information
 		Map<String, Information> currentNode = informationMap.get(root);
 		if(currentNode == null){
 			currentNode = new HashMap<String, Information>();
 		}
-		
+
 		boolean changed = false;
-		
+
 		List<Map<String, Information>> current = new ArrayList<Map<String, Information>>();
 		List<List<String>> colliding = new ArrayList<List<String>>();
 		for(int i = 0; i < root.getAbstractChildNodes().size(); i++){
 			current.add(new HashMap<String, Information>());
 			colliding.add(new ArrayList<String>());
 		}
-		
+
 		//apply rules
 		for(InheritRule t : manager.getInheritRules(root)){
 			List<Map<String, Information>> res = t.transform(root, currentNode);
@@ -223,14 +223,14 @@ public class Preprocessor {
 				for(int i = 0; i < res.size(); i++){
 					Map<String, Information> m = res.get(i);
 					if(m == null) continue;
-					
-					//sort the generated information into the list					
+
+					//sort the generated information into the list
 					colliding.get(i).addAll(findColliding(current.get(i), m));
 					current.get(i).putAll(m);
 				}
 			}
 		}
-		
+
 		//remove colliding entries
 		for(int i = 0; i < colliding.size(); i++){
 			for(String s : colliding.get(i)){
@@ -240,14 +240,14 @@ public class Preprocessor {
 			}
 			colliding.get(i).clear();
 		}
-		
+
 		//default behaviours; note that inherit default behaviours cannot create colliding entries
 		for(Entry<String, Information> e : currentNode.entrySet()){
 			InheritRule def = defaultInheritBehaviour.get(e.getKey());
 			if(def != null){
 				List<Map<String, Information>> defres = def.transform(root, currentNode);
 				if(defres == null || defres.size() != root.getAbstractChildNodes().size()) continue;
-				
+
 				for(int i = 0; i < defres.size(); i++){
 					if(defres.get(i) == null) continue;
 					//this loop should actually have only one run, as the returned entry by the
@@ -260,21 +260,21 @@ public class Preprocessor {
 				}
 			}
 		}
-		
+
 		//finally, merge the information with the child nodes and proceed further down the three
 		for(int i = 0; i < root.getAbstractChildNodes().size(); i++){
 			ASTNode next = root.getAbstractChildNodes().get(i);
 			Map<String, Information> nmap = informationMap.get(next);
 			if(nmap == null) nmap = new HashMap<String, Information>();
-			
+
 			changed = mergeInformation(nmap, current.get(i)) || changed;
 			informationMap.put(next, nmap);
 			changed = processTopDown(next) || changed;
 		}
-		
+
 		return changed;
 	}
-	
+
 	/**
 	 * Preprocesses a specification starting at the given node.
 	 * Might not terminate, if a cycle exists in the rules provided by plugins
@@ -289,7 +289,7 @@ public class Preprocessor {
 			changed = false;
 			changed = processBottomUp(specRoot) || changed;
 			changed = processTopDown(specRoot) || changed;
-			
+
 			runCounter++;
 			if(runCounter == engine.getOptions().preprocessorRuns){
 				engine.addError("Preprocessor exceeded maximum run duration");

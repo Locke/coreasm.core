@@ -1,6 +1,6 @@
 /*
  * StringMatchingFunction.java 	1.0
- * 
+ *
  *
  * Copyright (C) 2013 Marcel Dausend
  *
@@ -22,11 +22,11 @@ import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 
-/** 
+/**
  *  Function returns the boolean result (or undef) as result of regular expression matching using java regular expressions
- *   
+ *
  *  @author  Marcel Dausend
- *  
+ *
  */
 public class StringMatchingFunction extends FunctionElement {
 
@@ -34,14 +34,14 @@ public class StringMatchingFunction extends FunctionElement {
 	//needed for ErrorHandling
 	private ControlAPI capi;
 
-	
+
 	/**
-	 * Creates a new StringMatchingFunction 
-	 * @param capi 
+	 * Creates a new StringMatchingFunction
+	 * @param capi
 	 */
 	public StringMatchingFunction(ControlAPI capi) {
 		setFClass(FunctionClass.fcDerived);
-		this.capi= capi; 
+		this.capi= capi;
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +62,7 @@ public class StringMatchingFunction extends FunctionElement {
 
 				// check if the second argument is a correct regular expression
 				try {
-					if (Pattern.compile(regex) != null) 
+					if (Pattern.compile(regex) != null)
 						if ( string.matches(regex) ) ret = BooleanElement.TRUE;
 						else ret = BooleanElement.FALSE;
 

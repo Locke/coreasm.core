@@ -41,7 +41,7 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 	public CompilerIOPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -56,26 +56,26 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
 		}
-		else{			
+		else{
 			try {
 				//classLibrary.addPackageReplacement("org.coreasm.engine.plugins.string.StringElement", "plugins.StringPlugin.StringElement");
-				
+
 				//add package replacements for classes accessible for other plugins
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.io.InputProvider", engine.getPath().getEntryName(LibraryEntryType.STATIC, "InputProvider", "IOPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.compiler.plugins.io.include.IOPlugin", engine.getPath().getEntryName(LibraryEntryType.STATIC, "IOPlugin", "IOPlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/io/OutputFunctionElement.java", EntryType.FUNCTION, "output").
 						includeStatic("org/coreasm/compiler/plugins/io/include/InputFunctionElement.java", EntryType.FUNCTION, "input").
 						includeStatic("org/coreasm/engine/plugins/io/InputProvider.java", EntryType.INCLUDEONLY).
 						includeStatic("org/coreasm/compiler/plugins/io/include/IOPlugin.java", EntryType.INCLUDEONLY).
 						includeStatic("org/coreasm/compiler/plugins/io/include/IOAggregator.java", EntryType.AGGREGATOR).build();
-				
+
 			} catch (EntryAlreadyExistsException e) {
 				throw new CompilerException(e);
 			}
@@ -94,7 +94,7 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 		c.appendLine("}\ncatch(@decl(Exception,e)){\n}\n");
 		EngineTransition et = new EngineTransition(c, "emAggregation", "emStepSucceeded");
 		result.add(et);
-		
+
 		return result;
 	}
 
@@ -102,7 +102,7 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 	public CodeFragment getInitCode() {
 		CodeFragment result = new CodeFragment("");
 		result.appendLine("java.io.PrintStream outputStream = System.out;\n");
-		
+
 		return result;
 	}
 

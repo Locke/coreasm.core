@@ -1,6 +1,6 @@
-/*	
+/*
  * MakeTreeRuleNode.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -15,16 +15,16 @@ package org.coreasm.engine.plugins.tree;
 import org.coreasm.engine.interpreter.ASTNode;
 
 
-/** 
+/**
  *	AST node rule elements: 'make TERM into tree TERM'.
- *   
+ *
  *  @author  Franco Alberto Cardillo
  */
 public class MakeTreeRuleNode extends ASTNode  {
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class MakeTreeRuleNode extends ASTNode  {
 		super(node);
 	}
 
-	
+
 	/**
 	 * @return returns the Tree parameter of this rule
 	 */

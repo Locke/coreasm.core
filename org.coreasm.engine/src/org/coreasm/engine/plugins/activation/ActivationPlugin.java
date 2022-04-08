@@ -49,9 +49,9 @@ import org.slf4j.LoggerFactory;
  * This plugin was created in order to be able to run the specification of
  * TerminationDetection as presented in "The Modeling Companion", Springer in
  * CoreASM.
- * 
+ *
  * @author Alexander Raschke
- * 
+ *
  */
 public class ActivationPlugin extends Plugin implements ParserPlugin, InterpreterPlugin, Aggregator {
 
@@ -82,7 +82,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
 	@Override
@@ -92,7 +92,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
 	public String[] getKeywords() {
@@ -101,7 +101,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getOperators()
 	 */
 	public String[] getOperators() {
@@ -114,7 +114,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/**
 	 * Always returns <code>null</code>.
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
 	public Parser<Node> getParser(String nonterminal) {
@@ -126,7 +126,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
 	public Map<String, GrammarRule> getParsers() {
@@ -199,7 +199,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 										+ "Failed to set " + actNode.getLocation() + " to " + actNode.isActivate()
 										+ " because " + actNode.getLocation() + " was " + actNode.getValue() + ".",
 								actNode);
-				} 
+				}
 			}
 
 		}
@@ -219,7 +219,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 * This aggregator looks if for a location at least one update to true
 	 * exists. If this is the case, one update to true is generated, else the
 	 * corresponding location is set to false.
-	 * 
+	 *
 	 * @param pluginAgg
 	 *            plugin aggregation API object.
 	 */
@@ -260,7 +260,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/**
 	 * no special composition is necessary for this plugin.
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.Aggregator#compose(PluginCompositionAPI)
 	 */
 	public void compose(PluginCompositionAPI compAPI) {
@@ -269,7 +269,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
 	public VersionInfo getVersionInfo() {

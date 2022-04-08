@@ -26,14 +26,14 @@ public class ListCompHandler implements CompilerCodeHandler {
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
 		ListCompNode compnode = (ListCompNode) node;
-		
+
 		CodeFragment guard = null;
 		if(!(compnode.getGuard() instanceof TrueGuardNode)){
 			guard = engine.compile(compnode.getGuard(), CodeType.R);
 		}
-		
+
 		List<String> constrnames = new ArrayList<String>();
-		
+
 		result.appendLine("@decl(java.util.List<@RuntimePkg@.Element>,list)=new java.util.ArrayList<@RuntimePkg@.Element>();\n");
 		try{
 			//evaluate all constrainer domains and collect the list of variable names
@@ -43,22 +43,22 @@ public class ListCompHandler implements CompilerCodeHandler {
 				result.appendFragment(engine.compile(e.getValue(), CodeType.R));
 				result.appendLine("@decl(java.util.List<@RuntimePkg@.Element>,domain" + counter + ")=new java.util.ArrayList<@RuntimePkg@.Element>(((@RuntimePkg@.Enumerable)evalStack.pop()).enumerate());\n");
 				counter++;
-			}	
+			}
 			//iterate
-			
+
 			//open for loops
 			for(int i = 0; i < constrnames.size(); i++){
 				String var = "@domain" + i + "@";
 				String cvar = "@c" + i + "@";
 				result.appendLine("for(@decl(int,c" + i + ")=0; " + cvar + " < " + var + ".size(); " + cvar + "++){\n");
 			}
-			
+
 			result.appendLine("localStack.pushLayer();\n");
-			
+
 			for(int i = 0; i < constrnames.size(); i++){
 				result.appendLine("localStack.put(\"" + constrnames.get(i) + "\", @domain" + i + "@.get(@c" + i + "@));\n");
 			}
-			
+
 			if(guard == null){
 				result.appendFragment(engine.compile(compnode.getListFunction(), CodeType.R));
 				result.appendLine("@list@.add((@RuntimePkg@.Element)evalStack.pop());\n");
@@ -70,9 +70,9 @@ public class ListCompHandler implements CompilerCodeHandler {
 				result.appendLine("@list@.add((@RuntimePkg@.Element)evalStack.pop());\n");
 				result.appendLine("}\n");
 			}
-			
+
 			result.appendLine("localStack.popLayer();\n");
-			
+
 			//close for loops
 			for(int i = 0; i < constrnames.size(); i++){
 				result.appendLine("}\n");

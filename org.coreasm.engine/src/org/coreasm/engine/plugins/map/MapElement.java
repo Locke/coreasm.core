@@ -1,6 +1,6 @@
-/*	
+/*
  * MapElement.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.map;
 
 import java.util.ArrayList;
@@ -35,11 +35,11 @@ import org.coreasm.engine.plugins.collection.AbstractMapElement;
 import org.coreasm.engine.plugins.collection.ModifiableCollection;
 import org.coreasm.engine.plugins.list.ListElement;
 
-/** 
+/**
  * Map elements
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class MapElement extends AbstractMapElement implements ModifiableCollection {
 
@@ -49,20 +49,20 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 	protected Collection<Element> valueCollection = null;
 	protected Set<Element> enumeration = null;
 	protected List<Element> enumListCache = null;
-	
+
 	public MapElement() {
 		this.map = Collections.unmodifiableMap(new HashMap<Element, Element>());
 	}
-	
+
 	public MapElement(Map<? extends Element, ? extends Element> map) {
 		this.map = Collections.unmodifiableMap(new HashMap<Element, Element>(map));
 	}
-	
+
 	public MapElement(MapElement anotherMap) {
 		this(anotherMap.map);
 	}
-	
-	
+
+
 	@Override
 	public String getBackground() {
 		return MapBackgroundElement.NAME;
@@ -81,7 +81,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 	@Override
 	public Element get(Element key) {
 		Element result = map.get(key);
-		if (result == null) 
+		if (result == null)
 			result = defaultValue;
 		return result;
 	}
@@ -119,7 +119,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 	}
 
 	public boolean contains(Element e) {
-		if (enumeration == null) 
+		if (enumeration == null)
 			enumerate();
 		return enumeration.contains(e);
 	}
@@ -130,34 +130,34 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			for (Entry<Element, Element> entry: map.entrySet()) {
 				enumeration.add(new ListElement(entry.getKey(), entry.getValue()));
 			}
-		} 
+		}
 		return enumeration;
 	}
 
 	@Override
 	public String denotation() {
-		if (intSize() == 0) 
+		if (intSize() == 0)
 			return "{ -> }";
 		else {
 			StringBuffer result = new StringBuffer("{");
-			
+
 			for (Element k: map.keySet())
 				result.append(k.denotation() + "->" + map.get(k).denotation() + ", ");
-			
+
 			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
 
 	@Override
 	public String toString() {
-		if (intSize() == 0) 
+		if (intSize() == 0)
 			return "{ -> }";
 		else {
 			StringBuffer result = new StringBuffer("{");
-			
+
 			for (Element k: map.keySet())
 				result.append(k.toString() + "->" + map.get(k) + ", ");
-			
+
 			return result.substring(0, result.length() - 2) + "}";
 		}
 	}
@@ -179,17 +179,17 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 	}
 
 	/**
-	 * Creates a new map element with the given collection of 
-	 * key-value pairs in form of {@link AbstractListElement AbstractListElements} 
+	 * Creates a new map element with the given collection of
+	 * key-value pairs in form of {@link AbstractListElement AbstractListElements}
 	 * of size 2.
-	 * 
-	 * @throws IllegalArgumentException if the collection is not as specified above 
+	 *
+	 * @throws IllegalArgumentException if the collection is not as specified above
 	 */
 	@Override
 	public AbstractMapElement getNewInstance(Collection<? extends Element> collection) {
 		Map<Element, Element> map = new HashMap<Element, Element>();
 		for (Element e: collection) {
-			if (e instanceof AbstractListElement 
+			if (e instanceof AbstractListElement
 					&& ((AbstractListElement)e).size() == 2) {
 				final AbstractListElement pair = (AbstractListElement)e;
 				map.put(pair.head(), pair.last());
@@ -215,12 +215,12 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 	}
 
 	/**
-	 * Adds the mapping of element <code>e</code> to this map to create 
+	 * Adds the mapping of element <code>e</code> to this map to create
 	 * a new {@link MapElement}. It then creates an update assigning the new {@link MapElement}
 	 * to the given location.
-	 * 
+	 *
 	 * Expects <code>e</code> to be an instance of {@link AbstractMapElement}.
-	 * 
+	 *
 	 * @see ModifiableCollection#computeAddUpdate(Location, Element, Element, Node)
 	 */
 	@Override
@@ -232,15 +232,15 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 			MapElement newMap = new MapElement(tempMap);
 			Update u = new Update(loc, newMap, Update.UPDATE_ACTION, agent, node.getScannerInfo());
 			return new UpdateMultiset(u);
-		} else 
-			throw new InterpreterException("Cannot add non-map elements to a map."); 
+		} else
+			throw new InterpreterException("Cannot add non-map elements to a map.");
 	}
 
 	/**
 	 * If<br>
-	 * 1) <code>e</code> is an instance of {@link MapElement}, removes the exact 
+	 * 1) <code>e</code> is an instance of {@link MapElement}, removes the exact
 	 * key-value pairs of <code>e</code> from this map element;<br>
-	 * 2) <code>e</code> is an {@link Enumerable}, removes all the keys from this 
+	 * 2) <code>e</code> is an {@link Enumerable}, removes all the keys from this
 	 * map element that are in <code>e</code>;<br>
 	 * 3) <code>e</code> is an {@link Element} (none of the above), if it is a key
 	 * in this map, removes it from the map.
@@ -251,7 +251,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		HashMap<Element, Element> tempMap = new HashMap<Element, Element>(this.map);
 		if (e instanceof MapElement) {
 			/*
-			 * if the element is a MapElement then remove all the key-value 
+			 * if the element is a MapElement then remove all the key-value
 			 * pairs in this map element that match those of the given map element.
 			 */
 			for (Entry<Element, Element> me: ((MapElement)e).map.entrySet()) {
@@ -266,7 +266,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 				}
 			} else
 				tempMap.remove(e);
-		
+
 		MapElement newMap = new MapElement(tempMap);
 		Update u = new Update(loc, newMap, Update.UPDATE_ACTION, agent, node.getScannerInfo());
 		return new UpdateMultiset(u);

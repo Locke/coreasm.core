@@ -15,7 +15,7 @@ import org.coreasm.compiler.paths.CompilerPathConfig;
  * and a piece of code representing its body.
  * Rules always have the {@link LibraryEntryType} Rule
  * @author Markus Brenner
- * 
+ *
  */
 public class RuleClassFile extends MemoryInclude {
 	private String ruleName;
@@ -40,7 +40,7 @@ public class RuleClassFile extends MemoryInclude {
 
 	private String generateRule() throws LibraryEntryException {
 		String creation = "";
-		
+
 		creation = "\t\tjava.util.Map<String, " + engine.getPath().runtimePkg() + ".RuleParam> ruleparams = new java.util.HashMap<String, " + engine.getPath().runtimePkg() + ".RuleParam>();\n";
 		for (int pi = 0; pi < arguments.size(); pi++) {
 			creation += "\t\truleparams.put(\"" + arguments.get(pi) + "\", params.get(" + pi + "));\n";
@@ -88,10 +88,10 @@ public class RuleClassFile extends MemoryInclude {
 		result += "public class " + ruleName + " extends " + engine.getPath().runtimePkg() + ".Rule" + "{\n";
 		result += generateRule();
 		result += "}\n";
-		
+
 		return result;
 	}
-	
+
 	private void buildStrings(CompilerPathConfig path){
 		part1 = "\tpublic ";
 
@@ -108,7 +108,7 @@ public class RuleClassFile extends MemoryInclude {
 				+ "\t\t\n" + "\t\t\tif(@u@.loc.name.equals(\"result\")){\n"
 				+ "\t\t\t\t@val@ = @u@.value;\n" + "\t\t\t\t@ulist@.remove(@i@);\n"
 				+ "\t\t\t\tbreak;\n" + "\t\t\t}\n" + "\t\t}\n"
-				+ "\t\treturn new " + engine.getPath().runtimePkg() + ".RuleResult(@ulist@, @val@);\n" 
+				+ "\t\treturn new " + engine.getPath().runtimePkg() + ".RuleResult(@ulist@, @val@);\n"
 				+ "\t}\n" + "\tpublic " + engine.getPath().runtimePkg() + ".Rule getCopy(){\n"
 				+ "return new ";
 		part4 = "();\n" + "}\n";

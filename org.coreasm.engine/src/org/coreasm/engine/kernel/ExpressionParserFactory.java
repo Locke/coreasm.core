@@ -35,11 +35,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class can be used to build an expression parser
- * given a basic expression parser and a list of plugins 
+ * given a basic expression parser and a list of plugins
  * contributing operator rules.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 
 public class ExpressionParserFactory {
@@ -50,12 +50,12 @@ public class ExpressionParserFactory {
 	private final Parser<Node> basicExprParser;
 	private final Set<Plugin> plugins;
 	private final ParserTools ParserTools;
-	
-	// Maps of the form: Operator -> (PluginName -> OperatorRule) 
+
+	// Maps of the form: Operator -> (PluginName -> OperatorRule)
 	private Map<String, Map<String, OperatorRule>> binOps = new HashMap<String, Map<String, OperatorRule>>();
 	private Map<String, Map<String, OperatorRule>> unOps = new HashMap<String, Map<String, OperatorRule>>();
 	private Map<String, Map<String, OperatorRule>> indexOps = new HashMap<String, Map<String, OperatorRule>>();
-	
+
 	// precedence levels
 	private Map<String, Integer> infixLeftOprs = new HashMap<String, Integer>();
 	private Map<String, Integer> infixRightOprs = new HashMap<String, Integer>();
@@ -73,9 +73,9 @@ public class ExpressionParserFactory {
 	private Map<String, String> indexPlugins = new HashMap<String, String>();
 
 	Parser<IndexMap> indexParser = null;
-	
+
 	/**
-	 * Creates a new expression parser factory.  
+	 * Creates a new expression parser factory.
 	 * @param termParser basic expression parser
 	 * @param plugins a set of plugins
 	 */
@@ -84,10 +84,10 @@ public class ExpressionParserFactory {
 		this.ParserTools = ParserTools;
 		this.basicExprParser = basicExprParser;
 		this.termParser = termParser;
-		
+
 		loadOperatorRules(capi);
 	}
-	
+
 	/*
 	 * Loads all the operator rules from plugins.
 	 */
@@ -96,29 +96,29 @@ public class ExpressionParserFactory {
     		if (p instanceof OperatorProvider) {
     			Collection<OperatorRule> oprRules = ((OperatorProvider)p).getOperatorRules();
     			for (OperatorRule oprRule: oprRules) {
-    				
+
     				switch (oprRule.getType()) {
-    				
+
     				case INFIX_LEFT:
     					addOperator(infixLeftOprs, oprRule);
     					addOperatorPlugin(infixLeftPlugins, oprRule);
     					break;
-    					
+
     				case INFIX_NON:
     					addOperator(infixNonOprs, oprRule);
     					addOperatorPlugin(infixNonPlugins, oprRule);
     					break;
-    					
+
     				case INFIX_RIGHT:
     					addOperator(infixRightOprs, oprRule);
     					addOperatorPlugin(infixRightPlugins, oprRule);
     					break;
-    					
+
     				case POSTFIX:
     					addOperator(postfixOprs, oprRule);
     					addOperatorPlugin(postfixPlugins, oprRule);
     					break;
-    					
+
     				case PREFIX:
     					addOperator(prefixOprs, oprRule);
     					addOperatorPlugin(prefixPlugins, oprRule);
@@ -127,7 +127,7 @@ public class ExpressionParserFactory {
     				case INDEX:
     					addOperator(indexOprs, oprRule);
     					addOperatorPlugin(indexPlugins, oprRule);
-    					
+
     				}
     			}
     		}
@@ -172,7 +172,7 @@ public class ExpressionParserFactory {
 			precedence = infixRightOprs.get(opr);
 			table.infixr(createBinaryParser(opr, pluginNames, OpType.INFIX_RIGHT), precedence.intValue());
 		}
-		
+
 		// Prefix
 		for (String opr: prefixOprs.keySet()) {
 			pluginNames = prefixPlugins.get(opr);
@@ -200,8 +200,8 @@ public class ExpressionParserFactory {
 		Parser<Node> p = table.build(basicExprParser);
 		return p;
 	}
-	
-	/* 
+
+	/*
 	 * Creates a new binary parser.
 	 */
 	private Parser<BinaryMap> createBinaryParser(String opr, String pluginNames, OpType type) {
@@ -212,8 +212,8 @@ public class ExpressionParserFactory {
 		// return parserTools.seq(parserTools.getOprParser(opr), optionalDelimiter).map(
 		//		new BinaryParseMap(opr, pluginNames, type));
 	}
-	
-	/* 
+
+	/*
 	 * Creates a new unary parser.
 	 */
 	private Parser<UnaryMap> createUnaryParser(String opr, String pluginNames, OpType type) {
@@ -232,12 +232,12 @@ public class ExpressionParserFactory {
 	 */
 	private Parser<IndexMap> createIndexParser(String opr1, String opr2, String pluginNames) {
 		return ParserTools.seq(
-				ParserTools.getOprParser(opr1), 
+				ParserTools.getOprParser(opr1),
 				termParser.optional(null),
 				ParserTools.getOprParser(opr2)
 				).map(new IndexParseMap(opr1, opr2, pluginNames, OpType.INDEX));
 	}
-	
+
 	/*
 	 * Adds the name of the plugin contributer of this operator to the database.
 	 */
@@ -252,12 +252,12 @@ public class ExpressionParserFactory {
 				return;
 		oprPlugins.put(oprRule.getOprToken(), pluginNames);
 	}
-	
+
 	/*
 	 * Adds one single operator rule to the database.
 	 */
 	private void addOperator(Map<String, Integer> oprs, OperatorRule oprRule) {
-		
+
 		Map<String, Map<String, OperatorRule>> oprDB = null;
 		String oprToken = oprRule.getOprToken();
 		switch (oprRule.type) {
@@ -265,13 +265,13 @@ public class ExpressionParserFactory {
 		case POSTFIX:
 			oprDB = unOps;
 			break;
-			
+
 		case INFIX_LEFT:
 		case INFIX_NON:
 		case INFIX_RIGHT:
 			oprDB = binOps;
 			break;
-			
+
 		case INDEX:
 			oprDB = indexOps;
 		}
@@ -280,43 +280,43 @@ public class ExpressionParserFactory {
 		Map<String, OperatorRule> pMap = oprDB.get(oprToken);
 
 		//	if this operator is a new one in its type
-		if (tempPrec == null) { 
+		if (tempPrec == null) {
 			oprs.put(oprToken, oprRule.precedence);
-			if (pMap == null) { 
+			if (pMap == null) {
 				pMap = new HashMap<String, OperatorRule>();
 				oprDB.put(oprToken, pMap);
 			}
 			pMap.put(oprRule.contributor, oprRule);
 		} else
-			if (tempPrec.intValue() == oprRule.precedence) { 
+			if (tempPrec.intValue() == oprRule.precedence) {
 				pMap.put(oprRule.contributor, oprRule);
 			} else {
 				// there should be another rule in pMap
 				OperatorRule anotherRule = pMap.values().iterator().next();
-				String errorMsg = "Kernel Plugin: Operator \"" 
-					+ oprToken + "\" from " + oprRule.contributor + " with precedence level " 
+				String errorMsg = "Kernel Plugin: Operator \""
+					+ oprToken + "\" from " + oprRule.contributor + " with precedence level "
 					+ oprRule.precedence + " conflicts with the same operator from "
 					+ anotherRule.contributor + " with precedence level " + anotherRule.precedence + ".";
 				logger.error(errorMsg);
 				throw new EngineError(errorMsg);
 			}
 	}
-	
+
 	/* Special unary map class */
 	public static class UnaryMap implements UnaryOperator<Node> {
-		
+
 		//private String pluginNames;
 		private String opr;
 		private Object[] cnodes;
 		private OpType type;
-		
+
 		/**
 		 * Creates a new UnaryMap.
-		 * 
+		 *
 		 * @param opr operator token
 		 * @param pluginNames contributing plugin names
 		 * @param type operator type
-		 * @param nodes an array of operator and delimiter nodes (without the operands) 
+		 * @param nodes an array of operator and delimiter nodes (without the operands)
 		 */
 		public UnaryMap(String opr, String pluginNames, OpType type, Object[] nodes) {
 			this.opr = opr;
@@ -352,13 +352,13 @@ public class ExpressionParserFactory {
 			return node;
 		}
 	}
-	
+
 	/* Unary parse map class for binary operators */
 	public static class UnaryParseMap extends ParseMap<Object[], UnaryMap> {
 
 		private String opr;
 		private OpType type;
-		
+
 		public UnaryParseMap(String opr, String pluginName, OpType type) {
 			super(pluginName);
 			this.opr = opr;
@@ -369,24 +369,24 @@ public class ExpressionParserFactory {
 		public UnaryMap apply(Object[] v) {
 			return new UnaryMap(opr, pluginName, type, v);
 		}
-		
+
 	}
 
 	/* Special binary map class */
 	public static class BinaryMap implements BinaryOperator<Node> {
-		
+
 		//private String pluginNames;
 		private String opr;
 		private Object[] cnodes;
 		//private OpType type;
-		
+
 		/**
 		 * Creates a new BinaryMap.
-		 * 
+		 *
 		 * @param opr operator token
 		 * @param pluginNames contributing plugin names
 		 * @param type operator type
-		 * @param cnodes an array of operator and delimiter nodes (without the operands) 
+		 * @param cnodes an array of operator and delimiter nodes (without the operands)
 		 */
 		public BinaryMap(String opr, String pluginNames, OpType type, Object[] cnodes) {
 			this.opr = opr;
@@ -413,13 +413,13 @@ public class ExpressionParserFactory {
 		}
 
 	}
-	
+
 	/* Binary parse map class for binary operators */
 	public static class BinaryParseMap extends ParseMap<Object[], BinaryMap> {
 
 		private String opr;
 		private OpType type;
-		
+
 		public BinaryParseMap(String opr, String pluginName, OpType type) {
 			super(pluginName);
 			this.opr = opr;
@@ -430,26 +430,26 @@ public class ExpressionParserFactory {
 		public BinaryMap apply(Object[] v) {
 			return new BinaryMap(opr, pluginName, type, v);
 		}
-		
+
 	}
 
 	/* Special index map class */
 	public static class IndexMap implements UnaryOperator<Node> {
-		
+
 		//private String pluginNames;
 		private String opr1;
 		private String opr2;
 		private Object[] cnodes;
 		//private OpType type;
-		
+
 		/**
 		 * Creates a new IndexMap.
-		 * 
+		 *
 		 * @param opr1 first operator token
 		 * @param opr2 second operator token
 		 * @param pluginNames contributing plugin names
 		 * @param type operator type
-		 * @param nodes an array of operator and delimiter nodes (without the operands) 
+		 * @param nodes an array of operator and delimiter nodes (without the operands)
 		 */
 		public IndexMap(String opr1, String opr2, String pluginNames, OpType type, Object[] nodes) {
 			this.opr1 = opr1;
@@ -473,14 +473,14 @@ public class ExpressionParserFactory {
 			return node;
 		}
 	}
-	
+
 	/* Index parse map class for index operators */
 	public static class IndexParseMap extends ParseMap<Object[], IndexMap> {
 
 		private String opr1;
 		private String opr2;
 		private OpType type;
-		
+
 		public IndexParseMap(String opr1, String opr2, String pluginName, OpType type) {
 			super(pluginName);
 			this.opr1 = opr1;
@@ -492,7 +492,7 @@ public class ExpressionParserFactory {
 		public IndexMap apply(Object[] v) {
 			return new IndexMap(opr1, opr2, pluginName, type, v);
 		}
-		
+
 	}
 
 

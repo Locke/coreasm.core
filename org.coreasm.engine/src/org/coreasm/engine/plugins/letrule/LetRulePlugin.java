@@ -1,17 +1,17 @@
-/*	
+/*
  * LetRulePlugin.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
- * 
+ *
  * Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $ by $Author: rfarahbod $
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.letrule;
 
 import java.util.ArrayList;
@@ -47,27 +47,27 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.turboasm.TurboASMPlugin;
 
-/** 
+/**
  *	Plugin for let rule
- *   
+ *
  *  @author  George Ma
- *  
+ *
  */
 public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 1, "");
-	   
+
 	public static final String PLUGIN_NAME = LetRulePlugin.class.getSimpleName();
-	
+
 	private Map<String, GrammarRule> parsers = null;
 
 	private final String[] keywords = {"let", "in"};
 	private final String[] operators = {"=", ",", "{", "[", "]", "}"};
-	
+
 	private final CompilerPlugin compilerPlugin = new CompilerLetRulePlugin(this);
-	
+
 	private ThreadLocal<Map<Node, Map<Node, LetResultChildNode>>> letResultChildNodes;
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
@@ -92,12 +92,12 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 
            try {
                variableMap = letNode.getVariableMap();
-           } 
+           }
            catch (Exception e) {
                capi.error(e.getMessage(), pos, interpreter);
                return pos;
            }
-           
+
            // evaluate all the terms that will be aliased
            if (!letNode.isLetResultRule()) {
         	   for (ASTNode n :variableMap.values()) {
@@ -146,7 +146,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
             	   }
 	           }
            }
-           
+
            if (!letNode.getInRule().isEvaluated()) {
         	   clearLetResultChildNodes(letNode);
         	   UpdateMultiset updates = new UpdateMultiset();
@@ -154,7 +154,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
             	   updates.addAll(variableMap.get(v).getUpdates());
                    interpreter.addEnv(v,variableMap.get(v).getValue());
                }
-               
+
                try {
             	   Set<Update> aggregatedUpdate = storage.performAggregation(updates);
             	   if (storage.isConsistent(aggregatedUpdate)) {
@@ -166,7 +166,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
                }
                capi.warning(PLUGIN_NAME, "TurboASM Plugin: Inconsistent updates computed in sequence. Leaving the sequence", letNode.getInRule(), interpreter);
                pos.setNode(null, updates, null);
-               
+
                return pos;
            }
            else {
@@ -175,7 +175,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
             	   updates.addAll(variableMap.get(v).getUpdates());
                    interpreter.removeEnv(v);
                }
-               
+
                updates = storage.compose(updates, letNode.getInRule().getUpdates());
                popState();
                pos.setNode(null,updates,null);
@@ -184,14 +184,14 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
         }
         if (pos instanceof LetResultChildNode)
         	return pos.getParent();
-        
+
         return pos;
     }
-    
+
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 
 	/**
 	 * @return <code>null</code>
@@ -212,13 +212,13 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			Parser<Object[]> letTermParser = pTools.csplus(pTools.seq(
 					idParser,
 					pTools.getOprParser("="),
 					termParser
 					));
-			
+
 			Parser<Object[]> letResultTermParser = pTools.csplus(pTools.seq(
 					idParser,
 					pTools.getOprParser(TurboASMPlugin.RETURN_RESULT_TOKEN),
@@ -235,35 +235,35 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 					ruleParser
 					}).map(
 					new LetRuleParseMap());
-			
-			parsers.put("Rule",	
-					new GrammarRule("LetRule", 
-							"'let' ID ('=' | '<-') Term (',' ID '<-' Term )* 'in' Rule", 
+
+			parsers.put("Rule",
+					new GrammarRule("LetRule",
+							"'let' ID ('=' | '<-') Term (',' ID '<-' Term )* 'in' Rule",
 							letRuleParser, PLUGIN_NAME));
     	}
-    	
+
     	return parsers;
     }
-    
+
     /**
 	 * Handles a call to a rule that has <b>result</b>.
-	 * 
+	 *
 	 * @param name rule name
 	 * @param args arguments
 	 * @param pos current node being interpreted
 	 */
 	private ASTNode ruleCallWithResult(Interpreter interpreter, RuleElement rule, List<ASTNode> args, ASTNode loc, ASTNode pos) {
-		
+
 		List<String> exParams = new ArrayList<String>(rule.getParam());
 		List<ASTNode> exArgs = new ArrayList<ASTNode>();
 		if (args != null)
 			exArgs.addAll(args);
 		exArgs.add(loc);
 		exParams.add(TurboASMPlugin.RESULT_KEYWORD);
-		
+
 		return interpreter.ruleCall(rule, exParams, exArgs, pos);
 	}
-    
+
     /* (non-Javadoc)
      * @see org.coreasm.engine.Plugin#initialize()
      */
@@ -276,7 +276,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 			}
 		};
     }
-    
+
     private LetResultChildNode getLetResultChildNodes(LetRuleNode letNode, Node node) {
     	Map<Node, Map<Node, LetResultChildNode>> allLetResultChildNodes = this.letResultChildNodes.get();
     	Map<Node, LetResultChildNode> letResultChildNodes = allLetResultChildNodes.get(letNode);
@@ -291,7 +291,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
     	}
     	return letResultChildNode;
     }
-    
+
     private void clearLetResultChildNodes(LetRuleNode letNode) {
     	Map<Node, LetResultChildNode> letResultChildNodes = this.letResultChildNodes.get().get(letNode);
     	if (letResultChildNodes != null) {
@@ -304,10 +304,10 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		return VERSION_INFO;
 	}
 
-	
+
 	public static class LetRuleParseMap //extends ParseMapN<Node> {
 	extends ParserTools.ArrayParseMap {
-	
+
 		public LetRuleParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -329,7 +329,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 				addChildren(node, vals);
 			return node;
 		}
-		
+
 		private List<Node> unpackChildren(List<Node> nodes, Object[] vals) {
 			for (Object child: vals) {
 				if (child != null) {
@@ -342,7 +342,7 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 			}
 			return nodes;
 		}
-		
+
 		private void addLetChildren(LetRuleNode root, List<Node> children) {
 			for (Node child: children) {
 				if (child instanceof ASTNode) {
@@ -376,6 +376,6 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 							nextChildName = "gamma";
 			}
 		}
-		
+
 	}
 }

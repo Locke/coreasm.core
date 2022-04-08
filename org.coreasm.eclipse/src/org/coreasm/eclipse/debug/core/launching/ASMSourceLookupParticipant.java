@@ -15,7 +15,7 @@ public class ASMSourceLookupParticipant extends AbstractSourceLookupParticipant 
 	public String getSourceName(Object object) throws CoreException {
 		if (object instanceof ASMStackFrame)
 			return ((ASMStackFrame)object).getSourceName();
-		
+
 		return null;
 	}
 }

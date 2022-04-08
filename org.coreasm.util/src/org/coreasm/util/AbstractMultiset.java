@@ -1,15 +1,15 @@
-/*	
+/*
  * AbstractMultiset.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.util;
 
 import java.util.*;
@@ -18,11 +18,11 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  * Abstract implementation of <code>Multiset</code> with <code>Map</code>s.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  *  @see org.coreasm.util.Multiset
  */
 public abstract class AbstractMultiset<E> implements Multiset<E> {
@@ -31,26 +31,26 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 
 	/** main data structure */
 	protected Map<E,Integer> map;
-	
+
 	/**
 	 * Creates a new abstract multiset. This constructor
 	 * calls the <code>createMap()</code> method to create
-	 * a custom map as its sole data structure. 
-	 * 
+	 * a custom map as its sole data structure.
+	 *
 	 * @see AbstractMultiset#createMap()
 	 */
 	public AbstractMultiset() {
 		map = createMap();
 	}
-	
+
 	/**
 	 * Creates a new abstract multiset and adds the
 	 * given elements to it. This constructor
-	 * calls the default constructor first. 
-	 * 
+	 * calls the default constructor first.
+	 *
 	 * @see AbstractMultiset#AbstractMultiset()
 	 */
-	public AbstractMultiset(E ... elements){ 
+	public AbstractMultiset(E ... elements){
 		this();
 		Collections.addAll(this, elements);
 	}
@@ -58,8 +58,8 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	/**
 	 * Creates a new abstract multiset and adds all the
 	 * elements of collection <code>c</code> to it. This constructor
-	 * first calls the default constructor. 
-	 * 
+	 * first calls the default constructor.
+	 *
 	 * @see AbstractMultiset#AbstractMultiset()
 	 * @see AbstractMultiset#addAll(Collection)
 	 */
@@ -67,7 +67,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		this();
 		this.addAll(c);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.util.Multiset#multiplicity(E)
 	 */
@@ -100,7 +100,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 * @see java.util.Collection#contains(java.lang.Object)
 	 */
 	public boolean contains(Object o) {
-		return map.containsKey(o);		
+		return map.containsKey(o);
 	}
 
 	/* (non-Javadoc)
@@ -163,7 +163,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 			map.remove(o);
 			return false;
 		}
-		if (m > 1) 
+		if (m > 1)
 			map.put((E)o, m - 1);
 		if (m == 1)
 			map.remove(o);
@@ -182,7 +182,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 */
 	public boolean addAll(Collection<? extends E> c) {
 		int size = this.size();
-		for (E e: c) 
+		for (E e: c)
 			this.add(e);
 		return size != this.size();
 	}
@@ -192,7 +192,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 */
 	public boolean removeAll(Collection<?> c) {
 		int size = this.size();
-		for (Object o: c) 
+		for (Object o: c)
 			this.remove(o);
 		return size != this.size();
 	}
@@ -225,24 +225,24 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		
+
 		str.append("{| ");
 		for (E e: this)
 			str.append(e.toString()).append(", ");
-		if (!isEmpty()) 
+		if (!isEmpty())
 			str.replace(str.length() - 2, str.length() - 1, "");
 		str.append("|}");
-		
+
 		return str.toString();
 	}
-	
+
 	/**
 	 * Returns a sub-instance of <code>Map&lt;E,Integer&gt;</code>. This
-	 * is used by the constructor of this class to create the map, 
+	 * is used by the constructor of this class to create the map,
 	 * which is the main data structure of this class.
 	 */
 	protected abstract Map<E,Integer> createMap();
-	
+
 	private class Itr implements Iterator<E> {
 
 		//Iterator<E> baseItr = null;
@@ -250,14 +250,14 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		E currentElement = null;
 		E lastElementFetched = null;
 		int currentElementRemains = 0;
-		
+
 		/**
 		 * Creates a new iterator based on the given iterator
 		 */
 		public Itr() {
 			baseItr = map.entrySet().iterator();
 		}
-		
+
 		/**
 		 * @see Iterator#hasNext()
 		 */
@@ -275,15 +275,15 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		public E next() {
 			if (!this.hasNext())
 				throw new java.util.NoSuchElementException("next() has no more element.");
-			
-			// if this is the first call to next(), 
+
+			// if this is the first call to next(),
 			// or the last element is passed over, fetch a new element
 			if (currentElement == null || currentElementRemains == 0) {
 				Entry<E, Integer> entry = baseItr.next();
 				currentElement = entry.getKey();
 				currentElementRemains = entry.getValue() - 1;
-			} else 
-				// otherwise, reduce the remain count of the current element 
+			} else
+				// otherwise, reduce the remain count of the current element
 				currentElementRemains--;
 
 			lastElementFetched = currentElement;
@@ -297,9 +297,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 			if (lastElementFetched != null) {
 				map.remove(lastElementFetched);
 				lastElementFetched = null;
-			} else 
+			} else
 				throw new IllegalStateException("Call next() prior to call remove().");
 		}
-		
+
 	}
 }

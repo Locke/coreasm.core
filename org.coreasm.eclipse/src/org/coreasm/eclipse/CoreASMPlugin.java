@@ -2,8 +2,8 @@ package org.coreasm.eclipse;
 
 /**
  * @mainpage Eclipse-Plugin for CoreASM
- * 
- * 
+ *
+ *
  *           This is the Activator class of the CoreASM Eclipse Plugin. The
  *           sources and the CoreASM wiki are hosted on
  *           https://github.com/CoreASM/coreasm.core
@@ -34,23 +34,23 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 	public static final String PLUGINS_FOLDER_NAME = "plugins";
 
 	Logger logger = LoggerFactory.getLogger(CoreASMPlugin.class);
-	
+
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.coreasm.eclipse";
-	
+
 	public static final String MAIN_ICON_PATH = "icons/icon16x16.gif";
 
 	public static final String COREASM_FILE_EXT_1 = "casm";
 	public static final String COREASM_FILE_EXT_2 = "coreasm";
 	public static final String[] COREASM_FILE_EXTS = {COREASM_FILE_EXT_1, COREASM_FILE_EXT_2};
 
-	// private static final String PROPERTIES_FILE_NAME = "coreasmEclipsePlugin.plist"; 
-	
+	// private static final String PROPERTIES_FILE_NAME = "coreasmEclipsePlugin.plist";
+
 	private Shell shell = null;
-	
+
 	//The shared instance.
 	private static CoreASMPlugin plugin;
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -61,18 +61,18 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		File folder = new File(new File(new File(rootFolder), "target"), "lib");
 
 		System.setProperty(Tools.COREASM_ENGINE_LIB_PATH, new File(folder, "org.coreasm.engine.jar").getAbsolutePath());
-		
+
 	}
 
-	// TODO clean up the following two methods 
+	// TODO clean up the following two methods
 	//      with the better solution for root folder
-	
+
 	/**
-	 * Tries to locate the root folder of the bundle within eclipse. 
+	 * Tries to locate the root folder of the bundle within eclipse.
 	 * It assumes that the resources in the plugin bundle are accessible through a file URI.
-	 * 
-	 * TODO this is a quick hack and may not work when the plugin is compiled 
-	 *      into a JAR. better solutions exist and will be added at a later time. :) 
+	 *
+	 * TODO this is a quick hack and may not work when the plugin is compiled
+	 *      into a JAR. better solutions exist and will be added at a later time. :)
 	 *      -- Roozbeh
 	 * @return the root folder of the plugin
 	 */
@@ -86,7 +86,7 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		logger.info("CoreASM Eclipse root folder is detected at '{}'.", rootFolder);
 		return rootFolder;
 	}
-	
+
 	private static URL locateFile(String bundle, String fullPath) {
 		try {
 			URL url = FileLocator.find(Platform.getBundle(bundle), new Path(fullPath), null);
@@ -96,7 +96,7 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method is called upon plug-in activation
 	 */
@@ -126,12 +126,12 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		IWorkbenchWindow window = this.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null && window.getShell() != null) {
 			shell = window.getShell();
-		} else 
+		} else
 			if (shell == null)
 				shell = new Shell();
 		return shell;
 	}
-	
+
 	/**
 	 * Returns an image descriptor for the image file at the given
 	 * plug-in relative path.
@@ -149,7 +149,7 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 	public String getRootFolder() {
 		return getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
 	}
-	
+
 	/*
 	public void saveProperties() {
 		File file = new File(getRootFolder() + PROPERTIES_FILE_NAME);
@@ -159,7 +159,7 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 			System.err.println("WARNING: CoreASM Eclipse plugin cannot save its properties file.\n  - cause: " + e.getMessage());
 		}
 	}
-	
+
 	private void loadProperties() {
 		File file = new File(getRootFolder() + PROPERTIES_FILE_NAME);
 		if (file.exists()) {
@@ -173,11 +173,11 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		loadDefaultProperties();
 		saveProperties();
 	}
-	
+
 	private void loadDefaultProperties() {
 		properties.clear();
 		properties.put(ADDITIONAL_PLUGINS_FOLDERS_PROPERTY, "");
 	}
 	*/
-	
+
 }

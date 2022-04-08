@@ -25,7 +25,7 @@ import org.coreasm.engine.plugins.time.StepCountFunctionElement;
 public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExtender {
 	private CompilerEngine engine;
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -38,7 +38,7 @@ public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExt
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -48,9 +48,9 @@ public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExt
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
 			throws CompilerException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		File enginePath = engine.getOptions().enginePath;
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -65,9 +65,9 @@ public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExt
 			} catch (EntryAlreadyExistsException e) {
 				throw new CompilerException(e);
 			}
-			
+
 		}
-		
+
 		return result;
 	}
 

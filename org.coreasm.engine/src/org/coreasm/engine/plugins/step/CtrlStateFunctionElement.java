@@ -1,6 +1,6 @@
-/*	
- * CtrlStateFunctionElement.java 
- * 
+/*
+ * CtrlStateFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2010-04-30 01:05:27 +0200 (Fr, 30 Apr 2010) $.
@@ -20,22 +20,22 @@ import org.coreasm.engine.absstorage.FunctionElement;
 
 /**
  * Implements the control state function element of the Step plugin.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class CtrlStateFunctionElement extends FunctionElement {
 
 	private final StepPlugin plugin;
-	
+
 	public CtrlStateFunctionElement(StepPlugin plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	/**
 	 * Returns an unmodifiable copy of the control state
 	 * of the given agent.
-	 * 
+	 *
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
@@ -44,5 +44,5 @@ public class CtrlStateFunctionElement extends FunctionElement {
 		else
 			return Element.UNDEF;
 	}
-	
+
 }

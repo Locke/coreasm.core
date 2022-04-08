@@ -12,7 +12,7 @@ import org.coreasm.engine.absstorage.RuleElement;
  * The class that is interested in processing a interpreter event either implements this interface (and all the methods it contains).
  *
  * The listener object created from that class is then registered using the ControlAPI's <code>addInterpreterListener</code> method. An interpreter event is generated when the interpreter is evaluating a node. When an interpreter event occurs, the relevant method in the listener object is invoked, and the node is passed to it.
- * 
+ *
  * @author Michael Stegmaier
  * @see InterpreterImp#executeTree()
  */

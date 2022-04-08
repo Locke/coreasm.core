@@ -1,15 +1,15 @@
-/*  
+/*
  * EnumerationBackgroundElement.java    1.0     04-Apr-2006
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.compiler.plugins.signature.include;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.plugins.signature.EnumerationElement;
 
-/** 
+/**
  * This is the class of Enumeration Background elements. If an enumeration is
  * defined as:
  * <p>
@@ -33,14 +33,14 @@ import org.coreasm.engine.plugins.signature.EnumerationElement;
  * <i>on</i> and <i>off</i> as its members.
  *
  * @author  George Ma
- * 
+ *
  */
-public class EnumerationBackgroundElement extends BackgroundElement 
+public class EnumerationBackgroundElement extends BackgroundElement
     implements Enumerable {
 
     private List<EnumerationElement> members;
     private List<Element> enumCache = null;
- 
+
     /**
      * Sets the members of this enumeration background
      * @param members The members
@@ -63,7 +63,7 @@ public class EnumerationBackgroundElement extends BackgroundElement
     public Collection<Element> enumerate() {
     	return getIndexedView();
     }
-    
+
     public boolean contains(Element e) {
         return enumerate().contains(e);
     }

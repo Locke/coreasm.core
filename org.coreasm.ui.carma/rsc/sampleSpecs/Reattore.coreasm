@@ -1,5 +1,5 @@
 /*
- A biological reactor. 
+ A biological reactor.
  We have a culture of tissue cells, which produce OH- and H+ as part of
  their metabolysm. We can spray CO2 inside the culture chamber to
  keep the Ph under control, but it will take some time before it affects
@@ -23,7 +23,7 @@ use PlotterPlugin
 
 init InitializeState
 
-rule InitializeState = 
+rule InitializeState =
 	let timeLimit = 200 in
 		par
 			finalTime := timeLimit
@@ -44,8 +44,8 @@ rule InitializeState =
 
 // The World
 
-rule Main = 
-	let	baselineph=7.4, phgrowth=0.01, delay=6, sprayamount=0.1, suppresslength=10, limit=7.45 in 
+rule Main =
+	let	baselineph=7.4, phgrowth=0.01, delay=6, sprayamount=0.1, suppresslength=10, limit=7.45 in
 	par
 		Controller	// the software
 		Environment	// the cells
@@ -59,11 +59,11 @@ rule Main =
 rule Kronos =
 	now := now+1
 
-rule Environment = 
+rule Environment =
 	par
-		choose unknown in deltaRange do	
+		choose unknown in deltaRange do
 			ph(now+1) := ph(laste) + phgrowth - (0.5*spray(now-delay+1))
-						- spray(now-delay) - (0.5*spray(now-delay-1)) 
+						- spray(now-delay) - (0.5*spray(now-delay-1))
 						- (0.25*spray(now-delay-2))+unknown
 		laste := now+1
 	endpar
@@ -75,7 +75,7 @@ rule Controller =
 				skip	// Ph is already decreasing, no intervention
 			else
 				if ph(now) > limit then	// We'd better do something
-					if (now > suppress) then 
+					if (now > suppress) then
 					par
 						Spray
 						suppress := now + suppresslength
@@ -86,7 +86,7 @@ rule Controller =
 
 rule Monitor =
 	if now = finalTime then
-		par 
+		par
 			/*
 			forall t in [0 .. finalTime]  do
 				print t + "," + ph(t)
@@ -96,10 +96,10 @@ rule Monitor =
 		endpar
 	else
 		print now
-		 
+
 
 // What do we mean, "Spray"? :)
 rule Spray =
 	spray(now+1) := sprayamount
-	
+
 // End! BTW, better models could be developed... consider this just a test.

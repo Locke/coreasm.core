@@ -1,6 +1,6 @@
-/*	
+/*
  * DebugInfoNode.java  	$Revision: 86 $
- * 
+ *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-07-30 12:35:45 +0200 (Do, 30 Jul 2009) $.
@@ -10,15 +10,15 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.debuginfo;
 
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  * A node for debuginfo nodes.
- *   
+ *
  * @author  Roozbeh Farahbod
  */
 public class DebugInfoNode extends ASTNode {
@@ -33,7 +33,7 @@ public class DebugInfoNode extends ASTNode {
 				null,
 				info);
 	}
-	
+
 	public DebugInfoNode(DebugInfoNode node) {
 		super(node);
 	}
@@ -44,7 +44,7 @@ public class DebugInfoNode extends ASTNode {
 	public ASTNode getId() {
 		return this.getFirst();
 	}
-	
+
 	/**
 	 * @return the message part of this node
 	 */

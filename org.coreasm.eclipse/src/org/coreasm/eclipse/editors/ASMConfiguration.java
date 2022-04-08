@@ -36,16 +36,16 @@ extends TextSourceViewerConfiguration
 	// scanner objects for syntax highlighting
 	private CommentScanner commentScanner;
 	private KeywordScanner keywordScanner;
-	
+
 	public ASMConfiguration(ASMEditor editor)
 	{
 		this.editor = editor;
 	}
-	
+
 	/**
 	 * Returns the content types a CoreASM specification can consist of. There are
 	 * two content types: code and comments
-	 * 
+	 *
 	 * @return	a String array containing the tags of the content types.
 	 */
 	@Override
@@ -57,7 +57,7 @@ extends TextSourceViewerConfiguration
 			ASMPartitionScanner.ASM_COMMENT
 		};
 	}
-	
+
 	/**
 	 * @return	Returns the content assist which is used for the templates
 	 */
@@ -75,23 +75,23 @@ extends TextSourceViewerConfiguration
 
 		return assistant;
 	}
-	
+
 	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer)
 	{
 		PresentationReconciler reconciler = new PresentationReconciler();
-		
+
 		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getASMCommentScanner());
 		reconciler.setDamager(dr, ASMPartitionScanner.ASM_COMMENT);
 		reconciler.setRepairer(dr, ASMPartitionScanner.ASM_COMMENT);
-		
+
 		dr = new DefaultDamagerRepairer(getASMKeywordScanner());
 		reconciler.setDamager(dr, ASMPartitionScanner.ASM_DEFAULT);
 		reconciler.setRepairer(dr, ASMPartitionScanner.ASM_DEFAULT);
-		
+
 		return reconciler;
 	}
-	
+
 	/**
 	 * Creates and returns the CommentScanner, which recognizes comments for the
 	 * syntax highlighting and configures their formatting.
@@ -105,7 +105,7 @@ extends TextSourceViewerConfiguration
 		}
 		return commentScanner;
 	}
-	
+
 
 	/**
 	 * Creates and returns the ASMKeywordScanner, which recognizes keywords for the
@@ -120,7 +120,7 @@ extends TextSourceViewerConfiguration
 		}
 		return keywordScanner;
 	}
-	
+
 	@Override
 	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer)
 	{
@@ -132,7 +132,7 @@ extends TextSourceViewerConfiguration
 	{
 		return new ASMTextHover(editor);
 	}
-	
+
 	@Override
 	public IQuickAssistAssistant getQuickAssistAssistant(ISourceViewer sourceViewer) {
 		IQuickAssistAssistant assistant = new QuickAssistAssistant();

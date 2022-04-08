@@ -1,15 +1,15 @@
 /*
  * ParserException.java 	1.0 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2008-2009 Roozbeh Farahbod 
  *
- * Licensed under the Academic Free License version 3.0 
+ * Copyright (C) 2008-2009 Roozbeh Farahbod
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.parser;
 
 import java.io.PrintStream;
@@ -21,16 +21,16 @@ import org.coreasm.engine.EngineException;
 
 /**
  * A CoreASM parser exceptions.
- * 
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class ParserException extends EngineException {
 
 	public final CharacterPosition pos;
 	public final String msg;
 	public final Throwable cause;
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public ParserException(String message) {
@@ -39,14 +39,14 @@ public class ParserException extends EngineException {
 		this.msg = message;
 		this.cause = null;
 	}
-	
+
 	public ParserException(String message, CharacterPosition pos) {
 		super(message);
 		this.pos = pos;
 		this.msg = message;
 		this.cause = null;
 	}
-	
+
 	public ParserException(Throwable cause) {
 		if (cause instanceof org.jparsec.error.ParserException) {
 			org.jparsec.error.ParserException pcause = (org.jparsec.error.ParserException) cause;
@@ -149,6 +149,6 @@ public class ParserException extends EngineException {
 			cause.printStackTrace(s);
 	}
 
-	
-	  
+
+
 }

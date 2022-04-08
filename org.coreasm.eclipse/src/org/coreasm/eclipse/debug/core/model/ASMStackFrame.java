@@ -29,7 +29,7 @@ import org.eclipse.debug.core.model.IVariable;
 public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDropToFrame {
 	private final ASMThread thread;
 	private final int id;
-	
+
 	private String sourceName = "";
 	private int step = Integer.MIN_VALUE;
 
@@ -40,7 +40,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 		// Cache the initial source name
 		getSourceName();
 	}
-	
+
 	private static final int getStep(ASMStorage state) {
 		if (state == null)
 			return Integer.MIN_VALUE;
@@ -61,7 +61,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 	public boolean canStepReturn() {
 		return getThread().canStepReturn();
 	}
-	
+
 	@Override
 	public boolean canDropToFrame() {
 		try {
@@ -91,7 +91,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 	public void stepReturn() throws DebugException {
 		getThread().stepReturn();
 	}
-	
+
 	@Override
 	public void dropToFrame() throws DebugException {
 		if (EngineDebugger.getRunningInstance() != null)
@@ -150,21 +150,21 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			Set<Location> updateLocations = new HashSet<Location>();
 			ArrayList<IVariable> variables = new ArrayList<IVariable>();
 			ArrayList<IVariable> backgrounds = new ArrayList<IVariable>();
-			
+
 			for (ASMUpdate update : state.getUpdates())
 				updateLocations.add(update.getLocation());
-			
+
 			variables.add(new ASMVariable(this, "Step", new ASMValue(this, "" + (getStep() < 0 ? -getStep() - 1 + "*" : getStep())), false));
 			variables.add(new ASMVariable(this, "Last Selected Agents", new ASMValue(this, getLastSelectedAgents().toString()), false));
 			variables.add(new ASMVariable(this, "Callstack", new ASMValue(this, state.getCallStack().toString()), false));
-			
+
 			for (Entry<String, Element> envVariable : state.getEnvVars().entrySet())
 				variables.add(new ASMVariable(this, envVariable.getKey(), new ASMValue(this, envVariable.getValue()), false));
-			
+
 			for (Entry<String, FunctionElement> function : state.getFunctions().entrySet()) {
 				String functionName = function.getKey();
 				FunctionElement functionElement = function.getValue();
-				
+
 				if (functionElement.isReadable() &&
 						!AbstractStorage.FUNCTION_ELEMENT_FUNCTION_NAME.equals(functionName) &&
 						!AbstractStorage.RULE_ELEMENT_FUNCTION_NAME.equals(functionName)) {
@@ -176,13 +176,13 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 					}
 				}
 			}
-			
+
 			for (Entry<String, AbstractUniverse> universe : state.getUniverses().entrySet()) {
 				if (universe.getValue().isModifiable()) {
 					ArrayList<IVariable> universeVariables = new ArrayList<IVariable>();
 					String universeName = universe.getKey();
 					FunctionElement universeElement = universe.getValue();
-					
+
 					boolean containingValueChanged = false;
 					for (Location location : universeElement.getLocations(universeName)) {
 						if (updateLocations.contains(location))
@@ -235,7 +235,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 	public boolean hasRegisterGroups() throws DebugException {
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -275,7 +275,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			return step;
 		return getStep(getState());
 	}
-	
+
 	/**
 	 * Returns the last selected agents of the state assigned to this stack frame.
 	 * @return the last selected agents of the state assigned to this stack frame
@@ -286,7 +286,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			return "";
 		return state.getLastSelectedAgents().toString();
 	}
-	
+
 	/**
 	 * Returns the name of the current rule of the state assigned to this stack frame.
 	 * @return the name of the current rule of the state assigned to this stack frame
@@ -297,7 +297,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			return "";
 		return state.getCallStack().peek().toString();
 	}
-	
+
 	/**
 	 * Returns the name of the source file of the state assigned to this stack frame.
 	 * @return the name of the source file of the state assigned to this stack frame
@@ -308,7 +308,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			return sourceName;
 		return sourceName = state.getSourceName();
 	}
-	
+
 	/**
 	 * Returns the updates of the state assigned to this stack frame.
 	 * @return the updates of the state assigned to this stack frame
@@ -319,7 +319,7 @@ public class ASMStackFrame extends ASMDebugElement implements IStackFrame, IDrop
 			return Collections.emptySet();
 		return state.getUpdates();
 	}
-	
+
 	/**
 	 * Returns the agents of the state assigned to this stack frame.
 	 * @return the agents of the state assigned to this stack frame

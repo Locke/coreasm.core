@@ -1,6 +1,6 @@
-/*	
+/*
  * EnumerateTreeFunctionElement.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -22,10 +22,10 @@ import org.coreasm.engine.plugins.list.ListBackgroundElement;
 import org.coreasm.engine.plugins.list.ListElement;
 
 
-/** 
+/**
  * Function returning an enumeration of the nodes/values in the tree.
  * The traversal mode is the default one or the one specified by the user via the Options plugin.
- *   
+ *
  * @author  Franco Alberto Cardillo (facardillo@gmail.com)
  */
 public class EnumerateTreeFunctionElement extends FunctionElement {
@@ -54,13 +54,13 @@ public class EnumerateTreeFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!checkArguments(args))
 			throw new CoreASMError("Illegal arguments for " + (valuesOnly ? ENUM_VALUES_FUNC_NAME : ENUM_NODES_FUNC_NAME) + ".");
-		
+
 		TreeNodeElement node = (TreeNodeElement) args.get(0);
 
 		// Enumeration
 		if(valuesOnly)
 			return new ListElement(node.getValues());
-		else 
+		else
 			return new ListElement(node.getNodes());
 	}
 

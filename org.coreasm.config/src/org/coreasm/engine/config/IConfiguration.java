@@ -12,9 +12,9 @@ import java.io.IOException;
 
 /**
  * The interface of the Configuration component of CoreASM.
- * 
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public interface IConfiguration {
 
@@ -52,7 +52,7 @@ public interface IConfiguration {
 	 * checked, and if no value is found, the default value will be returned. If
 	 * there is no default value defined for the given property, it returns
 	 * null.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @return Returns the configured value of the given property.
@@ -64,11 +64,11 @@ public interface IConfiguration {
 	 * method calls the {@link Object#toString()} of the property value and is
 	 * for convenience only. If the given property is not set, it returns
 	 * <code>null</code>.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @return Returns the configured value of the given property as a String.
-	 * 
+	 *
 	 * @see #getProperty(String)
 	 */
 	String getPropertyAsStr(String key);
@@ -79,14 +79,14 @@ public interface IConfiguration {
 	 * values 'yes' and 'true' (case insensitive) as a Boolean <code>true</code>
 	 * value and all other values as <code>false</code>. If the value of the
 	 * given property is <code>null</code> it returns the passed default value.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @param defaultValue
 	 *            the default value returned in case of a null property value
-	 * 
+	 *
 	 * @return the value of the given property as a boolean
-	 * 
+	 *
 	 * @see #getProperty(String)
 	 */
 	boolean getPropertyAsBoolean(String key, boolean defaultValue);
@@ -96,14 +96,14 @@ public interface IConfiguration {
 	 * method uses the {@link Long#parseLong(String)} to interpret the values.
 	 * If the value of the given property is <code>null</code> it returns the
 	 * passed default value.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @param defaultValue
 	 *            the default value returned in case of a null property value
-	 * 
+	 *
 	 * @return the value of the given property as a long
-	 * 
+	 *
 	 * @see #getProperty(String)
 	 */
 	long getPropertyAsLong(String key, long defaultValue);
@@ -113,21 +113,21 @@ public interface IConfiguration {
 	 * This method uses the {@link Integer#parseInt(String)} to interpret the
 	 * values. If the value of the given property is <code>null</code> it
 	 * returns the passed default value.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @param defaultValue
 	 *            the default value returned in case of a null property value
-	 * 
+	 *
 	 * @return the value of the given property as an int
-	 * 
+	 *
 	 * @see #getProperty(String)
 	 */
 	int getPropertyAsInteger(String key, int defaultValue);
 
 	/**
 	 * Sets the value of the given property for the current execution.
-	 * 
+	 *
 	 * @param key
 	 *            property key
 	 * @param value
@@ -137,10 +137,10 @@ public interface IConfiguration {
 
 	/**
 	 * Returns the default value of the given property.
-	 * 
+	 *
 	 * @param key
 	 *            property key
-	 * 
+	 *
 	 * @return Returns the default value of the given property.
 	 */
 	Object getDefaultValue(String key);
@@ -157,13 +157,13 @@ public interface IConfiguration {
 	 * where classpath is determined by the system class loader. See
 	 * {@link #loadConfiguration(String, ClassLoader)} for loading default
 	 * configuration providing a class loader.
-	 * 
+	 *
 	 * The configuration is loaded in an incremental fashion; i.e., the loaded
 	 * configuration will be added to (and overriding) the existing default
 	 * configuration.
 	 * <p>
 	 * See {@link #getAppRootDirectory()} and {@link #getDefaultValue(String)}.
-	 * 
+	 *
 	 * @param fileName
 	 *            the name of a properties file
 	 * @throws ConfigurationException
@@ -181,13 +181,13 @@ public interface IConfiguration {
 	 * <li>and finally the classpath.</li>
 	 * </ol>
 	 * where classpath is determined by the given class loader.
-	 * 
+	 *
 	 * The configuration is loaded in an incremental fashion; i.e., the loaded
 	 * configuration will be added to (and overriding) the existing default
 	 * configuration.
 	 * <p>
 	 * See {@link #getAppRootDirectory()} and {@link #getDefaultValue(String)}.
-	 * 
+	 *
 	 * @param classLoader
 	 *            an instance of a class loader
 	 * @param fileName
@@ -214,21 +214,21 @@ public interface IConfiguration {
 
 	/**
 	 * Sets the application name for this executable instance.
-	 * 
+	 *
 	 * @param appName
 	 *            an application name
 	 */
 	void setApplicationName(String appName);
 
 	/**
-	 * Configures the logger based on the current 
-	 * configuration. 
+	 * Configures the logger based on the current
+	 * configuration.
 	 */
 	void configLogger();
-	
+
 	/**
 	 * Writes the current configuration values into a file.
-	 * 
+	 *
 	 * @param fileName
 	 *            the name of the file
 	 * @throws IOException

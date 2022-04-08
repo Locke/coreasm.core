@@ -18,10 +18,10 @@ public class AbstractionAbstractHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		
+
 		String iopluginloc = engine.getPath().getEntryName(LibraryEntryType.STATIC, "IOPlugin", "IOPlugin");
 		String stringelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "StringElement", "StringPlugin");
-		
+
 		result.appendLine("");
 		result.appendFragment(engine.compile(node.getAbstractChildNodes().get(0), CodeType.R));
 		result.appendLine("@decl(String,msg)=evalStack.pop().toString();\n");

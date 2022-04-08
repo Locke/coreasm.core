@@ -7,11 +7,11 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  *	A ForeachRuleNode represents a foreach rule.
- *   
+ *
  *  @author  Michael Stegmaier
- *  
+ *
  */
 @SuppressWarnings("serial")
 public class ForeachRuleNode extends ASTNode {
@@ -32,7 +32,7 @@ public class ForeachRuleNode extends ASTNode {
     public ForeachRuleNode(ForeachRuleNode node) {
     	super(node);
     }
-    
+
     @Override
 	public void addChild(String name, Node node) {
 		if (node instanceof ASTNode) {
@@ -58,27 +58,27 @@ public class ForeachRuleNode extends ASTNode {
     		return variableMap;
     	return variableMap = new VariableMap(this);
     }
-    
+
     /**
      * Returns the node representing the 'do' part of the foreach rule.
      */
     public ASTNode getDoRule() {
-        return (ASTNode)getChildNode("rule");   
+        return (ASTNode)getChildNode("rule");
     }
-    
+
     /**
      * Returns the node representing the 'ifnone' part of the foreach rule.
      */
     public ASTNode getIfnoneRule() {
         return (ASTNode)getChildNode("ifnone");
     }
-    
+
     /**
      * Returns the node representing the 'with' part of the foreach rule.
      * If there is no 'with' condition specified, null is returned.
      */
     public ASTNode getCondition() {
-    	return (ASTNode)getChildNode("guard"); 
+    	return (ASTNode)getChildNode("guard");
     }
 
 }

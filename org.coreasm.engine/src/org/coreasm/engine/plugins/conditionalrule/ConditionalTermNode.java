@@ -18,15 +18,15 @@ public class ConditionalTermNode extends ASTNode {
     public ConditionalTermNode(ConditionalTermNode node) {
     	super(node);
     }
-    
+
     public ASTNode getCondition() {
         return getFirst();
     }
-    
+
     public ASTNode getIfTerm() {
         return getCondition().getNext();
     }
-    
+
     public ASTNode getElseTerm() {
         return getIfTerm().getNext();
     }

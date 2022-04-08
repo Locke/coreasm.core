@@ -1,16 +1,16 @@
-/*	
+/*
  * FunctionRuleTermNode.java 	1.1 	$Revision: 243 $
- * 
+ *
  * Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $ by $Author: rfarahbod $
  *
  * Copyright (C) 2006-2007 Roozbeh Farahbod
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.interpreter;
 
 import java.util.AbstractList;
@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.coreasm.engine.kernel.Kernel;
 
-/** 
- * Wrapper around a <code>Node</code> object, to see the node as a 
+/**
+ * Wrapper around a <code>Node</code> object, to see the node as a
  * function/rule term node.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class FunctionRuleTermNode extends ASTNode {
 
@@ -60,7 +60,7 @@ public class FunctionRuleTermNode extends ASTNode {
 		// is more robust and also is consistent with the spec -- Roozbeh Farahbod
 		return getActualFunctionRuleNode().getChildNode("lambda") != null;
 	}
-	
+
 	/**
 	 * Returns the list of arguments in a <code>List</code> object.
 	 * This method caches the result of its first call, assuming that
@@ -89,13 +89,13 @@ public class FunctionRuleTermNode extends ASTNode {
 
 		return argsList;
 	}
-	
+
 	/**
 	 * Returns <code>true</code> if this function/rule term starts with a name (id).
 	 */
 	public boolean hasName() {
 		Node name = getActualFunctionRuleNode().getChildNode("alpha");
-		if (name instanceof ASTNode) 
+		if (name instanceof ASTNode)
 			return ((ASTNode)name).getGrammarClass().equals(ASTNode.ID_CLASS);
 		else
 			return false;
@@ -106,7 +106,7 @@ public class FunctionRuleTermNode extends ASTNode {
 	 * <code>null</code>.
 	 */
 	public String getName() {
-		if (hasName()) 
+		if (hasName())
 			return getActualFunctionRuleNode().getChildNode("alpha").getToken();
 		return null;
 	}
@@ -114,11 +114,11 @@ public class FunctionRuleTermNode extends ASTNode {
 	public ASTNode getActualFunctionRuleNode() {
 		if (actualNode == null) {
 			ASTNode cNode = this;
-			while (cNode.getFirst().getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS)) 
+			while (cNode.getFirst().getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS))
 				cNode = cNode.getFirst();
-			actualNode = cNode; 
+			actualNode = cNode;
 		}
 		return actualNode;
 	}
-		
+
 }

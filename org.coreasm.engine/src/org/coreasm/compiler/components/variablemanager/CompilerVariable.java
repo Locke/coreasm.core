@@ -13,7 +13,7 @@ import org.coreasm.compiler.codefragment.CodeFragment;
 public class CompilerVariable {
 	private String type;
 	private String name;
-	
+
 	/**
 	 * Creates a new variable with the given type and name
 	 * @param type The type of the variable
@@ -23,7 +23,7 @@ public class CompilerVariable {
 		this.type = type;
 		this.name = name;
 	}
-	
+
 	/**
 	 * Produces a string for the declaration of this variable.
 	 * @return A string declaring the variable in java syntax,
@@ -41,7 +41,7 @@ public class CompilerVariable {
 	public String declare(String value){
 		return type + " " + name + " = " + value + ";";
 	}
-	
+
 	@Override
 	public String toString(){
 		return this.name;

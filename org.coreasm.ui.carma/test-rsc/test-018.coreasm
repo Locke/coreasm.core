@@ -4,7 +4,7 @@ use Standard
 
 init R1
 
-rule R1 = 
+rule R1 =
 	par
 		a := 1
 		b(1) := 1
@@ -17,7 +17,7 @@ rule R1 =
 			endseqblock
 	endpar
 
-rule R2 = 
+rule R2 =
 	par
 		program(self) := undef
 		print a + ", " + b(1)

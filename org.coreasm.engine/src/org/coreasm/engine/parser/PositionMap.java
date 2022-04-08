@@ -1,6 +1,6 @@
-/*	
+/*
  * PositionMap.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,16 +10,16 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.parser;
 
-/** 
+/**
  * A wrapper around {@link DefaultSourceLocator}.
- *   
+ *
  * @see DefaultSourceLocator
- * 
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class PositionMap {
 
@@ -42,7 +42,7 @@ public class PositionMap {
 	/**
 	 * Return the given position in form of line and column number
 	 * in a {@link CharacterPosition} object.
-	 * 
+	 *
 	 * @param index index in the character sequence
 	 */
 	public CharacterPosition getPosition(int index) {

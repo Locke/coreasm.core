@@ -7,7 +7,7 @@ import org.coreasm.compiler.CompilerEngine;
 
 /**
  * A Module which packs generated code files.
- * The Packer is a part of the compiler backend. It takes a list of 
+ * The Packer is a part of the compiler backend. It takes a list of
  * compiled source files and finalizes the compilation task.
  * The default implementation contained in the {@link KernelBackend} packs
  * the files into an executable jar archive.

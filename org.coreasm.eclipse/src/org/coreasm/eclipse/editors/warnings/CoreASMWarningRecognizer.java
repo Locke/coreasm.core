@@ -15,11 +15,11 @@ import org.coreasm.engine.CoreASMWarning;
  */
 public class CoreASMWarningRecognizer implements IWarningRecognizer {
 	private final ASMEditor parentEditor;
-	
+
 	public CoreASMWarningRecognizer(ASMEditor parentEditor) {
 		this.parentEditor = parentEditor;
 	}
-	
+
 	@Override
 	public List<AbstractWarning> checkForWarnings(ASMDocument document) {
 		SlimEngine slimEngine = (SlimEngine)parentEditor.getParser().getSlimEngine();

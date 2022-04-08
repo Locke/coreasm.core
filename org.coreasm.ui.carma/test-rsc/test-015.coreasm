@@ -4,23 +4,23 @@ use StandardPlugins
 use ListPlugin
 use StackPlugin
 
-init R1 
+init R1
 
-rule R1 = 
+rule R1 =
 	seq
 		myList := [1, 2, 3]
 	next
 		seq
 			push 4 into myList
-		next 
+		next
 		par
 			pop e from myList
 			print myList
 			program(self) := @R2
 		endpar
 
-rule R2 = 
-	seq 
+rule R2 =
+	seq
 	par
 		myStack := [1, 2, 3, 4]
 		anotherStack := []

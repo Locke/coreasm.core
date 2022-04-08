@@ -1,6 +1,6 @@
-/*	
+/*
  * StringNode.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.string;
 
 import org.coreasm.engine.interpreter.ASTNode;
@@ -18,11 +18,11 @@ import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 import org.coreasm.util.Tools;
 
-/** 
+/**
  * Node for string values.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class StringNode extends ASTNode {
 
@@ -31,7 +31,7 @@ public class StringNode extends ASTNode {
 	public StringNode(StringNode node) {
 		super(node);
 	}
-	
+
 	public StringNode(String token, ScannerInfo info) {
 		super(
 			StringPlugin.PLUGIN_NAME,
@@ -41,7 +41,7 @@ public class StringNode extends ASTNode {
 			info,
 			Node.LITERAL_NODE);
 	}
-	
+
 	/**
 	 * Overrides unparse to put quotes around the given text.
 	 */
@@ -49,5 +49,5 @@ public class StringNode extends ASTNode {
 	public String unparse() {
 		return "\"" + Tools.convertToEscapeSqeuence(super.unparse()) + "\"";
 	}
-	
+
 }

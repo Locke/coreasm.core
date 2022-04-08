@@ -1,6 +1,6 @@
-/*	
+/*
  * MacroCallRuleNode.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006-2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,17 +10,17 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.kernel;
 
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  * Macro Call rule node.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class MacroCallRuleNode extends ASTNode {
 
@@ -40,12 +40,12 @@ public class MacroCallRuleNode extends ASTNode {
 	}
 
 	/**
-	 * @return the rule name 
+	 * @return the rule name
 	 */
 	public String getRuleName() {
 		return getFunctionRuleElement().getToken();
 	}
-	
+
 	/**
 	 * @return the function rule element
 	 */

@@ -40,7 +40,7 @@ public class KernelFunctionRuleExpressionHandler implements CompilerCodeHandler 
 			result.appendLine("for(@decl(int,__i)=0;@__i@<"
 					+ args.size()
 					+ ";@__i@++)\n@arglist@.add((@RuntimePkg@.Element)evalStack.pop());\n");
-			
+
 			//get the location, if the name is the name of a ruleparam
 			result.appendLine("@decl(Object, rparam) = ruleparams.get(\"" + name + "\");\n");
 			result.appendLine("if(@rparam@ != null){\n");

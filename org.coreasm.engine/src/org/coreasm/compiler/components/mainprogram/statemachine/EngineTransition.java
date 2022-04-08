@@ -15,7 +15,7 @@ public class EngineTransition implements Comparable<EngineTransition>{
 	private String start;
 	private String end;
 	private int priority;
-	
+
 	/**
 	 * Provides access to the start state of the transition
 	 * @return The start state of the transition
@@ -23,7 +23,7 @@ public class EngineTransition implements Comparable<EngineTransition>{
 	public String getStart(){
 		return start;
 	}
-	
+
 	/**
 	 * Provides access to the end state of the transition
 	 * @return The end state of the transition
@@ -46,7 +46,7 @@ public class EngineTransition implements Comparable<EngineTransition>{
 		this.code = c;
 		this.priority = 50;
 	}
-	
+
 	/**
 	 * Builds a new EngineTransition.
 	 * Leaving start or end empty will set that state requirement
@@ -62,7 +62,7 @@ public class EngineTransition implements Comparable<EngineTransition>{
 		this.code = c;
 		this.priority = priority;
 	}
-	
+
 
 	/**
 	 * Provides access to the code of the transition
@@ -75,7 +75,7 @@ public class EngineTransition implements Comparable<EngineTransition>{
 	public int compareTo(EngineTransition o) {
 		return this.priority - o.priority;
 	}
-	
-	
-	
+
+
+
 }

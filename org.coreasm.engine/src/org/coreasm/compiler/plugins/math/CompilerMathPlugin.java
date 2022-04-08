@@ -31,7 +31,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 		CompilerVocabularyExtender {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -39,7 +39,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 	public CompilerMathPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -58,9 +58,9 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 				.createFunctions(engine);
 
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		File enginePath = engine.getOptions().enginePath;
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -70,7 +70,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 				//classLibrary.addPackageReplacement("org.coreasm.engine.plugins.set.SetElement", "plugins.SetPlugin.SetElement");
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.math.MathFunction", engine.getPath().getEntryName(LibraryEntryType.STATIC, "MathFunction", "MathPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.compiler.plugins.math.include.PowerSetElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "PowerSetElement", "MathPlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/math/MathFunction.java", EntryType.INCLUDEONLY).
 						includeStatic("org/coreasm/compiler/plugins/math/include/PowerSetElement.java", EntryType.INCLUDEONLY).
@@ -79,7 +79,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 					classLibrary.addEntry(e.getValue());
 					result.add(new MainFileEntry(e.getValue(), EntryType.FUNCTION, e.getKey()));
 				}
-				
+
 			} catch (EntryAlreadyExistsException e) {
 				throw new CompilerException(e);
 			}

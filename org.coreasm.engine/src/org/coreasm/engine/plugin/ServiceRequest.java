@@ -1,6 +1,6 @@
-/*	
- * ServiceRequest.java 
- * 
+/*
+ * ServiceRequest.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -20,7 +20,7 @@ import org.coreasm.engine.CoreASMError;
 
 /**
  * Service request container as part of inter-plugin communications.
- * 
+ *
  * @author Roozbeh Farahbod
  * @see ServiceRegistry
  *
@@ -29,17 +29,17 @@ public class ServiceRequest {
 
 	/** type of service */
 	public final String type;
-	
+
 	/** parameters */
 	public final Map<String, Object> parameters;
-	
+
 	public ServiceRequest(String type) {
 		if (type == null)
 			throw new CoreASMError("Cannot create a service request with an undefied type.");
 		this.type = type;
 		this.parameters = new HashMap<String, Object>();
 	}
-	
+
 	/**
 	 * returns the value of the given parameter.
 	 * @param pname parameter name

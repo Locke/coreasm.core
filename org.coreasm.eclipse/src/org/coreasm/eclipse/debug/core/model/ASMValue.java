@@ -21,12 +21,12 @@ public class ASMValue extends ASMDebugElement implements IValue {
 		this(frame, (value == null ? "Invalid (null)" : value.toString()));
 		this.value = value;
 	}
-	
+
 	public ASMValue(ASMStackFrame frame, String valueString) {
 		super((ASMDebugTarget) frame.getDebugTarget());
 		this.valueString = valueString;
 	}
-	
+
 	public ASMValue(ASMStackFrame frame, IVariable[] variables) {
 		this(frame, Arrays.toString(variables));
 		this.variables = variables;
@@ -44,7 +44,7 @@ public class ASMValue extends ASMDebugElement implements IValue {
 			else
 				return "[]";
 		}
-		
+
 		return null;
 	}
 

@@ -5,7 +5,7 @@ use PlotterPlugin
 
 init R1
 
-rule R1 = 
+rule R1 =
    par
       forall x in [-100 .. 100] do
          choose y in [-(x * x) .. (x * x)] do
@@ -13,7 +13,7 @@ rule R1 =
 				 par
 		            f(x) := y
 					g(x) := z
-			        h(x) := x * x * x / (x + 0.5) 
+			        h(x) := x * x * x / (x + 0.5)
 				 endpar
 	  extend PLOTWINDOW with pw do
 	  par
@@ -24,4 +24,3 @@ rule R1 =
       endpar
       Agents(self) := false
    endpar
-

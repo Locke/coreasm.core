@@ -1,6 +1,6 @@
-/*	
+/*
  * PlotterPlugin.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.plotter;
 
 import java.util.Collections;
@@ -51,14 +51,14 @@ import org.coreasm.engine.plugins.string.StringPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
- * This is a sample CoreASM Plug-in to draw a number of function 
+/**
+ * This is a sample CoreASM Plug-in to draw a number of function
  * elements in a window.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
-public class PlotterPlugin extends Plugin implements 
+public class PlotterPlugin extends Plugin implements
 			ParserPlugin, InterpreterPlugin, ExtensionPointPlugin, VocabularyExtender {
 
 	protected static final Logger logger = LoggerFactory.getLogger(PlotterPlugin.class);
@@ -67,10 +67,10 @@ public class PlotterPlugin extends Plugin implements
 
 	/** the name of this plug-in */
 	public static final String PLUGIN_NAME = PlotterPlugin.class.getSimpleName();
-	   
+
 	/** keyword for the plot rule */
 	public static final String PLOT_KEYWORD = "plot";
-	
+
 	/** name of the function that holds the list of functions to be drawn in the state */
 	public static final String PLOT_LOCATION_NAME = "nextPlotFunctions";
 
@@ -80,12 +80,12 @@ public class PlotterPlugin extends Plugin implements
 	private MapFunction pwFunction = null;
 	protected Map<String, GrammarRule> parsers = null;
 	protected Set<String> dependencyNames = null;
-	
+
 	private final String[] keywords = {"plot", "in"};
 	private final String[] operators = {};
 
 	private HashMap<EngineMode, Integer> targetModes;
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
@@ -134,11 +134,11 @@ public class PlotterPlugin extends Plugin implements
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
-			
+
 			Parser<Node> plotParser = Parsers.array(
 					new Parser[] {
 					pTools.getKeywParser("plot", PLUGIN_NAME),
@@ -155,13 +155,13 @@ public class PlotterPlugin extends Plugin implements
 							addChildren(node, vals);
 							return node;
 						}
-				
+
 					});
-			parsers.put("Rule", 
+			parsers.put("Rule",
 					new GrammarRule("PlotRule",
 							"'plot' Term ('in' Term)?", plotParser, PLUGIN_NAME));
 		}
-		
+
 		return parsers;
 	}
 
@@ -171,13 +171,13 @@ public class PlotterPlugin extends Plugin implements
 			/* get the function part and the window part */
 			ASTNode functionNode = ((PlotRuleNode)pos).getFunctionNode();
 			ASTNode idNode = ((PlotRuleNode)pos).getWindowId();
-			
-			if (!functionNode.isEvaluated()) 
+
+			if (!functionNode.isEvaluated())
 				return functionNode;
 			else {
 				if (idNode != null && !idNode.isEvaluated())
 					return idNode;
-				
+
 				/* if the function part is actually a function element */
 				if (functionNode.getValue() instanceof FunctionElement) {
 					/* based on whether a window element was provided or not
@@ -215,14 +215,14 @@ public class PlotterPlugin extends Plugin implements
 	/**
 	 * Is called by the engine whenever the engine mode is changed
 	 * from <code>source</code> to <code>target</code>.
-	 * This plug-in steps in before two modes: 
+	 * This plug-in steps in before two modes:
 	 * <ol>
 	 * <li><i>emStepSucceeded</i>: to read the list of functions
 	 * to be plotted and plot them after every step</li
-	 * <li><i>emTerminating</i>: to send a kill signal to all 
+	 * <li><i>emTerminating</i>: to send a kill signal to all
 	 * plot windows before the engine terminates</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param source the source mode
 	 * @param target the target mode
 	 */
@@ -231,7 +231,7 @@ public class PlotterPlugin extends Plugin implements
 		if (target.equals(EngineMode.emStepSucceeded)) {
 
 			Set<PlotWindowElement> wSet = new HashSet<PlotWindowElement>();
-			
+
 			/* get all the locations of 'nextPlotFunctions' */
 			for (Location l: pwFunction.getLocations(PLOT_LOCATION_NAME)) {
 				Element window = l.args.get(0);
@@ -241,21 +241,21 @@ public class PlotterPlugin extends Plugin implements
 				 * functions to their appropriate windows
 				 */
 				if (f instanceof FunctionElement && window instanceof PlotWindowElement) {
-					PlotWindowElement pw = (PlotWindowElement)window; 
+					PlotWindowElement pw = (PlotWindowElement)window;
 					pw.addFunction((FunctionElement)f, fname);
 					wSet.add(pw);
 				} else
 					logger.warn("Skipping a plot command.");
 					// otherwise do nothing
 			}
-			
+
 			// Clearing the values for the next step
 			pwFunction.clear();
-			
+
 			// showing or repainting windows
-			for (PlotWindowElement pw: wSet) 
+			for (PlotWindowElement pw: wSet)
 				pw.setVisible(true);
-			
+
 		} else
 			/* Terminating */
 			if (target.equals(EngineMode.emTerminating)) {
@@ -296,7 +296,7 @@ public class PlotterPlugin extends Plugin implements
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String,FunctionElement>();
-			
+
 			functions.put(PLOT_LOCATION_NAME, pwFunction);
 		}
 		return functions;

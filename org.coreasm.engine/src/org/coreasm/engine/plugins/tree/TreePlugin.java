@@ -1,6 +1,6 @@
-/*	
+/*
  * TreePlugin.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -51,18 +51,18 @@ import org.coreasm.engine.plugins.number.NumberElement;
 
 
 
-/** 
- * CoreASM Plugin for the 'TREE' data structure 
- *   
+/**
+ * CoreASM Plugin for the 'TREE' data structure
+ *
  * @author  Franco Alberto Cardillo (facardillo@gmail.com)
- * 
+ *
  */
-public class TreePlugin extends Plugin 
+public class TreePlugin extends Plugin
 implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 	// prefix for all the functions offered by the plugin
 	public static final String TREE_PREFIX = "tree";
-	
+
 	// Class constants required by the CoreASM framework
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 1, "alpha");
 	public static final String PLUGIN_NAME = TreePlugin.class.getSimpleName();
@@ -85,8 +85,8 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 
 
-	// Options of the TreePlugin:	
-	// Name of the option for setting the Traversal mode 
+	// Options of the TreePlugin:
+	// Name of the option for setting the Traversal mode
 	// The legal values for the option are specified in the class TreeNodeElement
 	public static final String TREE_TRAVERSAL_OPT = "TREE_TRAVERSAL";
 
@@ -105,7 +105,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 
 	// Background offered by this plugin
-	private TreeBackgroundElement treeBackground; 
+	private TreeBackgroundElement treeBackground;
 
 	// Interface VocabularyExtender
 	private Map<String, BackgroundElement> backgrounds = null;
@@ -158,7 +158,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		return options;
 	}
 
-	public Map<String, GrammarRule> getParsers() {		
+	public Map<String, GrammarRule> getParsers() {
 		if(parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 
@@ -185,7 +185,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 
 			//Parser<Node> createTreeParser
-			treeTermParserArray[0] = Parsers.mapn("TreeTerm", 
+			treeTermParserArray[0] = Parsers.mapn("TreeTerm",
 					new Parser[] {createTreeParser_step1},
 					new ParseMapN<Node>(PLUGIN_NAME) {
 						public Node map(Object[] vals) {
@@ -200,7 +200,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 					new GrammarRule(treeTermParserArray[0].toString(), "'"+ NEW_TREE_STR +"' Term ",
 							treeTermParserArray[0], PLUGIN_NAME));
 
-			parsers.put("BasicTerm", new GrammarRule("TreeBasicTerm", 
+			parsers.put("BasicTerm", new GrammarRule("TreeBasicTerm",
 					"TreeTerm", treeTermParserArray[0], PLUGIN_NAME));
 
 			 * ... TO HERE
@@ -226,11 +226,11 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 				}}
 			);
 
-			parsers.put("MakeTreeRule", 
+			parsers.put("MakeTreeRule",
 					new GrammarRule("MakeTreeRule",
 							"'" + MAKE_STR +"' Term  '" + INTO_STR + "' '"+ TREE_STR +"' Term", makeTreeParser, PLUGIN_NAME));
 
-			parsers.put("Rule",	
+			parsers.put("Rule",
 					new GrammarRule("Rule", makeTreeParser.toString(), makeTreeParser, PLUGIN_NAME));
 
 
@@ -256,18 +256,18 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 					addChildren(node, vals);
 					return node;
 				}} //ParseMapN
-			); // Parsers.mapn 
+			); // Parsers.mapn
 
-			parsers.put("AddChildToRule", 
+			parsers.put("AddChildToRule",
 					new GrammarRule("AddChildToRule",
 							"'" + ADD_STR +"' '"+ CHILD_STR + "' Term '" + TO_STR + "' Term ('" + AT_STR + "' Term)?", addChildToParser, PLUGIN_NAME));
 
-			parsers.put("Rule",	
+			parsers.put("Rule",
 					new GrammarRule("Rule", "AddChildToRule", addChildToParser, PLUGIN_NAME));
 
 
 			// RULES
-			// remove child NODE from NODE 
+			// remove child NODE from NODE
 			Parser<Node> removeChildFromParser = Parsers.array(
 					new Parser[] {
 					pTools.getKeywParser(REMOVE_STR, PLUGIN_NAME),
@@ -284,17 +284,17 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 					addChildren(node, vals);
 					return node;
 				}} //ParseMapN
-			); // Parsers.mapn 
+			); // Parsers.mapn
 
 
-			parsers.put("RemoveChildFromRule", 
+			parsers.put("RemoveChildFromRule",
 					new GrammarRule("RemoveChildFromRule",
 							"'"+REMOVE_STR + "' '"+ CHILD_STR + "' Term '"+FROM_STR +"' Term", removeChildFromParser, PLUGIN_NAME));
 
 
 
 			// RULES
-			// remove child at Term from NODE 
+			// remove child at Term from NODE
 			Parser<Node> removeChildAtParser = Parsers.array(
 					new Parser[] {
 					pTools.getKeywParser(REMOVE_STR, PLUGIN_NAME),
@@ -312,17 +312,17 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 					addChildren(node, vals);
 					return node;
 				}} //ParseMapN
-			); // Parsers.mapn 
+			); // Parsers.mapn
 
 
-			parsers.put("RemoveChildAtRule", 
+			parsers.put("RemoveChildAtRule",
 					new GrammarRule("RemoveChildAtRule",
 							"'"+REMOVE_STR + "' '"+ CHILD_STR + "' '"+AT_STR+"' Term '"+FROM_STR +"' Term", removeChildFromParser, PLUGIN_NAME));
 
 
-			parsers.put("Rule",	
-					new GrammarRule("TreeRules", 
-							"MakeTreeRule" + "|" + "AddChildToRule" + "|" + "RemoveChildFromRule" + "|"+ "RemoveChildAtRule", 
+			parsers.put("Rule",
+					new GrammarRule("TreeRules",
+							"MakeTreeRule" + "|" + "AddChildToRule" + "|" + "RemoveChildFromRule" + "|"+ "RemoveChildAtRule",
 							Parsers.or(makeTreeParser, addChildToParser, removeChildFromParser, removeChildAtParser), PLUGIN_NAME));
 
 
@@ -346,7 +346,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		return null;
 	} // getParser
 
-//	protected static List<Update> processInternalUpdates(List<InternalUpdate> listOfUpdates, 
+//	protected static List<Update> processInternalUpdates(List<InternalUpdate> listOfUpdates,
 //			Interpreter interpreter, ScannerInfo info) {
 //		List<Update> result = new LinkedList<Update>();
 //
@@ -384,8 +384,8 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 				ASTNode termNode = node.getSecond();
 				if(! termNode.isEvaluated())
 					return termNode;
-				
-				
+
+
 				Location loc = termNode.getLocation();
 
 				if(loc != null) {
@@ -394,8 +394,8 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 					if (listNode.getValue() instanceof ListElement ) {
 						ListElement list = (ListElement) listNode.getValue();
 						TreeNodeElement treeNode = createTreeFromList(list);
-						
-						
+
+
 						List<InternalUpdate> internalUpdates = treeNode.getTreeUpdates();
 						List<Update> l = InternalUpdate.processInternalUpdates(internalUpdates, interpreter, pos.getScannerInfo());
 
@@ -408,7 +408,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 
 						// make list into tree t
-						// alla fine in loc(t) albero creato dal list processing.	
+						// alla fine in loc(t) albero creato dal list processing.
 					} else {
 						throw new InterpreterException(PLUGIN_NAME + ": ListElement expected, found a " + listNode.getValue().getClass().getSimpleName());
 					} // if pos instance of ... else ...
@@ -418,8 +418,8 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 			} else if (pos instanceof AddChildToRuleNode) {
 				AddChildToRuleNode node = (AddChildToRuleNode)  pos;
 				ASTNode childNode = node.getFirst();
-				
-				TreeNodeElement child;  
+
+				TreeNodeElement child;
 				if(! childNode.isEvaluated())
 					return childNode;
 				else {
@@ -429,7 +429,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 						child = (TreeNodeElement) childNode.getValue();
 					}
 				} // else
-					
+
 
 
 				ASTNode parentNode = node.getSecond();
@@ -438,9 +438,9 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 				else if(! (parentNode.getValue() instanceof TreeNodeElement) ) {
 					throw new InterpreterException(PLUGIN_NAME + ": TreeNodeElement expected, found a " + parentNode.getValue().getClass().getSimpleName());
 				}
-				
+
 				TreeNodeElement parent = (TreeNodeElement) parentNode.getValue();
-				
+
 
 				ASTNode posNode = parentNode.getNext();
 				if(posNode == null) {
@@ -482,7 +482,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 				TreeNodeElement pa = (TreeNodeElement) secondNode.getValue();
 				TreeNodeElement ch = (TreeNodeElement) firstNode.getValue();
-				
+
 				pa.removeChild(ch);
 
 				List<InternalUpdate> internalUpdates = pa.getTreeUpdates();
@@ -523,16 +523,16 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 			return pos;
 		} catch (IllegalArgumentException ex) {
 			throw new InterpreterException(ex.getMessage());
-		} // catch		
+		} // catch
 	} // interpret
 
 	/*
-	 * When trees are created using 'short lists', 
+	 * When trees are created using 'short lists',
 	 * the method checks whether the list(s) passed to the tree constructor
 	 * 'tree' represent(s) nodes with children (trees) or list(s) of children whose
 	 * parent is a node with an 'undef' value. The parameter list corresponds
 	 * to the argument of the tree constructor 'tree'.
-	 * 
+	 *
 	 */
 	protected boolean isNodeWithChildren(ListElement list) {
 
@@ -546,7 +546,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 			// the parameter list represents children of a parent node with
 			// an undef value.
 			// For example tree [ [1, 2], ...]
-			boolean firstElementIsNotAList = !(list.get(1) instanceof ListElement 
+			boolean firstElementIsNotAList = !(list.get(1) instanceof ListElement
 					|| list.get(1) instanceof TreeNodeElement );
 
 
@@ -568,7 +568,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		for(int idx = 1; idx <= childrenList.intSize(); idx++) {
 			Element child = childrenList.get(idx);
 			if (child instanceof ListElement) {
-				node.add(createTreeFromShortList((ListElement) child)); 
+				node.add(createTreeFromShortList((ListElement) child));
 			} else if (child instanceof TreeNodeElement){
 				node.add((TreeNodeElement) child);
 			} else {
@@ -618,10 +618,10 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		// Second check: if the first element is a tree then the list must be empty
 		if(firstValue instanceof TreeNodeElement) {
 			if(!(secondValue instanceof ListElement) || ! ( (ListElement) secondValue).isEmpty())
-				throw new IllegalArgumentException("TreePlugin. Error in the list" + 
+				throw new IllegalArgumentException("TreePlugin. Error in the list" +
 				" argument: trees can only have empty lists of children.");
 			return (TreeNodeElement) firstValue;
-		} 
+		}
 
 
 
@@ -638,7 +638,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	 * If the value is undef, then the list is [undef, [list of children]].
 	 * If the list of children is empty, then the list is [value, []].
 	 */
-	protected void addChildrenToNodeLong(TreeNodeElement tree, ListElement childrenList) 
+	protected void addChildrenToNodeLong(TreeNodeElement tree, ListElement childrenList)
 	throws IllegalArgumentException {
 		if(childrenList == null || childrenList.intSize() == 0)
 			return;
@@ -672,13 +672,13 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	}
 
 
-	protected TreeNodeElement createTreeFromList(ListElement list) {			
+	protected TreeNodeElement createTreeFromList(ListElement list) {
 		if(list == null)
 			return null;
 
 		TreeNodeElement tree;
 
-		String listFormat = getInputListFormatOption(capi);		
+		String listFormat = getInputListFormatOption(capi);
 
 		if(listFormat.equals(LIST_FOR_TREES_OPT_LONG)) {
 			tree = createTreeFromLongList(list);
@@ -721,7 +721,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 			functions.put(TreeLeavesFunctionElement.TREE_LEAVES_FUNC_NAME, new TreeLeavesFunctionElement());
 
-			functions.put(EnumerateTreeFunctionElement.ENUM_NODES_FUNC_NAME, new EnumerateTreeFunctionElement(false));			
+			functions.put(EnumerateTreeFunctionElement.ENUM_NODES_FUNC_NAME, new EnumerateTreeFunctionElement(false));
 			functions.put(EnumerateTreeFunctionElement.ENUM_VALUES_FUNC_NAME, new EnumerateTreeFunctionElement(true));
 
 
@@ -765,26 +765,26 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		return null;
 	} // getUniverses
 
-	
+
 //	public static List<InternalUpdate> getNodeUpdates(TreeNodeElement aNode) {
 //		return aNode.getNodeUpdates();
 //	} // getNodeUpdates
-//	
+//
 //	public static List<InternalUpdate> getTreeUpdates(TreeNodeElement aNode) {
 //		return aNode.getTreeUpdates();
 //	} // getTreeUpdates
-		
+
 	public static List<Update> getUpdatesFromNode(TreeNodeElement aNode, Interpreter interpreter, ScannerInfo info) {
 		List<InternalUpdate> internalUpdates = aNode.getTreeUpdates();
 		List<Update> l = InternalUpdate.processInternalUpdates(internalUpdates, interpreter, info);
 		return l;
 	} // getUpdatesFromNode
-	
-	
+
+
 	public static Element getTempValueOfNode(TreeNodeElement aNode) {
 		return aNode.getTempValue();
 	} // getTemValueOfNode
-	
-	
-	
+
+
+
 } // TreePlugin.java

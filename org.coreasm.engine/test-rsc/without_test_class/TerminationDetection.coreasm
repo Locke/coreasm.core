@@ -1,10 +1,10 @@
 /*
  * Distributed Termination Detection
- * This specification is one result of a case study worked on during the Dagstuhl Seminar 13372 
+ * This specification is one result of a case study worked on during the Dagstuhl Seminar 13372
  * "Integration of Tools for Rigorous Software Construction and Analysis".
  *
- * The implementation is based on 
- * Dijkstra, Edsger W.; Feijen, W.H.J.; Gasteren, A.J.M.; 
+ * The implementation is based on
+ * Dijkstra, Edsger W.; Feijen, W.H.J.; Gasteren, A.J.M.;
  * Derivation of a termination detection algorithm for distributed computations.
  * In: Control Flow and Data Flow: Concepts of Distributed Programming.
  * Broy, Manfred (ed.), 1986, Springer, p. 507-512
@@ -129,4 +129,3 @@ rule InitialState = {
    colorT := BLACK
    program(self) := undef
 }
-

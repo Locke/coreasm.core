@@ -1,11 +1,11 @@
 /*
  * ObserverPlugin.java 		$Revision: 113 $
- * 
+ *
  * Copyright (c) 2008 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-12-15 20:17:04 +0100 (Di, 15 Dez 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -57,9 +57,9 @@ import org.w3c.dom.Element;
 
 
 /**
- * Observer Plugin observes the simulation of the engine and produces an XML report of the 
- * initial state and updateset computed in every step. See the user manual for more details. 
- *   
+ * Observer Plugin observes the simulation of the engine and produces an XML report of the
+ * initial state and updateset computed in every step. See the user manual for more details.
+ *
  * @author Roozbeh Farahbod, 2008
  */
 
@@ -73,13 +73,13 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 
 	/** Engine property name for the number of steps after which the output should be written to a file */
 	public static final String OBSERVER_STEP_INTERVAL = "Observer.StepInterval";
-	
+
 	/** Engine property name for the name of the output file */
 	public static final String OBSERVER_OUTPUT_FILE = "Observer.OutputFile";
-	
+
 	/** Default value of the output file name */
 	private static final String OBSERVER_DEFAULT_OUTPUT_FILE = "observer-output.xml";
-	
+
 	protected Map<EngineMode, Integer> targetModes = null;
 	protected Document output = null;
 	protected Element coreasmrun = null;
@@ -89,11 +89,11 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	protected String specDir = null;
 	protected String outputFileName = null;
 	protected String outputFileNameProperty = null;
-	
+
 	private static final Set<String> options = Set.of(OBSERVER_OUTPUT_FILE);
-	
+
 	int stepCounter = 0;
-	
+
 	@Override
 	public void initialize() throws InitializationFailedException {
 		try {
@@ -109,7 +109,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 
 			Specification spec = capi.getSpec();
 			specDir = spec.getFileDir();
-			
+
 		} catch (ParserConfigurationException e) {
 			throw new InitializationFailedException(this, "Cannot create an XML document.", e);
 		} catch (TransformerConfigurationException e) {
@@ -124,21 +124,21 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	public void fireOnModeTransition(EngineMode src, EngineMode target) {
 		if (target.equals(CoreASMEngine.EngineMode.emStepSucceeded)) {
 			ensureLocationListIsLoaded();
-			
+
 			// first things to do
 			if (stepCounter == 0) {
 				Comment comment = output.createComment("Locations of interest: " + locationList);
 				coreasmrun.appendChild(comment);
 
 				/*
-				 * Print a copy of the initial state only if this is the first step 
-				 * and user provided a list of locations to be monitored. 
+				 * Print a copy of the initial state only if this is the first step
+				 * and user provided a list of locations to be monitored.
 				 */
 				if (locationList != null && !locationList.isEmpty()) {
 					coreasmrun.appendChild(state2XML());
 				}
 			}
-			
+
 
 			Element step = output.createElement("step");
 			step.setAttribute("systime", String.valueOf(System.currentTimeMillis()));
@@ -172,12 +172,12 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 			Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public Set<String> getOptions() {
 		return options;
 	}
-	
+
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
@@ -189,31 +189,31 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		}
 		return targetModes;
 	}
-	
+
 	/*
-	 * Creates an XML element of the state. 
+	 * Creates an XML element of the state.
 	 */
 	private Element state2XML() {
 		Element state = output.createElement("state");
 		state.setAttribute("systime", String.valueOf(System.currentTimeMillis()));
 		//AbstractStorage storage = capi.getStorage();
-		
+
 		/*
 		 * Add universes
 		 */
 		//Map<String,AbstractUniverse> universes = storage.getUniverses();
 		//for (Entry<String, AbstractUniverse> e: universes.entrySet()) {
-			
+
 			// TODO INCOMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			
+
 		//}
-				
+
 		return state;
 	}
-	
+
 	/*
 	 * Loads the names of the locations of interest from its corresponding
-	 * engine property. 
+	 * engine property.
 	 */
 	private void ensureLocationListIsLoaded() {
 		if (locationListProperty == null) {
@@ -225,9 +225,9 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 				/*
 				 * if the user specified any value for the locations of interest,
 				 * then locationList should be initialized. As a result, by
-				 * setting an empty string as the value of locations of 
-				 * interest property, monitoring is turned off. 
-				 */ 
+				 * setting an empty string as the value of locations of
+				 * interest property, monitoring is turned off.
+				 */
 				locationList = new ArrayList<String>();
 				StringTokenizer tokenizer = new StringTokenizer(locationListProperty, " ");
 				while (tokenizer.hasMoreElements()) {
@@ -239,13 +239,13 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 			}
 		}
 	}
-	
+
 	/*
 	 * Sets the name of the output file
 	 */
 	private void setFileName() {
 		String temp = getOptionValue(OBSERVER_OUTPUT_FILE);
-		
+
 		// if there is no user-defined value
 		if (temp == null) {
 			outputFileNameProperty = null;
@@ -274,7 +274,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	 */
 	private Element getUpdateSetXML() {
 		Element result = output.createElement("updateset");
-		
+
 		Set<Update> updateset = capi.getUpdateSet(0);
 		for (Update u: updateset) {
 			if (locationList == null || locationList.contains(u.loc.name)) {
@@ -287,7 +287,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 				result.appendChild(updateElement);
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -306,7 +306,7 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		}
 		return result;
 	}
-	
+
 	/*
 	 * Returns an XML representation of the given agent.
 	 */
@@ -315,9 +315,9 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 		result.appendChild(valueToXML(agent));
 		return result;
 	}
-	
+
 	/*
-	 * Returns an XML representation of the given value. 
+	 * Returns an XML representation of the given value.
 	 */
 	private Element valueToXML(org.coreasm.engine.absstorage.Element value) {
 		Element result = output.createElement("value");
@@ -329,4 +329,3 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	}
 
 }
-

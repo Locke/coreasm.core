@@ -1,11 +1,11 @@
 /*
  * ConvertorWithTypeFunctionElement.java 		$Revision: 9 $
- * 
+ *
  * Copyright (c) 2008 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 10:03:22 +0100 (Mi, 28 Jan 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -22,7 +22,7 @@ import org.coreasm.util.Logger;
 
 /**
  * Converts CoreASM elements to Java objects casted to the given class name.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -31,9 +31,9 @@ public class ConvertorWithTypeFunctionElement extends org.coreasm.engine.absstor
 
 	/** suggested name of this function */
 	public static final String NAME = "castToJava";
-	
+
 	private final JasminePlugin plugin;
-	
+
 	public ConvertorWithTypeFunctionElement(JasminePlugin plugin) {
 		this.setFClass(FunctionClass.fcDerived);
 		this.plugin = plugin;
@@ -42,11 +42,11 @@ public class ConvertorWithTypeFunctionElement extends org.coreasm.engine.absstor
 	@Override
 	public Element getValue(List<? extends Element> args) {
 		JObjectElement result = null;
-		if (args.size() == 2) 
+		if (args.size() == 2)
 			if (args.get(1) instanceof StringElement) {
 				Element value = args.get(0);
 				String className = ((StringElement)args.get(1)).getValue();
-				
+
 				Class<? extends Object> requestedClass = null;
 				try {
 					requestedClass = JasmineUtil.getJavaClass(className, plugin.getClassLoader());
@@ -57,20 +57,20 @@ public class ConvertorWithTypeFunctionElement extends org.coreasm.engine.absstor
 
 				result = JasmineUtil.javaValue(value);
 				Class<?> actualClass = result.object.getClass();
-				
+
 				if (!actualClass.equals(requestedClass)) {
 					try {
 						actualClass.asSubclass(requestedClass);
-						
+
 					} catch (Exception e) {
-						
+
 					}
 				}
-				
+
 			}
-		
+
 		return result;
 	}
 
-	
+
 }

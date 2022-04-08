@@ -22,13 +22,13 @@ import org.coreasm.engine.interpreter.ASTNode;
 public abstract class CompilerCodePlugin implements CompilerPlugin{
 	private Mapper handlers;
 	protected CompilerEngine engine;
-	
+
 	/**
 	 * Registers code handlers of this plugin
 	 * @throws CompilerException If an error occurred
 	 */
 	public abstract void registerCodeHandlers() throws CompilerException;
-	
+
 	/**
 	 * Registers a code handler in the data structures of the abstract base class.
 	 * This method is called by the compiler when initializing the code plugins.
@@ -46,12 +46,12 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 		if(handlers == null){
 			handlers = new Mapper();
 		}
-		
+
 		if(!handlers.insert(handler, type, gClass, gRule, token)){
 			throw new CompilerException("Handler already registered for (" + type + ", " + gClass + ", " + gRule + ", " + token + ")");
 		}
 	}
-	
+
 	/**
 	 * Compiles the given node.
 	 * The abstract base class will search for a handler registered for the node pattern and will
@@ -63,34 +63,34 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 	 */
 	public CodeFragment compile(CodeType t, ASTNode n) throws CompilerException{
 		List<Object> h = handlers.find(t, n.getGrammarClass(), n.getGrammarRule(), n.getToken());
-		
+
 		if(h.size() == 0){
-			
+
 			ASTNode parent = n.getParent();
 			//System.out.println("father: (" + parent.toString() + ")");
-			
+
 			//System.out.println(parent.getAbstractChildNodes().get(0).getAbstractChildNodes().get(0));
-			
-			
+
+
 			for(int i = 0; i < parent.getAbstractChildNodes().size(); i++){
 				if(parent.getAbstractChildNodes().get(i).equals(n))
 					System.out.println("child " + i + ": (" + parent.getAbstractChildNodes().get(i) + ") [ERR]");
 				else
 					System.out.println("child " + i + ": (" + parent.getAbstractChildNodes().get(i) + ")");
 			}
-			
-			
+
+
 			throw new CompilerException("no handler registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
 		else if(h.size() > 1){
-			throw new CompilerException("two handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");			
+			throw new CompilerException("two handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
-		
+
 		CompilerCodeHandler current = (CompilerCodeHandler) h.get(0);
 		CodeFragment result = new CodeFragment();
-		
+
 		current.compile(result, n, engine);
-		
+
 		return result;
 	}
 }
@@ -98,21 +98,21 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 class Mapper{
 	private Object def;
 	private Map<Object, Object> mappings;
-	
+
 	public Mapper(){
 		mappings = new HashMap<Object, Object>();
 	}
-	
+
 	private List<Object> find(int pos, Object...keys){
 		List<Object> result = new ArrayList<Object>();
-		
+
 		if(def != null){
 			if(pos == keys.length - 1) result.add(def);
 			else{
 				result.addAll(((Mapper)def).find(pos + 1, keys));
 			}
 		}
-		
+
 		Object o = mappings.get(keys[pos]);
 		if(o != null){
 			if(pos == keys.length - 1) result.add(o);
@@ -120,14 +120,14 @@ class Mapper{
 				result.addAll(((Mapper)o).find(pos + 1, keys));
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public List<Object> find(Object... keys){
 		return find(0, keys);
 	}
-	
+
 	private boolean insert(int pos, Object o, Object...keys){
 		Object k = keys[pos];
 		if(pos == keys.length - 1){
@@ -136,7 +136,7 @@ class Mapper{
 				def = o;
 				return true;
 			}
-			else{	
+			else{
 				if(mappings.get(k) != null) return false;
 				mappings.put(k, o);
 				return true;
@@ -145,7 +145,7 @@ class Mapper{
 		else{
 			if(k == null){
 				if(def == null) def = new Mapper();
-				
+
 				return ((Mapper) def).insert(pos + 1, o, keys);
 			}
 			else{
@@ -154,12 +154,12 @@ class Mapper{
 					tmp = new Mapper();
 					mappings.put(keys[pos], tmp);
 				}
-				
+
 				return ((Mapper) tmp).insert(pos + 1, o, keys);
 			}
 		}
 	}
-	
+
 	public boolean insert(Object o, Object... keys){
 		return insert(0, o, keys);
 	}

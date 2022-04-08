@@ -6,8 +6,8 @@ import org.coreasm.engine.absstorage.BooleanElement;
 
 public class RuleBackgroundElement extends BackgroundElement {
 	public static final String RULE_BACKGROUND_NAME = "RULE";
-	
-	
+
+
 	@Override
 	public Element getNewValue() {
 		throw new UnsupportedOperationException("Cannot create new rule.");

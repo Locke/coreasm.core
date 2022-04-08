@@ -10,5 +10,5 @@ package org.coreasm.eclipse.editors.errors;
 public interface ITreeErrorRecognizer
 extends IErrorRecognizer
 {
-	
+
 }

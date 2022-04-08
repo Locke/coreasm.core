@@ -10,21 +10,21 @@ import org.coreasm.engine.plugins.list.ListElement;
 
 import CompilerRuntime.CoreASMError;
 
-/** 
+/**
  * Implements the <i>input</i> monitored function provided by IO Plugin.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  * @see org.coreasm.engine.plugins.io.IOPlugin
  */
 public class FileReadFunctionElement extends FunctionElement {
 
 	private final IOPlugin plugin;
-	
+
 	/**
 	 * Creates a new read function element with the given
 	 * link to an IOPlugin.
-	 *  
+	 *
 	 * @param ioPlugin the IOPlugin that created this object
 	 * @see IOPlugin
 	 */
@@ -32,7 +32,7 @@ public class FileReadFunctionElement extends FunctionElement {
 		this.plugin = ioPlugin;
 		this.setFClass(FunctionClass.fcMonitored);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
 	 */

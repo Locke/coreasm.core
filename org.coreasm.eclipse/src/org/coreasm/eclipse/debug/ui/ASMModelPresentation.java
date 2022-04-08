@@ -42,7 +42,7 @@ public class ASMModelPresentation extends LabelProvider implements IDebugModelPr
 	@Override
 	public void setAttribute(String attribute, Object value) {
 	}
-	
+
 	@Override
 	public String getText(Object element) {
 		try {
@@ -73,12 +73,12 @@ public class ASMModelPresentation extends LabelProvider implements IDebugModelPr
 	@Override
 	public void computeDetail(IValue value, IValueDetailListener listener) {
 		String result = "";
-		
+
 		try {
 			result = value.getValueString();
 		} catch (DebugException e) {
 		}
-		
+
 		listener.detailComputed(value, result);
 	}
 }

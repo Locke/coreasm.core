@@ -21,7 +21,7 @@ public class ASMThread extends ASMDebugElement implements IThread {
 	public ASMThread(ASMDebugTarget debugTarget) {
 		super(debugTarget);
 	}
-	
+
 	public void cleanUp() {
 		variables.clear();
 		states.clear();
@@ -110,28 +110,28 @@ public class ASMThread extends ASMDebugElement implements IThread {
 			ASMStorage[] states = EngineDebugger.getRunningInstance().getStates();
 			IStackFrame[] frames = new IStackFrame[states.length];
 			this.states.clear();
-			
+
 			for (int i = 0; i < frames.length; i++) {
 				IStackFrame stackFrame = new ASMStackFrame(this, i);
 				this.states.put(stackFrame, states[i]);
 				frames[frames.length - 1 - i] = stackFrame;
 			}
-			
+
 			return frames;
 		}
 		return new IStackFrame[0];
 	}
-	
+
 	public void setVariables(ASMStorage state, IVariable[] variables) {
 		this.variables.put(state, variables);
 	}
-	
+
 	public IVariable[] getVariables(ASMStorage state) {
 		if (state == null)
 			return new IVariable[0];
 		return variables.get(state);
 	}
-	
+
 	public ASMStorage getState(ASMStackFrame stackFrame) {
 		return states.get(stackFrame);
 	}
@@ -158,7 +158,7 @@ public class ASMThread extends ASMDebugElement implements IThread {
 	public String getName() throws DebugException {
 		return "Thread [main]";
 	}
-	
+
 	@Override
 	public IBreakpoint[] getBreakpoints() {
 		// TODO getBreakPoints()

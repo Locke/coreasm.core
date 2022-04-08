@@ -41,7 +41,7 @@ import org.eclipse.jface.text.IDocument;
  * The class extends the Observable class, so any views and other classes which
  * are interested in the result of each parsing can be notified after each
  * run of the parser.
- * 
+ *
  * @author Markus M�ller, Michael Stegmaier
  */
 public class ASMParser extends Observable implements org.coreasm.engine.parser.Parser
@@ -54,26 +54,26 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	private Parser<Node> moduleParser;	// the parser being used for "CoreModule" specs
 	private ParsingJob parsingJob;		// the job which starts a new run of the parser.
 	private Node rootnode;
-	
+
 	private Set<String> currentKeywords;
 	private Set<String> currentIDs;
-	
+
 	private ControlAPI slimengine;		// for obtaining references for the plugins
-		
+
 	private PositionMap positionMap = null;
-	
+
 	public ASMParser(ASMEditor parentEditor)
 	{
 		this.parentEditor = parentEditor;
 		this.documentProvider = (ASMDocumentProvider) parentEditor.getDocumentProvider();
 		this.parsingJob = new ParsingJob();
-		
+
 		currentKeywords = new HashSet<String>();
 		currentIDs = new HashSet<String>();
 		uses = new HashSet<String>();
-		
+
 	}
-	
+
 	public ControlAPI getSlimEngine()
 	{
 		return slimengine;
@@ -82,36 +82,36 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 
 	// ====================================================
 	//	\/ PARSING CODE \/
-	// ==================================================== 
-	
+	// ====================================================
+
 	/**
 	 * Checks if a new parser must be created because the plugins have been changed
 	 * since the last run of the parser. If necessary, the new parser is created.
 	 */
 	private void initParser()
-	{		
+	{
 		Set<String> newPlugins = getUsedPlugins();
 		if (newPlugins.equals(plugins))
 			return;
-		
+
 		Logger.log(Logger.INFORMATION, ASMEditor.LOGGER_UI_DEBUG, "A new parser is generated");
-		
+
 		parsingJob.pause();
-		
+
 		// create a new slim engine with all the plugins which are (and can be) used.
 		slimengine = new SlimEngine(this, newPlugins);
 		ControlAPI engine = slimengine;
-		
+
 		// The parser is created through the Kernel object, as a "side effect"
 		// of the first call of Kernel.getParser()
 		Kernel kernel = (Kernel) engine.getPlugin("Kernel");
 		GrammarRule rootRule = kernel.getParsers().get("CoreASM");
 		rootParser = rootRule.parser;
-		
-		// The old module parser must be discarded, a new one will be derived from 
-		// the new root parser if needed. 
+
+		// The old module parser must be discarded, a new one will be derived from
+		// the new root parser if needed.
 		moduleParser = null;
-		
+
 		// getting Keywords & IDs
 		collectIDs(engine.getPlugins());
 		currentKeywords.clear();
@@ -121,16 +121,16 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 				for (String keyword: ( (ParserPlugin)plugin).getKeywords() )
 					currentKeywords.add(keyword);
 		}
-		
+
 		parentEditor.setSyntaxHighlighting(currentKeywords, currentIDs);
 
 		// remember the used plugins
 		plugins = newPlugins;
-		
+
 		parsingJob.unpause();
-		
+
 	}
-	
+
 	/**
 	 * This method runs the parser once. Before running the parser it runs initParser()
 	 * to ensure the availability of the correct parser. After parsing it notifies
@@ -152,10 +152,10 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 
 		// forget if the document is a module or not, so it will be rechecked
 		// on the next call of isIncludedSpecification()
-		doc.resetInclusionState();	
+		doc.resetInclusionState();
 
-		initParser();	// create a new parser if necessary 
-		
+		initParser();	// create a new parser if necessary
+
 		positionMap = null;
 		try {
 			Specification spec = new Specification(slimengine, new StringReader(doc.get()), parentEditor.getInputFile().getLocation().toFile().getAbsolutePath());
@@ -164,9 +164,9 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		} catch (IOException e) {
 		}
 		((SlimEngine)slimengine).notifyEngineParsing();
-		
+
 		try {
-			ParserTools parserTools = ParserTools.getInstance(slimengine);			
+			ParserTools parserTools = ParserTools.getInstance(slimengine);
 			Parser<Node> parser;
 			if (doc.isIncludedSpecification())
 				// specification is a module -> run module parser
@@ -174,23 +174,23 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			else
 				// specification is not a module -> run root parser
 				parser = rootParser.from(parserTools.getTokenizer(), parserTools.getIgnored());
-			
+
 			rootnode = parser.parse(getSpec().getText());
 			doc.setRootnode(rootnode);
 			doc.setControlAPI(slimengine);
-			
+
 			//System.out.println("correct");
 			logmsg.append("correct ");
 			result = new ParsingResult(true, doc, null);	// result for the observers
-			
+
 		} catch (ParserException pe) {
 			// if we reach this catch block there was an exception during parsing.
-			
+
 			ParseErrorDetails perr = pe.getErrorDetails();
-			
+
 			rootnode = null;
 			doc.setRootnode(null);
-			
+
 			if (perr != null) {
 				// SYNTAX ERROR (there is a ParseErrorDetails object)
 				//System.out.println("SYNTAX ERROR");
@@ -205,7 +205,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 				logmsg.append("UNKNOWN ERROR ");
 				pe.printStackTrace();
 			}
-					
+
 			result = new ParsingResult(false, doc, pe);	// result for the observers
 		} catch (CoreASMError e) {
 			slimengine.error(e);
@@ -213,9 +213,9 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			doc.setRootnode(null);
 			result = new ParsingResult(false, doc, null);
 		}
-		
+
 		parentEditor.createPluginMark(uses);
-		
+
 		// notify observers
 		if (result.wasSuccessful)
 			((SlimEngine)slimengine).notifyEngineParsingFinished();
@@ -228,7 +228,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		logmsg.append('(').append(t).append("ms)");
 		Logger.log(Logger.INFORMATION, Logger.ui, logmsg.toString());
 	}
-	
+
 	/**
 	 * This method derives a module parser from the current root parser.
 	 * The EBNF rule for the module parser is
@@ -242,11 +242,11 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			ParserTools parserTools = ParserTools.getInstance(slimengine);
 			Kernel kernel = (Kernel) slimengine.getPlugin(AstTools.PLUGIN_KERNEL);
 			Map<String,GrammarRule> kernelrules = kernel.getParsers();
-			
+
 			Parser<Node> useClauseParser = kernelrules.get(AstTools.PARSER_USE).parser;
 			Parser<Node> headerParser = kernel.getParser(AstTools.PARSER_HEADER);
 			Parser<Node> ruleParser = kernelrules.get(AstTools.PARSER_RULE).parser;
-			
+
 	    	moduleParser = Parsers.array(new Parser[] {
 	    			parserTools.getKeywParser("CoreModule", AstTools.PLUGIN_KERNEL),
 	    			parserTools.getIdParser(),
@@ -261,38 +261,38 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	    			}).map(new org.coreasm.engine.plugins.modularity.CoreModuleParseMap())
 	    			.followedBy(Parsers.EOF);
 		}
-		
+
 		return moduleParser;
 	}
-	
+
 	/**
 	 * This method determines all plugins which will be loaded by the engine if
 	 * the specification is run. It only recognizes use clauses which are in their
-	 * own line and are not commented. Furthermore it checks all recognized plugins 
+	 * own line and are not commented. Furthermore it checks all recognized plugins
 	 * for their dependencies and ignores those who have unfulfilled dependencies
 	 * (including indirect dependencies). For modules the usage of the Modularity,
 	 * String and Number plugins are implicitly assumed (Modularity depends on
 	 * String and Number).
-	 * 
+	 *
 	 * @return A set of strings with all usable plugin names.
 	 */
 	private Set<String> getUsedPlugins()
 	{
 		ControlAPI engine = SlimEngine.getFullEngine();
-		
+
 		IDocument doc = documentProvider.getDocument(parentEditor.getInput());
 		String strDoc = doc.get();
-		
+
 		uses.clear();
-		
+
 		Set<String> pluginnames = new HashSet<String>();
 		pluginnames.add("Kernel");
 		if (((ASMDocument)doc).isIncludedSpecification()) {
 			pluginnames.add("ModularityPlugin");
 			pluginnames.add("StringPlugin");		// Modularity depends on String
-			pluginnames.add("NumberPlugin");		// String depends on Number			
+			pluginnames.add("NumberPlugin");		// String depends on Number
 		}
-		
+
 		// get plugin names from correct use statements
 		// find only those use statements who are in their own line.
 		Pattern p = Pattern.compile("^\\s*use\\s+(\\w+)\\s*$", Pattern.MULTILINE);
@@ -305,11 +305,11 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
-			
+
 			String pluginname = m.group(1);
 			pluginnames.add(pluginname);
 		}
-				
+
 		// get plugin objects for the found plugin names
 		Set<Plugin> plugins = new HashSet<Plugin>();
 		for (String pluginname: pluginnames) {
@@ -323,7 +323,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 				uses.add(plugin.getName());
 			}
 		}
-		
+
 		// unpack package plugins
 		// collect unpacked plugins in a separate set to prevent ConcurrentModificationException
 		// (occurs when adding elements to a HashSet while iterating over it)
@@ -340,16 +340,16 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			}
 		}
 		plugins.addAll(unpackedPlugins);
-		
+
 		// The ok-list collects all plugins with fulfilled dependencies
 		Set<Plugin> oklist = new HashSet<Plugin>();
-		
+
 		// get all plugins with no dependencies and add them to the ok-list
 		for (Plugin plugin: plugins) {
 			if (plugin.getDependencyNames().size() == 0)
 				oklist.add(plugin);
 		}
-		
+
 		// get all plugins whose plugins are already fulfilled
 		// loop this step until no more plugins are found
 		boolean flagChanged;
@@ -371,14 +371,14 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 				}
 			}
 		} while (flagChanged == true);
-		
+
 		Set<String> okNameList = new HashSet<String>();
 		for (Plugin pl: oklist)
 			okNameList.add(pl.getName());
-		
+
 		return okNameList;
 	}
-	
+
 	/**
 	 * Collects all IDs from a set of plugins and stores them in the currentIDs set.
 	 */
@@ -392,13 +392,13 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		for (FunctionInfo functionInfo : SlimEngine.getFullEngine().getSpec().getDefinedBackgrounds())
 			currentIDs.add(functionInfo.name);
 	}
-	
+
 	/**
 	 * This method checks if a plugin with the given name is currently loaded.
-	 * If "String" is passed as parameter, it will return true if at least 
+	 * If "String" is passed as parameter, it will return true if at least
 	 * one of "String", "StringPlugin" and "StringPlugins" is contained in
 	 * the set of loaded plugins.
-	 *  
+	 *
 	 * @param plugin	the name of a plugin
 	 * @return			true, if the plugin is currently loaded; false otherwise
 	 */
@@ -406,44 +406,44 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	{
 		String pluginP = plugin + "Plugin";
 		String pluginPP = plugin + "Plugins";
-		
+
 		if (plugins.contains(plugin))
 			return true;
 		if (plugins.contains(pluginP))
 			return true;
 		if (plugins.contains(pluginPP));
-		
+
 		return false;
 	}
-	
-	
+
+
 	public Set<String> getCurrentKeywords()
 	{
 		return currentKeywords;
 	}
-	
+
 	public Set<String> getCurrentIDs()
 	{
 		return currentIDs;
 	}
-	
+
 	public Specification getSpec() {
 		if (slimengine != null)
 			return slimengine.getSpec();
 		return null;
 	}
-	
+
 	public ASTNode getRootNode()
 	{
 		return (ASTNode)rootnode;
 	}
-	
+
 	public ParsingJob getJob()
 	{
 		return parsingJob;
 	}
-	
-	
+
+
 	/**
 	 * This class stores the result of a parser run. It is delivered to the
 	 * observers of the parser.
@@ -454,7 +454,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		public final boolean wasSuccessful;
 		public final ASMDocument document;
 		public final ParserException exception;
-		
+
 		public ParsingResult(boolean wasSuccessful, ASMDocument document,
 				ParserException exception) {
 			super();
@@ -462,14 +462,14 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			this.document = document;
 			this.exception = exception;
 		}
-		
+
 	}
-	
-	
+
+
 	// ====================================================
 	//	\/ CODE FOR SCHEDULING SUBCLASS \/
-	// ==================================================== 
-	
+	// ====================================================
+
 	/**
 	 * This class manages the running of the parser. It is derived from the
 	 * Job class, so it can be managed by the Eclipse job scheduler. The job
@@ -478,11 +478,11 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	 * @author Markus M�ller
 	 */
 	public class ParsingJob
-	extends Job 
+	extends Job
 	{
 		private boolean paused;
 		private boolean interrupted;
-		
+
 		public ParsingJob()
 		{
 			super("CoreASM Parser");
@@ -493,7 +493,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		@Override
 		protected IStatus run(IProgressMonitor monitor)
 		{
-			if ( !isPaused() ) 
+			if ( !isPaused() )
 				parseDocument();
 
 			if ( !isInterrupted() )
@@ -501,27 +501,27 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 
 			return Status.OK_STATUS;
 		}
-		
+
 		public synchronized void pause()
 		{
 			paused = true;
 		}
-		
+
 		public synchronized void unpause()
 		{
 			paused = false;
 		}
-		
+
 		public synchronized boolean isPaused()
 		{
 			return paused;
 		}
-		
+
 		public synchronized void interrupt()
 		{
 			interrupted = true;
 		}
-		
+
 		public synchronized boolean isInterrupted()
 		{
 			return interrupted;
@@ -533,26 +533,26 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	@Override
 	public void setSpecification(Specification specification) {
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	@Override
 	public void parseHeader() throws org.coreasm.engine.parser.ParserException {
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	@Override
 	public Set<String> getRequiredPlugins() {
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	@Override
 	public void parseSpecification()
 			throws org.coreasm.engine.parser.ParserException {
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	@Override
@@ -562,5 +562,5 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 		}
 		return positionMap;
 	}
-	
+
 }

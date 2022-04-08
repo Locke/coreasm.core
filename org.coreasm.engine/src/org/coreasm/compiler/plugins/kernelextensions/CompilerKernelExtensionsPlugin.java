@@ -18,7 +18,7 @@ import org.coreasm.engine.plugins.kernelextensions.KernelExtensionsPlugin;
  */
 public class CompilerKernelExtensionsPlugin extends CompilerCodePlugin implements CompilerPlugin {
 	private Plugin parent;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -26,7 +26,7 @@ public class CompilerKernelExtensionsPlugin extends CompilerCodePlugin implement
 	public CompilerKernelExtensionsPlugin(Plugin parent) {
 		this.parent = parent;
 	}
-	
+
 	@Override
 	public String getName() {
 		return KernelExtensionsPlugin.PLUGIN_NAME;
@@ -41,7 +41,7 @@ public class CompilerKernelExtensionsPlugin extends CompilerCodePlugin implement
 	public void registerCodeHandlers() throws CompilerException {
 		//TODO: Write missing code handlers for the kernel extensions plugin
 		register(new CompilerExtendedFunctionRuleTermHandler(), CodeType.R, null, "ExtendedFunctionRuleTermNode", null);
-		
+
 	}
 
 	@Override

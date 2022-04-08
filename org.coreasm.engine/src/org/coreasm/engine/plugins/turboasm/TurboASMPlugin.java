@@ -1,17 +1,17 @@
-/*	
+/*
  * TurboASMPlugin.java 	1.0 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2006 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2006 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.turboasm;
 
 import java.util.ArrayList;
@@ -65,18 +65,18 @@ import org.coreasm.engine.plugin.VocabularyExtender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  * This plugin provides the following TurboASM rules:
  * <ol>
  * <li>R1 <b>seq</b> R2</li>
  * <li><b>iterate</b> R</li>
  * <li><b>while</b> (exp) R</li>
- * </ol> 
- *   
+ * </ol>
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
-public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterPlugin, 
+public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterPlugin,
 														VocabularyExtender {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 2, "beta");
@@ -89,7 +89,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	private ThreadLocal<Map<ASTNode,UpdateMultiset>> composedUpdatesMap;
 
 	private Map<String, GrammarRule> parsers = null;
-	
+
 	public static final String RETURN_RESULT_TOKEN = "<-";
 	public static final String RESULT_KEYWORD = "result";
 	public static final String WHILE_KEYWORD = "while";
@@ -102,17 +102,17 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	private Map<String, FunctionElement> functions;
 	private FunctionElement resultFunction;
 
-	private final String[] keywords = {"seq", "next", "endseq", "seqblock", "endseqblock", "iterate", "while", 
+	private final String[] keywords = {"seq", "next", "endseq", "seqblock", "endseqblock", "iterate", "while",
 			"local", "in", "return", "result"};
 	private final String[] operators = {",", "<-", "[", "]", LOCAL_INIT_OPERATOR};
-	
+
 	private final CompilerPlugin compilerPlugin = new CompilerTurboASMPlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 	@Override
 	public void initialize() {
 		composedUpdatesMap = new ThreadLocal<Map<ASTNode,UpdateMultiset>>() {
@@ -130,7 +130,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	private Map<ASTNode, UpdateMultiset> getThreadComposedUpdates() {
 		return composedUpdatesMap.get();
 	}
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -163,7 +163,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-	
+
 			// SeqRule : 'seq' Rule ('next' Rule)+ ('endseq')? | 'seq' (Rule)+ 'endseq' | 'seqblock' (Rule)+ 'endseqblock' | '[' (Rule)+ ']'
 			Parser<Node> seqRuleParser = Parsers.or(
 				Parsers.array(
@@ -194,7 +194,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 				)
 			).map(new SeqRuleParseMap());
 			parsers.put("SeqRule",
-					new GrammarRule("SeqRule", "'seq' Rule ('next' Rule)+ | 'seq' (Rule)+ 'endseq'", 
+					new GrammarRule("SeqRule", "'seq' Rule ('next' Rule)+ | 'seq' (Rule)+ 'endseq'",
 							seqRuleParser, PLUGIN_NAME));
 
 			// IterateRule : 'iterate' Rule
@@ -212,7 +212,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 						}
 			});
 			parsers.put("IterateRule",
-					new GrammarRule("IterateRule", "'iterate' Rule", 
+					new GrammarRule("IterateRule", "'iterate' Rule",
 							iterateRuleParser, PLUGIN_NAME));
 
 			// WhileRule : 'while' Term Rule
@@ -245,9 +245,9 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					}
 			 );
 			parsers.put("ReturnResultRule",
-					new GrammarRule("ReturnResultRule", "FunctionRuleTerm '<-' FunctionRuleTerm", 
+					new GrammarRule("ReturnResultRule", "FunctionRuleTerm '<-' FunctionRuleTerm",
 							retResRuleParser, PLUGIN_NAME));
-			
+
 			// ReturnTerm : 'return' Term 'in' Rule
 			Parser<Node> returnTermParser = Parsers.array(
 					new Parser[] {
@@ -259,7 +259,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					new ReturnTermParseMap()
 			);
 			parsers.put("ReturnTerm",
-					new GrammarRule("ReturnTerm", "'return' Term 'in' Rule", 
+					new GrammarRule("ReturnTerm", "'return' Term 'in' Rule",
 							returnTermParser, PLUGIN_NAME));
 
 			// LocalRule : 'local' ID (':=' Term)? (',' ID (':=' Term)?)* 'in' Rule
@@ -276,20 +276,20 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					}).map(
 					new LocalRuleParseMap());
 			parsers.put("LocalRule",
-					new GrammarRule("LocalRule", "'local' ID (':=' Term)? (',' ID (':=' Term)?)* 'in' Rule", 
+					new GrammarRule("LocalRule", "'local' ID (':=' Term)? (',' ID (':=' Term)?)* 'in' Rule",
 							localRuleParser, PLUGIN_NAME));
-			
+
 			// TurboASMRules : SeqRule | IterateRule | WhileRule | ReturnResultRule | LocalRule
-			parsers.put("Rule", new GrammarRule("TurboASMRules", 
+			parsers.put("Rule", new GrammarRule("TurboASMRules",
 					"SeqRule | IterateRule | WhileRule | ReturnResultRule | LocalRule",
-					Parsers.or(seqRuleParser, iterateRuleParser, whileRuleParser, 
-							retResRuleParser, 
+					Parsers.or(seqRuleParser, iterateRuleParser, whileRuleParser,
+							retResRuleParser,
 							localRuleParser), PLUGIN_NAME));
-			
-			parsers.put("BasicTerm", 
+
+			parsers.put("BasicTerm",
 					new GrammarRule("TurboASMTerms", "ReturnTerm",
 							returnTermParser, PLUGIN_NAME));
-			
+
 			// ResultLocation : 'result'
 			Parser<Node> resultLocationParser = //Parsers.map("ResultLocation",
 						pTools.getKeywParser(RESULT_KEYWORD, PLUGIN_NAME).map(
@@ -299,55 +299,55 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 							/*
 							 *  Here we do a little bit of cheating! :-)
 							 *  We basically make 'result' act as an identifier.
-							 *  
+							 *
 							 *  see ParserTools.getIdentifierParser()
 							 */
-							
+
 							Node node = new FunctionRuleTermNode(v.getScannerInfo());
 							node.addChild("alpha", new ASTNode(
-									"Kernel", 
-									ASTNode.ID_CLASS, 
-									"ID", 
+									"Kernel",
+									ASTNode.ID_CLASS,
+									"ID",
 									RESULT_KEYWORD,
 									v.getScannerInfo(),
 									Node.GENERAL_ID_NODE
-									)); 
+									));
 							return node;
 						}
 					}
 			);
 			parsers.put("ResultLocation",
-					new GrammarRule("ResultLocation", 
-							"'result'", 
+					new GrammarRule("ResultLocation",
+							"'result'",
 							resultLocationParser, PLUGIN_NAME));
-			
+
 			// FunctionRuleTerm : 'result'
 			/*
 			 * !! Notice that to be on the safe side, any
-			 *    grammar rule that extends the FunctionRuleTerm 
+			 *    grammar rule that extends the FunctionRuleTerm
 			 *    rule has to return a node of the class FunctionRuleTermNode.
 			 */
-			parsers.put(Kernel.GR_FUNCTION_RULE_TERM, 
+			parsers.put(Kernel.GR_FUNCTION_RULE_TERM,
 					new GrammarRule(resultLocationParser.toString(),
-					"ResultLocation", 
+					"ResultLocation",
 					resultLocationParser, PLUGIN_NAME));
     	}
-    	
+
     	return parsers;
     }
-	
+
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		AbstractStorage storage = capi.getStorage();
-		
+
 		if (pos instanceof SeqRuleNode) {
 			SeqRuleNode node = (SeqRuleNode)pos;
 			ASTNode firstRule = node.getFirstRule();
 			ASTNode secondRule = node.getSecondRule();
-			
+
 			// Evaluate the first rule
-			if (!firstRule.isEvaluated()) 
+			if (!firstRule.isEvaluated())
 				return firstRule;
-			
+
 			if (!secondRule.isEvaluated()) {
 				// Aggregate updates of the first rule
 				try {
@@ -356,7 +356,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					if (storage.isConsistent(aggregatedUpdate)) {
 						pushState();
 						storage.apply(aggregatedUpdate);
-						return secondRule; 
+						return secondRule;
 					}
 				} catch (EngineError e) {
 					capi.warning(PLUGIN_NAME, e.getMessage(), secondRule, interpreter);
@@ -378,23 +378,23 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 				pos.setNode(null, firstRule.getUpdates(), null);
 			} else {
 				// second rule is evaluated...
-				
+
 				UpdateMultiset composed = storage.compose(firstRule.getUpdates(), secondRule.getUpdates());
 				popState();
 				pos.setNode(null, composed, null);
 			}
-			
-			
+
+
 		} else
 			if (pos instanceof IterateRuleNode) {
 				IterateRuleNode node = (IterateRuleNode)pos;
 				ASTNode childRule = node.getChildRule();
-				
+
 				Map<ASTNode, UpdateMultiset> composedUpdates = getThreadComposedUpdates();
 
 				if (!childRule.isEvaluated()) {
 					pushState();
-					composedUpdates.put(pos, new UpdateMultiset()); 
+					composedUpdates.put(pos, new UpdateMultiset());
 					return childRule;
 				} else {
 					UpdateMultiset u = childRule.getUpdates();
@@ -420,19 +420,19 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					WhileRuleNode node = (WhileRuleNode)pos;
 					ASTNode childRule = node.getChildRule();
 					ASTNode whileCond = node.getCondition();
-	
+
 					Map<ASTNode, UpdateMultiset> composedUpdates = getThreadComposedUpdates();
-					
+
 					// if the guard is not evaluated, evaluate it
 					if (!whileCond.isEvaluated()) {
 						pushState();
-						composedUpdates.put(pos, new UpdateMultiset()); 
+						composedUpdates.put(pos, new UpdateMultiset());
 						return whileCond;
 					}
-					
+
 					// if condition is TRUE
 					if (whileCond.getValue().equals(BooleanElement.TRUE)) {
-						if (!childRule.isEvaluated()) 
+						if (!childRule.isEvaluated())
 							return childRule;
 						UpdateMultiset u = childRule.getUpdates();
 						if (!u.isEmpty()) {
@@ -457,25 +457,25 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 						ReturnResultNode node = (ReturnResultNode)pos;
 						ASTNode loc = node.getLocationNode();
 						FunctionRuleTermNode rule = (FunctionRuleTermNode)node.getRuleNode();
-						
+
 						// If the rule part is of the form 'x' or 'x(...)'
 						if (rule.hasName()) {
-	
+
 							String x = rule.getName();
-							
+
 							// If the rule part is of the form 'x' with no arguments
 							if (!rule.hasArguments()) {
-								
+
 								if (storage.isRuleName(x)) {
 									pos = ruleCallWithResult(interpreter, storage.getRule(x), null, loc, pos);
 								}
-							
+
 							} else { // if the rule part 'x(...)' (with arguments)
-								
+
 								if (storage.isRuleName(x)) {
 									pos = ruleCallWithResult(interpreter, storage.getRule(x), rule.getArguments(), loc, pos);
 								}
-								
+
 							}
 							if (pos.isEvaluated()) {
 								String name = loc.getFirst().getToken();
@@ -488,18 +488,18 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 								}
 							}
 						}
-	
-						
-					} else 
+
+
+					} else
 						if (pos instanceof ReturnTermNode) {
 							ReturnTermNode node = (ReturnTermNode)pos;
 							ASTNode exp = node.getExpressionNode();
 							ASTNode rule = node.getRuleNode();
-							
+
 							// Evaluate the rule
-							if (!rule.isEvaluated()) 
+							if (!rule.isEvaluated())
 								return rule;
-							
+
 							if (!exp.isEvaluated()) {
 								// Aggregate updates of the rule
 								try {
@@ -508,7 +508,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 									if (storage.isConsistent(aggregatedUpdate)) {
 										pushState();
 										storage.apply(aggregatedUpdate);
-										return exp; 
+										return exp;
 									}
 								} catch (EngineError e) {
 								}
@@ -518,18 +518,18 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 								popState();
 								pos.setNode(null, new UpdateMultiset(), exp.getValue());
 							}
-						} else 
+						} else
 							if (pos instanceof LocalRuleNode) {
 								LocalRuleNode node = (LocalRuleNode)pos;
 								ASTNode rule = node.getRuleNode();
 								Map<String, ASTNode> variableMap = node.getFunctionMap();
-					
+
 								// evaluate all the terms that will be aliased
 								for (ASTNode n : variableMap.values()) {
 									if (n != null && !n.isEvaluated())
 										return n;
 								}
-								
+
 								// Evaluate the rule
 								if (!rule.isEvaluated()) {
 									Set<Update> updates = new HashSet<Update>();
@@ -561,32 +561,32 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 									}
 									pos.setNode(null, newUpdates, rule.getValue());
 								}
-								
-							} else 
+
+							} else
 								if (pos instanceof EmptyNode)
 									pos.setNode(null, new UpdateMultiset(), null);
 								else
 									throw new InterpreterException(this.getName() + " cannot interpret the given node.");
-		
+
 		return pos;
 	}
 
 	/**
 	 * Handles a call to a rule that has <b>result</b>.
-	 * 
+	 *
 	 * @param name rule name
 	 * @param args arguments
 	 * @param pos current node being interpreted
 	 */
 	private ASTNode ruleCallWithResult(Interpreter interpreter, RuleElement rule, List<ASTNode> args, ASTNode loc, ASTNode pos) {
-		
+
 		List<String> exParams = new ArrayList<String>(rule.getParam());
 		List<ASTNode> exArgs = new ArrayList<ASTNode>();
 		if (args != null)
 			exArgs.addAll(args);
 		exArgs.add(loc);
 		exParams.add(RESULT_KEYWORD);
-		
+
 		return interpreter.ruleCall(rule, exParams, exArgs, pos);
 	}
 
@@ -595,9 +595,9 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	}
 
 	public static class WhileParseMap extends ArrayParseMap {
-		
+
 		String nextChildName = "cond";
-		
+
 		public WhileParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -609,7 +609,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			addChildren(node, vals);
 			return node;
 		}
-		
+
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode) {
 				parent.addChild(nextChildName, child);
@@ -617,13 +617,13 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			} else
 				parent.addChild(child);
 		}
-		
+
 	}
 
 	public static class LocalRuleParseMap extends ArrayParseMap {
-		
+
 		String nextChildName = "lambda";
-		
+
 		public LocalRuleParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -635,7 +635,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			addChildren(node, vals);
 			return node;
 		}
-		
+
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode) {
 				parent.addChild(nextChildName, child);
@@ -645,7 +645,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 				parent.addChild(child);
 			}
 		}
-		
+
 	}
 
 	public static class ReturnTermParseMap extends ArrayParseMap {
@@ -707,7 +707,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 			}
 			return astCount;
 		}
-		
+
 		private void addSeqChildren(SeqRuleNode root, List<Node> children, int astCount) {
 			int i = 1;
 			for (Node child: children) {
@@ -719,7 +719,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 						if (root.getFirst() == null)
 							root.addChild(child);
 						else {
-							if (i == astCount) 
+							if (i == astCount)
 								root.addChild(child);
 							else {
 								SeqRuleNode newRoot = new SeqRuleNode(child.getScannerInfo());
@@ -767,7 +767,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 		}
 		return resultFunction;
 	}
-	
+
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}

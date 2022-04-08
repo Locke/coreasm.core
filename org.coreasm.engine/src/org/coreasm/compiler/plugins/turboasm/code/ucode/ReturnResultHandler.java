@@ -21,12 +21,12 @@ public class ReturnResultHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		//note: this implementation currently contains a lot of code from the kernel
 		//macro call. might be a good idea to merge it somehow
-		
+
 		ASTNode leftpart = node.getAbstractChildNodes().get(0);
 		ASTNode rulecall = node.getAbstractChildNodes().get(1);
-		
+
 		String name = rulecall.getAbstractChildNodes().get(0).getToken();
-		
+
 		result.appendLine("@decl(java.util.ArrayList<@RuntimePkg@.RuleParam>,arglist)=new java.util.ArrayList<>();");
 		for(int i = 1; i < rulecall.getAbstractChildNodes().size(); i++){
 			CodeFragment tmp = engine.compile(rulecall.getAbstractChildNodes().get(i), CodeType.R);
@@ -37,20 +37,20 @@ public class ReturnResultHandler implements CompilerCodeHandler {
 			result.appendLine("public void setParams(java.util.Map<String, @RuntimePkg@.RuleParam> params){\n");
 			result.appendLine("this.ruleparams = params;\n");
 			result.appendLine("}\n");
-			
+
 			//try to create code for the location of the parameter
 			result.appendLine("public @RuntimePkg@.Location evaluateL(@RuntimePkg@.LocalStack localStack) throws Exception{\n");
 			try{
 				CodeFragment tmpl = engine.compile(rulecall.getAbstractChildNodes().get(i), CodeType.L);
 				result.appendFragment(tmpl);
-				result.appendLine("return (@RuntimePkg@.Location) evalStack.pop();\n");	
+				result.appendLine("return (@RuntimePkg@.Location) evalStack.pop();\n");
 			}
 			catch(Exception e){
 				result.appendLine("throw new Exception(\"This ruleparam cannot be evaluated as a location\");\n");
 			}
 			result.appendLine("}\n");
-			
-			
+
+
 			result.appendLine("public @RuntimePkg@.Element evaluateR(CompilerRuntime.LocalStack localStack) throws Exception{\n");
 			result.appendFragment(tmp);
 			result.appendLine("\nreturn (@RuntimePkg@.Element)evalStack.pop();\n}\n});\n");
@@ -74,10 +74,10 @@ public class ReturnResultHandler implements CompilerCodeHandler {
 		result.appendFragment(engine.compile(leftpart, CodeType.R));
 		result.appendLine("\nreturn (@RuntimePkg@.Element)evalStack.pop();\n}\n});\n");
 		result.appendLine("@arglist@.get(@arglist@.size() - 1).setParams(ruleparams);\n");
-		
+
 		//result.appendLine("\n@arglist@.add(new CompilerRuntime.RuleParam(){\npublic CompilerRuntime.Element evaluate(CompilerRuntime.LocalStack localStack) throws Exception{\n");
 		//result.appendLine("\nreturn (CompilerRuntime.Element)evalStack.pop();\n}\n});\n");
-		
+
 		//cf.appendLine("\n@decl(CompilerRuntime.Rule,macrorule)=new Rules." + name + "(@arglist, localStack);");
 		Preprocessor prep = engine.getPreprocessor();
 		Information inf = prep.getGeneralInfo().get("RuleDeclaration");
@@ -89,7 +89,7 @@ public class ReturnResultHandler implements CompilerCodeHandler {
 			throw new UnsupportedOperationException("currently not supported");
 			//otherwise, name is a parameter on the local stack
 			//result.appendLine("@decl(CompilerRuntime.Rule,callruletmp);\n");
-			//result.appendLine("@callruletmp@ = ((CompilerRuntime.Rule)((CompilerRuntime.RuleParam) localStack.get(\"" + name + "\")).evaluate(localStack)).getCopy();\n" );  
+			//result.appendLine("@callruletmp@ = ((CompilerRuntime.Rule)((CompilerRuntime.RuleParam) localStack.get(\"" + name + "\")).evaluate(localStack)).getCopy();\n" );
 		}
 		result.appendLine("@callruletmp@.initRule(@arglist@, localStack);\n");
 		result.appendLine("@decl(@RuntimePkg@.RuleResult, result) = @callruletmp@.call();\n");

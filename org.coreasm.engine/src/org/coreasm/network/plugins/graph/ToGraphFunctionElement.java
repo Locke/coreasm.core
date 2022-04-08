@@ -1,6 +1,6 @@
-/*	
- * ToGraphFunctionElement.java 
- * 
+/*
+ * ToGraphFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -27,14 +27,14 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**
  * Creates a graph element from a set of nodes and a collection of edges.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class ToGraphFunctionElement extends FunctionElement {
 
 	Signature sig = null;
-	
+
 	@Override
 	public Element getValue(List<? extends Element> args) {
 		Element result = Element.UNDEF;
@@ -64,7 +64,7 @@ public class ToGraphFunctionElement extends FunctionElement {
 	public Signature getSignature() {
 		if (sig == null) {
 			sig = new Signature(
-					ElementBackgroundElement.ELEMENT_BACKGROUND_NAME, 
+					ElementBackgroundElement.ELEMENT_BACKGROUND_NAME,
 					ElementBackgroundElement.ELEMENT_BACKGROUND_NAME,
 					GraphBackgroundElement.BACKGROUND_NAME);
 		}
@@ -73,7 +73,7 @@ public class ToGraphFunctionElement extends FunctionElement {
 
 	/**
 	 * Creates a directed graph element with the given vertices and edges.
-	 *  
+	 *
 	 * @param vset set of vertices
 	 * @param eset set of edges
 	 */

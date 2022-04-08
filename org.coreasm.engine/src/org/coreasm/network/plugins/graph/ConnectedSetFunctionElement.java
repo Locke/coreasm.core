@@ -1,6 +1,6 @@
-/*	
- * ConnectedSetFunctionElement.java 
- * 
+/*
+ * ConnectedSetFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -27,7 +27,7 @@ import org.jgrapht.alg.ConnectivityInspector;
 
 /**
  * Computes the connected set of a vertex in a graph.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -37,11 +37,11 @@ public class ConnectedSetFunctionElement extends FunctionElement {
 	final ConnectivityInspectorCache inspectorCache;
 
 	public static final String FUNCTION_NAME = "connectedSet";
-	
+
 	public ConnectedSetFunctionElement(ConnectivityInspectorCache inspectorCache) {
 		this.inspectorCache = inspectorCache;
 	}
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -58,20 +58,20 @@ public class ConnectedSetFunctionElement extends FunctionElement {
 
 	@Override
 	public Element getValue(List<? extends Element> args) {
-		if (!(args.size() == 2 && args.get(0) instanceof GraphElement)) 
+		if (!(args.size() == 2 && args.get(0) instanceof GraphElement))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		Graph<Element, Element> g = ((GraphElement)args.get(0)).getGraph();
 		Element v = args.get(1);
-		
+
 		ConnectivityInspector<Element, Element> inspector = inspectorCache.getInspector(g);
-				
+
 		if (inspector != null) {
 			Set<Element> conSet = inspector.connectedSetOf(v);
 			if (conSet != null)
 				return new SetElement(conSet);
 		}
-		
+
 		return Element.UNDEF;
 	}
 

@@ -25,15 +25,15 @@ public class AddEndifProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public AddEndifProposal(int nodeOffset) {
 		this(nodeOffset, null, null, null);
 	}
-	
+
 	public AddEndifProposal(int nodeOffset, Image image) {
 		this(nodeOffset, image, null, null);
 	}
-	
+
 	public AddEndifProposal(int nodeOffset, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.nodeOffset = nodeOffset;
 		this.image = image;
@@ -58,10 +58,10 @@ public class AddEndifProposal implements ICompletionProposal {
 		} catch (BadLocationException e) {
 		}
 	}
-		
+
 	private ConditionalRuleNode getNodeOfOffset(ASMDocument document, int offset) {
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
-		
+
 		for (ASTNode declarationNode = ((ASTNode)document.getRootnode()).getFirst(); declarationNode != null; declarationNode = declarationNode.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(declarationNode.getGrammarClass())) {
 				if (Kernel.GR_RULEDECLARATION.equals(declarationNode.getGrammarRule())

@@ -12,7 +12,7 @@ import org.coreasm.compiler.components.classlibrary.MemoryInclude;
 public class UniverseEntry extends MemoryInclude {
 	private String name;
 	private String[] elements;
-	
+
 	/**
 	 * Creates a new universe entry
 	 * @param name The name of the final universe
@@ -27,7 +27,7 @@ public class UniverseEntry extends MemoryInclude {
 
 	protected String buildContent(String entryName) {
 		String result = "";
-		
+
 		result = "package " + getPackage(entryName) + ";\n"
 				+ "public class " + name + " extends " + runtimePkg() + ".UniverseElement{\n"
 						+ "public " + name + "(){\n";
@@ -39,12 +39,12 @@ public class UniverseEntry extends MemoryInclude {
 			result += "this.setValue(e, " + runtimePkg() + ".BooleanElement.TRUE);\n";
 			result += "f = new " + runtimePkg() + ".MapFunction();\n";
 			result += "f.setValue(" + runtimePkg() + ".ElementList.NO_ARGUMENT, e);\n";
-			result += "f.setFClass(" + runtimePkg() + ".FunctionElement.FunctionClass.fcStatic);\n";           
+			result += "f.setFClass(" + runtimePkg() + ".FunctionElement.FunctionClass.fcStatic);\n";
 			result += engine.getPath().runtimeProvider() + ".getStorage().addFunction(\"" + s + "\", f);\n";
 		}
 		result += "}catch(Exception exc){\nthrow new Error(\"initialization failed\");\n}\n";
 		result += "}\n}\n";
-		
+
 		return result;
 	}
 }

@@ -17,7 +17,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  *
  */
 public class KernelCoreHandler implements CompilerCodeHandler {
-	
+
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
@@ -44,7 +44,7 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 			throw new CompilerException(
 					"Couldn't find id node for init rule");
 
-		
+
 		// request basic code for all other nodes
 		for (ASTNode child : children) {
 			engine.compile(child, CodeType.BASIC);

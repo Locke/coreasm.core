@@ -30,15 +30,15 @@ public class MarkAsLocalProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public MarkAsLocalProposal(String name, int identifierOffset) {
 		this(name, identifierOffset, null, null, null);
 	}
-	
+
 	public MarkAsLocalProposal(String name, int identifierOffset, Image image) {
 		this(name, identifierOffset, image, null, null);
 	}
-	
+
 	public MarkAsLocalProposal(String name, int identifierOffset, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.name = name;
 		this.identifierOffset = identifierOffset;
@@ -68,18 +68,18 @@ public class MarkAsLocalProposal implements ICompletionProposal {
 				ASTNode ruleBody = node.getFirst().getNext();
 				int offset = asmDocument.getNodePosition(ruleBody);
 				String localBlock = "local " + name + " in ";
-				
+
 				document.replace(offset, 0, localBlock);
-				
+
 				selection = new Point(offset + localBlock.length(), 0);
 			}
 		} catch (BadLocationException e) {
 		}
 	}
-		
+
 	private ASTNode getNodeOfOffset(ASMDocument document, int offset) {
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
-		
+
 		for (ASTNode declarationNode = ((ASTNode)document.getRootnode()).getFirst(); declarationNode != null; declarationNode = declarationNode.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(declarationNode.getGrammarClass())) {
 				if (Kernel.GR_RULEDECLARATION.equals(declarationNode.getGrammarRule())

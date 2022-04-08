@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
  * Shows a brief help window.
- * 
+ *
  */
 public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
@@ -62,11 +62,11 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 
 //            Browser browser = new Browser(shell,SWT.SHELL_TRIM);
 //            browser.setText("<HTML><HEAD><TITLE>CoreASM Help</TITLE></HEAD><BODY>KLF</BODY></HTML>");
-            
-            ScrolledComposite c = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);            
+
+            ScrolledComposite c = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
             Text t = new Text(c, SWT.MULTI|SWT.WRAP|SWT.READ_ONLY);
             StringBuffer text = new StringBuffer();
-            
+
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(root+"data/CoreASMHelp.dat"));
                 String line = reader.readLine();
@@ -83,7 +83,7 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
                         e.getMessage());
             }
             t.setText(text.toString());
-           
+
             t.setBackground(new Color(display,255,255,255));
             c.setContent(t);
             c.setExpandHorizontal(true);
@@ -106,9 +106,9 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	/**
-	 * Selection in the workbench has been changed. We 
+	 * Selection in the workbench has been changed. We
 	 * can change the state of the 'real' action here
-	 * if we want, but this can only happen after 
+	 * if we want, but this can only happen after
 	 * the delegate has been created.
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */

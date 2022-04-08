@@ -11,11 +11,11 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 
-/** 
+/**
  * Function element providing the 'zipwith' function.
- *   
+ *
  * @author Michael Stegmaier
- * 
+ *
  */
 public class ZipWithFunctionElement extends ListFunctionElement {
 
@@ -38,7 +38,7 @@ public class ZipWithFunctionElement extends ListFunctionElement {
 	public Signature getSignature() {
 		return signature;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
 	 */
@@ -59,7 +59,7 @@ public class ZipWithFunctionElement extends ListFunctionElement {
 	 * @param list0
 	 * @param list1
 	 * @param f
-	 * 
+	 *
 	 * @return list
 	 */
 	private List<? extends Element> zipWith(List<? extends Element> list0, List<? extends Element> list1, FunctionElement f) {

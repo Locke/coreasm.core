@@ -1,14 +1,14 @@
-/*	
+/*
  * ExtendedFunctionRuleTermNode.java
- * 
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.kernelextensions;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  *	This is an {@link ASTNode} for extended rule call nodes.
- *   
+ *
  *  @author  Roozbeh Farahbod
  */
 
@@ -42,14 +42,14 @@ public class ExtendedRuleCallNode extends ASTNode {
     public ExtendedRuleCallNode(ExtendedRuleCallNode node) {
     	super(node);
     }
-    
+
     /**
      * Returns the node representing the basic function-rule term
      */
     public ASTNode getTerm() {
         return getFirst();
     }
-    
+
     /**
 	 * Returns the list of arguments in a <code>List</code> object.
 	 * This method caches the result of its first call, assuming that
@@ -62,7 +62,7 @@ public class ExtendedRuleCallNode extends ASTNode {
 				argsList = Collections.emptyList();
 			else {
 				argsList = new ArrayList<ASTNode>();
-				for (Node n: args) 
+				for (Node n: args)
 					if (n instanceof ASTNode)
 						argsList.add((ASTNode)n);
 			}
@@ -70,5 +70,5 @@ public class ExtendedRuleCallNode extends ASTNode {
 
 		return argsList;
 	}
-	
+
 }

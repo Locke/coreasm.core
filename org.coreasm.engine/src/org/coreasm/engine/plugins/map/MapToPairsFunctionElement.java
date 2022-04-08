@@ -1,6 +1,6 @@
-/*	
+/*
  * MapToPairsFunctionElement.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.map;
 
 import java.util.HashSet;
@@ -26,18 +26,18 @@ import org.coreasm.engine.plugins.list.ListElement;
 import org.coreasm.engine.plugins.set.SetBackgroundElement;
 import org.coreasm.engine.plugins.set.SetElement;
 
-/** 
+/**
  * A function that creates a collection of pairs from map elements.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class MapToPairsFunctionElement extends FunctionElement {
-	
+
 	public static final String NAME = "mapToPairs";
-	
+
 	protected Signature signature = null;
-	
+
 	public MapToPairsFunctionElement() {
 		setFClass(FunctionClass.fcDerived);
 	}
@@ -49,7 +49,7 @@ public class MapToPairsFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!checkArguments(args))
 			throw new CoreASMError("Illegal arguments for " + NAME + ".");
-		
+
 		final MapElement m = (MapElement)args.get(0);
 		final Set<Element> set = new HashSet<Element>();
 		for (Entry<Element, Element> e: m.getMap().entrySet())
@@ -66,7 +66,7 @@ public class MapToPairsFunctionElement extends FunctionElement {
 		}
 		return signature;
 	}
-	
+
 	/*
 	 * Checks the arguments of the function
 	 */

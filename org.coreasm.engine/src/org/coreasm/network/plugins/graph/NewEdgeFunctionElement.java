@@ -1,6 +1,6 @@
-/*	
- * NewEdgeFunctionElement.java 
- * 
+/*
+ * NewEdgeFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -22,7 +22,7 @@ import org.coreasm.engine.absstorage.Signature;
 
 /**
  * A function element that creates new edges.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */

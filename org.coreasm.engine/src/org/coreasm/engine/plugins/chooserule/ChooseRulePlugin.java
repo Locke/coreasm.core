@@ -1,8 +1,8 @@
-/*	
+/*
  * ChooseRulePlugin.java 	1.0 	$Revision: 243 $
  *
  * Last modified on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $ by $Author: rfarahbod $
- * 
+ *
  * Copyright (C) 2006 George Ma
  * Copyright (c) 2007 Roozbeh Farahbod
  *
@@ -11,7 +11,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.chooserule;
 
 import java.util.ArrayList;
@@ -48,37 +48,37 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Tools;
 
-/** 
+/**
  *	Plugin for choose rule
- *   
+ *
  *  @author  George Ma, Roozbeh Farahbod
- *  
+ *
  */
 public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 3, "");
-	
+
 	public static final String PLUGIN_NAME = ChooseRulePlugin.class.getSimpleName();
-	
+
 	protected static final String GUARD_NAME = "guard";
 	protected static final String DO_RULE_NAME = "dorule";
 	protected static final String IFNONE_RULE_NAME = "ifnonerule";
 
 	private final String[] keywords = {"choose", "pick", "with", "in", "do", "ifnone", "endchoose"};
 	private final String[] operators = {};
-	
+
     private ThreadLocal<Map<Node,Iterator<Element>>> iterators;
 
     private Map<String, GrammarRule> parsers;
-    
+
     private final CompilerPlugin compilerPlugin = new CompilerChooseRulePlugin(this);
-    
+
     @Override
     public CompilerPlugin getCompilerPlugin(){
     	return compilerPlugin;
     }
-    
+
     @Override
     public void initialize() {
         iterators = new ThreadLocal<Map<Node, Iterator<Element>>>() {
@@ -92,7 +92,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     private Map<Node, Iterator<Element>> getIteratorMap() {
     	return iterators.get();
     }
-    
+
 	@Override
 	public void setControlAPI(ControlAPI capi) {
 		super.setControlAPI(capi);
@@ -101,7 +101,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -121,16 +121,16 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
-			
+
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
 			Parser<Node> guardParser = kernel.getGuardParser();
-			
+
 			ParserTools npTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = npTools.getIdParser();
-			
+
 			// ChooseRule : 'choose' ID 'in' Term (',' ID 'in' Term)* ('with' Guard)? 'do' Rule ('ifnone' Rule)? ('endchoose')?
 			Parser<Node> chooseRuleParser = Parsers.array(
 					npTools.getKeywParser("choose", PLUGIN_NAME),
@@ -141,16 +141,16 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 							npTools.getKeywParser("with", PLUGIN_NAME),
 							guardParser).optional(null),
 					npTools.getKeywParser("do", PLUGIN_NAME),
-					ruleParser, 
+					ruleParser,
 					npTools.seq(
 							npTools.getKeywParser("ifnone", PLUGIN_NAME),
 							ruleParser).optional(null),
 					npTools.getKeywParser("endchoose", PLUGIN_NAME).optional(null)).map(
 					new ChooseParseMap());
-			parsers.put("Rule", 
+			parsers.put("Rule",
 					new GrammarRule("Rule",
 							"'choose' ID 'in' Term (',' ID 'in' Term)* ('with' Guard)? 'do' Rule ('ifnone' Rule)? ('endchoose')?", chooseRuleParser, this.getName()));
-			
+
 
 			// PickExp: 'pick' ID 'in' Term 'with' Term
 			Parser<Node> pickExpParser = Parsers.array(
@@ -172,11 +172,11 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 						}
 			} );
 			parsers.put("PickExp",
-					new GrammarRule("PickExp", 
+					new GrammarRule("PickExp",
 							"'pick' ID 'in' Term 'with' Term", pickExpParser, PLUGIN_NAME));
-			
+
 			// ChooseRuleBasicTerm : PickExp
-			parsers.put("BasicTerm", 
+			parsers.put("BasicTerm",
 					new GrammarRule("ChooseRuleBasicTerm", "PickExp",
 							pickExpParser, PLUGIN_NAME));
 		}
@@ -184,33 +184,33 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	}
 
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-        
+
         if (pos instanceof ChooseRuleNode) {
             ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
             // Here, we follow the specification of the choose rule
             // and for a more readable code, we clearly distinguish between various
             // forms of choose
-            
-            // CASE 1. 'choose X in E do R'  
-            if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() == null) 
+
+            // CASE 1. 'choose X in E do R'
+            if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() == null)
             	return interpretChooseRule_NoCondition_NoIfnone(interpreter, pos);
-   
+
             // CASE 2. 'choose X in E do R1 ifnone R2'
             if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() != null)
             	return interpretChooseRule_NoCondition_WithIfnone(interpreter, pos);
-     
-            // CASE 3. 'choose X in E with C do R'  
-            if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() == null) 
+
+            // CASE 3. 'choose X in E with C do R'
+            if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() == null)
             	return interpretChooseRule_WithCondition_NoIfnone(interpreter, pos);
-   
+
             // CASE 4. 'choose X in E with C do R1 ifnone R2'
             if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() != null)
             	return interpretChooseRule_WithCondition_WithIfnone(interpreter, pos);
         }
         else if (pos instanceof PickExpNode) {
         	PickExpNode node = (PickExpNode)pos;
-        	
-        	if (node.getCondition() == null) 
+
+        	if (node.getCondition() == null)
         		return interpretPickExpression_NoCondition(interpreter, node);
         	else
         		return interpretPickExpression_WithCondition(interpreter, node);
@@ -226,7 +226,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             // pos := beta
             return node.getDomain();
         }
-        
+
     	// if domain 'E' is evaluated, but rule 'R' is not evaluated
     	else if (node.getDomain().getValue() instanceof Enumerable) {
         	// s := enumerate(v)
@@ -251,15 +251,15 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             capi.error("Cannot pick from " + Tools.sizeLimit(node.getDomain().getValue().denotation()) + ". " +
             		"Pick domain should be an enumerable element.", node.getDomain(), interpreter);
         }
-    	
+
     	return node;
     }
-    
+
     private ASTNode interpretPickExpression_WithCondition(Interpreter interpreter, PickExpNode node) {
         String x = node.getVariable().getToken();
-        
+
         Map<Node, Iterator<Element>> iterators = getIteratorMap();
-        
+
 		// if domain 'E' is not evaluated
         if (!node.getDomain().isEvaluated()) {
             // considered(beta) := {}
@@ -312,13 +312,13 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
                 capi.error("Value of pick condition is not Boolean.", node.getCondition(), interpreter);
                 return node;
             }
-            
+
             if (value) {
             	Element picked = interpreter.getEnv(x);
                 // RemoveEnv(x)
                 interpreter.removeEnv(x);
                 iterators.remove(node.getDomain());
-                
+
                 // [pos] := (undef,undef, value)
                 node.setNode(null, null, picked);
                 return node;
@@ -332,17 +332,17 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
                 return node.getDomain();
             }
     	}
-        
+
         return node;
     }
-    
+
 	/*
      * Interpreting rule of the form: 'choose x in E do R'
      */
 	private ASTNode interpretChooseRule_NoCondition_NoIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<String, ASTNode> variableMap;
-        
+
         try {
         	variableMap = chooseNode.getVariableMap();
         }
@@ -350,13 +350,13 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         	capi.error(e);
         	return pos;
         }
-        
+
         // evaluate all domains
         for (ASTNode domain : variableMap.values()) {
         	if (!domain.isEvaluated())
         		return domain;
         }
-        
+
     	// if rule is not evaluated
     	if (!chooseNode.getDoRule().isEvaluated()) {
     		boolean none = false;
@@ -367,7 +367,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	    			List<Element> s;
 	    			if (domain.supportsIndexedView())
 	    				s = domain.getIndexedView();
-	    			else 
+	    			else
 	    				s = new ArrayList<Element>(domain.enumerate());
 	                if (!s.isEmpty()) {
 	                    // choose t in s
@@ -397,7 +397,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     		// pos := gamma
             return chooseNode.getDoRule();
     	}
-    	
+
     	// if rule 'R' is evaluated as well
     	else {
             // RemoveEnv(x)
@@ -409,14 +409,14 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     	}
 	}
 
-	
+
 	/*
      * Interpreting rule of the form: 'choose x in E do R1 ifnone R2'
      */
     private ASTNode interpretChooseRule_NoCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<String, ASTNode> variableMap;
-        
+
         try {
         	variableMap = chooseNode.getVariableMap();
         }
@@ -424,15 +424,15 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         	capi.error(e);
         	return pos;
         }
-        
+
         // evaluate all domains
         for (ASTNode domain : variableMap.values()) {
         	if (!domain.isEvaluated())
         		return domain;
         }
-        
+
     	// if neither of the rules 'R1' or 'R2' are evaluated
-    	if (!chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) { 
+    	if (!chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
     		boolean none = false;
     		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
 	    		if (variable.getValue().getValue() instanceof Enumerable) {
@@ -441,7 +441,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	    			List<Element> s;
 	    			if (domain.supportsIndexedView())
 	    				s = domain.getIndexedView();
-	    			else 
+	    			else
 	    				s = new ArrayList<Element>(domain.enumerate());
 	                if (!s.isEmpty()) {
 	                    // choose t in s
@@ -472,7 +472,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             return chooseNode.getDoRule();
     	}
 
-    	// if rule 'R1' is evaluated 
+    	// if rule 'R1' is evaluated
     	else if (chooseNode.getDoRule().isEvaluated()) {
             // RemoveEnv(x)
     		for (String x : variableMap.keySet())
@@ -481,7 +481,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
             return pos;
     	}
-    	
+
     	// if rule 'R2' is evaluated
     	else {
             // [pos] := (undef,u,undef)
@@ -498,7 +498,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<Node, Iterator<Element>> iterators = getIteratorMap();
         Map<String, ASTNode> variableMap;
-        
+
         try {
         	variableMap = chooseNode.getVariableMap();
         }
@@ -506,7 +506,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         	capi.error(e);
         	return pos;
         }
-        
+
         // evaluate all domains
         for (ASTNode domain : variableMap.values()) {
         	if (!domain.isEvaluated()) {
@@ -516,7 +516,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         		return domain;
         	}
         }
-        
+
     	// if condition 'C' is not evaluated
     	if (!chooseNode.getCondition().isEvaluated())
     		return chooseVariableValues_WithCondition(chooseNode, iterators, variableMap, interpreter);
@@ -531,7 +531,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
                 capi.error("Value of choose condition is not Boolean.", chooseNode.getCondition(), interpreter);
                 return pos;
             }
-            
+
             if (value) {
                 // pos := delta
                 return chooseNode.getDoRule();
@@ -539,11 +539,11 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             else {
                 // ClearTree(gamma)
                 interpreter.clearTree(chooseNode.getCondition());
-                
+
                 return chooseNode;
             }
     	}
-        
+
     	// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R' is evaluated
     	else {
             // RemoveEnv(x)
@@ -551,7 +551,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     			if (iterators.remove(variable.getValue()) != null)
     				interpreter.removeEnv(variable.getKey());
     		}
-            
+
             // [pos] := (undef,u,undef)
             pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
             return pos;
@@ -566,7 +566,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
         Map<Node, Iterator<Element>> iterators = getIteratorMap();
         Map<String, ASTNode> variableMap;
-        
+
         try {
         	variableMap = chooseNode.getVariableMap();
         }
@@ -574,7 +574,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
         	capi.error(e);
         	return pos;
         }
-        
+
         // evaluate all domains
         for (ASTNode domain : variableMap.values()) {
         	if (!domain.isEvaluated()) {
@@ -599,7 +599,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
                 capi.error("Value of choose condition not Boolean", chooseNode.getCondition(), interpreter);
                 return pos;
             }
-            
+
             if (value) {
                 // pos := delta
                 return chooseNode.getDoRule();
@@ -607,11 +607,11 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
             else {
                 // ClearTree(gamma)
                 interpreter.clearTree(chooseNode.getCondition());
-                
+
                 return chooseNode;
             }
     	}
-        
+
     	// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R1' is evaluated
     	else if (chooseNode.getCondition().isEvaluated() && chooseNode.getDoRule().isEvaluated()) {
             // RemoveEnv(x)
@@ -619,7 +619,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     			if (iterators.remove(variable.getValue()) != null)
     				interpreter.removeEnv(variable.getKey());
     		}
-            
+
             // [pos] := (undef,u,undef)
             pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
             return pos;
@@ -632,16 +632,16 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
     			if (iterators.remove(variable.getValue()) != null)
     				interpreter.removeEnv(variable.getKey());
     		}
-            
+
             // [pos] := (undef,u,undef)
             pos.setNode(null,chooseNode.getIfnoneRule().getUpdates(),null);
             return pos;
     	}
-        
+
         // in case of error
         return pos;
 	}
-    
+
     private ASTNode chooseVariableValues_WithCondition(ChooseRuleNode chooseNode, Map<Node, Iterator<Element>> iterators, Map<String, ASTNode> variableMap, Interpreter interpreter) {
     	// pos := gamma
     	ASTNode pos = chooseNode.getCondition();
@@ -720,7 +720,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 
 	/**
 	 * Mapping of node elements into the the choose rule node.
-	 *   
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	public static class ChooseParseMap extends ParserTools.ArrayParseMap {
@@ -739,7 +739,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 			addChildren(node, v);
 			return node;
 		}
-		
+
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode)
 				parent.addChild(nextChildName, child);

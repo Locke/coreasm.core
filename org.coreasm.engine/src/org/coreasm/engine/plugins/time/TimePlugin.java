@@ -1,6 +1,6 @@
-/*	
+/*
  * TimePlugin.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.time;
 
 import java.util.Collections;
@@ -29,29 +29,29 @@ import org.coreasm.engine.absstorage.UniverseElement;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
 
-/** 
+/**
  * Provides time-related functions.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class TimePlugin extends Plugin implements VocabularyExtender {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 3, 0, "");
-	
+
 	private final Set<String> dependencyList;
-	
+
 	private Map<String, FunctionElement> functions = null;
-	
+
 	private CompilerPlugin compilerPlugin = new CompilerTimePlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public TimePlugin() {
 		super();
@@ -61,7 +61,7 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 
 	/**
 	 * Creates necessary functions.
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
 	@Override
@@ -126,5 +126,5 @@ public class TimePlugin extends Plugin implements VocabularyExtender {
 		return VERSION_INFO;
 	}
 
-	
+
 }

@@ -17,7 +17,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
 	 */
 	public void initializeDefaultPreferences() {
@@ -31,13 +31,13 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		} catch (IOException e) {
 			store.setDefault(PreferenceConstants.ROOT_FOLDER, Tools.getRootFolder());
 		}
-		
+
 		store.setDefault(PreferenceConstants.ADDITIONAL_PLUGINS_FOLDERS, "");
 
 		store.setDefault(PreferenceConstants.MAX_PROCESSORS, 1);
 
-		/*		
-		
+		/*
+
 		store.setDefault(PreferenceConstants.P_BOOLEAN, true);
 		store.setDefault(PreferenceConstants.P_CHOICE, "choice2");
 		store.setDefault(PreferenceConstants.P_STRING,

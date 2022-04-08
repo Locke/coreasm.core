@@ -4,7 +4,7 @@ use Standard
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	par
 		forall i in [1..8] do
 			r(i) := 0
@@ -14,9 +14,9 @@ rule InitRule =
 		program(self) := @Main
 	endpar
 
-rule Main = 
+rule Main =
 	par
-		if mode = 1 then 
+		if mode = 1 then
 		par
 			choose x in {1, -1} do
 				r(1) := r(1) + x
@@ -39,9 +39,9 @@ rule Main =
 			choose x in [21..30] with x = 23 do
 				r(6) := x
 
-			choose x in {} do 
+			choose x in {} do
 				r(7) := 1000
-			ifnone 
+			ifnone
 				r(7) := 100
 
 			choose x in [41..50] with x = 61 do
@@ -52,10 +52,10 @@ rule Main =
 			mode := 2
 		endpar
 
-		if mode = 2 then 
+		if mode = 2 then
 		par
 
-			if (r(1) > 10) or (r(2) != 7) or (r(3) != 0) or (r(4) != 0) or 
+			if (r(1) > 10) or (r(2) != 7) or (r(3) != 0) or (r(4) != 0) or
 					(r(5) > 50) or (r(6) != 23) or (r(7) != 100) or (r(8) != 100) then
 				print "Problem?"
 			else

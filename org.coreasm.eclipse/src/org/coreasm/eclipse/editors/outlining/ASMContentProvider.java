@@ -38,7 +38,7 @@ import org.eclipse.ui.progress.UIJob;
 public class ASMContentProvider implements ITreeContentProvider
 {
 	private final static String AST_POSITIONS = "__ast_position";
-	
+
 	private final IPositionUpdater positionUpdater = new DefaultPositionUpdater(AST_POSITIONS);
 	private HashMap<ASMEditor, Observer> observers = new HashMap<ASMEditor, Observer>();
 	private ASMOutlineTreeNode root;
@@ -47,27 +47,27 @@ public class ASMContentProvider implements ITreeContentProvider
 	private boolean displayGroups = true;
 	private boolean displaySorted = false;
 	private StructuredViewer viewer;
-	
+
 	static {
 		Utilities.addOutlineContentProvider(new StandardOutlineContentProvider());
 	}
-	
+
 	public void setDisplaySorted(boolean displaySorted) {
 		this.displaySorted = displaySorted;
 	}
-	
+
 	public void setDisplayGroups(boolean displayGroups) {
 		this.displayGroups = displayGroups;
 	}
-	
+
 	public boolean isDisplaySorted() {
 		return displaySorted;
 	}
-	
+
 	public boolean isDisplayStructured() {
 		return displayGroups;
 	}
-	
+
 	@Override
 	public void dispose() {
 		for (Entry<ASMEditor, Observer> entry : observers.entrySet()) {
@@ -76,13 +76,13 @@ public class ASMContentProvider implements ITreeContentProvider
 				parser.deleteObserver(entry.getValue());
 		}
 	}
-	
+
 	private ASMEditor getEditor(Object input) {
 		ASMEditor editor = (ASMEditor)Utilities.getEditor(input);
 		registerEditor(input);
 		return editor;
 	}
-	
+
 	private void registerEditor(final Object input) {
 		IEditorPart editor = Utilities.getEditor(input);
 		if (editor instanceof ASMEditor) {
@@ -90,11 +90,11 @@ public class ASMContentProvider implements ITreeContentProvider
 			Observer observer = observers.get(editor);
 			if (observer == null) {
 				observer = new Observer() {
-					
+
 					@Override
 					public void update(Observable o, Object arg) {
 						new UIJob("Updating Outline") {
-							
+
 							@Override
 							public IStatus runInUIThread(IProgressMonitor monitor) {
 								if (viewer != null && !viewer.getControl().isDisposed())
@@ -109,13 +109,13 @@ public class ASMContentProvider implements ITreeContentProvider
 			}
 		}
 	}
-	
+
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (viewer != this.viewer) {
 			this.viewer = (StructuredViewer)viewer;
 			this.viewer.addOpenListener(new IOpenListener() {
-				
+
 				@Override
 				public void open(OpenEvent event) {
 					ISelection selection = event.getSelection();
@@ -124,7 +124,7 @@ public class ASMContentProvider implements ITreeContentProvider
 				}
 			});
 			this.viewer.addDoubleClickListener(new IDoubleClickListener() {
-				
+
 				@Override
 				public void doubleClick(DoubleClickEvent event) {
 					ISelection selection = event.getSelection();
@@ -163,7 +163,7 @@ public class ASMContentProvider implements ITreeContentProvider
 				}
 			}
 		}
-		
+
 		if (newInput != null) {
 			ASMEditor editor = getEditor(newInput);
 			if (editor != null) {
@@ -190,15 +190,15 @@ public class ASMContentProvider implements ITreeContentProvider
 				groupedRoot.setParentFile(parent);
 			}
 		}
-		
+
 		root = (displayGroups ? groupedRoot : ungroupedRoot);
-		
+
 		if (root == null)
 			return new Object[] { ASMOutlineTreeNode.UNAVAILABLE_NODE };
-		
+
 		if (node == null)
 			return new Object[] { ASMOutlineTreeNode.OUTDATED_NODE, root };
-		
+
 		return new Object[] { root };
 	}
 
@@ -208,14 +208,14 @@ public class ASMContentProvider implements ITreeContentProvider
 			return getElements(parentElement);
 		if (!(parentElement instanceof ASMOutlineTreeNode))
 			return new Object[0];
-		
+
 		ASMOutlineTreeNode parentNode = (ASMOutlineTreeNode) parentElement;
-		
+
 		if (!parentNode.hasChildren())
 			return new Object[0];
-		
+
 		List<ASMOutlineTreeNode> list = parentNode.getChildren();
-		
+
 		if (displaySorted)
 			Collections.sort(list);
 
@@ -241,11 +241,11 @@ public class ASMContentProvider implements ITreeContentProvider
 		ASMOutlineTreeNode node = (ASMOutlineTreeNode)element;
 		return node.hasChildren();
 	}
-	
+
 	private ASMOutlineTreeNode createStructuredTree(ASTNode node) {
 		return createStructuredTree(new ASMOutlineTreeNode(node));
 	}
-	
+
 	private ASMOutlineTreeNode createStructuredTree(ASMOutlineTreeNode node) {
 		if (!node.hasChildren())
 			return node;

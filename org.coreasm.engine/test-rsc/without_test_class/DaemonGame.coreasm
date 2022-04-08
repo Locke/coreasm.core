@@ -1,6 +1,6 @@
 /**
  * Daemon Game
- * A CoreASM Specification based on Turner's daemon game 
+ * A CoreASM Specification based on Turner's daemon game
  * presented in the ASM Book.
  *
  * Roozbeh Farahbod, Sep 2006
@@ -31,7 +31,7 @@ init InitRule
 /**
  * This rule initializes the state
  */
-rule InitRule = 
+rule InitRule =
 	par
 	    lastPlayId := 0
 		envMode := 0
@@ -40,16 +40,16 @@ rule InitRule =
 		Agents(self) := false
 		forall u in USER do userPlays(u) := {}
 	endpar
- 
+
 /**
  * This is the main Daemon Game program
  */
-rule DaemonGame = 
+rule DaemonGame =
 	seq
 		GetEnvironmentInput
 	next par
 		forall usr in USER do NewGame(usr)
-		forall p in PLAY do 
+		forall p in PLAY do
 			par
 				Probe(p)
 				Result(p)
@@ -66,7 +66,7 @@ rule GetEnvironmentInput =
 		forall ou in USER do userInput(ou) := undef
 		forall op in PLAY do playInput(op) := undef
 	endpar
-	next 
+	next
 		choose u in USER do
 			if (|userPlays(u)| < 1) then par
 				// if user has no game, create one
@@ -76,13 +76,13 @@ rule GetEnvironmentInput =
 				choose p in userPlays(u) do
 					choose c in {probe, showResult} do
 						playInput(p) := c
-						
-/* New Game */	
-rule NewGame(user) = 
+
+/* New Game */
+rule NewGame(user) =
 	if (userInput(user) = newGame) and (user memberof USER) then
 		extend PLAY with p do
 			Initialize(p, user)
-			
+
 /* Initialize Play */
 rule Initialize(play, user) =
 	par
@@ -97,7 +97,7 @@ rule Initialize(play, user) =
 rule EndGame(play) =
 	if playInput(play) = endGame then
 		Delete(play)
-		
+
 /* Delete Play */
 rule Delete(play) =
 	let u = userOfPlay in
@@ -110,7 +110,7 @@ rule Delete(play) =
 			// removing play from PLAY
 			PLAY(play) := false
 		endpar
-	
+
 /* Probe Play */
 rule Probe(play) =
 	if playInput(play) = probe then
@@ -124,22 +124,22 @@ rule Probe(play) =
 				score(play) := score(play) - 1
 				SendMessage(userOfPlay(play), play, "loose")
 			endpar
-	
+
 /* Show Results */
 rule Result(play) =
 	if playInput(play) = showResult then
 		SendMessage(userOfPlay(play), play, "score: " + score(play))
-	
+
 /* Send Message to User */
 rule SendMessage(user, play, msg) =
 	if playId(play) = undef then
 		print "(" + user + ") ->  " + msg
 	else
 		print "(" + user + ", game #" + playId(play) + ") ->  " + msg
-	
+
 /* Random Bump */
 derived winning =
-	return value in 
+	return value in
 		choose x in BOOLEAN do
 			value := x
 
@@ -154,11 +154,11 @@ derived userOfPlay(play) =
 
 /* hallo */
 /*aspect ExtendedDaemon {
-	
+
 	enum MOOD = {good, neutral, bad}
-	
+
 	function mood: PLAY -> MOOD
-	
+
 	rule DetermineCurrentMood(play) = {
 		//todo p in Probe überdeckt p hier in choose
 		choose p0 in PLAY with p0 != play do
@@ -169,7 +169,7 @@ derived userOfPlay(play) =
 			else mood(play) := bad
 	}
 
-	*/	
+	*/
 	/* initialize player's mood */
 	/*
 	advice InitUser(play) before : call("Initialize") and args(play, _) {
@@ -178,11 +178,11 @@ derived userOfPlay(play) =
 	*/
 	/* compute and show player's cuurent mood */
 	/*
-	advice ShowMood(play) after : cflow(call("Probe")) and call("S[a-z]*Message") 
+	advice ShowMood(play) after : cflow(call("Probe")) and call("S[a-z]*Message")
 		and	args(_, play, _) {
 		seq
 			DetermineCurrentMood(play)
 		next
-			print userOfPlay(play) + " feels " + mood(play) 
+			print userOfPlay(play) + " feels " + mood(play)
 	}
 }*/

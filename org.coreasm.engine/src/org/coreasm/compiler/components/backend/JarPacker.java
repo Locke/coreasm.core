@@ -21,7 +21,7 @@ import org.coreasm.compiler.exception.CompilerException;
  * @author Markus Brenner
  *
  */
-public class JarPacker {	
+public class JarPacker {
 	/**
 	 * Packs the contents of the temporary directory as an executable jar archive.
 	 * Assumes that all needed code files reside in the temporary directory or
@@ -56,7 +56,7 @@ public class JarPacker {
 				}
 		}
 	}
-	
+
 	/**
 	 * Adds a file to the jar archive specified via the JarOutputStream
 	 * @param source The file to be added
@@ -76,7 +76,7 @@ public class JarPacker {
 	    			target.putNextEntry(entry);
 	    			target.closeEntry();
 	    		}
-		    	
+
 	    		for (File nestedFile: source.listFiles()){
 	    			addFile(nestedFile, target, options);
 	    		}
@@ -86,12 +86,12 @@ public class JarPacker {
 			    entry.setTime(source.lastModified());
 			    target.putNextEntry(entry);
 			    in = new BufferedInputStream(new FileInputStream(source));
-	
+
 			    byte[] buffer = new byte[1024];
 			    while (true){
 			    	int count = in.read(buffer);
 			    	if (count == -1) break;
-			    	
+
 			    	target.write(buffer, 0, count);
 			    }
 			    target.closeEntry();

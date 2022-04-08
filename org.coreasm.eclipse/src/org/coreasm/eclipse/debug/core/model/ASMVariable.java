@@ -18,7 +18,7 @@ public class ASMVariable extends ASMDebugElement implements IVariable {
 	private String name;
 	private IValue value;
 	private boolean valueChanged;
-	
+
 	public ASMVariable(ASMStackFrame frame, String name, FunctionElement function, IValue value, boolean valueChanged) {
 		this(frame, name, value, valueChanged);
 		this.function = function;

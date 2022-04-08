@@ -19,7 +19,7 @@ public class CodeWrapperEntry extends MemoryInclude {
 	private CodeFragment body;
 	private String name;
 	private String responsible;
-	
+
 	private CodeWrapperEntry(CodeFragment body, String responsible, CompilerEngine engine){
 		super(engine, "codewrapper_" + count, "Kernel", LibraryEntryType.STATIC);
 		this.body = body;
@@ -27,7 +27,7 @@ public class CodeWrapperEntry extends MemoryInclude {
 		count++;
 		this.responsible = responsible;
 	}
-	
+
 	/**
 	 * Builds a new code wrapper.
 	 * The code wrapper is inserted into the class library and a new {@link CodeFragment} is returned.
@@ -47,12 +47,12 @@ public class CodeWrapperEntry extends MemoryInclude {
 		catch(EntryAlreadyExistsException e){
 			throw new CompilerException(e);
 		}
-		
+
 		String name = engine.getPath().pluginStaticPkg() + ".Kernel." + repl.name;
 		CodeFragment coderes = new CodeFragment("");
 		coderes.appendLine("@decl(" + name + ", tmp) = new " + name + "(evalStack, localStack, ruleparams, getUpdateResponsible());\n");
 		coderes.appendLine("@tmp@.eval();\n");
-		
+
 		return coderes;
 	}
 
@@ -84,9 +84,9 @@ public class CodeWrapperEntry extends MemoryInclude {
 			throw new LibraryEntryException(e);
 		}
 		result += "//end of generated content\n";
-		result += "}\n";		
 		result += "}\n";
-		
+		result += "}\n";
+
 		return result;
 	}
 

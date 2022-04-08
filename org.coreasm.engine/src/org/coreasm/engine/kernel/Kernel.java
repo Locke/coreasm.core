@@ -1,13 +1,13 @@
-/*	
+/*
  * Kernel.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2005 George Ma
  * Copyright (C) 2005 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -64,14 +64,14 @@ import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.PluginServiceInterface;
 import org.coreasm.engine.plugin.VocabularyExtender;
 
-/** 
+/**
  * Provides essential services to Kernel.
- *   
+ *
  * @author  George Ma and Roozbeh Farahbod
- * 
+ *
  */
 
-public class Kernel extends Plugin 
+public class Kernel extends Plugin
 		implements VocabularyExtender, Aggregator, OperatorProvider, ParserPlugin, PluginServiceInterface {
 
 
@@ -98,37 +98,37 @@ public class Kernel extends Plugin
 	public static final String GR_EXPRESSION = "Expression";
 	public static final String GR_TERM = "Term";
 	public static final String GR_GUARD = "Guard";
-	
+
 	/** keywords */
 	public static final String KW_COREASM = "CoreASM";
 	public static final String KW_USE = "use";
 	public static final String KW_INIT = "init";
-	public static final String KW_SKIP = "skip"; 
+	public static final String KW_SKIP = "skip";
 	public static final String KW_TRUE = "true";
 	public static final String KW_FALSE = "false";
 	public static final String KW_UNDEF = "undef";
 	public static final String KW_SELF = "self";
 	public static final String KW_RULEELEMENT = "ruleelement";
 	public static final String KW_NOSIGNATURE = "nosignature";
-    
+
 	/** operators */
 	public static final String OP_RULE_OR_FUNCTION_ELEMENT = "@";
     private static final String EQUALITY_OP = "=";
-	
+
 	/** List of kernel parsers */
 	private Map<String, GrammarRule> parsers = null;
-	
+
 	private final Set<String> universeNames;
 	private final Set<String> backgroundNames;
 	private Map<String, FunctionElement> functions = null;
 	private Map<String, UniverseElement> universes = null;
-	
+
 	private Map<String,BackgroundElement> backgroundElements = null;
 	private Map<String,RuleElement> ruleElements = null;
-	
+
     /** List of update actions provided by this plugin (empty). */
     public static final String[] UPDATE_ACTIONS = {};
-    
+
     private Map<String, Parser<Node>> exposedParsers = null;
 
     // OLD LAZY-PARSERS FROM OLD PARSER
@@ -149,10 +149,10 @@ public class Kernel extends Plugin
     //private final Parser<Node>[] ruleSignatureParserArray = new Parser[1];
     //private final Parser<Node> ruleSignatureParser = ParserTools.lazy("RuleSignature", ruleSignatureParserArray);
 
-    private final String[] keywords = {"CoreASM", "nosignature", "use", "init", "rule", 
+    private final String[] keywords = {"CoreASM", "nosignature", "use", "init", "rule",
     		"ruleelement", "skip", "import", "do", "undef", "true", "false", "self"};
     private final String[] operators = {"=", "(", ")", ",", "@", ":=", "!!"};
-         
+
     private final Parser.Reference<Node> refTupleTermParser = Parser.newReference();
     private final Parser.Reference<Node> refRuleParser = Parser.newReference();
     private final Parser.Reference<Node> refHeaderParser = Parser.newReference();
@@ -163,10 +163,10 @@ public class Kernel extends Plugin
     private final Parser.Reference<Node> refRuleSignatureParser = Parser.newReference();
     private final Parser.Reference<Node> refBasicExprParser = Parser.newReference();
     private final Parser.Reference<Node> refRuleDeclarationParser = Parser.newReference();
-    
+
     //compiler plugin
     private final CompilerPlugin compilerPlugin = new CompilerKernelPlugin(this);
-    
+
     /**
      * Creates a new Kernel plugin.
      */
@@ -179,21 +179,21 @@ public class Kernel extends Plugin
 		backgroundNames.add(FunctionBackgroundElement.FUNCTION_BACKGROUND_NAME);
 		backgroundNames.add(RuleBackgroundElement.RULE_BACKGROUND_NAME);
     }
- 
+
 	@Override
 	public void setControlAPI(ControlAPI capi) {
 		super.setControlAPI(capi);
 	}
 
 	/**
-	 * Returns an instance of {@link KernelServices}. 
+	 * Returns an instance of {@link KernelServices}.
 	 */
 	@Override
 	public PluginServiceInterface getPluginInterface() {
 		return new KernelServices(this);
 	}
 
-	
+
 	public Set<Parser<? extends Object>> getLexers() {
 		HashSet<String> kws = new HashSet<String>();
 		HashSet<String> oprs = new HashSet<String>();
@@ -201,7 +201,7 @@ public class Kernel extends Plugin
 
        	// Getting keywords and operators from all other plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin) {
        			ParserPlugin pp = (ParserPlugin)p;
         		kws.addAll(Arrays.asList(pp.getKeywords()));
@@ -215,20 +215,20 @@ public class Kernel extends Plugin
        	String[] oprsArray = new String[0];
        	kwsArray = kws.toArray(kwsArray);
        	oprsArray = oprs.toArray(oprsArray);
-       	
+
        	ParserTools parserTools = ParserTools.getInstance(capi);
        	parserTools.init(kwsArray, oprsArray, lexers);
-       	
+
        	return lexers;
 	}
 
 	/**
-	 * Exposes some of the kernel grammar rule parsers to other plug-ins. 
+	 * Exposes some of the kernel grammar rule parsers to other plug-ins.
 	 * The following non-terminals are accepted:
 	 * <p>
 	 * Rule, Term, ConstantTerm, BasicTerm, FunctionRuleTerm,
 	 * Header, RuleSignature
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
 	public Parser<Node> getParser(String nonterminal) {
@@ -248,22 +248,22 @@ public class Kernel extends Plugin
 		return exposedParsers.get(nonterminal);
 	}
 
-	/* 
+	/*
 	 * old code
-	 * 
+	 *
     public Map<String, GrammarRule> getParsers() {
-    	
+
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 
 			// TODO this can be done in a nicer way
-			// Here we have to call getLexer() so that the 
+			// Here we have to call getLexer() so that the
 			// ParserTools also gets initialized
 			getLexers();
 
-	       	Parser<Node> delimParser = parserTools.getDelimiterParser(); 
-	    	Parser<Node> optionalDelimParser = parserTools.getOptionalDelimiterParser(); 
-	    	Parser<Node> idParser = parserTools.getIdentifierParser(); 
+	       	Parser<Node> delimParser = parserTools.getDelimiterParser();
+	    	Parser<Node> optionalDelimParser = parserTools.getOptionalDelimiterParser();
+	    	Parser<Node> idParser = parserTools.getIdentifierParser();
 	    	// CoreASM : 'CoreASM' ID ( UseClause )* ( Header )* 'init' ID
 	    	Parser<Node> coreASMParser = Parsers.mapn(new Parser[] {
 	    			optionalDelimParser,
@@ -276,31 +276,31 @@ public class Kernel extends Plugin
 	    			);
 	    	parsers.put("CoreASM", new GrammarRule("CoreASM", "'CoreASM' ID ( UseClause )*", coreASMParser, this.getName()));
 		}
-    	
+
     	return parsers;
-    	
+
     }
     */
- 	
+
     public Map<String, GrammarRule> getParsers() {
 
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 
 			ParserTools parserTools = ParserTools.getInstance(capi);
-			
+
 			// TODO this can be done in a nicer way
-			// Here we have to call getLexer() so that the 
+			// Here we have to call getLexer() so that the
 			// ParserTools also gets initialized
 			// jetzt �berfl�ssig?
 			 getLexers();
-			
+
 			// Ignore-Parser
-			//Parser<Void> ignoreParser = 
+			//Parser<Void> ignoreParser =
 			//		Parsers.or(Scanners.JAVA_LINE_COMMENT, Scanners.JAVA_BLOCK_COMMENT, Scanners.WHITESPACES).skipMany();
-			
+
 			Parser<Node> idParser = parserTools.getIdParser();
-	
+
 	    	// UseClause : 'use' ID
 	    	Parser<Node> useClauseParser = Parsers.sequence(
 	    			parserTools.getKeywParser("use", this.getName()),
@@ -324,7 +324,7 @@ public class Kernel extends Plugin
 	    	parsers.put("UseClause", new GrammarRule("UseClause", "'use' ID", useClauseParser, this.getName()));
 
 	    	createHeaderParser();
-	    	
+
 	    	// Inititialization: 'init' ID
 	    	Parser<Node> initializationParser = Parsers.sequence(
 	    			parserTools.getKeywParser("init", this.getName()),
@@ -344,11 +344,11 @@ public class Kernel extends Plugin
 							node.addChild(b);
 							return node;
 						}
-	    				
+
 	    			});
 	    	parsers.put("Initialization", new GrammarRule("Initialization", "'init' ID", initializationParser, this.getName()));
-	    	
-	    	
+
+
 	    	// RuleSignature : ID ( '(' ID (',' ID)* ')' )?
 	    	Parser<Node> rulesignParser = Parsers.array(new Parser[] {
 	    			idParser,
@@ -360,22 +360,22 @@ public class Kernel extends Plugin
 	    			}).map(new ParserTools.RuleSignatureParseMap());
 	    	refRuleSignatureParser.set(rulesignParser);
 	    	parsers.put("RuleSignature", new GrammarRule("RuleSignature", "ID ( '(' ID (',' ID)* ')' )?", refRuleSignatureParser.lazy(), this.getName()));
-	    	 
-	
+
+
 	    	// Rule : ...
 	    	createRuleParser(parsers);
-	    	
+
 	    	// RuleDeclaration : 'rule' RuleSignature '=' Rule
 	    	Parser<Node> ruleDeclarationParser = Parsers.array(new Parser[] {
 	    			parserTools.getKeywParser("rule", this.getName()),
 	    			refRuleSignatureParser.lazy(),
 	    			parserTools.getOprParser("="),
 	    			refRuleParser.lazy()}
-	    			
+
 	    			).map(new ParserTools.RuleDeclarationParseMap());
 	    	refRuleDeclarationParser.set(ruleDeclarationParser);
 	    	parsers.put("RuleDeclaration", new GrammarRule("RuleDeclaration", "'rule' RuleSignature '=' Rule", refRuleDeclarationParser.lazy(), this.getName()));
-	
+
 	    	// CoreASM : 'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*
 	    	Parser<Node> coreASMParser = Parsers.array(new Parser[] {
 	    			parserTools.getKeywParser("CoreASM", this.getName()),
@@ -390,55 +390,55 @@ public class Kernel extends Plugin
 					)
 	    			}).map(new ParserTools.CoreASMParseMap())
 	    			.followedBy(Parsers.EOF);
-	    	parsers.put("CoreASM", new GrammarRule("CoreASM", 
-	    			"'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*", 
+	    	parsers.put("CoreASM", new GrammarRule("CoreASM",
+	    			"'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*",
 	    			coreASMParser, this.getName()));
 		}
-    	
+
     	return parsers;
-    	
+
     }
-    
+
     private void createHeaderParser() {
     	List<Parser<Node>> headerParsers = new ArrayList<Parser<Node>>();
-    	
+
     	ParserTools parserTools = ParserTools.getInstance(capi);
-    	
+
     	parsers.put("Header", new GrammarRule("Header", "'nosignature'", refHeaderParser.lazy(), this.getName()));
 
     	// Header : 'nosignature'
     	headerParsers.add(parserTools.getKeywParser("nosignature", this.getName()));
-    	
+
        	// Getting header parsers from all the plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin && p != this) {
        			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Header");
        			if (gRule != null) {
        				headerParsers.add(gRule.parser);
        			}
        		}
-       	
+
        	Parser<Node> headerParser = Parsers.or(headerParsers);
        	refHeaderParser.set(headerParser);
-       	
+
     }
-    
+
     /*
-     * Creates a parser to parse ASM Rules. It gathers all 
+     * Creates a parser to parse ASM Rules. It gathers all
      * the pieces from other plug-ins and creates the Rule parser.
-     * 
+     *
      */
     private void createRuleParser(Map<String, GrammarRule> parsers) {
     	List<Parser<Node>> rules = new ArrayList<Parser<Node>>();
-    	
+
     	ParserTools parserTools = ParserTools.getInstance(capi);
     	Parser<Node> idParser = parserTools.getIdParser();
-    	
+
     	// Rule : ... // open for future extensions
-    	parsers.put("Rule", 
+    	parsers.put("Rule",
     			new GrammarRule("Rule", "", refRuleParser.lazy(), PLUGIN_NAME));
-    	
+
     	// Rule : 'skip'
     	Parser<Node> skipRuleParser = parserTools.getKeywParser("skip", PLUGIN_NAME).map(
     			new ParseMap<Node, Node>(PLUGIN_NAME) {
@@ -448,7 +448,7 @@ public class Kernel extends Plugin
 					}});
     	parsers.put("SkipRule", new GrammarRule("SkipRule", "'skip'", skipRuleParser, PLUGIN_NAME));
     	rules.add(skipRuleParser);
-    	
+
     	createTermParser(parsers);
 
        	// UpdateRule : FunctionRuleTerm ':=' Term
@@ -457,11 +457,11 @@ public class Kernel extends Plugin
        			parserTools.getOprParser(":="),
        			refTermParser.lazy()
        			).map(new UpdateRuleParseMap());
-       	parsers.put("UpdateRule", 
+       	parsers.put("UpdateRule",
        			new GrammarRule("UpdateRule",
        					"FunctionRuleTerm ':=' Term", updateRuleParser, PLUGIN_NAME));
        	rules.add(updateRuleParser);
-       	
+
        	// MacroCallRule : FunctionRuleTerm
        	Parser<Node> macroCallRule = Parsers.array(refFuncRuleTermParser.lazy()).map(
        			new ParseMap<Object[], Node>(PLUGIN_NAME) {
@@ -472,12 +472,12 @@ public class Kernel extends Plugin
 						node.addChild("alpha", (Node)vals[0]);
 						return node;
 					}
-       				
+
        			});
        	parsers.put("MacroCallRule",
        			new GrammarRule("MacroCallRule", "FunctionRuleTerm", macroCallRule, PLUGIN_NAME));
-       	
-       	// ImportRule : 'import' ID 'do' Rule 
+
+       	// ImportRule : 'import' ID 'do' Rule
        	Parser<Node> importRuleParser = Parsers.array(
 				parserTools.getKeywParser("import", PLUGIN_NAME),
 				idParser,
@@ -489,39 +489,39 @@ public class Kernel extends Plugin
 				new GrammarRule("ImportRule",
 						"'import' ID (',', ID)* 'do' Rule", importRuleParser, PLUGIN_NAME));
        	rules.add(importRuleParser);
-       	
-       	
+
+
        	// Getting rule parsers from all the plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin && p != this) {
        			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Rule");
        			if (gRule != null) {
        				rules.add(gRule.parser);
        			}
        		}
-       	
+
        	rules.add(macroCallRule);
 
        	Parser<Node> ruleParser = Parsers.longest(rules);
        	refRuleParser.set(ruleParser);
 
     }
-    
-    
+
+
     /*
      * Creates a parser to parse terms.
      */
     private Parser<Node> createTermParser(Map<String, GrammarRule> parsers) {
-    	
+
     	ParserTools parserTools = ParserTools.getInstance(capi);
     	//Parser<Node> idParser = parserTools.getIdParser();
-    	
+
     	// Term : ... // placeholder for expression to use
-       	parsers.put("Term", 
+       	parsers.put("Term",
        			new GrammarRule("Term",
        					"Expression | ExtendedTerm", refTermParser.lazy(), PLUGIN_NAME));
-    	
+
     	// TupleTerm: '(' ( Term  ( ',' Term )* )? ')'
     	Parser<Node> ttParser = Parsers.array(        //parserTools.seq(
     			parserTools.getOprParser("("),
@@ -535,13 +535,13 @@ public class Kernel extends Plugin
 
     	// FunctionRuleTerm : ID ( TupleTerm )?
        	createFunctionRuleTermParser();
-    	
+
        	// Term : Expression | ExtendedTerm
        	refTermParser.set( createExpressionParser() );
-       	
+
        	return refTermParser.lazy();
     }
-    
+
     /*
      * Creates a parser to parse function/rule terms
      */
@@ -549,7 +549,7 @@ public class Kernel extends Plugin
 
     	ParserTools parserTools = ParserTools.getInstance(capi);
     	Parser<Node> idParser = parserTools.getIdParser();
-    	
+
     	List<Parser<Node>> frterms = new ArrayList<Parser<Node>>();
     	String grammarRule = "BasicFunctionRuleTerm";
 
@@ -559,14 +559,14 @@ public class Kernel extends Plugin
        				idParser,
        				refTupleTermParser.lazy().optional(null)
        				}).map(new ParserTools.FunctionRuleTermParseMap());
-       	parsers.put("BasicFunctionRuleTerm", 
+       	parsers.put("BasicFunctionRuleTerm",
        			new GrammarRule("BasicFunctionRuleTerm",
        					"ID ( TupleTerm )?", basicFunctionRuleTermParser, PLUGIN_NAME));
        	frterms.add(basicFunctionRuleTermParser);
 
        	// Getting other function rule parsers from all other plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin && p != this) {
        			GrammarRule gRule = ((ParserPlugin)p).getParsers().get(GR_FUNCTION_RULE_TERM);
        			if (gRule != null) {
@@ -574,36 +574,36 @@ public class Kernel extends Plugin
        				grammarRule = grammarRule + " | " + gRule.name;
        			}
        		}
-       	
+
     	// FunctionRuleTerm : BasicFunctionRuleTerm | ...
        	Parser<Node> frtParser = Parsers.longest(frterms);
        	refFuncRuleTermParser.set(frtParser);
-       	
+
        	parsers.put(GR_FUNCTION_RULE_TERM,
-    			new GrammarRule(GR_FUNCTION_RULE_TERM, 
-    					grammarRule, 
+    			new GrammarRule(GR_FUNCTION_RULE_TERM,
+    					grammarRule,
     					refFuncRuleTermParser.lazy(), PLUGIN_NAME));
     }
-    
+
     /*
-     * Creates a parser to parse expressions. 
+     * Creates a parser to parse expressions.
      */
     private Parser<Node> createExpressionParser() {
     	List<Parser<Node>> exps = new ArrayList<Parser<Node>>();
-    	
+
     	ParserTools parserTools = ParserTools.getInstance(capi);
     	//Parser<Node> idParsr = parserTools.getIdParser();
-    	  	
+
     	// Expression : ... // Open for future extensions
     	Parser.Reference<Node> refExpParser = Parser.newReference();
-    	
+
     	Parser<Node> funcRuleTermParser = parsers.get("FunctionRuleTerm").parser;
-    	
+
     	// Guard : Term
     	Parser<Node> guardParser = refTermParser.lazy();
-    	parsers.put("Guard", 
+    	parsers.put("Guard",
     			new GrammarRule("Guard", "Term", guardParser, PLUGIN_NAME));
-    	
+
     	// KernelTerms : 'undef' | 'self'
     	Parser<Node> kernelTermsParser = Parsers.or(
     			parserTools.getKeywParser("undef", PLUGIN_NAME),
@@ -612,47 +612,47 @@ public class Kernel extends Plugin
     						@Override
     						public Node apply(Node v) {
     							Node node = new ASTNode(
-    									pluginName, 
-    									ASTNode.EXPRESSION_CLASS, 
-    									"KernelTerms", 
-    									v.getToken(), 
-    									v.getScannerInfo(), 
+    									pluginName,
+    									ASTNode.EXPRESSION_CLASS,
+    									"KernelTerms",
+    									v.getToken(),
+    									v.getScannerInfo(),
     									Node.KEYWORD_NODE);
     							return node;
     						}
     					});
-    	parsers.put("KernelTerms", 
-    			new GrammarRule("KernelTerms", 
+    	parsers.put("KernelTerms",
+    			new GrammarRule("KernelTerms",
     					"'undef' | 'self'", kernelTermsParser, PLUGIN_NAME));
-    	
+
     	// BooleanTerm : 'true' | 'false'
-    	Parser<Node> booleanTermParser = Parsers.or( 
+    	Parser<Node> booleanTermParser = Parsers.or(
     			parserTools.getKeywParser("true", PLUGIN_NAME),
     			parserTools.getKeywParser("false", PLUGIN_NAME)).map(
     					new ParseMap<Node, Node>(PLUGIN_NAME) {
     						@Override
     						public Node apply(Node v) {
     							Node node = new ASTNode(
-    									pluginName, 
-    									ASTNode.EXPRESSION_CLASS, 
-    									"BooleanTerm", 
-    									v.getToken(), 
-    									v.getScannerInfo(), 
+    									pluginName,
+    									ASTNode.EXPRESSION_CLASS,
+    									"BooleanTerm",
+    									v.getToken(),
+    									v.getScannerInfo(),
     									Node.KEYWORD_NODE);
     							return node;
     						}
     					});
     	parsers.put("BooleanTerm",
     			new GrammarRule("BooleanTerm", "'true' | 'false'", booleanTermParser, PLUGIN_NAME));
-    	
+
     	createConstantTerm(booleanTermParser, kernelTermsParser);
- 
+
     	createBasicTerm(funcRuleTermParser);
-    	
+
     	// BasicExpr : BasicTerm | '(' Term ')'
-    	Parser<Node> beParser = Parsers.or(refBasicTermParser.lazy(), 
+    	Parser<Node> beParser = Parsers.or(refBasicTermParser.lazy(),
     			parserTools.seq(	// '(' Term ')'
-    					parserTools.getOprParser("("), 
+    					parserTools.getOprParser("("),
     					refTermParser.lazy(),
     					parserTools.getOprParser(")")
     					).map(new ParseMap<Object[], Node>(PLUGIN_NAME){
@@ -663,29 +663,29 @@ public class Kernel extends Plugin
 								for (Object o:v) node.addChild((Node)o);
 								return node;
 							}
-							
+
     					}
     				)
     		);
     	refBasicExprParser.set(beParser);
-    	parsers.put("BasicExpr", 
+    	parsers.put("BasicExpr",
     			new GrammarRule("BasicExpr", "BasicTerm | '(' Term ')'", refBasicExprParser.lazy(), PLUGIN_NAME));
-    	
-    	// creating an expression parser based on the operators 
+
+    	// creating an expression parser based on the operators
     	// provided by the plugins
     	//Set<Plugin> plugins = new HashSet<Plugin>();
-    	ExpressionParserFactory expFactory = 
+    	ExpressionParserFactory expFactory =
     		new ExpressionParserFactory(
     				capi,
     				parserTools,
-    				refBasicExprParser.lazy(), 
-    				refTermParser.lazy(), 
+    				refBasicExprParser.lazy(),
+    				refTermParser.lazy(),
     				capi.getPlugins());
     	exps.add(expFactory.createExpressionParser());
-    	
+
     	Parser<Node> exp_parser = Parsers.or(exps);
     	refExpParser.set(exp_parser);
-    	
+
     	return refExpParser.lazy();
     }
 
@@ -697,10 +697,10 @@ public class Kernel extends Plugin
     	String grammarRule = "BooleanTerm | UndefTerm";
        	cterms.add(booleanTermParser);
        	cterms.add(undefTermParser);
-    	
+
        	// Getting constant term parsers from all the plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin && p != this) {
        			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("ConstantTerm");
        			if (gRule != null) {
@@ -708,16 +708,16 @@ public class Kernel extends Plugin
        				grammarRule = grammarRule + " | " + gRule.name;
        			}
        		}
-       	
+
     	// ConstantTerm : BooleanTerm | UndefTerm | ...
        	Parser<Node> ctParser = Parsers.or(cterms);
        	refConstantTermParser.set(ctParser);
-       	
+
        	parsers.put("ConstantTerm",
     			new GrammarRule("ConstantTerm", grammarRule, refConstantTermParser.lazy(), PLUGIN_NAME));
-    	
+
     }
-    
+
     /*
      * Creates BasicTerm gathering pieces from other plugins
      */
@@ -725,17 +725,17 @@ public class Kernel extends Plugin
 
     	ParserTools parserTools = ParserTools.getInstance(capi);
     	Parser<Node> idParser = parserTools.getIdParser();
-    	
+
     	List<Parser<Node>> bterms = new ArrayList<Parser<Node>>();
     	String grammarRule = "FunctionRuleTerm | ConstantTerm";
        	bterms.add(functionRuleTermParser);
        	bterms.add(refConstantTermParser.lazy());
-    	
+
     	// RuleElementTerm : 'ruleelement' ID
     	Parser<Node> ruleElementParser = Parsers.sequence(
     			parserTools.getKeywParser("ruleelement", PLUGIN_NAME),
     			idParser,
-    			
+
     			new ParseMap2(PLUGIN_NAME) {
 
     			    @Override
@@ -751,13 +751,13 @@ public class Kernel extends Plugin
 						node.addChild("alpha", b);
 						return node;
 					}
-    				
+
     			}
     	);
-       	parsers.put("RuleElementTerm", 
-       			new GrammarRule("RuleElementTerm", 
+       	parsers.put("RuleElementTerm",
+       			new GrammarRule("RuleElementTerm",
        					"'ruleelement' ID", ruleElementParser, PLUGIN_NAME));
-       	
+
     	// RuleOrFunctionElementTerm : '@' ID
     	Parser<Node> ruleOrFunctionElementParser = Parsers.sequence(
     			parserTools.getOprParser("@"),
@@ -771,19 +771,19 @@ public class Kernel extends Plugin
 						node.addChild("alpha", d);
 						return node;
 					}
-    				
+
     			}
     	);
-       	parsers.put("RuleOrFunctionElementTerm", 
-       			new GrammarRule("RuleOrFunctionElementTerm", 
+       	parsers.put("RuleOrFunctionElementTerm",
+       			new GrammarRule("RuleOrFunctionElementTerm",
        					"'@' ID", ruleOrFunctionElementParser, PLUGIN_NAME));
 
        	bterms.add(ruleElementParser);
        	bterms.add(ruleOrFunctionElementParser);
-     
+
        	// Getting basic term parsers from all the plugins
        	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins) 
+       	for (Plugin p: plugins)
        		if (p instanceof ParserPlugin && p != this) {
        			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("BasicTerm");
        			if (gRule != null) {
@@ -791,33 +791,33 @@ public class Kernel extends Plugin
        				grammarRule = grammarRule + " | " + gRule.name;
        			}
        		}
-       	
+
     	// BasicTerm : FunctionRuleTerm | ConstantTerm | ...
        	Parser<Node> btParser = Parsers.longest(bterms);
        	refBasicTermParser.set(btParser);
-    	
+
     	parsers.put("BasicTerm",
     			new GrammarRule("BasicTerm", grammarRule, refBasicTermParser.lazy(), PLUGIN_NAME));
-    	
+
     }
-    
+
     @Deprecated
 	public List<GrammarRule> getGrammar() {
 		if (parsers == null)
 			getParsers();
-		
+
 		return new ArrayList<GrammarRule>(parsers.values());
 //	        grammar.add(new GrammarRule("VariableTerm",
 //	                                    "ID",
 //	                                    getName(),
 //	                                    org.coreasm.engine.parser.PassThroughObserver.class.getName()));
-//	        
+//
 //	        grammar.add(new GrammarRule("BasicExpr",
 //	                                    "BasicTerm | '(' " + GR_TERM + " ')'",
 //	                                    getName(),
 //	                                    org.coreasm.engine.parser.PassThroughObserver.class.getName(),
 //	                                    GrammarRule.GRType.OP_BOTTOM_LEVEL));
-//	        
+//
 	}
 
 	/**
@@ -837,35 +837,35 @@ public class Kernel extends Plugin
 
 	/**
 	 * Basic Update Aggregator.
-	 * 
+	 *
 	 * @param pluginAgg plugin aggregation API object.
 	 */
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
-		
+
 		// all locations on which basic updates occur
 		Set<Location> basicUpdateLocations = pluginAgg.getLocsWithActionOnly(Update.UPDATE_ACTION);
-		
+
 		basicUpdateLocations = aggregateUniverseUpdates(pluginAgg, basicUpdateLocations);
-		
+
 		for (Location l : basicUpdateLocations) {
 			// get all updates on the location
 			UpdateMultiset updatesOnLoc = pluginAgg.getLocUpdates(l);
-			
+
 			// for all updates on the location
 			for (Update u : updatesOnLoc)
 			{
 				// flag the update as succuessful
 				pluginAgg.flagUpdate(u,Flag.SUCCESSFUL,this);
-				
+
 				// resultant update is this update
 				pluginAgg.addResultantUpdate(u,this);
 			}
 		}
 	}
-	
+
 	/**
 	 * Special treatment of the aggregation of universe elements to ensure consistency in sequential rules.
-	 * 
+	 *
 	 * @param pluginAgg plugin aggregation API object
 	 * @param basicUpdateLocations basic update locations
 	 * @return the locations that haven't been aggregated by this function
@@ -873,7 +873,7 @@ public class Kernel extends Plugin
 	private Set<Location> aggregateUniverseUpdates(PluginAggregationAPI pluginAgg, Set<Location> basicUpdateLocations) {
 		HashSet<Location> aggregatedLocations = new HashSet<Location>();
 		HashMap<String, UpdateMultiset> universeUpdates = new HashMap<String, UpdateMultiset>();
-		
+
 		// Filter and group update locations by universes
 		for (Location location : basicUpdateLocations) {
 			AbstractUniverse universe = capi.getStorage().getUniverse(location.name);
@@ -892,7 +892,7 @@ public class Kernel extends Plugin
 				aggregatedLocations.add(location);
 			}
 		}
-		
+
 		for (Entry<String, UpdateMultiset> updates : universeUpdates.entrySet()) {
 			UniverseElement universe = (UniverseElement)capi.getStorage().getUniverse(updates.getKey());
 			Set<Element> contributingAgents = new HashSet<Element>();
@@ -906,11 +906,11 @@ public class Kernel extends Plugin
 				contributingNodes.addAll(u.sources);
 				resultantUniverse.setValue(u.loc.args, u.value);
 			}
-			
+
 			// add resultant update to resultant update set
 			pluginAgg.addResultantUpdate(new Update(new Location(updates.getKey(), ElementList.NO_ARGUMENT), resultantUniverse, Update.UPDATE_ACTION, contributingAgents, contributingNodes), this);
 		}
-		
+
 		// Remove all locations that have been aggregated by this function
 		basicUpdateLocations.removeAll(aggregatedLocations);
 		return basicUpdateLocations;
@@ -922,18 +922,18 @@ public class Kernel extends Plugin
 	public void compose(PluginCompositionAPI compAPI) {
 		UpdateMultiset updateSet1 = compAPI.getAllUpdates(1);
 		UpdateMultiset updateSet2 = compAPI.getAllUpdates(2);
-		
+
 		for (Update ui1: updateSet1) {
 			if (!compAPI.isLocationUpdated(2, ui1.loc) && isBasicUpdate(compAPI, 1, ui1))
 				compAPI.addComposedUpdate(ui1, this);
 		}
-		
+
 		for (Update ui2: updateSet2) {
 			if (isBasicUpdate(compAPI, 2, ui2))
 				compAPI.addComposedUpdate(ui2, this);
 		}
 	}
-	
+
 	private boolean isBasicUpdate(PluginCompositionAPI compAPI, int setIndex, Update u) {
 		for (Update update : compAPI.getLocUpdates(setIndex, u.loc)) {
 			if (!update.action.equals(Update.UPDATE_ACTION))
@@ -941,18 +941,18 @@ public class Kernel extends Plugin
 		}
 		return true;
 	}
-	
+
 //	--------------------------------
 	// Vocabulary Extender Interface
 	//--------------------------------
-	
+
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
 	public Map<String,FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
-			
+
 			// self is not a function anymore
 			// functions.put(SelfFunctionElement.NAME, new SelfFunctionElement());
 			functions.put(AbstractStorage.PROGRAM_FUNCTION_NAME, new MapFunction(Element.UNDEF));
@@ -966,7 +966,7 @@ public class Kernel extends Plugin
 	public Map<String,UniverseElement> getUniverses() {
 		if (universes == null) {
 			universes = new HashMap<String, UniverseElement>();
-			
+
 			universes.put(AbstractStorage.AGENTS_UNIVERSE_NAME, new UniverseElement());
 		}
 		return universes;
@@ -978,7 +978,7 @@ public class Kernel extends Plugin
 	public Map<String,BackgroundElement> getBackgrounds() {
 		if (backgroundElements == null) {
 			backgroundElements = new HashMap<String,BackgroundElement>();
-		
+
 			backgroundElements.put(
 					BooleanBackgroundElement.BOOLEAN_BACKGROUND_NAME,
 					new BooleanBackgroundElement());
@@ -991,9 +991,9 @@ public class Kernel extends Plugin
 			backgroundElements.put(
 					ElementBackgroundElement.ELEMENT_BACKGROUND_NAME,
 					new ElementBackgroundElement());
-					
+
 		}
-		
+
 		return backgroundElements;
 	}
 
@@ -1001,33 +1001,33 @@ public class Kernel extends Plugin
 	 * The kernel plug-in goes over all the rule declarations in the specification,
 	 * creates a rule element (see {@link RuleElement}) for every one of those rules
 	 * and provides the results to be added to the list of rules in the state.
-	 * 
+	 *
 	 * @see VocabularyExtender#getRules()
 	 */
 	public Map<String, RuleElement> getRules() {
 		if (ruleElements == null) {
 			ruleElements = new HashMap<String, RuleElement>();
-			
+
 			// get root of tree
 			ASTNode root = capi.getParser().getRootNode();
-			
+
 			List<ASTNode> ruleDeclarations = new ArrayList<ASTNode>();
-			
+
 			for (ASTNode child: root.getAbstractChildNodes())
 				if (child.getGrammarRule().equals(Kernel.GR_RULEDECLARATION))
 					ruleDeclarations.add(child);
-			
+
 			// while there is a rule declaration to process
 			for (ASTNode currentRuleDeclaration: ruleDeclarations)
 			{
 				// get name (ID) node of rule
 				final ASTNode idNode = currentRuleDeclaration.getFirst().getFirst();
 				final String ruleName = idNode.getToken();
-				
-				if (ruleElements.get(ruleName) != null) 
+
+				if (ruleElements.get(ruleName) != null)
 					throw new CoreASMError(
 							"Rule '" + ruleName + "' is defined more than once.", idNode);
-				
+
 				// create structure for all parameters
 				ArrayList<String> params = new ArrayList<String>();
 				ASTNode currentParams = idNode.getNext();
@@ -1036,19 +1036,19 @@ public class Kernel extends Plugin
 				{
 					// add parameters to the list
 					params.add(currentParams.getToken());
-					
+
 					// get next parameter
 					currentParams = currentParams.getNext();
 				}
-				
+
 				// get root node of rule body
 				ASTNode bodyNode = currentRuleDeclaration.getFirst().getNext();
 
 				// create a copy of the body
 				bodyNode = (ASTNode)capi.getInterpreter().copyTree(bodyNode);
-				
+
 				// create rule element
-				ruleElements.put(ruleName, 
+				ruleElements.put(ruleName,
 						new RuleElement(currentRuleDeclaration, idNode.getToken(), params,bodyNode));
 			}
 		}
@@ -1056,19 +1056,19 @@ public class Kernel extends Plugin
 	}
 
 	/**
-	 * This method provides provides the equality operator, the 
+	 * This method provides provides the equality operator, the
 	 * only operator provided in the kernel.
 	 */
     public Collection<OperatorRule> getOperatorRules() {
         ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
-        
+
         opRules.add(new OperatorRule(EQUALITY_OP,
                     OpType.INFIX_LEFT,
                     600,
                     getName()));
 
 //        opRules.add(new OperatorRule("(", ")", OpType.INDEX, 900, getName()));
-        
+
         return opRules;
     }
 
@@ -1079,18 +1079,18 @@ public class Kernel extends Plugin
         Element result = null;
         String x = opNode.getToken();
         String gClass = opNode.getGrammarClass();
-        
+
         // if class of operator is binary
         if (gClass.equals(ASTNode.BINARY_OPERATOR_CLASS)) {
-            
+
             // get operand nodes
             ASTNode alpha = opNode.getFirst();
             ASTNode beta = alpha.getNext();
-            
+
             // get operand values
             Element l = alpha.getValue();
             Element r = beta.getValue();
-            
+
             if (x.equals(EQUALITY_OP)) {
                 result = BooleanElement.valueOf(evaluateEquality(l, r));
             }
@@ -1099,7 +1099,7 @@ public class Kernel extends Plugin
         	if (gClass.equals(ASTNode.INDEX_OPERATOR_CLASS)) {
 	        	ASTNode left = opNode.getFirst();
 	        	ASTNode right = left.getNext();
-	        	
+
 	        	if (left.getValue() instanceof FunctionElement) {
 	        		FunctionElement func = (FunctionElement)left.getValue();
 	        		if (right == null)
@@ -1109,20 +1109,20 @@ public class Kernel extends Plugin
 	        	} else
 	        		return Element.UNDEF;
         	}
-        
+
         return result;
     }
 
-    /** 
+    /**
      * Provides the semantics of the equality function to other plugins.
-     * 
+     *
      * @param le element on the left
      * @param re element on the right
      */
     public final static boolean evaluateEquality(Element le, Element re) {
         return le.equals(re) || re.equals(le) ;
     }
-    
+
 	public Set<String> getBackgroundNames() {
 		return backgroundNames;
 	}
@@ -1146,14 +1146,14 @@ public class Kernel extends Plugin
 	public String[] getOperators() {
 		return operators;
 	}
-	
+
 	public String[] getKeywords() {
 		return keywords;
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
@@ -1173,7 +1173,7 @@ public class Kernel extends Plugin
 //		node.addChild(o2);
 //		return node;
 //	}
-//	
+//
 //};
 //plusParser = parserTools.getOprParser("+").seq(
 //		Parsers.retn(plusOpr));
@@ -1189,7 +1189,7 @@ public class Kernel extends Plugin
 //		node.addChild(o2);
 //		return node;
 //	}
-//	
+//
 //};
 //multParser = parserTools.getOprParser("*").seq(
 //		Parsers.retn(multOpr));
@@ -1209,10 +1209,10 @@ public class Kernel extends Plugin
 //				node.addChild(new Node("", "#", o1.getScannerInfo()));
 //				return node;
 //			}
-//    		
+//
 //    	};
 //	}
-//	
+//
 //});
 //
 //table = new OperatorTable<Node>().infixl(plusParser, 10).infixl(multParser, 20).postfix(hashParser, 30);

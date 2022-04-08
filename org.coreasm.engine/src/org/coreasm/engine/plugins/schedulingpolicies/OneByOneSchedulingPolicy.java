@@ -1,11 +1,11 @@
 /*
  * OneByOneSchedulingPolicy.java 		$Revision: 95 $
- * 
+ *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-08-04 12:40:53 +0200 (Di, 04 Aug 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -27,9 +27,9 @@ import org.coreasm.engine.scheduler.SchedulingPolicy;
 
 /**
  * A scheduling policy that chooses agents one by one.
- * 
- * For those schedules that belong 
- *   
+ *
+ * For those schedules that belong
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -37,9 +37,9 @@ import org.coreasm.engine.scheduler.SchedulingPolicy;
 public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements SchedulingPolicy {
 
 	private long handle = 1;
-	
+
 	private Map<Object, Set<Object>> groupMemory = new HashMap<Object, Set<Object>>();
-	
+
 	/**
 	 * @see BasicSchedulingPolicy#BasicSchedulingPolicy(Set)
 	 */
@@ -66,7 +66,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 		}
 		return new ExtendedIterator(filteredSet(set), groupHandle);
 	}
-	
+
 	protected class ExtendedIterator implements Iterator<Set<Element>> {
 
 		private final Set<Element> workingSet;
@@ -74,7 +74,7 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 		private final Object handle;
 		private final Set<Object> memory;
 		private boolean chosenOnce = false;
-		
+
 		public ExtendedIterator(Set<Element> set, Object groupHandle) {
 			workingSet = new HashSet<Element>(set);
 			originalSet = Collections.unmodifiableSet(set);
@@ -85,15 +85,15 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 					workingSet.removeAll(memory);
 					if (workingSet.isEmpty())
 						resetMemory();
-				}					
+				}
 			} else
 				memory = null;
 		}
-		
+
 		public boolean hasNext() {
 			if (!chosenOnce && !workingSet.isEmpty())
 				return true;
-			else 
+			else
 				return false;
 		}
 
@@ -118,11 +118,11 @@ public class OneByOneSchedulingPolicy extends BasicSchedulingPolicy implements S
 			workingSet.clear();
 			workingSet.addAll(originalSet);
 		}
-		
+
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
-		
+
 	}
 
 }

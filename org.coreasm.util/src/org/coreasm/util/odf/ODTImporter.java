@@ -1,17 +1,17 @@
-/*	
+/*
  * ODTImporter.java 	$Revision: 173 $
  * Created on 29/gen/07
- * 
+ *
  * Copyright (C) 2007 Vincenzo Gervasi
- * 
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2010-05-12 01:47:11 +0200 (Mi, 12 Mai 2010) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.util.odf;
 
 import java.io.FileInputStream;
@@ -51,7 +51,7 @@ public class ODTImporter {
 	// A simple command-line main; it will translate all the files whose names are provided as arguments,
 	// saving the results in files with the same base name, but ".odt" substituted by ".coreasm" (if the
 	// extension is not .odt, the .coreasm is simply added to the name).
-	
+
 	public static void main(String args[])
 	{
 		String buffer=null;
@@ -83,8 +83,8 @@ public class ODTImporter {
 
 	/**
 	 * Extracts CoreASM specification from an ODT file. The specification in the file
-	 * should be in the "CoreASM Code" style. 
-	 * 
+	 * should be in the "CoreASM Code" style.
+	 *
 	 * @param fileName name of an OpenOffice (ODF/.odt) file to read
 	 * @return a string representation of the full CoreASM specification extracted from the ODF file
 	 * @throws FileNotFoundException
@@ -106,7 +106,7 @@ public class ODTImporter {
 	private static void process(InputStream is, StringBuffer buffer) throws IOException {
 		boolean inblock=true;
 		Document doc=parseXml(is);
-		
+
 		// Process new style information
 		Set<String> coreasmStyles = new HashSet<String>();
 		NodeList styleDefs = doc.getElementsByTagName(STYLE_DEF_NODE_NAME);
@@ -117,7 +117,7 @@ public class ODTImporter {
 					coreasmStyles.add(def.getAttribute(STYLE_DEF_NAME_ATTR));
 			}
 		}
-		
+
 		NodeList paragraphs=doc.getElementsByTagName(PAR_NODE_NAME);
 		if (paragraphs!=null) {
 			for (int i=0;i<paragraphs.getLength();i++) {
@@ -135,17 +135,17 @@ public class ODTImporter {
 				} else
 					inblock=false;
 			}
-			
-		}	
+
+		}
 	}
-	
-	
+
+
 	private static void handleChildren(NodeList childNodes, StringBuffer buffer) {
 		// if there are no children, return...
 		if (childNodes == null) {
 			return;
 		}
-		
+
 		for (int j = 0; j < childNodes.getLength(); j++) {
 			Node n2 = childNodes.item(j);
 			/*
@@ -159,21 +159,21 @@ public class ODTImporter {
 				String tagName = ((Element)n2).getTagName();
 				if (LINEBREAK_NODE_NAME.equals(tagName)) {
 					buffer.append("\n");
-				} 
+				}
 				else {
 					if (TAB_NODE_NAME.equals(tagName)) {
 						buffer.append("\t");
 					}
 				}
-				
+
 				if (!NOTE_NODE_NAME.equals(tagName)) {
 					handleChildren(n2.getChildNodes(), buffer);
 				}
-			} 
+			}
 			/*
 			 * -- non-elements (text nodes) are appended
 			 */
-			else {				
+			else {
 				if (n2!=null) {
 					buffer.append(n2.getTextContent());
 				}
@@ -185,7 +185,7 @@ public class ODTImporter {
 		try {
 			DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			return parser.parse(new InputSource(is));
-		} 
+		}
 		catch (SAXException se) { se.printStackTrace(); }
 		catch (IOException ioe) { ioe.printStackTrace(); }
 		catch (ParserConfigurationException pce) { pce.printStackTrace(); }

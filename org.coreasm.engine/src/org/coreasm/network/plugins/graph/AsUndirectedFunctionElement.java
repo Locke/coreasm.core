@@ -1,6 +1,6 @@
-/*	
- * IsConnectedFunctionElement.java 
- * 
+/*
+ * IsConnectedFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -23,18 +23,18 @@ import org.jgrapht.DirectedGraph;
 /**
  *  Returns an undirected version of the given graph.
  *  If the given graph is undirected, returns the same graph element.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class AsUndirectedFunctionElement extends FunctionElement {
 
 	Signature sig = null;
-	
+
 	public static final String FUNCTION_NAME = "asUndirectedGraph";
-	
+
 	public AsUndirectedFunctionElement() {}
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -52,13 +52,13 @@ public class AsUndirectedFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 1 && args.get(0) instanceof GraphElement))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		GraphElement ge = (GraphElement)args.get(0);
 		if (ge instanceof DirectedGraphElement)
 			return new UndirectedGraphElement((DirectedGraph<Element, Element>)ge.getGraph());
 		if (ge instanceof UndirectedGraphElement)
 			return ge;
-		
+
 		return Element.UNDEF;
 	}
 

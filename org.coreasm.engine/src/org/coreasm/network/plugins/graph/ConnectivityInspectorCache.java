@@ -1,6 +1,6 @@
-/*	
- * ConnectivityInspectorCache.java 
- * 
+/*
+ * ConnectivityInspectorCache.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -22,18 +22,18 @@ import org.jgrapht.alg.ConnectivityInspector;
 
 /**
  * A cache of connectivity inspectors for graphs.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class ConnectivityInspectorCache {
 
-	HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>> inspectorCache = 
+	HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>> inspectorCache =
 		new HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>>();
 
 	/**
 	 * Returns a connectivity inspector for the given graph g, assuming that g does not change.
-	 * 
+	 *
 	 * @param g an instance of {@link Graph}
 	 */
 	public ConnectivityInspector<Element, Element> getInspector(Graph<Element, Element> g) {
@@ -41,7 +41,7 @@ public class ConnectivityInspectorCache {
 		if (inspector == null) {
 			if (g instanceof UndirectedGraph)
 				inspector = new ConnectivityInspector<Element, Element>((UndirectedGraph<Element, Element>)g);
-			else 
+			else
 				if (g instanceof DirectedGraph)
 					inspector = new ConnectivityInspector<Element, Element>((DirectedGraph<Element, Element>)g);
 			inspectorCache.put(g, inspector);

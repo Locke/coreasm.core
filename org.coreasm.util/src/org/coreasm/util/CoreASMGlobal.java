@@ -1,17 +1,17 @@
-/*	
+/*
  * CoreASMGlobal.java 	1.0 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.util;
 
 import java.io.File;
@@ -24,42 +24,42 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  *	Provides global services for CoreASM engine and its components.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class CoreASMGlobal {
-	
+
 	protected static final Logger logger = LoggerFactory.getLogger(CoreASMGlobal.class);
 
 	/** The binary folder of CoreASM */
 	//private static final String BIN_FOLDER = "/bin";
-	
+
 	/** The config folder of CoreASM */
 	private static final String CONFIG_FOLDER = "/config";
-	
+
 	/** The kernel configuration file. */
 	private static final String KERNEL_CONF_FILE_NAME = "kernel.conf";
-	
+
     /** The environment variable giving the CoreASM root directory. */
     //private static final String COREASM_ROOT_ENV_VAR = "COREASM_HOME";
-    
+
 	/** Holds the absolute path to the root folder, if it is not
 	 * defined in the global properties
 	 */
 	//private static String ROOT_FOLDER = null;
-	
+
 	/** If set, defines the root fodler of the engine. */
 	public static final String ROOT_FOLDER_PROPERTY = "engine.rootFolder";
 
 	/** Holds global engine properties */
 	private static Properties globalProperties = null;
-	
+
 	/**
 	 * Sets the root folder for the CoreASM engine.
-	 * 
+	 *
 	 * @param rootFolder string pointing to the root folder
 	 */
 	public synchronized static void setRootFolder(String rootFolder) {
@@ -96,10 +96,10 @@ public class CoreASMGlobal {
 			getProperties();
 		return globalProperties.getProperty(key);
 	}
-	
+
 	/**
 	 * Sets the value of a general-purpose property
-	 * 
+	 *
 	 * @param key the property
 	 * @param value value of the property
 	 */
@@ -108,18 +108,18 @@ public class CoreASMGlobal {
 			getProperties();
 		globalProperties.setProperty(key, value);
 	}
-	
+
 	/*
 	/**
 	 * Tries to find the value of root folder. It assumes that
-	 * the binary files are located in a <code>[CoreASM]/bin</code> folder. 
+	 * the binary files are located in a <code>[CoreASM]/bin</code> folder.
 	 * /
 	private synchronized static void findsRootFolder() {
 		// Finding data folder
 		String sampleClassFile = "/org/coreasm/util/CoreASMGlobal.class";
 		CoreASMGlobal tempObject = new CoreASMGlobal();
 		ROOT_FOLDER = tempObject.getClass().getResource(sampleClassFile).toString();
-		
+
 		// Mashaal 2005-12-21: to ensure that path with spaces is NOT url encoded
 		try
 		{
@@ -129,14 +129,14 @@ public class CoreASMGlobal {
 		{
 			logger.error("UTF-8 Encoding not supported");
 		}
-		
+
 		if (ROOT_FOLDER.indexOf("file:") > -1) {
 			/* old way * /
 			// ROOT_FOLDER = ROOT_FOLDER.replaceFirst("file:", "").replaceFirst(BIN_FOLDER + sampleClassFile, "");
 			/* new way * /
 			ROOT_FOLDER = ROOT_FOLDER.replaceFirst("file:", "").replaceFirst(sampleClassFile, "");
 			ROOT_FOLDER = ROOT_FOLDER.substring(0, ROOT_FOLDER.lastIndexOf('/'));
-		} 
+		}
 		if (ROOT_FOLDER.indexOf("jar:") > -1) {
 			ROOT_FOLDER = ROOT_FOLDER.replaceFirst("jar:", "");
 			ROOT_FOLDER = ROOT_FOLDER.replaceFirst("!" + sampleClassFile, "");
@@ -147,7 +147,7 @@ public class CoreASMGlobal {
 			logger.debug("Root folder is detected as {}.", ROOT_FOLDER);
 		}
 	}*/
-	
+
 	/**
 	 * Provides default kernel configuration in form of a <code>Properties</code> object.
 	 */
@@ -158,8 +158,8 @@ public class CoreASMGlobal {
 		return defaults;
 	}
 
-	/** 
-	 * Saves general-purpose properties to a file. 
+	/**
+	 * Saves general-purpose properties to a file.
 	 */
 	private static void saveGeneralProperties() {
 		try {
@@ -174,9 +174,9 @@ public class CoreASMGlobal {
 			globalProperties.store(stream, "CoreASM Kernel Properties");
 			stream.close();
 		} catch (FileNotFoundException e) {
-			logger.error("Cannot create kernel config file.");			
+			logger.error("Cannot create kernel config file.");
 		} catch (IOException e) {
-			logger.error("Cannot write to kernel config file.");			
+			logger.error("Cannot write to kernel config file.");
 		}
 	}
 }

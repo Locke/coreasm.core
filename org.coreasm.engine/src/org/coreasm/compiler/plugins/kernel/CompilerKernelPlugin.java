@@ -197,79 +197,79 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 
 			try {
 				//Manually add CompilerRuntime entries from the coreasm interpreter source
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
-						"org/coreasm/engine/interpreter/InitAgent.java", 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
+						"org/coreasm/engine/interpreter/InitAgent.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/AbstractUniverse.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/BackgroundElement.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/BooleanBackgroundElement.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/BooleanElement.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/Element.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/ElementBackgroundElement.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/Enumerable.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/FunctionBackgroundElement.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/FunctionElement.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/Location.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/MapFunction.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/NameElement.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/Signature.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/UniverseElement.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/Update.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/ElementFormatException.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/EngineError.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/EngineException.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/IdentifierNotFoundException.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/InvalidLocationException.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/NameConflictException.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 								"org/coreasm/engine/absstorage/UnmodifiableFunctionException.java",
 								"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/absstorage/ElementList.java",
 						"Kernel", LibraryEntryType.RUNTIME));
-				classLibrary.addEntry(new JarInclude(engine, enginePath, 
+				classLibrary.addEntry(new JarInclude(engine, enginePath,
 						"org/coreasm/engine/scheduler/SchedulingPolicy.java",
 						"Kernel", LibraryEntryType.RUNTIME));
 			} catch (EntryAlreadyExistsException e) {
@@ -283,14 +283,14 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 				if (name.startsWith("CompilerRuntime/")
 						&& name.endsWith(".java")) {
 					try {
-						classLibrary.addEntry(new JarInclude(engine, enginePath, 
+						classLibrary.addEntry(new JarInclude(engine, enginePath,
 								jarEntry.getName(), "Kernel", LibraryEntryType.RUNTIME));
 					} catch (EntryAlreadyExistsException e) {
 						engine.getLogger()
 								.error(CompilerKernelPlugin.class,
 										"kernel should not have collisions with itself");
 						e.printStackTrace();
-					} 
+					}
 				}
 			}
 
@@ -302,7 +302,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 						build();
 			} catch (EntryAlreadyExistsException e) {
 				e.printStackTrace();
-			} 
+			}
 			try {
 				jar.close();
 			} catch (IOException e) {
@@ -318,7 +318,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 
 		// backgrounds
 		loadedClasses.add(new MainFileEntry(classLibrary
-				.findEntry("BooleanBackgroundElement", null, LibraryEntryType.RUNTIME), 
+				.findEntry("BooleanBackgroundElement", null, LibraryEntryType.RUNTIME),
 				EntryType.BACKGROUND,
 				BooleanBackgroundElement.BOOLEAN_BACKGROUND_NAME));
 		loadedClasses.add(new MainFileEntry(classLibrary

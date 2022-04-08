@@ -50,7 +50,7 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 				result.appendLine("public void setParams(java.util.Map<String, @RuntimePkg@.RuleParam> params){\n");
 				result.appendLine("this.ruleparams = params;\n");
 				result.appendLine("}\n");
-				
+
 				//a ruleparam can be evaluated as l-context or r-context, but the l-context is not always possible.
 				//try compiling the param as an l-code, but be prepared for failure
 				result.appendLine("public @RuntimePkg@.Location evaluateL(@RuntimePkg@.LocalStack localStack) throws Exception{\n");
@@ -60,10 +60,10 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 					result.appendLine("return (@RuntimePkg@.Location) evalStack.pop();\n");
 				}
 				catch(Exception e){
-					result.appendLine("throw new Exception(\"This ruleparam cannot be evaluated as a location\");\n");					
+					result.appendLine("throw new Exception(\"This ruleparam cannot be evaluated as a location\");\n");
 				}
 				result.appendLine("}\n");
-				
+
 				result.appendLine("public @RuntimePkg@.Element evaluateR(@RuntimePkg@.LocalStack localStack) throws Exception{\n");
 				result.appendFragment(tmp);
 				result.appendLine("\nreturn (@RuntimePkg@.Element)evalStack.pop();\n}\n});\n");
@@ -72,10 +72,10 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 		}
 		// cf.appendLine("\n@decl(CompilerRuntime.Rule,macrorule)=new Rules."
 		// + name + "(@arglist, localStack);");
-		
+
 		Preprocessor prep = engine.getPreprocessor();
 		Information inf = prep.getGeneralInfo().get("RuleDeclaration");
-		
+
 		if (inf.getChildren().contains(name)) {
 			// check parameter count
 			if (inf.getInformation(name).getChildren().size() != params

@@ -10,7 +10,7 @@ import java.util.List;
 public class NotCompilableException extends Exception {
 	private static final long serialVersionUID = -2956569025051079022L;
 	private List<String> plugin;
-	
+
 	/**
 	 * Creates a new Exception, specifying the error source
 	 * @param pluginsrc The uncompilable plugin name
@@ -18,7 +18,7 @@ public class NotCompilableException extends Exception {
 	public NotCompilableException(List<String> pluginsrc){
 		this.plugin = pluginsrc;
 	}
-	
+
 	/**
 	 * Provides access to the error source
 	 * @return The name of the faulty plugin

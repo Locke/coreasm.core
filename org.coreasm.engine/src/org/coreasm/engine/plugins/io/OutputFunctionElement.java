@@ -1,6 +1,6 @@
-/*	
+/*
  * OutputFunctionElement.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.io;
 
 import java.util.HashSet;
@@ -22,18 +22,18 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Location;
 import org.coreasm.engine.plugins.string.StringElement;
 
-/** 
+/**
  * This class implements the 'output' function provided by the IO Plugin.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  * @see org.coreasm.engine.plugins.io.IOPlugin
  */
 public class OutputFunctionElement extends FunctionElement {
 
 	private Set<Location> locations;
 	private StringElement outputValues;
-	
+
 	public OutputFunctionElement() {
 		setFClass(FunctionClass.fcOut);
 		outputValues = new StringElement("");
@@ -53,12 +53,12 @@ public class OutputFunctionElement extends FunctionElement {
 	}
 
 	/**
-	 * Sets the value of this function only if there 
+	 * Sets the value of this function only if there
 	 * is no argument.
 	 */
 	public void setValue(List<? extends Element> args, Element value) {
 		if (args.isEmpty()) {
-			if (value instanceof StringElement) 
+			if (value instanceof StringElement)
 				outputValues = (StringElement)value;
 			else
 				outputValues = new StringElement(value.toString());
@@ -67,7 +67,7 @@ public class OutputFunctionElement extends FunctionElement {
 
 	/**
 	 * Parameter <code>name</code> is ignored.
-	 * 
+	 *
 	 * @see FunctionElement#getLocations(String)
 	 */
 	public Set<Location> getLocations(String name) {

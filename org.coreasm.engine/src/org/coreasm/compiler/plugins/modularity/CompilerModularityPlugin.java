@@ -17,7 +17,7 @@ public class CompilerModularityPlugin extends CompilerCodePlugin implements
 		CompilerPlugin {
 
 	private Plugin parent;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -25,7 +25,7 @@ public class CompilerModularityPlugin extends CompilerCodePlugin implements
 	public CompilerModularityPlugin(Plugin parent) {
 		this.parent = parent;
 	}
-	
+
 	@Override
 	public String getName() {
 		return parent.getName();

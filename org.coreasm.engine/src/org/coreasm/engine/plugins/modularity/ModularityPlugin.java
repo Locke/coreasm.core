@@ -1,11 +1,11 @@
 /*
  * ModularityPlugin.java 		$Revision: 91 $
- * 
+ *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-07-31 17:41:23 +0200 (Fr, 31 Jul 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provides some basic modularity features to CoreASM.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -60,7 +60,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	protected static final Logger logger = LoggerFactory.getLogger(ModularityPlugin.class);
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 1, 0, "alpha");
-	
+
 	public static final String PLUGIN_NAME = ModularityPlugin.class.getSimpleName();
 
 	private static final String[] keywords = {"CoreModule", "include"};
@@ -69,20 +69,20 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	// compile pattern to find "include " directives using regular expression
 	private static final String includeRegex = "^[\\s]*include[\\s]+(\"([^\"]+)\"|([^\"]+))";
 	public static final Pattern includePattern = Pattern.compile(includeRegex);
-	
+
     private Map<String, GrammarRule> parsers = null;
 
 	private Map<EngineMode, Integer> targetModes;
-	
+
 	private Set<String> loadedModules = null;
-	
+
 	private final CompilerPlugin compilerPlugin = new CompilerModularityPlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
@@ -152,7 +152,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 
 	/* (non-Javadoc)
 	 * This plugin requires "String" because of the new "include" parser.
-	 * 
+	 *
 	 * @author Markus
 	 */
 	public Set<String> getDependencyNames() {
@@ -161,7 +161,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 		return names;
 	}
 
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -172,11 +172,11 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
 			Parser<Node> stringParser = ((ParserPlugin)capi.getPlugin("StringPlugin")).getParser("StringTerm");
-			
+
 			// rule for regognizing include statements
 			// (for usage of the parser out of the engine)
 			// 'include' StringTerm
@@ -210,7 +210,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 					return iNode;
 				}
 			});
-			
+
 
 	    	// CoreModule : 'CoreModule' ID ( UseClause )* ( Header )* 'init' ID
 	    	Parser<Node> coreModuleParser = Parsers.array(
@@ -220,13 +220,13 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	    			}).map(
 	    			new CoreModuleParseMap()
 	    			);
-	    	
+
 	    	Parser<Node> modularityHeaderParser = Parsers.or(includeParser, coreModuleParser);
-	    	
-	    	parsers.put("Header", 
-	    			new GrammarRule("CoreModule", 
+
+	    	parsers.put("Header",
+	    			new GrammarRule("CoreModule",
 	    					"'CoreModule' ID", modularityHeaderParser, this.getName()));
-			
+
 		}
 		return parsers;
 	}

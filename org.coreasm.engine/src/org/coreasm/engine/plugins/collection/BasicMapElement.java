@@ -1,11 +1,11 @@
 /*
  * BasicMapElement.java 		$Revision: 243 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -22,11 +22,11 @@ import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.UnmodifiableFunctionException;
 
 /**
- * This class provides the foundation for enumerable elements that are 
+ * This class provides the foundation for enumerable elements that are
  * essentially a map.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  * @deprecated Should not be used.
  */
 @Deprecated
@@ -34,12 +34,12 @@ public abstract class BasicMapElement extends AbstractMapElement {
 
     /**
      * Location-value table of this map.
-     * 
+     *
      */
     protected HashMap<Element, Element> table = new HashMap<Element, Element>();
-        
+
 	/**
-	 * Creates a new abstract map element. 
+	 * Creates a new abstract map element.
 	 */
 	public BasicMapElement() {
 		super();
@@ -55,7 +55,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     public int intSize() {
     	return table.size();
     }
-    
+
     /**
      * Returns <tt>true</tt> if this map contains no key-value mappings.
      *
@@ -67,12 +67,12 @@ public abstract class BasicMapElement extends AbstractMapElement {
 
     /**
      * Returns <tt>true</tt> if this map contains a mapping for the specified
-     * key.  
-     * 
+     * key.
+     *
      * @param key key whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified
      *         key.
-     * 
+     *
      * @see Map#containsKey(Object)
      */
     public boolean containsKey(Element key) {
@@ -81,8 +81,8 @@ public abstract class BasicMapElement extends AbstractMapElement {
 
     /**
      * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.  
-     * 
+     * specified value.
+     *
      * @param value value whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map maps one or more keys to the
      *         specified value.
@@ -93,15 +93,15 @@ public abstract class BasicMapElement extends AbstractMapElement {
     }
 
     /**
-     * Returns the value to which this map maps the specified key. 
-     * Returns <code>undef</code> if there is no such value.  
-     * 
+     * Returns the value to which this map maps the specified key.
+     * Returns <code>undef</code> if there is no such value.
+     *
      * @see Element#UNDEF
      * @see Map#get(Object)
      */
     public Element get(Element key) {
 		Element result = table.get(key);
-		if (result == null) 
+		if (result == null)
 			result = defaultValue;
 		return result;
     }
@@ -111,9 +111,9 @@ public abstract class BasicMapElement extends AbstractMapElement {
     /**
      * Associates the specified value with the specified key in this map
      * only if this map is modifiable.
-     * Returns <code>undef</code> if there is no such value.  
-     * 
-     * @throws UnmodifiableFunctionException if this map is not modifiable. 
+     * Returns <code>undef</code> if there is no such value.
+     *
+     * @throws UnmodifiableFunctionException if this map is not modifiable.
      *
      * @see #get(Element)
      * @see Map#put(Object, Object)
@@ -122,7 +122,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     public Element put(Element key, Element value) throws UnmodifiableFunctionException {
     	if (!this.isModifiable())
     		throw new UnmodifiableFunctionException("Map is not modifiable.");
-    	
+
 		Element result = get(key);
 		table.put(key, value);
 		return result;
@@ -131,11 +131,11 @@ public abstract class BasicMapElement extends AbstractMapElement {
     /**
      * Removes the mapping for this key from this map if it is present
      * and if this map is modifiable.
-     * 
+     *
      * <p>Returns the value to which the map previously associated the key, or
      * <tt>undef</tt> if the map contained no mapping for this key.
-     * 
-     * @throws UnmodifiableFunctionException if this map is not modifiable. 
+     *
+     * @throws UnmodifiableFunctionException if this map is not modifiable.
      *
      * @see Map#remove(Object)
      * @see Element#UNDEF
@@ -143,7 +143,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     public Element removeKey(Element key) throws UnmodifiableFunctionException {
     	if (!this.isModifiable())
     		throw new UnmodifiableFunctionException("Map is not modifiable.");
-    	
+
 		Element result = get(key);
     	table.remove(key);
 		return result;
@@ -152,7 +152,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     /**
      * Removes all mappings from this map if this map is modifiable.
      *
-     * @throws UnmodifiableFunctionException if this map is not modifiable. 
+     * @throws UnmodifiableFunctionException if this map is not modifiable.
      *
      * @throws UnsupportedOperationException clear is not supported by this
      * 		  map.
@@ -160,7 +160,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     public void clear() throws UnmodifiableFunctionException {
     	if (!this.isModifiable())
     		throw new UnmodifiableFunctionException("Map is not modifiable.");
-    	
+
     	table.clear();
     }
 
@@ -169,10 +169,10 @@ public abstract class BasicMapElement extends AbstractMapElement {
     /**
      * Returns a set view of the keys contained in this map.  The set is
      * backed by the map, so changes to the map are reflected in the set, and
-     * vice-versa.  
-     * 
+     * vice-versa.
+     *
      * @return a set view of the keys contained in this map.
-     * 
+     *
      * @see Map#keySet()
      */
     public Set<? extends Element> keySet() {
@@ -182,7 +182,7 @@ public abstract class BasicMapElement extends AbstractMapElement {
     /**
      * Returns a collection view of the values contained in this map.  The
      * collection is backed by the map, so changes to the map are reflected in
-     * the collection, and vice-versa.  
+     * the collection, and vice-versa.
      *
      * @return a collection view of the values contained in this map.
      */

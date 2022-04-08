@@ -18,7 +18,7 @@ init Start
  * @require "-10"
  * @require "-4"
  * @require "4"
- * @require "8" 
+ * @require "8"
  * @require "-8"
  * @require "false\ntrue\ntrue\n"
  */

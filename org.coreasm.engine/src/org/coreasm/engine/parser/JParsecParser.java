@@ -1,6 +1,6 @@
-/*	
+/*
  * JParsecParser.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.parser;
 
 import java.io.PrintWriter;
@@ -32,43 +32,43 @@ import org.coreasm.util.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
- * This is an implementation of the {@link Parser} component 
+/**
+ * This is an implementation of the {@link Parser} component
  * using the JParsec libraries.
- *   
+ *
  * @author Roozbeh Farahbod, Mashaal Memon
- * 
+ *
  */
 public class JParsecParser implements Parser {
 
 	private static final Logger logger = LoggerFactory.getLogger(JParsecParser.class);
-	
+
 	/** Control API of engine which this parser belongs to */
 	private ControlAPI capi;
-		
+
 	/** names of all plugins used by specification*/
 	private HashSet<String> pluginNames;
 
 	/* CoreASM specification */
 	private Specification specification = null;
-	
+
 	private PositionMap positionMap = null;
-	
+
 	private boolean headerParsed = false;
-	
-	/** the actual parser -- a JParsec parser */ 
+
+	/** the actual parser -- a JParsec parser */
 	private org.jparsec.Parser<Node> parser;
-	
+
 	/** the root grammar rule */
 	private GrammarRule rootGrammarRule;
-	
+
 	/** the root node of the specification (after parsing) */
 	private ASTNode rootNode = null;
-	
+
 	//private final ParserTools parserTools;
 	private final ParserTools parserTools;
-	
-	
+
+
 	/**
 	 * Implementation of the parser interface using the JParsec library.
 	 * The
@@ -81,7 +81,7 @@ public class JParsecParser implements Parser {
 		this.capi = capi;
 		parserTools = ParserTools.getInstance(capi);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.parser.Parser#getRequiredPlugins()
 	 */
@@ -100,33 +100,33 @@ public class JParsecParser implements Parser {
 	 * Plugins to be used for the specification are specified with "use"
 	 * directive on their own lines. Fine these lines and take note of
 	 * plugin names found beside the "use" directives.
-	 * 
+	 *
 	 * @see org.coreasm.engine.parser.Parser#parseHeader()
 	 */
 	public void parseHeader() throws ParserException
 	{
-            
+
 		String useRegex;
 		Pattern usePattern;
 		Matcher useMatcher;
-                
+
 		// instantiate new plugin names set.
 		pluginNames = new HashSet<String>();
-		
+
 		try
 		{
 			// compile pattern to find "use" directive using regular expression
 			useRegex = "^[\\s]*[uU][sS][eE][\\s]+"; // regex to fine "use" directive followed by whitespace at beginning of line
 			// compile and get a reference to a Pattern object.
 			usePattern = Pattern.compile(useRegex);
-			
+
 			// error if specification is not set
 			if (specification==null)
 			{
 				logger.error("Specification file must first be set before its header can be parsed.");
 				throw new ParserException("Specification file must first be set before its header can be parsed.");
 			}
-		
+
 			boolean multiLineComment = false;
 			// for each line of specification file
 			for (SpecLine line: specification.getLines()) {
@@ -147,14 +147,14 @@ public class JParsecParser implements Parser {
 				else if (line.text.contains("/*"))
 					multiLineComment = true;
 			}
-			
+
 			headerParsed = true;
-			
+
 		}
 		catch (NullPointerException e)
 		{
-			logger.error("CoreASM specification cannot be read from.");	
-		} 
+			logger.error("CoreASM specification cannot be read from.");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -176,7 +176,7 @@ public class JParsecParser implements Parser {
 						String msg = pe.getMessage();
 						msg = msg.substring(msg.indexOf("\n")+1);
 						msg = "Error parsing " + msg + (cause==null?"":"\n" + cause.getMessage());
-						
+
 						String errorLogMsg = "Error in parsing.";
 						if (cause != null) {
 							StringWriter strWriter = new StringWriter();
@@ -184,7 +184,7 @@ public class JParsecParser implements Parser {
 							errorLogMsg = errorLogMsg + Tools.getEOL() + strWriter.toString();
 						}
 						logger.error(errorLogMsg);
-						
+
 						throw new ParserException(msg, new CharacterPosition(pe.getLine(), pe.getColumn()));
 					}
 					throw new ParserException(e);

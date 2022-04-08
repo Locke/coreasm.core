@@ -21,7 +21,7 @@ public class KernelLRFunctionRuleTermHandler implements CompilerCodeHandler {
 		// evaluate the right side of an expression
 		// and push the location of the expression and the value to the
 		// stack
-		
+
 		//TODO: Maybe it should be considered, that the name could be the name of a rule parameter evaluating to a location?
 
 		result.appendLine("");

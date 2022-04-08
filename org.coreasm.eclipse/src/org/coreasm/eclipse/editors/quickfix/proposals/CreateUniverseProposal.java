@@ -22,15 +22,15 @@ public class CreateUniverseProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public CreateUniverseProposal(String name) {
 		this(name, null, null, null);
 	}
-	
+
 	public CreateUniverseProposal(String name, Image image) {
 		this(name, image, null, null);
 	}
-	
+
 	public CreateUniverseProposal(String name, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.name = name;
 		this.image = image;
@@ -62,12 +62,12 @@ public class CreateUniverseProposal implements ICompletionProposal {
 				int line = asmDocument.getLineOfNode(nodeToAddAfter) + 1;
 				int offset = document.getLineOffset(line);
 				String declarationString = "universe " + name;
-				
+
 				if (!(nodeToAddAfter instanceof UniverseNode))
 					declarationString = '\n' + declarationString;
-				
+
 				document.replace(offset, 0, declarationString + "\n");
-				
+
 				selection = new Point(offset + declarationString.length(), 0);
 			}
 		} catch (BadLocationException e) {

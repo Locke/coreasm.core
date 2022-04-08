@@ -1,6 +1,6 @@
-/*	
+/*
  * ImportRuleParseMap.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.kernel;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.ParseMap;
 
-/** 
+/**
  * A parser map for the import rule form.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class ImportRuleParseMap extends ParseMap<Object[], Node> {
 
@@ -40,7 +40,7 @@ public class ImportRuleParseMap extends ParseMap<Object[], Node> {
 				null,
 				((Node)v[0]).getScannerInfo()
 				);
-		
+
 		if (v[1] instanceof Node) {
 			final ASTNode firstId = (ASTNode)v[1];
 			node.addChild(firstId); 	// ID
@@ -61,5 +61,5 @@ public class ImportRuleParseMap extends ParseMap<Object[], Node> {
 		}
 		return node;
 	}
-	
+
 }

@@ -1,6 +1,6 @@
-/*	
- * SubGraphFunctionElement.java 
- * 
+/*
+ * SubGraphFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -29,7 +29,7 @@ import org.jgrapht.graph.DirectedSubgraph;
 
 /**
  * Computes the sub-graph of the given graph for a given set of vertices.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -38,7 +38,7 @@ public class SubGraphFunctionElement extends FunctionElement {
 	Signature sig = null;
 
 	public static final String FUNCTION_NAME = "subgraph";
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -57,7 +57,7 @@ public class SubGraphFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 2 && args.get(0) instanceof GraphElement && args.get(1) instanceof Enumerable))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		GraphElement ge = (GraphElement)args.get(0);
 		Collection<? extends Element> vs = ((Enumerable)args.get(1)).enumerate();
 		Set<Element> vset = new HashSet<Element>(vs);
@@ -67,7 +67,7 @@ public class SubGraphFunctionElement extends FunctionElement {
 					(DirectedGraph<Element, Element>)ge.getGraph(), vset, null));
 		} else
 			Logger.log(Logger.WARNING, Logger.plugins, "subgraph is not supported on undirected graphs.");
-		
+
 		return Element.UNDEF;
 	}
 

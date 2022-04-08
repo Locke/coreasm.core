@@ -1,6 +1,6 @@
-/*	
- * SystemControlState.java 
- * 
+/*
+ * SystemControlState.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2010-04-30 01:05:27 +0200 (Fr, 30 Apr 2010) $.
@@ -29,7 +29,7 @@ import org.coreasm.engine.absstorage.Enumerable;
 public class SystemControlState extends Element implements Enumerable {
 
 	protected Set<ControlStateElement> value = new HashSet<ControlStateElement>();
-	
+
 	@Override
 	public boolean contains(Element e) {
 		return value.contains(e);

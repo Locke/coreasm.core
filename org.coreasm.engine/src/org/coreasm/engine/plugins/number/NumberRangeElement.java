@@ -1,15 +1,15 @@
-/*	
+/*
  * IntegerRangeElement.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.number;
 
 import java.util.*;
@@ -17,22 +17,22 @@ import java.util.*;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Enumerable;
 
-/** 
+/**
  *	Class for Number Range Elements;
- *   
+ *
  *  @author  George Ma
- *  
+ *
  */
 public class NumberRangeElement extends Element implements Enumerable {
-	
+
 	private final double start;
     private final double end;
     private final double step;
     private final int hashCode;
     private List<Element> enumeration = null;
-	
+
     private static final double DEFAULT_STEP = 1.0;
-	
+
     /**
      * Creates a new NumberRangeElement
      * @param start - lower bound of range
@@ -41,7 +41,7 @@ public class NumberRangeElement extends Element implements Enumerable {
     public NumberRangeElement(double start, double end) {
 		this(start,end,DEFAULT_STEP);
 	}
-    
+
     /**
      * Creates a new NumberRangeElement
      * @param start - lower bound of range
@@ -60,11 +60,11 @@ public class NumberRangeElement extends Element implements Enumerable {
         this.step = step;
         this.hashCode = Arrays.hashCode(new double[]{start, end, step});
     }
-	
+
     public String getBackground() {
     	return NumberRangeBackgroundElement.NUMBER_RANGE_BACKGROUND_NAME;
     }
-    
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -72,7 +72,7 @@ public class NumberRangeElement extends Element implements Enumerable {
 	public String toString() {
 		return step == DEFAULT_STEP ? start +".."+ end : start +".."+ end+":"+step;
 	}
-		
+
     /* (non-Javadoc)
      * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
      */
@@ -81,17 +81,17 @@ public class NumberRangeElement extends Element implements Enumerable {
     }
 
     /**
-     * Compares this Element to the specified Element. 
-     * The result is <code>true</code> if the argument 
+     * Compares this Element to the specified Element.
+     * The result is <code>true</code> if the argument
      * is not null and is considered to be equal to this Element.
-     * 
+     *
      * @param anElement the Element to compare with.
      * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
      * @throws IllegalArgumentException if <code>anElement</code> is not an instance
      * of <code>Element</code>
      */
     public boolean equals(Object anElement) {
-        
+
         boolean equals = false;
 
         // if both java objects are idential, no further checks are required
@@ -105,29 +105,29 @@ public class NumberRangeElement extends Element implements Enumerable {
             if (anElement instanceof NumberRangeElement)
             {
                 NumberRangeElement other = (NumberRangeElement)anElement;
-                
+
                 // if the current number and the other number equal each other
                 // then objects are equal
-                if ((start == other.start) && 
+                if ((start == other.start) &&
                     (end == other.end) &&
                     (step == other.step)) {
                     return true;
                 }
             }
         }
-        
+
         return equals;
     }
-    
+
     public boolean contains(Element e) {
         if (NumberUtil.isInteger(e)) {
             NumberElement n = (NumberElement) e;
-            
-            return (n.value >= start) 
-            		&& (n.value <= end) 
+
+            return (n.value >= start)
+            		&& (n.value <= end)
             		&& NumberUtil.isInteger(NumberElement.getInstance((n.value - start) / step));
         }
-        
+
         return false;
     }
 

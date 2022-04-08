@@ -11,7 +11,7 @@ package org.coreasm.engine.config;
 
 /**
  * The configuration factory of CoreASM.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -19,7 +19,7 @@ public class ConfigurationFactory {
 
 	/**
 	 * Creates a new configuration instance for CoreASM.
-	 * 
+	 *
 	 * @return a new configuration instance
 	 */
 	public IConfiguration createConfigurationInstance() {

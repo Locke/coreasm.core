@@ -21,14 +21,14 @@ use KernelExtensions
 
 enum DOOP = {amir, ali}
 
-function controlled func : NUMBER -> STRING initially ["george", "roozbeh"] 
+function controlled func : NUMBER -> STRING initially ["george", "roozbeh"]
 function func2 : DOOP -> BOOLEAN initially {ali}
 
 init R1
 
 function b: NUMBER -> NUMBER
 
-rule R1 = 
+rule R1 =
 	par
 		program(self) := @Main
 		b := 0
@@ -38,12 +38,12 @@ rule R1 =
 		rooz := [ 4, 3, 2, 1 ]
 		seq
 			print func(1)
-		next 
+		next
 			print "func2(" + "ali" + ") = " + func2(ali)
 	endpar
 
 rule Main =
-	par 
+	par
 		//a := b(1)
 		a := (f(100))(1)
 		aa:= (f(101))(4)
@@ -57,8 +57,5 @@ rule Main =
 		program(self) := undef
 	endpar
 
-rule anotherRule = 
+rule anotherRule =
 	abstract "anotherRule is called."
-
-
-

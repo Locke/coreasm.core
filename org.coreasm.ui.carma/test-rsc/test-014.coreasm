@@ -25,4 +25,3 @@ rule R =
 		print queue
 		program(self) := undef
 	endseqblock
-

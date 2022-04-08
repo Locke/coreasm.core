@@ -19,7 +19,7 @@ import org.coreasm.compiler.plugins.options.code.bcode.PropertyHandler;
 public class CompilerOptionsPlugin extends CompilerCodePlugin implements CompilerPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -32,13 +32,13 @@ public class CompilerOptionsPlugin extends CompilerCodePlugin implements Compile
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
 	private Map<String, String> options;
-	
+
 	@Override
 	public String getName() {
 		return OptionsPlugin.PLUGIN_NAME;

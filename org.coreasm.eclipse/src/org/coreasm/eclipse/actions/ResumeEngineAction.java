@@ -1,11 +1,11 @@
 /*
  * ResumeEngineAction.java 		$Revision: 8 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 03:32:43 -0500 (Wed, 28 Jan 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -28,12 +28,12 @@ import org.coreasm.eclipse.engine.driver.EngineDriverAction;
 
 /**
  * Action to resume a paused instance of the engine.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
 
-public class ResumeEngineAction extends ActionDelegate implements 
+public class ResumeEngineAction extends ActionDelegate implements
 		IWorkbenchWindowActionDelegate, EngineDriverAction {
 
 	private IWorkbenchWindow window;

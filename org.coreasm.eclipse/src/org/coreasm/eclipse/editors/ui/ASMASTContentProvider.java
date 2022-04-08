@@ -15,22 +15,22 @@ import org.coreasm.eclipse.editors.ASMParser;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.Node.NameNodeTuple;
 
-public class ASMASTContentProvider implements ITreeContentProvider 
+public class ASMASTContentProvider implements ITreeContentProvider
 {
 	private IDocumentProvider documentProvider;
 	private ASMParser parser;
 	private String dummy = "outline currently not available";
-	
+
 	protected final static String AST_POSITIONS = "__ast_position";
-	protected IPositionUpdater positionUpdater = new DefaultPositionUpdater(AST_POSITIONS); 
-	
+	protected IPositionUpdater positionUpdater = new DefaultPositionUpdater(AST_POSITIONS);
+
 	private class ContentWrapper {
 		private final NameNodeTuple content;
-		
+
 		private ContentWrapper(NameNodeTuple content) {
 			this.content = content;
 		}
-		
+
 		@Override
 		public String toString() {
 			if (!Node.DEFAULT_NAME.equals(content.name))
@@ -38,7 +38,7 @@ public class ASMASTContentProvider implements ITreeContentProvider
 			return content.node.toString();
 		}
 	}
-	
+
 	public ASMASTContentProvider(IDocumentProvider provider, ASMParser parser)
 	{
 		if (provider != null && parser != null){
@@ -52,15 +52,15 @@ public class ASMASTContentProvider implements ITreeContentProvider
 			}
 		}
 	}
-	
+
 	@Override
-	public void dispose() 
+	public void dispose()
 	{
 
 	}
 
 	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) 
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
 	{
 		if (oldInput != null)
 		{
@@ -72,12 +72,12 @@ public class ASMASTContentProvider implements ITreeContentProvider
 					document.removePositionCategory(AST_POSITIONS);
 				}
 				catch (BadPositionCategoryException x)
-				{	
+				{
 				}
 				document.removePositionUpdater(positionUpdater);
 			}
 		}
-		
+
 		if (newInput != null)
 		{
 			IDocument document = documentProvider.getDocument(newInput);
@@ -89,17 +89,17 @@ public class ASMASTContentProvider implements ITreeContentProvider
 	}
 
 	@Override
-	public Object[] getElements(Object inputElement) 
+	public Object[] getElements(Object inputElement)
 	{
 		Object o = parser.getRootNode();
 		if (o == null)
 			o = dummy;
-		
+
 		return getChildren(inputElement);
 	}
 
 	@Override
-	public Object[] getChildren(Object parentElement) 
+	public Object[] getChildren(Object parentElement)
 	{
 		if (parentElement instanceof ContentWrapper)
 			parentElement = ((ContentWrapper) parentElement).content.node;
@@ -116,7 +116,7 @@ public class ASMASTContentProvider implements ITreeContentProvider
 	}
 
 	@Override
-	public Object getParent(Object element) 
+	public Object getParent(Object element)
 	{
 		if (element instanceof ContentWrapper)
 			element = ((ContentWrapper) element).content.node;
@@ -135,5 +135,5 @@ public class ASMASTContentProvider implements ITreeContentProvider
 		else return false;
 	}
 
-	
+
 }

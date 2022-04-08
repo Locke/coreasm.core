@@ -31,32 +31,32 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Tools;
 
-/** 
+/**
  *	Plugin for foreach rule
- *   
+ *
  *  @author  Michael Stegmaier
- *  
+ *
  */
 public class ForeachRulePlugin extends Plugin implements ParserPlugin,
         InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 3, "");
-	
+
 	public static final String PLUGIN_NAME = ForeachRulePlugin.class.getSimpleName();
-	
+
 	private final String[] keywords = {"foreach", "in", "with", "do", "ifnone", "endforeach"};
 	private final String[] operators = {};
-	
+
     private ThreadLocal<Map<Node,Iterator<? extends Element>>> iterators;
     private ThreadLocal<Map<Node,UpdateMultiset>> updates;
-    
+
     private Map<String, GrammarRule> parsers;
-    
+
     @Override
     public CompilerPlugin getCompilerPlugin(){
     	return null;
     }
-    
+
     @Override
     public void initialize() {
         iterators = new ThreadLocal<Map<Node, Iterator<? extends Element>>>() {
@@ -68,11 +68,11 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
         updates= new ThreadLocal<Map<Node,UpdateMultiset>>() {
 			@Override
 			protected Map<Node, UpdateMultiset> initialValue() {
-				return new IdentityHashMap<Node, UpdateMultiset>(); 
+				return new IdentityHashMap<Node, UpdateMultiset>();
 			}
         };
     }
- 
+
     private Map<Node, Iterator<? extends Element>> getIteratorMap() {
     	return iterators.get();
     }
@@ -88,20 +88,20 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 	public String[] getOperators() {
 		return operators;
 	}
- 
-    
+
+
     public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
 			Parser<Node> guardParser = kernel.getGuardParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			Parser<Node> foreachParser = Parsers.array( new Parser[] {
 					pTools.getKeywParser("foreach", PLUGIN_NAME),
 					pTools.csplus(Parsers.array(idParser,
@@ -118,22 +118,22 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 					pTools.getKeywParser("endforeach", PLUGIN_NAME).optional(null)
 					}).map(
 					new ForeachParseMap());
-			parsers.put("Rule", 
-					new GrammarRule("ForeachRule", 
+			parsers.put("Rule",
+					new GrammarRule("ForeachRule",
 							"'foreach' ID 'in' Term (',' ID 'in' Term) ('with' Guard)? 'do' Rule ('ifnone' Rule)? ('endforeach')?", foreachParser, PLUGIN_NAME));
 		}
 		return parsers;
     }
 
     public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-        
+
         if (pos instanceof ForeachRuleNode) {
             ForeachRuleNode foreachNode = (ForeachRuleNode) pos;
             Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
             Map<Node, UpdateMultiset> updates = getUpdatesMap();
             Map<String, ASTNode> variableMap;
             AbstractStorage storage = capi.getStorage();
-            
+
             try {
             	variableMap = foreachNode.getVariableMap();
             }
@@ -141,18 +141,18 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
             	capi.error(e);
             	return pos;
             }
-            
+
             // evaluate all domains
             for (ASTNode domain : variableMap.values()) {
             	if (!domain.isEvaluated()) {
             		// SPEC: considered := {}
                 	iterators.remove(domain);
-                    
+
                     // SPEC: pos := beta
             		return domain;
             	}
             }
-            
+
             if (!foreachNode.getDoRule().isEvaluated() &&
             		(foreachNode.getIfnoneRule() == null || !foreachNode.getIfnoneRule().isEvaluated()) &&
                     // depending on short circuit evaluation
@@ -165,8 +165,8 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
             	boolean shouldChoose = true;
             	for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
 	                if (variable.getValue().getValue() instanceof Enumerable) {
-	                    
-	                    // SPEC: s := enumerate(v)/considered                    
+
+	                    // SPEC: s := enumerate(v)/considered
 	        			Iterator<? extends Element> it = iterators.get(variable.getValue());
 	                	if (it == null) {
 	            			Enumerable domain = (Enumerable)variable.getValue().getValue();
@@ -193,16 +193,16 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 	                	}
 	                	else if (shouldChoose)
 	                		interpreter.removeEnv(variable.getKey());
-	                	
+
 	                	if (shouldChoose) {
 		                    if (it.hasNext()) {
 		                    	// SPEC: considered := considered union {t}
 		                        Element chosen = it.next();
 		                        shouldChoose = false;
-		                        
+
 		                        // SPEC: AddEnv(x,t)
 		                        interpreter.addEnv(variable.getKey(),chosen);
-		                    }   
+		                    }
 		                    else {
 		                        iterators.remove(variable.getValue());
 		                        if (pos != foreachNode.getIfnoneRule())
@@ -234,7 +234,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
             else if (((foreachNode.getCondition() != null) && foreachNode.getCondition().isEvaluated()) &&
                      !foreachNode.getDoRule().isEvaluated() &&
                      (foreachNode.getIfnoneRule() == null || !foreachNode.getIfnoneRule().isEvaluated())) {
-                
+
                 boolean value;
                 if (foreachNode.getCondition().getValue() instanceof BooleanElement) {
                     value = ((BooleanElement) foreachNode.getCondition().getValue()).getValue();
@@ -243,7 +243,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
                     capi.error("Value of foreach condition is not Boolean.", foreachNode.getCondition(), interpreter);
                     return pos;
                 }
-                
+
                 if (value) {
                     // pos := delta
                     return foreachNode.getDoRule();
@@ -251,19 +251,19 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
                 else {
                     // ClearTree(gamma)
                     interpreter.clearTree(foreachNode.getCondition());
-                    
+
                     // pos := beta
                     return foreachNode;
                 }
-                
+
             }
-            else if (((foreachNode.getCondition() == null) || foreachNode.getCondition().isEvaluated()) && 
+            else if (((foreachNode.getCondition() == null) || foreachNode.getCondition().isEvaluated()) &&
                     (foreachNode.getDoRule().isEvaluated())) {
             	if (!updates.containsKey(foreachNode)) {
             		updates.put(foreachNode, new UpdateMultiset());
             		pushState();
             	}
-                
+
             	if (foreachNode.getDoRule().getUpdates() != null) {
 	            	UpdateMultiset composedUpdates = updates.get(foreachNode);
 					Set<Update> aggregatedUpdates = storage.performAggregation(foreachNode.getDoRule().getUpdates());
@@ -272,15 +272,15 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 					storage.apply(aggregatedUpdates);
 					updates.put(foreachNode, storage.compose(composedUpdates, foreachNode.getDoRule().getUpdates()));
             	}
-                
+
                 // ClearTree(gamma/delta)
                 interpreter.clearTree(foreachNode.getDoRule());
-                
+
                 if (foreachNode.getCondition() != null) {
                     // ClearTree(gamma)
                     interpreter.clearTree(foreachNode.getCondition());
                 }
-                
+
                 return pos;
             }
             else if (foreachNode.getIfnoneRule() != null && foreachNode.getIfnoneRule().isEvaluated()) {
@@ -296,7 +296,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
         		}
             }
         }
-        
+
         return pos;
     }
 
@@ -308,7 +308,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 	extends ParserTools.ArrayParseMap {
 
 		String nextChildName = "alpha";
-		
+
 		public ForeachParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -336,7 +336,7 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 				super.addChild(parent, child);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -349,5 +349,5 @@ public class ForeachRulePlugin extends Plugin implements ParserPlugin,
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 }

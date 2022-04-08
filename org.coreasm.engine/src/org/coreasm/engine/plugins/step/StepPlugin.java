@@ -1,6 +1,6 @@
-/*	
- * StepPlugin.java 
- * 
+/*
+ * StepPlugin.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2010-04-30 01:05:27 +0200 (Fr, 30 Apr 2010) $.
@@ -43,7 +43,7 @@ import org.coreasm.engine.plugin.VocabularyExtender;
 
 /**
  * Plugin implementing the 'step' rule.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -52,16 +52,16 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 
 	public static final String PLUGIN_NAME = StepPlugin.class.getSimpleName();
 	public static final VersionInfo vinfo = new VersionInfo(1, 0, 1, "alpha");
-	
+
 	public static final String CTL_STATE_FUNC_NAME = "stepControlState";
-	
+
 	private String[] keywords = {"step", "then", "stepwise"};
 	private String[] operators = {};
 
 	private ParserFragments parsers;
 	private HashSet<String> functionNames;
 	private Map<String,FunctionElement> functions = null;
-	
+
 	/* Control states of agents in the system */
 	private Map<Element, SystemControlState> controlStates;
 
@@ -69,7 +69,7 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 		functionNames = new HashSet<String>();
 		functionNames.add(CTL_STATE_FUNC_NAME);
 	}
-	
+
 	@Override
 	public void initialize() throws InitializationFailedException {
 		controlStates = new HashMap<Element, SystemControlState>();
@@ -83,8 +83,8 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 		}
 		return result;
 	}
-	
-	
+
+
 	@Override
 	public String[] getKeywords() {
 		return keywords;
@@ -114,19 +114,19 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 		if (parsers == null) {
 			parsers = new ParserFragments();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			//Parser<Node> termParser = kernel.getTermParser();
 			Parser<Node> ruleParser = kernel.getRuleParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 
 			final String grName = "StepRule";
 			final String blockGRName = "StepBlock";
-			
+
 			Parser<Node> stepRuleParser = Parsers.array(
 					new Parser[] {
 						pTools.getKeywParser("step", PLUGIN_NAME),
-						ruleParser, 
+						ruleParser,
 						pTools.getKeywParser("then", PLUGIN_NAME).optional(null),
 						ruleParser
 					}).map(
@@ -151,17 +151,17 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 							}
 							return node;
 						}
-		
+
 			});
-			
-			final GrammarRule gr = new GrammarRule(grName, "'step' Rule 'then'? Rule", stepRuleParser, PLUGIN_NAME); 
+
+			final GrammarRule gr = new GrammarRule(grName, "'step' Rule 'then'? Rule", stepRuleParser, PLUGIN_NAME);
 			parsers.add(gr);
-			
+
 			Parser<Node> stepBlockRuleParser = Parsers.array(
 					new Parser[] {
 						pTools.getKeywParser("stepwise", PLUGIN_NAME),
-						pTools.getOprParser("{"), 
-						pTools.plus(ruleParser), 
+						pTools.getOprParser("{"),
+						pTools.plus(ruleParser),
 						pTools.getOprParser("}")
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
@@ -172,18 +172,18 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 							addChildren(node, vals);
 							return node;
 						}
-		
+
 			});
-			
-			final GrammarRule blockGR = new GrammarRule(blockGRName, "'stepwise' '{' Rule+ '}'", stepBlockRuleParser, PLUGIN_NAME); 
+
+			final GrammarRule blockGR = new GrammarRule(blockGRName, "'stepwise' '{' Rule+ '}'", stepBlockRuleParser, PLUGIN_NAME);
 			parsers.add(blockGR);
 
 			final GrammarRule stepRules = new GrammarRule("StepRules", gr.name + " | " + blockGRName, Parsers.or(stepRuleParser, stepBlockRuleParser), PLUGIN_NAME);
 			parsers.add(stepRules);
-			
+
 			parsers.put("Rule", stepRules);
 		}
-		
+
 		return parsers;
 	}
 
@@ -196,7 +196,7 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 			ASTNode alpha = node.getFirstRule();
 			ASTNode beta = node.getSecondRule();
 			SystemControlState ctlstate = getControlState(interpreter.getSelf());
-			
+
 			if (!alpha.isEvaluated() && !beta.isEvaluated()) {
 				ControlStateElement ctlstate_alpha = uniqueCtlState(alpha, interpreter);
 				if (ctlstate.contains(ctlstate_alpha))
@@ -216,7 +216,7 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 					pos.setNode(null, alpha.getUpdates(), null);
 				} else {
 					ControlStateElement ctlstate_beta = uniqueCtlState(beta, interpreter);
-					if (!substateExists(ctlstate_beta, ctlstate)) 
+					if (!substateExists(ctlstate_beta, ctlstate))
 						ctlstate.value.remove(ctlstate_beta);
 					pos.setNode(null, beta.getUpdates(), null);
 				}
@@ -227,13 +227,13 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 				ASTNode lastEvaluatedRule = null;
 				SystemControlState ctlstate = getControlState(interpreter.getSelf());
 
-				for (ASTNode cn: node.getAbstractChildNodes()) 
+				for (ASTNode cn: node.getAbstractChildNodes())
 					if (cn.isEvaluated()) {
 						lastEvaluatedRule = cn;
 						break;
 					}
 				if (lastEvaluatedRule == null) {
-					for (ASTNode cn: node.getAbstractChildNodes()) 
+					for (ASTNode cn: node.getAbstractChildNodes())
 						if (ctlstate.contains(uniqueCtlState(cn, interpreter)))
 							return cn;
 					// implicit else
@@ -261,7 +261,7 @@ public class StepPlugin extends Plugin implements ParserPlugin,
 			}
 		return result;
 	}
-	
+
 	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();

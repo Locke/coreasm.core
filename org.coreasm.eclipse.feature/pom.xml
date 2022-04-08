@@ -13,7 +13,7 @@
 		<artifactId>org.coreasm.eclipse.parent</artifactId>
 		<relativePath>../org.coreasm.eclipse.parent</relativePath>
 	</parent>
-	
+
 	<distributionManagement>
 	  <snapshotRepository>
 	    <id>ossrh</id>
@@ -24,7 +24,7 @@
 	    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 	  </repository>
 	</distributionManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>

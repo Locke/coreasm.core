@@ -9,7 +9,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
  *
  */
 public class ASMDebugElement extends DebugElement {
-	
+
 	public ASMDebugElement(IDebugTarget debugTarget) {
 		super(debugTarget);
 	}

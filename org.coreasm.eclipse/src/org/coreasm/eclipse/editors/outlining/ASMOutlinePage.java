@@ -28,7 +28,7 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 	private ASMEditor editor;
-	
+
 	private ASMContentProvider contentProvider;
 	private StyledCellLabelProvider labelProvider;
 
@@ -43,13 +43,13 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-		
+
 		TreeViewer viewer = getTreeViewer();
 
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(labelProvider);
 		viewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
-		
+
 		viewer.addSelectionChangedListener(this);
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
@@ -70,7 +70,7 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 					FileManager.openEditor(filenameFromProj, editor.getInputFile().getProject());
 					break;
 				}
@@ -78,7 +78,7 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 		});
 		update();
 	}
-	
+
 	protected void update() {
 		TreeViewer viewer = getTreeViewer();
 		if (viewer != null && !viewer.getControl().isDisposed()) {
@@ -88,7 +88,7 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 			control.setRedraw(true);
 		}
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Display.getDefault().asyncExec(new Runnable() {
@@ -98,18 +98,18 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 			}
 		});
 	}
-	
+
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		super.selectionChanged(event);
-		
+
 		ISelection selection = event.getSelection();
 		if (selection.isEmpty())
 			editor.resetHighlightRange();
 		else {
 			IStructuredSelection sel = (IStructuredSelection) selection;
 			Object element = sel.getFirstElement();
-			
+
 			try {
 				if (element instanceof ASMOutlineTreeNode) {
 					ASMOutlineTreeNode node = (ASMOutlineTreeNode) element;
@@ -127,7 +127,7 @@ public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 			}
 		}
 	}
-	
+
 	@Override
 	public void setActionBars(IActionBars actionBars) {
 		super.setActionBars(actionBars);

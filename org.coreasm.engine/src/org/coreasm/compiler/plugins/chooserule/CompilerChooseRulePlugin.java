@@ -20,7 +20,7 @@ import org.coreasm.compiler.plugins.chooserule.code.ucode.ChooseRuleHandler;
  * If any of the lists l1...ln is empty or the guard cannot be fulfilled
  * with any assignment for x1...xn, the ifnone rule is executed with
  * x1 = x2...=xn = undef
- * 
+ *
  * This plugin also provides the pick expression, which picks a random value
  * out of an {@link Enumerable}
  * @author Spellmaker
@@ -29,7 +29,7 @@ import org.coreasm.compiler.plugins.chooserule.code.ucode.ChooseRuleHandler;
 public class CompilerChooseRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Initializes a new plugin
 	 * @param parent The interpreter version
@@ -37,12 +37,12 @@ public class CompilerChooseRulePlugin extends CompilerCodePlugin implements Comp
 	public CompilerChooseRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
-	
+
 	@Override
 	public String getName() {
 		return ChooseRulePlugin.PLUGIN_NAME;

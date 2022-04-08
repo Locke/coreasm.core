@@ -23,9 +23,9 @@ import org.coreasm.compiler.exception.EmptyContextStackException;
 public class VarManager {
 	private HashMap<String, Integer> variables;
 	private HashMap<String, Stack<Integer>> contexts;
-	
+
 	private int contextCount;
-	
+
 	/**
 	 * Creates a new variable manager and initializes its data structures.
 	 */
@@ -34,7 +34,7 @@ public class VarManager {
 		contexts = new HashMap<String, Stack<Integer>>();
 		contextCount = 0;
 	}
-	
+
 	/**
 	 * Signals the variable manager to start a new context.
 	 * Variables in this context can have the same name as variables in
@@ -45,9 +45,9 @@ public class VarManager {
 		for (Entry<String, Stack<Integer>> entry : contexts.entrySet()) {
 			entry.getValue().push(variables.get(entry.getKey()));
 		}
-		
+
 	}
-	
+
 	/**
 	 * Signals the variable manager to end the current context.
 	 * Ending a context will throw away all variable assignments in the current context
@@ -66,19 +66,19 @@ public class VarManager {
 			throw new EmptyContextStackException("context stack is empty");
 		}
 	}
-	
+
 	/**
 	 * Creates a new CompilerVariable with a name and type combination unique to the current context
 	 * @param type The type of the variable
 	 * @return A CompilerVariable unique to the current context
 	 */
-	public CompilerVariable createVariable(String type){		
+	public CompilerVariable createVariable(String type){
 		if(contexts.get(type) == null){
 			Stack<Integer> stack = new Stack<Integer>();
 			contexts.put(type, stack);
 			for(int i = 0; i < contextCount; i++) stack.push(0);
 		}
-		
+
 		if(variables.get(type) == null) variables.put(type, 0);
 		String varname = "var_" + type.replace(".", "_").replace("<", "__").replace(">", "__").replace("?", "___").replace(" ", "").replace(",", "___").replace("[", "____").replace("]", "____") + "_" + variables.get(type);
 		variables.put(type, variables.get(type) + 1);

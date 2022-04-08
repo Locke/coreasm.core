@@ -6,7 +6,7 @@ import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
 
 /**
  * @author Tobias
- *	
+ *
  * The preference page of the template
  */
 public class ASMTemplatePreferencePage extends TemplatePreferencePage implements IWorkbenchPreferencePage {
@@ -34,4 +34,3 @@ public class ASMTemplatePreferencePage extends TemplatePreferencePage implements
 		return ok;
 	}
 }
-

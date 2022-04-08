@@ -1,11 +1,11 @@
 /*
  * UpdateExplorer.java 		$Revision: 9 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 10:03:22 +0100 (Mi, 28 Jan 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -27,24 +27,24 @@ import org.coreasm.util.Multiset;
 
 /**
  * A utility class to help working on Jasmine update multisets.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
 
 public class UpdateExplorer {
-	
+
 	private final UpdateMultiset baseSet;
-	
+
 	public final List<JasmineUpdateElement> updates = new ArrayList<JasmineUpdateElement>();
-	public final HashMap<Location, Multiset<JasmineUpdateElement>> createLocations = new HashMap<Location, Multiset<JasmineUpdateElement>>();  
-	public final HashMap<Location, Multiset<JasmineUpdateElement>> invokeLocations = new HashMap<Location, Multiset<JasmineUpdateElement>>();  
-	public final HashMap<JObjectElement, Multiset<JasmineUpdateElement>> storeLocations = new HashMap<JObjectElement, Multiset<JasmineUpdateElement>>();  
+	public final HashMap<Location, Multiset<JasmineUpdateElement>> createLocations = new HashMap<Location, Multiset<JasmineUpdateElement>>();
+	public final HashMap<Location, Multiset<JasmineUpdateElement>> invokeLocations = new HashMap<Location, Multiset<JasmineUpdateElement>>();
+	public final HashMap<JObjectElement, Multiset<JasmineUpdateElement>> storeLocations = new HashMap<JObjectElement, Multiset<JasmineUpdateElement>>();
 
 	/**
 	 * Creates a new Update Explorer based on the given
-	 * multiset of updates on the jasmine channel. 
-	 * 
+	 * multiset of updates on the jasmine channel.
+	 *
 	 * @param baseSet
 	 */
 	public UpdateExplorer(UpdateMultiset baseSet) {
@@ -52,15 +52,15 @@ public class UpdateExplorer {
 		expandUpdates();
 		createViews();
 	}
-	
+
 	/*
-	 * expanding jasmine updates into a list 
+	 * expanding jasmine updates into a list
 	 * which is one realization of the partial order between
 	 * the updates
 	 */
 	private void expandUpdates() {
-		for (Update u: baseSet) 
-			if (u.action.equals(JasminePlugin.JASMINE_UPDATE_ACTION)) 
+		for (Update u: baseSet)
+			if (u.action.equals(JasminePlugin.JASMINE_UPDATE_ACTION))
 				if (u.value instanceof JasmineAbstractUpdateElement)
 					addToUpdateList((JasmineAbstractUpdateElement)u.value);
 	}
@@ -79,12 +79,12 @@ public class UpdateExplorer {
 			updates.add((JasmineUpdateElement)update);
 		// there should be no other form
 	}
-	
+
 	/*
 	 * create different views of the updates
 	 */
 	private void createViews() {
-		for (JasmineUpdateElement jue: updates) { 
+		for (JasmineUpdateElement jue: updates) {
 			if (jue.type == Type.Create)
 				addLocUpdatePair(createLocations, jue.getCoreASMLocation(), jue);
 			else

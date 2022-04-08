@@ -1,6 +1,6 @@
-/*	
+/*
  * OptionsPlugin.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.options;
 
 import java.util.Collections;
@@ -38,20 +38,20 @@ import org.coreasm.engine.plugin.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  * This plug-in provides the means to set CoreASM engine properties. These
- * properties can later be used by various plugins to provide customized 
+ * properties can later be used by various plugins to provide customized
  * services.
  * <p>
- * The plugin provides the following syntax to the Header section of 
+ * The plugin provides the following syntax to the Header section of
  * CoreASM specifications:
  * <p>
  * <code><b>option</b></code> property </code> <code> value </code>
  * <p>
  * value of the property ends by the end of the line
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class OptionsPlugin extends Plugin implements ParserPlugin,
 		ExtensionPointPlugin {
@@ -59,30 +59,30 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	protected static final Logger logger = LoggerFactory.getLogger(OptionsPlugin.class);
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 1, "");
-	
+
 	public static final String PLUGIN_NAME = OptionsPlugin.class.getSimpleName();
-	
+
     private Map<String, GrammarRule> parsers = null;
 
 	private final String[] keywords = {"option"};
 	private final String[] operators = {"."};
-	
+
 	private final Map<EngineMode, Integer> sourceModes;
 	private final Map<EngineMode, Integer> targetModes;
 
 	private final CompilerPlugin compilerPlugin = new CompilerOptionsPlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 	public OptionsPlugin() {
 		sourceModes = new HashMap<EngineMode, Integer>();
 		sourceModes.put(EngineMode.emParsingSpec, ExtensionPointPlugin.DEFAULT_PRIORITY);
 		targetModes = new HashMap<EngineMode, Integer>();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
@@ -105,20 +105,20 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 		return operators;
 	}
 
-	
+
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * Always returns <code>null</code>.
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
 	public Parser<Node> getParser(String nonterminal) {
 		if (parsers != null)
 			return parsers.get(nonterminal).parser;
-		else 
+		else
 			return null;
 	}
 
@@ -134,7 +134,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
 			Parser<Node> termParser = kernel.getTermParser();
-		
+
 			// ID('.'ID)*
 			Parser<Node> optionNameParser = Parsers.array(
 					new Parser[] {
@@ -153,7 +153,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 									str,
 									((Node)vals[0]).getScannerInfo());
 						}
-						
+
 						private String objectToString(Object obj) {
 							String result = "";
 							if (obj instanceof Object[])
@@ -175,14 +175,14 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 
 				public Node fromToken(Tok tok) {
 					return new ASTNode(
-							PLUGIN_NAME, 
-							ASTNode.DECLARATION_CLASS, 
-							"OptionValue", 
+							PLUGIN_NAME,
+							ASTNode.DECLARATION_CLASS,
+							"OptionValue",
 							tok.toString().trim(),
 							new ScannerInfo(tok)
 							);
 				}});
-			
+
 			parsers.put(optionValueParser.toString(),
 					new GrammarRule(optionValueParser.toString(),
 							"AnyToken", optionValueParser, PLUGIN_NAME));*/
@@ -207,7 +207,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 						"'option' OptionName OptionValue", optionParser, PLUGIN_NAME));
 
 			/*
-			Parser<Node> optionsParser = Parsers.mapn("Options", 
+			Parser<Node> optionsParser = Parsers.mapn("Options",
 					new Parser[] {
 						pTools.star(optionParser)
 					},
@@ -225,17 +225,17 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 				        			((Node)nodes[0]).getScannerInfo());
 							addChildren(node, vals);
 							return node;
-						}} 
+						}}
 			);
 			parsers.put(optionsParser.toString(),
 					new GrammarRule(optionsParser.toString(),
 							"Option*", optionsParser, PLUGIN_NAME));
 			*/
-			
-			parsers.put("Header", 
+
+			parsers.put("Header",
 					new GrammarRule("Header", "Option", optionParser, PLUGIN_NAME));
 		}
-		
+
 		return parsers;
 	}
 
@@ -254,7 +254,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	private void loadProperties() {
 		Set<String> definedOptions = capi.getSpec().getOptions();
         ASTNode currentNode = capi.getParser().getRootNode().getFirst();
-        
+
         while (currentNode != null) {
             if (currentNode instanceof OptionNode) {
             	OptionNode optionNode = (OptionNode)currentNode;
@@ -293,26 +293,26 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
             while (node != null) {
                 if ((node.getGrammarRule() != null) && node.getGrammarRule().equals("Options"))
                     break;
-                
-                node = node.getNext();            
+
+                node = node.getNext();
                 if (node == null) {
                     logger.debug("No options are specified.");
                     return;
                 }
-            }        
+            }
         }
-        
+
         ASTNode currentNode = node.getFirst();
         OptionNode optionNode = null;
-        
+
         while (currentNode != null) {
             if (currentNode instanceof OptionNode) {
-            	optionNode = (OptionNode)currentNode; 
+            	optionNode = (OptionNode)currentNode;
             	capi.setProperty(optionNode.getOptionName(), optionNode.getOptionValue());
             }
             currentNode = currentNode.getNext();
         }
-        
+
 	}*/
 
 	/* (non-Javadoc)
@@ -337,5 +337,3 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	}
 
 }
-
-		

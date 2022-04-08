@@ -43,7 +43,7 @@ import org.coreasm.util.CoreASMGlobal;
 
 /**
  * Shows a brief About window.
- * 
+ *
  */
 public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 
@@ -264,7 +264,7 @@ public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 	 * Selection in the workbench has been changed. We can change the state of
 	 * the 'real' action here if we want, but this can only happen after the
 	 * delegate has been created.
-	 * 
+	 *
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
 	@Override
@@ -274,7 +274,7 @@ public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * We can use this method to dispose of any system resources we previously
 	 * allocated.
-	 * 
+	 *
 	 * @see IWorkbenchWindowActionDelegate#dispose
 	 */
 	@Override
@@ -284,7 +284,7 @@ public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * We will cache window object in order to be able to provide parent shell
 	 * for the message dialog.
-	 * 
+	 *
 	 * @see IWorkbenchWindowActionDelegate#init
 	 */
 	@Override

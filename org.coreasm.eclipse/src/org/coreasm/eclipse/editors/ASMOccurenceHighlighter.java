@@ -18,9 +18,9 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 public class ASMOccurenceHighlighter implements IASMSelectionListener {
 	private static final String ANNOTATION_OCCURRENCE = "org.coreasm.eclipse.ui.occurrence";
 	private static final String ANNOTATION_OCCURRENCE_WRITE = "org.coreasm.eclipse.ui.occurrence.write";
-	
+
 	private Annotation[] annotations;
-	
+
 	public ASMOccurenceHighlighter(ASMEditor editor) {
 		editor.addPostSelectionListener(this);
 	}
@@ -63,7 +63,7 @@ public class ASMOccurenceHighlighter implements IASMSelectionListener {
 			annotations = annotationMap.keySet().toArray(new Annotation[annotationMap.keySet().size()]);
 		}
 	}
-	
+
 	private void removeAnnotations(ASMEditor editor) {
 		if (annotations == null)
 			return;

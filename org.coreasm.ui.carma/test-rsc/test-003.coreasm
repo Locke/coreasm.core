@@ -25,28 +25,27 @@ rule Rule1 =
 	endpar
 
 
-rule Rule2 = 
+rule Rule2 =
 	par
 		a := b
 		d := c
 		program(self) := undef
 	endpar
 
-rule InitRule = 
-	par	
+rule InitRule =
+	par
 		program(self) := undef
 		Agents(self) := false
-	
+
 		import e do
 			par
 				program(e) := ruleelement Rule1
 				Agents(e) := true
 			endpar
-	
+
 		import f do
 			par
 				program(f) := ruleelement Rule2
 				Agents(f) := true
 			endpar
 	endpar
-    

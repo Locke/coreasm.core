@@ -12,7 +12,7 @@ import org.coreasm.engine.plugins.options.OptionNode;
  * @author Spellmaker
  *
  */
-public class PropertyHandler implements CompilerCodeHandler {	
+public class PropertyHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {

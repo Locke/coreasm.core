@@ -20,15 +20,15 @@ rule R2 = {
 	R6
 }
 
-rule R3 = 
+rule R3 =
 	step add 8 to c
 	then add 16 to c
 
-rule R4 = 
+rule R4 =
 	step add 4096 to c
 	then add 8192 to c
 
-rule R5 = 
+rule R5 =
 	stepwise {
 		add 32 to c
 		add 64 to c
@@ -37,8 +37,8 @@ rule R5 =
 		R6
 	}
 
-rule R6 = 
-	stepwise { 
-		add 1024 to c 
+rule R6 =
+	stepwise {
+		add 1024 to c
 		add 2048 to c
 	}

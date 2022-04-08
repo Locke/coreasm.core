@@ -1,17 +1,17 @@
-/*	
+/*
  * Update.java 	1.0 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2005-2009 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005-2009 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.Arrays;
@@ -21,35 +21,35 @@ import java.util.Set;
 
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  *	Defines an update instruction. It consists of a <i>location</i>, a <i>value</i>,
  *  and an <i>update action</i>.
- *   
+ *
  *  @author  Roozbeh Farahbod
  */
 public class Update {
-	
+
 	/** Name of the regular update action */
 	public static final String UPDATE_ACTION = "updateAction";
-	
+
 	/** Location, value, and action of an update instruction */
 	public final Location loc;
 	public final Element value;
 	public final String action;
-	
+
 	/** contributing agents */
 	public final Set<Element> agents;
 
 	/** originating nodes */
 	public final Set<ScannerInfo> sources;
-	
-	/** 
+
+	/**
 	 * Creates a new update instructions.
-	 * 
+	 *
 	 * @param loc location of the update
 	 * @param value new value
 	 * @param action action to be performed
-	 * @param agents the agents providing this update; it can be more than 
+	 * @param agents the agents providing this update; it can be more than
 	 * one agent if this is an aggregation of other updates.
 	 * @param sources the set of sources (in the specification) that together generated this update.
 	 */
@@ -68,10 +68,10 @@ public class Update {
 		else
 			this.sources = Collections.unmodifiableSet(sources);
 	}
-	
-	/** 
+
+	/**
 	 * Creates a new update instructions.
-	 * 
+	 *
 	 * @param loc location of the update
 	 * @param value new value
 	 * @param action action to be performed
@@ -94,53 +94,53 @@ public class Update {
 		else
 			this.sources = newSourceSet(source);
 	}
-	
+
 	/**
 	 * Compares this object to the specified object. If
 	 * the specified object is an <code>Update</code> with
 	 * the same location, value, and action as of this object,
 	 * returns <code>true</code>; otherwise returns <code>false</code>.
-	 * 
+	 *
 	 * @see Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object obj) {
 		boolean result = false;
 		if (obj instanceof Update) {
 			Update u = (Update)obj;
-			result = this.value.equals(u.value) 
+			result = this.value.equals(u.value)
 					&& this.action.equals(u.action)
 					&& this.loc.equals(u.loc);
 		}
 		return result;
 	}
-	
+
 	/**
-	 * Hash code for updates. Must be overridden because equality is overridden. 
-	 *  
+	 * Hash code for updates. Must be overridden because equality is overridden.
+	 *
 	 * @see Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return loc.hashCode() + value.hashCode() + action.hashCode(); 
+		return loc.hashCode() + value.hashCode() + action.hashCode();
 	}
-	
+
 	/**
-	 * String view of udpates. Two equal updates should have the same string. 
-	 *  
+	 * String view of udpates. Two equal updates should have the same string.
+	 *
 	 * @see Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "(" + loc.toString() + ", " + value.denotation() + ", " + action + ")"; 
+		return "(" + loc.toString() + ", " + value.denotation() + ", " + action + ")";
 	}
-	
+
 	/*
 	 * Creates a new set of agents (elements in general) with the given elements.
 	 */
 	private HashSet<Element> newAgentSet(Element ... agents) {
 		return new HashSet<>(Arrays.asList(agents));
 	}
-	
+
 	private HashSet<ScannerInfo> newSourceSet(ScannerInfo ... sources) {
 		return new HashSet<>(Arrays.asList(sources));
 	}

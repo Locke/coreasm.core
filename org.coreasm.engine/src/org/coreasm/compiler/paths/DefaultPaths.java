@@ -14,7 +14,7 @@ package org.coreasm.compiler.paths;
  * <tr><th>rulePkg</th><th>'Rules'</th></tr>
  * <tr><th>runtimeProvider</th><th>runtimePkg() + '.RuntimeProvider.getRuntime()'</th></tr>
  * </table>
- * 
+ *
  * @author Spellmaker
  *
  */
@@ -44,7 +44,7 @@ public class DefaultPaths extends CompilerPathConfig {
 	public String rulePkg() {
 		return "Rules";
 	}
-	
+
 	@Override
 	public String runtimeProvider(){
 		return runtimePkg() + ".RuntimeProvider.getRuntime()";

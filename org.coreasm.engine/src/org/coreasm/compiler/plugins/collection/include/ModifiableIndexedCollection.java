@@ -24,7 +24,7 @@ import CompilerRuntime.UpdateList;
 
 /**
  * The interface for all modifiable indexed collections.
- *   
+ *
  * @author Roozbeh Farahbod
  */
 

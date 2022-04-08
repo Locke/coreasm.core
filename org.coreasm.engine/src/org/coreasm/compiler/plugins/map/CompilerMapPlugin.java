@@ -31,7 +31,7 @@ public class CompilerMapPlugin extends CompilerCodePlugin implements CompilerPlu
 		CompilerVocabularyExtender {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -39,7 +39,7 @@ public class CompilerMapPlugin extends CompilerCodePlugin implements CompilerPlu
 	public CompilerMapPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -55,7 +55,7 @@ public class CompilerMapPlugin extends CompilerCodePlugin implements CompilerPlu
 			throws CompilerException {
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -65,11 +65,11 @@ public class CompilerMapPlugin extends CompilerCodePlugin implements CompilerPlu
 				//classLibrary.addPackageReplacement("org.coreasm.engine.plugins.collection.AbstractMapElement", "plugins.CollectionPlugin.AbstractMapElement");
 				//classLibrary.addPackageReplacement("org.coreasm.compiler.plugins.collection.include.ModifiableCollection", "plugins.CollectionPlugin.ModifiableCollection");
 				//classLibrary.addPackageReplacement("org.coreasm.engine.plugins.list.ListElement", "plugins.ListPlugin.ListElement");
-				
+
 				//package replacements for classes accessible from other plugins
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.map.MapBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "MapBackgroundElement", "MapPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.compiler.plugins.map.include.MapElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "MapElement", "MapPlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/map/MapBackgroundElement.java", EntryType.BACKGROUND, MapBackgroundElement.NAME).
 						includeStatic("org/coreasm/engine/plugins/map/MapToPairsFunctionElement.java", EntryType.FUNCTION, MapToPairsFunctionElement.NAME).

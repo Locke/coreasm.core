@@ -1,6 +1,6 @@
-/*	
+/*
  * NumberRealFunction.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
  *
@@ -9,7 +9,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.number;
 
 import java.util.List;
@@ -18,18 +18,18 @@ import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 
-/** 
+/**
  *  Function to determine if an Element represents a real number
- *   
+ *
  *  @author  George Ma
- *  
+ *
  */
 public class NumberRealFunction extends FunctionElement {
 
     public static String NUMBER_REAL_FUNCTION_NAME = "isRealNumber";
- 
+
     /**
-     * Creates a new NumberRealFunction 
+     * Creates a new NumberRealFunction
      */
     public NumberRealFunction() {
         setFClass(FunctionClass.fcDerived);

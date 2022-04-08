@@ -1,16 +1,16 @@
-/*	
+/*
  * Carma.java 	$Revision: 255 $
- * 
+ *
  * Copyright (C) 2006-2010 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-05-15 02:33:32 +0200 (So, 15 Mai 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.ui;
 
 
@@ -64,22 +64,22 @@ import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
 
-/** 
+/**
  * Runs a CoreASM specification
- *   
+ *
  * @author  Roozbeh Farahbod
  */
-public class Carma implements EngineStepObserver, EngineErrorObserver, VersionInfoProvider, 
+public class Carma implements EngineStepObserver, EngineErrorObserver, VersionInfoProvider,
 							  InputProvider, Runnable {
 
 	private static final VersionInfo VERSION_INFO = new VersionInfo(0, 8, 1, "");
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Carma.class);
-	
+
 	private static final String APP_NAME = "Carma";
 	private static final String INTRO = APP_NAME + " " + VERSION_INFO + " by Roozbeh Farahbod";
 	private static final String INFO = "A command-line user interface for CoreASM engine";
-	
+
 	/* Command-line Arguments */
 	private static final String ARG_ENGINE_VERBOSITY = "engine-verbosity";
 	private static final String ARG_SILENT = "silent";
@@ -111,7 +111,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private static final String VERB_WARNING = "warn";
 	private static final String VERB_INFO = "info";
 	private static final String VERB_DEBUG = "debug";
-	
+
 	private int steps = 1;
 	private String fileName = "";
 	private boolean silent = false;
@@ -136,7 +136,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private String[] engineProperties = null;
 	private int maxThreads = -1;
 	private String[] arguments = null;
-	
+
 	/* Other information gathered in run */
 	private boolean updateFailed = false;
 	private CoreASMError lastError = null;
@@ -144,7 +144,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	private UpdateMultiset lastUpdateSet = null;
 
 	private CoreASMEngine engine = null;
-	
+
 	/*
 	 * Processes the command-line arguments
 	 */
@@ -152,33 +152,33 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
         SimpleJSAP jsap = null;
 		try {
-	        FlaggedOption propOption = new FlaggedOption( ARG_ENGINE_PROPERTY, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, 'D', JSAP.NO_LONGFLAG, 
+	        FlaggedOption propOption = new FlaggedOption( ARG_ENGINE_PROPERTY, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, 'D', JSAP.NO_LONGFLAG,
     		"Sets an engine property.");
 	        propOption.setAllowMultipleDeclarations(true);
 
-    		jsap = new SimpleJSAP( 
-			        APP_NAME, 
+    		jsap = new SimpleJSAP(
+			        APP_NAME,
 			        INFO,
 			        new Parameter[] {
-			            
-			        	new FlaggedOption( ARG_ENGINE_VERBOSITY, JSAP.STRING_PARSER, VERB_OFF, JSAP.REQUIRED, 'v', ARG_ENGINE_VERBOSITY, 
-			                "Sets the engine's verbosity level which can be '" 
+
+			        	new FlaggedOption( ARG_ENGINE_VERBOSITY, JSAP.STRING_PARSER, VERB_OFF, JSAP.REQUIRED, 'v', ARG_ENGINE_VERBOSITY,
+			                "Sets the engine's verbosity level which can be '"
 			            		+ VERB_ERROR + "', '" + VERB_WARNING + "', '" + VERB_INFO + ", '" + VERB_DEBUG + "', or '" + VERB_OFF + "'."),
-			            
+
 			            new Switch( ARG_SILENT, 'q', ARG_SILENT, "Do not print any message."),
-					            
+
 			            new Switch( ARG_LATEX_OUTPUT, JSAP.NO_SHORTFLAG, ARG_LATEX_OUTPUT, "Generate LaTeX output."),
 
-			            new FlaggedOption( ARG_STEPS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 's', ARG_STEPS, 
+			            new FlaggedOption( ARG_STEPS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 's', ARG_STEPS,
 				                "Sets the maximum number of steps before termination."),
-				            
+
 			        	new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS,
 				                "Sets the maximum number of execution threads to be used for simulation."),
-				
+
 				        propOption,
-				        
+
 			            new Switch( ARG_EMPTY_UPDATES_STOP, 'y', ARG_EMPTY_UPDATES_STOP, "Stop when a step returns an empty set of updates."),
-			            
+
 			            new Switch( ARG_SAME_UPDATES_STOP, 'l', ARG_SAME_UPDATES_STOP, "Stop when a step returns the same set of updates as the previous step."),
 
 			            new Switch( ARG_EMPTY_AGENTS_STOP, 'p', ARG_EMPTY_AGENTS_STOP, "Stop when there is no agent with a defined program."),
@@ -201,7 +201,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
 			            new Switch( ARG_DUMP_ENGINE_PROPERTIES, JSAP.NO_SHORTFLAG, ARG_DUMP_ENGINE_PROPERTIES, "Dump engine properties."),
 
-			        	new FlaggedOption( ARG_PLUGIN_LOAD_REQUEST, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NO_SHORTFLAG , ARG_PLUGIN_LOAD_REQUEST_LONG, 
+			        	new FlaggedOption( ARG_PLUGIN_LOAD_REQUEST, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NO_SHORTFLAG , ARG_PLUGIN_LOAD_REQUEST_LONG,
 		                		"A comma separated list of plugins to be loaded in addition to the specification plugins."),
 
 		                new Switch( ARG_PRINT_LAST_AGENTS, 'a', ARG_PRINT_LAST_AGENTS, "Print the set of selected agents after each step."),
@@ -212,24 +212,24 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
 			            new Switch( ARG_PRINT_PROCESSOR_STATS, JSAP.NO_SHORTFLAG, ARG_PRINT_PROCESSOR_STATS, "Print some stats on processor utilization."),
 
-			            new UnflaggedOption( ARG_SPEC_FILE, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NOT_GREEDY, 
+			            new UnflaggedOption( ARG_SPEC_FILE, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NOT_GREEDY,
 			            		"CoreASM specification file" )
-			    
+
 			        }
 			    );
 		} catch (JSAPException e) {
 			e.printStackTrace();
 		}
-            
-		JSAPResult config = jsap.parse(args);    
+
+		JSAPResult config = jsap.parse(args);
         if ( jsap.messagePrinted() ) System.exit( 1 );
-        
+
         String  vLevel = config.getString(ARG_ENGINE_VERBOSITY).toUpperCase();
         Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        
+
         if (root instanceof ch.qos.logback.classic.Logger) {
         	ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger)root;
-    		if (vLevel.equals("ERROR")) 
+    		if (vLevel.equals("ERROR"))
     			rootLogger.setLevel(ch.qos.logback.classic.Level.ERROR);
     		else if (vLevel.equals("WARNING"))
     			rootLogger.setLevel(ch.qos.logback.classic.Level.WARN);
@@ -246,7 +246,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
         } else {
         	logger.warn("Could not set verbosity level. The feature is supported only if logging with Logback.");
         }
-        
+
 
 		fileName = config.getString(ARG_SPEC_FILE);
 		silent = config.getBoolean(ARG_SILENT);
@@ -271,7 +271,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		printSpec = config.getBoolean(ARG_PRINT_SPEC);
 		printLoadedSpec = config.getBoolean(ARG_PRINT_LOADED_SPEC);
 		engineProperties = config.getStringArray(ARG_ENGINE_PROPERTY);
-		
+
 		if (fileName == null && !printInfo) {
 			System.err.println("Error: specification file is required.");
 			System.exit(1);
@@ -282,14 +282,14 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		}
 		return config;
 	}
-	
+
 	/*
 	 * Log a message with new line and Carma signature.
 	 */
 	private void logln(String msg) {
 		silentLogln("* Carma: " + msg);
 	}
-	
+
 	/*
 	 * Log a message with new line.
 	 */
@@ -297,14 +297,14 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		if (!silent)
 			System.out.println(msg);
 	}
-	
+
 	private boolean isTerminationConditionReached(CoreASMEngine engine, int currentStep) {
 		synchronized (this) {
 			if (updateFailed) {
 				return true;
 			}
 		}
-		
+
 		if (engine.getEngineMode().equals(EngineMode.emTerminated))
 			return true;
 
@@ -330,7 +330,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		}
 		return false;
 	}
-	
+
 	public void error(CoreASMEngine engine) {
 		StringBuffer msg = new StringBuffer("Engine error " + Tools.getEOL());
 		if (lastError != null)
@@ -341,7 +341,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	public void error(CoreASMEngine engine, String msg, Exception e) {
 		error(engine, "* Carma * : " + msg + " (" + e.getMessage() + ")");
 	}
-	
+
 	public void error(CoreASMEngine engine, String msg) {
 		System.err.println("* Carma * : " + msg);
 		printWarnings(engine);
@@ -351,15 +351,15 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		}
 		System.exit(1);
 	}
-	
+
 	private void printWarnings(CoreASMEngine engine) {
 		if (engine == null)
 			return;
-		
+
 		List<CoreASMWarning> warnings = engine.getWarnings();
 		if (!warnings.isEmpty()) {
 			logln("The following warning " + (warnings.size()==1?"message":"messages") + " has also been issued during the last step:");
-			for (CoreASMWarning w: warnings) 
+			for (CoreASMWarning w: warnings)
 				logln(w.showWarning());
 		}
 	}
@@ -367,24 +367,24 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	public static void main(String[] args) {
 		(new Carma()).run(args);
 	}
-	
+
 	/**
 	 * @param args command-line arguments
 	 */
 	public void run(String[] args) {
 
 		processArguments(args);
-		
+
 		// if print-spec flag is on, print the specification and exit.
 		if (printSpec) {
 			printSpecification(fileName);
 			return;
 		}
-		
+
 		CoreASMEngine tempEngine = CoreASMEngineFactory.createEngine();
 
 		setEngineProperties(tempEngine);
-		
+
 		tempEngine.addObserver(this);
 		if (printStackTrace)
 			tempEngine.setProperty(EngineProperties.PRINT_STACK_TRACE, EngineProperties.YES);
@@ -392,70 +392,70 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			tempEngine.setProperty(EngineProperties.PRINT_PROCESSOR_STATS_PROPERTY, EngineProperties.YES);
 		tempEngine.initialize();
 		tempEngine.waitWhileBusy();
-		
+
 		synchronized (this) {
 			engine = tempEngine;
 		}
-		
+
 		if (printInfo) {
 			System.out.println(INTRO);
 			System.out.println("CoreASM Engine " + engine.getVersionInfo());
 			System.out.println("Plugins: ");
 			Map<String,VersionInfo> list = engine.getPluginsVersionInfo();
 			TreeSet<String> sortedSet = new TreeSet<String>();
-			
+
 			for (String name: list.keySet()) {
 				VersionInfo vinfo = list.get(name);
 				sortedSet.add("   " + name + " " + (vinfo==null?"":vinfo.toString()));
 			}
 			for (String pinfo: sortedSet)
 				System.out.println(pinfo);
-			
+
 			engine.terminate();
 			engine.waitWhileBusy();
 			return;
 		}
-	
+
 		/* Print vocabulary */
 		if (printVocabulary) {
 			engine.waitWhileBusy();
-			if (engine.getEngineMode() == EngineMode.emError) 
+			if (engine.getEngineMode() == EngineMode.emError)
 				error(engine);
-			
+
 			engine.parseSpecificationHeader(fileName, true);
 			engine.waitWhileBusy();
-			if (engine.getEngineMode() == EngineMode.emError) 
+			if (engine.getEngineMode() == EngineMode.emError)
 				error(engine);
 
 			Specification spec = engine.getSpec();
 			StringBuffer output = new StringBuffer();
-			
+
 			output.append("Printing vocabulary:" + Tools.getEOL());
 			output.append(" - Backgrounds" + Tools.getEOL());
 			final Set<BackgroundInfo> bkgs = spec.getDefinedBackgrounds();
 			for (BackgroundInfo bInfo: bkgs)
 				output.append("    - " + bInfo.name + " (by " + bInfo.plugin  + ")" + Tools.getEOL());
-			
+
 			output.append(" - Universes" + Tools.getEOL());
 			final Set<UniverseInfo> univs = spec.getDefinedUniverses();
 			for (UniverseInfo uInfo: univs)
 				output.append("    - " + uInfo.name + " (by " + uInfo.plugin  + ")" + Tools.getEOL());
-			
+
 			output.append(" - Functions" + Tools.getEOL());
 			final Set<FunctionInfo> functions = spec.getDefinedFunctions();
-			for (FunctionInfo fInfo: functions) 
+			for (FunctionInfo fInfo: functions)
 				output.append("    - " + fInfo.name + " (by " + fInfo.plugin  + ")" + Tools.getEOL());
-			
+
 			logln(output.toString());
-			
+
 			engine.terminate();
 			engine.waitWhileBusy();
 			return;
 		}
 
-		
+
 		engine.loadSpecification(fileName);
-		
+
 		logln("Loading the specification.");
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError)
@@ -463,12 +463,12 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
 		// we reapply the engine properties values
 		setEngineProperties(engine);
-		
+
 		if (printLoadedSpec) {
 			logln("--- Loaded Specification Begins ---" + Tools.getEOL() + engine.getSpec().getText());
 			logln("--- Loaded Specification Ends ---");
 		}
-		
+
 		/*
 		if (Loger.verbosityLevel >= Loger.INFORMATION) {
 			Loger.log(Loger.INFORMATION, Loger.ui, "Parser Tree:");
@@ -479,33 +479,33 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			logln("Parser Tree:");
 			logln(engine.getSpec().getRootNode().buildTree("", 0));
 		}
-		
+
 		if (dumpEngineProperties) {
 			logln("--- Engine Properties Begins --- ");
 			engine.getProperties().list(System.out);
 			logln("--- Engine Properties Ends --- ");
 		}
-		
+
 		PluginServiceInterface pi = engine.getPluginInterface("IOPlugin");
 		if (pi != null) {
 			((IOPluginPSI)pi).setInputProvider(this);
 			/*
-			 * No dialog box for Carma 
-			 * 
+			 * No dialog box for Carma
+			 *
 			((IOPluginPSI)pi).setInputProvider(new InputProvider() {
 
 				public String getValue(String Message) {
 					String input = JOptionPane.showInputDialog(null, Message, "");
 					return input;
 				}
-				
+
 			});
 			*/
 		}
 
 		if (engine.getEngineMode() == EngineMode.emError)
 			error(engine);
-		
+
 		// Converting to LaTeX source file
 		if (toLatex) {
 			final Node rootnode = engine.getSpec().getRootNode();
@@ -536,32 +536,32 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				return;
 			}
 		}
-		
+
 		/* No initial step anymore
-		
+
 		logln("Performing the initial step.");
 		engine.step();
 		engine.waitForIdleOrError();
 		if (engine.getEngineMode() == EngineMode.emError)
 			error();
-		
+
 		if (updateFailed) {
 			engine.terminate();
 			logln("Execution concluded due to an incosistent update set.");
 			logln(stepFailedMsg);
 			System.exit(1);
 		}
-		
+
 		if (dumpUpdates) {
 			logln("Initial updates are: " + engine.getUpdateSet(0));
 		}
-		
+
 		if (dumpEachState) {
 			logln("Initial State is:\n" + engine.getState());
 		}
 		//logln(" done.");
 		*/
-		
+
 		int currentStep = 1;
 		//int agentsSum = 0;
 		if (maxThreads != -1)
@@ -576,7 +576,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				lastUpdateSet = new UpdateMultiset(engine.getUpdateSet(0));
 			engine.step();
 			engine.waitWhileBusy();
-			
+
 			if (engine.getEngineMode() == EngineMode.emError)
 				error(engine);
 			if (updateFailed)
@@ -587,29 +587,29 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				logln(" + ----- end of STEP " + currentStep + " ----- + \n");
 			}
 
-			if (dumpUpdates) 
-				logln("Updates after step " + currentStep + 
+			if (dumpUpdates)
+				logln("Updates after step " + currentStep +
 						" are: " + engine.getUpdateSet(0));
-			
+
 			if (dumpEachState)
-				logln("State after step " + currentStep + 
+				logln("State after step " + currentStep +
 						" is:\n" + engine.getState());
-			
-			if (printLastAgents) 
+
+			if (printLastAgents)
 				logln("Agents involved in the last completed step: " + engine.getLastSelectedAgents());
 
 			//agentsSum += engine.getLastSelectedAgents().size();
-			
+
 			currentStep++;
 		} while (!isTerminationConditionReached(engine, currentStep));
-		
+
 		if (updateFailed) {
-			error(engine, "Execution concluded due to an incosistent update set." 
+			error(engine, "Execution concluded due to an incosistent update set."
 					+ Tools.getEOL() + stepFailedMsg);
 		}
-		
+
 		//logln("Average number of agents per step: " + agentsSum / (currentStep - 1));
-		
+
 		if (!dumpEachState && dumpFinalState) {
 			silentLogln("");
 			logln("Final state is:\n" + engine.getState());
@@ -620,7 +620,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		logln("Execution concluded.");
 
 	}
-	
+
 	private void setEngineProperties(CoreASMEngine engine) {
 		if (maxThreads != -1) {
 			engine.setProperty(EngineProperties.MAX_PROCESSORS, String.valueOf(maxThreads));
@@ -633,7 +633,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				if (ep.length() < 1)
 					continue;
 				int i = ep.indexOf('=');
-				if (i < 1 || i == ep.length() - 1) 
+				if (i < 1 || i == ep.length() - 1)
 					error(engine, "Invalid property-value option: " + ep);
 				prop = ep.substring(0, i);
 				value = ep.substring(i + 1);
@@ -646,7 +646,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	}
 
 	private void printSpecification(String fileName) {
-		Specification spec = null; 
+		Specification spec = null;
 		try {
 			spec = new Specification(null, new File(fileName));
 		} catch (FileNotFoundException e) {
@@ -667,9 +667,9 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		writer.write(content);
 		writer.close();
 	}
-	
+
 	public void update(EngineEvent event) {
-		
+
 		// Looking for StepFailed
 		if (event instanceof StepFailedEvent) {
 			StepFailedEvent sEvent = (StepFailedEvent)event;
@@ -678,7 +678,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				stepFailedMsg = sEvent.reason;
 			}
 		}
-		
+
 		// Looking for errors
 		else if (event instanceof EngineErrorEvent) {
 			synchronized (this) {
@@ -692,7 +692,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	}
 
 	public String getValue(String message) {
-		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));       
+		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print(message + " ");
 		String result;
 		try {
@@ -703,22 +703,22 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Basic constructor. Private to ensure construction is done through the static methods main(..) or start(..)
-	 * 
+	 *
 	 */
 	private Carma(){}
-	
+
 	/**
 	 * Constructor for threaded execution.
-	 * 
+	 *
 	 * @param args command-line arguments
 	 */
 	private Carma(String[] args) {
 		arguments = args.clone();
 	}
-	
+
 	/**
 	 * Executes a thread. Necessary to implement Runnable.
 	 */
@@ -729,7 +729,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
 	/**
 	 * Access function for creating and executing Carma as a thread.
-	 * 
+	 *
 	 * @param args command-line arguments
 	 * @return the instance of Carma created
 	 */
@@ -742,24 +742,24 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	/**
 	 * Returns the plugin service interface associated with the given plugin.
 	 * This is a blocking method and it waits until the engine is created.
-	 * 
+	 *
 	 * @param pName name of the plugin
 	 */
 	public PluginServiceInterface getPluginInterface(String pName) {
 		final CoreASMEngine engine = getEngine(true);
 		return engine.getPluginInterface(pName);
 	}
-	
-	/** 
+
+	/**
 	 * Returns a reference to the CorEASM engine created by Carma.
-	 * If <code>blocking</code> is <code>true</code>, it waits until 
-	 * the engine is created. Otherwise, if the engine is not yet created, 
+	 * If <code>blocking</code> is <code>true</code>, it waits until
+	 * the engine is created. Otherwise, if the engine is not yet created,
 	 * this method returns null.
-	 * 
+	 *
 	 * @param blocking determines if this method should wait until engine is created
 	 */
 	private CoreASMEngine getEngine(boolean blocking) {
-		if (!blocking) 
+		if (!blocking)
 			synchronized (this) {return engine;}
 		else {
 			while (getEngine(false) == null)

@@ -1,6 +1,6 @@
-/*	
+/*
  * MapletElement.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,22 +10,22 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.map;
 
 import org.coreasm.engine.absstorage.Element;
 
-/** 
+/**
  * A placeholder for maplets
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class MapletElement extends Element {
 
 	protected final Element key;
 	protected final Element value;
-	
+
 	protected MapletElement(Element key, Element value) {
 		this.key = key;
 		this.value = value;
@@ -57,5 +57,5 @@ public class MapletElement extends Element {
 	public int hashCode() {
 		return key.hashCode() + value.hashCode();
 	}
-	
+
 }

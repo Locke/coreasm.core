@@ -1,6 +1,6 @@
-/*	
+/*
  * JasmineUtil.java 	$Revision: 9 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-01-28 10:03:22 +0100 (Mi, 28 Jan 2009) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.jasmine.plugin;
 
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ import org.coreasm.engine.plugins.number.NumberElement;
 import org.coreasm.engine.plugins.set.SetElement;
 import org.coreasm.engine.plugins.string.StringElement;
 
-/** 
+/**
  * Some utility functions of JASMine.
- *   
+ *
  * @author Roozbeh Farahbod
  * @version $Revision: 9 $, Last modified: $Date: 2009-01-28 10:03:22 +0100 (Mi, 28 Jan 2009) $
  */
@@ -45,13 +45,13 @@ public class JasmineUtil {
 	 * Returns the Java class with the given name. If the given control API is
 	 * not null and it has its own class loader, this method uses the API's class
 	 * loader. Otherwise, the default loader is used.
-	 * 
+	 *
 	 * @param x name of the class
 	 * @param loader an instance of {@link ClassLoader}; can be <code>null</code>.
 	 * @return the corresponding class
-	 * 
+	 *
 	 * @throws ClassNotFoundException if a class with the given name cannot be loaded.
-	 * 
+	 *
 	 * @see Class#forName(String)
 	 * @see Class#forName(String, boolean, ClassLoader)
 	 */
@@ -64,7 +64,7 @@ public class JasmineUtil {
 
 	/**
 	 * Returns <code>true</code> if a class with the given name is available and can be loaded.
-	 * 
+	 *
 	 * @see #getJavaClass(String, ClassLoader)
 	 */
 	public static boolean isJavaClassName(String x, ClassLoader loader) {
@@ -78,7 +78,7 @@ public class JasmineUtil {
 
 	/**
 	 * Converts the given Java object into a CoreASM element according
-	 * to the following rules: 
+	 * to the following rules:
 	 * <ul>
 	 * <li>{@link Boolean} is converted to {@link BooleanElement}.</li>
 	 * <li>{@link Number} is converted to {@link NumberElement}.</li>
@@ -86,9 +86,9 @@ public class JasmineUtil {
 	 * <li>{@link Set} is converted to {@link AbstractSetElement}, and all its members are also recursively converted.</li>
 	 * <li>{@link List} is converted to {@link AbstractListElement}, and all its members are also recursively converted.</li>
 	 * <li>{@link Map} is converted to {@link AbstractMapElement}, and all its key-value pairs are also recursively converted.</li>
-	 * <li>All other objects are wrapped in a {@link JObjectElement}. 
+	 * <li>All other objects are wrapped in a {@link JObjectElement}.
 	 * </ul>
-	 * 
+	 *
 	 * @param obj a Java object
 	 * @return CoreASM counterpart of <code>obj</code>.
 	 */
@@ -99,7 +99,7 @@ public class JasmineUtil {
 		if (obj instanceof Boolean)
 			return BooleanElement.valueOf((Boolean)obj);
 		else
-		if (obj instanceof Number) 
+		if (obj instanceof Number)
 			return NumberElement.getInstance(((Number)obj).doubleValue());
 		else
 		if (obj instanceof String)
@@ -127,8 +127,8 @@ public class JasmineUtil {
 				tempMap.put(toCoreASM(pairEntry.getKey()), toCoreASM(pairEntry.getValue()));
 			}
 			return new MapElement(tempMap);
-		} 
-		else 
+		}
+		else
 			return new JObjectElement(obj);
 	}
 
@@ -136,7 +136,7 @@ public class JasmineUtil {
 	 * Converts the given element into a Java object. If the given
 	 * element is an instance of {@link JObjectElement}, its inner
 	 * object is returned. Otherwise, the element is converted according
-	 * to the following rules: 
+	 * to the following rules:
 	 * <ul>
 	 * <li>{@link BooleanElement} is converted to {@link Boolean}.</li>
 	 * <li>{@link NumberElement} is converted to {@link Integer}, {@link Long}, or {@link Double}.</li>
@@ -145,29 +145,29 @@ public class JasmineUtil {
 	 * <li>{@link AbstractListElement} is converted to {@link List}, and all its members are also recursively converted.</li>
 	 * <li>{@link AbstractMapElement} is converted to {@link Map}, and all its key-value pairs are also recursively converted.</li>
 	 * </ul>
-	 * 
+	 *
 	 * Otherwise, it returns the same element <i>e</i>.
-	 * 
+	 *
 	 * @param e CoreASM element to be converted
 	 * @return Java counterpart of e
 	 */
 	public static Object toJava(Element e) {
 		if (e.equals(Element.UNDEF))
 			return null;
-		
+
 		else
 		if (e instanceof JObjectElement)
 			return ((JObjectElement)e).object;
-		
+
 		else
 		if (e instanceof BooleanElement)
 			return ((BooleanElement)e).getValue();
-		
+
 		else
-		if (e instanceof NumberElement) { 
+		if (e instanceof NumberElement) {
 			double d = ((NumberElement)e).getValue();
 			Double D = d;
-			if (d == Math.floor(d)) { 
+			if (d == Math.floor(d)) {
 				// if d is an integer
 				/*
 				if (d > Byte.MIN_VALUE && d < Byte.MAX_VALUE)
@@ -190,11 +190,11 @@ public class JasmineUtil {
 				return D;
 			}
 		}
-		
+
 		else
 		if (e instanceof StringElement)
 			return ((StringElement)e).getValue();
-		
+
 		else
 		if (e instanceof AbstractSetElement) {
 			Set<Object> result = new HashSet<Object>();
@@ -202,7 +202,7 @@ public class JasmineUtil {
 				result.add(toJava(sm));
 			return result;
 		}
-		
+
 		else
 		if (e instanceof AbstractListElement) {
 			List<Object> result = new ArrayList<Object>();
@@ -220,14 +220,14 @@ public class JasmineUtil {
 		else
 			return e;
 	}
-	
+
 	/**
-	 * If the given element is already an instnace of 
+	 * If the given element is already an instnace of
 	 * {@link JObjectElement}, it returns <code>element</code>;
-	 * otherwise, it converts the given element into a Java object 
-	 * using {@link #toJava(Element)} and returns the 
+	 * otherwise, it converts the given element into a Java object
+	 * using {@link #toJava(Element)} and returns the
 	 * result wrapped in an instance of {@link JObjectElement}.
-	 *  
+	 *
 	 * @param element CoreASM element
 	 * @return JObject pointing to a Java version of the given element
 	 */
@@ -237,11 +237,11 @@ public class JasmineUtil {
 		else
 			return new JObjectElement(toJava(element));
 	}
-	
+
 	/**
-	 * Converts the given Java object into a 
+	 * Converts the given Java object into a
 	 * CoreASM element using {@link #toCoreASM(Object)}.
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 */
@@ -249,12 +249,12 @@ public class JasmineUtil {
 		return toCoreASM(obj);
 		// TODO this is inconsistent with jValue(Element)
 	}
-	
+
 	/**
 	 * Tries to cast the type of the given value to match
-	 * the given type, for those cases that the castings  
+	 * the given type, for those cases that the castings
 	 * are not done automatically by JVM (e.g., numbers).
-	 * 
+	 *
 	 * @param field the field to store the value in
 	 * @param value the new value
 	 */
@@ -279,9 +279,9 @@ public class JasmineUtil {
 
 	/**
 	 * Tries to cast the type of the given arguments to match
-	 * the given types, for those cases that the castings  
+	 * the given types, for those cases that the castings
 	 * are not done automatically by JVM (e.g., numbers).
-	 * 
+	 *
 	 * @param expectedClasses expected types
 	 * @param arguments actual arguments
 	 */
@@ -292,23 +292,23 @@ public class JasmineUtil {
 		return arguments;
 	}
 
-	/** 
-	 * Checks if the type of the given value is a subclass of 
-	 * the given class. This method assumes inheritance relationship 
+	/**
+	 * Checks if the type of the given value is a subclass of
+	 * the given class. This method assumes inheritance relationship
 	 * between different classes of Numbers.
-	 * 
+	 *
 	 * {@link Integer} < {@link Long} < {@link Float} < {@link Double}
-	 * 
+	 *
 	 * @param superClass the required class
 	 * @param subClass class of <code>value</code> (for performance issues)
-	 * @param value the value that should match into the required class 
+	 * @param value the value that should match into the required class
 	 */
 	public static boolean classMatches(Class<? extends Object> superClass, Class<? extends Object> subClass, Object value) {
 		if (value == null)
 			return true;	// null fits in any class
-		
+
 		assert subClass.equals(value.getClass());
-		
+
 		// if the value is Integer
 		if (subClass.equals(Integer.class))
 			if (superClass.equals(Integer.TYPE) || superClass.equals(Integer.class)
@@ -316,20 +316,20 @@ public class JasmineUtil {
 					|| superClass.equals(Float.TYPE) || superClass.equals(Float.class)
 					|| superClass.equals(Double.TYPE) || superClass.equals(Double.class))
 				return true;
-		
+
 		// if the value is Long
 		if (subClass.equals(Long.class))
 			if (superClass.equals(Long.TYPE) || superClass.equals(Long.class)
 					|| superClass.equals(Float.TYPE) || superClass.equals(Float.class)
 					|| superClass.equals(Double.TYPE) || superClass.equals(Double.class))
 				return true;
-		
+
 		// if the value is Float
 		if (subClass.equals(Float.class))
 			if (superClass.equals(Float.TYPE) || superClass.equals(Float.class)
 					|| superClass.equals(Double.TYPE) || superClass.equals(Double.class))
 				return true;
-		
+
 		// if the value is Double
 		if (subClass.equals(Double.class)) {
 			if (superClass.equals(Double.TYPE) || superClass.equals(Double.class))
@@ -338,9 +338,9 @@ public class JasmineUtil {
 				double d = ((Double)value).doubleValue();
 				if (d < Float.MAX_VALUE && d > Float.MIN_VALUE)
 					return true;
-			} 
+			}
 		}
-		
+
 		try {
 			subClass.asSubclass(superClass);
 			return true;
@@ -350,9 +350,9 @@ public class JasmineUtil {
 	}
 
 	/**
-	 * Checks if the types of the given values are respectively subclasses of 
+	 * Checks if the types of the given values are respectively subclasses of
 	 * the given classes. This method uses {@link #classMatches(Class, Class, Object)}.
-	 * 
+	 *
 	 * @param superClasses the list of required classes
 	 * @param subClasses classes of <code>values</code> (needed for performance)
 	 * @param values the actual values that should match the required classes
@@ -361,7 +361,7 @@ public class JasmineUtil {
 		if (superClasses.length != subClasses.length)
 			return false;
 
-		for (int i=0; i < superClasses.length; i++) 
+		for (int i=0; i < superClasses.length; i++)
 			if (!classMatches(superClasses[i], subClasses[i], values[i]))
 				return false;
 

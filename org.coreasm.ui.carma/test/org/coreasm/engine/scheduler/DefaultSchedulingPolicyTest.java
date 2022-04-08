@@ -16,7 +16,7 @@ public class DefaultSchedulingPolicyTest {
 	private DefaultSchedulingPolicy policy;
 	private Set<Element> set1;
 	private Set<Element> emptyset;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		policy = new DefaultSchedulingPolicy();

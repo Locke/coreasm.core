@@ -37,9 +37,9 @@ import org.coreasm.engine.kernel.Kernel;
 public class StateMachineFile extends MemoryInclude{
 	private StateMachine stateMachine;
 	private ArrayList<MainFileEntry> extensions;
-	private ArrayList<CodeFragment> initCodes;	
+	private ArrayList<CodeFragment> initCodes;
 	private String initRule;
-	
+
 	/**
 	 * Constructs a new, empty State Machine File
 	 * @param engine The compiler engine supervising the compilation process
@@ -51,7 +51,7 @@ public class StateMachineFile extends MemoryInclude{
 		initCodes = new ArrayList<CodeFragment>();
 		this.engine = engine;
 	}
-	
+
 	/**
 	 * Sets the initial rule of the program
 	 * @param rule The name of the initial rule (including the package path)
@@ -59,7 +59,7 @@ public class StateMachineFile extends MemoryInclude{
 	public void setInitRule(String rule){
 		this.initRule = rule;
 	}
-	
+
 	/**
 	 * Processes a list of extension point plugins.
 	 * Adds the transitions provided by all extension point plugins to the
@@ -74,7 +74,7 @@ public class StateMachineFile extends MemoryInclude{
 			}
 		}
 	}
-	
+
 	/**
 	 * Processes a list of Vocabulary Extender Plugins.
 	 * Adds all main file entries provided by the plugins to the file,
@@ -87,7 +87,7 @@ public class StateMachineFile extends MemoryInclude{
 		Map<CompilerVocabularyExtender, Boolean> isLoaded = new HashMap<CompilerVocabularyExtender, Boolean>();
 		Map<String, CompilerVocabularyExtender> pluginMapping = new HashMap<String, CompilerVocabularyExtender>();
 		CompilerVocabularyExtender kernel = null;
-		
+
 		//initialize data structures
 		for(CompilerPlugin ccve : vocabularyExtenderPlugins){
 			CompilerVocabularyExtender cve = (CompilerVocabularyExtender) ccve;
@@ -95,21 +95,21 @@ public class StateMachineFile extends MemoryInclude{
 				kernel = cve;
 				continue;
 			}
-			
+
 			isLoaded.put(cve, false);
 			pluginMapping.put(cve.getName(), cve);
 		}
-		
+
 		//load kernel
 		loadVocabExtender(kernel);
 		isLoaded.put(kernel, true);
-		
+
 		//load remaining plugins
 		for (CompilerPlugin vocabularyExtenderPlugin : vocabularyExtenderPlugins) {
 			attemptLoad(isLoaded, pluginMapping, (CompilerVocabularyExtender) vocabularyExtenderPlugin);
 		}
 	}
-	
+
 	private void attemptLoad(Map<CompilerVocabularyExtender, Boolean> loaded, Map<String, CompilerVocabularyExtender> plugins, CompilerVocabularyExtender current) throws CompilerException{
 		if(!loaded.get(current)){
 			for(String s : ((CompilerPlugin)current).getInterpreterPlugin().getDependencyNames()){
@@ -118,12 +118,12 @@ public class StateMachineFile extends MemoryInclude{
 					attemptLoad(loaded, plugins, dep);
 				}
 			}
-			
+
 			loadVocabExtender(current);
 			loaded.put(current, true);
 		}
 	}
-	
+
 	private void loadVocabExtender(CompilerVocabularyExtender cve) throws CompilerException{
 		try{
 			extensions.addAll(cve.loadClasses(engine.getClassLibrary()));
@@ -152,9 +152,9 @@ public class StateMachineFile extends MemoryInclude{
 		for(CompilerPlugin cicp : initCodePlugins){
 			initCodes.add(((CompilerInitCodePlugin)cicp).getInitCode());
 		}
-		
+
 	}
-	
+
 	@Override
 	protected String buildContent(String entryName) throws LibraryEntryException {
 		long start = System.nanoTime();
@@ -164,9 +164,9 @@ public class StateMachineFile extends MemoryInclude{
 		MainFileHelper.populateStateMachine(this.stateMachine, engine);
 		//generate the state machines code
 		CodeFragment smcode = new CodeFragment("");
-		
+
 		//find scheduler policy
-		
+
 		LibraryEntry scheduler = null;
 		for(MainFileEntry mfe : extensions){
 			if(mfe.entryType == EntryType.SCHEDULER){
@@ -179,9 +179,9 @@ public class StateMachineFile extends MemoryInclude{
 		}
 		if(scheduler == null){
 			engine.addError("no scheduler selected");
-			throw new LibraryEntryException("no scheduler selected");		
+			throw new LibraryEntryException("no scheduler selected");
 		}
-		
+
 		try {
 			smcode = stateMachine.generateClasses();
 		} catch (Exception e) {
@@ -230,10 +230,10 @@ public class StateMachineFile extends MemoryInclude{
 		finalContent.appendLine("\t\t\n\t\trunMachine();\n");
 		finalContent.appendLine("\t}\n");
 		finalContent.appendLine("\tpublic int randInt(int max) {\n\t\treturn random.nextInt(max);\n\t}\n");
-		
+
 		//add run machine method
 		finalContent.appendLine("\n");
-		
+
 		finalContent.appendLine("\tpublic void runMachine(){\n");
 		//1. add all init code provided by plugins
 		for(CodeFragment c : initCodes){
@@ -303,20 +303,20 @@ public class StateMachineFile extends MemoryInclude{
 		for(RuleClassFile rule : engine.getClassLibrary().getRules()){
 			finalContent.appendLine("\t\tthis.storage.setValue(new @RuntimePkg@.Location(\"" + rule.getName() + "\", @RuntimePkg@.ElementList.NO_ARGUMENT), new @RulePkg@." + rule.getName() + "());\n");
 		}
-		
+
 		finalContent.appendLine("}\ncatch(Exception e){\nSystem.out.println(\"error: conflict while initializing\");\nSystem.exit(0);\n}\n");
 
 		finalContent.appendFragment(smcode);
-			
-			
-			
+
+
+
 		finalContent.appendLine("\t}\n");
-	
+
 		finalContent.appendLine("\n");
-		
+
 		//end class
 		finalContent.appendLine("}");
-		
+
 		long end = System.nanoTime();
 		engine.addTiming("Main File building", end - start);
 		try{

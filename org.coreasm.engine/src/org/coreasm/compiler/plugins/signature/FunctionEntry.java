@@ -40,10 +40,10 @@ public class FunctionEntry extends MemoryInclude {
 
 	protected String buildContent(String entryName) throws CodeFragmentException {
 		String result = "";
-		
+
 		result += "package " + getPackage(entryName) + ";\n";
 		result += "public class " + name + " extends " + runtimePkg() + ".MapFunction{\n";
-		
+
 		result += "public " + name + "() throws Exception{\n";
 			if(this.fclass != null) result += "this.setFClass(" + "FunctionClass.fc" + fclass + ");\n";
 			result += "" + runtimePkg() + ".Signature sig = new " + runtimePkg() + ".Signature();\n";
@@ -88,13 +88,13 @@ public class FunctionEntry extends MemoryInclude {
 					result += "            	throw new " + runtimePkg() + ".EngineError(\"Initial value of function " + name + " does not match the function signature.\");\n";
 					result += "    	}\n";
 					result += "            \n";
-					result += "    }        \n";                          
+					result += "    }        \n";
 					result += "}\n";
 				}
 			}
 		result += "}\n";
 		result += "}\n";
-		
+
 		return result;
 	}
 }

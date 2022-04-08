@@ -1,6 +1,6 @@
-/*	
+/*
  * TreeNodeElement.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -36,7 +36,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 	public static final String TREE_VALUE = TREE_PREFIX + "Value";
 	public static final String TREE_FIRST = TREE_PREFIX + "First";
 	public static final String TREE_NEXT = TREE_PREFIX + "Next";
-	
+
 	public static final String UNDEF_STRING = "undef";
 
 	public static final String TREE_TRAVERSAL_OPT_DF = "depth-first";
@@ -51,7 +51,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 	public static final String TREE_OUTPUT_STRING_OPT_DEFAULT = TREE_OUTPUT_STRING_OPT_SHORT;
 
 
-	// Used to format the output string 
+	// Used to format the output string
 	protected static final String L_BRACKET = "(";
 	protected static final String R_BRACKET = ")";
 
@@ -61,16 +61,16 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// (User-defined) Data contained in the node
 	// protected Element value;
 
-	
+
 	// Abstract Storage
 	protected AbstractStorage storage;
 	protected ControlAPI capi;
-	
-	
+
+
 	// *************************************************
 	protected Map<Location, List<Element>> cachedUpdates;
 	protected List<TreeNodeElement> unreachableUpdatedNodes;
-	
+
 
 	/**
 	 * Create a new TreeNodeElement with value set to Element.UNDEF and no parent
@@ -100,36 +100,36 @@ public class TreeNodeElement extends Element implements Enumerable {
 		return list;
 	}
 
-	
+
 	// **********************************************************************************************
-	
+
 	protected ControlAPI getCAPI() {
 		return capi;
 	} // getCAPI
-	
+
 	protected AbstractStorage getAbstractStorage() {
 		return capi.getStorage();
 	} // getAbstractStorage
-	
+
 	@Override
 	public boolean equals(Object o) {
 		return (o instanceof TreeNodeElement && o==this);
 	} // equals
-	
+
 	protected boolean isValidIndex(int idx) {
 		return idx > 0;
 	} // is ValidIndex
-	
+
 	protected boolean isValidIndex(Element index) {
 		return ( (index instanceof NumberElement) && ((NumberElement) index).intValue() > 0);
 	} // isValidIndex
 
-	
-//	protected boolean isValidIndex(NumberElement index) { 
-//		return index.isNatural() && index.getValue() < Integer.MAX_VALUE;	
+
+//	protected boolean isValidIndex(NumberElement index) {
+//		return index.isNatural() && index.getValue() < Integer.MAX_VALUE;
 //	} // isValidIndex
 
-	
+
 	// **********************************************************************************************
 	public String getOutpuStringFormat() {
 		if(outputStringFormat == null) {
@@ -143,8 +143,8 @@ public class TreeNodeElement extends Element implements Enumerable {
 
 	public void setOutputStringFormat(String format) {
 		outputStringFormat = TREE_OUTPUT_STRING_OPT_DEFAULT;
-		
-		if(format != null && 
+
+		if(format != null &&
 				( format.equals(TREE_OUTPUT_STRING_OPT_LONG ) || format.equals(TREE_OUTPUT_STRING_OPT_SHORT) ) )
 			outputStringFormat = format;
 	} // setOutputStringFormat
@@ -156,18 +156,18 @@ public class TreeNodeElement extends Element implements Enumerable {
 			String optValue = TreePlugin.getTreeTraversalOption(capi);
 			setTraversalMode(optValue);
 		} // if
-		
+
 		return traversalMode;
 	} // getTraversalMode
 
 	public void setTraversalMode(String modeString) {
 		traversalMode = TREE_TRAVERSAL_OPT_DEFAULT;
-		
+
 		if(modeString != null &&
 				(modeString.equals(TREE_TRAVERSAL_OPT_BF) || modeString.equals(TREE_TRAVERSAL_OPT_DF) ) )
 			traversalMode = modeString;
 	} // setTraversalMode
-	
+
 	// **********************************************************************************************
 	// **********************************************************************************************
 	// **********************************************************************************************
@@ -181,7 +181,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		values.add(newValue);
 	} // setValue
 
-	
+
 	protected Element getTempValue() {
 		try {
 			// XXX XXX
@@ -198,10 +198,10 @@ public class TreeNodeElement extends Element implements Enumerable {
 			capi.error(ex.getMessage());
 			return null;
 		} // try ..
-		
+
 	} // getTempValue
-	
-	
+
+
 	public Element getValue() {
 		try {
 			Location myLoc = InternalUpdate.buildValueLocation(this);
@@ -211,13 +211,13 @@ public class TreeNodeElement extends Element implements Enumerable {
 			return null;
 		} // try ... catch
 	} // getValue
-	
-	
+
+
 	// **********************************************************************************************
-	
+
 	public void setParent(TreeNodeElement newParent) {
 		Location myLoc = InternalUpdate.buildParentLocation(this);
-		
+
 		List<Element> list = cachedUpdates.get(myLoc);
 		if(list == null) {
 			list = new LinkedList<Element>();
@@ -227,25 +227,25 @@ public class TreeNodeElement extends Element implements Enumerable {
 		// cachedUpdates.add(u);
 	} // setParent
 
-	
+
 	protected TreeNodeElement getTempParent() {
 		try {
-			Location parentLoc = InternalUpdate.buildParentLocation(this); 
-			
+			Location parentLoc = InternalUpdate.buildParentLocation(this);
+
 			Element parent;
-			List<Element> list = cachedUpdates.get(parentLoc); 
-			
+			List<Element> list = cachedUpdates.get(parentLoc);
+
 			if(list == null)
 				parent = storage.getValue(parentLoc);
 			else
 				parent = list.get(0);
-			
+
 			// XXX
 			if(parent == null || parent == Element.UNDEF)
 				return null;
-			
+
 			if(! (parent instanceof TreeNodeElement)) {
-				throw new InvalidLocationException("TreeNodeElement required, found a " + 
+				throw new InvalidLocationException("TreeNodeElement required, found a " +
 						parent.getClass().getSimpleName());
 			} // if
 
@@ -256,8 +256,8 @@ public class TreeNodeElement extends Element implements Enumerable {
 			return null;
 		} // try ... catch
 	} // getTempParent
-	
-	
+
+
 	protected TreeNodeElement getParent() {
 		try {
 			Location parentLoc = InternalUpdate.buildParentLocation(this);
@@ -268,12 +268,12 @@ public class TreeNodeElement extends Element implements Enumerable {
 			return null;
 		} // try ... catch
 	} // getParent
-	
-	
+
+
 	// **********************************************************************************************
-	
+
 	public void setFirst(TreeNodeElement first) {
-		Location myLoc = InternalUpdate.buildFirstLocation(this);	
+		Location myLoc = InternalUpdate.buildFirstLocation(this);
 		List<Element> list = cachedUpdates.get(myLoc);
 		if(list == null) {
 			list = new LinkedList<Element>();
@@ -287,24 +287,24 @@ public class TreeNodeElement extends Element implements Enumerable {
 		try {
 			// XXX myLoc can be cached?
 			Element firstEl;
-			
+
 			Location myLoc = InternalUpdate.buildFirstLocation(this);
 			List<Element> list = cachedUpdates.get(myLoc);
 			if(list==null) {
-				
+
 				firstEl = storage.getValue(myLoc);
 				// System.err.println("FIRST in storage: " + firstEl);
-				
+
 			} else {
-				
+
 				firstEl = list.get(0);
 			}
 			// XXX
 			if (firstEl == Element.UNDEF)
 				return null;
-			
+
 			if(! (firstEl instanceof TreeNodeElement)) {
-				throw new InvalidLocationException("TreeNodeElement required, found a " + 
+				throw new InvalidLocationException("TreeNodeElement required, found a " +
 						firstEl.getClass().getSimpleName());
 			} // if
 			TreeNodeElement first = (TreeNodeElement) firstEl;
@@ -313,9 +313,9 @@ public class TreeNodeElement extends Element implements Enumerable {
 			capi.error(ex.getMessage());
 			return null;
 		} // try ..
-		
+
 	} // getTempFirst
-	
+
 	public TreeNodeElement getFirst() {
 		try {
 			Location myLoc = InternalUpdate.buildFirstLocation(this);
@@ -326,11 +326,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 			return null;
 		} // try ... catch
 	} // getFirst
-	
+
 	// **********************************************************************************************
-	
+
 	public void setNext(TreeNodeElement next) {
-		Location myLoc = InternalUpdate.buildNextLocation(this);	
+		Location myLoc = InternalUpdate.buildNextLocation(this);
 		List<Element> list = cachedUpdates.get(myLoc);
 		if(list == null) {
 			list = new LinkedList<Element>();
@@ -339,38 +339,38 @@ public class TreeNodeElement extends Element implements Enumerable {
 		list.add(next);
 	} // setNext
 
-	
+
 	protected TreeNodeElement getTempNext() {
 		try {
 			// XXX myLoc can be cached?
 			Location myLoc = InternalUpdate.buildNextLocation(this);
-			
+
 			List<Element> list = cachedUpdates.get(myLoc);
-			
+
 			Element nextEl;
 			if(list==null) {
 				nextEl = storage.getValue(myLoc);
 			} else {
 				nextEl = list.get(0);
 			}
-			
+
 			if (nextEl == Element.UNDEF || nextEl == null)
 				return null;
-			
+
 			if(! (nextEl instanceof TreeNodeElement)) {
-				throw new InvalidLocationException("TreeNodeElement required, found a " + 
+				throw new InvalidLocationException("TreeNodeElement required, found a " +
 						nextEl.getClass().getSimpleName());
 			} // if
-			
+
 			TreeNodeElement next = (TreeNodeElement) nextEl;
 			return next;
 		} catch (InvalidLocationException ex) {
 			capi.error(ex.getMessage());
 			return null;
 		} // try ..
-		
+
 	} // getNext
-	
+
 	public TreeNodeElement getNext() {
 		try {
 			Location myLoc = InternalUpdate.buildNextLocation(this);
@@ -381,30 +381,30 @@ public class TreeNodeElement extends Element implements Enumerable {
 			return null;
 		} // getNext
 	} // getNext
-	
+
 	// **********************************************************************************************
 	// **********************************************************************************************
 	// **********************************************************************************************
-	
-	
+
+
 	/*
-	 * Detach aNode from its parent: 
+	 * Detach aNode from its parent:
 	 *  [1] if aNode is the first child, produce an update for FIRST of the parent
-	 * 
+	 *
 	 *	[2] the next sibling of aNode's previous sibling is updated.
 	 */
-	
-	
+
+
 	// OPERATIONS ON CURRENT STATE
 	protected void detachFromParent() {
 		TreeNodeElement parent = getParent();
-		
-		
+
+
 		if(parent == null || parent == Element.UNDEF)
 			return;
-		
+
 		TreeNodeElement firstCh = parent.getFirst();
-		
+
 		if(firstCh == this) {
 			TreeNodeElement nextCh = getNext();
 			parent.setFirst(nextCh);
@@ -417,29 +417,29 @@ public class TreeNodeElement extends Element implements Enumerable {
 				unreachableUpdatedNodes.add(previousSibling);
 			} // if previousSibling
 		} // if firstCh == this
-		
+
 	} // detachNodeFromParent
 
-	
+
 	//
-	// In this method operations are performed on TEMP values (used when building a tree by adding several nodes) 
+	// In this method operations are performed on TEMP values (used when building a tree by adding several nodes)
 	//
 	public void add(TreeNodeElement anotherNode) {
 
 		if(anotherNode == null)
 			throw new IllegalArgumentException("Cannot add a null child");
-		
+
 		if(anotherNode.getTempParent() == this)
 			throw new IllegalArgumentException("Cannot add a node as a child of the same node twice");
-		
-		
-		
+
+
+
 		// System.err.println("Adding node with value " + anotherNode.getTempValue());
-		
+
 		// Detachfromparent will look into CURRENT STATE
 		anotherNode.detachFromParent();
 		anotherNode.setParent(this);
-		
+
 		// [3] Operations on TEMP state.
 		// Update for the last child: its next becomes anotherNode
 		TreeNodeElement lastChild = getTempLastChild();
@@ -448,85 +448,85 @@ public class TreeNodeElement extends Element implements Enumerable {
 		} else {
 			setFirst(anotherNode);
 		}
-		
-		
+
+
 	} // add
 
-	
+
 	public void insert(TreeNodeElement aNode, Element index) {
 		if(index == null)
 			throw new IllegalArgumentException("Index value cannot be null");
 
 		if(! (index instanceof NumberElement
-				&& isValidIndex( (NumberElement) index))) 
+				&& isValidIndex( (NumberElement) index)))
 			throw new IllegalArgumentException("Illegal index parameter");
 
 		int idx = ((NumberElement) index).intValue();
 		insert(aNode, idx);
 	} // insert
-	
-	
+
+
 	public void insert(TreeNodeElement aNode, int index) {
 		// Checks on parameters
-		
+
 		if(aNode == null)
 			throw new IllegalArgumentException("Cannot add a null child");
-		
+
 		if(index < 1)
 			throw new IllegalArgumentException("Illegal index value: " + index);
-		
-		
+
+
 		if(aNode.getTempParent() == this)
 			throw new IllegalArgumentException("Cannot add a node as a child of the same node twice");
-		
-		
+
+
 		// [1] detach aNode from its parent and update - if necessary - FIRST of the
 		// parent
 		// Operation on current state
 		aNode.detachFromParent();
 		aNode.setParent(this);
-		
+
 		// Special case: index == 1 -> aNode is the first child
 		if(index == 1) {
 			TreeNodeElement currentFirstChild = getTempFirst();
 			System.out.println("---- CURRENT FIRST CHILD IS " + currentFirstChild);
 			setFirst(aNode);
-			
+
 			aNode.setNext(currentFirstChild);
-			
+
 		} else {
 			TreeNodeElement child1 = getTempFirst();
-			
+
 			// No first child and index != 1 -> Exception
 			if(child1 == null)
 				throw new IllegalArgumentException("Cannot add a node at position " + index + ": the tree has no children");
-			
+
 			TreeNodeElement child2 = child1.getTempNext();
-			
+
 			int i = 1;
 			while(i < index-1 && child2 != null) {
 				child1 = child2;
 				child2 = child2.getTempNext();
 				i++;
 			} // while
-			
+
 			if(i==index-1) {
 				child1.setNext(aNode);
 				aNode.setNext(child2);
-				
+
 			} else {
 				throw new IllegalArgumentException("Cannot add at position " + index);
 			}
-			
-		} // if index		
+
+		} // if index
 	} // insert
 
-	
-	
+
+
 	public void removeChild(TreeNodeElement aChild) {
 		if(aChild == null)
 			throw new IllegalArgumentException("Cannot remove a null child");
-		
+
 		aChild.detachFromParent();
 		aChild.setParent(null);
 		aChild.setNext(null);
@@ -540,24 +540,24 @@ public class TreeNodeElement extends Element implements Enumerable {
 		// int nChildren = getChildCount().intValue();
 
 		if(! (index instanceof NumberElement
-				&& isValidIndex( (NumberElement) index))) 
+				&& isValidIndex( (NumberElement) index)))
 			throw new IllegalArgumentException("Illegal index parameter");
 
 		int idx = ((NumberElement) index).intValue();
 		removeChildAtIndex(idx);
 	} // removeChildAtIndex
-	
-	
-	
-	
+
+
+
+
 	public void removeChildAtIndex(int index) {
-		
+
 		TreeNodeElement child = getTempFirst();
 
 		if(index == 1) {
 			if(child == null)
 				throw new IllegalArgumentException("No child at position " + index);
-			
+
 			// setFirst(child.getTempNext());
 			child.detachFromParent();
 			child.setParent(null);
@@ -571,26 +571,26 @@ public class TreeNodeElement extends Element implements Enumerable {
 				child = child.getTempNext();
 				i++;
 			} // while
-			
+
 			if(i == index) {
-				
-				if(child == null) 
+
+				if(child == null)
 					throw new IllegalArgumentException("No child at position " + index);
-				
-				
+
+
 				child.detachFromParent();
 				child.setParent(null);
 				child.setNext(null);
 				// prevChild.setNext(null);
 			} // if
-			
+
 		} // if ... else
-	} // remove	
-	
-	
+	} // remove
+
+
 	protected List<InternalUpdate> getNodeUpdates() {
 		List<InternalUpdate> list = new LinkedList<InternalUpdate>();
-		
+
 		for(Location loc : cachedUpdates.keySet()) {
 			List<Element> values = cachedUpdates.get(loc);
 			for(Element value : values) {
@@ -600,26 +600,26 @@ public class TreeNodeElement extends Element implements Enumerable {
 				list.add(new InternalUpdate(loc, value));
 			} // int for
 		} // ext for
-		
-		
+
+
 		for(TreeNodeElement aNode : unreachableUpdatedNodes) {
 			list.addAll(aNode.getNodeUpdates());
 		}
-		
+
 		clearUpdates();
 		return list;
-		
+
 	} // getNodeUpdates
-	
+
 	protected List<InternalUpdate> getTreeUpdates() {
 		List<InternalUpdate> list = new LinkedList<InternalUpdate> ();
 		TreeNodeElement child = getTempFirst();
-		
+
 //		Vector<TreeNodeElement> children = new Vector<TreeNodeElement>();
-		
-		
-		
-		
+
+
+
+
 		while (child != null) {
 //			System.err.println("Adding updates from child with temp value " + child.getTempValue());
 			TreeNodeElement nextChild = child.getTempNext();
@@ -629,26 +629,26 @@ public class TreeNodeElement extends Element implements Enumerable {
 			child = nextChild;
 		} // while
 		list.addAll(getNodeUpdates());
-		
+
 //		for(TreeNodeElement c : children) {
 //			c.clearUpdates();
 //		}
-		
+
 		return list;
 	} // getTreeUpdates
-	
-	
+
+
 	protected void clearUpdates() {
 		cachedUpdates.clear();
 		unreachableUpdatedNodes.clear();
 	} // clearUpdates
-	
-	
+
+
 	// **********************************************************************************************
 	// **********************************************************************************************
 	// **********************************************************************************************
-	
-	  
+
+
 	public boolean isRoot() {
 		return getParent() != null;
 	} // isRoot
@@ -662,12 +662,12 @@ public class TreeNodeElement extends Element implements Enumerable {
 	public NumberElement getSiblingCount() {
 		int nSiblings = -1;
 		TreeNodeElement nextSibling;
-		
+
 		do {
 			nSiblings++;
 			nextSibling = getNext();
 		} while (nextSibling != null);
-		
+
 		return NumberElement.getInstance(nSiblings);
 	} // getSiblingCount
 
@@ -692,7 +692,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		return list;
 	} // getLeaves
 
-	
+
 	protected void getLeavesRec(List<Element> list) {
 		TreeNodeElement child = getFirst();
 		if(child == null) {
@@ -705,20 +705,20 @@ public class TreeNodeElement extends Element implements Enumerable {
 		} // else
 	} // getLeavesRec
 
-	
+
 	public Collection<? extends Element> getNodes() {
 		// parameter set to false: getNodes returns an enumeration of the nodes, not their values.
-		return traverseTree(false);			
+		return traverseTree(false);
 	} // getNodes
 
-	
+
 	public Collection<? extends Element> getValues() {
 		// parameter set to true: getValues returns an enumeration of the values in the tree.
-		return traverseTree(true);			
+		return traverseTree(true);
 	} // getNodes
 
 
-	
+
 	public boolean isNodeChild(TreeNodeElement anotherNode) {
 		return ( anotherNode != null && anotherNode.getParent() == this );
 	} // isNodeChild
@@ -727,7 +727,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 	public boolean isNodeSibling(TreeNodeElement anotherNode) {
 		return ( anotherNode != null && anotherNode.getParent() == this.getParent());
 	} // isNodeSibling
-	
+
 
 	protected NumberElement getTempChildCount() {
 		int nChildren = 0;
@@ -735,33 +735,33 @@ public class TreeNodeElement extends Element implements Enumerable {
 		while (child != null) {
 			nChildren = nChildren + 1;
 			child = child.getTempFirst();
-		} 
+		}
 		return NumberElement.getInstance(nChildren);
 	} // getChildCount
 
-	
+
 	public NumberElement getChildCount() {
 		int nChildren = 0;
 		TreeNodeElement child = getFirst();
 		while (child != null) {
 			nChildren = nChildren + 1;
 			child = child.getFirst();
-		} 
+		}
 		return NumberElement.getInstance(nChildren);
 	} // getChildCount
 
-	
+
 	public boolean isNodeRelated(TreeNodeElement anotherNode) {
 		return (anotherNode != null && anotherNode.getRoot() == getRoot());
 	} // isNodeRelated
 
-	
-	
+
+
 	public TreeNodeElement getChildAtIndex(NumberElement index) {
 		int idx = index.intValue();
 		if(! isValidIndex(idx))
 			return null;
-		
+
 		TreeNodeElement currentChild = getFirst();
 		for(int i=1; i<=idx-1 && (currentChild!=null); i++) {
 			currentChild = currentChild.getNext();
@@ -770,13 +770,13 @@ public class TreeNodeElement extends Element implements Enumerable {
 	} // getChildAtIndex
 
 
-	public TreeNodeElement getChildAfter(TreeNodeElement aChild) { 
+	public TreeNodeElement getChildAfter(TreeNodeElement aChild) {
 		// XXX Check 'null' -- defaultValue
 		TreeNodeElement child = getFirst();
-		
+
 		while(child != null && child != aChild)
 			child = child.getNext();
-		
+
 		return child.getNext();
 	} // getChildAfter
 
@@ -789,7 +789,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		return getTempFirst();
 	} // getFirstChild
 
-	
+
 	protected TreeNodeElement getTempLastChild() {
 		TreeNodeElement child = getTempFirst();
 		TreeNodeElement lastChild = null;
@@ -798,11 +798,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 			lastChild = child;
 			child = child.getTempNext();
 		} // while
-		
-		
+
+
 //		String v = (lastChild != null) ?  lastChild.getTempValue().toString() : "no-value";
 //		System.err.println("TempLastChild. Last child has value: " + v);
-		
+
 		return lastChild;
 	} // getTempLastChild
 
@@ -816,8 +816,8 @@ public class TreeNodeElement extends Element implements Enumerable {
 		return lastChild;
 	} // getTempLastChild
 
-	
-	
+
+
 	public NumberElement getIndex(TreeNodeElement aChild) {
 		int idx = 1;
 		TreeNodeElement child = getFirst();
@@ -831,24 +831,24 @@ public class TreeNodeElement extends Element implements Enumerable {
 		return result;
 	} // getIndex
 
-	
+
 	protected TreeNodeElement getTempPreviousSibling() {
-		
+
 		TreeNodeElement parent = getTempParent();
 		TreeNodeElement previousSibling = null;
-		
+
 		if(parent != null) {
 			previousSibling = parent.getTempChildBefore(this);
 		} // if
 		return previousSibling;
 	} // getTempPreviousSibling
-	
-	
+
+
 	public TreeNodeElement getPreviousSibling() {
-		
+
 		TreeNodeElement parent = getParent();
 		TreeNodeElement previousSibling = null;
-		
+
 		if(parent != null) {
 			previousSibling = parent.getChildBefore(this);
 		} // if
@@ -857,39 +857,39 @@ public class TreeNodeElement extends Element implements Enumerable {
 
 
 
-	protected TreeNodeElement getTempChildBefore(TreeNodeElement aChild) { 
+	protected TreeNodeElement getTempChildBefore(TreeNodeElement aChild) {
 		TreeNodeElement child = getTempFirst();
 		TreeNodeElement childBefore = null;
-		
+
 		while(child != null && aChild != child) {
 			childBefore = child;
 			child = child.getTempNext();
 		} // while
-		
+
 		return childBefore;
 	} // getTempChildBefore
 
-	
-	public TreeNodeElement getChildBefore(TreeNodeElement aChild) { 
+
+	public TreeNodeElement getChildBefore(TreeNodeElement aChild) {
 		TreeNodeElement child = getFirst();
 		TreeNodeElement childBefore = null;
-		
+
 		while(child != null && aChild != child) {
 			childBefore = child;
 			child = child.getNext();
 		} // while
-		
+
 		return childBefore;
 	} // getChildBefore
 
 	// **********************************************************************************************
 	// **********************************************************************************************
 	// **********************************************************************************************
-	
 
-	
-	
-		
+
+
+
+
 
 	public void removeFromParent() {
 		detachFromParent();
@@ -951,7 +951,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// Interface   E N U M E R A B L E
 	// The TreeNodeElement will be treated like a tree.
 	// The methods contains, enumerate, and size WILL NOT refer to this node's children but to the tree rooted in this node)
-	// 
+	//
 
 	@Override
 	public boolean contains(Element e) {
@@ -995,7 +995,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 			l = depthFirstTraversal(this, onlyValues);
 		} // if
 
-		return l;		
+		return l;
 	} // traverseTree
 
 
@@ -1030,12 +1030,12 @@ public class TreeNodeElement extends Element implements Enumerable {
 		nodes.offer(node);
 
 		while(! nodes.isEmpty() ) {
-			TreeNodeElement head = nodes.poll();			
+			TreeNodeElement head = nodes.poll();
 			if(onlyValues)
 				values.add(head.getValue());
 			else
 				values.add(head);
-			
+
 			TreeNodeElement child = head.getFirst();
 			while (child != null) {
 				nodes.offer(child);
@@ -1058,12 +1058,12 @@ public class TreeNodeElement extends Element implements Enumerable {
 				l.add(node);
 
 			TreeNodeElement child = node.getFirst();
-			
+
 			while(child != null) {
 				List<Element> listFromChild = depthFirstTraversal(child, onlyValues);
 				l.addAll(listFromChild);
 				child = child.getNext();
-			} // for 
+			} // for
 		} // if
 
 		return l;
@@ -1114,7 +1114,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 		String res = "";
 
 		// The following conditional is useless:
-		// In the current implementation getShortStringRec is called only if the node has children.		
+		// In the current implementation getShortStringRec is called only if the node has children.
 		if(getTempFirst() == null) {
 			return valueToString(getValue());
 		}
@@ -1139,13 +1139,13 @@ public class TreeNodeElement extends Element implements Enumerable {
 		String childrenStr = "";
 		TreeNodeElement child = getFirst();
 		while (child != null) {
-			String tmpStr = child.getShortStringRec(); 
+			String tmpStr = child.getShortStringRec();
 
-			// If child has children, it returns the string:  value, (childrenlist), 
+			// If child has children, it returns the string:  value, (childrenlist),
 			// 		we surround the result with parentheses obtaining (value, (childrenlist))
-			if(child.getChildCount().intValue() > 0) {  
+			if(child.getChildCount().intValue() > 0) {
 				subTree = true;
-				childrenStr = childrenStr + L_BRACKET + tmpStr + R_BRACKET; 
+				childrenStr = childrenStr + L_BRACKET + tmpStr + R_BRACKET;
 			} else childrenStr = childrenStr + tmpStr;
 
 			childrenStr += ", ";
@@ -1156,8 +1156,8 @@ public class TreeNodeElement extends Element implements Enumerable {
 			childrenStr = childrenStr.substring(0, childrenStr.length()-2);
 
 
-		boolean ambiguousCase = 
-			( (getChildCount().intValue() == 2) && (getValue() == Element.UNDEF) && subTree &&  
+		boolean ambiguousCase =
+			( (getChildCount().intValue() == 2) && (getValue() == Element.UNDEF) && subTree &&
 					(getChildAt(1).isLeaf()));
 
 
@@ -1177,10 +1177,10 @@ public class TreeNodeElement extends Element implements Enumerable {
 		}
 
 		// At this point res is:
-		//    1*   a,b,c,d 				
+		//    1*   a,b,c,d
 		//				list of nodes' values if the current node's value is undef and
 		// (current node has one or more than two children OR current node has two children with the first
-		//     one not being a leaf)		
+		//     one not being a leaf)
 		//    2*   value, (childrenList	   --- please note: no closing bracket
 		//				value of the node and childrenlist without closing parenthesis
 		//    3*   UNDEF_STRING, (childrenList   --- please note: no closing bracket
@@ -1206,7 +1206,7 @@ public class TreeNodeElement extends Element implements Enumerable {
 
 		TreeNodeElement child = getFirst();
 		if(child != null) {
-			
+
 			while (child != null) {
 				res += child.getLongStringRec();
 				res += ", ";
@@ -1225,31 +1225,31 @@ public class TreeNodeElement extends Element implements Enumerable {
 	public TreeNodeElement getChildAt(NumberElement pos) {
 		return getChildAt(pos.intValue());
 	} // getChildAt
-	
-	
+
+
 	public TreeNodeElement getChildAt(int pos) {
 		TreeNodeElement child = getFirst();
 		int i = 1;
 		while (i < pos && child != null) {
 			child = child.getNext();
 		} // while
-		
+
 		return child;
 	} // getChildAt
 
-	
+
 	protected TreeNodeElement getTempChildAt(int pos) {
 		TreeNodeElement child = getTempFirst();
 		int i = 1;
 		while (i < pos && child != null) {
 			child = child.getTempNext();
 		} // while
-		
+
 		return child;
 	} // getTempChildAt
 
-	
-	
-	
-	
+
+
+
+
 } // NodeElement.java

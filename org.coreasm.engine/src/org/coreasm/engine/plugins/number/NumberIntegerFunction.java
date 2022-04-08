@@ -1,6 +1,6 @@
-/*	
+/*
  * NumberIntegerFunction.java 	1.0 	$Revision: 243 $
- * 
+ *
  *
  * Copyright (C) 2006 George Ma
  *
@@ -9,7 +9,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.number;
 
 import java.util.List;
@@ -18,18 +18,18 @@ import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 
-/** 
+/**
  *  Function to determine if an Element represents an integer
- *   
+ *
  *  @author  George Ma
- *  
+ *
  */
 public class NumberIntegerFunction extends FunctionElement {
 
     public static String NUMBER_INTEGER_FUNCTION_NAME = "isIntegerNumber";
-    
+
     /**
-     * Creates a new NumberIntegerFunction 
+     * Creates a new NumberIntegerFunction
      */
     public NumberIntegerFunction() {
         setFClass(FunctionClass.fcDerived);

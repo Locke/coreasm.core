@@ -1,18 +1,18 @@
-/*	
+/*
  * $Id: //CoreASM/development/main-concurrent/src/org/coreasm/engine/interpreter/InterpreterImp.java#17 $
- * 
+ *
  * InterpreterImp.java 	1.0 	$Revision: 253 $
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-05-15 01:40:58 +0200 (So, 15 Mai 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.interpreter;
 
 import java.util.ArrayList;
@@ -59,9 +59,9 @@ import org.coreasm.util.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  * Implements the <code>Interpreter</code> interface.
- *   
+ *
  * @author Roozbeh Farahbod, Marcel Dausend
  */
 public class InterpreterImp implements Interpreter {
@@ -70,29 +70,29 @@ public class InterpreterImp implements Interpreter {
 	protected static final ThreadLocal<Interpreter> interpreters = new ThreadLocal<Interpreter>();
 
 	private static final Logger logger = LoggerFactory.getLogger(InterpreterImp.class);
-	
+
 	/** Current node to be interpreted */
 	protected ASTNode pos;
-	
+
 	/** Current value of 'self' */
 	protected Element self = Element.UNDEF;
-	
+
 	/** Link to the ControlAPI module */
 	private final ControlAPI capi;
 
 	private Map<String,Stack<Element>> envMap;
 	private Stack<Map<String,Stack<Element>>> hiddenEnvMaps;
-	
+
 	/** Work copy of a tree */
 	private final Map<ASTNode,Map<String, ASTNode>> workCopies;
-	
+
 	/** Link to the abstract storage module */
 	private final AbstractStorage storage;
-	
+
 	private OperatorRegistry oprReg = null;
-	
+
 	private final Map<String, Collection<String>> oprImpPluginsCache = new HashMap<String, Collection<String>>();
-	
+
 	private final Stack<CallStackElement> ruleCallStack = new Stack<CallStackElement>();
 
 	/**
@@ -106,33 +106,33 @@ public class InterpreterImp implements Interpreter {
 		this.storage = capi.getStorage();
 		this.workCopies = new IdentityHashMap<ASTNode,Map<String, ASTNode>>();
 	}
-	
+
 	public Interpreter getInterpreterInstance() {
 		Interpreter result = interpreters.get();
 		if (result == null)
 			return this;
-		else 
+		else
 			return result;
 	}
-    
+
 	public void executeTree() throws InterpreterException {
-	
+
 		// !!! IMPORTANT !!!
 		// 'pos' should not be changed by other methods that are called
-		// from within this method. It should be passed to them and a 
-		// new value should be retrieved. 
+		// from within this method. It should be passed to them and a
+		// new value should be retrieved.
 		// As it is now on 28-Aug-2006.
 		try {
 			if (!pos.isEvaluated()) {
 				// notification for observers (i.e. debugger)
 				notifyListenersBeforeNodeEvaluation(pos);
-				
+
 				final String pName = pos.getPluginName();
-				
+
 				if (logger.isDebugEnabled()) {
 					logger.debug("Interpreting node {} @ {}.", pos.toString(), pos.getContext(capi.getParser(), capi.getSpec()));
 				}
-				
+
 				ASTNode prevPos = pos;
 				if (pName != null && !pName.equals(Kernel.PLUGIN_NAME)) {
 					logger.debug("Using plugin {}.", pName);
@@ -148,27 +148,27 @@ public class InterpreterImp implements Interpreter {
 					if (pos == prevPos && !pos.isEvaluated())
 						capi.error("Failed to interpret node.", pos, this);
 				}
-				
+
 				if (pos == null) {
 					pos = prevPos;
 					capi.error("Plugin '" + pName + "' returned null while interpreting node of type '" + prevPos.getClass().getSimpleName() + "'", pos, this);
 				}
-	
+
 				// TODO Deviating from the spec (needs to be handled properly)
-				//      the following statement deviates from the spec in response to 
-				//      a problem with undefined identifiers being used where a rule 
+				//      the following statement deviates from the spec in response to
+				//      a problem with undefined identifiers being used where a rule
 				//      is expected
 				// UPDATE: this should not be a problem anymore as unknown identifiers
-				//         used as macro-call rules are prevented and reported by the 
+				//         used as macro-call rules are prevented and reported by the
 				//         engine. But in general, this is not a bad guard.
 				if (pos.isEvaluated() && pos.getUpdates() == null)
 					pos.setNode(pos.getLocation(), new UpdateMultiset(), pos.getValue());
-				
+
 				if (pos.isEvaluated())
 					notifyListenersAfterNodeEvaluation(pos);
-				
+
 			} else {
-				if (pos.getParent() != null) 
+				if (pos.getParent() != null)
 					pos = pos.getParent();
 			}
 		} catch (CoreASMError e) {
@@ -181,7 +181,7 @@ public class InterpreterImp implements Interpreter {
 
 	/**
 	 * Notifies the listeners before a node is being evaluated.
-	 * 
+	 *
 	 * @param pos the node being evaluated
 	 */
 	private void notifyListenersAfterNodeEvaluation(ASTNode pos) {
@@ -191,7 +191,7 @@ public class InterpreterImp implements Interpreter {
 
 	/**
 	 * Notifies the listeners after a node is being evaluated.
-	 * 
+	 *
 	 * @param pos the node being evaluated
 	 */
 	private void notifyListenersBeforeNodeEvaluation(ASTNode pos) {
@@ -205,28 +205,28 @@ public class InterpreterImp implements Interpreter {
 	 */
 	private ASTNode kernelInterpreter(ASTNode pos) throws InterpreterException {
 		ASTNode newPos = null;
-		
+
 		/*
-		 * Here I needed to deviate from the ASM spec. The reason is, in the 
+		 * Here I needed to deviate from the ASM spec. The reason is, in the
 		 * spec whenever the pos is assigned to a new node, the change does not
-		 * take effect in the current step, so other guards will not be activated 
-		 * (e.g., an expression may change pos and pos will point to a rule call in the 
-		 * next step). But in sequential programming world, the moment a rule (method) 
-		 * changes pos, pos is changed! What happens then is that the rest of the 
-		 * conditional statements will look at the new pos, while they shouldn't. 
-		 * 
+		 * take effect in the current step, so other guards will not be activated
+		 * (e.g., an expression may change pos and pos will point to a rule call in the
+		 * next step). But in sequential programming world, the moment a rule (method)
+		 * changes pos, pos is changed! What happens then is that the rest of the
+		 * conditional statements will look at the new pos, while they shouldn't.
+		 *
 		 * To deal with this problem, I ask each method to give me the new value of pos
 		 * as they wanted it to be, and won't call the rest if there already is a
-		 * request to change pos (i.e., pos is interpreted already).  
-		 * 
+		 * request to change pos (i.e., pos is interpreted already).
+		 *
 		 *  Roozbeh, 27-Jan-2006
-		 * 
+		 *
 		 */
-		
+
 		// first trying literals
 		newPos = interpretLiterals(pos);
-		
-		// if they didn't change pos 
+
+		// if they didn't change pos
 		// I changed it so that if it is evaluated, it won't be evaluated again -- Roozbeh 21-May-2007
 		if (newPos == pos && !pos.isEvaluated()) {
 			// try expressions
@@ -238,7 +238,7 @@ public class InterpreterImp implements Interpreter {
 		// return the new pointer to pos (could be the same as the old one)
 		return newPos;
 	}
-	
+
 	public boolean isExecutionComplete() {
 		return (pos.getParent() == null && pos.isEvaluated());
 	}
@@ -250,11 +250,11 @@ public class InterpreterImp implements Interpreter {
 	public ASTNode getPosition() {
 		return pos;
 	}
-	 
+
 	/**
 	 * Sets the value of 'self' for this interpreter instance.
 	 * Also, inserts current program of agent self into callStack
-	 * 
+	 *
 	 * @param newSelf
 	 *            reference to the self element of an agent
 	 */
@@ -265,11 +265,11 @@ public class InterpreterImp implements Interpreter {
 		ruleCallStack.insertElementAt(
 				new CallStackElement((RuleElement)storage.getChosenProgram(newSelf)), 0);
 	}
-	
+
 	public Element getSelf() {
 		return this.self;
 	}
-	
+
 	@Override
 	public Map<String, Element> getEnvVars() {
 		Map<String, Element> envVars = new HashMap<String, Element>();
@@ -298,13 +298,13 @@ public class InterpreterImp implements Interpreter {
 			envMap.put(token, value);
 	}
 	*/
-	
+
 	@Override
 	public void hideEnvVars() {
 		hiddenEnvMaps.push(envMap);
 		envMap = new HashMap<String, Stack<Element>>();
 	}
-	
+
 	@Override
 	public void unhideEnvVars() {
 		if (hiddenEnvMaps.isEmpty())
@@ -330,51 +330,51 @@ public class InterpreterImp implements Interpreter {
 
 	public void removeEnv(String name) {
 		Stack<Element> stack = envMap.get(name);
-		if (stack == null || stack.size() <= 0) 
+		if (stack == null || stack.size() <= 0)
 			throw new IllegalStateException("Removing an undefined environment variable.");
 
 		stack.pop();
 	}
-	
+
 	/**
 	 * Interpretation of literals
 	 */
 	private ASTNode interpretLiterals(ASTNode pos) {
 		final String token = pos.getToken();
-		if (token == null) 
+		if (token == null)
 			return pos;
 		else if (token.equals(Kernel.KW_TRUE))
 			pos.setNode(null, null, BooleanElement.TRUE);
-		else if (token.equals(Kernel.KW_FALSE)) 
+		else if (token.equals(Kernel.KW_FALSE))
 			pos.setNode(null, null, BooleanElement.FALSE);
-		else if (token.equals(Kernel.KW_UNDEF)) 
+		else if (token.equals(Kernel.KW_UNDEF))
 			pos.setNode(null, null, Element.UNDEF);
 		else if (token.equals(Kernel.KW_SELF))
 			pos.setNode(null, null, self);
 		return pos;
 	}
-	
+
 	/**
 	 * Interpretation of kernel expressions
-	 * @throws InterpreterException 
+	 * @throws InterpreterException
 	 */
 	private ASTNode interpretExpressions(ASTNode pos) throws InterpreterException {
 		final AbstractStorage storage = capi.getStorage();
 		final String gClass = pos.getGrammarClass();
-		
+
 		// If the current node is a function/rule term
 		if (gClass.equals(ASTNode.FUNCTION_RULE_CLASS)) {
 			if (pos instanceof FunctionRuleTermNode) {
 				FunctionRuleTermNode frNode = (FunctionRuleTermNode)pos;
-				
+
 				// If the current node is of the form 'x' or 'x(...)'
 				if (frNode.hasName()) {
-	
+
 					final String x = frNode.getName();
-					
+
 					// If the current node is of the form 'x' with no arguments
 					if (!frNode.hasArguments()) {
-						
+
 						// If we have a local value for that...
 						if (getEnv(x) != null)
 							pos.setNode(null, null, getEnv(x));
@@ -387,7 +387,7 @@ public class InterpreterImp implements Interpreter {
 								try {
 									pos.setNode(l, null, storage.getValue(l));
 								} catch (InvalidLocationException e) {
-									throw new EngineError("Location is invalid in 'interpretExpressions()'." + 
+									throw new EngineError("Location is invalid in 'interpretExpressions()'." +
 											"This cannot happen!", e);
 								}
 							} else
@@ -431,7 +431,7 @@ public class InterpreterImp implements Interpreter {
 									try {
 										pos.setNode(l, null, storage.getValue(l));
 									} catch (InvalidLocationException e) {
-										throw new EngineError("Location is invalid in 'interpretExpressions()'." + 
+										throw new EngineError("Location is invalid in 'interpretExpressions()'." +
 												"This cannot happen!", e);
 									}
 								}
@@ -453,14 +453,14 @@ public class InterpreterImp implements Interpreter {
 									pos = toBeEvaluated;
 							}
 					}
-					
+
 				} // endif of the current node being 'x' or 'x(...)'
-			} 
-			
+			}
+
 		} //endif of the current node being a function/rule term
-		
+
 		// if class is an operator then
-		else if (gClass.equals(ASTNode.UNARY_OPERATOR_CLASS) || 
+		else if (gClass.equals(ASTNode.UNARY_OPERATOR_CLASS) ||
                  gClass.equals(ASTNode.BINARY_OPERATOR_CLASS) ||
                  gClass.equals(ASTNode.TERNARY_OPERATOR_CLASS) ||
                  gClass.equals(ASTNode.INDEX_OPERATOR_CLASS))
@@ -474,11 +474,11 @@ public class InterpreterImp implements Interpreter {
 			if (pos.getGrammarRule().equals(Kernel.GR_RULEELEMENT_TERM))
 			{
 				final ASTNode idNode = pos.getFirst();
-					
+
 				// attempt get rule element for given rule
 				final String ruleName = idNode.getToken();
 				final RuleElement ruleElement = capi.getStorage().getRule(ruleName);
-							
+
 				// if rule element exists
 				if (ruleElement != null)
 					pos.setNode(null,null,ruleElement);
@@ -486,13 +486,13 @@ public class InterpreterImp implements Interpreter {
 				else
 					pos.setNode(null,null,Element.UNDEF);
 			}
-			
+
 			else if (pos instanceof RuleOrFuncElementNode) {
 				final RuleOrFuncElementNode node = (RuleOrFuncElementNode)pos;
 				final String name = node.getElementName();
-				
+
 				Element e = storage.getRule(name);
-				if (e == null) 
+				if (e == null)
 					e = storage.getFunction(name);
 				if (getEnv(name) instanceof FunctionElement || getEnv(name) instanceof RuleElement)
 					e = getEnv(name);
@@ -504,7 +504,7 @@ public class InterpreterImp implements Interpreter {
 					} catch (InvalidLocationException ex) {
 					}
 				}
-				
+
 				if (e != null) {
 				    if (e instanceof FunctionElement) {
                         if (((FunctionElement) e).isModifiable()) {
@@ -512,7 +512,7 @@ public class InterpreterImp implements Interpreter {
                             pos.setNode(l,null,e);
                         }
                         else {
-                            pos.setNode(null,null,e);                            
+                            pos.setNode(null,null,e);
                         }
                     }
                     else if (e instanceof RuleElement) {
@@ -536,18 +536,18 @@ public class InterpreterImp implements Interpreter {
 						pos = innerNode;
 				}
 		}
-	
+
 		return pos;
 	}
-    
+
 	/**
 	 * Interpretation of kernel rules
-	 * @throws InterpreterException 
+	 * @throws InterpreterException
 	 */
 	private ASTNode interpretRules(ASTNode pos) throws InterpreterException {
 		final String gRule = pos.getGrammarRule();
 		String x = pos.getToken();
-		
+
 		// If the current node is a macro call term...
 		if (gRule.equals(Kernel.GR_FUNCTION_RULE_TERM) || pos instanceof MacroCallRuleNode) {
 			FunctionRuleTermNode frNode = null;
@@ -563,17 +563,17 @@ public class InterpreterImp implements Interpreter {
 			}
 			else
 				frNode = (FunctionRuleTermNode)pos;
-			
+
 			List<ASTNode> args = pos.getFirst().getAbstractChildNodes();
-			
+
 			if (theRule == null) {
 				if (!frNode.hasName())
 					throw new CoreASMError("A FunctionRuleTerm must have a name.", frNode);
-			
+
 				// If the current node is of the form 'x' or 'x(...)'
 				x = frNode.getName();
 				args = frNode.getArguments();
-				
+
 				if (storage.isRuleName(x))
 					theRule = ruleValue(x);
 				else {
@@ -590,7 +590,7 @@ public class InterpreterImp implements Interpreter {
 								capi.error("\"" + x + "\" is not a rule name.", pos, this);
 						}
 					} catch (InvalidLocationException e) {
-						throw new EngineError("Location is invalid in 'interpretRules()'." + 
+						throw new EngineError("Location is invalid in 'interpretRules()'." +
 								"This cannot happen!");
 					}
 				}
@@ -603,14 +603,14 @@ public class InterpreterImp implements Interpreter {
 						if (theRule.getParam().isEmpty())
 							pos = ruleCall(theRule, theRule.getParam(), null, pos);
 						else
-							capi.error("The number of arguments passed to '" + theRule.getName() + 
+							capi.error("The number of arguments passed to '" + theRule.getName() +
 									"' does not match its signature.", pos, this);
 					}
 					else // treat rules like RuleOrFuncElementNode, so they can be passed to rules as parameter
 						pos.setNode(new Location(AbstractStorage.RULE_ELEMENT_FUNCTION_NAME, ElementList.create(new NameElement(x))),null,theRule);
 				} else { // if current node is 'x(...)' (with arguments)
 					if (theRule.getParam().size() != args.size())
-						capi.error(	"The number of arguments passed to '" + theRule.getName() + 
+						capi.error(	"The number of arguments passed to '" + theRule.getName() +
 									"' does not match its signature.", pos, this);
 					else if (pos instanceof MacroCallRuleNode)
 						pos = ruleCall(theRule, theRule.getParam(), args, pos);
@@ -619,12 +619,12 @@ public class InterpreterImp implements Interpreter {
 				}
 			}
 		}
-		
+
 		// If the current node is an assignment
 		else if (pos instanceof UpdateRuleNode) {
 			final ASTNode lhs = pos.getFirst();
 			final ASTNode rhs = pos.getFirst().getNext();
-			
+
 			// if LHS is not evaluated...
 			if (!lhs.isEvaluated())
 				pos = lhs;
@@ -636,7 +636,7 @@ public class InterpreterImp implements Interpreter {
 					Location l = lhs.getLocation();
 					if (l != null) {
 						// Updated by R. Farahbod on 03-Nov-2008
-						if (l.isModifiable != null && l.isModifiable.equals(false)) 
+						if (l.isModifiable != null && l.isModifiable.equals(false))
 							capi.error("Left hand side of the assignment, " +
 									l + ", is not modifiable.", pos, this);
 						else {
@@ -648,7 +648,7 @@ public class InterpreterImp implements Interpreter {
 						capi.error("Cannot update a non-location!", pos, this);
 				}
 		}
-		
+
 		//If the current node is an 'import'
 		else if (gRule.equals("ImportRule")) {
 
@@ -678,27 +678,27 @@ public class InterpreterImp implements Interpreter {
 		else if (x != null && x.equals("skip")) {
 			pos.setNode(null, new UpdateMultiset(), null);
 		}
-		
+
 
 		return pos;
 	}
-	
+
 	/**
 	 * Interpretation of operators
-	 * 
-	 * @throws InterpreterException 
+	 *
+	 * @throws InterpreterException
 	 */
 	private ASTNode interpretOperators(ASTNode pos) throws InterpreterException {
 		String gClass = pos.getGrammarClass();
 		String x = pos.getToken();
-		
+
 		// evaluate children first:
-		
+
 		// find first unevaluated child
 		ASTNode unevaluatedChild = pos.getFirst();
 		while (unevaluatedChild != null && unevaluatedChild.isEvaluated() == true)
 			unevaluatedChild = unevaluatedChild.getNext();
-		
+
 		// if there is an unevaluated child, then we need to pass control to that
 		// child so that it can be evaluated
 		if (unevaluatedChild != null)
@@ -706,9 +706,9 @@ public class InterpreterImp implements Interpreter {
 		// else no unevaluated children, so we can commence operator interpretation
 		else
 		{
-			if (oprReg == null) 
+			if (oprReg == null)
 				oprReg = OperatorRegistry.getInstance(capi);
-			
+
 			// collection of all plugins which have an implementation for this operator
 			Collection<String> impPlugins = oprImpPluginsCache.get(x + "__:X:__" + gClass);
 			// that is a bad thing, no? ;-)
@@ -720,9 +720,9 @@ public class InterpreterImp implements Interpreter {
 			final Hashtable<String,Element> impResults = new Hashtable<String,Element>();
 			final Hashtable<String,InterpreterException> impErrors = new Hashtable<String,InterpreterException>();
 			final HashSet<String> nullReturns = new HashSet<String>();
-			
+
 			// TODO What is the diff between returning 'null' and throwing an exception?
-			
+
 			// for each possible implementation
 			for (String pluginName : impPlugins) {
 				// load plugin
@@ -741,9 +741,9 @@ public class InterpreterImp implements Interpreter {
 					impErrors.put(pluginName, error);
 				}
 			}
-			
+
 			// decide on what final result of operator evaluation is:
-			
+
 			// put results into a set
 			final HashSet<Element> setResultElements = new HashSet<Element>(impResults.values());
 
@@ -751,7 +751,7 @@ public class InterpreterImp implements Interpreter {
 			// remove the undef value
 			if ((setResultElements.size() > 1) && setResultElements.contains(Element.UNDEF))
 				setResultElements.remove(Element.UNDEF);
-			
+
 			// one result so return it
 			if (setResultElements.size() == 1)
 				pos.setNode(null,null,(Element)setResultElements.toArray()[0]);
@@ -778,41 +778,41 @@ public class InterpreterImp implements Interpreter {
 					opr = opr.getNext();
 				}
 				operands = operands + ")";
-				
+
 				String errMessage = "Cannot perform the \"" + x + "\" operation on " + operands + " as all the implementations failed:" + Tools.getEOL();
 				for(String errorPlugin: impErrors.keySet())
 					errMessage += "- " + errorPlugin + ": " + impErrors.get(errorPlugin).getMessage()  + Tools.getEOL();
 				for(String nullReturnedPlugin: nullReturns)
 					errMessage += "- " + nullReturnedPlugin + " has no semantics for the given combination of operator and operand(s)." + Tools.getEOL();
-				
+
                 capi.error(errMessage, pos, this);
                 return pos;
 			}
-			
-			
+
+
 		}
-			
-		return pos;	
+
+		return pos;
 	}
-		
+
 	/**
 	 * Return <code>true<code> if there is no rule or function in the
 	 * state with the given token as its name.
-	 * 
-	 * NOTE: The implementation of this method is based on 
+	 *
+	 * NOTE: The implementation of this method is based on
 	 * <code>isFunctionName(String)</code> and <code>isRuleName(String)</code>
-	 * and is different from the specification.  
+	 * and is different from the specification.
 	 */
 	private boolean isUndefined(String token) {
-		return !storage.isRuleName(token) 
-				&& !storage.isFunctionName(token) 
+		return !storage.isRuleName(token)
+				&& !storage.isFunctionName(token)
 				&& !storage.isUniverseName(token);
 	}
-	
+
 	/**
-	 * Takes care of undefined identifiers. 
-	 * 
-	 * In this implementation, it creates a new function in the 
+	 * Takes care of undefined identifiers.
+	 *
+	 * In this implementation, it creates a new function in the
 	 * state with the given name and evaluates <i>pos</i> to point
 	 * to this function both in terms of its location and its value (which is <i>undef</i>)
 	 */
@@ -820,7 +820,7 @@ public class InterpreterImp implements Interpreter {
     	// if it is still the case that the function is undefined
 		if (!isUndefined(id))
 			return;
-		
+
         Location l = null;
         Element value = null;
         UpdateMultiset updates = null;
@@ -830,8 +830,8 @@ public class InterpreterImp implements Interpreter {
 //		    	It's significantly slowing down rulecalls on rules containing a return rule.
 //		    	Especially recursive rulecalls are slowed down a lot. See fibonacci sample spec.
 //              clearTree(pos);
-                ((UndefinedIdentifierHandler) p).handleUndefinedIndentifier(this, pos, id, list);                
-                
+                ((UndefinedIdentifierHandler) p).handleUndefinedIndentifier(this, pos, id, list);
+
                 if (pos.isEvaluated()) {
                     if (l!=null && value!=null && updates != null) {
                         if (!l.equals(pos.getLocation())
@@ -839,7 +839,7 @@ public class InterpreterImp implements Interpreter {
                         		|| !updates.equals(pos.getUpdates())) {
                             throw new EngineError(
                             		"There is an amibuity in resolving identifier \""+id+"\". "
-                            		+ "More than one plug-in can evaluate this node."); 
+                            		+ "More than one plug-in can evaluate this node.");
                         }
                     }
                     l = pos.getLocation();
@@ -848,14 +848,14 @@ public class InterpreterImp implements Interpreter {
                 }
             }
         }
-        
+
         if (!pos.isEvaluated()) {
             kernelHandleUndefinedIndentifier(pos,id,list);
-        }        
+        }
 	}
-	
+
 	/*
-	 * Kernel's default behavior to handle undefined identifier 
+	 * Kernel's default behavior to handle undefined identifier
 	 */
     private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
     	Location loc = new Location(id, list);
@@ -865,49 +865,49 @@ public class InterpreterImp implements Interpreter {
 	        pos.setNode(loc, null, value);
 		} catch (InvalidLocationException e) {
 	        pos.setNode(loc, null, Element.UNDEF);
-		} 
+		}
     }
 
 	/*
-	 * Kernel's DEPRECATED default behavior to handle undefined identifier 
+	 * Kernel's DEPRECATED default behavior to handle undefined identifier
 	 *
     private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
         FunctionElement f = new MapFunction(Element.UNDEF);
         try {
-            storage.addFunction(id, f); 
+            storage.addFunction(id, f);
             pos.setNode(new Location(id, list), null, Element.UNDEF);
         } catch (NameConflictException e) {
-            throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\"."); 
+            throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
         }
     }
     */
 
 	/**
-	 * The goal is to ensure that the given nodes are all evaluated. If there is 
+	 * The goal is to ensure that the given nodes are all evaluated. If there is
 	 * an unevaluated node, returns that node. If all the given nodes are evaluated
-	 * returns <code>null</code>. 
-	 * 
+	 * returns <code>null</code>.
+	 *
 	 * @param nodes list of nodes
 	 */
 	private ASTNode getUnevaluatedNode(List<ASTNode> nodes) {
-		for (ASTNode n: nodes) 
+		for (ASTNode n: nodes)
 			if (!n.isEvaluated()) {
 				return n;
 			}
 		return null;
 	}
-	
-	/** 
+
+	/**
 	 * Returns the rule element of the state that has the specified name.
-	 * @param name name of the rule 
+	 * @param name name of the rule
 	 */
 	private RuleElement ruleValue(String name) {
 		return storage.getRule(name);
 	}
-	
+
 	/**
 	 * Handles a call to a rule.
-	 * 
+	 *
 	 * @param rule rule element
 	 * @param params parameters
 	 * @param args arguments
@@ -917,10 +917,10 @@ public class InterpreterImp implements Interpreter {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Interpreting rule call '" + rule.name + "' (agent: " + this.getSelf() + ", stack size: " + ruleCallStack.size() + ")");
 		}
-		
+
 		if (args != null)
 			args = Collections.unmodifiableList(args);
-		
+
 		Map<String, ASTNode> workCopies = this.workCopies.get(pos);
 		if (workCopies == null) {
 			workCopies = new HashMap<String, ASTNode>();
@@ -932,7 +932,7 @@ public class InterpreterImp implements Interpreter {
 			// checking the parameters and the arguments
 			// as their number should match
 			ruleCallStack.push(new CallStackElement(rule));
-			if (params != null && args != null && args.size() != params.size()) {  
+			if (params != null && args != null && args.size() != params.size()) {
 				capi.error("Number of arguments does not match the number of parameters.", pos, this);
 				return pos;
 			}
@@ -940,11 +940,11 @@ public class InterpreterImp implements Interpreter {
 				wCopy = copyTreeSub(rule.getBody(), params, args);
 			else
 				updateConstants(wCopy, extractConstants(args));
-			
+
 			workCopies.put(rule.getName(), wCopy);
 			wCopy.setParent(pos);
 			notifyOnRuleCall(rule, injectEnvVars(args), pos, self);
-			
+
 			hideEnvVars();
 			return wCopy; // as new value of 'pos'
 		} else { // if there already is a work copy
@@ -952,17 +952,17 @@ public class InterpreterImp implements Interpreter {
 			if (value == null)	// make sure that the value of the node will not be set to null
 				value = Element.UNDEF;
 			pos.setNode(null, wCopy.getUpdates(), value);
-		
+
 			clearTree(wCopy);
-			
+
 			ruleCallStack.pop();
 			notifyOnRuleExit(rule, args, pos, self);
-			
+
 			unhideEnvVars();
 			return pos;
 		}
 	}
-	
+
 	/**
 	 * Update constant value in the given work copy
 	 * @param wCopy work copy to update constant values in
@@ -983,7 +983,7 @@ public class InterpreterImp implements Interpreter {
 			fringe.addAll(node.getAbstractChildNodes());
 		}
 	}
-	
+
 	/**
 	 * Extract constant values from a list of arguments
 	 * @param args list of arguments to extract constant values from
@@ -1005,7 +1005,7 @@ public class InterpreterImp implements Interpreter {
 		}
 		return constants;
 	}
-	
+
 	/**
 	 * Notifies the listeners on rule call.
 	 * @param rule the rule that is being called
@@ -1017,7 +1017,7 @@ public class InterpreterImp implements Interpreter {
 		for (InterpreterListener listener : capi.getInterpreterListeners())
 			listener.onRuleExit(rule, args, pos, agent);
 	}
-	
+
 	/**
 	 * Notifies the listeners on rule exit.
 	 * @param rule the rule that is being exited
@@ -1038,13 +1038,13 @@ public class InterpreterImp implements Interpreter {
 	}
 
 	/**
-	 * Returns a copy of the given parse tree, where every instance 
-	 * of an identifier node in a given sequence (formal parameters) 
-	 * is substituted by a copy of the corresponding parse tree in another 
-	 * sequence (actual parameters, or arguments). We assume that the elements in the 
-	 * formal parameters list are all distinct (i.e., it is not possible 
+	 * Returns a copy of the given parse tree, where every instance
+	 * of an identifier node in a given sequence (formal parameters)
+	 * is substituted by a copy of the corresponding parse tree in another
+	 * sequence (actual parameters, or arguments). We assume that the elements in the
+	 * formal parameters list are all distinct (i.e., it is not possible
 	 * to specify the same name for two different parameters).
-	 * 
+	 *
 	 * @param a root of the parse tree
 	 * @param params formal parameters
 	 * @param args given arguments (replace parameters in the tree)
@@ -1054,16 +1054,16 @@ public class InterpreterImp implements Interpreter {
 		Node result = null;
 		ASTNode ast = null;
 		int i = 0;
-		
-		if (a instanceof ASTNode) 
+
+		if (a instanceof ASTNode)
 			ast = (ASTNode)a;
-		
+
 		if (a != null) {
 			// if this node belongs to the abstract syntax tree
 			// and it is a FunctionRuleTerm and its child is a parameter of the rule
-			if (a instanceof ASTNode 
-					&& ast.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS) 
-					&& (ast.getFirst().getGrammarClass().equals(ASTNode.ID_CLASS) 
+			if (a instanceof ASTNode
+					&& ast.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS)
+					&& (ast.getFirst().getGrammarClass().equals(ASTNode.ID_CLASS)
 							&& (i = params.indexOf(ast.getFirst().getToken())) >= 0)) {
 				ASTNode arg = args.get(i);
 				if (arg instanceof RuleOrFuncElementNode) {
@@ -1079,11 +1079,11 @@ public class InterpreterImp implements Interpreter {
 				}
 				result.setParent(parent);
 			} else {
-				if (args != null && a instanceof ASTNode 
-					&& ast.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS) 
+				if (args != null && a instanceof ASTNode
+					&& ast.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS)
 					&& ast.getFirst().getGrammarClass().equals(ASTNode.ID_CLASS)) {
 					for (ASTNode arg : args) {
-						if (arg.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS) 
+						if (arg.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS)
 						&& arg.getFirst().getGrammarClass().equals(ASTNode.ID_CLASS)
 						&& arg.getChildNode("lambda") == null
 						&& !params.get(args.indexOf(arg)).equals(arg.getFirst().getToken())
@@ -1101,7 +1101,7 @@ public class InterpreterImp implements Interpreter {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Update scanner information of the given tree to be equal to the scanner information of the given node
 	 * @param root root of the tree to set scanner information of
@@ -1114,7 +1114,7 @@ public class InterpreterImp implements Interpreter {
 				updateScannerInfos(child, scannerInfoNode);
 		}
 	}
-	
+
 	private List<ASTNode> injectEnvVars(List<ASTNode> args) {
 		if (args == null)
 			return null;
@@ -1123,7 +1123,7 @@ public class InterpreterImp implements Interpreter {
 			result.add(injectEnvVars((ASTNode)copyTree(arg)));
 		return result;
 	}
-	
+
 	/**
 	 * Replaces all FunctionRuleTermNodes that refer to an environment variable by a ConstantValueNode with the corresponding value
 	 * @param arg argument to do the replacement in
@@ -1155,7 +1155,7 @@ public class InterpreterImp implements Interpreter {
 	public Node copyTree(Node a) {
 		return a.cloneTree();
 	}
-	
+
 	/**
 	 * @see org.coreasm.engine.interpreter.Interpreter#clearTree(org.coreasm.engine.interpreter.ASTNode)
 	 */
@@ -1166,14 +1166,14 @@ public class InterpreterImp implements Interpreter {
 				clearTree(child);
 		}
 	}
-	
+
 	public void prepareInitialState() {
 		AbstractStorage storage = capi.getStorage();
-		
+
 		// starting from the first child under CoreASM keyword
 		ASTNode rootNode = capi.getParser().getRootNode();
 		ASTNode initNode = null;
-		
+
 		for (ASTNode child: rootNode.getAbstractChildNodes())
 			if (child.getGrammarRule().equals(Kernel.GR_INITIALIZATION))
 				if (initNode == null)
@@ -1183,17 +1183,17 @@ public class InterpreterImp implements Interpreter {
 					capi.error("More than one init rule declarations found.", child, this);
 					return;
 				}
-					
+
 		if (initNode == null) {
 			logger.debug("No init rule is specified.");
 			capi.error("No init rule is specified.");
 			return;
 		}
-		
+
 		// node is pointing to the 'init' node, so we get
 		// its first child which holds the name of the init rule
 		String initRuleName = initNode.getFirst().getToken();
-		
+
 		// fetching the rule with the given name from the state
 		RuleElement initRule = ruleValue(initRuleName);
 		if (initRule == null) {
@@ -1206,7 +1206,7 @@ public class InterpreterImp implements Interpreter {
 				capi.error("Init rule '" + initRuleName + "' should not have parameters.", initNode, this);
 				return;
 			}
-		
+
 		// creating the first agent to run the initial step
 		Element initAgent = new InitAgent();
         capi.getScheduler().setInitAgent(initAgent);
@@ -1217,7 +1217,7 @@ public class InterpreterImp implements Interpreter {
 		} catch (InvalidLocationException e) {
 			e.printStackTrace();
 		}
-		
+
 		// adding the agent to the univers of agents
 		l = new Location(AbstractStorage.AGENTS_UNIVERSE_NAME, ElementList.create(initAgent));
 		try {
@@ -1225,8 +1225,8 @@ public class InterpreterImp implements Interpreter {
 		} catch (InvalidLocationException e) {
 			e.printStackTrace();
 		}
-        
-		// in the next step (first step of the program) the init rule will be called		
+
+		// in the next step (first step of the program) the init rule will be called
 	}
 
 	/**
@@ -1243,7 +1243,7 @@ public class InterpreterImp implements Interpreter {
 
 	/**
 	 * Notifies the listeners of an initialization of program execution.
-	 * 
+	 *
 	 * @param agent the agent running the program
 	 * @param program the program that is being initialized
 	 */
@@ -1257,7 +1257,7 @@ public class InterpreterImp implements Interpreter {
     	pos = node;
     	Element oldSelf = self;
     	self = agent;
-    	
+
     	// from now on, pos points to the new tree
         Node parent = pos.getParent();
         pos.setParent(null);
@@ -1269,7 +1269,7 @@ public class InterpreterImp implements Interpreter {
         } finally {
 	        // set back the parent
 	        pos.setParent(parent);
-	        
+
 	        // set back the pos
 	        pos = oldPos;
 	        self = oldSelf;

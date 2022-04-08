@@ -17,7 +17,7 @@ import org.coreasm.compiler.plugins.forall.code.ucode.ForallRuleHandler;
 public class CompilerForallRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -25,7 +25,7 @@ public class CompilerForallRulePlugin extends CompilerCodePlugin implements Comp
 	public CompilerForallRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

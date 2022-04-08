@@ -1,11 +1,11 @@
 /*
  * JasminePlugin.java 		$Revision: 130 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2010-03-31 01:27:47 +0200 (Mi, 31 Mrz 2010) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -79,9 +79,9 @@ import org.coreasm.util.Logger;
 import org.coreasm.util.Multiset;
 
 /**
- * 
- * The JASMine Plug-in provides access to Java objects from CoreASM specifications. 
- *   
+ *
+ * The JASMine Plug-in provides access to Java objects from CoreASM specifications.
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -91,25 +91,25 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 	/** plugin name */
 	public static final String PLUGIN_NAME = JasminePlugin.class.getSimpleName();
-	
+
 	/** version info */
 	public static final VersionInfo version = new VersionInfo(1, 1, 5, "beta");
-	
+
 	/** JASMine update action */
 	public static final String JASMINE_UPDATE_ACTION = "JASMineUpdate";
-	
+
 	/** location of ('jasmChannel', []) */
 	public final Location channelLocation;
-	
+
 	/** Two conversion modes of the plug-in */
 	public static enum ConversionMode {explicitConversion, implicitConversion};
-	
+
 	/**
 	 * The name of the JASMine.ConversionMode property. The value of this property can
-	 * be either "implicit", "explicit", or "default". The default value is "implicit". 
+	 * be either "implicit", "explicit", or "default". The default value is "implicit".
 	 */
 	public static final String CONVERSION_MODE_PROPERTY = "ConversionMode";
-	
+
 	private HashMap<String, GrammarRule> parsers = null;
 
 	private Set<String> dependencies = null;
@@ -119,21 +119,21 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 	private static final String FIELD_ACCESS_OPERATOR = "->";
 	private static final String[] operators = {".", FIELD_ACCESS_OPERATOR}; //, "->"};
-	private static final String[] keywords = {"import", "native", "into", 
+	private static final String[] keywords = {"import", "native", "into",
 											  "store", "invoke", "result"};
 
 	private static final String[] UPDATE_ACTIONS = {JASMINE_UPDATE_ACTION};
-	
+
 	public static final String JASMINE_CLASSPATH__SYSTEM = "JASMINE_CLASSPATH";
 	public static final String JASMINE_CLASSPATH__ENGINE = "JASMine.ClassPath";
-	
+
 	private static final Set<String> options = Set.of(CONVERSION_MODE_PROPERTY, JASMINE_CLASSPATH__ENGINE);
-	
+
 	private ClassLoader loader = null;
 	private boolean classPathUpdatedThroughOptions = false;
 
 	private Parser<Node> basicJavaIdParser = null;
-	
+
 	/* Temporary! begins */
 	Map<EngineMode, Integer> targetModes = null;
     /* Temporary! ends */
@@ -141,10 +141,10 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	public JasminePlugin() {
 		channelLocation = new Location("jasmChannel", ElementList.NO_ARGUMENT);
 	}
-	
+
 	/**
 	 * Returns the current conversion mode of the plug-in.
-	 * 
+	 *
 	 * @see ConversionMode
 	 */
 	public ConversionMode getConversionMode() {
@@ -156,27 +156,27 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		else
 			return ConversionMode.implicitConversion;
 	}
-	
+
 	/**
-	 * @return <code>true</code> if this JASMine plug-in is in 
-	 * the implicit conversion mode. 
-	 * 
+	 * @return <code>true</code> if this JASMine plug-in is in
+	 * the implicit conversion mode.
+	 *
 	 *  @see #getConversionMode()
 	 */
 	public boolean isImplicitConversionMode() {
 		return getConversionMode().equals(ConversionMode.implicitConversion);
 	}
-	
+
 	/**
-	 * @return <code>true</code> if this JASMine plug-in is in 
-	 * the explicit conversion mode. 
-	 * 
+	 * @return <code>true</code> if this JASMine plug-in is in
+	 * the explicit conversion mode.
+	 *
 	 *  @see #getConversionMode()
 	 */
 	public boolean isExplicitConversionMode() {
 		return getConversionMode().equals(ConversionMode.explicitConversion);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
@@ -189,7 +189,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			this.loader = this.getClass().getClassLoader();
 		*/
 		this.loader = this.getClass().getClassLoader();
-		
+
 		updateClassPath(System.getenv(JASMINE_CLASSPATH__SYSTEM));
 		//updateClassPath(getOptionValue(JASMINE_CLASSPATH__ENGINE));
 		classPathUpdatedThroughOptions = false;
@@ -205,7 +205,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			List<URL> urls = new ArrayList<URL>();
 			URL url = null;
 			StringTokenizer tokenizer = new StringTokenizer(classPath, ":");
-			
+
 			Specification spec = capi.getSpec();
 			String specDir = spec.getFileDir();
 
@@ -213,14 +213,14 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				String token = tokenizer.nextToken();
 				if (!token.toLowerCase().endsWith(".jar") && !token.endsWith("/"))
 					token = token + "/";
-				
+
 				// Resolve relative path names using the specification's directory
 				if (specDir != null) {
 					File f = new File(token);
 					if (!f.isAbsolute())
-						token = specDir + File.separator + token; 
+						token = specDir + File.separator + token;
 				}
-				
+
 				try {
 					url = new URL("file://" + token);
 					Logger.log(Logger.INFORMATION, Logger.plugins,
@@ -239,11 +239,11 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				this.loader = new URLClassLoader(urls.toArray(urlArray), this.getClass().getClassLoader());
 		}
 	}
-	
+
 	public ClassLoader getClassLoader(){
 		return this.loader;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
@@ -257,7 +257,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	public String[] getOperators() {
 		return operators;
 	}
-	
+
 	@Override
 	public Set<String> getOptions() {
 		return options;
@@ -268,7 +268,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		{
 			ParserTools.getInstance(capi);
 			Parser<Token> tokp = Parsers.ANY_TOKEN.token();
-			
+
 			basicJavaIdParser = tokp.map(from -> {
                 if (from.value() instanceof Fragment) {
                     Fragment frag = (Fragment) from.value();
@@ -286,10 +286,10 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
                 return null;
             });
 		}
-		
+
 		return basicJavaIdParser;
 	}
-	
+
 	/*private Parser<Node> getBasicJavaIdParser() {
 		if (basicJavaIdParser == null) {
 			basicJavaIdParser = Parsers.token(new FromToken<Node>() {
@@ -298,11 +298,11 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Object token = tok.getToken();
 					if (token instanceof TypedToken) {
 						if (((TypedToken)token).getType().equals(TokenType.Word)
-								|| ((TypedToken)token).getType().equals(TokenType.Reserved)) 
+								|| ((TypedToken)token).getType().equals(TokenType.Reserved))
 							return new ASTNode(
-									"Jasmine", 
-									ASTNode.ID_CLASS, 
-									"BasicJavaID", 
+									"Jasmine",
+									ASTNode.ID_CLASS,
+									"BasicJavaID",
 									tok.toString(),
 									new ScannerInfo(tok),
 									Node.OTHER_NODE
@@ -312,9 +312,9 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					} else
 						return null;
 				}
-				
+
 			});
-			
+
 		}
 		return basicJavaIdParser;
 	}*/
@@ -334,10 +334,10 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			Parser<Node> idParser = pTools.getIdParser();
 			Parser<Node> tupleTermParser = kernel.getTupleTermParser();
 			Parser<Node> basicExprParser = kernel.getBasicExprParser();
-			
+
 			// TODO uncomment this line and change the rest of the code accordingly when the used feature becomes available
 			//Parser<Node> tupleTermParser = kernel.getBasicExprParser();
-						
+
 			Parser<Object[]> repeated =
 					pTools.many(
 							pTools.seq(
@@ -345,11 +345,11 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 									idParser
 							)
 					);
-			
-			Parser<Node> javaIdParser = 
+
+			Parser<Node> javaIdParser =
 					pTools.seq("JavaIdParser", getBasicJavaIdParser(), repeated).map(
 					new JavaIdParseMap());
-			
+
 			Parser<Node> importRuleParser = Parsers.array(
 					new Parser[] {
 						pTools.getKeywParser("import", PLUGIN_NAME),
@@ -360,7 +360,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						termParser
 					}).map(
 					new NativeImportParseMap());
-			
+
 			parsers.put(importRuleParser.toString(),
 					new GrammarRule(importRuleParser.toString(),
 							"'import' 'native' FunctionRuleTerm 'into' Term", importRuleParser, PLUGIN_NAME));
@@ -375,7 +375,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						basicJavaIdParser
 					}).map(
 					new StoreParseMap());
-			
+
 			parsers.put(storeRuleParser.toString(),
 					new GrammarRule(storeRuleParser.toString(),
 							"'store' Term 'into' Term '->' ID", storeRuleParser, PLUGIN_NAME));
@@ -394,18 +394,18 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						).optional(null)
 					}).map(
 					new InvokeParseMap());
-			
+
 			parsers.put(invokeRuleParser.toString(),
 					new GrammarRule(invokeRuleParser.toString(),
-							"'invoke' Term '->' ID TupeTerm 'result' 'into' Term", 
+							"'invoke' Term '->' ID TupeTerm 'result' 'into' Term",
 							invokeRuleParser, PLUGIN_NAME));
 
-			parsers.put("Rule", 
-					new GrammarRule("Rule", "JasmineInvokeRule | JasmineStoreRule | JasmineImportRule", 
+			parsers.put("Rule",
+					new GrammarRule("Rule", "JasmineInvokeRule | JasmineStoreRule | JasmineImportRule",
 							Parsers.or(invokeRuleParser, importRuleParser, storeRuleParser), PLUGIN_NAME));
-						
+
 			/*
-			Parser<Node> fieldReadParser = Parsers.mapn("JasmineFieldReadExp", 
+			Parser<Node> fieldReadParser = Parsers.mapn("JasmineFieldReadExp",
 					new Parser[] {
 						pTools.getOprParser("<<<"),
 						termParser,
@@ -416,7 +416,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					new ParseMapN<Node>(PLUGIN_NAME) {
 
 						public Node map(Object... nodes) {
-							for (Object n: nodes) 
+							for (Object n: nodes)
 								System.out.println(n);
 							ASTNode node = new FieldReadNode(((Node)nodes[0]).getScannerInfo());
 							addChildren(node, nodes);
@@ -424,12 +424,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						}
 					}
 			);
-			
+
 			parsers.put(fieldReadParser.toString(),
-					new GrammarRule(fieldReadParser.toString(), 
+					new GrammarRule(fieldReadParser.toString(),
 							"Term '->' ID", fieldReadParser, PLUGIN_NAME));
-			parsers.put("BasicTerm", 
-					new GrammarRule("JASMineBasicTerm", fieldReadParser.toString(), 
+			parsers.put("BasicTerm",
+					new GrammarRule("JASMineBasicTerm", fieldReadParser.toString(),
 							fieldReadParser, PLUGIN_NAME));
 			/**/
 		}
@@ -446,23 +446,23 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			classPathUpdatedThroughOptions = true;
 			updateClassPath(getOptionValue(JASMINE_CLASSPATH__ENGINE));
 		}
-		
+
 		// import native ...
 		if (pos instanceof NativeImportRuleNode) {
 			NativeImportRuleNode node = (NativeImportRuleNode)pos;
 			ASTNode location = (ASTNode)pos.getChildNode("beta");
-			
+
 			if (!location.isEvaluated())
 				return location;
-			
+
 			// if location is evaluated, check to see if it has a location
 			if (location.getLocation() == null) {
 				capi.error("Cannot import into a non location.", location, interpreter);
 				return location;
 			}
-			
-			String x = node.getClassName().trim(); 
-			
+
+			String x = node.getClassName().trim();
+
 			Class<? extends Object> c;
 			try {
 				c = JasmineUtil.getJavaClass(x, this.loader);
@@ -470,9 +470,9 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				capi.error("Java class '" + x + "' not found.", node, interpreter);
 				return node;
 			}
-			
+
 			List<Node> argsNode = node.getChildNodes("lambda");
-			
+
 			// pattern: 'import' 'native' x 'into' l
 			if (argsNode.isEmpty()) {
 				try {
@@ -482,18 +482,18 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					return pos;
 				}
-				
+
 				evaluateImport(pos, interpreter.getSelf(), pos.getScannerInfo(), location.getLocation(), x, Collections.emptyList());
 
 			} else {
 			// pattern: 'import' 'native' x(...) 'into' l
 				for (Node a: argsNode) {
 					if (a instanceof ASTNode)
-						if (!((ASTNode)a).isEvaluated()) 
+						if (!((ASTNode)a).isEvaluated())
 							return (ASTNode)a;
 				}
 				// TODO improve the above code
-				
+
 				// every argument is evaluated now
 				// get the class list
 				List<Object> argsInJava = new ArrayList<Object>();
@@ -508,7 +508,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 							argsInJava.add(v);
 						*/
 					}
-				
+
 				try {
 					findConstructor(c, argsInJava);
 				} catch (Exception e) {
@@ -516,26 +516,26 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					return pos;
 				}
-				
+
 				evaluateImport(pos, interpreter.getSelf(), pos.getScannerInfo(), location.getLocation(), x, argsInJava);
-				
+
 			}
-			
+
 		}
-		
+
 		// store into ...
 		else if (pos instanceof StoreRuleNode) {
 			StoreRuleNode node = (StoreRuleNode)pos;
 			ASTNode valueNode = node.getFirst();
 			ASTNode objectNode = node.getFirst().getNext();
 			String fieldName = objectNode.getNext().getToken();
-			
-			if (!valueNode.isEvaluated()) 
+
+			if (!valueNode.isEvaluated())
 				return valueNode;
-			
+
 			if (!objectNode.isEvaluated())
 				return objectNode;
-			
+
 			Element objectElement = objectNode.getValue();
 			if (objectElement != null && objectElement instanceof JObjectElement) {
 				JObjectElement jobj = (JObjectElement)objectElement;
@@ -547,8 +547,8 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					return pos;
 				}
-				
-				if (valueNode.getValue() == null) 
+
+				if (valueNode.getValue() == null)
 					capi.error("There is no value.", valueNode, interpreter);
 				else {
 					Object v = jValue(valueNode.getValue());
@@ -560,22 +560,22 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Update u = createDefUpdate(Type.Store, interpreter.getSelf(), pos.getScannerInfo(), jobj, fieldName, v);
 					pos.setNode(null, new UpdateMultiset(u), null);
 				}
-				
-			} else 
+
+			} else
 				capi.error("Not a Java object.", node, interpreter);
 		}
-		
+
 		// invoke v->x(...) ...
 		if (pos instanceof InvokeRuleNode) {
 			InvokeRuleNode node = (InvokeRuleNode) pos;
 			ASTNode jnode = node.getFirst();
-			
+
 			// evaluate the object
-			if (!jnode.isEvaluated()) 
+			if (!jnode.isEvaluated())
 				return node.getFirst();
-			
+
 			Element jobj = jnode.getValue();
-			
+
 			if (jobj != null && jobj instanceof JObjectElement) {
 
 				List<ASTNode> argsNode = node.getAbstractChildNodes("lambda");
@@ -586,13 +586,13 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				for (ASTNode lambda: argsNode)
 					if (!lambda.isEvaluated())
 						return lambda;
-				
+
 				// if it's a void method invocation
 				if (!node.isVoidInvocation()) {
 					// evaluate the location node
 					if (!locNode.isEvaluated())
 						return locNode;
-					
+
 					// make sure it has a location
 					if (locNode.getLocation() == null) {
 						capi.error("Cannot update a non-location.", locNode, interpreter);
@@ -600,12 +600,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					}
 					loc = locNode.getLocation();
 				}
-				
+
 				Class<?> clazz = ((JObjectElement)jobj).object.getClass();
 				String methodName = jnode.getNext().getToken();
-				
+
 				List<Object> argsInJava = new ArrayList<Object>();
-				
+
 				for (Node a: argsNode)
 					if (a instanceof ASTNode) {
 						Element v = ((ASTNode)a).getValue();
@@ -617,7 +617,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 							argsInJava.add(v);
 						*/
 					}
-				
+
 				try {
 					findMethod(clazz, methodName, argsInJava);
 				} catch (Exception e) {
@@ -625,12 +625,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					return pos;
 				}
-				
+
 				Update u = createDefUpdate(Type.Invoke, interpreter.getSelf(), pos.getScannerInfo(), loc, jobj, methodName, argsInJava);
 				pos.setNode(null, new UpdateMultiset(u), null);
-			} else 
+			} else
 				capi.error("Not a Java object.", jnode, interpreter);
-				
+
 		}
 		return pos;
 	}
@@ -649,7 +649,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				classes[i] = obj.getClass();
 			i++;
 		}
-		
+
 		Object[] values = arguments.toArray();
 
 		Method[] methods = clazz.getMethods();
@@ -660,19 +660,19 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					return m;
 			}
 		}
-		
+
 		throw new NoSuchMethodException("No matching method found.");
 	}
-	
+
 	/*
-	 * Finds a constructor of clazz that matches the given arguments. 
+	 * Finds a constructor of clazz that matches the given arguments.
 	 * TODO if more than one constructor match the arguments, it picks the first one it finds.
 	 */
 	private Constructor<?> findConstructor(Class<?> clazz, List<? extends Object> arguments) throws SecurityException, NoSuchMethodException {
 		// if looking for the default constructor
 		if (arguments.isEmpty())
 			return clazz.getConstructor();
-	
+
 		// otherwise
 		Class<?>[] classes = new Class[arguments.size()];
 		int i = 0;
@@ -683,30 +683,30 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				classes[i] = obj.getClass();
 			i++;
 		}
-		
+
 		Object[] values = arguments.toArray();
-		
+
 		Constructor<?>[] constructors = clazz.getConstructors();
 		for (Constructor<?> cons: constructors) {
 			Class<?>[] paramClasses = cons.getParameterTypes();
 			if (JasmineUtil.classesMatch(paramClasses, classes, values))
 				return cons;
 		}
-		
+
 		throw new NoSuchMethodException("No suitable constructor found.");
 	}
-	
+
 	/*
 	 * Checks whether the Classes in the subClasses array
 	 * are sub-classes of those in the superClasses array.
-	 * If a subclass is null, it considers it as a match to anything. 
+	 * If a subclass is null, it considers it as a match to anything.
 	 *
 	private boolean matchClasses(Class[] superClasses, Class[] subClasses, List<? extends Object> arguments) {
 		if (superClasses.length != subClasses.length)
 			return false;
-		
-		for (int i=0; i < superClasses.length; i++) 
-			try { 
+
+		for (int i=0; i < superClasses.length; i++)
+			try {
 				if (subClasses[i] != null) {
 
 					// if the value is Integer
@@ -716,20 +716,20 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 								|| superClasses[i].equals(Float.TYPE) || superClasses[i].equals(Float.class)
 								|| superClasses[i].equals(Double.TYPE) || superClasses[i].equals(Double.class))
 							continue;
-					
+
 					// if the value is Long
 					if (subClasses[i].equals(Long.class))
 						if (superClasses[i].equals(Long.TYPE) || superClasses[i].equals(Long.class)
 								|| superClasses[i].equals(Float.TYPE) || superClasses[i].equals(Float.class)
 								|| superClasses[i].equals(Double.TYPE) || superClasses[i].equals(Double.class))
 							continue;
-					
+
 					// if the value is Float
 					if (subClasses[i].equals(Float.class))
 						if (superClasses[i].equals(Float.TYPE) || superClasses[i].equals(Float.class)
 								|| superClasses[i].equals(Double.TYPE) || superClasses[i].equals(Double.class))
 							continue;
-					
+
 					// if the value is Double
 					if (subClasses[i].equals(Double.class)) {
 						if (superClasses[i].equals(Double.TYPE) || superClasses[i].equals(Double.class))
@@ -738,19 +738,19 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 							double d = ((Double)arguments.get(i)).doubleValue();
 							if (d < Float.MAX_VALUE && d > Float.MIN_VALUE)
 								continue;
-						} 
+						}
 					}
-					
+
 					subClasses[i].asSubclass(superClasses[i]);
 				}
 			} catch (Exception e) {
 				return false;
 			}
-			
+
 		return true;
 	}
 	*/
-	
+
 	/*
 	 * @param arguments a list of Java object
 	 */
@@ -759,14 +759,14 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		List args = new ArrayList();
 		if (arguments != null) {
 			// convert the values
-			for (Element e: arguments) 
+			for (Element e: arguments)
 				args.add(toJava(e));
 		}
 		*/
 		Update u = createDefUpdate(Type.Create, self, sinfo, l, className, arguments, self);
 		pos.setNode(null, new UpdateMultiset(u), null);
 	}
-	
+
 	/*
 	 * Creates a deferred update.
 	 */
@@ -774,40 +774,40 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		JasmineUpdateElement value = new JasmineUpdateElement(self, type, info, args);
 		return new Update(channelLocation, value, JASMINE_UPDATE_ACTION, self, info);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Aggregator#aggregateUpdates(org.coreasm.engine.absstorage.PluginAggregationAPI)
 	 */
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
-		
+
 		// TODO the channel should be agent-dependent
-		
+
 		UpdateMultiset channelUpdates = pluginAgg.getLocUpdates(channelLocation);
 		if (channelUpdates == null)
 			return;
-		
+
 		for (Update u: channelUpdates) {
-			// channel should not be updated by others 
+			// channel should not be updated by others
 			if (!u.action.equals(JASMINE_UPDATE_ACTION)) {
 				pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 				Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: JasmineChannel should not be updated by the user.");
 				return;
 			}
 		}
-		
-		// The following block takes care of mid-step aggregations 
+
+		// The following block takes care of mid-step aggregations
 		// (e.g., aggregation at the end of TurboASM sequence steps)
-		
+
 		// FIXME I don't think this is a nice way to handle the problem
 		/**/
 		if (!capi.getEngineMode().equals(EngineMode.emAggregation)) {
-			// ignore all JASMine updates 
+			// ignore all JASMine updates
 			for (Update u: channelUpdates)
 				pluginAgg.flagUpdate(u, PluginAggregationAPI.Flag.SUCCESSFUL, this);
 			return;
 		}
 		/**/
-		
+
 		// Load the updates into an update explorer
 		UpdateExplorer ue = new UpdateExplorer(channelUpdates);
 
@@ -827,15 +827,15 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: Cannot have import together with store or invoke on the same location (" + pair.getKey() + ").");
 				return;
 			}
-			// we don't need to check for conflicts with 
-			// other regular updates, as if there is such 
+			// we don't need to check for conflicts with
+			// other regular updates, as if there is such
 			// a conflict, it will show up at the end when
 			// the engine is checking for inconsistency
 		}
-		
+
 		// A-2) STORE
 		for (Entry<JObjectElement, Multiset<JasmineUpdateElement>> pair: ue.storeLocations.entrySet()) {
-			
+
 			// if multiple STOREs are performed on the same field of the
 			// same object, they must all assign the same value.
 			if (!pair.getValue().isEmpty()) {
@@ -843,10 +843,10 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				for (JasmineUpdateElement jue: pair.getValue()) {
 					String field = jue.getStoreField();
 					Object value = jue.getStoreValue();
-					
+
 					if (fieldValues.get(field) == null)
 						fieldValues.put(field, value);
-					else 
+					else
 						if (!fieldValues.get(field).equals(value)) {
 							pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 							Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: Inconsistent update to the same field.");
@@ -855,7 +855,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				}
 			}
 		}
-		
+
 		// A-3) INVOKE
 		for (Entry<Location, Multiset<JasmineUpdateElement>> pair: ue.invokeLocations.entrySet()) {
 			// No other invoke on the same location
@@ -864,17 +864,17 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				Logger.log(Logger.ERROR, Logger.plugins, "JASMine Plugin: Cannot have two invoke rules on the same location (" + pair.getKey() + ").");
 				return;
 			}
-			
-			// we don't need to check for conflicts with 
-			// other regular updates, as if there is such 
+
+			// we don't need to check for conflicts with
+			// other regular updates, as if there is such
 			// a conflict, it will show up at the end when
 			// the engine is checking for inconsistency
 		}
-		
-		
+
+
 		// B) Aggregation
 		for (JasmineUpdateElement jue: ue.updates) {
-			
+
 			// B-1) CREATE
 			if (jue.type == Type.Create) {
 				Location l = jue.getCoreASMLocation();
@@ -893,7 +893,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				}
 				Constructor<?> cons;
 				Object result;
-				
+
 				// if there is no argument
 				if (args.isEmpty()) {
 					try {
@@ -912,10 +912,10 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 						return;
 					}
-					
+
 				} else {
 					// if there are arguments
-					
+
 					// get the constractor
 					try {
 						cons = findConstructor(c, args);
@@ -937,26 +937,26 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 						pluginAgg.handleInconsistentAggregationOnLocation(channelLocation, this);
 						return;
 					}
-					
+
 				}
 
 				// create a new JObject and an update to assign it to the requested location
 				JObjectElement jobject = new JObjectElement(result);
 				Update newUpdate = new Update(l, jobject, Update.UPDATE_ACTION, jue.agent, jue.sinfo);
-				
+
 				// add the resultant update to the results
 				pluginAgg.addResultantUpdate(newUpdate, this);
 			}
-				
+
 			// B-2) STORE
 			if (jue.type == Type.Store) {
 				JObjectElement jobj = jue.getStoreObject();
-				
+
 				String fieldName = jue.getStoreField();
 				Object value = jue.getStoreValue();
-				
+
 				Field field;
-				
+
 				// get the field
 				try {
 					field = jobj.jType().getField(fieldName);
@@ -981,13 +981,13 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			// B-3) INVOKE
 			if (jue.type == Type.Invoke) {
 				Location l = jue.getCoreASMLocation();
-				Object obj = ((JObjectElement)jue.arguments.get(1)).object; // 'value(alpha)' 
+				Object obj = ((JObjectElement)jue.arguments.get(1)).object; // 'value(alpha)'
 				String methodName = (String)jue.arguments.get(2);  // the 'x'
-				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments 
-				
+				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments
+
 				Method method;
 				Object result;
-				
+
 				// get the method
 				try {
 					method = findMethod(obj.getClass(), methodName, args);
@@ -1018,7 +1018,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					// TODO Inconsistent with the spec.
 					return;
 				}
-				
+
 				// create the final result
 				if (l != null) {
 					Element finalResult;
@@ -1059,15 +1059,15 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		for (Update u: compAPI.getLocUpdates(2, channelLocation))
 			if (u.value instanceof JasmineAbstractUpdateElement)
 				set2.add((JasmineAbstractUpdateElement)u.value);
-		
+
 		if (set1.isEmpty() && set2.isEmpty())
 			return;
-		
+
 		// put both sets in a list
 		ArrayList<JasmineAbstractUpdateElement> orderedList = new ArrayList<JasmineAbstractUpdateElement>();
 		orderedList.add(batch1);
 		orderedList.add(batch2);
-		
+
 		// add the resultant update
 		JasmineUpdateContainer composed = new JasmineUpdateContainer(orderedList);
 		compAPI.addComposedUpdate(new Update(channelLocation, composed, JASMINE_UPDATE_ACTION, composed.getAgents(), composed.getScannerInfos()), this);
@@ -1107,18 +1107,18 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
-			
-			functions.put(JasmineConvertorFunctionElement.FROM_JAVA_NAME, 
+
+			functions.put(JasmineConvertorFunctionElement.FROM_JAVA_NAME,
 					new JasmineConvertorFunctionElement(
 							JasmineConvertorFunctionElement.Type.fromJava));
 
-			functions.put(JasmineConvertorFunctionElement.TO_JAVA_NAME, 
+			functions.put(JasmineConvertorFunctionElement.TO_JAVA_NAME,
 					new JasmineConvertorFunctionElement(
 							JasmineConvertorFunctionElement.Type.toJava));
-			
+
 			functions.put(FieldReadFunctionElement.SUGGESTED_NAME,
 					new FieldReadFunctionElement(this));
-			
+
 			functions.put(JavaEqualityFunctionElement.SUGGESTED_NAME,
 					new JavaEqualityFunctionElement());
 		}
@@ -1175,12 +1175,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	}
 
 	/*
-	 * Adjust the type of the given arguments to the correct types. 
-	 * It basically solve the casting problem of 
+	 * Adjust the type of the given arguments to the correct types.
+	 * It basically solve the casting problem of
 	 * numbers in Java.
-	 * 
+	 *
 	 * NOT NEEDED ANYMORE
-	 * 
+	 *
 	private Object[] adjustArguments(Class[] expectedClasses, Object[] arguments) {
 		//System.out.println("----V");
 		for (int i=0; i < arguments.length; i++) {
@@ -1217,29 +1217,29 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		return arguments;
 	}
 	*/
-	
+
 	// ------- Private Classes ----------------------------
-	
+
 	private static class JavaIdParseMap extends ParseMap<Object[], Node> {
-		
-		public JavaIdParseMap() { 
+
+		public JavaIdParseMap() {
 			super(PLUGIN_NAME);
 		}
 
 		@Override
 		public Node apply(Object[] nodes) {
 			ASTNode node = new ASTNode(
-					PLUGIN_NAME, 
-					ASTNode.ID_CLASS, 
-					"JavaId", 
-					"", 
+					PLUGIN_NAME,
+					ASTNode.ID_CLASS,
+					"JavaId",
+					"",
 					((Node)nodes[0]).getScannerInfo());
 			addChildren(node, nodes);
 			return node;
 		}
-		
+
 		private void addChildren(Node parent, Object[] children) {
-			
+
 			for (Object child: children) {
 				if (child != null) {
 					if (child instanceof Object[])
@@ -1250,21 +1250,21 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				}
 			}
 		}
-		
+
 		private void buildName(Node root, Node child) {
 			root.setToken(root.getToken() + child.getToken());
 		}
 	}
-	
+
 	public Collection<OperatorRule> getOperatorRules() {
 		//return Collections.emptySet();
 		/**/
 		if (operatorRules == null) {
 			operatorRules = new HashSet<OperatorRule>();
-			
+
 			operatorRules.add(new OperatorRule(
 					FIELD_ACCESS_OPERATOR, OpType.INFIX_LEFT, 875, PLUGIN_NAME));
-			
+
 		}
 		return operatorRules;
 		/**/
@@ -1272,20 +1272,20 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		Element result = null;
-		
+
 		// v -> x
 		if (opNode.getToken().equals(FIELD_ACCESS_OPERATOR)) {
-			
+
 			ASTNode left = opNode.getFirst();
 			ASTNode right = left.getNext();
 			ASTNode termNode = left;
-			
+
 			// TODO this whole operator thing is strange
 			if ((right.getFirst() == null || right.getFirst().getToken() == null) && !(right.getValue() instanceof StringElement))
-				throw new InterpreterException("Right hand side of '" + 
-						FIELD_ACCESS_OPERATOR + 
+				throw new InterpreterException("Right hand side of '" +
+						FIELD_ACCESS_OPERATOR +
 						"' is not a Java field.");
-			
+
 			String fieldName;
 			// if field is an id
 			if (right.getFirst() != null)
@@ -1293,12 +1293,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			else
 				// if field is a String element
 				fieldName = right.getValue().toString();
-			
+
 			if (termNode.getValue() instanceof JObjectElement) {
 				JObjectElement jobj = (JObjectElement)termNode.getValue();
-				
+
 				Field field;
-				
+
 				// get the field
 				try {
 					field = jobj.jType().getField(fieldName);
@@ -1306,43 +1306,43 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					throw new InterpreterException("Field '" + fieldName + "' not found.");
 				}
-				
+
 				try {
 					field.get(jobj.object);
 				} catch (Exception e) {
 					Logger.log(Logger.ERROR, Logger.plugins, e.getMessage());
 					throw new InterpreterException("Field '" + fieldName + "' is not accessible.");
 				}
-				
+
 				// the above tasks are done for error checking
 				// to get the benefit of caching, we get the value
 				// from a monitored function
 				try {
 					result = capi.getStorage().getValue(
-							new Location(FieldReadFunctionElement.SUGGESTED_NAME, 
+							new Location(FieldReadFunctionElement.SUGGESTED_NAME,
 									new ElementList(new StringElement(fieldName), jobj)));
 				} catch (InvalidLocationException e) {
 					throw new EngineError(e);
 					// should not happen.
 				}
-				
+
 				/*
 				if (isImplicitConversionMode())
 					result = JasmineUtil.asmValue(fieldValue);
 				else
 					result = new JObjectElement(fieldValue);
 				*/
-				
+
 			} else {
 				throw new InterpreterException("The left operand is not a JObject element.");
 			}
 		}
-		
+
 		return result;
 	}
 
 	/*
-	 * Converts the given element to a Java object considering 
+	 * Converts the given element to a Java object considering
 	 * the conversion mode of the plugin.
 	 */
 	private Object jValue(Element e) {
@@ -1362,7 +1362,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	private static class InvokeParseMap extends ParserTools.ArrayParseMap  {
 
 		boolean resultSeen = false;
-		
+
 		public InvokeParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -1377,12 +1377,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 		@Override
 		public void addChild(Node parent, Node child) {
-			if (child instanceof ASTNode && 
+			if (child instanceof ASTNode &&
 					((ASTNode)child).getGrammarRule().equals("TupleTerm")) {
 				for (Node n: child.getChildNodes())
-					if (n instanceof ASTNode) 
+					if (n instanceof ASTNode)
 						parent.addChild("lambda", n);
-					else 
+					else
 						parent.addChild(n);
 
 				//parent.addChild("alpha", child);
@@ -1391,11 +1391,11 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				parent.addChild("gamma", child);
 			else
 				parent.addChild(child);
-			if (child.getConcreteNodeType().equals(Node.KEYWORD_NODE) 
+			if (child.getConcreteNodeType().equals(Node.KEYWORD_NODE)
 					&& child.getToken().equals("into"))
 				resultSeen = true;
 		}
-		
+
 	}
 	/*
 	 * Parse map for JASMine store rule.
@@ -1412,14 +1412,14 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			return node;
 		}
 	}
-	
+
 	/*
 	 * Parse map for JASMine native import rule.
 	 */
 	private static class NativeImportParseMap extends ParserTools.ArrayParseMap  {
 
 		boolean nextIsLocation = false;
-		
+
 		public NativeImportParseMap() {
 			super(PLUGIN_NAME);
 		}
@@ -1434,12 +1434,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 		@Override
 		public void addChild(Node parent, Node child) {
-			if (child instanceof ASTNode) { 
+			if (child instanceof ASTNode) {
 				if (((ASTNode)child).getGrammarRule().equals("TupleTerm")) {
 					for (Node n: child.getChildNodes())
-						if (n instanceof ASTNode) 
+						if (n instanceof ASTNode)
 							parent.addChild("lambda", n);
-						else 
+						else
 							parent.addChild(n);
 
 					//parent.addChild("alpha", child);
@@ -1454,9 +1454,9 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				if (child.getConcreteNodeType().equals(Node.KEYWORD_NODE) && child.getToken().equals("into"))
 					nextIsLocation = true;
 			}
-			
+
 		}
-		
+
 	}
 
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
@@ -1482,4 +1482,3 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 
 }
-

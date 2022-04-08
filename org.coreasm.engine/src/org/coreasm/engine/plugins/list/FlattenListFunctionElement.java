@@ -1,6 +1,6 @@
-/*	
+/*
  * FlattenListFunctionElement.java  	$Revision: 80 $
- * 
+ *
  * Copyright (C) 2008 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-07-24 10:25:41 -0400 (Fri, 24 Jul 2009) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.list;
 
 import java.util.ArrayList;
@@ -22,22 +22,22 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 
-/** 
+/**
  * Flattens a {@link ListElement} containing other {@link ListElement}s.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class FlattenListFunctionElement extends FunctionElement {
 
 	public static final String NAME = "flattenList";
-	
+
 	protected Signature signature = null;
 
 	public FlattenListFunctionElement() {
 		setFClass(FunctionClass.fcDerived);
 	}
-	
+
 	public Signature getSignature() {
 		if (signature == null) {
 			signature = new Signature();
@@ -46,19 +46,19 @@ public class FlattenListFunctionElement extends FunctionElement {
 		}
 		return signature;
 	}
-	
+
 	/**
-	 * If args contains only one instance of {@link AbstractListElement}, 
+	 * If args contains only one instance of {@link AbstractListElement},
 	 * this method returns a flatten {@link ListElement}.
 	 */
 	@Override
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 1 && args.get(0) instanceof AbstractListElement))
 			throw new CoreASMError("Illegal arguments for " + NAME + ".");
-		
+
 		return new ListElement(flattenList(((AbstractListElement) args.get(0)).getList()));
 	}
-	
+
 	/*
 	 * Flattens a list of elements such that all the immediate list elements are expanded.
 	 */
@@ -74,7 +74,7 @@ public class FlattenListFunctionElement extends FunctionElement {
 
 		if (compound) {
 			ArrayList<Element> result = new ArrayList<Element>();
-			for (Element e: list) 
+			for (Element e: list)
 				if (e instanceof AbstractListElement)
 					result.addAll(flattenList(((AbstractListElement) e).getList()));
 				else

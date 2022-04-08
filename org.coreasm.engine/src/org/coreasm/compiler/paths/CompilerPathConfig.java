@@ -39,7 +39,7 @@ public abstract class CompilerPathConfig {
 	 */
 	public abstract String rulePkg();
 	/**
-	 * Gets the definition of the runtime provider 
+	 * Gets the definition of the runtime provider
 	 * @return The runtime provider of the project
 	 */
 	public abstract String runtimeProvider();

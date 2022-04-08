@@ -22,22 +22,22 @@ public class CaseRuleHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		try{
 			result.appendLine("");
-			
+
 			CodeFragment guardcode = engine.compile(node.getAbstractChildNodes().get(0), CodeType.R);
 			CodeFragment[] conditions = new CodeFragment[(node.getAbstractChildNodes().size() - 1) / 2];
 			CodeFragment[] rules = new CodeFragment[(node.getAbstractChildNodes().size() - 1) / 2];
-			
+
 			for(int i = 1; i < node.getAbstractChildNodes().size(); i += 2){
 				conditions[(i - 1) / 2] = engine.compile(node.getAbstractChildNodes().get(i), CodeType.R);
 				rules[(i - 1) / 2] = engine.compile(node.getAbstractChildNodes().get(i + 1), CodeType.U);
 			}
-			
+
 			result.appendFragment(guardcode);
 			result.appendLine("@decl(@RuntimePkg@.Element,guard)=(@RuntimePkg@.Element)evalStack.pop();\n");
 			//result.appendLine("@decl(int,exec)=0;\n");
 			result.appendLine("evalStack.push(@guard@);\n");
 			result.appendLine("evalStack.push(new Integer(0));\n");
-			
+
 			CodeFragment condcode = new CodeFragment("");
 			for(int i = 0; i < conditions.length; i++){
 				CodeFragment current = new CodeFragment("");
@@ -53,16 +53,16 @@ public class CaseRuleHandler implements CompilerCodeHandler {
 				current.appendLine("evalStack.push(@guard@);\n");
 				current.appendLine("evalStack.push(@count@);\n");
 				current.appendLine("}\n");
-				
+
 				condcode.appendFragment(current);
 				if(condcode.getByteCount() > 40000){
 					condcode = CodeWrapperEntry.buildWrapper(condcode, "CaseRuleHandler", engine);
 				}
 			}
-			
+
 			result.appendFragment(condcode);
 			result.appendLine("@decl(int,exec)=(Integer)evalStack.pop();\nevalStack.pop();\n");
-			
+
 			/*for(int i = 0; i < conditions.length; i++){
 				result.appendFragment(conditions[i]);
 				result.appendLine("if(@guard@.equals(evalStack.pop())){\n");
@@ -74,7 +74,7 @@ public class CaseRuleHandler implements CompilerCodeHandler {
 			result.appendLine("for(@decl(int,i)=0;@i@<@exec@;@i@++){\n");
 			result.appendLine("@ulist@.addAll((@RuntimePkg@.UpdateList)evalStack.pop());\n");
 			result.appendLine("}\n");
-			result.appendLine("evalStack.push(@ulist@);\n");			
+			result.appendLine("evalStack.push(@ulist@);\n");
 		} catch (Exception e) {
 			throw new CompilerException("invalid code generated");
 		}

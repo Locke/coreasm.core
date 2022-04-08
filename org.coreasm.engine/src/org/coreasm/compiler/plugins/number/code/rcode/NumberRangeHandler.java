@@ -20,7 +20,7 @@ public class NumberRangeHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
 		String numberrange = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberRangeElement", "NumberPlugin");
-		
+
 		CodeFragment start = engine.compile(
 				node.getAbstractChildNodes().get(0), CodeType.R);
 		CodeFragment end = engine.compile(

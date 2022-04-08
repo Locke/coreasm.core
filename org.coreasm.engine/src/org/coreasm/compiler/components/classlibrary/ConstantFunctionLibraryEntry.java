@@ -5,7 +5,7 @@ import org.coreasm.compiler.exception.LibraryEntryException;
 
 /**
  * A library entry representing a constant function.
- * The value of the constant function is known at compile 
+ * The value of the constant function is known at compile
  * time and won't be modified later.
  * The value string can be any piece of code used in java as a value.
  * The plugin developer has to take care to ensure, that the value is still constant.
@@ -16,7 +16,7 @@ public class ConstantFunctionLibraryEntry extends MemoryInclude {
 	private CompilerEngine engine;
 	private String name;
 	private String value;
-	
+
 	/**
 	 * Constructs a new constant function entry.
 	 * @param name The name of the constant function
@@ -35,7 +35,7 @@ public class ConstantFunctionLibraryEntry extends MemoryInclude {
 	@Override
 	protected String buildContent(String entryName) throws LibraryEntryException {
 		String s = "";
-		
+
 		s += "package " + getPackage(entryName) + ";\n";
 		s += "public class const_function_" + name + " extends " + engine.getPath().runtimePkg() + ".FunctionElement{\n";
 		s += "@Override\n";
@@ -43,7 +43,7 @@ public class ConstantFunctionLibraryEntry extends MemoryInclude {
 		s += "return " + value + ";\n";
 		s += "}\n";
 		s += "}";
-		
+
 		return s;
 	}
 

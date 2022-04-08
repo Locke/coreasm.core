@@ -8,7 +8,7 @@ import org.eclipse.jface.text.rules.Token;
 public class ASMCodeRule implements IPredicateRule {
 
 	IToken fToken;
-	
+
 	public ASMCodeRule(IToken t) {
 		this.fToken=t;
 	}

@@ -34,4 +34,3 @@ rule Rule3 = {
 	c := 1
 	program(self) := undef
 }
-

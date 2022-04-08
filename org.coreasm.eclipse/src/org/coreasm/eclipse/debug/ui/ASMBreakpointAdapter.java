@@ -35,12 +35,12 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 	@Override
 	public void toggleLineBreakpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		ASMEditor editor = getEditor(part);
-		
+
 		if (editor != null) {
 			IResource resource = (IResource)editor.getEditorInput().getAdapter(IResource.class);
 			int lineNumber = ((ITextSelection)selection).getStartLine();
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("org.coreasm.eclipse.debug");
-			
+
 			for (int i = 0; i < breakpoints.length; i++) {
 				if (breakpoints[i] instanceof ILineBreakpoint && resource.equals(breakpoints[i].getMarker().getResource())) {
 					if (((ILineBreakpoint)breakpoints[i]).getLineNumber() == (lineNumber + 1)) {
@@ -49,7 +49,7 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 					}
 				}
 			}
-			
+
 			for (ASTNode node : getASTNodesFromSelection(part, selection)) {
 				if (ASTNode.RULE_CLASS.equals(node.getGrammarClass())) {
 					DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(new ASMLineBreakpoint(resource, lineNumber + 1));
@@ -67,13 +67,13 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 	@Override
 	public void toggleMethodBreakpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		ASMEditor editor = getEditor(part);
-		
+
 		if (editor != null) {
 			IResource resource = (IResource)editor.getEditorInput().getAdapter(IResource.class);
 			String ruleName = getRuleName(part, selection);
 			int lineNumber = ((ITextSelection)selection).getStartLine();
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("org.coreasm.eclipse.debug");
-			
+
 			for (int i = 0; i < breakpoints.length; i++) {
 				if (breakpoints[i] instanceof ASMMethodBreakpoint && resource.equals(breakpoints[i].getMarker().getResource())) {
 					if (((ASMMethodBreakpoint)breakpoints[i]).getRuleName().equals(ruleName)) {
@@ -94,7 +94,7 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 	@Override
 	public void toggleWatchpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		ASMEditor editor = getEditor(part);
-		
+
 		if (editor != null) {
 			IResource resource = (IResource)editor.getEditorInput().getAdapter(IResource.class);
 			String[] function = getFunctionInfo(part, selection);
@@ -102,7 +102,7 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 			String functionType = function[1];
 			int lineNumber = ((ITextSelection)selection).getStartLine();
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints("org.coreasm.eclipse.debug");
-			
+
 			for (int i = 0; i < breakpoints.length; i++) {
 				if (breakpoints[i] instanceof ASMWatchpoint && resource.equals(breakpoints[i].getMarker().getResource())) {
 					if (((ASMWatchpoint)breakpoints[i]).getFuctionName().equals(functionName)) {
@@ -119,13 +119,13 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 	public boolean canToggleWatchpoints(IWorkbenchPart part, ISelection selection) {
 		return getFunctionInfo(part, selection) != null;
 	}
-	
+
 	private String[] getFunctionInfo(IWorkbenchPart part, ISelection selection) {
 		List<ASTNode> nodes = getASTNodesFromSelection(part, selection);
-		
+
 		if (!nodes.isEmpty()) {
 			ASTNode node = nodes.get(0);
-			
+
 			if (node != null) {
 				node = node.getFirst();
 				if (node instanceof FunctionNode)
@@ -140,13 +140,13 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 		}
 		return null;
 	}
-	
+
 	private String getRuleName(IWorkbenchPart part, ISelection selection) {
 		List<ASTNode> nodes = getASTNodesFromSelection(part, selection);
-		
+
 		if (!nodes.isEmpty()) {
 			ASTNode node = nodes.get(0);
-			
+
 			if (node != null) {
 				if (Kernel.GR_RULEDECLARATION.equals(node.getGrammarRule()))
 					return node.getFirst().getFirst().getToken();
@@ -156,14 +156,14 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 		}
 		return null;
 	}
-	
+
 	private List<ASTNode> getASTNodesFromSelection(IWorkbenchPart part, ISelection selection) {
 		ASMEditor editor = getEditor(part);
-		
+
 		if (editor != null && selection instanceof ITextSelection) {
 			ITextSelection textSelection = (ITextSelection) selection;
 			IDocumentProvider documentProvider = editor.getDocumentProvider();
-			
+
 			try {
 				documentProvider.connect(this);
 				ASMDocument document = (ASMDocument)documentProvider.getDocument(editor.getEditorInput());
@@ -175,10 +175,10 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 		}
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * Returns the editor being used to edit a CoreASM file, associated with the given part
-	 *  
+	 *
 	 * @param part workbench part
 	 * @return the editor being used to edit a CoreASM file, associated with the given part
 	 */
@@ -186,10 +186,10 @@ public class ASMBreakpointAdapter implements IToggleBreakpointsTarget {
 		if (part instanceof ASMEditor) {
 			ASMEditor editorPart = (ASMEditor) part;
 			IResource resource = (IResource) editorPart.getEditorInput().getAdapter(IResource.class);
-			
+
 			if (resource != null && ("coreasm".equalsIgnoreCase(resource.getFileExtension()) || "casm".equalsIgnoreCase(resource.getFileExtension())))
 				return editorPart;
 		}
-		return null;		
+		return null;
 	}
 }

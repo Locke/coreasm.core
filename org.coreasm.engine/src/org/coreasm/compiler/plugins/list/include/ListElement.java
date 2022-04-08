@@ -1,6 +1,6 @@
-/*	
+/*
  * ListElement.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.compiler.plugins.list.include;
 
 import java.util.ArrayList;
@@ -36,24 +36,24 @@ import CompilerRuntime.UpdateList;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 import org.coreasm.compiler.plugins.collection.include.ModifiableIndexedCollection;
 
-/** 
+/**
  * This class implements list elements in CoreASM.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class ListElement extends AbstractListElement implements ModifiableIndexedCollection {
 
 	private List<Element> listElements;
 	private List<Element> enumerationCache = null;
-	
+
 	/**
 	 * Initializes an empty list
 	 */
 	public ListElement() {
 		listElements = Collections.emptyList();
 	}
-	
+
 	/**
 	 * Initializes a new list with elements from the given collection
 	 * @param collection A collection
@@ -64,7 +64,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 		else
 			listElements = Collections.unmodifiableList(new ArrayList<Element>(collection));
 	}
-	
+
 	/**
 	 * Initializes a new list with the elements of the other list
 	 * @param list A list
@@ -72,7 +72,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public ListElement(ListElement list) {
 		this(list.listElements);
 	}
-	
+
 	/**
 	 * Initializes a new list with the given elements
 	 * @param elements An array of elements
@@ -80,7 +80,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public ListElement(Element ... elements) {
 		listElements = List.of(elements);
 	}
-	
+
 	/**
 	 * Creates a new list which is <i>cons(e, list)</i>.
 	 * @param e The new head
@@ -91,7 +91,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 		listElements.add(0, e);
 		listElements = Collections.unmodifiableList(listElements);
 	}
-	
+
 	@Override
 	public boolean equals(Object anElement) {
 		if (anElement instanceof ListElement) {
@@ -108,28 +108,28 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
 	public String getBackground() {
 		return ListBackgroundElement.LIST_BACKGROUND_NAME;
 	}
-	
+
 	/**
-	 * Returns the contents of this list as a java List 
+	 * Returns the contents of this list as a java List
 	 * object. The returned list is unmodifiable.
-	 * 
+	 *
 	 * @see AbstractListElement#getList()
 	 */
 	public List<? extends Element> getList() {
 		return Collections.unmodifiableList(listElements);
 	}
-	
+
 	@Override
 	public String denotation() {
 		String str = "[";
-		
+
 		// for all members of this list
 		for (Element m : listElements)
 		{
@@ -140,14 +140,14 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 			str = str + m.denotation();
 		}
 		str = str + "]";
-				
+
 		return str;
 	}
 
 	@Override
 	public String toString() {
 		String str = "[";
-		
+
 		// for all members of this list
 		for (Element m : listElements)
 		{
@@ -158,14 +158,14 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 			str = str + m.toString();
 		}
 		str = str + "]";
-				
+
 		return str;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = 0;
-		for (Element e: listElements) 
+		for (Element e: listElements)
 		    result = 31*result + (e==null ? 0 : e.hashCode());
 		return result;
 	}
@@ -177,18 +177,18 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public Collection<Element> enumerate() {
 		return getIndexedView();
 	}
-	
+
 	/*
-	 * Returns true if the given number is natural and its 
+	 * Returns true if the given number is natural and its
 	 * value is a java integer.
 	 */
 	protected boolean isValidIndex(NumberElement index) {
 		return index.isNatural() && index.getValue() < Integer.MAX_VALUE;
 	}
-	
+
 	/**
 	 * Returns the size of this list as
-	 * an integer. The value of this integer 
+	 * an integer. The value of this integer
 	 * is equal to the value of the number
 	 * element returned by {@link #size()}.
 	 * @return The size of the list
@@ -196,7 +196,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public int intSize() {
 		return listElements.size();
 	}
-	
+
 	@Override
 	public UpdateList computeAddUpdate(Location loc, NumberElement index, Element e, Rule agent) {
 		if (isValidIndex(index) && index.getValue() <= this.intSize()+1) {
@@ -223,19 +223,19 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 
 	@Override
 	public Element get(Element index) {
-		if (index instanceof NumberElement 
+		if (index instanceof NumberElement
 				&& isValidIndex((NumberElement)index)
 				&& ((NumberElement)index).getValue() <= this.intSize()) {
 			int i = ((NumberElement)index).intValue();
 			// note: in CoreASM list indices start from 1
 			Element result = listElements.get(i - 1);
-			if (result == null) 
+			if (result == null)
 				result = defaultValue;
 			return result;
 		} else
 			return Element.UNDEF;
 			//throw new IndexOutOfBoundsException("Index is invalid or out of bound. (index = " + index + ")");
-			
+
 	}
 
 	/**
@@ -246,12 +246,12 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public Element get(int index) {
 		return get(NumberElement.getInstance(index));
 	}
-	
+
 	@Override
 	public NumberElement indexOf(Element e) {
 		// note: in CoreASM list indices start from 1
 		final int i = listElements.indexOf(e);
-		if (i >=0) 
+		if (i >=0)
 			return NumberElement.getInstance(i+1);
 		else
 			return null;
@@ -260,17 +260,17 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	@Override
 	public Collection<NumberElement> indexesOf(Element e) {
 		List<NumberElement> result = new ArrayList<NumberElement>();
-		
+
 		int i = 1;
 		for (Element ith: listElements) {
 			if (ith.equals(e))
 				result.add(NumberElement.getInstance(i));
 			i++;
 		}
-		
+
 		return result;
 	}
-	
+
 	@Override
 	public UpdateList computeAddUpdate(Location loc, Element e, Rule agent) {
 		return computeAddUpdate(loc, NumberElement.getInstance(this.intSize() + 1), e, agent);
@@ -306,7 +306,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 
 	@Override
 	public Set<Element> keySet() {
-		HashSet<Element> result = new HashSet<Element>(); 
+		HashSet<Element> result = new HashSet<Element>();
 		for (int i=0; i < listElements.size(); i++)
 			// note: in CoreASM list indices start from 1
 			result.add(NumberElement.getInstance(i + 1));
@@ -321,7 +321,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public Collection<Element> values() {
 		return listElements;
 	}
-	
+
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
 		Set<ElementList> argSet = new HashSet<ElementList>();
@@ -343,7 +343,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 
 	@Override
 	public Element head() {
-		if (intSize() > 0) 
+		if (intSize() > 0)
 			return listElements.get(0);
 		else
 			return Element.UNDEF;
@@ -351,7 +351,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 
 	@Override
 	public Element last() {
-		if (intSize() > 0) 
+		if (intSize() > 0)
 			return listElements.get(listElements.size()-1);
 		else
 			return Element.UNDEF;
@@ -364,14 +364,14 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 		else {
 			return new ListElement(new ArrayList<Element>(listElements.subList(1, listElements.size())));
 		}
-			
+
 	}
 
 	@Override
 	public AbstractListElement cons(Element e) {
 		return new ListElement(e, this);
 	}
-	
+
 	@Override
 	public AbstractListElement concat(AbstractListElement e) {
 		if (e.size() == 0)
@@ -385,7 +385,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 
 	/**
 	 * This operation is not supported in ListElement.
-	 * 
+	 *
 	 * @throws UnsupportedOperationException always.
 	 */
 	@Override
@@ -395,7 +395,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	}
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
-		if (enumerationCache == null) 
+		if (enumerationCache == null)
 			enumerationCache = Collections.unmodifiableList(listElements);
 		return enumerationCache;
 	}

@@ -1,10 +1,10 @@
-/*	
+/*
  * NumberPlugin.java 		1.0 	$Revision: 253 $
- * 
+ *
  * Copyright (C) 2006 Mashaal Memon
  * Copyright (c) 2007 Roozbeh Farahbod
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -60,9 +60,9 @@ import org.coreasm.engine.plugin.VocabularyExtender;
 
 /**
  * Plugin for number related literals, operations, and functions.
- * 
+ *
  * @author Mashaal Memon, Roozbeh Farahbod
- * 
+ *
  */
 public class NumberPlugin extends Plugin implements ParserPlugin,
 		InterpreterPlugin, VocabularyExtender, OperatorProvider{
@@ -98,7 +98,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	public static final String NUMBERLTE_OP = "<=";
 
 	public static final String SIZE_OF_SYMBOL = "|";
-	
+
 	// TODO Why do we have these as static fileds?
 	// public static NumberBackgroundElement NUMBER_BACKGROUND_ELEMENT;
 	// public static NumberRangeBackgroundElement
@@ -114,22 +114,22 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	private Map<String, GrammarRule> parsers = null;
 	private Set<Parser<? extends Object>> lexers = null;
 	private final Map<String, Parser<Node>> exposedParsers;
-	
+
 	private final Parser.Reference<Node> refNumberRangeParser = Parser.newReference();
 	private final Parser.Reference<Node> refNumberTermParser = Parser.newReference();
-	
+
 	// TOKENIZER
 	Parser<Fragment> tokenizer_nr = null;
 
 	private final String[] keywords = {"step", NUMBER_INT_DIV_OP};
-	private final String[] operators = {"+", "-", "/", "*", "%", 
-										".", "^", ">", "<", ">=", 
+	private final String[] operators = {"+", "-", "/", "*", "%",
+										".", "^", ">", "<", ">=",
 										"<=", "|", "[", "]", "..", ":"};
 
 	private SizeFunctionElement sizeFunction = null;
 
 	private final CompilerPlugin compilerPlugin = new CompilerNumberPlugin(this);
-	
+
 	public NumberPlugin() {
 		exposedParsers = new HashMap<String, Parser<Node>>();
 	}
@@ -145,7 +145,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
@@ -234,7 +234,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 
 				// convert string representationg to numeric
 				double number = Double.parseDouble(x);
-				
+
 				if (numberBackgroundElement == null)
 					getBackgrounds();
 
@@ -252,14 +252,14 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	public Set<Parser<? extends Object>> getLexers() {
 		if (lexers == null) {
 			lexers = new HashSet<Parser<? extends Object>>();
-			
+
 			// Define pattern for the numbers tokenizer manually to aviod the
-			// recognition of strings like '1.' as 1.0 or '.1' as 0.1 
-			// This clashes with the NumberRangeTerm rule (for example '[1..10]'). 
+			// recognition of strings like '1.' as 1.0 or '.1' as 0.1
+			// This clashes with the NumberRangeTerm rule (for example '[1..10]').
 			// In other words: This tokenizer only recognizes numbers without
 			// a decimal point and numbers with a decimal point preceded AND followed
 			// by at least one digit.
-			
+
 			Pattern pDigits = Patterns.range('0', '9').many1();
 			Pattern pFloat = pDigits.next(Patterns.isChar('.').next(pDigits).optional());
 			Parser<String> sFloat = pFloat.toScanner("NUMBER").source();
@@ -268,14 +268,14 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		}
 		return lexers;
 	}
-	
+
 	/*
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
 	public Parser<Node> getParser(String nonterminal) {
 		return exposedParsers.get(nonterminal);
 	}
-	
+
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -285,12 +285,12 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 			Parser<Node> termParser = kernel.getTermParser();
 
 			ParserTools pTools = ParserTools.getInstance(capi);
-			
+
 			// NumberTerm
 			createNumberParser();
 			parsers.put("ConstantTerm",
 					new GrammarRule("Number", "NUMBER", getParser("Number"), PLUGIN_NAME));
-			
+
 			// NumberRangeTerm: '[' Term '..' Term ((':'|'step') Term)? ']'
 			Parser<Node> numberRangeTermParser = Parsers.array(
 					new Parser[] {
@@ -310,9 +310,9 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 							return node;
 						}
 			});
-			parsers.put("NumberRangeTerm", 
+			parsers.put("NumberRangeTerm",
 					new GrammarRule("NumberRangeTerm",
-							"'[' Term '..' Term ((':'|'step') Term)? ']'", 
+							"'[' Term '..' Term ((':'|'step') Term)? ']'",
 							getParser("NumberRangeTerm"), PLUGIN_NAME));
 			refNumberRangeParser.set(numberRangeTermParser);
 
@@ -330,11 +330,11 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 							return node;
 						}
 			} );
-			parsers.put("SizeOfEnumTerm", 
+			parsers.put("SizeOfEnumTerm",
 					new GrammarRule("SizeOfEnumTerm",
 							"'|' Term '|'", sizeOfEnumTermParser, PLUGIN_NAME));
 
-			parsers.put("BasicTerm", 
+			parsers.put("BasicTerm",
 					new GrammarRule("NumberBasicTerm",
 							"NumberRangeTerm | SizeOfEnumTerm", Parsers.or(
 									getParser("NumberRangeTerm"),
@@ -346,10 +346,10 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * Provides a number parser that would parse a real number into a properly
 	 * created {@link Node} object.
-	 * 
+	 *
 	 */
 	private Parser<Node> createNumberParser() {
-	
+
 		if (refNumberTermParser.get() == null) {
 			Parser<Node> nrParser = Terminals.fragment(Tag.DECIMAL).token().map(
 					from -> new NumberTermNode(new ScannerInfo(from), from.toString())
@@ -373,7 +373,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 
 			sizeFunction  = new SizeFunctionElement();
 			functionElements.put(
-					SizeFunctionElement.NAME, 
+					SizeFunctionElement.NAME,
 					sizeFunction);
 
 			functionElements.put(
@@ -384,7 +384,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 					new NumberIntegerFunction());
 			functionElements.put(NumberRealFunction.NUMBER_REAL_FUNCTION_NAME,
 					new NumberRealFunction());
-			/* 
+			/*
 			 * I don't think we really need these
 			functionElements.put(
 					NumberPositiveFunction.NUMBER_POSITIVE_FUNCTION_NAME,
@@ -399,7 +399,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 					new NumberOddFunction());
 			functionElements.put(ToNumberFunctionElement.TONUMBER_FUNC_NAME,
 					new ToNumberFunctionElement());
-			functionElements.put("infinity", 
+			functionElements.put("infinity",
 					new ConstantFunction(NumberElement.POSITIVE_INFINITY));
 		}
 		return functionElements;
@@ -486,7 +486,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.OperatorImplementor#interpretOperatorNode(org.coreasm.engine.interpreter.Node)
 	 */
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode)
@@ -506,8 +506,8 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 			Element l = alpha.getValue();
 			Element r = beta.getValue();
 
-			// confirm that operands are numeric elements, or undef 
-			if ((l instanceof NumberElement || l.equals(Element.UNDEF)) 
+			// confirm that operands are numeric elements, or undef
+			if ((l instanceof NumberElement || l.equals(Element.UNDEF))
 					&& (r instanceof NumberElement || r.equals(Element.UNDEF))) {
 				if (l.equals(Element.UNDEF) || r.equals(Element.UNDEF))
 					result = Element.UNDEF;
@@ -570,7 +570,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 							capi.warning(PLUGIN_NAME, "The right operand of the '" + x + "' operator was undef.", opNode, interpreter);
 			}
 		}
-		
+
 		// if class of operator is unary
 		if (gClass.equals(ASTNode.UNARY_OPERATOR_CLASS)) {
 			// get operand nodes
@@ -636,8 +636,8 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	public String[] getOperators() {
 		return operators;
 	}
-	
-	/** 
+
+	/**
 	 * Type of number tokens.
 	 */
 	public static enum NumberTokenType {

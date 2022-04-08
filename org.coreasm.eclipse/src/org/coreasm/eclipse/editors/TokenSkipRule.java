@@ -9,7 +9,7 @@ import org.eclipse.jface.text.rules.Token;
 public class TokenSkipRule implements IRule {
 
 	IWordDetector wd;
-	
+
 	public TokenSkipRule(IWordDetector wd) {
 		super();
 		this.wd=wd;

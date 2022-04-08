@@ -39,11 +39,11 @@ import org.coreasm.engine.plugins.number.NumberValueTransformer;
  *
  */
 public class CompilerNumberPlugin extends CompilerCodePlugin implements
-	CompilerOperatorPlugin, CompilerVocabularyExtender, 
+	CompilerOperatorPlugin, CompilerVocabularyExtender,
 	CompilerFunctionPlugin, CompilerPreprocessorPlugin, CompilerMakroProvider{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -56,7 +56,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -66,15 +66,15 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 		public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
 			List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 			ClassLibrary library = engine.getClassLibrary();
-			
+
 			try{
 				library.addPackageReplacement("org.coreasm.engine.plugins.number.NumberElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin"));
 				library.addPackageReplacement("org.coreasm.engine.plugins.number.NumberUtil", engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberUtil", "NumberPlugin"));
 				library.addPackageReplacement("org.coreasm.engine.plugins.number.NumberBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberBackgroundElement", "NumberPlugin"));
 				library.addPackageReplacement("org.coreasm.engine.plugins.number.NumberRangeBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberRangeBackgroundElement", "NumberPlugin"));
 				library.addPackageReplacement("org.coreasm.engine.plugins.number.NumberRangeElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberRangeElement", "NumberPlugin"));
-				
-				
+
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/number/NumberUtil.java", EntryType.INCLUDEONLY).
 						includeStatic("org/coreasm/engine/plugins/number/NumberBackgroundElement.java", EntryType.BACKGROUND, "NUMBER").
@@ -91,7 +91,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 						includeStatic("org/coreasm/engine/plugins/number/ToNumberFunctionElement.java", EntryType.FUNCTION, "toNumber").
 						includeStatic("org/coreasm/engine/plugins/number/SizeFunctionElement.java", EntryType.FUNCTION, "size").
 						build();
-				
+
 				LibraryEntry le = new ConstantFunctionLibraryEntry("infinity", engine.getPath().pluginStaticPkg() + ".NumberPlugin.NumberElement.POSITIVE_INFINITY", getName(), LibraryEntryType.STATIC, engine);
 				library.addEntry(le);
 				result.add(new MainFileEntry(le, EntryType.FUNCTION, "infinity"));
@@ -136,7 +136,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 			String result = "";
 
 			String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
-			
+
 			if (token.equals("+")) {
 				result = "if((@lhs@ instanceof @NumberElement@) && (@rhs@ instanceof @NumberElement@)){\n";
 				result = result
@@ -251,7 +251,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 		@Override
 		public CodeFragment compileFunctionCall(ASTNode n)
 				throws CompilerException {
-			
+
 			String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
 			List<ASTNode> children = n.getAbstractChildNodes();
 			String fname = children.get(0).getToken();

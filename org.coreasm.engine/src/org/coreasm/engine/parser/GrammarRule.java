@@ -1,6 +1,6 @@
-/*	
+/*
  * GrammarRule.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,39 +10,39 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.parser;
 
 import org.coreasm.engine.interpreter.Node;
 
 import org.jparsec.Parser;
 
-/** 
+/**
  * A structure to hold a grammar rule, and a {@link org.jparsec.Parser} instance
  * for that grammar rule.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class GrammarRule {
 
-	/** Grammar Rule Type: 
-	 * 
+	/** Grammar Rule Type:
+	 *
 	 * START = start of grammar
-	 * OP_CONNECT = highest level of precdedence to connect to this rule, 
-	 * NORMAL = all others 
+	 * OP_CONNECT = highest level of precdedence to connect to this rule,
+	 * NORMAL = all others
 	 */
 	public enum GRType {START, OP_TOP_LEVEL, OP_BOTTOM_LEVEL, NORMAL};
-	
+
 	public final String name; // nonterminal
 	public String body;
 	public final Parser<Node> parser;
 	public final String pluginName;
 	public final GRType type;
-	
+
 	/**
 	 * Creates a new grammar rule instance.
-	 * 
+	 *
 	 * @param name the name of the nonterminal
 	 * @param body body of this grammar rule
 	 * @param parser parser of this grammar rule
@@ -59,7 +59,7 @@ public class GrammarRule {
 
 	/**
 	 * Creates a new grammar rule instance with a normal type.
-	 * 
+	 *
 	 * @param name the name of the nonterminal
 	 * @param body body of this grammar rule
 	 * @param parser parser of this grammar rule

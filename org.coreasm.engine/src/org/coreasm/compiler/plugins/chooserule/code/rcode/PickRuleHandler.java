@@ -19,7 +19,7 @@ public class PickRuleHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		CodeFragment loc = engine.compile(node.getAbstractChildNodes().get(0), CodeType.L);
 		CodeFragment source = engine.compile(node.getAbstractChildNodes().get(1), CodeType.R);
-		
+
 		result.appendLine("");
 		result.appendFragment(loc);
 		result.appendLine("@decl(String,loc)=((@RuntimePkg@.Location)evalStack.pop()).name;\n");

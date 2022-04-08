@@ -21,7 +21,7 @@ import org.coreasm.compiler.plugins.predicatelogic.code.rcode.ForallExpHandler;
 public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements CompilerOperatorPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -34,7 +34,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

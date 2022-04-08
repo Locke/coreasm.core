@@ -1,11 +1,11 @@
 /*
  * OneByOneUnfairSchedulingPolicy.java 		$Revision: 183 $
- * 
+ *
  * Copyright (c) 2010 Hiren D. Patel
  *
  * Last modified on $Date: 2010-08-31 23:52:36 +0200 (Di, 31 Aug 2010) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -26,7 +26,7 @@ import org.coreasm.engine.scheduler.SchedulingPolicy;
 public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implements SchedulingPolicy {
 
 	private Random rand;
-	
+
 	/**
 	 * @see BasicSchedulingPolicy#BasicSchedulingPolicy(Set)
 	 */
@@ -42,7 +42,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 	public Iterator<Set<Element>> getNewSchedule(Object groupHandle, Set<? extends Element> set) {
 		return new ExtendedIterator(filteredSet(set), groupHandle);
 	}
-	
+
 	protected class ExtendedIterator implements Iterator<Set<Element>> {
 
 		private final Set<Element> originalSet;
@@ -52,11 +52,11 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 			// we can ignore the group handle --R.F.
 			//this.handle = groupHandle;
 		}
-		
+
 		public boolean hasNext() {
 			if (!originalSet.isEmpty())
 				return true;
-			else 
+			else
 				return false;
 		}
 
@@ -75,7 +75,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
-		
+
 	}
 
 }

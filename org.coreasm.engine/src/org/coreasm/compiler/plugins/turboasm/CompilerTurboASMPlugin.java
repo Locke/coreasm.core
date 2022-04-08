@@ -24,7 +24,7 @@ import org.coreasm.engine.plugins.turboasm.TurboASMPlugin;
 public class CompilerTurboASMPlugin extends CompilerCodePlugin implements CompilerPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -37,7 +37,7 @@ public class CompilerTurboASMPlugin extends CompilerCodePlugin implements Compil
 	public void init(CompilerEngine engine) {
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -51,7 +51,7 @@ public class CompilerTurboASMPlugin extends CompilerCodePlugin implements Compil
 	@Override
 	public void registerCodeHandlers() throws CompilerException {
 		register(new ReturnTermHandler(), CodeType.R, "Expression", "ReturnTerm", null);
-		
+
 		CompilerCodeHandler cch = new SeqRuleHandler();
 		register(cch, CodeType.U, "Rule", "SeqRule", null);
 		register(cch, CodeType.U, "Rule", "SeqRuleBlock", null);

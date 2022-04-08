@@ -6,18 +6,18 @@ import java.util.List;
 /**
  * This class is a copy of the class DefaultSourceLocator from JParsec 2.0
  * (org.codehaus.jparsec.DefaultSourceLocator).
- * 
+ *
  * The class DefaultSourceLocator from JParsec 2.0 was called DefaultPositionMap
  * in the old JParsec parser. In JParsec 2.0 however the visibility of this
  * class was reduced to a package scoped visibility, and the class was declared
  * as final.
  * The class is not accessible from CoreASM any more, and because we want to use
  * an unmodified JParsec library we needed to copy its code into PositionMap.
- * 
+ *
  * JParsed is licensed under the Apache License, Version 2.0,
  * CoreASM uses the Academic Free License version 3.0, so we have to describe
  * properly that we're using this code here.
- * 
+ *
  * There are several modifications of the original DefaultSourceLocator:
  * <ul>
  * <li>The interface SourceLocator was removed, because its visibility was also
@@ -28,10 +28,10 @@ import java.util.List;
  * CharacterPosition class instead of JParsec's Location class, since both
  * classes do the same and have a very similar interface.</li>
  * </ul>
- * 
+ *
  */
 public class DefaultSourceLocator {
-	
+
 	private final CharSequence source;
 
 	/** The line break character. */
@@ -84,7 +84,7 @@ public class DefaultSourceLocator {
 	 * Scans from {@code nextIndex} to {@code ind} and saves all indices of line break characters
 	 * into {@code lineBreakIndices} and adjusts the current column number as it goes. The location of
 	 * the character on {@code ind} is returned.
-	 * 
+	 *
 	 * <p> After this method returns, {@code nextIndex} and {@code nextColumnIndex} will point to the
 	 * next character to be scanned or the EOF if the end of input is encountered.
 	 */
@@ -135,7 +135,7 @@ public class DefaultSourceLocator {
 
 	/**
 	 * Creates a {@link DefaultSourceLocator} object.
-	 * 
+	 *
 	 * @param source the source.
 	 * @param lineNumber the starting line number.
 	 * @param columnNumber the starting column number.
@@ -151,7 +151,7 @@ public class DefaultSourceLocator {
 
 	/**
 	 * Creates a {@link DefaultSourceLocator} object.
-	 * 
+	 *
 	 * @param source the source.
 	 * @param lineNumber the starting line number.
 	 * @param columnNumber the starting column number.

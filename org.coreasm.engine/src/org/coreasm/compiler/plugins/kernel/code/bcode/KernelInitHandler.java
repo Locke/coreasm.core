@@ -12,7 +12,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  * @author Spellmaker
  *
  */
-public class KernelInitHandler implements CompilerCodeHandler {	
+public class KernelInitHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {

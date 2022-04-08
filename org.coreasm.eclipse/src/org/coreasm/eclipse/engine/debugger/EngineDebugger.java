@@ -64,7 +64,7 @@ import org.eclipse.swt.widgets.Display;
  *
  */
 public class EngineDebugger extends EngineDriver implements InterpreterListener {
-	
+
 	private ControlAPI capi = (ControlAPI)engine;
 	private WatchExpressionAPI wapi;
 	private final Stack<ASMStorage> states = new Stack<ASMStorage>();
@@ -90,7 +90,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		super(isSyntaxEngine);
 		capi.addInterpreterListener(this);
 	}
-	
+
 	/**
 	 * Returns the running instance of the debugger.
 	 * @return the running instance of the debugger
@@ -100,25 +100,25 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			return (EngineDebugger) runningInstance;
 		return null;
 	}
-	
+
 	@Override
 	public synchronized void stop() {
 		shouldStep = false;
 		super.stop();
 	}
-	
+
 	@Override
 	public synchronized void pause() {
 		updateState(null);
 		super.pause();
 	}
-	
+
 	@Override
 	public synchronized void resume() {
 		shouldStep = false;
 		super.resume();
 	}
-	
+
 	/**
 	 * Sets the stepping mode of the debugger
 	 * @param shouldStep value to set the stepping mode to
@@ -126,7 +126,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public synchronized void setStepping(boolean shouldStep) {
 		this.shouldStep = shouldStep;
 	}
-	
+
 	/**
 	 * Returns whether the debugger is stepping.
 	 * @return whether the debugger is stepping
@@ -134,7 +134,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public synchronized boolean isStepping() {
 		return shouldStep;
 	}
-	
+
 	/**
 	 * Executes a single engine step
 	 */
@@ -143,7 +143,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		super.resume();
 		shouldStepOver = true;
 	}
-	
+
 	/**
 	 * Executes a single interpreter step
 	 */
@@ -152,7 +152,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		super.resume();
 		shouldStepInto = true;
 	}
-	
+
 	/**
 	 * Executes the rest of the engine step
 	 */
@@ -168,7 +168,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 				break;
 		}
 	}
-	
+
 	/**
 	 * Returns the stack of states.
 	 * @return the stack of states
@@ -178,7 +178,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		this.states.toArray(states);
 		return states;
 	}
-	
+
 	/**
 	 * Sets the value of the given function.
 	 * @param functionName name of the function of which the value should be changed
@@ -211,28 +211,28 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		}
 		return null;
 	}
-	
+
 	public Element evaluateExpression(String expression, ASMStorage storage) throws ParserException, InterpreterException {
 		ParserTools parserTools = ParserTools.getInstance(capi);
 		Parser<Node> termParser = ((ParserPlugin)capi.getPlugin("Kernel")).getParser("Term");
 		Parser<Node> parser = termParser.from(parserTools.getTokenizer(), parserTools.getIgnored());
-		
+
 		return wapi.evaluateExpression((ASTNode)parser.parse(expression), currentAgent, storage);
 	}
-	
+
 	public boolean isStepFailed() {
 		return capi != null && capi.getStorage() != null && capi.getStorage().getLastInconsistentUpdate() != null;
 	}
-	
+
 	public boolean isUpdateConsistent(ASMUpdate update) {
 		Set<Update> lastInconsistentUpdate = capi.getStorage().getLastInconsistentUpdate();
 		return lastInconsistentUpdate == null || !lastInconsistentUpdate.contains(update.getUpdate());
 	}
-	
+
 	public Set<ASMUpdate> getLastInconsistentUpdate() {
 		return ASMUpdate.wrapUpdateSet(capi.getStorage().getLastInconsistentUpdate(), false, capi);
 	}
-	
+
 	/**
 	 * Returns the current updates as a set of ASMUpdate.
 	 * @return the current updates as a set of ASMUpdate
@@ -240,7 +240,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public Set<ASMUpdate> getUpdates() {
 		return ASMUpdate.wrapUpdateSet(capi);
 	}
-	
+
 	/**
 	 * Returns the current step.
 	 * @return the current step
@@ -248,18 +248,18 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public int getStep() {
 		return capi.getStepCount();
 	}
-	
+
 	@Override
 	protected void preExecutionCallback() {
 		debugTarget.fireCreationEvent();
 		wapi = new WatchExpressionAPI(capi);
 	};
-	
+
 	@Override
 	protected void postExecutionCallback() {
 		cleanUp();
 	}
-	
+
 	private void cleanUp() {
 		for (ASMStorage storage : states)
 			storage.clearState();
@@ -280,7 +280,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		stateToDropTo = null;
 		System.gc();
 	}
-	
+
 	@Override
 	public synchronized void updateStatus(EngineDriverStatus status) {
 		EngineDriverStatus oldStatus = getStatus();
@@ -313,7 +313,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates a new launch for the given path and configuration.
 	 * @param abspathname path of the launch to create
@@ -332,7 +332,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		} else
 			throw new CoreException(new Status(Status.WARNING, CoreASMPlugin.PLUGIN_ID, -1, "Another specification is currently running.", null));
 	}
-	
+
 	/**
 	 * Restores the given state
 	 * @param stateToDropTo State to drop to
@@ -340,7 +340,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public void dropToState(ASMStorage stateToDropTo) {
 		this.stateToDropTo = stateToDropTo;
 	}
-	
+
 	private void dropToState() {
 		try {
 			for (ASMStorage state = states.peek(); !stateToDropTo.equals(states.peek()); state = states.pop()) {
@@ -371,7 +371,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		} catch (InvalidLocationException e) {
 		}
 	}
-	
+
 	@Override
 	public void update(EngineEvent event) {
 		super.update(event);
@@ -390,7 +390,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			onBreakpointHit((ASTNode)errorEvent.getError().node);
 		}
 	}
-	
+
 	@Override
 	protected void handleError() {
 		// lastError is needed by the ASM Update View, it must not be set to null at this point
@@ -398,7 +398,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		super.handleError();
 		lastError = error;
 	}
-	
+
 	/**
 	 * Sets the debug target.
 	 * @param debugTarget debug target to set
@@ -406,7 +406,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public void setDebugTarget(ASMDebugTarget debugTarget) {
 		this.debugTarget = debugTarget;
 	}
-	
+
 	/**
 	 * Returns the path of the running specification.
 	 * @return the path of the running specification
@@ -414,7 +414,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	public String getSpecPath() {
 		return specPath;
 	}
-	
+
 	/**
 	 * Pauses the execution until the user resumes it.
 	 * @param pos the current node
@@ -422,10 +422,10 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 	private void waitForStep(ASTNode pos) {
 		if (shouldStep) {
 			stepOverPos = pos;
-			
+
 			if (this == runningInstance)
 				updateStatus(EngineDriverStatus.paused);
-			
+
 			while (shouldStep && !shouldStepOver && !shouldStepInto && !shouldStepReturn) {
 				try {
 					Thread.sleep(100);
@@ -434,13 +434,13 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 				if (stateToDropTo != null)
 					dropToState();
 			}
-			
+
 			if (this == runningInstance)
 				updateStatus(EngineDriverStatus.running);
 			shouldStepInto = false;
 		}
 	}
-	
+
 	/**
 	 * This method is called whenever a breakpoint is hit.
 	 * @param pos the node that the breakpoint was attached to
@@ -455,7 +455,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			waitForStep(pos);
 		}
 	}
-	
+
 	/**
 	 * Updates/Creates the current state.
 	 * @param pos Current position of the state
@@ -491,7 +491,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 				for (Entry<ASTNode, String> arg : ruleArgs.entrySet()) {
 					final ASTNode node = (ASTNode)arg.getKey().cloneTree();
 					Display.getDefault().syncExec(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							try {
@@ -508,7 +508,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		states.add(state);
 		updates = new HashSet<ASMUpdate>();
 	}
-	
+
 	/**
 	 * Returns whether pos has been visited before or not.
 	 * @param pos ASTNode to test
@@ -526,7 +526,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Returns whether frNode hits a breakpoint.
 	 * @param frNode ASTNode to test
@@ -552,7 +552,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 		}
 		return false;
 	}
-	
+
 	private boolean isLineBreakpointHit() {
 		if (!DebugPlugin.getDefault().getBreakpointManager().isEnabled())
 			return false;
@@ -576,7 +576,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			lineNumber = ASMDebugUtils.getLineNumber(pos, capi);
 			if (sourceName == null || lineNumber < 0)
 				return;
-			
+
 			if (stepSucceeded) {
 				updateState(pos);
 				if (isLineBreakpointHit())
@@ -586,7 +586,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 				stepSucceeded = false;
 				return;
 			}
-			
+
 //			handle watchpoints (access)
 			if (Kernel.GR_FUNCTION_RULE_TERM.equals(pos.getGrammarRule())) {
 				FunctionRuleTermNode frNode = (FunctionRuleTermNode) pos;
@@ -597,7 +597,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 					}
 				}
 			}
-			
+
 //			handle line breakpoints
 			if (ASTNode.RULE_CLASS.equals(pos.getGrammarClass())) {
 				if  (!(pos.getParent() instanceof SeqRuleNode) || !(pos instanceof SeqRuleNode)) {	// if parent is SeqRuleNode -> pos may not be SeqRuleNode (this avoids breaking twice on seqblock children)
@@ -606,7 +606,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 						return;
 					}
 				}
-				
+
 //				handle stepping on seq rules
 				if (pos.getParent() instanceof SeqRuleNode && (!(pos instanceof SeqRuleNode) || pos.getFirstASTNode() != pos.getFirstCSTNode()) // if parent is SeqRuleNode AND pos is SeqRuleNode -> pos must be keyword 'seq'
 				|| pos instanceof SeqRuleNode && pos.getFirstASTNode() != pos.getFirstCSTNode()) { // OR if pos is keyword 'seq' (first CSTNode will be the keyword)
@@ -635,7 +635,7 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 			lineNumber = ASMDebugUtils.getLineNumber(pos, capi);
 			if (sourceName == null || lineNumber < 0)
 				return;
-			
+
 //			handle watchpoints (modification)
 			boolean breakpointHit = false;
 			if (DebugPlugin.getDefault().getBreakpointManager().isEnabled()) {
@@ -646,10 +646,10 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 						for (Update update : pos.getUpdates()) {
 							String updateSourceName = ASMDebugUtils.getFileName(update, capi);
 							int updateLineNumber = ASMDebugUtils.getLineNumber(update, capi);
-							
+
 							if (!sourceName.equals(updateSourceName) || lineNumber != updateLineNumber)
 								continue;
-							
+
 							if (breakpoint instanceof ASMWatchpoint && ((ASMWatchpoint)breakpoint).isModification() && ((ASMWatchpoint)breakpoint).getFuctionName().equals(update.loc.name)) {
 								breakpointHit = true;
 								break;
@@ -680,10 +680,10 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 					if (breakpoint instanceof ASMMethodBreakpoint && ((ASMMethodBreakpoint) breakpoint).getRuleName().equals(rule.getName())) {
 						try {
 							String ruleSourceName = ASMDebugUtils.getFileName(pos, capi);
-							
+
 							if (!ruleSourceName.equals(((ASMLineBreakpoint)breakpoint).getSpecName()))
 								continue;
-							
+
 							sourceName = ruleSourceName;
 							lineNumber = ASMDebugUtils.getLineNumber(pos, capi);
 							if (sourceName == null || lineNumber < 0) {
@@ -708,14 +708,14 @@ public class EngineDebugger extends EngineDriver implements InterpreterListener 
 				ruleArgs.put(args.get(i++), param);
 		}
 	}
-	
+
 	@Override
 	public void onRuleExit(RuleElement rule, List<ASTNode> args, ASTNode pos, Element agent) {
 		currentAgent = agent;
 		if (!ruleArgs.isEmpty())
 			ruleArgs.pop();
 	}
-	
+
 	@Override
 	public void initProgramExecution(Element agent, RuleElement program) {
 		onRuleCall(program, null, program.getDeclarationNode(), agent);

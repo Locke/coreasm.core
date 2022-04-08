@@ -1,6 +1,6 @@
-/*	
- * EdgeElement.java 
- * 
+/*
+ * EdgeElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -22,7 +22,7 @@ import org.jgrapht.EdgeFactory;
 
 /**
  * Basic Edge element.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -38,12 +38,12 @@ public class EdgeElement extends TupleElement {
 		this.source = source;
 		this.target = target;
 	}
-	
+
 	/**
-	 * Creates a new edge element out of a collection of 
+	 * Creates a new edge element out of a collection of
 	 * two elements.
 	 * @param vertices a collection of two elements
-	 * @throws IllegalArgumentException if the size of the collection is not 2 
+	 * @throws IllegalArgumentException if the size of the collection is not 2
 	 */
 	public EdgeElement(Collection<? extends Element> vertices) {
 		if (vertices.size() == 2) {
@@ -53,7 +53,7 @@ public class EdgeElement extends TupleElement {
 		} else
 			throw new IllegalArgumentException("Require two vertices to create an edge.");
 	}
-	
+
 	@Override
 	public String toString() {
 		return "(" + source + ":" + target + ")";
@@ -80,7 +80,7 @@ public class EdgeElement extends TupleElement {
 
 	/**
 	 * The default edge factory for edge elements.
-	 * 
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	public static class DefaultEdgeFactory implements EdgeFactory<Element, Element> {
@@ -89,7 +89,7 @@ public class EdgeElement extends TupleElement {
 		public Element createEdge(Element sourceVertex, Element targetVertex) {
 			return new EdgeElement(sourceVertex, targetVertex);
 		}
-		
+
 	}
 
 	@Override

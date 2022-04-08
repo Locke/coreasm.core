@@ -8,7 +8,7 @@ option SchedulingPolicies.policy allfirst
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	if mode = undef then  {
 		forall a in {1} do {
 			Agents(a) := true

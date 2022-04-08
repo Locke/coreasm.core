@@ -22,7 +22,7 @@ public class KernelFunctionRuleTermHandler implements CompilerCodeHandler {
 		FunctionRuleTermNode frtn = (FunctionRuleTermNode) node;
 
 		//TODO: location might also be the name of a ruleparam, which could break stuff
-		
+
 		String name = frtn.getName();
 		if (frtn.hasArguments()) {
 			// if the function is not a constant, the arguments
@@ -43,16 +43,16 @@ public class KernelFunctionRuleTermHandler implements CompilerCodeHandler {
 			result.appendLine("for(@decl(int,__i)=0;@__i@<"
 					+ args.size()
 					+ ";@__i@++)\n@arglist@.add((@RuntimePkg@.Element)evalStack.pop());\n");
-			
+
 			//build the location, find out, if there is a local value for this location
 			result.appendLine("@decl(Object,o)=localStack.get(\"" + name + "\");\n");
 			result.appendLine("if(@o@ instanceof @RuntimePkg@.FunctionElement){\n");
-			result.appendLine("evalStack.push(new @RuntimePkg@.Location(@RuntimeProvider@.getStorage().getFunctionName((@RuntimePkg@.FunctionElement)@o@), @arglist@));\n");			
+			result.appendLine("evalStack.push(new @RuntimePkg@.Location(@RuntimeProvider@.getStorage().getFunctionName((@RuntimePkg@.FunctionElement)@o@), @arglist@));\n");
 			result.appendLine("}\n");
 			result.appendLine("else{\n");
 			result.appendLine("evalStack.push(new @RuntimePkg@.Location(\"" + name + "\", @arglist@));\n");
 			result.appendLine("}\n");
-			
+
 			//result.appendLine("evalStack.push(new CompilerRuntime.Location(\""
 			//		+ name + "\", @arglist@));");
 		} else {
@@ -60,10 +60,10 @@ public class KernelFunctionRuleTermHandler implements CompilerCodeHandler {
 			//		+ name
 			//		+ "\", new java.util.ArrayList<CompilerRuntime.Element>()));";
 			//result.appendLine(code);
-			
+
 			result.appendLine("@decl(Object,o)=localStack.get(\"" + name + "\");\n");
 			result.appendLine("if(@o@ instanceof @RuntimePkg@.FunctionElement){\n");
-			result.appendLine("evalStack.push(new @RuntimePkg@.Location(@RuntimeProvider@.getStorage().getFunctionName((@RuntimePkg@.FunctionElement)@o@), new java.util.ArrayList<@RuntimePkg@.Element>()));\n");			
+			result.appendLine("evalStack.push(new @RuntimePkg@.Location(@RuntimeProvider@.getStorage().getFunctionName((@RuntimePkg@.FunctionElement)@o@), new java.util.ArrayList<@RuntimePkg@.Element>()));\n");
 			result.appendLine("}\n");
 			result.appendLine("else{\n");
 			result.appendLine("evalStack.push(new @RuntimePkg@.Location(\"" + name + "\", new java.util.ArrayList<@RuntimePkg@.Element>()));\n");

@@ -1,6 +1,6 @@
-/*	
+/*
  * PropertyPlugin.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 George Ma
  * Copyright (C) 2007 Roozbeh Farahbod
  *
@@ -11,7 +11,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.property;
 
 import java.util.ArrayList;
@@ -38,32 +38,32 @@ import org.coreasm.engine.plugin.OperatorProvider;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 
-/** 
- * Supports LTL properties in the header. 
- *   
+/**
+ * Supports LTL properties in the header.
+ *
  * @author  George Ma, Roozbeh Farahbod
- * 
+ *
  */
 public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProvider {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 2, 1, "beta");
-	
+
 	public static final String PLUGIN_NAME = PropertyPlugin.class.getSimpleName();
     public static final String ALWAYS_OP = "G";
     public static final String EVENTUALLY_OP = "F";
     public static final String UNTIL_OP = "U";
     public static final String NEXT_OP = "X";
     public static final String DUAL_OF_UNTIL_OP = "V";
-    
+
     private ArrayList<OperatorRule> opRules = null;
     private Map<String, GrammarRule> parsers = null;
-    
+
 	private final String[] keywords = {"G", "F", "U", "X", "V", "check", "property"};
 	private final String[] operators = {};
-	
+
     @Override
     public void initialize() {
-        
+
     }
 
 	public Set<Parser<? extends Object>> getLexers() {
@@ -92,7 +92,7 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 					pTools.getKeywParser("property", PLUGIN_NAME),
 					termParser
 					);
-			
+
  			// PropertyList : ('property' Expression)* ('check' 'property' Expression)? ('property' Expression)*
 			// PropertyList : ('property' Term)* ('check' 'property' Term)? ('property' Term)*
 			Parser<Node> propertyParser = Parsers.array(
@@ -100,17 +100,17 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 						pTools.plus(propertyExpr),
 					}).map(
 					new PropertyParseMap());
-			
-			parsers.put("Header", 
-					new GrammarRule("PropertyList", 
-							"('property' Term)* ('check' 'property' Term)? ('property' Term)*", 
+
+			parsers.put("Header",
+					new GrammarRule("PropertyList",
+							"('property' Term)* ('check' 'property' Term)? ('property' Term)*",
 							propertyParser, PLUGIN_NAME));
 
     	}
-    	
+
     	return parsers;
     }
-    
+
     public VersionInfo getVersionInfo() {
         return VERSION_INFO;
     }
@@ -127,36 +127,36 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 	public Collection<OperatorRule> getOperatorRules() {
         if (opRules == null) {
             opRules = new ArrayList<OperatorRule>();
-            
+
             opRules.add(new OperatorRule(UNTIL_OP,
                         OpType.INFIX_LEFT,
                         400,
                         getName()));
-            
+
             opRules.add(new OperatorRule(DUAL_OF_UNTIL_OP,
                         OpType.INFIX_LEFT,
                         400,
                         getName()));
-            
+
             opRules.add(new OperatorRule(ALWAYS_OP,
                         OpType.PREFIX,
                         500,
 //                        OpAssoc.RIGHT,
                         getName()));
-            
+
             opRules.add(new OperatorRule(EVENTUALLY_OP,
                         OpType.PREFIX,
                         500,
 //                        OpAssoc.RIGHT,
                         getName()));
-            
+
             opRules.add(new OperatorRule(NEXT_OP,
                         OpType.PREFIX,
                         500,
 //                        OpAssoc.LEFT,
-                        getName()));                   
+                        getName()));
         }
-            
+
         return opRules;
     }
 
@@ -179,7 +179,7 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 	        node.incrementPropertyCount();
 			return node;
 		}
-		
+
  		@Override
 		public void addChild(Node parent, Node child) {
 	        if (child.getToken() != null && child.getToken().equals("check")) {

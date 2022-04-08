@@ -17,7 +17,7 @@ use IO
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	par
 		program(self) := ruleelement Main
 		addition := 2 + 2.0
@@ -28,9 +28,9 @@ rule InitRule =
 		stringConcat := "Howdie" + "\"" + "1" + "\n" + me + "\t" + "You"
 		setOfNumbersAndBool := {1,(12-3*4),true}
 	endpar
-	
 
-rule Main = 
+
+rule Main =
 	par
 		print stringConcat
 		remove 0.0 from setOfNumbersAndBool
@@ -40,7 +40,7 @@ rule Main =
 		nonSetCardinalityResult := size(true)
 		program(self) := @Main2
 	endpar
-	
+
 rule Main2 =
 	par
 		print nonSetCardinalityResult + " " + setCardinalityResult

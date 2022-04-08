@@ -50,8 +50,8 @@ public abstract class LibraryEntry implements Closeable{
 	 * @return A line from the library entry
 	 * @throws Exception If an error occurred
 	 */
-	public abstract String readLine() throws Exception;	
-	
+	public abstract String readLine() throws Exception;
+
 	/**
 	 * Extracts the package of a class from the complete className
 	 * @param className The className including a package specification
@@ -62,7 +62,7 @@ public abstract class LibraryEntry implements Closeable{
 		if(pos <= 0) return "";
 		return className.substring(0, pos);
 	}
-	
+
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof LibraryEntry){
@@ -71,7 +71,7 @@ public abstract class LibraryEntry implements Closeable{
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString(){
 		return "[" + this.getClass().getName() + ":" + getName() + ":" + getSource() + ":" + getType() + "]";
