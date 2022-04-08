@@ -196,7 +196,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 						return pos;
 					}
 				}
-;
+
 				try {
 					NumberRangeElement rangeElement = numberRangeBackgroundElement.getNewValue(
 							from, to, step);
