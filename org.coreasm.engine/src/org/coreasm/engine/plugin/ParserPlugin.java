@@ -37,7 +37,6 @@ public interface ParserPlugin {
 	 *
 	 * @return a set of lexers
 	 * @see Parser
-	 * @see Lexers
 	 */
 	public Set<Parser<? extends Object>> getLexers();
 

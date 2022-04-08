@@ -574,7 +574,6 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	/**
 	 * Handles a call to a rule that has <b>result</b>.
 	 *
-	 * @param name rule name
 	 * @param args arguments
 	 * @param pos current node being interpreted
 	 */

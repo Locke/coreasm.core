@@ -248,7 +248,6 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 	/**
 	 * Handles a call to a rule that has <b>result</b>.
 	 *
-	 * @param name rule name
 	 * @param args arguments
 	 * @param pos current node being interpreted
 	 */
