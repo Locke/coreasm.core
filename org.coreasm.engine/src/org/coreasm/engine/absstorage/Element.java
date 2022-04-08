@@ -111,6 +111,7 @@ import org.coreasm.engine.ControlAPI;
 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
 	 * of <code>Element</code>
 	 */
+	@Override
 	public boolean equals(Object anElement) {
 		if (anElement == null)
 			return false;

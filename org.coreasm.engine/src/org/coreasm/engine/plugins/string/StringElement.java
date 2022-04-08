@@ -93,6 +93,7 @@ public class StringElement extends Element implements Enumerable {
 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
 	 * of <code>Element</code>
 	 */
+	@Override
 	public boolean equals(Object anElement) {
 
 		boolean equals = false;
