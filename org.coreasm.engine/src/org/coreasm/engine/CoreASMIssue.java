@@ -93,7 +93,7 @@ public class CoreASMIssue extends Error {
 	 * Creates and returns a string representation of this issue.
 	 */
 	public String showIssue(Parser parser, Specification spec) {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (message == null)
 			if (cause != null)
 				buf.append("Exception occured: " + (cause.getCause() != null ? cause.getCause() : cause));

@@ -174,7 +174,7 @@ public class MapElement extends AbstractMapElement implements ModifiableCollecti
 		if (intSize() == 0)
 			return "{ -> }";
 		else {
-			StringBuffer result = new StringBuffer("{");
+			StringBuilder result = new StringBuilder("{");
 
 			for (Element k: map.keySet())
 				result.append(k.toString() + "->" + map.get(k) + ", ");

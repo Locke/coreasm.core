@@ -89,7 +89,7 @@ public class Logger {
 	 */
 	public synchronized void log(int level, String msg) {
 		if (verbosityLevel >= level && visibleLoggers.contains(this)) {
-			StringBuffer str = new StringBuffer();
+			StringBuilder str = new StringBuilder();
 			if (threadNameStamp)
 				str.append(Thread.currentThread().getName() + " ");
 			str.append("[" + name + "] ");

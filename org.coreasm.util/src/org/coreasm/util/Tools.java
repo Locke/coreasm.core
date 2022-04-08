@@ -107,7 +107,7 @@ public class Tools {
 	 * @return the string version of the order
 	 */
 	public static String getIth(int i) {
-		String result = null;
+		String result;
 		switch(i % 10) {
 		case 1:
 			result = "st";

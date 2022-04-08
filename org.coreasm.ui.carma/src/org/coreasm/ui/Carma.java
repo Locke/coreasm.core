@@ -332,9 +332,9 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	}
 
 	public void error(CoreASMEngine engine) {
-		StringBuffer msg = new StringBuffer("Engine error " + Tools.getEOL());
+		StringBuilder msg = new StringBuilder("Engine error " + Tools.getEOL());
 		if (lastError != null)
-			msg.append(Tools.getEOL() + lastError.showError());
+			msg.append(Tools.getEOL()).append(lastError.showError());
 		error(engine, msg.toString());
 	}
 
@@ -428,7 +428,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				error(engine);
 
 			Specification spec = engine.getSpec();
-			StringBuffer output = new StringBuffer();
+			StringBuilder output = new StringBuilder();
 
 			output.append("Printing vocabulary:" + Tools.getEOL());
 			output.append(" - Backgrounds" + Tools.getEOL());

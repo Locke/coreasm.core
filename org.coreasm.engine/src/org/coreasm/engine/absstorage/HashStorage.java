@@ -952,7 +952,7 @@ public class HashStorage implements AbstractStorage {
 				if (e.getValue() instanceof UniverseElement) {
 					UniverseElement ue = (UniverseElement)e.getValue();
 					writer.print("    - " + e.getKey() + ": {");
-					StringBuffer str = new StringBuffer();
+					StringBuilder str = new StringBuilder();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
 							if (!l.args.isEmpty()) {
@@ -995,7 +995,7 @@ public class HashStorage implements AbstractStorage {
 		 * Cut the string to a specific length
 		 */
 		private String reformatFunctionValue(String value) {
-			StringBuffer result = new StringBuffer(value);
+			StringBuilder result = new StringBuilder(value);
 			int TRIM = 50;
 
 			if (result.length() > TRIM) {

@@ -161,7 +161,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 
 	@Override
 	public PluginInfo getInfo() {
-		StringBuffer descr = new StringBuffer(
+		StringBuilder descr = new StringBuilder(
 				"This plug-in provides some basic mathematical functions and constants such as: ");
 		for (String fname: getFunctionNames()) {
 			descr.append(fname + ", ");

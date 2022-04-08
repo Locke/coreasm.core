@@ -213,7 +213,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	 * representation.
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		for (Element e: this)
 			result.append(", " + e.toString());
 		if (result.length() > 0)
@@ -345,7 +345,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 
 		public String toString() {
-			StringBuffer result = new StringBuffer();
+			StringBuilder result = new StringBuilder();
 			for (Element e: value)
 				result.append(", " + e.toString());
 			if (result.length() > 0)
