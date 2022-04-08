@@ -269,7 +269,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

@@ -110,7 +110,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	private Map<String, FunctionElement> functionElements = null;
 
 	private Map<String, GrammarRule> parsers = null;
-	private Set<Parser<? extends Object>> lexers = null;
+	private Set<Parser<?>> lexers = null;
 	private final Map<String, Parser<Node>> exposedParsers;
 
 	private final Parser.Reference<Node> refNumberRangeParser = Parser.newReference();
@@ -249,9 +249,9 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		if (lexers == null) {
-			lexers = new HashSet<Parser<? extends Object>>();
+			lexers = new HashSet<>();
 
 			// Define pattern for the numbers tokenizer manually to aviod the
 			// recognition of strings like '1.' as 1.0 or '.1' as 0.1

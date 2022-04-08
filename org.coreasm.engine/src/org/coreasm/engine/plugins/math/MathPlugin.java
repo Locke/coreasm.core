@@ -178,7 +178,7 @@ public class MathPlugin extends Plugin implements VocabularyExtender, ParserPlug
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

@@ -363,7 +363,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

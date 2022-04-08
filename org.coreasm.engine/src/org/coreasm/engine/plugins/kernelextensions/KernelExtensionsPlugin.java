@@ -110,7 +110,7 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

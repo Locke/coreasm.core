@@ -123,7 +123,7 @@ public class PlotterPlugin extends Plugin implements
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

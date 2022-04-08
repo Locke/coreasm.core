@@ -72,7 +72,7 @@ public class StringPlugin extends Plugin
 	private Map<String,BackgroundElement> backgroundElements = null;
 
 	private Map<String, GrammarRule> parsers = null;
-	private Set<Parser<? extends Object>> lexers = null;
+	private Set<Parser<?>> lexers = null;
 
 	//private final Parser<Node>[] stringTermParserArray = new Parser[1];
 	//private final Parser<Node> stringTermParser = ParserTools.lazy("StringTerm", stringTermParserArray);
@@ -128,9 +128,9 @@ public class StringPlugin extends Plugin
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		if (lexers == null) {
-			lexers = new HashSet<Parser<? extends Object>>();
+			lexers = new HashSet<>();
 
 			tokenizer_str = Terminals.StringLiteral.DOUBLE_QUOTE_TOKENIZER;
 			lexers.add(tokenizer_str);

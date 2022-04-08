@@ -47,7 +47,7 @@ public class ConvertorWithTypeFunctionElement extends org.coreasm.engine.absstor
 				Element value = args.get(0);
 				String className = ((StringElement)args.get(1)).getValue();
 
-				Class<? extends Object> requestedClass = null;
+				Class<?> requestedClass = null;
 				try {
 					requestedClass = JasmineUtil.getJavaClass(className, plugin.getClassLoader());
 				} catch (Exception e) {

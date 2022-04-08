@@ -130,7 +130,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

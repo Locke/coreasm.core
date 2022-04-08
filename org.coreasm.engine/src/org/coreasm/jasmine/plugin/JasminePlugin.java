@@ -467,7 +467,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 			String x = node.getClassName().trim();
 
-			Class<? extends Object> c;
+			Class<?> c;
 			try {
 				c = JasmineUtil.getJavaClass(x, this.loader);
 			} catch (Exception e) {
@@ -643,7 +643,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 * Finds a method with the given name that matches the given list of arguments.
 	 * TODO if more than one method match the arguments, it picks the first one it finds.
 	 */
-	private Method findMethod(Class<?> clazz, String name, List<? extends Object> arguments) throws NoSuchMethodException {
+	private Method findMethod(Class<?> clazz, String name, List<?> arguments) throws NoSuchMethodException {
 		Class<?>[] classes = new Class[arguments.size()];
 		int i = 0;
 		for (Object obj: arguments) {
@@ -672,7 +672,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 * Finds a constructor of clazz that matches the given arguments.
 	 * TODO if more than one constructor match the arguments, it picks the first one it finds.
 	 */
-	private Constructor<?> findConstructor(Class<?> clazz, List<? extends Object> arguments) throws SecurityException, NoSuchMethodException {
+	private Constructor<?> findConstructor(Class<?> clazz, List<?> arguments) throws SecurityException, NoSuchMethodException {
 		// if looking for the default constructor
 		if (arguments.isEmpty())
 			return clazz.getConstructor();
@@ -988,7 +988,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				Location l = jue.getCoreASMLocation();
 				Object obj = ((JObjectElement)jue.arguments.get(1)).object; // 'value(alpha)'
 				String methodName = (String)jue.arguments.get(2);  // the 'x'
-				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments
+				List<?> args = (List<?>)jue.arguments.get(3);  // method arguments
 
 				Method method;
 				Object result;
@@ -1167,7 +1167,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

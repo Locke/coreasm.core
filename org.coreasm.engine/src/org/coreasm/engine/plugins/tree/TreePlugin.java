@@ -148,7 +148,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		// No particular lexers.
 		return Collections.emptySet();
 	} // getLexers

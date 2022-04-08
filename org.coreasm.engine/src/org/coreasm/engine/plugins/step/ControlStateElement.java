@@ -29,11 +29,11 @@ import org.coreasm.engine.interpreter.ASTNode;
  */
 public class ControlStateElement extends Element {
 
-	final Stack<? extends Object> callStack;
+	final Stack<?> callStack;
 	final ASTNode node;
 	final List<ASTNode> nodePathToRoot;
 
-	public ControlStateElement(Stack<? extends Object> callStack, ASTNode node) {
+	public ControlStateElement(Stack<?> callStack, ASTNode node) {
 		this.callStack = callStack;
 		this.node = node;
 		ArrayList<ASTNode> list = new ArrayList<ASTNode>();

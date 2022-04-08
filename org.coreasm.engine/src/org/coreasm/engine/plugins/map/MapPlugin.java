@@ -144,7 +144,7 @@ public class MapPlugin extends Plugin implements ParserPlugin, InterpreterPlugin
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

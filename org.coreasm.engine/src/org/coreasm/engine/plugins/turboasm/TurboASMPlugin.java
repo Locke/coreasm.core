@@ -151,7 +151,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

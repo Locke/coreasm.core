@@ -195,10 +195,10 @@ public class Kernel extends Plugin
 
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		HashSet<String> kws = new HashSet<String>();
 		HashSet<String> oprs = new HashSet<String>();
-		Set<Parser<? extends Object>> lexers = new HashSet<Parser<? extends Object>>();
+		Set<Parser<?>> lexers = new HashSet<Parser<?>>();
 
 		// Getting keywords and operators from all other plugins
 		Set<Plugin> plugins = capi.getPlugins();

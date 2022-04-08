@@ -38,7 +38,7 @@ public interface ParserPlugin {
 	 * @return a set of lexers
 	 * @see Parser
 	 */
-	public Set<Parser<? extends Object>> getLexers();
+	public Set<Parser<?>> getLexers();
 
 	/**
 	 * Returns the grammar rules provided by
