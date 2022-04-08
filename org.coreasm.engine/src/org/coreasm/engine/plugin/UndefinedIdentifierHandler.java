@@ -27,13 +27,13 @@ import org.coreasm.engine.interpreter.Interpreter;
  *
  */
 public interface UndefinedIdentifierHandler {
-    /**
-     * Invoked by the interpreter when an undefined identifier is
-     * encountered.
-     *
-     * @param pos is the node representing the identifier
-     * @param id is the identifier
-     * @param args is the ElementList following the identifier
-     */
-    public void handleUndefinedIndentifier(Interpreter interpreter, ASTNode pos, String id, List<? extends Element> args);
+	/**
+	 * Invoked by the interpreter when an undefined identifier is
+	 * encountered.
+	 *
+	 * @param pos is the node representing the identifier
+	 * @param id is the identifier
+	 * @param args is the ElementList following the identifier
+	 */
+	public void handleUndefinedIndentifier(Interpreter interpreter, ASTNode pos, String id, List<? extends Element> args);
 }

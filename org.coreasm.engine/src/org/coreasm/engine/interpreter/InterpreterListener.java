@@ -20,21 +20,21 @@ public interface InterpreterListener {
 	/**
 	 * Invoked before the <code>pos</code> is evaluated by the interpreter.
 	 */
-    public void beforeNodeEvaluation(ASTNode pos);
-    /**
+	public void beforeNodeEvaluation(ASTNode pos);
+	/**
 	 * Invoked after the <code>pos</code> has been evaluated by the interpreter.
 	 */
-    public void afterNodeEvaluation(ASTNode pos);
-    /**
-     * Invoked on initiating the execution of <code>program</code> by <code>agent</code>.
-     */
-    public void initProgramExecution(Element agent, RuleElement program);
-    /**
-     * Invoked on rule call.
-     */
-    public void onRuleCall(RuleElement rule, List<ASTNode> args, ASTNode pos, Element agent);
-    /**
-     * Invoked on rule exit.
-     */
-    public void onRuleExit(RuleElement rule, List<ASTNode> args, ASTNode pos, Element agent);
+	public void afterNodeEvaluation(ASTNode pos);
+	/**
+	 * Invoked on initiating the execution of <code>program</code> by <code>agent</code>.
+	 */
+	public void initProgramExecution(Element agent, RuleElement program);
+	/**
+	 * Invoked on rule call.
+	 */
+	public void onRuleCall(RuleElement rule, List<ASTNode> args, ASTNode pos, Element agent);
+	/**
+	 * Invoked on rule exit.
+	 */
+	public void onRuleExit(RuleElement rule, List<ASTNode> args, ASTNode pos, Element agent);
 }

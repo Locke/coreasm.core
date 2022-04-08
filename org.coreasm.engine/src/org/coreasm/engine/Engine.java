@@ -519,7 +519,7 @@ public class Engine implements ControlAPI {
 	private void notifySuccess() {
 		// TODO no notification is sent
 		logger.debug("Last update succeeded.");
-        scheduler.incrementStepCount();
+		scheduler.incrementStepCount();
 	}
 
 	/**
@@ -1263,9 +1263,9 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-    public int getStepCount() {
-        return scheduler.getStepCount();
-    }
+	public int getStepCount() {
+		return scheduler.getStepCount();
+	}
 
 	@Override
 	public void addServiceProvider(String type, ServiceProvider provider) {

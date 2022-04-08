@@ -152,7 +152,7 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 	}
 
 	public Map<String, GrammarRule> getParsers() {
-    	if (parsers == null) {
+		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices) capi.getPlugin("Kernel")
 					.getPluginInterface();
@@ -331,10 +331,10 @@ public class TurboASMPlugin extends Plugin implements ParserPlugin, InterpreterP
 					new GrammarRule(resultLocationParser.toString(),
 					"ResultLocation",
 					resultLocationParser, PLUGIN_NAME));
-    	}
+		}
 
-    	return parsers;
-    }
+		return parsers;
+	}
 
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		AbstractStorage storage = capi.getStorage();

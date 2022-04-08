@@ -150,102 +150,102 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	 */
 	private JSAPResult processArguments(String[] args) {
 
-        SimpleJSAP jsap = null;
+		SimpleJSAP jsap = null;
 		try {
-	        FlaggedOption propOption = new FlaggedOption( ARG_ENGINE_PROPERTY, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, 'D', JSAP.NO_LONGFLAG,
-    		"Sets an engine property.");
-	        propOption.setAllowMultipleDeclarations(true);
+			FlaggedOption propOption = new FlaggedOption( ARG_ENGINE_PROPERTY, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, 'D', JSAP.NO_LONGFLAG,
+			"Sets an engine property.");
+			propOption.setAllowMultipleDeclarations(true);
 
-    		jsap = new SimpleJSAP(
-			        APP_NAME,
-			        INFO,
-			        new Parameter[] {
+			jsap = new SimpleJSAP(
+					APP_NAME,
+					INFO,
+					new Parameter[] {
 
-			        	new FlaggedOption( ARG_ENGINE_VERBOSITY, JSAP.STRING_PARSER, VERB_OFF, JSAP.REQUIRED, 'v', ARG_ENGINE_VERBOSITY,
-			                "Sets the engine's verbosity level which can be '"
-			            		+ VERB_ERROR + "', '" + VERB_WARNING + "', '" + VERB_INFO + ", '" + VERB_DEBUG + "', or '" + VERB_OFF + "'."),
+						new FlaggedOption( ARG_ENGINE_VERBOSITY, JSAP.STRING_PARSER, VERB_OFF, JSAP.REQUIRED, 'v', ARG_ENGINE_VERBOSITY,
+							"Sets the engine's verbosity level which can be '"
+								+ VERB_ERROR + "', '" + VERB_WARNING + "', '" + VERB_INFO + ", '" + VERB_DEBUG + "', or '" + VERB_OFF + "'."),
 
-			            new Switch( ARG_SILENT, 'q', ARG_SILENT, "Do not print any message."),
+						new Switch( ARG_SILENT, 'q', ARG_SILENT, "Do not print any message."),
 
-			            new Switch( ARG_LATEX_OUTPUT, JSAP.NO_SHORTFLAG, ARG_LATEX_OUTPUT, "Generate LaTeX output."),
+						new Switch( ARG_LATEX_OUTPUT, JSAP.NO_SHORTFLAG, ARG_LATEX_OUTPUT, "Generate LaTeX output."),
 
-			            new FlaggedOption( ARG_STEPS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 's', ARG_STEPS,
-				                "Sets the maximum number of steps before termination."),
+						new FlaggedOption( ARG_STEPS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 's', ARG_STEPS,
+								"Sets the maximum number of steps before termination."),
 
-			        	new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS,
-				                "Sets the maximum number of execution threads to be used for simulation."),
+						new FlaggedOption( ARG_MAX_THREADS, JSAP.INTEGER_PARSER, "-1", JSAP.REQUIRED, 'c', ARG_MAX_THREADS,
+								"Sets the maximum number of execution threads to be used for simulation."),
 
-				        propOption,
+						propOption,
 
-			            new Switch( ARG_EMPTY_UPDATES_STOP, 'y', ARG_EMPTY_UPDATES_STOP, "Stop when a step returns an empty set of updates."),
+						new Switch( ARG_EMPTY_UPDATES_STOP, 'y', ARG_EMPTY_UPDATES_STOP, "Stop when a step returns an empty set of updates."),
 
-			            new Switch( ARG_SAME_UPDATES_STOP, 'l', ARG_SAME_UPDATES_STOP, "Stop when a step returns the same set of updates as the previous step."),
+						new Switch( ARG_SAME_UPDATES_STOP, 'l', ARG_SAME_UPDATES_STOP, "Stop when a step returns the same set of updates as the previous step."),
 
-			            new Switch( ARG_EMPTY_AGENTS_STOP, 'p', ARG_EMPTY_AGENTS_STOP, "Stop when there is no agent with a defined program."),
+						new Switch( ARG_EMPTY_AGENTS_STOP, 'p', ARG_EMPTY_AGENTS_STOP, "Stop when there is no agent with a defined program."),
 
-			            new Switch( ARG_PRINT_INFO, JSAP.NO_SHORTFLAG, ARG_PRINT_INFO, "Print version information."),
+						new Switch( ARG_PRINT_INFO, JSAP.NO_SHORTFLAG, ARG_PRINT_INFO, "Print version information."),
 
-			            new Switch( ARG_PRINT_PARSE_TREE, JSAP.NO_SHORTFLAG, ARG_PRINT_PARSE_TREE, "Print parse tree." ),
+						new Switch( ARG_PRINT_PARSE_TREE, JSAP.NO_SHORTFLAG, ARG_PRINT_PARSE_TREE, "Print parse tree." ),
 
-			            new Switch( ARG_PRINT_VOCABULARY, JSAP.NO_SHORTFLAG, ARG_PRINT_VOCABULARY, "Print vocabulary." ),
+						new Switch( ARG_PRINT_VOCABULARY, JSAP.NO_SHORTFLAG, ARG_PRINT_VOCABULARY, "Print vocabulary." ),
 
-			            new Switch( ARG_MARKSTEPS, 'm', ARG_MARKSTEPS, "Mark the end of each step." ),
+						new Switch( ARG_MARKSTEPS, 'm', ARG_MARKSTEPS, "Mark the end of each step." ),
 
-			            new Switch( ARG_STACKTRACE, 't', ARG_STACKTRACE, "Print the stack trace of errors."),
+						new Switch( ARG_STACKTRACE, 't', ARG_STACKTRACE, "Print the stack trace of errors."),
 
-			            new Switch( ARG_DUMP_UPDATES, 'u', ARG_DUMP_UPDATES, "Dump the updates after each step."),
+						new Switch( ARG_DUMP_UPDATES, 'u', ARG_DUMP_UPDATES, "Dump the updates after each step."),
 
-			            new Switch( ARG_DUMP_EACH_STATE, 'e', ARG_DUMP_EACH_STATE, "Dump the state after each step."),
+						new Switch( ARG_DUMP_EACH_STATE, 'e', ARG_DUMP_EACH_STATE, "Dump the state after each step."),
 
-			            new Switch( ARG_DUMP_FINAL_STATE, 'f', ARG_DUMP_FINAL_STATE, "Dump the state at the end."),
+						new Switch( ARG_DUMP_FINAL_STATE, 'f', ARG_DUMP_FINAL_STATE, "Dump the state at the end."),
 
-			            new Switch( ARG_DUMP_ENGINE_PROPERTIES, JSAP.NO_SHORTFLAG, ARG_DUMP_ENGINE_PROPERTIES, "Dump engine properties."),
+						new Switch( ARG_DUMP_ENGINE_PROPERTIES, JSAP.NO_SHORTFLAG, ARG_DUMP_ENGINE_PROPERTIES, "Dump engine properties."),
 
-			        	new FlaggedOption( ARG_PLUGIN_LOAD_REQUEST, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NO_SHORTFLAG , ARG_PLUGIN_LOAD_REQUEST_LONG,
-		                		"A comma separated list of plugins to be loaded in addition to the specification plugins."),
+						new FlaggedOption( ARG_PLUGIN_LOAD_REQUEST, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NO_SHORTFLAG , ARG_PLUGIN_LOAD_REQUEST_LONG,
+								"A comma separated list of plugins to be loaded in addition to the specification plugins."),
 
-		                new Switch( ARG_PRINT_LAST_AGENTS, 'a', ARG_PRINT_LAST_AGENTS, "Print the set of selected agents after each step."),
+						new Switch( ARG_PRINT_LAST_AGENTS, 'a', ARG_PRINT_LAST_AGENTS, "Print the set of selected agents after each step."),
 
-			            new Switch( ARG_PRINT_SPEC, JSAP.NO_SHORTFLAG, ARG_PRINT_SPEC, "Print the text of the specification and exit."),
+						new Switch( ARG_PRINT_SPEC, JSAP.NO_SHORTFLAG, ARG_PRINT_SPEC, "Print the text of the specification and exit."),
 
-			            new Switch( ARG_PRINT_LOADED_SPEC, JSAP.NO_SHORTFLAG, ARG_PRINT_LOADED_SPEC, "Print the loaded specification (i.e., with possible modifications)."),
+						new Switch( ARG_PRINT_LOADED_SPEC, JSAP.NO_SHORTFLAG, ARG_PRINT_LOADED_SPEC, "Print the loaded specification (i.e., with possible modifications)."),
 
-			            new Switch( ARG_PRINT_PROCESSOR_STATS, JSAP.NO_SHORTFLAG, ARG_PRINT_PROCESSOR_STATS, "Print some stats on processor utilization."),
+						new Switch( ARG_PRINT_PROCESSOR_STATS, JSAP.NO_SHORTFLAG, ARG_PRINT_PROCESSOR_STATS, "Print some stats on processor utilization."),
 
-			            new UnflaggedOption( ARG_SPEC_FILE, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NOT_GREEDY,
-			            		"CoreASM specification file" )
+						new UnflaggedOption( ARG_SPEC_FILE, JSAP.STRING_PARSER, JSAP.NO_DEFAULT, JSAP.NOT_REQUIRED, JSAP.NOT_GREEDY,
+								"CoreASM specification file" )
 
-			        }
-			    );
+					}
+				);
 		} catch (JSAPException e) {
 			e.printStackTrace();
 		}
 
 		JSAPResult config = jsap.parse(args);
-        if ( jsap.messagePrinted() ) System.exit( 1 );
+		if ( jsap.messagePrinted() ) System.exit( 1 );
 
-        String  vLevel = config.getString(ARG_ENGINE_VERBOSITY).toUpperCase();
-        Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		String  vLevel = config.getString(ARG_ENGINE_VERBOSITY).toUpperCase();
+		Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
-        if (root instanceof ch.qos.logback.classic.Logger) {
-        	ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger)root;
-    		if (vLevel.equals("ERROR"))
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.ERROR);
-    		else if (vLevel.equals("WARNING"))
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.WARN);
-    		else if (vLevel.equals("INFO"))
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.INFO);
-    		else if (vLevel.equals("DEBUG"))
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.DEBUG);
-    		else if (vLevel.equals("OFF"))
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
-    		else {
-    			System.err.println("WARNING: Invalid verbosity level; will use default (" + VERB_OFF + ").");
-    			rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
-    		}
-        } else {
-        	logger.warn("Could not set verbosity level. The feature is supported only if logging with Logback.");
-        }
+		if (root instanceof ch.qos.logback.classic.Logger) {
+			ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger)root;
+			if (vLevel.equals("ERROR"))
+				rootLogger.setLevel(ch.qos.logback.classic.Level.ERROR);
+			else if (vLevel.equals("WARNING"))
+				rootLogger.setLevel(ch.qos.logback.classic.Level.WARN);
+			else if (vLevel.equals("INFO"))
+				rootLogger.setLevel(ch.qos.logback.classic.Level.INFO);
+			else if (vLevel.equals("DEBUG"))
+				rootLogger.setLevel(ch.qos.logback.classic.Level.DEBUG);
+			else if (vLevel.equals("OFF"))
+				rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
+			else {
+				System.err.println("WARNING: Invalid verbosity level; will use default (" + VERB_OFF + ").");
+				rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
+			}
+		} else {
+			logger.warn("Could not set verbosity level. The feature is supported only if logging with Logback.");
+		}
 
 
 		fileName = config.getString(ARG_SPEC_FILE);

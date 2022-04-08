@@ -90,9 +90,9 @@ public interface Scheduler {
 	 */
 	public Set<? extends Element> getLastSelectedAgents();
 
-    /*
-     * Removed from the concurrent version of the engine
-     *
+	/*
+	 * Removed from the concurrent version of the engine
+	 *
 	 * Returns the current running (or to be run) agent.
 	 *
 	 * @return <code>Element</code> corresponding to the current agent.
@@ -101,124 +101,124 @@ public interface Scheduler {
 	 */
 
 	/**
-     * Starts a computation step.
-     */
-    public void startStep();
+	 * Starts a computation step.
+	 */
+	public void startStep();
 
-    /**
-     * Gets the set of agents.  Updates the agent set.
-     *
-     */
-    public void retrieveAgents();
+	/**
+	 * Gets the set of agents.  Updates the agent set.
+	 *
+	 */
+	public void retrieveAgents();
 
-    /**
-     * Selects the subset of agents to contribute to the current computation step.
-     *
-     * @return <code>true</code> if a subset of agents could be selected, <code>false</code> otherwise.
-     */
-    public boolean selectAgents();
+	/**
+	 * Selects the subset of agents to contribute to the current computation step.
+	 *
+	 * @return <code>true</code> if a subset of agents could be selected, <code>false</code> otherwise.
+	 */
+	public boolean selectAgents();
 
-    /*
- 	 * Removed from the concurrent version of the engine.
- 	 *
+	/*
+	 * Removed from the concurrent version of the engine.
+	 *
 	 * Chooses an agent from the selected agents set.
-     *
-     *
-    public void chooseAgent();
-    */
+	 *
+	 *
+	public void chooseAgent();
+	*/
 
 	/*
 	 * removed from the concurrent version of the Engine
 	 *
-     * Accumulates the computed updates.
-     *
-     *
-    public void accumulateUpdates();
-     */
+	 * Accumulates the computed updates.
+	 *
+	 *
+	public void accumulateUpdates();
+	 */
 
-    /*
-     * Removed from the concurrent version of the engine.
-     *
-     * Initiates the execution of the selected agent and invokes the Control API
-     * to possibly notify the external environment.
-     *
-     *
-    public void initiateExecution();
-    */
+	/*
+	 * Removed from the concurrent version of the engine.
+	 *
+	 * Initiates the execution of the selected agent and invokes the Control API
+	 * to possibly notify the external environment.
+	 *
+	 *
+	public void initiateExecution();
+	*/
 
-    /**
-     * If there are other possible combinations of agents, selects a different
-     * set of agents and repeats the computation step; otherwise, handles a failed
+	/**
+	 * If there are other possible combinations of agents, selects a different
+	 * set of agents and repeats the computation step; otherwise, handles a failed
 
-     * If there are other possible combinations of agents, selects a different
-     * set of agents and repeats the computation step; otherwise, handles a failed
-     * update and invokes the Control API to possibly notify the external environment.
-     *
-     */
-    public void handleFailedUpdate();
+	 * If there are other possible combinations of agents, selects a different
+	 * set of agents and repeats the computation step; otherwise, handles a failed
+	 * update and invokes the Control API to possibly notify the external environment.
+	 *
+	 */
+	public void handleFailedUpdate();
 
-    /**
-     * Checks if the latest inconsistency in the updates is produced by
-     * a single agent.
-     */
+	/**
+	 * Checks if the latest inconsistency in the updates is produced by
+	 * a single agent.
+	 */
 	public boolean isSingleAgentInconsistent();
 
 	/**
-     * Returns <code>true</code> if there exists any possible combination of agents that
-     * can contribute to one single step. This is also used when an update set fails, to
-     * decide if a failure should be reported or there are other options available.
-     *
-     */
-    public boolean agentsCombinationExists();
+	 * Returns <code>true</code> if there exists any possible combination of agents that
+	 * can contribute to one single step. This is also used when an update set fails, to
+	 * decide if a failure should be reported or there are other options available.
+	 *
+	 */
+	public boolean agentsCombinationExists();
 
-    /*
-     * Removed from the concurrent version of the engine
-     *
-     * Returns the current value of <i>chosenProgram</i> in the scheduler.
-     *
-    public RuleElement getChosenProgram();
-     /**/
+	/*
+	 * Removed from the concurrent version of the engine
+	 *
+	 * Returns the current value of <i>chosenProgram</i> in the scheduler.
+	 *
+	public RuleElement getChosenProgram();
+	 /**/
 
-    /*
-     * Removed from the concurrent version of the engine
-     *
-     * Sets the value of <i>chosenProgram</i> in the scheduler.
-     *
-    public void setChosenProgram(RuleElement Program);
-     */
+	/*
+	 * Removed from the concurrent version of the engine
+	 *
+	 * Sets the value of <i>chosenProgram</i> in the scheduler.
+	 *
+	public void setChosenProgram(RuleElement Program);
+	 */
 
-    /**
-     * Executes programs of the set of selected agents.
-     *
-     * @throws EngineException if any error occurs
-     */
+	/**
+	 * Executes programs of the set of selected agents.
+	 *
+	 * @throws EngineException if any error occurs
+	 */
 	public void executeAgentPrograms() throws EngineException;
 
-    /**
-     * Sets the value of <i>initAgent</i> in the scheduler.
-     */
-    public void setInitAgent(Element agent);
+	/**
+	 * Sets the value of <i>initAgent</i> in the scheduler.
+	 */
+	public void setInitAgent(Element agent);
 
-    /**
-     * Returns the value of <i>initAgent</i> in the scheduler.
-     */
-    public Element getInitAgent();
+	/**
+	 * Returns the value of <i>initAgent</i> in the scheduler.
+	 */
+	public Element getInitAgent();
 
-    /**
-     * Sets <i>stepCount</i> to the specified value.
-     */
-    public void setStepCount(int count);
+	/**
+	 * Sets <i>stepCount</i> to the specified value.
+	 */
+	public void setStepCount(int count);
 
-    /**
-     * Returns <i>stepCount</i>, the number of successfully completed
-     * steps in the current run of the engine.
-     */
-    public int getStepCount();
+	/**
+	 * Returns <i>stepCount</i>, the number of successfully completed
+	 * steps in the current run of the engine.
+	 */
+	public int getStepCount();
 
-    /**
-     * Increments <i>stepCount</i> by 1.
-     */
-    public void incrementStepCount();
+	/**
+	 * Increments <i>stepCount</i> by 1.
+	 */
+	public void incrementStepCount();
 
-    public void dispose();
+	public void dispose();
 }

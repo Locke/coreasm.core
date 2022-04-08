@@ -67,52 +67,52 @@ public class BlockRulePlugin extends Plugin
 
 	private final CompilerPlugin compilerPlugin = new CompilerBlockRulePlugin(this);
 
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
-        String gRule = pos.getGrammarRule();
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
+		String gRule = pos.getGrammarRule();
 
-        if ((gRule != null) && (gRule.equals("BlockRule"))) {
-            ASTNode currentRule = pos.getFirst();
+		if ((gRule != null) && (gRule.equals("BlockRule"))) {
+			ASTNode currentRule = pos.getFirst();
 
-            // check if all rules in the block have been
-            // interpreted.  if not, interpret them by
-            // giving the uninterpreted rule node back to the
-            // interpreter
-            while (currentRule != null) {
-                if (!currentRule.isEvaluated()) {
-                    return currentRule;
-                }
-                currentRule = currentRule.getNext();
-            }
+			// check if all rules in the block have been
+			// interpreted.  if not, interpret them by
+			// giving the uninterpreted rule node back to the
+			// interpreter
+			while (currentRule != null) {
+				if (!currentRule.isEvaluated()) {
+					return currentRule;
+				}
+				currentRule = currentRule.getNext();
+			}
 
-            // all rules have been evaluated.
-            // accumulate all the updates for this block
-            currentRule = pos.getFirst();
-            UpdateMultiset updates = new UpdateMultiset();
+			// all rules have been evaluated.
+			// accumulate all the updates for this block
+			currentRule = pos.getFirst();
+			UpdateMultiset updates = new UpdateMultiset();
 
-            while (currentRule != null) {
-            	// TODO A decision needs to be made on the following pattern
-            	//      Do we want to have this pattern in other plugins as well?
-            	if (!EngineTools.hasUpdates(interpreter, currentRule, capi, logger)) {
-        			return pos;
-            	} else {
-            		updates.addAll(currentRule.getUpdates());
-            		currentRule = currentRule.getNext();
-            	}
-            }
+			while (currentRule != null) {
+				// TODO A decision needs to be made on the following pattern
+				//      Do we want to have this pattern in other plugins as well?
+				if (!EngineTools.hasUpdates(interpreter, currentRule, capi, logger)) {
+					return pos;
+				} else {
+					updates.addAll(currentRule.getUpdates());
+					currentRule = currentRule.getNext();
+				}
+			}
 
-            // set the UpdateMultiset for this node
-            pos.setNode(null,updates,null);
-            return pos;
-        }
-        else {
-            return null;
-        }
-    }
+			// set the UpdateMultiset for this node
+			pos.setNode(null,updates,null);
+			return pos;
+		}
+		else {
+			return null;
+		}
+	}
 
-    @Override
-    public void initialize() {
+	@Override
+	public void initialize() {
 
-    }
+	}
 
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;

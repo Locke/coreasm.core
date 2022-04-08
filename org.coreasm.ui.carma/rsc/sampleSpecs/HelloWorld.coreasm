@@ -11,5 +11,5 @@ rule MainProgram = {
 	program(self) := undef
 	// an alternative way would be to use
 	// the SchedulingPolicies plugin and simply call:
-    // shutdown
+	// shutdown
 }

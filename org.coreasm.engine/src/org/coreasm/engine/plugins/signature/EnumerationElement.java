@@ -23,38 +23,38 @@ import org.coreasm.engine.absstorage.Element;
 public class EnumerationElement extends Element {
 
 	/** name of this element */
-    private String name;
+	private String name;
 
-    private String backgroundName = null;
+	private String backgroundName = null;
 
-    public EnumerationElement(String name) {
-        super();
-        this.name = name;
-    }
+	public EnumerationElement(String name) {
+		super();
+		this.name = name;
+	}
 
-    /**
-     * @return the name of the element
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name of the element
+	 */
+	public String getName() {
+		return name;
+	}
 
-    public String toString() {
-    	return name;
-    }
+	public String toString() {
+		return name;
+	}
 
-    public String getBackground() {
-    	if (backgroundName == null)
-    		return super.getBackground();
-    	else
-    		return backgroundName;
-    }
+	public String getBackground() {
+		if (backgroundName == null)
+			return super.getBackground();
+		else
+			return backgroundName;
+	}
 
-    /*
-     * The signature plugin can set the name of
-     * the background of this element.
-     */
-    protected void setBackground(String name) {
-    	this.backgroundName = name;
-    }
+	/*
+	 * The signature plugin can set the name of
+	 * the background of this element.
+	 */
+	protected void setBackground(String name) {
+		this.backgroundName = name;
+	}
 }

@@ -6,7 +6,7 @@ init R1
 
 rule R1 =
 	par
-	print "Hello
-	"+"me"
-	program(self) := undef
+		print "Hello
+		"+"me"
+		program(self) := undef
 	endpar

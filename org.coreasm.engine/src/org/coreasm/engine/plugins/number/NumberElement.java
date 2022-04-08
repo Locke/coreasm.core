@@ -79,9 +79,9 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 	 * Returns <code>true</code> if this number element
 	 * has a valid non-infinite value.
 	 */
-    public boolean isReal() {
-    	return NumberUtil.isReal(this);
-    }
+	public boolean isReal() {
+		return NumberUtil.isReal(this);
+	}
 
 	/**
 	 * Returns <code>true</code> if this number element
@@ -133,35 +133,35 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 	//----------------------
 
 	/**
- 	 * Compares this Element to the specified Element.
- 	 * The result is <code>true</code> if the argument
- 	 * is not null and is considered to be equal to this Element.
- 	 *
- 	 * @param anElement the Element to compare with.
- 	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
- 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
- 	 * of <code>Element</code>
- 	 */
- 	public synchronized boolean equals(Object anElement) {
- 		// if both java objects are idential, no further checks are required
- 		if (this == anElement)
- 			return true;
- 		// else both java objects are not identical, have to check that
- 		// both are number elements, and both have the same numerical value
- 		else
- 		{
-	 		// both number elements
-	 		if (anElement instanceof NumberElement)
-	 		{
-	 			// if the current number and the other number equal each other
-	 			// then objects are equal
-	 			return value.equals(((NumberElement)anElement).value);
-	 		} else
-	 			return false;
- 		}
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public synchronized boolean equals(Object anElement) {
+		// if both java objects are idential, no further checks are required
+		if (this == anElement)
+			return true;
+		// else both java objects are not identical, have to check that
+		// both are number elements, and both have the same numerical value
+		else
+		{
+			// both number elements
+			if (anElement instanceof NumberElement)
+			{
+				// if the current number and the other number equal each other
+				// then objects are equal
+				return value.equals(((NumberElement)anElement).value);
+			} else
+				return false;
+		}
 	}
 
- 	/**
+	/**
 	 * Hashcode for Number elements. Must be overridden because equality is overridden.
 	 *
 	 * @see Object#hashCode()
@@ -180,20 +180,20 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 		return value.compareTo(n.value);
 	}
 
-    /**
-     * Returns the double value of this NumberElement
-     *
-     */
-    public double getNumber() {
-        return value.doubleValue();
-    }
+	/**
+	 * Returns the double value of this NumberElement
+	 *
+	 */
+	public double getNumber() {
+		return value.doubleValue();
+	}
 
-    /**
-     * Returns the double value of this NumberElement
-     *
-     */
-    public double getValue() {
-        return getNumber();
-    }
+	/**
+	 * Returns the double value of this NumberElement
+	 *
+	 */
+	public double getValue() {
+		return getNumber();
+	}
 
 }

@@ -271,7 +271,7 @@ public class CollectionPlugin extends Plugin
 			}
 		}
 
-        return nextPos;
+		return nextPos;
 	}
 
 	public Set<String> getBackgroundNames() {

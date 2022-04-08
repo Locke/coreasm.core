@@ -20,10 +20,10 @@ rule InitRule =
 
 rule Main =
 	seqblock
-	   inTrue := 1 memberof setOfNumbers
-	   intFalse := 32 memberof setOfNumbers
-	   notinTrue := 32 notmemberof setOfNumbers
-	   notinFalse := 1 notmemberof setOfNumbers
+		inTrue := 1 memberof setOfNumbers
+		intFalse := 32 memberof setOfNumbers
+		notinTrue := 32 notmemberof setOfNumbers
+		notinFalse := 1 notmemberof setOfNumbers
 		existsFalse := exists x in {1,2,4,5} with exists y in {1,2} with x + y = 8
 		existsTrue := exists x in {1,2,4,5} with exists y in {1,2} with x + y = 5
 		forallTrue := forall x in {1,2,3} holds NUMBER(x)

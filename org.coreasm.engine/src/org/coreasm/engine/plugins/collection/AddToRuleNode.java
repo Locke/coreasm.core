@@ -48,39 +48,39 @@ public class AddToRuleNode extends ASTNode {
 	}
 
 	/**
-     * Returns an unevaluated term node if any. If none exists, <code>null<code> is returned
-     *
-     * @return <code>Node</code> representing a term node that has not been evaluated. If no such child exists, null is returned.
-     */
-    public ASTNode getUnevaluatedTerm() {
+	 * Returns an unevaluated term node if any. If none exists, <code>null<code> is returned
+	 *
+	 * @return <code>Node</code> representing a term node that has not been evaluated. If no such child exists, null is returned.
+	 */
+	public ASTNode getUnevaluatedTerm() {
 
-    		// get first child
-    		ASTNode child = this.getFirst();
+			// get first child
+			ASTNode child = this.getFirst();
 
-    		// while the current child exists and has been evaluated, cycle to the next child
-    		while (child != null && child.isEvaluated())
-    		{
-    			child = child.getNext();
-    		}
+			// while the current child exists and has been evaluated, cycle to the next child
+			while (child != null && child.isEvaluated())
+			{
+				child = child.getNext();
+			}
 
-    		// null will be returned when no children are left unevaluated, otherwise and unevaluated
-    		// child node will be returned.
-    		return child;
-    }
+			// null will be returned when no children are left unevaluated, otherwise and unevaluated
+			// child node will be returned.
+			return child;
+	}
 
-    /**
-     * Returns the value of the expression to be added to a collection.
-     *
-     * @return <code>Element</code> representing the value to be added to a collection.
-     */
+	/**
+	 * Returns the value of the expression to be added to a collection.
+	 *
+	 * @return <code>Element</code> representing the value to be added to a collection.
+	 */
 	public Element getAddElement()
 	{
 		return this.getFirst().getValue();
 	}
 
 	/**
-     * Returns the location of the collection collection.
-     */
+	 * Returns the location of the collection collection.
+	 */
 	public Location getToLocation()
 	{
 		Location loc = getToNode().getLocation();
@@ -93,9 +93,9 @@ public class AddToRuleNode extends ASTNode {
 	}
 
 	/**
-     * Returns the collection node.
-     *
-     */
+	 * Returns the collection node.
+	 *
+	 */
 	public ASTNode getToNode()
 	{
 		return this.getFirst().getNext();

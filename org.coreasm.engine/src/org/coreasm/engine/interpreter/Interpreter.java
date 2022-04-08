@@ -49,7 +49,7 @@ public interface Interpreter {
 	 * In a multi-threaded environment, the caller should
 	 * send a non-shared copy of the node to this method (perhaps
 	 * by duplicating it using {@link #copyTree(Node)}).
-     *
+	 *
 	 * @param pos the node to be interpreted
 	 */
 	public void setPosition(ASTNode pos);
@@ -182,25 +182,25 @@ public interface Interpreter {
 	 */
 	public Interpreter getInterpreterInstance();
 
-    /**
-     * Interprets (evaluates) the given ASTNode.
-     *
-     * This method may not be thread-safe.
-     *
-     * @param node The {@link ASTNode} to be evaluated
-     * @param agent The agent evaluating that node.
-     *
-     * @throws InterpreterException
-     */
-    public void interpret(ASTNode node, Element agent) throws InterpreterException;
+	/**
+	 * Interprets (evaluates) the given ASTNode.
+	 *
+	 * This method may not be thread-safe.
+	 *
+	 * @param node The {@link ASTNode} to be evaluated
+	 * @param agent The agent evaluating that node.
+	 *
+	 * @throws InterpreterException
+	 */
+	public void interpret(ASTNode node, Element agent) throws InterpreterException;
 
-    /**
-     * Cleans up any cached data in the interpreter.
-     *
-     */
-    public void cleanUp();
+	/**
+	 * Cleans up any cached data in the interpreter.
+	 *
+	 */
+	public void cleanUp();
 
-    public void dispose();
+	public void dispose();
 
 	/**
 	 *

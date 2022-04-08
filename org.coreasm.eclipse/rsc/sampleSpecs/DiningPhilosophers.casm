@@ -21,7 +21,7 @@ init initRule
 
 /* ---- Program of Every Philosopher ---- */
 rule PhilosopherProgram = {
- 	if hungry(self) and (not eating(self)) then
+	if hungry(self) and (not eating(self)) then
 		if canPickBothChopsticks then
 			StartEating
 	else

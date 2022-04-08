@@ -96,7 +96,7 @@ public class SetCompNode extends ASTNode {
 		else {
 			if (dummyGuard == null)
 				dummyGuard = new TrueGuardNode(this);
-	    	return dummyGuard;
+			return dummyGuard;
 		}
 	}
 

@@ -73,14 +73,14 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 	private final String[] keywords = {"call"};
 	private final String[] operators = {"(", ")"};
 
-    private ThreadLocal<Map<Node,Node>> terms;
+	private ThreadLocal<Map<Node,Node>> terms;
 
-    private final CompilerPlugin compilerPlugin = new CompilerKernelExtensionsPlugin(this);
+	private final CompilerPlugin compilerPlugin = new CompilerKernelExtensionsPlugin(this);
 
-    @Override
-    public CompilerPlugin getCompilerPlugin(){
-    	return compilerPlugin;
-    }
+	@Override
+	public CompilerPlugin getCompilerPlugin(){
+		return compilerPlugin;
+	}
 
 	public KernelExtensionsPlugin() {
 		terms = new ThreadLocal<Map<Node,Node>>() {
@@ -138,13 +138,13 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 
 			// ExtendedFunctionRuleTerm1: ID TupleTerm TupleTerm
 			Parser<Node> extFuncRuleTermParser1 = Parsers.array(
-	       			new Parser[] {
-       				idParser,
-       				tupleTermParser,
-       				tupleTermParser
-       				}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
+					new Parser[] {
+					idParser,
+					tupleTermParser,
+					tupleTermParser
+					}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-       					@Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new ExtendedFunctionRuleTermNode(((Node)vals[0]).getScannerInfo());
 							addChild(node, (new FunctionRuleTermParseMap()).map(vals[0], vals[1]));
@@ -160,13 +160,13 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 
 			// ExtendedFunctionRuleTerm2: '(' Term ')' TupleTerm
 			Parser<Node> extFuncRuleTermParser2 = Parsers.array(
-	       			new Parser[] {
-       				pTools.getOprParser("("),
-       				termParser,
-       				pTools.getOprParser(")"),
-       				tupleTermParser
-       				}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
-       					@Override
+					new Parser[] {
+					pTools.getOprParser("("),
+					termParser,
+					pTools.getOprParser(")"),
+					tupleTermParser
+					}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new ExtendedFunctionRuleTermNode(((Node)vals[0]).getScannerInfo());
 							for (int i = 0; i < 3; i++)

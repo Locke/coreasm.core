@@ -26,25 +26,25 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberRealFunction extends FunctionElement {
 
-    public static String NUMBER_REAL_FUNCTION_NAME = "isRealNumber";
+	public static String NUMBER_REAL_FUNCTION_NAME = "isRealNumber";
 
-    /**
-     * Creates a new NumberRealFunction
-     */
-    public NumberRealFunction() {
-        setFClass(FunctionClass.fcDerived);
-    }
+	/**
+	 * Creates a new NumberRealFunction
+	 */
+	public NumberRealFunction() {
+		setFClass(FunctionClass.fcDerived);
+	}
 
-    @Override
-    public Element getValue(List<? extends Element> args) {
-        Element ret = BooleanElement.FALSE;
+	@Override
+	public Element getValue(List<? extends Element> args) {
+		Element ret = BooleanElement.FALSE;
 
-        if (args.size() == 1) {
-            if (NumberUtil.isReal(args.get(0))) {
-                ret = BooleanElement.TRUE;
-            }
-        }
-        return ret;
-    }
+		if (args.size() == 1) {
+			if (NumberUtil.isReal(args.get(0))) {
+				ret = BooleanElement.TRUE;
+			}
+		}
+		return ret;
+	}
 
 }

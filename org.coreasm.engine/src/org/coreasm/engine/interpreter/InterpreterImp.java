@@ -461,9 +461,9 @@ public class InterpreterImp implements Interpreter {
 
 		// if class is an operator then
 		else if (gClass.equals(ASTNode.UNARY_OPERATOR_CLASS) ||
-                 gClass.equals(ASTNode.BINARY_OPERATOR_CLASS) ||
-                 gClass.equals(ASTNode.TERNARY_OPERATOR_CLASS) ||
-                 gClass.equals(ASTNode.INDEX_OPERATOR_CLASS))
+				 gClass.equals(ASTNode.BINARY_OPERATOR_CLASS) ||
+				 gClass.equals(ASTNode.TERNARY_OPERATOR_CLASS) ||
+				 gClass.equals(ASTNode.INDEX_OPERATOR_CLASS))
 		{
 			pos = interpretOperators(pos);
 		}
@@ -506,26 +506,26 @@ public class InterpreterImp implements Interpreter {
 				}
 
 				if (e != null) {
-				    if (e instanceof FunctionElement) {
-                        if (((FunctionElement) e).isModifiable()) {
-                            Location l = new Location(AbstractStorage.FUNCTION_ELEMENT_FUNCTION_NAME, ElementList.create(new NameElement(name)));
-                            pos.setNode(l,null,e);
-                        }
-                        else {
-                            pos.setNode(null,null,e);
-                        }
-                    }
-                    else if (e instanceof RuleElement) {
-                        Location l = new Location(AbstractStorage.RULE_ELEMENT_FUNCTION_NAME, ElementList.create(new NameElement(name)));
-                        pos.setNode(l,null,e);
-                    }
-                    else {
-                        pos.setNode(null,null,e);
-                    }
-                }
+					if (e instanceof FunctionElement) {
+						if (((FunctionElement) e).isModifiable()) {
+							Location l = new Location(AbstractStorage.FUNCTION_ELEMENT_FUNCTION_NAME, ElementList.create(new NameElement(name)));
+							pos.setNode(l,null,e);
+						}
+						else {
+							pos.setNode(null,null,e);
+						}
+					}
+					else if (e instanceof RuleElement) {
+						Location l = new Location(AbstractStorage.RULE_ELEMENT_FUNCTION_NAME, ElementList.create(new NameElement(name)));
+						pos.setNode(l,null,e);
+					}
+					else {
+						pos.setNode(null,null,e);
+					}
+				}
 				else {
 					pos.setNode(null, null, Element.UNDEF);
-                }
+				}
 			} else
 				// if pos is of the form '(' ... ')'
 				if (pos instanceof EnclosedTermNode) {
@@ -765,7 +765,7 @@ public class InterpreterImp implements Interpreter {
 					errMessage += "- plugin \""+pluginName+"\" resulted in value \""+impResults.get(pluginName).toString()+"\".\n";
 				}
 				capi.error(errMessage,pos, this);
-                return pos;
+				return pos;
 			}
 			// all plugins result in error or unknown semantics
 			else if (setResultElements.size() == 0)
@@ -785,8 +785,8 @@ public class InterpreterImp implements Interpreter {
 				for(String nullReturnedPlugin: nullReturns)
 					errMessage += "- " + nullReturnedPlugin + " has no semantics for the given combination of operator and operand(s)." + Tools.getEOL();
 
-                capi.error(errMessage, pos, this);
-                return pos;
+				capi.error(errMessage, pos, this);
+				return pos;
 			}
 
 
@@ -817,70 +817,70 @@ public class InterpreterImp implements Interpreter {
 	 * to this function both in terms of its location and its value (which is <i>undef</i>)
 	 */
 	private synchronized void handleUndefinedIdentifier(ASTNode pos, String id, ElementList list) {
-    	// if it is still the case that the function is undefined
+		// if it is still the case that the function is undefined
 		if (!isUndefined(id))
 			return;
 
-        Location l = null;
-        Element value = null;
-        UpdateMultiset updates = null;
-        for (Plugin p: capi.getPlugins()) {
-		    if (p instanceof UndefinedIdentifierHandler) {
+		Location l = null;
+		Element value = null;
+		UpdateMultiset updates = null;
+		for (Plugin p: capi.getPlugins()) {
+			if (p instanceof UndefinedIdentifierHandler) {
 //		    	What is this line needed for?
 //		    	It's significantly slowing down rulecalls on rules containing a return rule.
 //		    	Especially recursive rulecalls are slowed down a lot. See fibonacci sample spec.
 //              clearTree(pos);
-                ((UndefinedIdentifierHandler) p).handleUndefinedIndentifier(this, pos, id, list);
+				((UndefinedIdentifierHandler) p).handleUndefinedIndentifier(this, pos, id, list);
 
-                if (pos.isEvaluated()) {
-                    if (l!=null && value!=null && updates != null) {
-                        if (!l.equals(pos.getLocation())
-                        		|| !value.equals(pos.getValue())
-                        		|| !updates.equals(pos.getUpdates())) {
-                            throw new EngineError(
-                            		"There is an amibuity in resolving identifier \""+id+"\". "
-                            		+ "More than one plug-in can evaluate this node.");
-                        }
-                    }
-                    l = pos.getLocation();
-                    value = pos.getValue();
-                    updates = pos.getUpdates();
-                }
-            }
-        }
+				if (pos.isEvaluated()) {
+					if (l!=null && value!=null && updates != null) {
+						if (!l.equals(pos.getLocation())
+								|| !value.equals(pos.getValue())
+								|| !updates.equals(pos.getUpdates())) {
+							throw new EngineError(
+									"There is an amibuity in resolving identifier \""+id+"\". "
+									+ "More than one plug-in can evaluate this node.");
+						}
+					}
+					l = pos.getLocation();
+					value = pos.getValue();
+					updates = pos.getUpdates();
+				}
+			}
+		}
 
-        if (!pos.isEvaluated()) {
-            kernelHandleUndefinedIndentifier(pos,id,list);
-        }
+		if (!pos.isEvaluated()) {
+			kernelHandleUndefinedIndentifier(pos,id,list);
+		}
 	}
 
 	/*
 	 * Kernel's default behavior to handle undefined identifier
 	 */
-    private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
-    	Location loc = new Location(id, list);
-    	try {
-    		// in case there is a value in the stack
+	private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
+		Location loc = new Location(id, list);
+		try {
+			// in case there is a value in the stack
 			Element value = storage.getValue(loc);
-	        pos.setNode(loc, null, value);
+			pos.setNode(loc, null, value);
 		} catch (InvalidLocationException e) {
-	        pos.setNode(loc, null, Element.UNDEF);
+			pos.setNode(loc, null, Element.UNDEF);
 		}
-    }
+	}
 
 	/*
 	 * Kernel's DEPRECATED default behavior to handle undefined identifier
 	 *
-    private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
-        FunctionElement f = new MapFunction(Element.UNDEF);
-        try {
-            storage.addFunction(id, f);
-            pos.setNode(new Location(id, list), null, Element.UNDEF);
-        } catch (NameConflictException e) {
-            throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
-        }
-    }
-    */
+	private synchronized void kernelHandleUndefinedIndentifier(ASTNode pos, String id, ElementList list) {
+		FunctionElement f = new MapFunction(Element.UNDEF);
+		try {
+			storage.addFunction(id, f);
+			pos.setNode(new Location(id, list), null, Element.UNDEF);
+		} catch (NameConflictException e) {
+			throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
+		}
+	}
+	*/
 
 	/**
 	 * The goal is to ensure that the given nodes are all evaluated. If there is
@@ -1209,7 +1209,7 @@ public class InterpreterImp implements Interpreter {
 
 		// creating the first agent to run the initial step
 		Element initAgent = new InitAgent();
-        capi.getScheduler().setInitAgent(initAgent);
+		capi.getScheduler().setInitAgent(initAgent);
 		Location l = new Location(AbstractStorage.PROGRAM_FUNCTION_NAME, ElementList.create(initAgent));
 		try {
 			// assigning the init rule as the program of the agent
@@ -1239,7 +1239,7 @@ public class InterpreterImp implements Interpreter {
 		// removing environment (temporary) values
 		envMap.clear();
 		notifyInitProgramExecution(self, (RuleElement)storage.getChosenProgram(self));
- 	}
+	}
 
 	/**
 	 * Notifies the listeners of an initialization of program execution.
@@ -1252,29 +1252,29 @@ public class InterpreterImp implements Interpreter {
 			listener.initProgramExecution(agent, program);
 	}
 
-    public synchronized void interpret(ASTNode node, Element agent) throws InterpreterException {
-    	ASTNode oldPos = pos;
-    	pos = node;
-    	Element oldSelf = self;
-    	self = agent;
+	public synchronized void interpret(ASTNode node, Element agent) throws InterpreterException {
+		ASTNode oldPos = pos;
+		pos = node;
+		Element oldSelf = self;
+		self = agent;
 
-    	// from now on, pos points to the new tree
-        Node parent = pos.getParent();
-        pos.setParent(null);
+		// from now on, pos points to the new tree
+		Node parent = pos.getParent();
+		pos.setParent(null);
 
-        try {
-	        while (!isExecutionComplete() && !capi.hasErrorOccurred()) {
-	            executeTree();
-	        }
-        } finally {
-	        // set back the parent
-	        pos.setParent(parent);
+		try {
+			while (!isExecutionComplete() && !capi.hasErrorOccurred()) {
+				executeTree();
+			}
+		} finally {
+			// set back the parent
+			pos.setParent(parent);
 
-	        // set back the pos
-	        pos = oldPos;
-	        self = oldSelf;
-        }
-    }
+			// set back the pos
+			pos = oldPos;
+			self = oldSelf;
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public synchronized Stack<CallStackElement> getCurrentCallStack() {

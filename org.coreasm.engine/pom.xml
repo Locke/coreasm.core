@@ -1,125 +1,125 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>coreasm-engine</artifactId>
-    <name>CoreASM Engine</name>
+	<artifactId>coreasm-engine</artifactId>
+	<name>CoreASM Engine</name>
 
-    <parent>
-        <groupId>de.athalis.coreasm</groupId>
-        <artifactId>coreasm-parent</artifactId>
-        <version>${revision}</version>
-    </parent>
+	<parent>
+		<groupId>de.athalis.coreasm</groupId>
+		<artifactId>coreasm-parent</artifactId>
+		<version>${revision}</version>
+	</parent>
 
-    <packaging>jar</packaging>
+	<packaging>jar</packaging>
 
-    <properties>
-        <skipTests>true</skipTests>
-    </properties>
+	<properties>
+		<skipTests>true</skipTests>
+	</properties>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>org/coreasm/engine/absstorage/*.*</include>
-                </includes>
-            </resource>
+	<build>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>org/coreasm/engine/absstorage/*.*</include>
+				</includes>
+			</resource>
 
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>org/coreasm/engine/EngineError.java</include>
-                    <include>org/coreasm/engine/EngineException.java</include>
-                    <include>org/coreasm/engine/scheduler/SchedulingPolicy.java</include>
-                    <include>org/coreasm/engine/interpreter/InitAgent.java</include>
-                </includes>
-            </resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>org/coreasm/engine/EngineError.java</include>
+					<include>org/coreasm/engine/EngineException.java</include>
+					<include>org/coreasm/engine/scheduler/SchedulingPolicy.java</include>
+					<include>org/coreasm/engine/interpreter/InitAgent.java</include>
+				</includes>
+			</resource>
 
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>CompilerRuntime/*.*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>org/coreasm/compiler/plugins/**/include/*.*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>org/coreasm/engine/plugins/**/*.*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>rsc</directory>
-            </resource>
-        </resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>CompilerRuntime/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>org/coreasm/compiler/plugins/**/include/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>org/coreasm/engine/plugins/**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>rsc</directory>
+			</resource>
+		</resources>
 
-        <plugins>
+		<plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
 
-        </plugins>
-    </build>
+		</plugins>
+	</build>
 
-    <dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>jgraph</groupId>
-            <artifactId>jgraph</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>jgraph</groupId>
+			<artifactId>jgraph</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>net.sf.jgrapht</groupId>
-            <artifactId>jgrapht</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>net.sf.jgrapht</groupId>
+			<artifactId>jgrapht</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.jparsec</groupId>
-            <artifactId>jparsec</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.jparsec</groupId>
+			<artifactId>jparsec</artifactId>
+		</dependency>
 
-        <!-- inter-module dependencies -->
+		<!-- inter-module dependencies -->
 
-        <dependency>
-            <groupId>de.athalis.coreasm</groupId>
-            <artifactId>coreasm-util</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>de.athalis.coreasm</groupId>
+			<artifactId>coreasm-util</artifactId>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 </project>

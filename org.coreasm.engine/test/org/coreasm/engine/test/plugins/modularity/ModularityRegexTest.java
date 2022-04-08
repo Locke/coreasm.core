@@ -10,33 +10,33 @@ import java.util.regex.Matcher;
 
 public class ModularityRegexTest {
 
-    @Test
-    public void testRegex() {
-        String[] testLines = new String[]{
-                "include a",
-                "include a.b",
-                "include ..\\a.b",
-                "include ../a.b",
+	@Test
+	public void testRegex() {
+		String[] testLines = new String[]{
+				"include a",
+				"include a.b",
+				"include ..\\a.b",
+				"include ../a.b",
 
-                // quoted
-                "include \"a.b\"",
-                "include \"..\\a.b\"",
-                "include \"../a.b\"",
+				// quoted
+				"include \"a.b\"",
+				"include \"..\\a.b\"",
+				"include \"../a.b\"",
 
-                // with white spaces
-                "\tinclude a",
-                "include\ta",
-                "include a\t",
+				// with white spaces
+				"\tinclude a",
+				"include\ta",
+				"include a\t",
 
-                // with comment at the end
-                "include a // foo",
-                "include a /* foo */"
-        };
+				// with comment at the end
+				"include a // foo",
+				"include a /* foo */"
+		};
 
-        for (String line : testLines) {
-            Matcher includeMatcher = ModularityPlugin.includePattern.matcher(line);
+		for (String line : testLines) {
+			Matcher includeMatcher = ModularityPlugin.includePattern.matcher(line);
 
-            assertTrue(line, includeMatcher.find());
-        }
-    }
+			assertTrue(line, includeMatcher.find());
+		}
+	}
 }

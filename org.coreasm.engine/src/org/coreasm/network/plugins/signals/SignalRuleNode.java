@@ -24,9 +24,9 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class SignalRuleNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public SignalRuleNode(SignalRuleNode node) {
+	public SignalRuleNode(SignalRuleNode node) {
 		super(node);
 	}
 
@@ -38,32 +38,32 @@ public class SignalRuleNode extends ASTNode {
 				scannerInfo);
 	}
 
-    /**
-     * Returns the node representing the target agent
-     */
-    public ASTNode getTargetAgent() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the target agent
+	 */
+	public ASTNode getTargetAgent() {
+		return getFirst();
+	}
 
-    /**
-     * Returns the node representing the type of the signal
-     */
-    public ASTNode getType() {
-        return getTargetAgent().getNext();
-    }
+	/**
+	 * Returns the node representing the type of the signal
+	 */
+	public ASTNode getType() {
+		return getTargetAgent().getNext();
+	}
 
-    /**
-     * Returns the node representing optional variable
-     */
-    public ASTNode getVariable() {
-        return (ASTNode)getChildNode(SignalsPlugin.VARIABLE_NODE_NAME);
-    }
+	/**
+	 * Returns the node representing optional variable
+	 */
+	public ASTNode getVariable() {
+		return (ASTNode)getChildNode(SignalsPlugin.VARIABLE_NODE_NAME);
+	}
 
-    /**
-     * Returns the node representing the optional rule
-     */
-    public ASTNode getDoRule() {
-        return (ASTNode)getChildNode(SignalsPlugin.RULE_NODE_NAME);
-    }
+	/**
+	 * Returns the node representing the optional rule
+	 */
+	public ASTNode getDoRule() {
+		return (ASTNode)getChildNode(SignalsPlugin.RULE_NODE_NAME);
+	}
 
 }

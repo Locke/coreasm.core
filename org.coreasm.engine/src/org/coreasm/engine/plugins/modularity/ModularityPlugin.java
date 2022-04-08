@@ -70,7 +70,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	private static final String includeRegex = "^[\\s]*include[\\s]+(\"([^\"]+)\"|([^\"]+))";
 	public static final Pattern includePattern = Pattern.compile(includeRegex);
 
-    private Map<String, GrammarRule> parsers = null;
+	private Map<String, GrammarRule> parsers = null;
 
 	private Map<EngineMode, Integer> targetModes;
 
@@ -96,21 +96,21 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#fireOnModeTransition(org.coreasm.engine.CoreASMEngine.EngineMode, org.coreasm.engine.CoreASMEngine.EngineMode)
 	 */
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
-    	if (target == EngineMode.emParsingSpec) {
-    		loadedModules = new HashSet<String>();
-    		final ArrayList<SpecLine> newSpec = injectModules(capi.getSpec().getLines(), capi.getSpec().getFileDir());
-    		capi.getSpec().updateLines(newSpec);
-    		/*
-    		System.out.println("** ModularityPlugin :  Specification is modified as follows:");
-    		System.out.println("** ModularityPlugin :  -------------------------------------");
-    		int i = 1;
-    		for (SpecLine line: newSpec) {
-        		System.out.println("** ModularityPlugin : " + Tools.lFormat(i, 3) + "  " + line.text);
-        		i++;
-    		}
-    		System.out.println("** ModularityPlugin :  -------------------------------------");
-    		/**/
-    	}
+		if (target == EngineMode.emParsingSpec) {
+			loadedModules = new HashSet<String>();
+			final ArrayList<SpecLine> newSpec = injectModules(capi.getSpec().getLines(), capi.getSpec().getFileDir());
+			capi.getSpec().updateLines(newSpec);
+			/*
+			System.out.println("** ModularityPlugin :  Specification is modified as follows:");
+			System.out.println("** ModularityPlugin :  -------------------------------------");
+			int i = 1;
+			for (SpecLine line: newSpec) {
+				System.out.println("** ModularityPlugin : " + Tools.lFormat(i, 3) + "  " + line.text);
+				i++;
+			}
+			System.out.println("** ModularityPlugin :  -------------------------------------");
+			/**/
+		}
 	}
 
 	/* (non-Javadoc)
@@ -124,11 +124,11 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getTargetModes()
 	 */
 	public Map<EngineMode, Integer> getTargetModes() {
-    	if (targetModes == null) {
-    		targetModes = new HashMap<EngineMode, Integer>();
-    		targetModes.put(EngineMode.emParsingSpec, 90);
-    	}
-    	return targetModes;
+		if (targetModes == null) {
+			targetModes = new HashMap<EngineMode, Integer>();
+			targetModes.put(EngineMode.emParsingSpec, 90);
+		}
+		return targetModes;
 	}
 
 	/* (non-Javadoc)
@@ -212,20 +212,20 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 			});
 
 
-	    	// CoreModule : 'CoreModule' ID ( UseClause )* ( Header )* 'init' ID
-	    	Parser<Node> coreModuleParser = Parsers.array(
-	    			new Parser[] {
-	    			pTools.getKeywParser("CoreModule", PLUGIN_NAME),
-	    			idParser,
-	    			}).map(
-	    			new CoreModuleParseMap()
-	    			);
+			// CoreModule : 'CoreModule' ID ( UseClause )* ( Header )* 'init' ID
+			Parser<Node> coreModuleParser = Parsers.array(
+					new Parser[] {
+					pTools.getKeywParser("CoreModule", PLUGIN_NAME),
+					idParser,
+					}).map(
+					new CoreModuleParseMap()
+					);
 
-	    	Parser<Node> modularityHeaderParser = Parsers.or(includeParser, coreModuleParser);
+			Parser<Node> modularityHeaderParser = Parsers.or(includeParser, coreModuleParser);
 
-	    	parsers.put("Header",
-	    			new GrammarRule("CoreModule",
-	    					"'CoreModule' ID", modularityHeaderParser, this.getName()));
+			parsers.put("Header",
+					new GrammarRule("CoreModule",
+							"'CoreModule' ID", modularityHeaderParser, this.getName()));
 
 		}
 		return parsers;

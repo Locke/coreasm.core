@@ -76,24 +76,24 @@ public class ToJarExportWizardPage extends WizardPage {
 				GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 				gridData.grabExcessHorizontalSpace = true;
 				gridData.horizontalSpan = 1;
-			    txtProperty.setLayoutData(gridData);
+				txtProperty.setLayoutData(gridData);
 
-			    if(f.getName().equals("SpecificationName") && selected != null){
-			    	txtProperty.setText(selected.getLocation().toOSString());
-			    }
-			    else{
-				    File file = null;
-				    try {
+				if(f.getName().equals("SpecificationName") && selected != null){
+					txtProperty.setText(selected.getLocation().toOSString());
+				}
+				else{
+					File file = null;
+					try {
 						file = (File) f.get(resultOptions);
 					} catch (Exception e){
 						//should not happen
 						e.printStackTrace();
 					}
 
-				    if(file != null){
-				    	txtProperty.setText(file.getAbsolutePath());
-				    }
-			    }
+					if(file != null){
+						txtProperty.setText(file.getAbsolutePath());
+					}
+				}
 
 				Button btnProperty = new Button(container, SWT.PUSH);
 				btnProperty.setText("...");

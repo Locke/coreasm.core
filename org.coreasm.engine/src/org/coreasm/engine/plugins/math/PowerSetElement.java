@@ -133,7 +133,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		}
 		if (i < a.length)
 			return Arrays.copyOf(a, i);
-        return a;
+		return a;
 	}
 
 	@Override

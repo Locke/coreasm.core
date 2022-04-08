@@ -381,7 +381,7 @@ public class ListPlugin extends Plugin implements ParserPlugin,
 			ASTNode expression = node.getListFunction();
 
 			if (!guard.isEvaluated()) {
- 				if (bindings.size() >= 1) {
+				if (bindings.size() >= 1) {
 					// evaluate all the domains
 					for (ASTNode domain: bindings.values())
 						if (!domain.isEvaluated())

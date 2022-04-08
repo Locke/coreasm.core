@@ -27,7 +27,7 @@ import java.util.List;
  *
  */
 public class BooleanBackgroundElement extends BackgroundElement
-    implements Enumerable {
+	implements Enumerable {
 
 	/**
 	 * Name of the boolean background
@@ -43,10 +43,10 @@ public class BooleanBackgroundElement extends BackgroundElement
 	 */
 	public BooleanBackgroundElement() {
 		super();
-        List<Element> e = new ArrayList<Element>();
-        e.add(BooleanElement.TRUE);
-        e.add(BooleanElement.FALSE);
-        enumeration = Collections.unmodifiableList(e);
+		List<Element> e = new ArrayList<Element>();
+		e.add(BooleanElement.TRUE);
+		e.add(BooleanElement.FALSE);
+		enumeration = Collections.unmodifiableList(e);
 	}
 
 	/**
@@ -71,9 +71,9 @@ public class BooleanBackgroundElement extends BackgroundElement
 		return (e instanceof BooleanElement)?BooleanElement.TRUE:BooleanElement.FALSE;
 	}
 
-    public Collection<Element> enumerate() {
-    	return enumeration;
-    }
+	public Collection<Element> enumerate() {
+		return enumeration;
+	}
 
 	public boolean contains(Element e) {
 		return (e.equals(BooleanElement.TRUE) || e.equals(BooleanElement.FALSE));

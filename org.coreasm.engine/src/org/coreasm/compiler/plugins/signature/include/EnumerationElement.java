@@ -23,44 +23,44 @@ import org.coreasm.engine.absstorage.Element;
 public class EnumerationElement extends Element {
 
 	/** name of this element */
-    private String name;
+	private String name;
 
-    private String backgroundName = null;
+	private String backgroundName = null;
 
-    /**
-     * Initializes the enumeration element
-     * @param name The name of the element
-     */
-    public EnumerationElement(String name) {
-        super();
-        this.name = name;
-    }
+	/**
+	 * Initializes the enumeration element
+	 * @param name The name of the element
+	 */
+	public EnumerationElement(String name) {
+		super();
+		this.name = name;
+	}
 
-    /**
-     * @return the name of the element
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name of the element
+	 */
+	public String getName() {
+		return name;
+	}
 
-    public String toString() {
-    	return name;
-    }
+	public String toString() {
+		return name;
+	}
 
-    public String getBackground() {
-    	if (backgroundName == null)
-    		return super.getBackground();
-    	else
-    		return backgroundName;
-    }
+	public String getBackground() {
+		if (backgroundName == null)
+			return super.getBackground();
+		else
+			return backgroundName;
+	}
 
-    /**
-     * Sets the background of this element.
-     * Unfortunately needs to be public, but no plugin
-     * other than the signature plugin should ever generate code modifying the background
-     * @param name The name of the background
-     */
-    public void setBackground(String name) {
-    	this.backgroundName = name;
-    }
+	/**
+	 * Sets the background of this element.
+	 * Unfortunately needs to be public, but no plugin
+	 * other than the signature plugin should ever generate code modifying the background
+	 * @param name The name of the background
+	 */
+	public void setBackground(String name) {
+		this.backgroundName = name;
+	}
 }

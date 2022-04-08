@@ -27,45 +27,45 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class CaseRuleNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new CaseRuleNode
-     */
-    public CaseRuleNode(ScannerInfo info) {
-        super(CaseRulePlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		"CaseRule",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new CaseRuleNode
+	 */
+	public CaseRuleNode(ScannerInfo info) {
+		super(CaseRulePlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				"CaseRule",
+				null,
+				info);
+	}
 
-    public CaseRuleNode(CaseRuleNode node) {
-    	super(node);
-    }
+	public CaseRuleNode(CaseRuleNode node) {
+		super(node);
+	}
 
-    public ASTNode getCaseTerm() {
-    	return (ASTNode)getChildNode("alpha");
-    }
+	public ASTNode getCaseTerm() {
+		return (ASTNode)getChildNode("alpha");
+	}
 
-    /**
-     * Returns a map of case guards to their corresponding rules
-     *
-     * @throws Exception
-     */
-    public Map<ASTNode, ASTNode> getCaseMap() {
-    	Map<ASTNode, ASTNode> caseMap = new IdentityHashMap<ASTNode, ASTNode>();
+	/**
+	 * Returns a map of case guards to their corresponding rules
+	 *
+	 * @throws Exception
+	 */
+	public Map<ASTNode, ASTNode> getCaseMap() {
+		Map<ASTNode, ASTNode> caseMap = new IdentityHashMap<ASTNode, ASTNode>();
 
-        ASTNode current = (ASTNode)getChildNode("beta");
+		ASTNode current = (ASTNode)getChildNode("beta");
 
-        while (current != null) {
-        	caseMap.put(current,current.getNext());
-            current = current.getNext().getNext();
-        }
-        return caseMap;
-    }
+		while (current != null) {
+			caseMap.put(current,current.getNext());
+			current = current.getNext().getNext();
+		}
+		return caseMap;
+	}
 
 }

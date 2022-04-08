@@ -22,9 +22,9 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class OnSignalRuleNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public OnSignalRuleNode(OnSignalRuleNode node) {
+	public OnSignalRuleNode(OnSignalRuleNode node) {
 		super(node);
 	}
 
@@ -36,24 +36,24 @@ public class OnSignalRuleNode extends ASTNode {
 				scannerInfo);
 	}
 
-    /**
-     * Returns the node representing the variable
-     */
-    public ASTNode getVariable() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the variable
+	 */
+	public ASTNode getVariable() {
+		return getFirst();
+	}
 
-    /**
-     * Returns the node representing the domain of the signal
-     */
-    public ASTNode getType() {
-        return getVariable().getNext();
-    }
+	/**
+	 * Returns the node representing the domain of the signal
+	 */
+	public ASTNode getType() {
+		return getVariable().getNext();
+	}
 
-    /**
-     * Returns the node representing the rule
-     */
-    public ASTNode getDoRule() {
-        return getType().getNext();
-    }
+	/**
+	 * Returns the node representing the rule
+	 */
+	public ASTNode getDoRule() {
+		return getType().getNext();
+	}
 }

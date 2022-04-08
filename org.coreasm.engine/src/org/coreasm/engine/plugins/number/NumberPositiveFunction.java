@@ -26,29 +26,29 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberPositiveFunction extends FunctionElement {
 
-    public static String NUMBER_POSITIVE_FUNCTION_NAME = "isPositiveValue";
+	public static String NUMBER_POSITIVE_FUNCTION_NAME = "isPositiveValue";
 
-    /**
-     * Creates a new NumberPositiveFunction
-     */
-    public NumberPositiveFunction() {
-        setFClass(FunctionClass.fcDerived);
-    }
+	/**
+	 * Creates a new NumberPositiveFunction
+	 */
+	public NumberPositiveFunction() {
+		setFClass(FunctionClass.fcDerived);
+	}
 
-    /* (non-Javadoc)
-     * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
-     */
-    @Override
-    public Element getValue(List<? extends Element> args) {
-        Element ret = BooleanElement.FALSE;
+	/* (non-Javadoc)
+	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
+	 */
+	@Override
+	public Element getValue(List<? extends Element> args) {
+		Element ret = BooleanElement.FALSE;
 
-        if (args.size() == 1) {
-            if (NumberUtil.isPositive(args.get(0))) {
-                ret = BooleanElement.TRUE;
-            }
-        }
-        return ret;
-    }
+		if (args.size() == 1) {
+			if (NumberUtil.isPositive(args.get(0))) {
+				ret = BooleanElement.TRUE;
+			}
+		}
+		return ret;
+	}
 
 
 }

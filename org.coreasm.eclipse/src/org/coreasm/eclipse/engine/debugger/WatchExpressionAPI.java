@@ -109,11 +109,11 @@ public class WatchExpressionAPI implements ControlAPI {
 		OperatorRegistry oprRegCapi = OperatorRegistry.getInstance(capi);
 		OperatorRegistry oprReg = OperatorRegistry.getInstance(this);
 		oprReg.binOps.clear();
-    	oprReg.binOps.putAll(oprRegCapi.binOps);
-    	oprReg.unOps.clear();
-    	oprReg.unOps.putAll(oprRegCapi.unOps);
-    	oprReg.indexOps.clear();
-    	oprReg.indexOps.putAll(oprRegCapi.indexOps);
+		oprReg.binOps.putAll(oprRegCapi.binOps);
+		oprReg.unOps.clear();
+		oprReg.unOps.putAll(oprRegCapi.unOps);
+		oprReg.indexOps.clear();
+		oprReg.indexOps.putAll(oprRegCapi.indexOps);
 	}
 
 	@Override

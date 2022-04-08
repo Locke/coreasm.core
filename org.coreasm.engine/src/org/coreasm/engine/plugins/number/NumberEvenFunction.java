@@ -26,28 +26,28 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberEvenFunction extends FunctionElement {
 
-    public static String NUMBER_EVEN_FUNCTION_NAME = "isEvenNumber";
+	public static String NUMBER_EVEN_FUNCTION_NAME = "isEvenNumber";
 
-    /**
-     * Create a new instance of NumberEvenFunction
-     */
-    public NumberEvenFunction() {
-        setFClass(FunctionClass.fcDerived);
-    }
+	/**
+	 * Create a new instance of NumberEvenFunction
+	 */
+	public NumberEvenFunction() {
+		setFClass(FunctionClass.fcDerived);
+	}
 
-    /* (non-Javadoc)
-     * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
-     */
-    @Override
-    public Element getValue(List<? extends Element> args) {
-        Element ret = BooleanElement.FALSE;
+	/* (non-Javadoc)
+	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
+	 */
+	@Override
+	public Element getValue(List<? extends Element> args) {
+		Element ret = BooleanElement.FALSE;
 
-        if (args.size() == 1) {
-            if (NumberUtil.isEven(args.get(0))) {
-                ret = BooleanElement.TRUE;
-            }
-        }
-        return ret;
-    }
+		if (args.size() == 1) {
+			if (NumberUtil.isEven(args.get(0))) {
+				ret = BooleanElement.TRUE;
+			}
+		}
+		return ret;
+	}
 
 }

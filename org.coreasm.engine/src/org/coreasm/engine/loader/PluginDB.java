@@ -287,7 +287,7 @@ class EntryComparator implements Comparator<Entry<ExtensionPointPlugin, Integer>
 	 * @see Comparator#compare(Object, Object)
 	 *
 	 * Note: this comparator
-     * imposes orderings that are inconsistent with equals.
+	 * imposes orderings that are inconsistent with equals.
 	 */
 	public int compare(Entry<ExtensionPointPlugin, Integer> o1,
 			Entry<ExtensionPointPlugin, Integer> o2) {

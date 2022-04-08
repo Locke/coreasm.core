@@ -91,9 +91,9 @@ public class HashStorage implements AbstractStorage {
 	public HashStorage(ControlAPI capi) {
 		this.capi = capi;
 		updateStack = new ThreadLocal<Stack<Map<Location,Element>>>() {
-	         protected Stack<Map<Location,Element>> initialValue() {
-	             return new Stack<Map<Location,Element>>();
-	         }
+			 protected Stack<Map<Location,Element>> initialValue() {
+				 return new Stack<Map<Location,Element>>();
+			 }
 		};
 		updateStackPluginNames = new ThreadLocal<Stack<String>>() {
 			@Override
@@ -147,7 +147,7 @@ public class HashStorage implements AbstractStorage {
 
 		initAggregatorPluginCache();
 
-        capi.getScheduler().setStepCount(0);
+		capi.getScheduler().setStepCount(0);
 		try {
 			// first load the kernel plugin
 			Plugin kernel = capi.getPlugin(Kernel.PLUGIN_NAME);
@@ -332,8 +332,8 @@ public class HashStorage implements AbstractStorage {
 		// replace it with the new update set
 		uSet.addAll(tempUpdateSet);
 
-        // george on Aug 19, 2006
-        updateInsts.clear();
+		// george on Aug 19, 2006
+		updateInsts.clear();
 	}
 
 	/**
@@ -554,7 +554,7 @@ public class HashStorage implements AbstractStorage {
 		state = new HashState();
 	}
 
-    public String getFunctionName(FunctionElement function) {
+	public String getFunctionName(FunctionElement function) {
 		return state.getFunctionName(function);
 	}
 
@@ -598,20 +598,20 @@ public class HashStorage implements AbstractStorage {
 			table.put(name, value);
 		}
 
-    	@SuppressWarnings("unchecked")
-        public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
-            if (args.size() == 1){
-                try {
-                    setValue(args.get(0).toString(),(E) value);
-                }
-                catch (ClassCastException e) {
-                    capi.error(e);
-                }
-            }
-            else {
-                capi.error("NameTableFunctions can have only one argument.");
-            }
-        }
+		@SuppressWarnings("unchecked")
+		public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
+			if (args.size() == 1){
+				try {
+					setValue(args.get(0).toString(),(E) value);
+				}
+				catch (ClassCastException e) {
+					capi.error(e);
+				}
+			}
+			else {
+				capi.error("NameTableFunctions can have only one argument.");
+			}
+		}
 
 		public E getValue(String name) {
 			return table.get(name);
@@ -657,15 +657,15 @@ public class HashStorage implements AbstractStorage {
 			return table.containsKey(name);
 		}
 
-        public Set<Location> getLocations(String name) {
-            Set<Location> locations = new HashSet<Location>();
+		public Set<Location> getLocations(String name) {
+			Set<Location> locations = new HashSet<Location>();
 
-            for (String functionName: table.keySet()) {
-                locations.add(new Location(name, ElementList.create(new NameElement(functionName))));
-            }
+			for (String functionName: table.keySet()) {
+				locations.add(new Location(name, ElementList.create(new NameElement(functionName))));
+			}
 
-            return locations;
-        }
+			return locations;
+		}
 
 	}
 
@@ -846,11 +846,11 @@ public class HashStorage implements AbstractStorage {
 		@Override
 		public synchronized void setValue(Location l, Element v) throws InvalidLocationException {
 			if (!nameExists(l.name)) {
-		        FunctionElement f = new MapFunction(Element.UNDEF);
-	            try {
+				FunctionElement f = new MapFunction(Element.UNDEF);
+				try {
 					addFunction(l.name, f);
 				} catch (NameConflictException e) {
-		            throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
+					throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
 				}
 			}
 			Element id;

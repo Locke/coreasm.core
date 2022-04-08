@@ -70,27 +70,27 @@ public class LocalRuleNode extends ASTNode {
 	}
 
 	/**
-     * Returns a map of the function names to the nodes which
-     * represent the terms that will be evaluated
-     */
-    public Map<String,ASTNode> getFunctionMap() throws CoreASMError {
-    	Map<String,ASTNode> functionMap = new HashMap<String,ASTNode>();
+	 * Returns a map of the function names to the nodes which
+	 * represent the terms that will be evaluated
+	 */
+	public Map<String,ASTNode> getFunctionMap() throws CoreASMError {
+		Map<String,ASTNode> functionMap = new HashMap<String,ASTNode>();
 
-        ASTNode current = getFirst();
+		ASTNode current = getFirst();
 
-        while (current != null && current.getNextCSTNode() != null) {
-        	if (TurboASMPlugin.LOCAL_INIT_OPERATOR.equals(current.getNextCSTNode().getToken())) {
-        		if (functionMap.put(current.getToken(),current.getNext()) != null)
-        			throw new CoreASMError("There must not be multiple initializations for the same function.", current);
-        		current = current.getNext().getNext();
-        	}
-        	else {
-        		functionMap.put(current.getToken(), null);
-        		current = current.getNext();
-        	}
-        }
-        return functionMap;
-    }
+		while (current != null && current.getNextCSTNode() != null) {
+			if (TurboASMPlugin.LOCAL_INIT_OPERATOR.equals(current.getNextCSTNode().getToken())) {
+				if (functionMap.put(current.getToken(),current.getNext()) != null)
+					throw new CoreASMError("There must not be multiple initializations for the same function.", current);
+				current = current.getNext().getNext();
+			}
+			else {
+				functionMap.put(current.getToken(), null);
+				current = current.getNext();
+			}
+		}
+		return functionMap;
+	}
 
 	/**
 	 * Returns the sub-rule part of this rule

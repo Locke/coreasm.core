@@ -247,19 +247,19 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 			Parser<Node> headerParser = kernel.getParser(AstTools.PARSER_HEADER);
 			Parser<Node> ruleParser = kernelrules.get(AstTools.PARSER_RULE).parser;
 
-	    	moduleParser = Parsers.array(new Parser[] {
-	    			parserTools.getKeywParser("CoreModule", AstTools.PLUGIN_KERNEL),
-	    			parserTools.getIdParser(),
-	    			parserTools.star(
-	    					Parsers.or(
-	    							useClauseParser,
-	    							headerParser,
-	    							//initParser,
-	    							ruleParser
-	    						)
-	    				)
-	    			}).map(new org.coreasm.engine.plugins.modularity.CoreModuleParseMap())
-	    			.followedBy(Parsers.EOF);
+			moduleParser = Parsers.array(new Parser[] {
+					parserTools.getKeywParser("CoreModule", AstTools.PLUGIN_KERNEL),
+					parserTools.getIdParser(),
+					parserTools.star(
+							Parsers.or(
+									useClauseParser,
+									headerParser,
+									//initParser,
+									ruleParser
+								)
+						)
+					}).map(new org.coreasm.engine.plugins.modularity.CoreModuleParseMap())
+					.followedBy(Parsers.EOF);
 		}
 
 		return moduleParser;

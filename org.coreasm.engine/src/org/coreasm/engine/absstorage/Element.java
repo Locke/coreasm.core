@@ -26,112 +26,112 @@ import org.coreasm.engine.ControlAPI;
  */
  public class Element {
 
- 	/**
- 	 * This value is used to automatically generate
- 	 * general Element names.
- 	 */
- 	private static long lastElementNo = 1;
+	/**
+	 * This value is used to automatically generate
+	 * general Element names.
+	 */
+	private static long lastElementNo = 1;
 
- 	/**
- 	 * Represents the 'undef' value in ASM.
- 	 */
- 	public static final Element UNDEF = new Element(-1);
+	/**
+	 * Represents the 'undef' value in ASM.
+	 */
+	public static final Element UNDEF = new Element(-1);
 
- 	/**
- 	 * A unique id
- 	 */
+	/**
+	 * A unique id
+	 */
 	public final long id;
 
- 	/**
- 	 * A private constructor used to create UNDEF.
- 	 *
- 	 */
+	/**
+	 * A private constructor used to create UNDEF.
+	 *
+	 */
 	private Element(long id) {
- 		this.id = id;
- 	}
+		this.id = id;
+	}
 
 	/**
 	 * Creates a new Element.
 	 *
 	 */
- 	public Element() {
+	public Element() {
 		lastElementNo++;
 		this.id = lastElementNo;
 	}
 
- 	/**
- 	 * Returns the name of the background of this element
- 	 * (in the state). This method should be overridden
- 	 * by elements from special backgrounds.
- 	 */
- 	public String getBackground() {
- 		return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
- 	}
+	/**
+	 * Returns the name of the background of this element
+	 * (in the state). This method should be overridden
+	 * by elements from special backgrounds.
+	 */
+	public String getBackground() {
+		return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
+	}
 
- 	/*
- 	 * Returns the class of the background of this element
- 	 * (in the state). This method should be overridden
- 	 * by elements of special backgrounds.
- 	 *
- 	public Class<? extends BackgroundElement> getBackgroundClass() {
- 		return ElementBackgroundElement.class;
- 	}
- 	*/
+	/*
+	 * Returns the class of the background of this element
+	 * (in the state). This method should be overridden
+	 * by elements of special backgrounds.
+	 *
+	public Class<? extends BackgroundElement> getBackgroundClass() {
+		return ElementBackgroundElement.class;
+	}
+	*/
 
- 	/**
- 	 * If this element has a background (see {@link BackgroundElement}),
- 	 * it asks the background (through Control API) to provide a
- 	 * new instance of the elements provided by that background.
- 	 * There is no guarantee that the returned value is from the same
- 	 * type of this element.
- 	 * <p>
- 	 * If the element has no background, <code>null</code> is returned.
- 	 *
- 	 * @param capi reference to the Control API of the engine
- 	 *
- 	 * @see BackgroundElement#getNewValue()
- 	 */
- 	public final Element getNewInstance(ControlAPI capi) {
- 		Element result = null;
- 		AbstractUniverse u = capi.getStorage().getUniverse(this.getBackground());
+	/**
+	 * If this element has a background (see {@link BackgroundElement}),
+	 * it asks the background (through Control API) to provide a
+	 * new instance of the elements provided by that background.
+	 * There is no guarantee that the returned value is from the same
+	 * type of this element.
+	 * <p>
+	 * If the element has no background, <code>null</code> is returned.
+	 *
+	 * @param capi reference to the Control API of the engine
+	 *
+	 * @see BackgroundElement#getNewValue()
+	 */
+	public final Element getNewInstance(ControlAPI capi) {
+		Element result = null;
+		AbstractUniverse u = capi.getStorage().getUniverse(this.getBackground());
 		if (u != null && (u instanceof BackgroundElement)) {
 			BackgroundElement bkg = (BackgroundElement)u;
 			result = bkg.getNewValue();
 		}
 		return result;
- 	}
+	}
 
- 	/**
- 	 * Compares this Element to the specified Element.
- 	 * The result is <code>true</code> if the argument
- 	 * is not null and is considered to be equal to this Element.
- 	 *
- 	 * @param anElement the Element to compare with.
- 	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
- 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
- 	 * of <code>Element</code>
- 	 */
- 	public boolean equals(Object anElement) {
+	/**
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public boolean equals(Object anElement) {
 		if (anElement == null)
 			return false;
- 		if (anElement instanceof Element)
- 			return (((Element)anElement).id == this.id);
- 		else
- 			throw new IllegalArgumentException("Cannot compare to non-Elements.");
- 	}
+		if (anElement instanceof Element)
+			return (((Element)anElement).id == this.id);
+		else
+			throw new IllegalArgumentException("Cannot compare to non-Elements.");
+	}
 
 
- 	/**
- 	 * Returns the denotational form of this element.
- 	 * By default, this is the same as <code>toString()</code>
- 	 * but elements can override this method to provide
- 	 * a more accurate denotation of their value.
- 	 */
- 	public String denotation() {
- 		return this.toString();
- 	}
+	/**
+	 * Returns the denotational form of this element.
+	 * By default, this is the same as <code>toString()</code>
+	 * but elements can override this method to provide
+	 * a more accurate denotation of their value.
+	 */
+	public String denotation() {
+		return this.toString();
+	}
 
- 	/**
+	/**
 	 * Returns a <code>String</code> representation of
 	 * this Element.
 	 *

@@ -131,9 +131,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(
-            		a.getClass().getComponentType(), size);
+		if (a.length < size)
+			a = (T[])java.lang.reflect.Array.newInstance(
+					a.getClass().getComponentType(), size);
 		int i = 0;
 		for (E e: map.keySet()) {
 			for (int j = 0; j < map.get(e); j++) {
@@ -141,7 +141,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 				i++;
 			}
 		}
-        return a;
+		return a;
 	}
 
 	/* (non-Javadoc)

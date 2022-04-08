@@ -44,7 +44,7 @@ import org.coreasm.engine.plugin.Plugin;
  *
  */
 public class CaseRulePlugin extends Plugin
-    implements ParserPlugin, InterpreterPlugin {
+	implements ParserPlugin, InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 1, 1, "beta");
 
@@ -55,20 +55,20 @@ public class CaseRulePlugin extends Plugin
 	private final String[] keywords = {"case", "of", "endcase"};
 	private final String[] operators = {CASE_ITEM_RULE_DELIMITER};
 
-    private Map<String, GrammarRule> parsers = null;
-    private ThreadLocal<Map<Node,Set<ASTNode>>> matchingRules;
+	private Map<String, GrammarRule> parsers = null;
+	private ThreadLocal<Map<Node,Set<ASTNode>>> matchingRules;
 
-    private final CompilerPlugin compilerPlugin = new CompilerCaseRulePlugin(this);
+	private final CompilerPlugin compilerPlugin = new CompilerCaseRulePlugin(this);
 
-    @Override
-    public void initialize() {
-        matchingRules = new ThreadLocal<Map<Node, Set<ASTNode>>>() {
+	@Override
+	public void initialize() {
+		matchingRules = new ThreadLocal<Map<Node, Set<ASTNode>>>() {
 			@Override
 			protected Map<Node, Set<ASTNode>> initialValue() {
 				return new IdentityHashMap<Node, Set<ASTNode>>();
 			}
-        };
-    }
+		};
+	}
 
 	public String[] getKeywords() {
 		return keywords;
@@ -85,7 +85,7 @@ public class CaseRulePlugin extends Plugin
 		return null;
 	}
 
-    public Map<String, GrammarRule> getParsers() {
+	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
@@ -119,66 +119,66 @@ public class CaseRulePlugin extends Plugin
 	}
 
 	/* (non-Javadoc)
-     * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
-     */
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
+	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
+	 */
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
-        if (pos instanceof CaseRuleNode) {
-            CaseRuleNode caseNode = (CaseRuleNode) pos;
+		if (pos instanceof CaseRuleNode) {
+			CaseRuleNode caseNode = (CaseRuleNode) pos;
 
-            if (!caseNode.getCaseTerm().isEvaluated()) {
-            	// clear the cache of the rules whose guard
-            	// will match the value of the case term
-            	matchingRules.get().remove(caseNode);
-            	// return the case term for evaluation
-            	return caseNode.getCaseTerm();
-            } else {
-            	Map<ASTNode, ASTNode> caseMap = caseNode.getCaseMap();
+			if (!caseNode.getCaseTerm().isEvaluated()) {
+				// clear the cache of the rules whose guard
+				// will match the value of the case term
+				matchingRules.get().remove(caseNode);
+				// return the case term for evaluation
+				return caseNode.getCaseTerm();
+			} else {
+				Map<ASTNode, ASTNode> caseMap = caseNode.getCaseMap();
 
-            	// evaluate all case guards
-            	for (ASTNode guard: caseMap.keySet()) {
-            		if (!guard.isEvaluated())
-            			return guard;
-            	}
+				// evaluate all case guards
+				for (ASTNode guard: caseMap.keySet()) {
+					if (!guard.isEvaluated())
+						return guard;
+				}
 
-            	Set<ASTNode> matchingRules = this.matchingRules.get().get(caseNode);
-            	if (matchingRules == null) {
-            		matchingRules = new HashSet<ASTNode>();
-            		this.matchingRules.get().put(caseNode, matchingRules);
-            	}
+				Set<ASTNode> matchingRules = this.matchingRules.get().get(caseNode);
+				if (matchingRules == null) {
+					matchingRules = new HashSet<ASTNode>();
+					this.matchingRules.get().put(caseNode, matchingRules);
+				}
 
-            	// At this point, all guards are evaluated
-            	// It's time to evaluate rules with a matching guard
-            	for (Entry<ASTNode, ASTNode> pair: caseMap.entrySet()) {
-            		Element value = pair.getKey().getValue();
-            		if (value == null) {
-            			capi.error("Case guard does not have a value.", pair.getKey(), interpreter);
-            			return pos;
-            		}
-        			if (!pair.getValue().isEvaluated())
-        				if (value.equals(caseNode.getCaseTerm().getValue())) {
-        					// add this rule to the cache
-        					matchingRules.add(pair.getValue());
-        					return pair.getValue();
-        				}
-            	}
+				// At this point, all guards are evaluated
+				// It's time to evaluate rules with a matching guard
+				for (Entry<ASTNode, ASTNode> pair: caseMap.entrySet()) {
+					Element value = pair.getKey().getValue();
+					if (value == null) {
+						capi.error("Case guard does not have a value.", pair.getKey(), interpreter);
+						return pos;
+					}
+					if (!pair.getValue().isEvaluated())
+						if (value.equals(caseNode.getCaseTerm().getValue())) {
+							// add this rule to the cache
+							matchingRules.add(pair.getValue());
+							return pair.getValue();
+						}
+				}
 
-            	// At this point all matching rules are evaluated
-            	// Time to put all the updates together
-            	UpdateMultiset result = new UpdateMultiset();
-            	for (ASTNode rule: matchingRules) {
-            		result.addAll(rule.getUpdates());
-            	}
+				// At this point all matching rules are evaluated
+				// Time to put all the updates together
+				UpdateMultiset result = new UpdateMultiset();
+				for (ASTNode rule: matchingRules) {
+					result.addAll(rule.getUpdates());
+				}
 
-            	pos.setNode(null, result, null);
-            	return pos;
+				pos.setNode(null, result, null);
+				return pos;
 
-            }
-        }
-        else {
-            return null;
-        }
-    }
+			}
+		}
+		else {
+			return null;
+		}
+	}
 
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
@@ -199,8 +199,8 @@ public class CaseRulePlugin extends Plugin
 		@Override
 		public Node apply(Object[] vals) {
 			nextChildName = "alpha";
-            Node node = new CaseRuleNode(((Node)vals[0]).getScannerInfo());
-            addChildren(node, vals);
+			Node node = new CaseRuleNode(((Node)vals[0]).getScannerInfo());
+			addChildren(node, vals);
 			return node;
 		}
 

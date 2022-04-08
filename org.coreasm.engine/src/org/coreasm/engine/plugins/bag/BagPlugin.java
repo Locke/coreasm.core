@@ -208,7 +208,7 @@ public class BagPlugin extends Plugin
 					// result of this node is the bag element produced
 					pos.setNode(null,null,new BagElement(elements));
 				}
-	        }
+			}
 
 			// if the node is an advanced set comprehension (expression specifier) ...
 			else if (pos instanceof BagCompNode) {
@@ -226,7 +226,7 @@ public class BagPlugin extends Plugin
 				ASTNode expression = node.getSetFunction();
 
 				if (!guard.isEvaluated()) {
-	 				if (bindings.size() >= 1) {
+					if (bindings.size() >= 1) {
 						// evaluate all the domains
 						for (ASTNode domain: bindings.values())
 							if (!domain.isEvaluated())
@@ -366,7 +366,7 @@ public class BagPlugin extends Plugin
 			}
 		}
 
-        return nextPos;
+		return nextPos;
 	}
 
 	/*

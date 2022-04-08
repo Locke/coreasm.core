@@ -97,7 +97,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 	private Map<String, FunctionElement> functions = null;
 	private Map<String, BackgroundElement> backgrounds = null;
-    private Map<String, GrammarRule> parsers;
+	private Map<String, GrammarRule> parsers;
 
 	private HashSet<String> dependencies;
 	private HashMap<Location, VizData> graphViewers;
@@ -117,9 +117,9 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 	public GraphPlugin() {}
 
-    @Override
+	@Override
 	public void initialize() throws InitializationFailedException {
-    	graphViewers = new HashMap<Location, VizData>();
+		graphViewers = new HashMap<Location, VizData>();
 	}
 
 	@Override
@@ -400,7 +400,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 		JGraph jgraph = createJGraph(ge);
 
 		JPanel panel = new JPanel();
-	    panel.add(jgraph);
+		panel.add(jgraph);
 
 		JFrame frame = new JFrame("Graph Viewer");
 		frame.getContentPane().add( panel );
@@ -426,26 +426,26 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 		for (Element e: g.edgeSet())
 			dg.addEdge(((EdgeElement)e).source, ((EdgeElement)e).target, e);
 
-	    ListenableGraph<Element, Element> lg = new ListenableDirectedGraph<Element, Element>(dg);
+		ListenableGraph<Element, Element> lg = new ListenableDirectedGraph<Element, Element>(dg);
 
-        // create a visualization using JGraph, via an adapter
-	    JGraphModelAdapter<Element, Element> m_jgAdapter = new JGraphModelAdapter<Element, Element>(lg);
+		// create a visualization using JGraph, via an adapter
+		JGraphModelAdapter<Element, Element> m_jgAdapter = new JGraphModelAdapter<Element, Element>(lg);
 
-	    JGraph jgraph = new JGraph( m_jgAdapter );
-	    jgraph.validate();
+		JGraph jgraph = new JGraph( m_jgAdapter );
+		jgraph.validate();
 
-	    JGraphFacade facade = new JGraphFacade(jgraph); // Pass the facade the JGraph instance
-	    facade.setDirected(ge.isDirected());
+		JGraphFacade facade = new JGraphFacade(jgraph); // Pass the facade the JGraph instance
+		facade.setDirected(ge.isDirected());
 
-	    //JGraphLayout layout = new JGraphFastOrganicLayout(); // Create an instance of the appropriate layout
-	    JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);
+		//JGraphLayout layout = new JGraphFastOrganicLayout(); // Create an instance of the appropriate layout
+		JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);
 
-	    layout.run(facade); // Run the layout on the facade. Note that layouts do not implement the Runnable interface, to avoid confusion
-	    Map<?,?> nested = facade.createNestedMap(true, true); // Obtain a map of the resulting attribute changes from the facade
+		layout.run(facade); // Run the layout on the facade. Note that layouts do not implement the Runnable interface, to avoid confusion
+		Map<?,?> nested = facade.createNestedMap(true, true); // Obtain a map of the resulting attribute changes from the facade
 
-	    jgraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+		jgraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
 
-	    return jgraph;
+		return jgraph;
 	}
 
 	@Override

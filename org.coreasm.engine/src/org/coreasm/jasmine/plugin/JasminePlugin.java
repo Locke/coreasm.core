@@ -136,7 +136,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 	/* Temporary! begins */
 	Map<EngineMode, Integer> targetModes = null;
-    /* Temporary! ends */
+	/* Temporary! ends */
 
 	public JasminePlugin() {
 		channelLocation = new Location("jasmChannel", ElementList.NO_ARGUMENT);
@@ -270,21 +270,21 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 			Parser<Token> tokp = Parsers.ANY_TOKEN.token();
 
 			basicJavaIdParser = tokp.map(from -> {
-                if (from.value() instanceof Fragment) {
-                    Fragment frag = (Fragment) from.value();
-                    if (frag.tag() == Tokens.Tag.IDENTIFIER || frag.tag() == Tokens.Tag.RESERVED) {
-                        return new ASTNode(
-                            "Jasemine",
-                            ASTNode.ID_CLASS,
-                            "BasicJavaID",
-                            from.toString(),
-                            new ScannerInfo(from),
-                            Node.OTHER_NODE
-                        );
-                    } // else...
-                } // else...
-                return null;
-            });
+				if (from.value() instanceof Fragment) {
+					Fragment frag = (Fragment) from.value();
+					if (frag.tag() == Tokens.Tag.IDENTIFIER || frag.tag() == Tokens.Tag.RESERVED) {
+						return new ASTNode(
+							"Jasemine",
+							ASTNode.ID_CLASS,
+							"BasicJavaID",
+							from.toString(),
+							new ScannerInfo(from),
+							Node.OTHER_NODE
+						);
+					} // else...
+				} // else...
+				return null;
+			});
 		}
 
 		return basicJavaIdParser;

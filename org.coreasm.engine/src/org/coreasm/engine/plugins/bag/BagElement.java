@@ -144,50 +144,50 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 	//----------------------
 
 	/**
- 	 * Compares this Element to the specified Element.
- 	 * The result is <code>true</code> if the argument
- 	 * is not null and is considered to be equal to this Element.
- 	 *
- 	 * @param anElement the Element to compare with.
- 	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
- 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
- 	 * of <code>Element</code>
- 	 */
- 	public boolean equals(Object anElement) {
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public boolean equals(Object anElement) {
 
- 		boolean equals = false;
+		boolean equals = false;
 
- 		// if both java objects are identical, no further checks are required
- 		if (super.equals(anElement))
- 			equals = true;
- 		// else both java objects are not identical, have to check that
- 		// both are set elements, both have same size, and same members
- 		else
- 		{
-	 		// both bag elements
-	 		if (anElement instanceof BagElement)
-	 		{
-	 			BagElement oBag = (BagElement)anElement;
+		// if both java objects are identical, no further checks are required
+		if (super.equals(anElement))
+			equals = true;
+		// else both java objects are not identical, have to check that
+		// both are set elements, both have same size, and same members
+		else
+		{
+			// both bag elements
+			if (anElement instanceof BagElement)
+			{
+				BagElement oBag = (BagElement)anElement;
 
-	 			// both contain same number of members
-	 			if (this.enumerate().size() == oBag.enumerate().size())
-	 			{
-	 				for (Entry<? extends Element, Integer> e: this.members.entrySet()) {
-	 					Integer c = oBag.members.get(e.getKey());
-	 					if (c == null || !c.equals(e.getValue()))
-	 						return false;
-	 				}
+				// both contain same number of members
+				if (this.enumerate().size() == oBag.enumerate().size())
+				{
+					for (Entry<? extends Element, Integer> e: this.members.entrySet()) {
+						Integer c = oBag.members.get(e.getKey());
+						if (c == null || !c.equals(e.getValue()))
+							return false;
+					}
 
-	 				equals = true;
+					equals = true;
 
-	 			}
-	 		}
- 		}
+				}
+			}
+		}
 
- 		return equals;
+		return equals;
 	}
 
- 	/**
+	/**
 	 * Hashcode for Bag elements. Must be overridden because equality is overridden.
 	 *
 	 * @see Object#hashCode()
@@ -201,7 +201,7 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 
 		// sum up hashcode of member elements
 		for (Element e : enumerate())
-		    resultantHashCode = resultantHashCode + (e==null ? 0 : e.hashCode());
+			resultantHashCode = resultantHashCode + (e==null ? 0 : e.hashCode());
 
 		return resultantHashCode;
 	}
@@ -288,8 +288,8 @@ public class BagElement extends AbstractBagElement implements ModifiableCollecti
 	}
 
 	public boolean contains(Element e) {
-	    return this.containsKey(e);
-    }
+		return this.containsKey(e);
+	}
 
 	@Override
 	public Map<Element, Element> getMap() {

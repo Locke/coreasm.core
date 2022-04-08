@@ -82,42 +82,42 @@ public class StringElement extends Element implements Enumerable {
 	//----------------------
 
 	/**
- 	 * Compares this Element to the specified Element.
- 	 * The result is <code>true</code> if the argument
- 	 * is not null and is considered to be equal to this Element.
- 	 *
- 	 * @param anElement the Element to compare with.
- 	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
- 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
- 	 * of <code>Element</code>
- 	 */
- 	public boolean equals(Object anElement) {
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public boolean equals(Object anElement) {
 
- 		boolean equals = false;
+		boolean equals = false;
 
- 		// if both java objects are idential, no further checks are required
- 		if (super.equals(anElement))
- 			equals = true;
- 		// else both java objects are not identical, have to check that
- 		// both are string elements, and both have the same numerical value
- 		else
- 		{
-	 		// both string elements
-	 		if (anElement instanceof StringElement)
-	 		{
-	 			StringElement otherString = (StringElement)anElement;
+		// if both java objects are idential, no further checks are required
+		if (super.equals(anElement))
+			equals = true;
+		// else both java objects are not identical, have to check that
+		// both are string elements, and both have the same numerical value
+		else
+		{
+			// both string elements
+			if (anElement instanceof StringElement)
+			{
+				StringElement otherString = (StringElement)anElement;
 
-	 			// if the current string and the other string equal each other
-	 			// then objects are equal
-	 			if (string.equals(otherString.string))
-	 				return true;
-	 		}
- 		}
+				// if the current string and the other string equal each other
+				// then objects are equal
+				if (string.equals(otherString.string))
+					return true;
+			}
+		}
 
- 		return equals;
+		return equals;
 	}
 
- 	/**
+	/**
 	 * Hashcode for String elements. Must be overridden because equality is overridden.
 	 *
 	 * @see Object#hashCode()

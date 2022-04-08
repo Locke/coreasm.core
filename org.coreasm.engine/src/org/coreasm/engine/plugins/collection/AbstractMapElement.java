@@ -154,119 +154,119 @@ public abstract class AbstractMapElement extends FunctionElement implements Enum
 	}
 	*/
 
-    /**
-     * Returns the number of key-value mappings in this map as
-     * a positive number element that holds a natural number which
-     * can be {@link NumberElement#POSITIVE_INFINITY}.
-     *
-     * @return the number of key-value mappings in this map.
-     * @see NumberElement
-     */
+	/**
+	 * Returns the number of key-value mappings in this map as
+	 * a positive number element that holds a natural number which
+	 * can be {@link NumberElement#POSITIVE_INFINITY}.
+	 *
+	 * @return the number of key-value mappings in this map.
+	 * @see NumberElement
+	 */
 //    public abstract NumberElement size();
 
-    /**
-     * Returns <tt>true</tt> if this map contains no key-value mappings.
-     *
-     * @return <tt>true</tt> if this map contains no key-value mappings.
-     */
-    public abstract boolean isEmpty();
+	/**
+	 * Returns <tt>true</tt> if this map contains no key-value mappings.
+	 *
+	 * @return <tt>true</tt> if this map contains no key-value mappings.
+	 */
+	public abstract boolean isEmpty();
 
-    /**
-     * Returns <tt>true</tt> if this map contains a mapping for the specified
-     * key.
-     *
-     * @param key key whose presence in this map is to be tested.
-     * @return <tt>true</tt> if this map contains a mapping for the specified
-     *         key.
-     *
-     * @see Map#containsKey(Object)
-     */
-    public abstract boolean containsKey(Element key);
+	/**
+	 * Returns <tt>true</tt> if this map contains a mapping for the specified
+	 * key.
+	 *
+	 * @param key key whose presence in this map is to be tested.
+	 * @return <tt>true</tt> if this map contains a mapping for the specified
+	 *         key.
+	 *
+	 * @see Map#containsKey(Object)
+	 */
+	public abstract boolean containsKey(Element key);
 
-    /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
-     *
-     * @param value value whose presence in this map is to be tested.
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value.
-     * @see Map#containsValue(Object)
-     */
-    public abstract boolean containsValue(Element value);
+	/**
+	 * Returns <tt>true</tt> if this map maps one or more keys to the
+	 * specified value.
+	 *
+	 * @param value value whose presence in this map is to be tested.
+	 * @return <tt>true</tt> if this map maps one or more keys to the
+	 *         specified value.
+	 * @see Map#containsValue(Object)
+	 */
+	public abstract boolean containsValue(Element value);
 
-    /**
-     * Returns the value to which this map maps the specified key.
-     * Returns <code>undef</code> if there is no such value.
-     *
-     * @see Element#UNDEF
-     * @see Map#get(Object)
-     */
-    public abstract Element get(Element key);
+	/**
+	 * Returns the value to which this map maps the specified key.
+	 * Returns <code>undef</code> if there is no such value.
+	 *
+	 * @see Element#UNDEF
+	 * @see Map#get(Object)
+	 */
+	public abstract Element get(Element key);
 
-    // Modification Operations
+	// Modification Operations
 	// Elements should not be modifiable
 
-    /*
-     * Elements should not be modifiable
-     */
+	/*
+	 * Elements should not be modifiable
+	 */
 
-    /*
-     * Associates the specified value with the specified key in this map
-     * only if this map is modifiable.
-     * Returns <code>undef</code> if there is no such value.
-     *
-     * @throws UnmodifiableFunctionException if this map is not modifiable.
-     *
-     * @see #get(Element)
-     * @see Map#put(Object, Object)
-     * @see Element#UNDEF
-    public abstract Element put(Element key, Element value) throws UnmodifiableFunctionException;
+	/*
+	 * Associates the specified value with the specified key in this map
+	 * only if this map is modifiable.
+	 * Returns <code>undef</code> if there is no such value.
+	 *
+	 * @throws UnmodifiableFunctionException if this map is not modifiable.
+	 *
+	 * @see #get(Element)
+	 * @see Map#put(Object, Object)
+	 * @see Element#UNDEF
+	public abstract Element put(Element key, Element value) throws UnmodifiableFunctionException;
 
-    /**
-     * Removes the mapping for this key from this map if it is present
-     * and if this map is modifiable.
-     *
-     * <p>Returns the value to which the map previously associated the key, or
-     * <tt>undef</tt> if the map contained no mapping for this key.
-     *
-     * @throws UnmodifiableFunctionException if this map is not modifiable.
-     *
-     * @see Map#remove(Object)
-     * @see Element#UNDEF
-    public abstract Element removeKey(Element key) throws UnmodifiableFunctionException;
+	/**
+	 * Removes the mapping for this key from this map if it is present
+	 * and if this map is modifiable.
+	 *
+	 * <p>Returns the value to which the map previously associated the key, or
+	 * <tt>undef</tt> if the map contained no mapping for this key.
+	 *
+	 * @throws UnmodifiableFunctionException if this map is not modifiable.
+	 *
+	 * @see Map#remove(Object)
+	 * @see Element#UNDEF
+	public abstract Element removeKey(Element key) throws UnmodifiableFunctionException;
 
-    /**
-     * Removes all mappings from this map if this map is modifiable.
-     *
-     * @throws UnmodifiableFunctionException if this map is not modifiable.
-     *
-     * @throws UnsupportedOperationException clear is not supported by this
-     * 		  map.
-    public abstract void clear() throws UnmodifiableFunctionException;
+	/**
+	 * Removes all mappings from this map if this map is modifiable.
+	 *
+	 * @throws UnmodifiableFunctionException if this map is not modifiable.
+	 *
+	 * @throws UnsupportedOperationException clear is not supported by this
+	 * 		  map.
+	public abstract void clear() throws UnmodifiableFunctionException;
 
 	*/
 
-    // Views
+	// Views
 
-    /**
-     * Returns a set view of the keys contained in this map.  The set is
-     * backed by the map, so changes to the map are reflected in the set, and
-     * vice-versa.
-     *
-     * @return a set view of the keys contained in this map.
-     *
-     * @see Map#keySet()
-     */
-    public abstract Set<? extends Element> keySet();
+	/**
+	 * Returns a set view of the keys contained in this map.  The set is
+	 * backed by the map, so changes to the map are reflected in the set, and
+	 * vice-versa.
+	 *
+	 * @return a set view of the keys contained in this map.
+	 *
+	 * @see Map#keySet()
+	 */
+	public abstract Set<? extends Element> keySet();
 
-    /**
-     * Returns a collection view of the values contained in this map.  The
-     * collection is backed by the map, so changes to the map are reflected in
-     * the collection, and vice-versa.
-     *
-     * @return a collection view of the values contained in this map.
-     */
-    public abstract Collection<? extends Element> values();
+	/**
+	 * Returns a collection view of the values contained in this map.  The
+	 * collection is backed by the map, so changes to the map are reflected in
+	 * the collection, and vice-versa.
+	 *
+	 * @return a collection view of the values contained in this map.
+	 */
+	public abstract Collection<? extends Element> values();
 
 	/**
 	 * @return returns the values set of this map.

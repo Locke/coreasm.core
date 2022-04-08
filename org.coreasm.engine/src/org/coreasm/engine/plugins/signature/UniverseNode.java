@@ -25,33 +25,33 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class UniverseNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new EnumerationNode
-     */
-    public UniverseNode(ScannerInfo info) {
-        super(
-        		SignaturePlugin.PLUGIN_NAME,
-        		ASTNode.DECLARATION_CLASS,
-        		"UniverseDefinition",
-        		null,
-        		info
-        		);
-    }
+	/**
+	 * Creates a new EnumerationNode
+	 */
+	public UniverseNode(ScannerInfo info) {
+		super(
+				SignaturePlugin.PLUGIN_NAME,
+				ASTNode.DECLARATION_CLASS,
+				"UniverseDefinition",
+				null,
+				info
+				);
+	}
 
-    public UniverseNode(UniverseNode node) {
-    	super(node);
-    }
+	public UniverseNode(UniverseNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the name of the universe
-     * @return the name of the universe
-     */
-    public String getName() {
-        return getFirst().getToken();
-    }
+	/**
+	 * Returns the name of the universe
+	 * @return the name of the universe
+	 */
+	public String getName() {
+		return getFirst().getToken();
+	}
 }

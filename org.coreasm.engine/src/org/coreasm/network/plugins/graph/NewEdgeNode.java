@@ -24,9 +24,9 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class NewEdgeNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public NewEdgeNode(NewEdgeNode node) {
+	public NewEdgeNode(NewEdgeNode node) {
 		super(node);
 	}
 
@@ -38,11 +38,11 @@ public class NewEdgeNode extends ASTNode {
 				scannerInfo);
 	}
 
-    /**
-     * Returns the node representing the vertices
-     */
-    public ASTNode getVertices() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the vertices
+	 */
+	public ASTNode getVertices() {
+		return getFirst();
+	}
 
 }

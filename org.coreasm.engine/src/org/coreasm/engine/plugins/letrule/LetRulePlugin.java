@@ -82,111 +82,111 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 	}
 
 	/* (non-Javadoc)
-     * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
-     */
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
-        if (pos instanceof LetRuleNode) {
-           LetRuleNode letNode = (LetRuleNode) (pos);
-           Map<String, ASTNode> variableMap;
-           AbstractStorage storage = capi.getStorage();
+	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
+	 */
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
+		if (pos instanceof LetRuleNode) {
+		   LetRuleNode letNode = (LetRuleNode) (pos);
+		   Map<String, ASTNode> variableMap;
+		   AbstractStorage storage = capi.getStorage();
 
-           try {
-               variableMap = letNode.getVariableMap();
-           }
-           catch (Exception e) {
-               capi.error(e.getMessage(), pos, interpreter);
-               return pos;
-           }
+		   try {
+			   variableMap = letNode.getVariableMap();
+		   }
+		   catch (Exception e) {
+			   capi.error(e.getMessage(), pos, interpreter);
+			   return pos;
+		   }
 
-           // evaluate all the terms that will be aliased
-           if (!letNode.isLetResultRule()) {
-        	   for (ASTNode n :variableMap.values()) {
-                   if (!n.isEvaluated())
-                       return n;
-               }
-           }
-           else {
-	           for (Entry<String, ASTNode> entry :variableMap.entrySet()) {
-	        	   ASTNode n = entry.getValue();
-	               if (!n.isEvaluated()) {
-            		   ASTNode loc = (ASTNode)n.cloneTree();
-            		   loc.getFirst().setToken("-" + entry.getKey());
-            		   while (loc.getFirst().getNextCSTNode() != null)	// Remove arguments from copy
-            			   loc.getFirst().getNextCSTNode().removeFromTree();
-            		   FunctionRuleTermNode rule = (FunctionRuleTermNode)n;
+		   // evaluate all the terms that will be aliased
+		   if (!letNode.isLetResultRule()) {
+			   for (ASTNode n :variableMap.values()) {
+				   if (!n.isEvaluated())
+					   return n;
+			   }
+		   }
+		   else {
+			   for (Entry<String, ASTNode> entry :variableMap.entrySet()) {
+				   ASTNode n = entry.getValue();
+				   if (!n.isEvaluated()) {
+					   ASTNode loc = (ASTNode)n.cloneTree();
+					   loc.getFirst().setToken("-" + entry.getKey());
+					   while (loc.getFirst().getNextCSTNode() != null)	// Remove arguments from copy
+						   loc.getFirst().getNextCSTNode().removeFromTree();
+					   FunctionRuleTermNode rule = (FunctionRuleTermNode)n;
 
-            		   // If the rule part is of the form 'x' or 'x(...)'
-            		   if (rule.hasName() && storage.isRuleName(rule.getName())) {
-            			   String x = rule.getName();
-            			   // If the rule part is of the form 'x' with no arguments
-            			   if (!rule.hasArguments())
-            				   pos = ruleCallWithResult(interpreter, storage.getRule(x), null, loc, getLetResultChildNodes(letNode, n));
-            			   else // if the rule part 'x(...)' (with arguments)
-            				   pos = ruleCallWithResult(interpreter, storage.getRule(x), rule.getArguments(), loc, getLetResultChildNodes(letNode, n));
-            			   if (!pos.isEvaluated())
-            				   return pos;
-	    				   UpdateMultiset newUpdates = new UpdateMultiset();
-	    				   Element value = null;
-	    				   for (Update u: pos.getUpdates()) {
-	    					   if (("-" + entry.getKey()).equals(u.loc.name))
-    							   value = u.value;
-	    					   else
-	    						   newUpdates.add(u);
-	    				   }
-	    				   if (value == null) {
-	    					   value = Element.UNDEF;
-	    					   capi.warning(PLUGIN_NAME, "result hasn't been set by the rule " + x + ".", n, interpreter);
-	    				   }
-	    				   pos.setNode(null, null, null);	// The updates got stored into pos by ruleCallWithResult but they should be stored in n instead
-	    				   n.setNode(n.getLocation(), newUpdates, value);
-	    				   return letNode;
-            		   }
-            		   else
-            			   throw new CoreASMError("\"" + rule.getName() + "\" is not a rule name.", pos.getFirst());
-            	   }
-	           }
-           }
+					   // If the rule part is of the form 'x' or 'x(...)'
+					   if (rule.hasName() && storage.isRuleName(rule.getName())) {
+						   String x = rule.getName();
+						   // If the rule part is of the form 'x' with no arguments
+						   if (!rule.hasArguments())
+							   pos = ruleCallWithResult(interpreter, storage.getRule(x), null, loc, getLetResultChildNodes(letNode, n));
+						   else // if the rule part 'x(...)' (with arguments)
+							   pos = ruleCallWithResult(interpreter, storage.getRule(x), rule.getArguments(), loc, getLetResultChildNodes(letNode, n));
+						   if (!pos.isEvaluated())
+							   return pos;
+						   UpdateMultiset newUpdates = new UpdateMultiset();
+						   Element value = null;
+						   for (Update u: pos.getUpdates()) {
+							   if (("-" + entry.getKey()).equals(u.loc.name))
+								   value = u.value;
+							   else
+								   newUpdates.add(u);
+						   }
+						   if (value == null) {
+							   value = Element.UNDEF;
+							   capi.warning(PLUGIN_NAME, "result hasn't been set by the rule " + x + ".", n, interpreter);
+						   }
+						   pos.setNode(null, null, null);	// The updates got stored into pos by ruleCallWithResult but they should be stored in n instead
+						   n.setNode(n.getLocation(), newUpdates, value);
+						   return letNode;
+					   }
+					   else
+						   throw new CoreASMError("\"" + rule.getName() + "\" is not a rule name.", pos.getFirst());
+				   }
+			   }
+		   }
 
-           if (!letNode.getInRule().isEvaluated()) {
-        	   clearLetResultChildNodes(letNode);
-        	   UpdateMultiset updates = new UpdateMultiset();
-               for (String v: variableMap.keySet()) {
-            	   updates.addAll(variableMap.get(v).getUpdates());
-                   interpreter.addEnv(v,variableMap.get(v).getValue());
-               }
+		   if (!letNode.getInRule().isEvaluated()) {
+			   clearLetResultChildNodes(letNode);
+			   UpdateMultiset updates = new UpdateMultiset();
+			   for (String v: variableMap.keySet()) {
+				   updates.addAll(variableMap.get(v).getUpdates());
+				   interpreter.addEnv(v,variableMap.get(v).getValue());
+			   }
 
-               try {
-            	   Set<Update> aggregatedUpdate = storage.performAggregation(updates);
-            	   if (storage.isConsistent(aggregatedUpdate)) {
-            		   pushState();
-            		   storage.apply(aggregatedUpdate);
-            		   return letNode.getInRule();
-            	   }
-               } catch (EngineError e) {
-               }
-               capi.warning(PLUGIN_NAME, "TurboASM Plugin: Inconsistent updates computed in sequence. Leaving the sequence", letNode.getInRule(), interpreter);
-               pos.setNode(null, updates, null);
+			   try {
+				   Set<Update> aggregatedUpdate = storage.performAggregation(updates);
+				   if (storage.isConsistent(aggregatedUpdate)) {
+					   pushState();
+					   storage.apply(aggregatedUpdate);
+					   return letNode.getInRule();
+				   }
+			   } catch (EngineError e) {
+			   }
+			   capi.warning(PLUGIN_NAME, "TurboASM Plugin: Inconsistent updates computed in sequence. Leaving the sequence", letNode.getInRule(), interpreter);
+			   pos.setNode(null, updates, null);
 
-               return pos;
-           }
-           else {
-        	   UpdateMultiset updates = new UpdateMultiset();
-               for (String v: variableMap.keySet()) {
-            	   updates.addAll(variableMap.get(v).getUpdates());
-                   interpreter.removeEnv(v);
-               }
+			   return pos;
+		   }
+		   else {
+			   UpdateMultiset updates = new UpdateMultiset();
+			   for (String v: variableMap.keySet()) {
+				   updates.addAll(variableMap.get(v).getUpdates());
+				   interpreter.removeEnv(v);
+			   }
 
-               updates = storage.compose(updates, letNode.getInRule().getUpdates());
-               popState();
-               pos.setNode(null,updates,null);
-               return pos;
-           }
-        }
-        if (pos instanceof LetResultChildNode)
-        	return pos.getParent();
+			   updates = storage.compose(updates, letNode.getInRule().getUpdates());
+			   popState();
+			   pos.setNode(null,updates,null);
+			   return pos;
+		   }
+		}
+		if (pos instanceof LetResultChildNode)
+			return pos.getParent();
 
-        return pos;
-    }
+		return pos;
+	}
 
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
@@ -200,8 +200,8 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		return null;
 	}
 
-    public Map<String, GrammarRule> getParsers() {
-    	if (parsers == null) {
+	public Map<String, GrammarRule> getParsers() {
+		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices) capi.getPlugin("Kernel")
 					.getPluginInterface();
@@ -240,12 +240,12 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 					new GrammarRule("LetRule",
 							"'let' ID ('=' | '<-') Term (',' ID '<-' Term )* 'in' Rule",
 							letRuleParser, PLUGIN_NAME));
-    	}
+		}
 
-    	return parsers;
-    }
+		return parsers;
+	}
 
-    /**
+	/**
 	 * Handles a call to a rule that has <b>result</b>.
 	 *
 	 * @param name rule name
@@ -264,41 +264,41 @@ public class LetRulePlugin extends Plugin implements ParserPlugin, InterpreterPl
 		return interpreter.ruleCall(rule, exParams, exArgs, pos);
 	}
 
-    /* (non-Javadoc)
-     * @see org.coreasm.engine.Plugin#initialize()
-     */
-    @Override
-    public void initialize() {
-        letResultChildNodes = new ThreadLocal<Map<Node, Map<Node, LetResultChildNode>>>() {
+	/* (non-Javadoc)
+	 * @see org.coreasm.engine.Plugin#initialize()
+	 */
+	@Override
+	public void initialize() {
+		letResultChildNodes = new ThreadLocal<Map<Node, Map<Node, LetResultChildNode>>>() {
 			@Override
 			protected Map<Node, Map<Node, LetResultChildNode>> initialValue() {
 				return new IdentityHashMap<Node, Map<Node, LetResultChildNode>>();
 			}
 		};
-    }
+	}
 
-    private LetResultChildNode getLetResultChildNodes(LetRuleNode letNode, Node node) {
-    	Map<Node, Map<Node, LetResultChildNode>> allLetResultChildNodes = this.letResultChildNodes.get();
-    	Map<Node, LetResultChildNode> letResultChildNodes = allLetResultChildNodes.get(letNode);
-    	if (letResultChildNodes == null) {
-    		letResultChildNodes = new IdentityHashMap<Node, LetResultChildNode>();
-    		allLetResultChildNodes.put(letNode, letResultChildNodes);
-    	}
-    	LetResultChildNode letResultChildNode = letResultChildNodes.get(node);
-    	if (letResultChildNode == null) {
-    		letResultChildNode = new LetResultChildNode(letNode);
-    		letResultChildNodes.put(node, letResultChildNode);
-    	}
-    	return letResultChildNode;
-    }
+	private LetResultChildNode getLetResultChildNodes(LetRuleNode letNode, Node node) {
+		Map<Node, Map<Node, LetResultChildNode>> allLetResultChildNodes = this.letResultChildNodes.get();
+		Map<Node, LetResultChildNode> letResultChildNodes = allLetResultChildNodes.get(letNode);
+		if (letResultChildNodes == null) {
+			letResultChildNodes = new IdentityHashMap<Node, LetResultChildNode>();
+			allLetResultChildNodes.put(letNode, letResultChildNodes);
+		}
+		LetResultChildNode letResultChildNode = letResultChildNodes.get(node);
+		if (letResultChildNode == null) {
+			letResultChildNode = new LetResultChildNode(letNode);
+			letResultChildNodes.put(node, letResultChildNode);
+		}
+		return letResultChildNode;
+	}
 
-    private void clearLetResultChildNodes(LetRuleNode letNode) {
-    	Map<Node, LetResultChildNode> letResultChildNodes = this.letResultChildNodes.get().get(letNode);
-    	if (letResultChildNodes != null) {
-    		letResultChildNodes.clear();
-    		this.letResultChildNodes.get().remove(letNode);
-    	}
-    }
+	private void clearLetResultChildNodes(LetRuleNode letNode) {
+		Map<Node, LetResultChildNode> letResultChildNodes = this.letResultChildNodes.get().get(letNode);
+		if (letResultChildNodes != null) {
+			letResultChildNodes.clear();
+			this.letResultChildNodes.get().remove(letNode);
+		}
+	}
 
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;

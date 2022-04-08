@@ -112,8 +112,8 @@ public class JasmineUpdateElement extends JasmineAbstractUpdateElement {
 					// since its value may have changed, so just check
 					// to see if it is the same object (item 0)
 					return argsArray[0] == otherArgsArray[0]
-					       && argsArray[1].equals(otherArgsArray[1])
-					       && argsArray[2] == otherArgsArray[2];
+						   && argsArray[1].equals(otherArgsArray[1])
+						   && argsArray[2] == otherArgsArray[2];
 				}
 
 				case Invoke: {

@@ -23,32 +23,32 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class StepRuleNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public StepRuleNode(ScannerInfo info) {
-        super(StepPlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		"StepRule",
-        		null,
-        		info);
-    }
+	public StepRuleNode(ScannerInfo info) {
+		super(StepPlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				"StepRule",
+				null,
+				info);
+	}
 
-    public StepRuleNode(StepRuleNode node) {
-    	super(node);
-    }
+	public StepRuleNode(StepRuleNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the first rule
-     */
-    public ASTNode getFirstRule() {
-        return (ASTNode)getChildNode("alpha");
-    }
+	/**
+	 * Returns the first rule
+	 */
+	public ASTNode getFirstRule() {
+		return (ASTNode)getChildNode("alpha");
+	}
 
-    /**
-     * Returns the second rule
-     */
-    public ASTNode getSecondRule() {
-        return (ASTNode)getChildNode("beta");
-    }
+	/**
+	 * Returns the second rule
+	 */
+	public ASTNode getSecondRule() {
+		return (ASTNode)getChildNode("beta");
+	}
 
 }

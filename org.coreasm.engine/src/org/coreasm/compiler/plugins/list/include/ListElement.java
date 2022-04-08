@@ -166,7 +166,7 @@ public class ListElement extends AbstractListElement implements ModifiableIndexe
 	public int hashCode() {
 		int result = 0;
 		for (Element e: listElements)
-		    result = 31*result + (e==null ? 0 : e.hashCode());
+			result = 31*result + (e==null ? 0 : e.hashCode());
 		return result;
 	}
 

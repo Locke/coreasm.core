@@ -30,13 +30,13 @@ import java.util.HashMap;
  */
 public class MapFunction extends FunctionElement {
 
-    /**
-     * Location-value table of this function.
-     *
-     */
-    protected HashMap<ElementList,Element> table = new HashMap<ElementList,Element>();
+	/**
+	 * Location-value table of this function.
+	 *
+	 */
+	protected HashMap<ElementList,Element> table = new HashMap<ElementList,Element>();
 
-    @Override
+	@Override
 	public String toString() {
 		return super.toString() + ": " + table;
 	}
@@ -48,7 +48,7 @@ public class MapFunction extends FunctionElement {
 		super();
 	}
 
-    /**
+	/**
 	 * Creates a new Function with the default value.
 	 */
 	public MapFunction(Element defaultValue) {

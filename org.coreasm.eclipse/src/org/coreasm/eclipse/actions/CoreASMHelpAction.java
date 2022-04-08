@@ -27,15 +27,15 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  */
 public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
-    private boolean windowOpen;
-    private Shell shell;
-    private Display display;
+	private boolean windowOpen;
+	private Shell shell;
+	private Display display;
 	/**
 	 * The constructor.
 	 */
 	public CoreASMHelpAction() {
-        windowOpen = false;
-    }
+		windowOpen = false;
+	}
 
 	/**
 	 * The action has been activated. The argument of the
@@ -44,65 +44,65 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-        if (!windowOpen) {
-            display = Display.getCurrent();
-            shell = new Shell (window.getShell(),SWT.SHELL_TRIM);
-            shell.setLayout(new FillLayout());
-            shell.setText("CoreASM Help");
-            String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
-            try {
-                shell.setImage(new Image(display,root+CoreASMPlugin.MAIN_ICON_PATH));
-            }
-            catch (Throwable e) {
-                MessageDialog.openError(
-                        window.getShell(),
-                        "CoreASM Plug-in",
-                        e.getMessage());
-            }
+		if (!windowOpen) {
+			display = Display.getCurrent();
+			shell = new Shell (window.getShell(),SWT.SHELL_TRIM);
+			shell.setLayout(new FillLayout());
+			shell.setText("CoreASM Help");
+			String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
+			try {
+				shell.setImage(new Image(display,root+CoreASMPlugin.MAIN_ICON_PATH));
+			}
+			catch (Throwable e) {
+				MessageDialog.openError(
+						window.getShell(),
+						"CoreASM Plug-in",
+						e.getMessage());
+			}
 
 //            Browser browser = new Browser(shell,SWT.SHELL_TRIM);
 //            browser.setText("<HTML><HEAD><TITLE>CoreASM Help</TITLE></HEAD><BODY>KLF</BODY></HTML>");
 
-            ScrolledComposite c = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-            Text t = new Text(c, SWT.MULTI|SWT.WRAP|SWT.READ_ONLY);
-            StringBuffer text = new StringBuffer();
+			ScrolledComposite c = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+			Text t = new Text(c, SWT.MULTI|SWT.WRAP|SWT.READ_ONLY);
+			StringBuffer text = new StringBuffer();
 
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(root+"data/CoreASMHelp.dat"));
-                String line = reader.readLine();
-                while (line!=null) {
-                    text.append(line + Tools.getEOL());
-                    line = reader.readLine();
-                }
-                reader.close();
-            }
-            catch (Throwable e) {
-                MessageDialog.openError(
-                        window.getShell(),
-                        "CoreASM Plug-in",
-                        e.getMessage());
-            }
-            t.setText(text.toString());
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(root+"data/CoreASMHelp.dat"));
+				String line = reader.readLine();
+				while (line!=null) {
+					text.append(line + Tools.getEOL());
+					line = reader.readLine();
+				}
+				reader.close();
+			}
+			catch (Throwable e) {
+				MessageDialog.openError(
+						window.getShell(),
+						"CoreASM Plug-in",
+						e.getMessage());
+			}
+			t.setText(text.toString());
 
-            t.setBackground(new Color(display,255,255,255));
-            c.setContent(t);
-            c.setExpandHorizontal(true);
-            c.setExpandVertical(true);
-            c.setMinWidth(400);
-            c.setMinHeight(1800);
-            shell.setSize(600, 400);
-            shell.setLocation(200,200);
+			t.setBackground(new Color(display,255,255,255));
+			c.setContent(t);
+			c.setExpandHorizontal(true);
+			c.setExpandVertical(true);
+			c.setMinWidth(400);
+			c.setMinHeight(1800);
+			shell.setSize(600, 400);
+			shell.setLocation(200,200);
 
-            shell.open();
-            windowOpen = true;
-            while (!shell.isDisposed ()) {
-                if (!display.readAndDispatch ()) display.sleep ();
-            }
-            windowOpen = false;
-        }
-        else {
-            shell.setActive();
-        }
+			shell.open();
+			windowOpen = true;
+			while (!shell.isDisposed ()) {
+				if (!display.readAndDispatch ()) display.sleep ();
+			}
+			windowOpen = false;
+		}
+		else {
+			shell.setActive();
+		}
 	}
 
 	/**

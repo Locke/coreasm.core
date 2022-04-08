@@ -49,22 +49,22 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 2, 1, "beta");
 
 	public static final String PLUGIN_NAME = PropertyPlugin.class.getSimpleName();
-    public static final String ALWAYS_OP = "G";
-    public static final String EVENTUALLY_OP = "F";
-    public static final String UNTIL_OP = "U";
-    public static final String NEXT_OP = "X";
-    public static final String DUAL_OF_UNTIL_OP = "V";
+	public static final String ALWAYS_OP = "G";
+	public static final String EVENTUALLY_OP = "F";
+	public static final String UNTIL_OP = "U";
+	public static final String NEXT_OP = "X";
+	public static final String DUAL_OF_UNTIL_OP = "V";
 
-    private ArrayList<OperatorRule> opRules = null;
-    private Map<String, GrammarRule> parsers = null;
+	private ArrayList<OperatorRule> opRules = null;
+	private Map<String, GrammarRule> parsers = null;
 
 	private final String[] keywords = {"G", "F", "U", "X", "V", "check", "property"};
 	private final String[] operators = {};
 
-    @Override
-    public void initialize() {
+	@Override
+	public void initialize() {
 
-    }
+	}
 
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
@@ -77,8 +77,8 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 		return null;
 	}
 
-    public Map<String, GrammarRule> getParsers() {
-    	if (parsers == null) {
+	public Map<String, GrammarRule> getParsers() {
+		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices) capi.getPlugin("Kernel")
 					.getPluginInterface();
@@ -93,7 +93,7 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 					termParser
 					);
 
- 			// PropertyList : ('property' Expression)* ('check' 'property' Expression)? ('property' Expression)*
+			// PropertyList : ('property' Expression)* ('check' 'property' Expression)? ('property' Expression)*
 			// PropertyList : ('property' Term)* ('check' 'property' Term)? ('property' Term)*
 			Parser<Node> propertyParser = Parsers.array(
 					new Parser[] {
@@ -106,14 +106,14 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 							"('property' Term)* ('check' 'property' Term)? ('property' Term)*",
 							propertyParser, PLUGIN_NAME));
 
-    	}
+		}
 
-    	return parsers;
-    }
+		return parsers;
+	}
 
-    public VersionInfo getVersionInfo() {
-        return VERSION_INFO;
-    }
+	public VersionInfo getVersionInfo() {
+		return VERSION_INFO;
+	}
 
 
 	public String[] getKeywords() {
@@ -125,68 +125,68 @@ public class PropertyPlugin extends Plugin implements ParserPlugin, OperatorProv
 	}
 
 	public Collection<OperatorRule> getOperatorRules() {
-        if (opRules == null) {
-            opRules = new ArrayList<OperatorRule>();
+		if (opRules == null) {
+			opRules = new ArrayList<OperatorRule>();
 
-            opRules.add(new OperatorRule(UNTIL_OP,
-                        OpType.INFIX_LEFT,
-                        400,
-                        getName()));
+			opRules.add(new OperatorRule(UNTIL_OP,
+						OpType.INFIX_LEFT,
+						400,
+						getName()));
 
-            opRules.add(new OperatorRule(DUAL_OF_UNTIL_OP,
-                        OpType.INFIX_LEFT,
-                        400,
-                        getName()));
+			opRules.add(new OperatorRule(DUAL_OF_UNTIL_OP,
+						OpType.INFIX_LEFT,
+						400,
+						getName()));
 
-            opRules.add(new OperatorRule(ALWAYS_OP,
-                        OpType.PREFIX,
-                        500,
+			opRules.add(new OperatorRule(ALWAYS_OP,
+						OpType.PREFIX,
+						500,
 //                        OpAssoc.RIGHT,
-                        getName()));
+						getName()));
 
-            opRules.add(new OperatorRule(EVENTUALLY_OP,
-                        OpType.PREFIX,
-                        500,
+			opRules.add(new OperatorRule(EVENTUALLY_OP,
+						OpType.PREFIX,
+						500,
 //                        OpAssoc.RIGHT,
-                        getName()));
+						getName()));
 
-            opRules.add(new OperatorRule(NEXT_OP,
-                        OpType.PREFIX,
-                        500,
+			opRules.add(new OperatorRule(NEXT_OP,
+						OpType.PREFIX,
+						500,
 //                        OpAssoc.LEFT,
-                        getName()));
-        }
+						getName()));
+		}
 
-        return opRules;
-    }
+		return opRules;
+	}
 
- 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
+	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
- 	public static class PropertyParseMap extends ParserTools.ArrayParseMap {
+	public static class PropertyParseMap extends ParserTools.ArrayParseMap {
 
- 		public PropertyParseMap() {
- 			super(PLUGIN_NAME);
- 		}
+		public PropertyParseMap() {
+			super(PLUGIN_NAME);
+		}
 
- 		@Override
- 		public Node apply(Object[] vals) {
-	        PropertyListNode node = new PropertyListNode(null);
-	        addChildren(node, vals);
-	        node.setScannerInfo(node.getFirstCSTNode());
-	        node.incrementPropertyCount();
+		@Override
+		public Node apply(Object[] vals) {
+			PropertyListNode node = new PropertyListNode(null);
+			addChildren(node, vals);
+			node.setScannerInfo(node.getFirstCSTNode());
+			node.incrementPropertyCount();
 			return node;
 		}
 
- 		@Override
+		@Override
 		public void addChild(Node parent, Node child) {
-	        if (child.getToken() != null && child.getToken().equals("check")) {
-	            ((PropertyListNode)parent).setHasCheck(true);
-	        }
-	        parent.addChild(child);
+			if (child.getToken() != null && child.getToken().equals("check")) {
+				((PropertyListNode)parent).setHasCheck(true);
+			}
+			parent.addChild(child);
 		}
 
- 	}
+	}
 }

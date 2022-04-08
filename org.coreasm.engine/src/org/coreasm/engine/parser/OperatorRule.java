@@ -39,9 +39,9 @@ public class OperatorRule {
 	/** Operator types. */
 	public enum OpType {INFIX_LEFT, INFIX_NON, INFIX_RIGHT, PREFIX, POSTFIX, INDEX};
 
-    public static final String OPERATOR_DELIMITER = "_";
+	public static final String OPERATOR_DELIMITER = "_";
 
-    /** every operator has at least one (group of) operator symbol */
+	/** every operator has at least one (group of) operator symbol */
 	public final String opr;
 
 	/** some operators have two (groups of) operator symbols */

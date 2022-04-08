@@ -62,7 +62,7 @@ import org.coreasm.util.Logger;
  *  @version 1.0.0-beta
  */
 public class SignalsPlugin extends Plugin implements ParserPlugin,
-        InterpreterPlugin, VocabularyExtender {
+		InterpreterPlugin, VocabularyExtender {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 0, 0, "beta");
 
@@ -81,35 +81,35 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 
 	private Map<String, FunctionElement> functions = null;
 	private Map<String, BackgroundElement> backgrounds = null;
-    //private ThreadLocal<Map<Node,List<Element>>> remained;
-    private Map<String, GrammarRule> parsers;
-    private final Set<String> dependencies;
+	//private ThreadLocal<Map<Node,List<Element>>> remained;
+	private Map<String, GrammarRule> parsers;
+	private final Set<String> dependencies;
 
-    private ThreadLocal<Map<Node, SignalElement>> signals;
+	private ThreadLocal<Map<Node, SignalElement>> signals;
 
-    public SignalsPlugin() {
-    	dependencies = new HashSet<String>();
-    	dependencies.add("SetPlugin");
-    }
+	public SignalsPlugin() {
+		dependencies = new HashSet<String>();
+		dependencies.add("SetPlugin");
+	}
 
-    @Override
-    public void initialize() {
-        signals = new ThreadLocal<Map<Node, SignalElement>>() {
+	@Override
+	public void initialize() {
+		signals = new ThreadLocal<Map<Node, SignalElement>>() {
 			@Override
 			protected Map<Node, SignalElement> initialValue() {
 				return new IdentityHashMap<Node, SignalElement>();
 			}
-        };
-    	// reset functions and as the result reset inbox values
-    	if (functions != null) {
-    		functions = null;
-    		getFunctions();
-    	}
-    }
+		};
+		// reset functions and as the result reset inbox values
+		if (functions != null) {
+			functions = null;
+			getFunctions();
+		}
+	}
 
-    private Map<Node, SignalElement> getSignalsMap() {
-    	return signals.get();
-    }
+	private Map<Node, SignalElement> getSignalsMap() {
+		return signals.get();
+	}
 
 
 	@Override
@@ -194,79 +194,79 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 		return parsers;
 	}
 
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-        if (pos instanceof SignalRuleNode) {
-            SignalRuleNode signalNode = (SignalRuleNode) pos;
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
+		if (pos instanceof SignalRuleNode) {
+			SignalRuleNode signalNode = (SignalRuleNode) pos;
 
-            // 1. evaluate first three parameters
+			// 1. evaluate first three parameters
 
-            if (!signalNode.getTargetAgent().isEvaluated())
-            	return signalNode.getTargetAgent();
+			if (!signalNode.getTargetAgent().isEvaluated())
+				return signalNode.getTargetAgent();
 
-            if (!signalNode.getType().isEvaluated())
-            	return signalNode.getType();
+			if (!signalNode.getType().isEvaluated())
+				return signalNode.getType();
 
-            // 2. create a signal,
-            //    only if there is no rule or the rule is not evaluated yet
-            Element agent = signalNode.getTargetAgent().getValue();
+			// 2. create a signal,
+			//    only if there is no rule or the rule is not evaluated yet
+			Element agent = signalNode.getTargetAgent().getValue();
 
-            if (signalNode.getDoRule() == null || !signalNode.getDoRule().isEvaluated()) {
-            	SignalElement signal = new SignalElement(signalNode.getType().getValue());
-            	Map<Node, SignalElement> signalsMap = getSignalsMap();
-            	signalsMap.put(pos, signal);
+			if (signalNode.getDoRule() == null || !signalNode.getDoRule().isEvaluated()) {
+				SignalElement signal = new SignalElement(signalNode.getType().getValue());
+				Map<Node, SignalElement> signalsMap = getSignalsMap();
+				signalsMap.put(pos, signal);
 
-	            if (agent.equals(Element.UNDEF)) {
-	            	String msg = "Cannot send a signal to an undefined agent.";
-	            	capi.error(msg, pos, interpreter);
-	            	Logger.log(Logger.ERROR, Logger.plugins, msg);
-	            	return pos;
-	            }
-	            signal.src = interpreter.getSelf();
-	            signal.target = agent;
-            }
+				if (agent.equals(Element.UNDEF)) {
+					String msg = "Cannot send a signal to an undefined agent.";
+					capi.error(msg, pos, interpreter);
+					Logger.log(Logger.ERROR, Logger.plugins, msg);
+					return pos;
+				}
+				signal.src = interpreter.getSelf();
+				signal.target = agent;
+			}
 
-            // 3. if there is a rule, run the rule
-            if (signalNode.getDoRule() != null) {
-            	String varname = signalNode.getVariable().getToken();
-            	if (!signalNode.getDoRule().isEvaluated()) {
-            		interpreter.addEnv(varname, getSignalsMap().get(pos));
-            		return signalNode.getDoRule();
-            	}
-            }
+			// 3. if there is a rule, run the rule
+			if (signalNode.getDoRule() != null) {
+				String varname = signalNode.getVariable().getToken();
+				if (!signalNode.getDoRule().isEvaluated()) {
+					interpreter.addEnv(varname, getSignalsMap().get(pos));
+					return signalNode.getDoRule();
+				}
+			}
 
-            // 4. gather the updates
-            UpdateMultiset updates = new UpdateMultiset();
+			// 4. gather the updates
+			UpdateMultiset updates = new UpdateMultiset();
 
-            if (signalNode.getDoRule() != null) {
-            	String varname = signalNode.getVariable().getToken();
-            	interpreter.removeEnv(varname);
-            	updates.addAll(signalNode.getDoRule().getUpdates());
-            }
-            Location inboxLoc = new Location(SIG_INBOX_FUNC_NAME, new ElementList(agent));
-            SignalElement newSignal = getSignalsMap().get(pos);
-            updates.add(new Update(inboxLoc, newSignal, SetPlugin.SETADD_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
-            getSignalsMap().remove(pos);
-            pos.setNode(null, updates, null);
+			if (signalNode.getDoRule() != null) {
+				String varname = signalNode.getVariable().getToken();
+				interpreter.removeEnv(varname);
+				updates.addAll(signalNode.getDoRule().getUpdates());
+			}
+			Location inboxLoc = new Location(SIG_INBOX_FUNC_NAME, new ElementList(agent));
+			SignalElement newSignal = getSignalsMap().get(pos);
+			updates.add(new Update(inboxLoc, newSignal, SetPlugin.SETADD_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
+			getSignalsMap().remove(pos);
+			pos.setNode(null, updates, null);
 
-            ServiceRequest sr = new ServiceRequest("debuginfo");
-            sr.parameters.put("message", "Signal to be sent: " + newSignal);
-            sr.parameters.put("channel", "Signals");
-            capi.serviceCall(sr, false);
-        }
+			ServiceRequest sr = new ServiceRequest("debuginfo");
+			sr.parameters.put("message", "Signal to be sent: " + newSignal);
+			sr.parameters.put("channel", "Signals");
+			capi.serviceCall(sr, false);
+		}
 
-        else if (pos instanceof OnSignalRuleNode) {
-        	OnSignalRuleNode onsignalNode = (OnSignalRuleNode)pos;
+		else if (pos instanceof OnSignalRuleNode) {
+			OnSignalRuleNode onsignalNode = (OnSignalRuleNode)pos;
 
-            if (!onsignalNode.getType().isEvaluated())
-            	return onsignalNode.getType();
+			if (!onsignalNode.getType().isEvaluated())
+				return onsignalNode.getType();
 
-            // 1. before evaluating the rule
+			// 1. before evaluating the rule
 
-            if (!onsignalNode.getDoRule().isEvaluated()) {
-            	Element inbox;
+			if (!onsignalNode.getDoRule().isEvaluated()) {
+				Element inbox;
 
-            	// 1-1. get signal inbox
-            	try {
+				// 1-1. get signal inbox
+				try {
 					inbox = capi.getStorage().getValue(new Location(SIG_INBOX_FUNC_NAME, new ElementList(interpreter.getSelf())));
 				} catch (InvalidLocationException e) {
 					capi.error(e, pos, interpreter);
@@ -293,12 +293,12 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 						interpreter.addEnv(onsignalNode.getVariable().getToken(), matchingSignal);
 
 						ServiceRequest sr = new ServiceRequest("debuginfo");
-			            sr.parameters.put("message", "Signal observed: " + matchingSignal + " by "
-			            		+ interpreter.getSelf());
-			            sr.parameters.put("channel", "Signals");
-			            capi.serviceCall(sr, false);
+						sr.parameters.put("message", "Signal observed: " + matchingSignal + " by "
+								+ interpreter.getSelf());
+						sr.parameters.put("channel", "Signals");
+						capi.serviceCall(sr, false);
 
-			            return onsignalNode.getDoRule();
+						return onsignalNode.getDoRule();
 					} else {
 						pos.setNode(null, new UpdateMultiset(), null);
 						return pos;
@@ -309,23 +309,23 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 					Logger.log(Logger.ERROR, Logger.plugins, emsg);
 					return pos;
 				}
-            } else {
-            	// 2. after evaluating the rule
+			} else {
+				// 2. after evaluating the rule
 
-                UpdateMultiset updates = new UpdateMultiset();
+				UpdateMultiset updates = new UpdateMultiset();
 
-                interpreter.removeEnv(onsignalNode.getVariable().getToken());
-            	updates.addAll(onsignalNode.getDoRule().getUpdates());
-	            Location inboxLoc = new Location(SIG_INBOX_FUNC_NAME, new ElementList(interpreter.getSelf()));
-	            updates.add(new Update(inboxLoc, getSignalsMap().get(pos), SetPlugin.SETREMOVE_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
-	            getSignalsMap().remove(pos);
-	            pos.setNode(null, updates, null);
-            }
-        }
+				interpreter.removeEnv(onsignalNode.getVariable().getToken());
+				updates.addAll(onsignalNode.getDoRule().getUpdates());
+				Location inboxLoc = new Location(SIG_INBOX_FUNC_NAME, new ElementList(interpreter.getSelf()));
+				updates.add(new Update(inboxLoc, getSignalsMap().get(pos), SetPlugin.SETREMOVE_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
+				getSignalsMap().remove(pos);
+				pos.setNode(null, updates, null);
+			}
+		}
 
-        // in case of error
-        return pos;
-    }
+		// in case of error
+		return pos;
+	}
 
 	@Override
 	public VersionInfo getVersionInfo() {
@@ -397,9 +397,9 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	 */
 	public static class SignalRuleParseMap extends ParserTools.ArrayParseMap {
 
-	    String nextChildName = "alpha";
+		String nextChildName = "alpha";
 
-	    public SignalRuleParseMap() {
+		public SignalRuleParseMap() {
 			super(PLUGIN_NAME);
 		}
 
@@ -417,10 +417,10 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 				parent.addChild(nextChildName, child);
 			else {
 				String token = child.getToken();
-		        if (token.equals("as"))
-		        	nextChildName = SignalsPlugin.VARIABLE_NODE_NAME;
-		        else if (token.equals("do"))
-		        	nextChildName = SignalsPlugin.RULE_NODE_NAME;
+				if (token.equals("as"))
+					nextChildName = SignalsPlugin.VARIABLE_NODE_NAME;
+				else if (token.equals("do"))
+					nextChildName = SignalsPlugin.RULE_NODE_NAME;
 				super.addChild(parent, child);
 			}
 		}
@@ -434,7 +434,7 @@ public class SignalsPlugin extends Plugin implements ParserPlugin,
 	 */
 	public static class OnSignalRuleParseMap extends ParserTools.ArrayParseMap {
 
-	    public OnSignalRuleParseMap() {
+		public OnSignalRuleParseMap() {
 			super(PLUGIN_NAME);
 		}
 

@@ -113,7 +113,7 @@ public class Kernel extends Plugin
 
 	/** operators */
 	public static final String OP_RULE_OR_FUNCTION_ELEMENT = "@";
-    private static final String EQUALITY_OP = "=";
+	private static final String EQUALITY_OP = "=";
 
 	/** List of kernel parsers */
 	private Map<String, GrammarRule> parsers = null;
@@ -126,59 +126,59 @@ public class Kernel extends Plugin
 	private Map<String,BackgroundElement> backgroundElements = null;
 	private Map<String,RuleElement> ruleElements = null;
 
-    /** List of update actions provided by this plugin (empty). */
-    public static final String[] UPDATE_ACTIONS = {};
+	/** List of update actions provided by this plugin (empty). */
+	public static final String[] UPDATE_ACTIONS = {};
 
-    private Map<String, Parser<Node>> exposedParsers = null;
+	private Map<String, Parser<Node>> exposedParsers = null;
 
-    // OLD LAZY-PARSERS FROM OLD PARSER
-    //private final Parser<Node>[] tupleTermParserArray = new Parser[1];
-    //private final Parser<Node> tupleTermParser = ParserTools.lazy("TupleTerm", tupleTermParserArray);
-    //private final Parser<Node>[] ruleParserArray = new Parser[1];
-    //private final Parser<Node> ruleParser = ParserTools.lazy("Rule", ruleParserArray);
-    //private final Parser<Node>[] termParserArray = new Parser[1];
-    //private final Parser<Node> termParser = ParserTools.lazy("Term", termParserArray);
-    //private final Parser<Node>[] constantTermParserArray = new Parser[1];
-    //private final Parser<Node> constantTermParser = ParserTools.lazy("ConstantTerm", constantTermParserArray);
-    //private final Parser<Node>[] basicTermParserArray = new Parser[1];
-    //private final Parser<Node> basicTermParser = ParserTools.lazy("BasicTerm", basicTermParserArray);
-    //private final Parser<Node>[] funcRuleTermParserArray = new Parser[1];
-    //private final Parser<Node> funcRuleTermParser = ParserTools.lazy("FunctionRuleTerm", funcRuleTermParserArray);
-    //private final Parser<Node>[] headerParserArray = new Parser[1];
-    //private final Parser<Node> headerParser = ParserTools.lazy("Header", headerParserArray);
-    //private final Parser<Node>[] ruleSignatureParserArray = new Parser[1];
-    //private final Parser<Node> ruleSignatureParser = ParserTools.lazy("RuleSignature", ruleSignatureParserArray);
+	// OLD LAZY-PARSERS FROM OLD PARSER
+	//private final Parser<Node>[] tupleTermParserArray = new Parser[1];
+	//private final Parser<Node> tupleTermParser = ParserTools.lazy("TupleTerm", tupleTermParserArray);
+	//private final Parser<Node>[] ruleParserArray = new Parser[1];
+	//private final Parser<Node> ruleParser = ParserTools.lazy("Rule", ruleParserArray);
+	//private final Parser<Node>[] termParserArray = new Parser[1];
+	//private final Parser<Node> termParser = ParserTools.lazy("Term", termParserArray);
+	//private final Parser<Node>[] constantTermParserArray = new Parser[1];
+	//private final Parser<Node> constantTermParser = ParserTools.lazy("ConstantTerm", constantTermParserArray);
+	//private final Parser<Node>[] basicTermParserArray = new Parser[1];
+	//private final Parser<Node> basicTermParser = ParserTools.lazy("BasicTerm", basicTermParserArray);
+	//private final Parser<Node>[] funcRuleTermParserArray = new Parser[1];
+	//private final Parser<Node> funcRuleTermParser = ParserTools.lazy("FunctionRuleTerm", funcRuleTermParserArray);
+	//private final Parser<Node>[] headerParserArray = new Parser[1];
+	//private final Parser<Node> headerParser = ParserTools.lazy("Header", headerParserArray);
+	//private final Parser<Node>[] ruleSignatureParserArray = new Parser[1];
+	//private final Parser<Node> ruleSignatureParser = ParserTools.lazy("RuleSignature", ruleSignatureParserArray);
 
-    private final String[] keywords = {"CoreASM", "nosignature", "use", "init", "rule",
-    		"ruleelement", "skip", "import", "do", "undef", "true", "false", "self"};
-    private final String[] operators = {"=", "(", ")", ",", "@", ":=", "!!"};
+	private final String[] keywords = {"CoreASM", "nosignature", "use", "init", "rule",
+			"ruleelement", "skip", "import", "do", "undef", "true", "false", "self"};
+	private final String[] operators = {"=", "(", ")", ",", "@", ":=", "!!"};
 
-    private final Parser.Reference<Node> refTupleTermParser = Parser.newReference();
-    private final Parser.Reference<Node> refRuleParser = Parser.newReference();
-    private final Parser.Reference<Node> refHeaderParser = Parser.newReference();
-    private final Parser.Reference<Node> refTermParser = Parser.newReference();
-    private final Parser.Reference<Node> refFuncRuleTermParser = Parser.newReference();
-    private final Parser.Reference<Node> refConstantTermParser = Parser.newReference();
-    private final Parser.Reference<Node> refBasicTermParser = Parser.newReference();
-    private final Parser.Reference<Node> refRuleSignatureParser = Parser.newReference();
-    private final Parser.Reference<Node> refBasicExprParser = Parser.newReference();
-    private final Parser.Reference<Node> refRuleDeclarationParser = Parser.newReference();
+	private final Parser.Reference<Node> refTupleTermParser = Parser.newReference();
+	private final Parser.Reference<Node> refRuleParser = Parser.newReference();
+	private final Parser.Reference<Node> refHeaderParser = Parser.newReference();
+	private final Parser.Reference<Node> refTermParser = Parser.newReference();
+	private final Parser.Reference<Node> refFuncRuleTermParser = Parser.newReference();
+	private final Parser.Reference<Node> refConstantTermParser = Parser.newReference();
+	private final Parser.Reference<Node> refBasicTermParser = Parser.newReference();
+	private final Parser.Reference<Node> refRuleSignatureParser = Parser.newReference();
+	private final Parser.Reference<Node> refBasicExprParser = Parser.newReference();
+	private final Parser.Reference<Node> refRuleDeclarationParser = Parser.newReference();
 
-    //compiler plugin
-    private final CompilerPlugin compilerPlugin = new CompilerKernelPlugin(this);
+	//compiler plugin
+	private final CompilerPlugin compilerPlugin = new CompilerKernelPlugin(this);
 
-    /**
-     * Creates a new Kernel plugin.
-     */
-    public Kernel() {
-    	universeNames = new HashSet<String>();
+	/**
+	 * Creates a new Kernel plugin.
+	 */
+	public Kernel() {
+		universeNames = new HashSet<String>();
 		universeNames.add(AbstractStorage.AGENTS_UNIVERSE_NAME);
 
-    	backgroundNames = new HashSet<String>();
+		backgroundNames = new HashSet<String>();
 		backgroundNames.add(BooleanBackgroundElement.BOOLEAN_BACKGROUND_NAME);
 		backgroundNames.add(FunctionBackgroundElement.FUNCTION_BACKGROUND_NAME);
 		backgroundNames.add(RuleBackgroundElement.RULE_BACKGROUND_NAME);
-    }
+	}
 
 	@Override
 	public void setControlAPI(ControlAPI capi) {
@@ -197,29 +197,29 @@ public class Kernel extends Plugin
 	public Set<Parser<? extends Object>> getLexers() {
 		HashSet<String> kws = new HashSet<String>();
 		HashSet<String> oprs = new HashSet<String>();
-       	Set<Parser<? extends Object>> lexers = new HashSet<Parser<? extends Object>>();
+		Set<Parser<? extends Object>> lexers = new HashSet<Parser<? extends Object>>();
 
-       	// Getting keywords and operators from all other plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin) {
-       			ParserPlugin pp = (ParserPlugin)p;
-        		kws.addAll(Arrays.asList(pp.getKeywords()));
-        		oprs.addAll(Arrays.asList(pp.getOperators()));
-       			if ( p != this )
-       				lexers.addAll(pp.getLexers());
-       		}
+		// Getting keywords and operators from all other plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin) {
+				ParserPlugin pp = (ParserPlugin)p;
+				kws.addAll(Arrays.asList(pp.getKeywords()));
+				oprs.addAll(Arrays.asList(pp.getOperators()));
+				if ( p != this )
+					lexers.addAll(pp.getLexers());
+			}
 
-       	// initializing the parser tools instance
-       	String[] kwsArray = new String[0];
-       	String[] oprsArray = new String[0];
-       	kwsArray = kws.toArray(kwsArray);
-       	oprsArray = oprs.toArray(oprsArray);
+		// initializing the parser tools instance
+		String[] kwsArray = new String[0];
+		String[] oprsArray = new String[0];
+		kwsArray = kws.toArray(kwsArray);
+		oprsArray = oprs.toArray(oprsArray);
 
-       	ParserTools parserTools = ParserTools.getInstance(capi);
-       	parserTools.init(kwsArray, oprsArray, lexers);
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		parserTools.init(kwsArray, oprsArray, lexers);
 
-       	return lexers;
+		return lexers;
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class Kernel extends Plugin
 	/*
 	 * old code
 	 *
-    public Map<String, GrammarRule> getParsers() {
+	public Map<String, GrammarRule> getParsers() {
 
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -261,28 +261,28 @@ public class Kernel extends Plugin
 			// ParserTools also gets initialized
 			getLexers();
 
-	       	Parser<Node> delimParser = parserTools.getDelimiterParser();
-	    	Parser<Node> optionalDelimParser = parserTools.getOptionalDelimiterParser();
-	    	Parser<Node> idParser = parserTools.getIdentifierParser();
-	    	// CoreASM : 'CoreASM' ID ( UseClause )* ( Header )* 'init' ID
-	    	Parser<Node> coreASMParser = Parsers.mapn(new Parser[] {
-	    			optionalDelimParser,
-	    			parserTools.getKeywordParser("CoreASM", this.getName()),
-	    			delimParser,
-	    			idParser,
-	    			delimParser,
-	    			},
-	    			new CoreASMParseMap()
-	    			);
-	    	parsers.put("CoreASM", new GrammarRule("CoreASM", "'CoreASM' ID ( UseClause )*", coreASMParser, this.getName()));
+			Parser<Node> delimParser = parserTools.getDelimiterParser();
+			Parser<Node> optionalDelimParser = parserTools.getOptionalDelimiterParser();
+			Parser<Node> idParser = parserTools.getIdentifierParser();
+			// CoreASM : 'CoreASM' ID ( UseClause )* ( Header )* 'init' ID
+			Parser<Node> coreASMParser = Parsers.mapn(new Parser[] {
+					optionalDelimParser,
+					parserTools.getKeywordParser("CoreASM", this.getName()),
+					delimParser,
+					idParser,
+					delimParser,
+					},
+					new CoreASMParseMap()
+					);
+			parsers.put("CoreASM", new GrammarRule("CoreASM", "'CoreASM' ID ( UseClause )*", coreASMParser, this.getName()));
 		}
 
-    	return parsers;
+		return parsers;
 
-    }
-    */
+	}
+	*/
 
-    public Map<String, GrammarRule> getParsers() {
+	public Map<String, GrammarRule> getParsers() {
 
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -301,13 +301,13 @@ public class Kernel extends Plugin
 
 			Parser<Node> idParser = parserTools.getIdParser();
 
-	    	// UseClause : 'use' ID
-	    	Parser<Node> useClauseParser = Parsers.sequence(
-	    			parserTools.getKeywParser("use", this.getName()),
-	    			idParser,
-	    			new ParseMap2(getName()) {
+			// UseClause : 'use' ID
+			Parser<Node> useClauseParser = Parsers.sequence(
+					parserTools.getKeywParser("use", this.getName()),
+					idParser,
+					new ParseMap2(getName()) {
 
-	    			    @Override
+						@Override
 						public Node apply(Node a, Node b) {
 							Node node = new ASTNode(
 									pluginName,
@@ -319,19 +319,19 @@ public class Kernel extends Plugin
 							node.addChild(b);
 							return node;
 						}
-	    			}
-	    			);
-	    	parsers.put("UseClause", new GrammarRule("UseClause", "'use' ID", useClauseParser, this.getName()));
+					}
+					);
+			parsers.put("UseClause", new GrammarRule("UseClause", "'use' ID", useClauseParser, this.getName()));
 
-	    	createHeaderParser();
+			createHeaderParser();
 
-	    	// Inititialization: 'init' ID
-	    	Parser<Node> initializationParser = Parsers.sequence(
-	    			parserTools.getKeywParser("init", this.getName()),
-	    			idParser,
-	    			new ParseMap2(getName()) {
+			// Inititialization: 'init' ID
+			Parser<Node> initializationParser = Parsers.sequence(
+					parserTools.getKeywParser("init", this.getName()),
+					idParser,
+					new ParseMap2(getName()) {
 
-	    			    @Override
+						@Override
 						public Node apply(Node a, Node b) {
 							Node node = new ASTNode(
 									null,
@@ -345,41 +345,41 @@ public class Kernel extends Plugin
 							return node;
 						}
 
-	    			});
-	    	parsers.put("Initialization", new GrammarRule("Initialization", "'init' ID", initializationParser, this.getName()));
+					});
+			parsers.put("Initialization", new GrammarRule("Initialization", "'init' ID", initializationParser, this.getName()));
 
 
-	    	// RuleSignature : ID ( '(' ID (',' ID)* ')' )?
-	    	Parser<Node> rulesignParser = Parsers.array(new Parser[] {
-	    			idParser,
+			// RuleSignature : ID ( '(' ID (',' ID)* ')' )?
+			Parser<Node> rulesignParser = Parsers.array(new Parser[] {
+					idParser,
 					Parsers.array(
 							parserTools.getOprParser("("),
-	    					parserTools.csplus(idParser),
-	    					parserTools.getOprParser(")")
-	    					).optional(null),
-	    			}).map(new ParserTools.RuleSignatureParseMap());
-	    	refRuleSignatureParser.set(rulesignParser);
-	    	parsers.put("RuleSignature", new GrammarRule("RuleSignature", "ID ( '(' ID (',' ID)* ')' )?", refRuleSignatureParser.lazy(), this.getName()));
+							parserTools.csplus(idParser),
+							parserTools.getOprParser(")")
+							).optional(null),
+					}).map(new ParserTools.RuleSignatureParseMap());
+			refRuleSignatureParser.set(rulesignParser);
+			parsers.put("RuleSignature", new GrammarRule("RuleSignature", "ID ( '(' ID (',' ID)* ')' )?", refRuleSignatureParser.lazy(), this.getName()));
 
 
-	    	// Rule : ...
-	    	createRuleParser(parsers);
+			// Rule : ...
+			createRuleParser(parsers);
 
-	    	// RuleDeclaration : 'rule' RuleSignature '=' Rule
-	    	Parser<Node> ruleDeclarationParser = Parsers.array(new Parser[] {
-	    			parserTools.getKeywParser("rule", this.getName()),
-	    			refRuleSignatureParser.lazy(),
-	    			parserTools.getOprParser("="),
-	    			refRuleParser.lazy()}
+			// RuleDeclaration : 'rule' RuleSignature '=' Rule
+			Parser<Node> ruleDeclarationParser = Parsers.array(new Parser[] {
+					parserTools.getKeywParser("rule", this.getName()),
+					refRuleSignatureParser.lazy(),
+					parserTools.getOprParser("="),
+					refRuleParser.lazy()}
 
-	    			).map(new ParserTools.RuleDeclarationParseMap());
-	    	refRuleDeclarationParser.set(ruleDeclarationParser);
-	    	parsers.put("RuleDeclaration", new GrammarRule("RuleDeclaration", "'rule' RuleSignature '=' Rule", refRuleDeclarationParser.lazy(), this.getName()));
+					).map(new ParserTools.RuleDeclarationParseMap());
+			refRuleDeclarationParser.set(ruleDeclarationParser);
+			parsers.put("RuleDeclaration", new GrammarRule("RuleDeclaration", "'rule' RuleSignature '=' Rule", refRuleDeclarationParser.lazy(), this.getName()));
 
-	    	// CoreASM : 'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*
-	    	Parser<Node> coreASMParser = Parsers.array(new Parser[] {
-	    			parserTools.getKeywParser("CoreASM", this.getName()),
-	    			idParser,
+			// CoreASM : 'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*
+			Parser<Node> coreASMParser = Parsers.array(new Parser[] {
+					parserTools.getKeywParser("CoreASM", this.getName()),
+					idParser,
 					parserTools.many(
 							Parsers.or(
 									useClauseParser,
@@ -388,97 +388,97 @@ public class Kernel extends Plugin
 									ruleDeclarationParser
 							)
 					)
-	    			}).map(new ParserTools.CoreASMParseMap())
-	    			.followedBy(Parsers.EOF);
-	    	parsers.put("CoreASM", new GrammarRule("CoreASM",
-	    			"'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*",
-	    			coreASMParser, this.getName()));
+					}).map(new ParserTools.CoreASMParseMap())
+					.followedBy(Parsers.EOF);
+			parsers.put("CoreASM", new GrammarRule("CoreASM",
+					"'CoreASM' ID ( UseClause | Header | 'init' ID | RuleDeclaration)*",
+					coreASMParser, this.getName()));
 		}
 
-    	return parsers;
+		return parsers;
 
-    }
+	}
 
-    private void createHeaderParser() {
-    	List<Parser<Node>> headerParsers = new ArrayList<Parser<Node>>();
+	private void createHeaderParser() {
+		List<Parser<Node>> headerParsers = new ArrayList<Parser<Node>>();
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
+		ParserTools parserTools = ParserTools.getInstance(capi);
 
-    	parsers.put("Header", new GrammarRule("Header", "'nosignature'", refHeaderParser.lazy(), this.getName()));
+		parsers.put("Header", new GrammarRule("Header", "'nosignature'", refHeaderParser.lazy(), this.getName()));
 
-    	// Header : 'nosignature'
-    	headerParsers.add(parserTools.getKeywParser("nosignature", this.getName()));
+		// Header : 'nosignature'
+		headerParsers.add(parserTools.getKeywParser("nosignature", this.getName()));
 
-       	// Getting header parsers from all the plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin && p != this) {
-       			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Header");
-       			if (gRule != null) {
-       				headerParsers.add(gRule.parser);
-       			}
-       		}
+		// Getting header parsers from all the plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin && p != this) {
+				GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Header");
+				if (gRule != null) {
+					headerParsers.add(gRule.parser);
+				}
+			}
 
-       	Parser<Node> headerParser = Parsers.or(headerParsers);
-       	refHeaderParser.set(headerParser);
+		Parser<Node> headerParser = Parsers.or(headerParsers);
+		refHeaderParser.set(headerParser);
 
-    }
+	}
 
-    /*
-     * Creates a parser to parse ASM Rules. It gathers all
-     * the pieces from other plug-ins and creates the Rule parser.
-     *
-     */
-    private void createRuleParser(Map<String, GrammarRule> parsers) {
-    	List<Parser<Node>> rules = new ArrayList<Parser<Node>>();
+	/*
+	 * Creates a parser to parse ASM Rules. It gathers all
+	 * the pieces from other plug-ins and creates the Rule parser.
+	 *
+	 */
+	private void createRuleParser(Map<String, GrammarRule> parsers) {
+		List<Parser<Node>> rules = new ArrayList<Parser<Node>>();
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
-    	Parser<Node> idParser = parserTools.getIdParser();
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		Parser<Node> idParser = parserTools.getIdParser();
 
-    	// Rule : ... // open for future extensions
-    	parsers.put("Rule",
-    			new GrammarRule("Rule", "", refRuleParser.lazy(), PLUGIN_NAME));
+		// Rule : ... // open for future extensions
+		parsers.put("Rule",
+				new GrammarRule("Rule", "", refRuleParser.lazy(), PLUGIN_NAME));
 
-    	// Rule : 'skip'
-    	Parser<Node> skipRuleParser = parserTools.getKeywParser("skip", PLUGIN_NAME).map(
-    			new ParseMap<Node, Node>(PLUGIN_NAME) {
-    				@Override
+		// Rule : 'skip'
+		Parser<Node> skipRuleParser = parserTools.getKeywParser("skip", PLUGIN_NAME).map(
+				new ParseMap<Node, Node>(PLUGIN_NAME) {
+					@Override
 					public Node apply(Node v) {
 						return new SkipRuleNode(v.getScannerInfo());
 					}});
-    	parsers.put("SkipRule", new GrammarRule("SkipRule", "'skip'", skipRuleParser, PLUGIN_NAME));
-    	rules.add(skipRuleParser);
+		parsers.put("SkipRule", new GrammarRule("SkipRule", "'skip'", skipRuleParser, PLUGIN_NAME));
+		rules.add(skipRuleParser);
 
-    	createTermParser(parsers);
+		createTermParser(parsers);
 
-       	// UpdateRule : FunctionRuleTerm ':=' Term
-       	Parser<Node> updateRuleParser = Parsers.array(
-       			refFuncRuleTermParser.lazy(),
-       			parserTools.getOprParser(":="),
-       			refTermParser.lazy()
-       			).map(new UpdateRuleParseMap());
-       	parsers.put("UpdateRule",
-       			new GrammarRule("UpdateRule",
-       					"FunctionRuleTerm ':=' Term", updateRuleParser, PLUGIN_NAME));
-       	rules.add(updateRuleParser);
+		// UpdateRule : FunctionRuleTerm ':=' Term
+		Parser<Node> updateRuleParser = Parsers.array(
+				refFuncRuleTermParser.lazy(),
+				parserTools.getOprParser(":="),
+				refTermParser.lazy()
+				).map(new UpdateRuleParseMap());
+		parsers.put("UpdateRule",
+				new GrammarRule("UpdateRule",
+						"FunctionRuleTerm ':=' Term", updateRuleParser, PLUGIN_NAME));
+		rules.add(updateRuleParser);
 
-       	// MacroCallRule : FunctionRuleTerm
-       	Parser<Node> macroCallRule = Parsers.array(refFuncRuleTermParser.lazy()).map(
-       			new ParseMap<Object[], Node>(PLUGIN_NAME) {
+		// MacroCallRule : FunctionRuleTerm
+		Parser<Node> macroCallRule = Parsers.array(refFuncRuleTermParser.lazy()).map(
+				new ParseMap<Object[], Node>(PLUGIN_NAME) {
 
-       				@Override
+					@Override
 					public Node apply(Object[] vals) {
 						Node node = new MacroCallRuleNode(((Node)vals[0]).getScannerInfo());
 						node.addChild("alpha", (Node)vals[0]);
 						return node;
 					}
 
-       			});
-       	parsers.put("MacroCallRule",
-       			new GrammarRule("MacroCallRule", "FunctionRuleTerm", macroCallRule, PLUGIN_NAME));
+				});
+		parsers.put("MacroCallRule",
+				new GrammarRule("MacroCallRule", "FunctionRuleTerm", macroCallRule, PLUGIN_NAME));
 
-       	// ImportRule : 'import' ID 'do' Rule
-       	Parser<Node> importRuleParser = Parsers.array(
+		// ImportRule : 'import' ID 'do' Rule
+		Parser<Node> importRuleParser = Parsers.array(
 				parserTools.getKeywParser("import", PLUGIN_NAME),
 				idParser,
 				Parsers.array(parserTools.getOprParser(","), idParser).many(),
@@ -488,257 +488,257 @@ public class Kernel extends Plugin
 		parsers.put("ImportRule",
 				new GrammarRule("ImportRule",
 						"'import' ID (',', ID)* 'do' Rule", importRuleParser, PLUGIN_NAME));
-       	rules.add(importRuleParser);
+		rules.add(importRuleParser);
 
 
-       	// Getting rule parsers from all the plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin && p != this) {
-       			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Rule");
-       			if (gRule != null) {
-       				rules.add(gRule.parser);
-       			}
-       		}
+		// Getting rule parsers from all the plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin && p != this) {
+				GrammarRule gRule = ((ParserPlugin)p).getParsers().get("Rule");
+				if (gRule != null) {
+					rules.add(gRule.parser);
+				}
+			}
 
-       	rules.add(macroCallRule);
+		rules.add(macroCallRule);
 
-       	Parser<Node> ruleParser = Parsers.longest(rules);
-       	refRuleParser.set(ruleParser);
+		Parser<Node> ruleParser = Parsers.longest(rules);
+		refRuleParser.set(ruleParser);
 
-    }
+	}
 
 
-    /*
-     * Creates a parser to parse terms.
-     */
-    private Parser<Node> createTermParser(Map<String, GrammarRule> parsers) {
+	/*
+	 * Creates a parser to parse terms.
+	 */
+	private Parser<Node> createTermParser(Map<String, GrammarRule> parsers) {
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
-    	//Parser<Node> idParser = parserTools.getIdParser();
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		//Parser<Node> idParser = parserTools.getIdParser();
 
-    	// Term : ... // placeholder for expression to use
-       	parsers.put("Term",
-       			new GrammarRule("Term",
-       					"Expression | ExtendedTerm", refTermParser.lazy(), PLUGIN_NAME));
+		// Term : ... // placeholder for expression to use
+		parsers.put("Term",
+				new GrammarRule("Term",
+						"Expression | ExtendedTerm", refTermParser.lazy(), PLUGIN_NAME));
 
-    	// TupleTerm: '(' ( Term  ( ',' Term )* )? ')'
-    	Parser<Node> ttParser = Parsers.array(        //parserTools.seq(
-    			parserTools.getOprParser("("),
+		// TupleTerm: '(' ( Term  ( ',' Term )* )? ')'
+		Parser<Node> ttParser = Parsers.array(        //parserTools.seq(
+				parserTools.getOprParser("("),
 				parserTools.csplus(refTermParser.lazy()).optional(null),
-    			parserTools.getOprParser(")")
+				parserTools.getOprParser(")")
 			).map(new TupleTermParseMap());
-    	refTupleTermParser.set(ttParser);
-    	parsers.put("TupleTerm",
-    			new GrammarRule("TupleTerm",
-    					"'(' ( Term  ( ',' Term )* )? ')'", refTupleTermParser.lazy(), PLUGIN_NAME));
+		refTupleTermParser.set(ttParser);
+		parsers.put("TupleTerm",
+				new GrammarRule("TupleTerm",
+						"'(' ( Term  ( ',' Term )* )? ')'", refTupleTermParser.lazy(), PLUGIN_NAME));
 
-    	// FunctionRuleTerm : ID ( TupleTerm )?
-       	createFunctionRuleTermParser();
+		// FunctionRuleTerm : ID ( TupleTerm )?
+		createFunctionRuleTermParser();
 
-       	// Term : Expression | ExtendedTerm
-       	refTermParser.set( createExpressionParser() );
+		// Term : Expression | ExtendedTerm
+		refTermParser.set( createExpressionParser() );
 
-       	return refTermParser.lazy();
-    }
+		return refTermParser.lazy();
+	}
 
-    /*
-     * Creates a parser to parse function/rule terms
-     */
-    private void createFunctionRuleTermParser() {
+	/*
+	 * Creates a parser to parse function/rule terms
+	 */
+	private void createFunctionRuleTermParser() {
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
-    	Parser<Node> idParser = parserTools.getIdParser();
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		Parser<Node> idParser = parserTools.getIdParser();
 
-    	List<Parser<Node>> frterms = new ArrayList<Parser<Node>>();
-    	String grammarRule = "BasicFunctionRuleTerm";
+		List<Parser<Node>> frterms = new ArrayList<Parser<Node>>();
+		String grammarRule = "BasicFunctionRuleTerm";
 
-    	// BasicFunctionRuleTerm : ID ( TupleTerm )?
-       	Parser<Node> basicFunctionRuleTermParser = Parsers.array(
-       			new Parser[] {
-       				idParser,
-       				refTupleTermParser.lazy().optional(null)
-       				}).map(new ParserTools.FunctionRuleTermParseMap());
-       	parsers.put("BasicFunctionRuleTerm",
-       			new GrammarRule("BasicFunctionRuleTerm",
-       					"ID ( TupleTerm )?", basicFunctionRuleTermParser, PLUGIN_NAME));
-       	frterms.add(basicFunctionRuleTermParser);
+		// BasicFunctionRuleTerm : ID ( TupleTerm )?
+		Parser<Node> basicFunctionRuleTermParser = Parsers.array(
+				new Parser[] {
+					idParser,
+					refTupleTermParser.lazy().optional(null)
+					}).map(new ParserTools.FunctionRuleTermParseMap());
+		parsers.put("BasicFunctionRuleTerm",
+				new GrammarRule("BasicFunctionRuleTerm",
+						"ID ( TupleTerm )?", basicFunctionRuleTermParser, PLUGIN_NAME));
+		frterms.add(basicFunctionRuleTermParser);
 
-       	// Getting other function rule parsers from all other plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin && p != this) {
-       			GrammarRule gRule = ((ParserPlugin)p).getParsers().get(GR_FUNCTION_RULE_TERM);
-       			if (gRule != null) {
-       				frterms.add(gRule.parser);
-       				grammarRule = grammarRule + " | " + gRule.name;
-       			}
-       		}
+		// Getting other function rule parsers from all other plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin && p != this) {
+				GrammarRule gRule = ((ParserPlugin)p).getParsers().get(GR_FUNCTION_RULE_TERM);
+				if (gRule != null) {
+					frterms.add(gRule.parser);
+					grammarRule = grammarRule + " | " + gRule.name;
+				}
+			}
 
-    	// FunctionRuleTerm : BasicFunctionRuleTerm | ...
-       	Parser<Node> frtParser = Parsers.longest(frterms);
-       	refFuncRuleTermParser.set(frtParser);
+		// FunctionRuleTerm : BasicFunctionRuleTerm | ...
+		Parser<Node> frtParser = Parsers.longest(frterms);
+		refFuncRuleTermParser.set(frtParser);
 
-       	parsers.put(GR_FUNCTION_RULE_TERM,
-    			new GrammarRule(GR_FUNCTION_RULE_TERM,
-    					grammarRule,
-    					refFuncRuleTermParser.lazy(), PLUGIN_NAME));
-    }
+		parsers.put(GR_FUNCTION_RULE_TERM,
+				new GrammarRule(GR_FUNCTION_RULE_TERM,
+						grammarRule,
+						refFuncRuleTermParser.lazy(), PLUGIN_NAME));
+	}
 
-    /*
-     * Creates a parser to parse expressions.
-     */
-    private Parser<Node> createExpressionParser() {
-    	List<Parser<Node>> exps = new ArrayList<Parser<Node>>();
+	/*
+	 * Creates a parser to parse expressions.
+	 */
+	private Parser<Node> createExpressionParser() {
+		List<Parser<Node>> exps = new ArrayList<Parser<Node>>();
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
-    	//Parser<Node> idParsr = parserTools.getIdParser();
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		//Parser<Node> idParsr = parserTools.getIdParser();
 
-    	// Expression : ... // Open for future extensions
-    	Parser.Reference<Node> refExpParser = Parser.newReference();
+		// Expression : ... // Open for future extensions
+		Parser.Reference<Node> refExpParser = Parser.newReference();
 
-    	Parser<Node> funcRuleTermParser = parsers.get("FunctionRuleTerm").parser;
+		Parser<Node> funcRuleTermParser = parsers.get("FunctionRuleTerm").parser;
 
-    	// Guard : Term
-    	Parser<Node> guardParser = refTermParser.lazy();
-    	parsers.put("Guard",
-    			new GrammarRule("Guard", "Term", guardParser, PLUGIN_NAME));
+		// Guard : Term
+		Parser<Node> guardParser = refTermParser.lazy();
+		parsers.put("Guard",
+				new GrammarRule("Guard", "Term", guardParser, PLUGIN_NAME));
 
-    	// KernelTerms : 'undef' | 'self'
-    	Parser<Node> kernelTermsParser = Parsers.or(
-    			parserTools.getKeywParser("undef", PLUGIN_NAME),
-    			parserTools.getKeywParser("self", PLUGIN_NAME)).map(
-    					new ParseMap<Node, Node>(PLUGIN_NAME) {
-    						@Override
-    						public Node apply(Node v) {
-    							Node node = new ASTNode(
-    									pluginName,
-    									ASTNode.EXPRESSION_CLASS,
-    									"KernelTerms",
-    									v.getToken(),
-    									v.getScannerInfo(),
-    									Node.KEYWORD_NODE);
-    							return node;
-    						}
-    					});
-    	parsers.put("KernelTerms",
-    			new GrammarRule("KernelTerms",
-    					"'undef' | 'self'", kernelTermsParser, PLUGIN_NAME));
+		// KernelTerms : 'undef' | 'self'
+		Parser<Node> kernelTermsParser = Parsers.or(
+				parserTools.getKeywParser("undef", PLUGIN_NAME),
+				parserTools.getKeywParser("self", PLUGIN_NAME)).map(
+						new ParseMap<Node, Node>(PLUGIN_NAME) {
+							@Override
+							public Node apply(Node v) {
+								Node node = new ASTNode(
+										pluginName,
+										ASTNode.EXPRESSION_CLASS,
+										"KernelTerms",
+										v.getToken(),
+										v.getScannerInfo(),
+										Node.KEYWORD_NODE);
+								return node;
+							}
+						});
+		parsers.put("KernelTerms",
+				new GrammarRule("KernelTerms",
+						"'undef' | 'self'", kernelTermsParser, PLUGIN_NAME));
 
-    	// BooleanTerm : 'true' | 'false'
-    	Parser<Node> booleanTermParser = Parsers.or(
-    			parserTools.getKeywParser("true", PLUGIN_NAME),
-    			parserTools.getKeywParser("false", PLUGIN_NAME)).map(
-    					new ParseMap<Node, Node>(PLUGIN_NAME) {
-    						@Override
-    						public Node apply(Node v) {
-    							Node node = new ASTNode(
-    									pluginName,
-    									ASTNode.EXPRESSION_CLASS,
-    									"BooleanTerm",
-    									v.getToken(),
-    									v.getScannerInfo(),
-    									Node.KEYWORD_NODE);
-    							return node;
-    						}
-    					});
-    	parsers.put("BooleanTerm",
-    			new GrammarRule("BooleanTerm", "'true' | 'false'", booleanTermParser, PLUGIN_NAME));
+		// BooleanTerm : 'true' | 'false'
+		Parser<Node> booleanTermParser = Parsers.or(
+				parserTools.getKeywParser("true", PLUGIN_NAME),
+				parserTools.getKeywParser("false", PLUGIN_NAME)).map(
+						new ParseMap<Node, Node>(PLUGIN_NAME) {
+							@Override
+							public Node apply(Node v) {
+								Node node = new ASTNode(
+										pluginName,
+										ASTNode.EXPRESSION_CLASS,
+										"BooleanTerm",
+										v.getToken(),
+										v.getScannerInfo(),
+										Node.KEYWORD_NODE);
+								return node;
+							}
+						});
+		parsers.put("BooleanTerm",
+				new GrammarRule("BooleanTerm", "'true' | 'false'", booleanTermParser, PLUGIN_NAME));
 
-    	createConstantTerm(booleanTermParser, kernelTermsParser);
+		createConstantTerm(booleanTermParser, kernelTermsParser);
 
-    	createBasicTerm(funcRuleTermParser);
+		createBasicTerm(funcRuleTermParser);
 
-    	// BasicExpr : BasicTerm | '(' Term ')'
-    	Parser<Node> beParser = Parsers.or(refBasicTermParser.lazy(),
-    			parserTools.seq(	// '(' Term ')'
-    					parserTools.getOprParser("("),
-    					refTermParser.lazy(),
-    					parserTools.getOprParser(")")
-    					).map(new ParseMap<Object[], Node>(PLUGIN_NAME){
+		// BasicExpr : BasicTerm | '(' Term ')'
+		Parser<Node> beParser = Parsers.or(refBasicTermParser.lazy(),
+				parserTools.seq(	// '(' Term ')'
+						parserTools.getOprParser("("),
+						refTermParser.lazy(),
+						parserTools.getOprParser(")")
+						).map(new ParseMap<Object[], Node>(PLUGIN_NAME){
 
-    						@Override
+							@Override
 							public Node apply(Object[] v) {
 								Node node = new EnclosedTermNode(((Node)v[0]).getScannerInfo());
 								for (Object o:v) node.addChild((Node)o);
 								return node;
 							}
 
-    					}
-    				)
-    		);
-    	refBasicExprParser.set(beParser);
-    	parsers.put("BasicExpr",
-    			new GrammarRule("BasicExpr", "BasicTerm | '(' Term ')'", refBasicExprParser.lazy(), PLUGIN_NAME));
+						}
+					)
+			);
+		refBasicExprParser.set(beParser);
+		parsers.put("BasicExpr",
+				new GrammarRule("BasicExpr", "BasicTerm | '(' Term ')'", refBasicExprParser.lazy(), PLUGIN_NAME));
 
-    	// creating an expression parser based on the operators
-    	// provided by the plugins
-    	//Set<Plugin> plugins = new HashSet<Plugin>();
-    	ExpressionParserFactory expFactory =
-    		new ExpressionParserFactory(
-    				capi,
-    				parserTools,
-    				refBasicExprParser.lazy(),
-    				refTermParser.lazy(),
-    				capi.getPlugins());
-    	exps.add(expFactory.createExpressionParser());
+		// creating an expression parser based on the operators
+		// provided by the plugins
+		//Set<Plugin> plugins = new HashSet<Plugin>();
+		ExpressionParserFactory expFactory =
+			new ExpressionParserFactory(
+					capi,
+					parserTools,
+					refBasicExprParser.lazy(),
+					refTermParser.lazy(),
+					capi.getPlugins());
+		exps.add(expFactory.createExpressionParser());
 
-    	Parser<Node> exp_parser = Parsers.or(exps);
-    	refExpParser.set(exp_parser);
+		Parser<Node> exp_parser = Parsers.or(exps);
+		refExpParser.set(exp_parser);
 
-    	return refExpParser.lazy();
-    }
+		return refExpParser.lazy();
+	}
 
-    /*
-     * Creates ConstantTerm gathering pieces from other plugins
-     */
-    private void createConstantTerm(Parser<Node> booleanTermParser, Parser<Node> undefTermParser) {
-    	List<Parser<Node>> cterms = new ArrayList<Parser<Node>>();
-    	String grammarRule = "BooleanTerm | UndefTerm";
-       	cterms.add(booleanTermParser);
-       	cterms.add(undefTermParser);
+	/*
+	 * Creates ConstantTerm gathering pieces from other plugins
+	 */
+	private void createConstantTerm(Parser<Node> booleanTermParser, Parser<Node> undefTermParser) {
+		List<Parser<Node>> cterms = new ArrayList<Parser<Node>>();
+		String grammarRule = "BooleanTerm | UndefTerm";
+		cterms.add(booleanTermParser);
+		cterms.add(undefTermParser);
 
-       	// Getting constant term parsers from all the plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin && p != this) {
-       			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("ConstantTerm");
-       			if (gRule != null) {
-       				cterms.add(gRule.parser);
-       				grammarRule = grammarRule + " | " + gRule.name;
-       			}
-       		}
+		// Getting constant term parsers from all the plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin && p != this) {
+				GrammarRule gRule = ((ParserPlugin)p).getParsers().get("ConstantTerm");
+				if (gRule != null) {
+					cterms.add(gRule.parser);
+					grammarRule = grammarRule + " | " + gRule.name;
+				}
+			}
 
-    	// ConstantTerm : BooleanTerm | UndefTerm | ...
-       	Parser<Node> ctParser = Parsers.or(cterms);
-       	refConstantTermParser.set(ctParser);
+		// ConstantTerm : BooleanTerm | UndefTerm | ...
+		Parser<Node> ctParser = Parsers.or(cterms);
+		refConstantTermParser.set(ctParser);
 
-       	parsers.put("ConstantTerm",
-    			new GrammarRule("ConstantTerm", grammarRule, refConstantTermParser.lazy(), PLUGIN_NAME));
+		parsers.put("ConstantTerm",
+				new GrammarRule("ConstantTerm", grammarRule, refConstantTermParser.lazy(), PLUGIN_NAME));
 
-    }
+	}
 
-    /*
-     * Creates BasicTerm gathering pieces from other plugins
-     */
-    private void createBasicTerm(Parser<Node> functionRuleTermParser) {
+	/*
+	 * Creates BasicTerm gathering pieces from other plugins
+	 */
+	private void createBasicTerm(Parser<Node> functionRuleTermParser) {
 
-    	ParserTools parserTools = ParserTools.getInstance(capi);
-    	Parser<Node> idParser = parserTools.getIdParser();
+		ParserTools parserTools = ParserTools.getInstance(capi);
+		Parser<Node> idParser = parserTools.getIdParser();
 
-    	List<Parser<Node>> bterms = new ArrayList<Parser<Node>>();
-    	String grammarRule = "FunctionRuleTerm | ConstantTerm";
-       	bterms.add(functionRuleTermParser);
-       	bterms.add(refConstantTermParser.lazy());
+		List<Parser<Node>> bterms = new ArrayList<Parser<Node>>();
+		String grammarRule = "FunctionRuleTerm | ConstantTerm";
+		bterms.add(functionRuleTermParser);
+		bterms.add(refConstantTermParser.lazy());
 
-    	// RuleElementTerm : 'ruleelement' ID
-    	Parser<Node> ruleElementParser = Parsers.sequence(
-    			parserTools.getKeywParser("ruleelement", PLUGIN_NAME),
-    			idParser,
+		// RuleElementTerm : 'ruleelement' ID
+		Parser<Node> ruleElementParser = Parsers.sequence(
+				parserTools.getKeywParser("ruleelement", PLUGIN_NAME),
+				idParser,
 
-    			new ParseMap2(PLUGIN_NAME) {
+				new ParseMap2(PLUGIN_NAME) {
 
-    			    @Override
+					@Override
 					public Node apply(Node a, Node b) {
 						Node node = new ASTNode(
 								pluginName,
@@ -752,19 +752,19 @@ public class Kernel extends Plugin
 						return node;
 					}
 
-    			}
-    	);
-       	parsers.put("RuleElementTerm",
-       			new GrammarRule("RuleElementTerm",
-       					"'ruleelement' ID", ruleElementParser, PLUGIN_NAME));
+				}
+		);
+		parsers.put("RuleElementTerm",
+				new GrammarRule("RuleElementTerm",
+						"'ruleelement' ID", ruleElementParser, PLUGIN_NAME));
 
-    	// RuleOrFunctionElementTerm : '@' ID
-    	Parser<Node> ruleOrFunctionElementParser = Parsers.sequence(
-    			parserTools.getOprParser("@"),
-    			idParser,
-    			new ParseMap2(PLUGIN_NAME) {
+		// RuleOrFunctionElementTerm : '@' ID
+		Parser<Node> ruleOrFunctionElementParser = Parsers.sequence(
+				parserTools.getOprParser("@"),
+				idParser,
+				new ParseMap2(PLUGIN_NAME) {
 
-    			    @Override
+					@Override
 					public Node apply(Node a, Node d) {
 						Node node = new RuleOrFuncElementNode(a.getScannerInfo());
 						node.addChild(a);
@@ -772,36 +772,36 @@ public class Kernel extends Plugin
 						return node;
 					}
 
-    			}
-    	);
-       	parsers.put("RuleOrFunctionElementTerm",
-       			new GrammarRule("RuleOrFunctionElementTerm",
-       					"'@' ID", ruleOrFunctionElementParser, PLUGIN_NAME));
+				}
+		);
+		parsers.put("RuleOrFunctionElementTerm",
+				new GrammarRule("RuleOrFunctionElementTerm",
+						"'@' ID", ruleOrFunctionElementParser, PLUGIN_NAME));
 
-       	bterms.add(ruleElementParser);
-       	bterms.add(ruleOrFunctionElementParser);
+		bterms.add(ruleElementParser);
+		bterms.add(ruleOrFunctionElementParser);
 
-       	// Getting basic term parsers from all the plugins
-       	Set<Plugin> plugins = capi.getPlugins();
-       	for (Plugin p: plugins)
-       		if (p instanceof ParserPlugin && p != this) {
-       			GrammarRule gRule = ((ParserPlugin)p).getParsers().get("BasicTerm");
-       			if (gRule != null) {
-       				bterms.add(gRule.parser);
-       				grammarRule = grammarRule + " | " + gRule.name;
-       			}
-       		}
+		// Getting basic term parsers from all the plugins
+		Set<Plugin> plugins = capi.getPlugins();
+		for (Plugin p: plugins)
+			if (p instanceof ParserPlugin && p != this) {
+				GrammarRule gRule = ((ParserPlugin)p).getParsers().get("BasicTerm");
+				if (gRule != null) {
+					bterms.add(gRule.parser);
+					grammarRule = grammarRule + " | " + gRule.name;
+				}
+			}
 
-    	// BasicTerm : FunctionRuleTerm | ConstantTerm | ...
-       	Parser<Node> btParser = Parsers.longest(bterms);
-       	refBasicTermParser.set(btParser);
+		// BasicTerm : FunctionRuleTerm | ConstantTerm | ...
+		Parser<Node> btParser = Parsers.longest(bterms);
+		refBasicTermParser.set(btParser);
 
-    	parsers.put("BasicTerm",
-    			new GrammarRule("BasicTerm", grammarRule, refBasicTermParser.lazy(), PLUGIN_NAME));
+		parsers.put("BasicTerm",
+				new GrammarRule("BasicTerm", grammarRule, refBasicTermParser.lazy(), PLUGIN_NAME));
 
-    }
+	}
 
-    @Deprecated
+	@Deprecated
 	public List<GrammarRule> getGrammar() {
 		if (parsers == null)
 			getParsers();
@@ -826,7 +826,7 @@ public class Kernel extends Plugin
 	@Override
 	public void initialize() {
 		// Nothing.
-    }
+	}
 
 	/**
 	 * This plugin returns an empty set of instructions.
@@ -1059,69 +1059,69 @@ public class Kernel extends Plugin
 	 * This method provides provides the equality operator, the
 	 * only operator provided in the kernel.
 	 */
-    public Collection<OperatorRule> getOperatorRules() {
-        ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
+	public Collection<OperatorRule> getOperatorRules() {
+		ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
 
-        opRules.add(new OperatorRule(EQUALITY_OP,
-                    OpType.INFIX_LEFT,
-                    600,
-                    getName()));
+		opRules.add(new OperatorRule(EQUALITY_OP,
+					OpType.INFIX_LEFT,
+					600,
+					getName()));
 
 //        opRules.add(new OperatorRule("(", ")", OpType.INDEX, 900, getName()));
 
-        return opRules;
-    }
+		return opRules;
+	}
 
-    /**
-     * This method provides the interpretation of the equality operator.
-     */
-    public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
-        Element result = null;
-        String x = opNode.getToken();
-        String gClass = opNode.getGrammarClass();
+	/**
+	 * This method provides the interpretation of the equality operator.
+	 */
+	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
+		Element result = null;
+		String x = opNode.getToken();
+		String gClass = opNode.getGrammarClass();
 
-        // if class of operator is binary
-        if (gClass.equals(ASTNode.BINARY_OPERATOR_CLASS)) {
+		// if class of operator is binary
+		if (gClass.equals(ASTNode.BINARY_OPERATOR_CLASS)) {
 
-            // get operand nodes
-            ASTNode alpha = opNode.getFirst();
-            ASTNode beta = alpha.getNext();
+			// get operand nodes
+			ASTNode alpha = opNode.getFirst();
+			ASTNode beta = alpha.getNext();
 
-            // get operand values
-            Element l = alpha.getValue();
-            Element r = beta.getValue();
+			// get operand values
+			Element l = alpha.getValue();
+			Element r = beta.getValue();
 
-            if (x.equals(EQUALITY_OP)) {
-                result = BooleanElement.valueOf(evaluateEquality(l, r));
-            }
-        } else
-        	// simple application operator of the form: Term '(' Term ')'
-        	if (gClass.equals(ASTNode.INDEX_OPERATOR_CLASS)) {
-	        	ASTNode left = opNode.getFirst();
-	        	ASTNode right = left.getNext();
+			if (x.equals(EQUALITY_OP)) {
+				result = BooleanElement.valueOf(evaluateEquality(l, r));
+			}
+		} else
+			// simple application operator of the form: Term '(' Term ')'
+			if (gClass.equals(ASTNode.INDEX_OPERATOR_CLASS)) {
+				ASTNode left = opNode.getFirst();
+				ASTNode right = left.getNext();
 
-	        	if (left.getValue() instanceof FunctionElement) {
-	        		FunctionElement func = (FunctionElement)left.getValue();
-	        		if (right == null)
-	        			return func.getValue(ElementList.NO_ARGUMENT);
-	        		else
-	        			return func.getValue(ElementList.create(right.getValue()));
-	        	} else
-	        		return Element.UNDEF;
-        	}
+				if (left.getValue() instanceof FunctionElement) {
+					FunctionElement func = (FunctionElement)left.getValue();
+					if (right == null)
+						return func.getValue(ElementList.NO_ARGUMENT);
+					else
+						return func.getValue(ElementList.create(right.getValue()));
+				} else
+					return Element.UNDEF;
+			}
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * Provides the semantics of the equality function to other plugins.
-     *
-     * @param le element on the left
-     * @param re element on the right
-     */
-    public final static boolean evaluateEquality(Element le, Element re) {
-        return le.equals(re) || re.equals(le) ;
-    }
+	/**
+	 * Provides the semantics of the equality function to other plugins.
+	 *
+	 * @param le element on the left
+	 * @param re element on the right
+	 */
+	public final static boolean evaluateEquality(Element le, Element re) {
+		return le.equals(re) || re.equals(le) ;
+	}
 
 	public Set<String> getBackgroundNames() {
 		return backgroundNames;

@@ -18,4 +18,4 @@ rule R1 = {
 		else
 			program(self) := undef
 	}
- }
+}

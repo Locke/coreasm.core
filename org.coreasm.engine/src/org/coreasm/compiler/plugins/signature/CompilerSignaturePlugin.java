@@ -44,57 +44,57 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 		return interpreterPlugin;
 	}
 
-    private static enum CheckMode {cmOff, cmWarn, cmStrict};
-    private CheckMode typeCheckingMode;
+	private static enum CheckMode {cmOff, cmWarn, cmStrict};
+	private CheckMode typeCheckingMode;
 
-    //TODO: implement undefined identifier handler so that this entry
-    //is put to use
-    //private CheckMode idCheckingMode;
+	//TODO: implement undefined identifier handler so that this entry
+	//is put to use
+	//private CheckMode idCheckingMode;
 	/**
 	 * The type of a signature entry
 	 * @author Spellmaker
 	 *
 	 */
-    public enum SignatureEntryType {
-    	/**
-    	 * An universe
-    	 */
-    	UNIVERSE,
-    	/**
-    	 * An enum
-    	 */
-    	ENUM,
-    	/**
-    	 * A derived function
-    	 */
-    	DERIVED,
-    	/**
-    	 * A function
-    	 */
-    	FUNCTION
-    };
+	public enum SignatureEntryType {
+		/**
+		 * An universe
+		 */
+		UNIVERSE,
+		/**
+		 * An enum
+		 */
+		ENUM,
+		/**
+		 * A derived function
+		 */
+		DERIVED,
+		/**
+		 * A function
+		 */
+		FUNCTION
+	};
 
-    /**
-     * An entry of the signature plugin
-     * @author Spellmaker
-     *
-     */
-    public static class IncludeEntry{
-    	SignatureEntryType type;
-    	LibraryEntry entry;
+	/**
+	 * An entry of the signature plugin
+	 * @author Spellmaker
+	 *
+	 */
+	public static class IncludeEntry{
+		SignatureEntryType type;
+		LibraryEntry entry;
 
-    	/**
-    	 * Initializes a new entry
-    	 * @param t The type of the entry
-    	 * @param e The actual entry
-    	 */
-    	public IncludeEntry(SignatureEntryType t, LibraryEntry e){
-    		type = t;
-    		entry = e;
-    	}
-    }
+		/**
+		 * Initializes a new entry
+		 * @param t The type of the entry
+		 * @param e The actual entry
+		 */
+		public IncludeEntry(SignatureEntryType t, LibraryEntry e){
+			type = t;
+			entry = e;
+		}
+	}
 
-    private Map<String, IncludeEntry> entries;
+	private Map<String, IncludeEntry> entries;
 	/**
 	 * Creates a new signature plugin
 	 * @param p The interpreter version
@@ -270,21 +270,21 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 	}
 
 	private CheckMode getTypeCheckMode() {
-    	String mode = engine.getOptions().properties.get("Signature.TypeChecking");
-    	typeCheckingMode = CheckMode.cmOff;
-    	if (mode != null) {
-    		if (mode.equals("warning"))
-    			typeCheckingMode = CheckMode.cmWarn;
-    		else
-    			if (mode.equals("on") || mode.equals("strict"))
-    				typeCheckingMode = CheckMode.cmStrict;
-    			else
-    				if (!mode.equals("off")){
-    					System.out.println("warning: Type Checking property is not set to a valid value");
-    				}
-    	}
-    	return typeCheckingMode;
-    }
+		String mode = engine.getOptions().properties.get("Signature.TypeChecking");
+		typeCheckingMode = CheckMode.cmOff;
+		if (mode != null) {
+			if (mode.equals("warning"))
+				typeCheckingMode = CheckMode.cmWarn;
+			else
+				if (mode.equals("on") || mode.equals("strict"))
+					typeCheckingMode = CheckMode.cmStrict;
+				else
+					if (!mode.equals("off")){
+						System.out.println("warning: Type Checking property is not set to a valid value");
+					}
+		}
+		return typeCheckingMode;
+	}
 
 	/**
 	 * Adds a new signature entry

@@ -37,8 +37,8 @@ public class TrueGuardNode extends ASTNode {
 				"",
 				null,
 				ScannerInfo.NO_INFO);
-    	parent.addChild(this);
-    	this.setParent(parent);
-    }
+		parent.addChild(this);
+		this.setParent(parent);
+	}
 
 }

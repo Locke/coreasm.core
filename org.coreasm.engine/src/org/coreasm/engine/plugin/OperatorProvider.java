@@ -47,10 +47,10 @@ public interface OperatorProvider {
 	 * - If there is a problem with the operands provided, an
 	 * <code>InterpreterException</code> should be thrown.
 	 * <p>
- 	 * <b>NOTE:</b> Any implementation of this method must be thread-safe, since
- 	 * it may be called simultaneously by more than one thread during the simulation.
- 	 *
- 	 * @param interpreter the interpreter instance that calls this method
+	 * <b>NOTE:</b> Any implementation of this method must be thread-safe, since
+	 * it may be called simultaneously by more than one thread during the simulation.
+	 *
+	 * @param interpreter the interpreter instance that calls this method
 	 * @param opNode an AST <code>Node</code> for the given operator
 	 * which should have a behavior provided by this plugin.
 	 *

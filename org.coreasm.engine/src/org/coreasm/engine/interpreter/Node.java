@@ -82,8 +82,8 @@ public class Node implements Serializable {
 	/** the syntactical token that is represented by this node or <code>null</code> for non-terminals */
 	protected String token;
 
-    /** info returned by the scanner */
-    protected ScannerInfo scannerInfo;
+	/** info returned by the scanner */
+	protected ScannerInfo scannerInfo;
 
 	/** concrete type of the node (e.g., keyword, operator, etc.) */
 	protected String concreteType = null;
@@ -142,17 +142,17 @@ public class Node implements Serializable {
 	private SuccessorFinder successorFinder;
 
 	/**
-     * Creates a new node.
-     *
-     * @param pluginName name of the plugin creating this node
+	 * Creates a new node.
+	 *
+	 * @param pluginName name of the plugin creating this node
 	 * @param token token
-     * @param scannerInfo information returned by the scanner
-     * @param concreteType type of this node
-     */
+	 * @param scannerInfo information returned by the scanner
+	 * @param concreteType type of this node
+	 */
 	public Node(String pluginName,
 			String token, ScannerInfo scannerInfo, String concreteType) {
 //		children = new ArrayList<NameNodeTuple>();
-        this.pluginName = pluginName;
+		this.pluginName = pluginName;
 		this.token = token;
 		this.scannerInfo = scannerInfo;
 		this.concreteType = concreteType;
@@ -160,15 +160,15 @@ public class Node implements Serializable {
 		this.children = new ArrayList<NameNodeTuple>();
 	}
 
-    /**
-     * Creates a new node with concrete type of <code>OTHER_NODE</code>.
-     *
-     * @param pluginName name of the plugin creating this node
+	/**
+	 * Creates a new node with concrete type of <code>OTHER_NODE</code>.
+	 *
+	 * @param pluginName name of the plugin creating this node
 	 * @param token token
-     * @param scannerInfo information returned by the scanner
-     *
-     * @see #OTHER_NODE
-     */
+	 * @param scannerInfo information returned by the scanner
+	 *
+	 * @see #OTHER_NODE
+	 */
 	public Node(String pluginName,
 			String token, ScannerInfo scannerInfo) {
 		this(pluginName, token, scannerInfo, DEFAULT_CONCRETE_TYPE);
@@ -381,13 +381,13 @@ public class Node implements Serializable {
 		this.pluginName = pluginName;
 	}
 
-    /**
-     * Returns the number of children this node has.
-     * @return the number of children this node has
-     */
-    public int getNumberOfChildren() {
+	/**
+	 * Returns the number of children this node has.
+	 * @return the number of children this node has
+	 */
+	public int getNumberOfChildren() {
 		return children.size();
-    }
+	}
 
 	/**
 	 * Returns the syntactical token represented by
@@ -465,13 +465,13 @@ public class Node implements Serializable {
 		Node node;
 		try {
 			Class<? extends Node> c = this.getClass();
-            node = c.getConstructor(c).newInstance(this);
-            node.id = this.id;
-        } catch (Exception e) {
-            throw new EngineError("Cannot duplicate node of (" + this.getClass().getName() + ").");
-        }
+			node = c.getConstructor(c).newInstance(this);
+			node.id = this.id;
+		} catch (Exception e) {
+			throw new EngineError("Cannot duplicate node of (" + this.getClass().getName() + ").");
+		}
 
-        return node;
+		return node;
 	}
 
 	/**
@@ -525,7 +525,7 @@ public class Node implements Serializable {
 			str = str + "'" + Tools.convertToEscapeSqeuence(token) + "':";
 		str = str + concreteType;
 		str = str + (scannerInfo==null?"":scannerInfo.getPos());
-        if (str.length() == 1)
+		if (str.length() == 1)
 			str = "[GenericNode";
 		return str + (scannerInfo==null?"":scannerInfo) + "]";
 	}
@@ -591,14 +591,14 @@ public class Node implements Serializable {
 		 String branchStr = "--"; // the look of a vertical branch
 		 StringBuilder returnStr = new StringBuilder(); // string to be returned for this branch
 
-	     for (int i=0; i < level; i++)
-	     {
-	    	 returnStr.append(spacerStr);
-	     }
-	     if (level > 0)
-	    	 returnStr.append("(").append(level).append(")").append(branchStr);
+		 for (int i=0; i < level; i++)
+		 {
+			 returnStr.append(spacerStr);
+		 }
+		 if (level > 0)
+			 returnStr.append("(").append(level).append(")").append(branchStr);
 
-	     return returnStr.toString();
+		 return returnStr.toString();
 	 }
 
 	/**
@@ -824,8 +824,8 @@ public class Node implements Serializable {
 	public Node getChildNode(String name, int index) {
 		Node result = null;
 		int i = 0; // keeps track of the index of the
-		            // node among all the nodes that share
-		            // the same name
+					// node among all the nodes that share
+					// the same name
 
 		for (NameNodeTuple t: children)
 			if (t.name.equals(name)) {

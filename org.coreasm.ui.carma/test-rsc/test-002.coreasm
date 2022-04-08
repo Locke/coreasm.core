@@ -13,10 +13,10 @@ init InitRule
 
 rule InitRule =
 	par
-	  program(self) := undef
-	  let x = 7, y = 3 in
-	  	seqblock
-	     	a := x * y
+		program(self) := undef
+		let x = 7, y = 3 in
+		seqblock
+			a := x * y
 			let x = 8 in
 				b := x * y
 			c := x * y

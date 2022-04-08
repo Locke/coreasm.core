@@ -75,7 +75,7 @@ rule SignalOpen =
 		dir := open
 
 derived safeToOpen =
-    return (forall tx in Track holds trackStatus(tx) = empty or (now + dopen) < deadline(tx)) in skip
+	return (forall tx in Track holds trackStatus(tx) = empty or (now + dopen) < deadline(tx)) in skip
 
 
 

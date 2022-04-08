@@ -18,8 +18,8 @@ universe Agents = {trackController, gateController, observer, environment}
 
 // Is it safe to open the guard?
 derived safeToOpen =
-    forall t in Track holds trackStatus(t) = empty
-    						or (now + dopen) < deadline(t)
+	forall t in Track holds trackStatus(t) = empty
+							or (now + dopen) < deadline(t)
 
 init InitRule
 

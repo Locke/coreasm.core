@@ -50,8 +50,8 @@ public class ASTNode extends Node implements Serializable {
 	public static final String DECLARATION_CLASS = "Declaration";
 	public static final String UNARY_OPERATOR_CLASS = "UnaryOperator";
 	public static final String BINARY_OPERATOR_CLASS = "BinaryOperator";
-    public static final String TERNARY_OPERATOR_CLASS = "TernaryOperator";
-    public static final String INDEX_OPERATOR_CLASS = "IndexOperator";
+	public static final String TERNARY_OPERATOR_CLASS = "TernaryOperator";
+	public static final String INDEX_OPERATOR_CLASS = "IndexOperator";
 
 	/** grammar class of this node */
 	protected String grammarClass;
@@ -70,20 +70,20 @@ public class ASTNode extends Node implements Serializable {
 
 	/**
 	 * Creates a new abstract node.
-     *
-     * @param pluginName name of the plugin creating this node
-     * @param grammarClass grammar class (will NOT be <code>null</code>)
-     * @param grammarRule grammar rule (will NOT be <code>null</code>)
+	 *
+	 * @param pluginName name of the plugin creating this node
+	 * @param grammarClass grammar class (will NOT be <code>null</code>)
+	 * @param grammarRule grammar rule (will NOT be <code>null</code>)
 	 * @param token token
-     * @param scannerInfo information returned by the scanner
-     * @param concreteType type of this node
-     */
+	 * @param scannerInfo information returned by the scanner
+	 * @param concreteType type of this node
+	 */
 	public ASTNode(String pluginName, String grammarClass,
 			String grammarRule, String token,
 			ScannerInfo scannerInfo, String concreteType) {
 		super(pluginName, token, scannerInfo, concreteType);
-        this.grammarClass = grammarClass;
-        this.grammarRule = grammarRule;
+		this.grammarClass = grammarClass;
+		this.grammarRule = grammarRule;
 		this.location = null;
 		this.value = null;
 		this.updates = null;
@@ -95,13 +95,13 @@ public class ASTNode extends Node implements Serializable {
 
 	/**
 	 * Creates a new abstract node with a default concrete type.
-     *
-     * @param pluginName name of the plugin creating this node
-     * @param grammarClass grammar class (will NOT be <code>null</code>)
-     * @param grammarRule grammar rule (will NOT be <code>null</code>)
+	 *
+	 * @param pluginName name of the plugin creating this node
+	 * @param grammarClass grammar class (will NOT be <code>null</code>)
+	 * @param grammarRule grammar rule (will NOT be <code>null</code>)
 	 * @param token token
-     * @param scannerInfo information returned by the scanner
-     */
+	 * @param scannerInfo information returned by the scanner
+	 */
 	public ASTNode(String pluginName, String grammarClass,
 			String grammarRule, String token,
 			ScannerInfo scannerInfo) {
@@ -331,7 +331,7 @@ public class ASTNode extends Node implements Serializable {
 		if (grammarRule != null)
 			str = str + grammarRule + " ";
 
-        if (str.length() == 1)
+		if (str.length() == 1)
 			str = "[GenericNode";
 		return str + (scannerInfo==null?"":scannerInfo) + "]";
 	}

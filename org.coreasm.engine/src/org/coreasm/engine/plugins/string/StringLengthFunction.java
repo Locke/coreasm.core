@@ -26,28 +26,28 @@ import org.coreasm.engine.plugins.number.NumberElement;
  */
 public class StringLengthFunction extends FunctionElement {
 
-    public static String STRING_LENGTH_FUNCTION_NAME = "stringLength";
+	public static String STRING_LENGTH_FUNCTION_NAME = "stringLength";
 
-    /**
-     * Creates a new StringLengthFunction
-     */
-    public StringLengthFunction() {
-        setFClass(FunctionClass.fcDerived);
-    }
+	/**
+	 * Creates a new StringLengthFunction
+	 */
+	public StringLengthFunction() {
+		setFClass(FunctionClass.fcDerived);
+	}
 
-    /* (non-Javadoc)
-     * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
-     */
-    @Override
-    public Element getValue(List<? extends Element> args) {
-        Element ret = Element.UNDEF;
+	/* (non-Javadoc)
+	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
+	 */
+	@Override
+	public Element getValue(List<? extends Element> args) {
+		Element ret = Element.UNDEF;
 
-        if (args.size() == 1) {
-            if (args.get(0) instanceof StringElement) {
-                ret = NumberElement.getInstance(((StringElement) args.get(0)).string.length());
-            }
-        }
-        return ret;
-    }
+		if (args.size() == 1) {
+			if (args.get(0) instanceof StringElement) {
+				ret = NumberElement.getInstance(((StringElement) args.get(0)).string.length());
+			}
+		}
+		return ret;
+	}
 
 }

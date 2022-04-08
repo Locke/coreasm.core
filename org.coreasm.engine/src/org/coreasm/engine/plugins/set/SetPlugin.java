@@ -219,7 +219,7 @@ public class SetPlugin extends Plugin
 					// result of this node is the set element produced
 					pos.setNode(null,null,new SetElement(elements));
 				}
-	        }
+			}
 
 			// The following code block is developed by Roozbeh Farahbod
 			//
@@ -239,7 +239,7 @@ public class SetPlugin extends Plugin
 				ASTNode expression = node.getSetFunction();
 
 				if (!guard.isEvaluated()) {
-	 				if (bindings.size() >= 1) {
+					if (bindings.size() >= 1) {
 						// evaluate all the domains
 						for (ASTNode domain: bindings.values())
 							if (!domain.isEvaluated())
@@ -379,7 +379,7 @@ public class SetPlugin extends Plugin
 			}
 		}
 
-        return nextPos;
+		return nextPos;
 	}
 
 	/*

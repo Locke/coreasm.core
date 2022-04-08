@@ -62,7 +62,7 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 
 	public static final String PLUGIN_NAME = OptionsPlugin.class.getSimpleName();
 
-    private Map<String, GrammarRule> parsers = null;
+	private Map<String, GrammarRule> parsers = null;
 
 	private final String[] keywords = {"option"};
 	private final String[] operators = {"."};
@@ -218,11 +218,11 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 							if (nodes.length == 0)
 								return null;
 							Node node = new ASTNode(
-				        			PLUGIN_NAME,
-				        			ASTNode.DECLARATION_CLASS,
-				        			"Options",
-				        			null,
-				        			((Node)nodes[0]).getScannerInfo());
+									PLUGIN_NAME,
+									ASTNode.DECLARATION_CLASS,
+									"Options",
+									null,
+									((Node)nodes[0]).getScannerInfo());
 							addChildren(node, vals);
 							return node;
 						}}
@@ -253,32 +253,32 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	 */
 	private void loadProperties() {
 		Set<String> definedOptions = capi.getSpec().getOptions();
-        ASTNode currentNode = capi.getParser().getRootNode().getFirst();
+		ASTNode currentNode = capi.getParser().getRootNode().getFirst();
 
-        while (currentNode != null) {
-            if (currentNode instanceof OptionNode) {
-            	OptionNode optionNode = (OptionNode)currentNode;
-            	if (definedOptions.contains(optionNode.getOptionName())) {
-            		try {
-            			String pluginName = optionNode.getOptionName().substring(0, optionNode.getOptionName().indexOf('.'));
-            			String optionName = optionNode.getOptionName().substring(pluginName.length() + 1);
-            			capi.getPlugin(pluginName).checkOptionValue(optionName, optionNode.getOptionValue());
-            			capi.setProperty(optionNode.getOptionName(), optionNode.getOptionValue());
-                        logger.debug("Option '{}' is set to '{}'.", optionNode.getOptionName(), optionNode.getOptionValue());
-            		} catch (CoreASMIssue e) {
-            			if (e instanceof CoreASMWarning)
-            				capi.warning(new CoreASMWarning(((CoreASMWarning)e).src, e.getMessage(), optionNode.getFirst().getNext()));
-            			else if (e instanceof CoreASMError)
-            				capi.error(new CoreASMError(e.getMessage(), optionNode.getFirst().getNext()));
-            			else
-            				throw e;
-            		}
-            	}
-            	else
-            		capi.warning(getName(), "The option '" + optionNode.getOptionName() + "' is undefined and will be ignored.", optionNode.getFirst(), capi.getInterpreter());
-            }
-            currentNode = currentNode.getNext();
-        }
+		while (currentNode != null) {
+			if (currentNode instanceof OptionNode) {
+				OptionNode optionNode = (OptionNode)currentNode;
+				if (definedOptions.contains(optionNode.getOptionName())) {
+					try {
+						String pluginName = optionNode.getOptionName().substring(0, optionNode.getOptionName().indexOf('.'));
+						String optionName = optionNode.getOptionName().substring(pluginName.length() + 1);
+						capi.getPlugin(pluginName).checkOptionValue(optionName, optionNode.getOptionValue());
+						capi.setProperty(optionNode.getOptionName(), optionNode.getOptionValue());
+						logger.debug("Option '{}' is set to '{}'.", optionNode.getOptionName(), optionNode.getOptionValue());
+					} catch (CoreASMIssue e) {
+						if (e instanceof CoreASMWarning)
+							capi.warning(new CoreASMWarning(((CoreASMWarning)e).src, e.getMessage(), optionNode.getFirst().getNext()));
+						else if (e instanceof CoreASMError)
+							capi.error(new CoreASMError(e.getMessage(), optionNode.getFirst().getNext()));
+						else
+							throw e;
+					}
+				}
+				else
+					capi.warning(getName(), "The option '" + optionNode.getOptionName() + "' is undefined and will be ignored.", optionNode.getFirst(), capi.getInterpreter());
+			}
+			currentNode = currentNode.getNext();
+		}
 	}
 
 	/*
@@ -286,32 +286,32 @@ public class OptionsPlugin extends Plugin implements ParserPlugin,
 	 * specified in the specification into the engine.
 	 */
 	/*private void OLD_loadProperties() {
-        ASTNode node = capi.getParser().getRootNode().getFirst();
-        //Properties specProperties = new Properties();
+		ASTNode node = capi.getParser().getRootNode().getFirst();
+		//Properties specProperties = new Properties();
 
-        while (node != null) {
-            while (node != null) {
-                if ((node.getGrammarRule() != null) && node.getGrammarRule().equals("Options"))
-                    break;
+		while (node != null) {
+			while (node != null) {
+				if ((node.getGrammarRule() != null) && node.getGrammarRule().equals("Options"))
+					break;
 
-                node = node.getNext();
-                if (node == null) {
-                    logger.debug("No options are specified.");
-                    return;
-                }
-            }
-        }
+				node = node.getNext();
+				if (node == null) {
+					logger.debug("No options are specified.");
+					return;
+				}
+			}
+		}
 
-        ASTNode currentNode = node.getFirst();
-        OptionNode optionNode = null;
+		ASTNode currentNode = node.getFirst();
+		OptionNode optionNode = null;
 
-        while (currentNode != null) {
-            if (currentNode instanceof OptionNode) {
-            	optionNode = (OptionNode)currentNode;
-            	capi.setProperty(optionNode.getOptionName(), optionNode.getOptionValue());
-            }
-            currentNode = currentNode.getNext();
-        }
+		while (currentNode != null) {
+			if (currentNode instanceof OptionNode) {
+				optionNode = (OptionNode)currentNode;
+				capi.setProperty(optionNode.getOptionName(), optionNode.getOptionValue());
+			}
+			currentNode = currentNode.getNext();
+		}
 
 	}*/
 

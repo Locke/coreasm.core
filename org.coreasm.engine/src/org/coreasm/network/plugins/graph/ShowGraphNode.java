@@ -24,9 +24,9 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class ShowGraphNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public ShowGraphNode(ShowGraphNode node) {
+	public ShowGraphNode(ShowGraphNode node) {
 		super(node);
 	}
 
@@ -38,15 +38,15 @@ public class ShowGraphNode extends ASTNode {
 				scannerInfo);
 	}
 
-    /**
-     * Returns the node representing the graph
-     */
-    public ASTNode getGraphNode() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the graph
+	 */
+	public ASTNode getGraphNode() {
+		return getFirst();
+	}
 
-    public boolean isLocationValue() {
-    	final String token = getChildNodes().get(2).getToken();
-    	return (token != null && token.equals("at"));
-    }
+	public boolean isLocationValue() {
+		final String token = getChildNodes().get(2).getToken();
+		return (token != null && token.equals("at"));
+	}
 }

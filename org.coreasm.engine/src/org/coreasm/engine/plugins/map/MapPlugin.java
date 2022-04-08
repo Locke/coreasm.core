@@ -295,7 +295,7 @@ public class MapPlugin extends Plugin implements ParserPlugin, InterpreterPlugin
 			ASTNode expression = node.getMapFunction();
 
 			if (!guard.isEvaluated()) {
- 				if (bindings.size() >= 1) {
+				if (bindings.size() >= 1) {
 					// evaluate all the domains
 					for (ASTNode domain: bindings.values())
 						if (!domain.isEvaluated())

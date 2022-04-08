@@ -30,10 +30,10 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class ChooseRuleNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
-    private VariableMap variableMap;
+	private static final long serialVersionUID = 1L;
+	private VariableMap variableMap;
 
-    public ChooseRuleNode(ChooseRuleNode node) {
+	public ChooseRuleNode(ChooseRuleNode node) {
 		super(node);
 	}
 
@@ -51,46 +51,46 @@ public class ChooseRuleNode extends ASTNode {
 			ASTNode astNode = (ASTNode)node;
 			if (ASTNode.ID_CLASS.equals(astNode.getGrammarClass())) {
 				for (ASTNode current = getFirst(); current != null && current.getNext() != null && ASTNode.ID_CLASS.equals(current.getGrammarClass()); current = current.getNext().getNext()) {
-		            if (astNode.getToken().equals(current.getToken())) {
-		            	super.addChild(name, node);
-		            	throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in choose rule.", node);
-		            }
-		        }
+					if (astNode.getToken().equals(current.getToken())) {
+						super.addChild(name, node);
+						throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in choose rule.", node);
+					}
+				}
 			}
 		}
 		super.addChild(name, node);
 	}
 
 	/**
-     * Returns a map of the variable names to the nodes which
-     * represent the domains that variable should be taken from
-     */
-    public Map<String,ASTNode> getVariableMap() {
-    	if (variableMap != null)
-    		return variableMap;
-    	return variableMap = new VariableMap(this);
-    }
+	 * Returns a map of the variable names to the nodes which
+	 * represent the domains that variable should be taken from
+	 */
+	public Map<String,ASTNode> getVariableMap() {
+		if (variableMap != null)
+			return variableMap;
+		return variableMap = new VariableMap(this);
+	}
 
-    /**
-     * Returns the node representing the 'do' part of the choose rule.
-     */
-    public ASTNode getDoRule() {
-        return (ASTNode)getChildNode(ChooseRulePlugin.DO_RULE_NAME);
-    }
+	/**
+	 * Returns the node representing the 'do' part of the choose rule.
+	 */
+	public ASTNode getDoRule() {
+		return (ASTNode)getChildNode(ChooseRulePlugin.DO_RULE_NAME);
+	}
 
-    /**
-     * Returns the node representing the 'ifnone' part of the choose rule.
-     */
-    public ASTNode getIfnoneRule() {
-        return (ASTNode)getChildNode(ChooseRulePlugin.IFNONE_RULE_NAME);
-    }
+	/**
+	 * Returns the node representing the 'ifnone' part of the choose rule.
+	 */
+	public ASTNode getIfnoneRule() {
+		return (ASTNode)getChildNode(ChooseRulePlugin.IFNONE_RULE_NAME);
+	}
 
-    /**
-     * Returns the node representing the condition ('with' part) of the choose rule.
-     * null is returned if the choose rule has no condition.
-     */
-    public ASTNode getCondition() {
-    	return (ASTNode)getChildNode(ChooseRulePlugin.GUARD_NAME);
-    }
+	/**
+	 * Returns the node representing the condition ('with' part) of the choose rule.
+	 * null is returned if the choose rule has no condition.
+	 */
+	public ASTNode getCondition() {
+		return (ASTNode)getChildNode(ChooseRulePlugin.GUARD_NAME);
+	}
 
 }

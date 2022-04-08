@@ -119,7 +119,7 @@ public class StringPlugin extends Plugin
 
 				// result of this node is the string element produced
 				pos.setNode(null,null,se);
-	        	}
+				}
 		}
 
 		return nextPos;

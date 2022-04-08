@@ -93,13 +93,13 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 			List<Element> tempList = new ArrayList<Element>(set);
 
 			// Here I pick a subset of the given set with a size of MAX_SET_SIZE
-            if (set.size() > MAX_SET_SIZE) {
-    			this.list = new ArrayList<Element>();
-            	int clipIndex = Tools.randInt(set.size() - MAX_SET_SIZE + 1);
-            	for (int i = 0; i < MAX_SET_SIZE; i++)
-            		list.add(tempList.get(i + clipIndex));
-            } else
-    			this.list = new ArrayList<Element>(set);
+			if (set.size() > MAX_SET_SIZE) {
+				this.list = new ArrayList<Element>();
+				int clipIndex = Tools.randInt(set.size() - MAX_SET_SIZE + 1);
+				for (int i = 0; i < MAX_SET_SIZE; i++)
+					list.add(tempList.get(i + clipIndex));
+			} else
+				this.list = new ArrayList<Element>(set);
 
 			this.iteratedIndices = new ArrayList<Integer>();
 			this.max_tries = (int)Math.round(Math.pow(2, list.size())) - 1;
@@ -119,7 +119,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 			else {
 				Set<Element> result = new HashSet<Element>();
 
-	            // choose a subset index randomly
+				// choose a subset index randomly
 				int selectedIndex;
 				do
 					selectedIndex = 1 + Tools.randInt(max_tries);
@@ -128,7 +128,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 
 				iteratedIndices.add(selectedIndex);
 
-	            // compose the resultant subset based on the binary
+				// compose the resultant subset based on the binary
 				// representation of the  selected subset index
 				int temp = selectedIndex;
 				int listIndex = 0;

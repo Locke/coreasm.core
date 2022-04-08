@@ -110,9 +110,9 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 		setValue(value, BooleanElement.valueOf(b));
 	}
 
-    public boolean contains(Element e) {
-        return elements.contains(e);
-    }
+	public boolean contains(Element e) {
+		return elements.contains(e);
+	}
 
 	public List<Element> getIndexedView()
 			throws UnsupportedOperationException {

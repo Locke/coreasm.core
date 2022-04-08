@@ -141,62 +141,62 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 	//----------------------
 
 	/**
- 	 * Compares this Element to the specified Element.
- 	 * The result is <code>true</code> if the argument
- 	 * is not null and is considered to be equal to this Element.
- 	 *
- 	 * @param anElement the Element to compare with.
- 	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
- 	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
- 	 * of <code>Element</code>
- 	 */
- 	public boolean equals(Object anElement) {
+	 * Compares this Element to the specified Element.
+	 * The result is <code>true</code> if the argument
+	 * is not null and is considered to be equal to this Element.
+	 *
+	 * @param anElement the Element to compare with.
+	 * @return <code>true</code> if the Elements are equal; <code>false</code> otherwise.
+	 * @throws IllegalArgumentException if <code>anElement</code> is not an instance
+	 * of <code>Element</code>
+	 */
+	public boolean equals(Object anElement) {
 
- 		boolean equals = false;
+		boolean equals = false;
 
- 		// if both java objects are idential, no further checks are required
- 		if (super.equals(anElement))
- 			equals = true;
- 		// else both java objects are not identical, have to check that
- 		// both are set elements, both have same size, and same members
- 		else
- 		{
-	 		// both set elements
-	 		if (anElement instanceof SetElement)
-	 		{
-	 			SetElement oSet = (SetElement)anElement;
+		// if both java objects are idential, no further checks are required
+		if (super.equals(anElement))
+			equals = true;
+		// else both java objects are not identical, have to check that
+		// both are set elements, both have same size, and same members
+		else
+		{
+			// both set elements
+			if (anElement instanceof SetElement)
+			{
+				SetElement oSet = (SetElement)anElement;
 
-	 			// both contain same number of members
-	 			if (intSize() == oSet.enumerate().size())
-	 			{
-	 				Collection<Element> oSetMember = oSet.enumerate();
-	 				int matchCounter = 0;
+				// both contain same number of members
+				if (intSize() == oSet.enumerate().size())
+				{
+					Collection<Element> oSetMember = oSet.enumerate();
+					int matchCounter = 0;
 
-	 				// for all members of this set
-	 				for (Element m : enumerate())
-	 				{
-	 					// if any one member in this set is not contained in other set, break
-	 					if (!oSetMember.contains(m))
-	 						break;
-	 					// else add one to match counter
-	 					else
-	 						matchCounter++;
+					// for all members of this set
+					for (Element m : enumerate())
+					{
+						// if any one member in this set is not contained in other set, break
+						if (!oSetMember.contains(m))
+							break;
+						// else add one to match counter
+						else
+							matchCounter++;
 
-	 				}
+					}
 
-	 				// if number of matches is the same as size of this set
-	 				// then other set is indeed equal to this set
-	 				if (intSize() == matchCounter)
-	 					equals = true;
+					// if number of matches is the same as size of this set
+					// then other set is indeed equal to this set
+					if (intSize() == matchCounter)
+						equals = true;
 
-	 			}
-	 		}
- 		}
+				}
+			}
+		}
 
- 		return equals;
+		return equals;
 	}
 
- 	/**
+	/**
 	 * Hashcode for Set elements. Must be overridden because equality is overridden.
 	 *
 	 * @see Object#hashCode()
@@ -210,7 +210,7 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 
 		// sum up hashcode of member elements
 		for (Element e : enumerate())
-		    resultantHashCode = resultantHashCode + (e==null ? 0 : e.hashCode());
+			resultantHashCode = resultantHashCode + (e==null ? 0 : e.hashCode());
 
 		return resultantHashCode;
 	}
@@ -297,8 +297,8 @@ public class SetElement extends AbstractSetElement implements ModifiableCollecti
 	}
 
 	public boolean contains(Element e) {
-	    return this.keySet().contains(e);
-    }
+		return this.keySet().contains(e);
+	}
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (enumListCache == null)

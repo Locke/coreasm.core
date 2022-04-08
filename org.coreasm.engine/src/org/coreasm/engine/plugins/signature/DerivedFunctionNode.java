@@ -25,31 +25,31 @@ public class DerivedFunctionNode extends ASTNode {
 	private static final long serialVersionUID = 1L;
 
 
-    public DerivedFunctionNode(ScannerInfo info) {
-        super(
-        		SignaturePlugin.PLUGIN_NAME,
-        		ASTNode.DECLARATION_CLASS,
-        		"DerivedFunctionDeclaration",
-        		null,
-        		info);
-    }
+	public DerivedFunctionNode(ScannerInfo info) {
+		super(
+				SignaturePlugin.PLUGIN_NAME,
+				ASTNode.DECLARATION_CLASS,
+				"DerivedFunctionDeclaration",
+				null,
+				info);
+	}
 
-    public DerivedFunctionNode(DerivedFunctionNode node) {
-    	super(node);
-    }
+	public DerivedFunctionNode(DerivedFunctionNode node) {
+		super(node);
+	}
 
-    /**
-     * @return the name signature of the function
-     */
-    public ASTNode getNameSignatureNode() {
-        return this.getFirst();
-    }
+	/**
+	 * @return the name signature of the function
+	 */
+	public ASTNode getNameSignatureNode() {
+		return this.getFirst();
+	}
 
-    /**
-     * @return the expression
-     */
-    public ASTNode getExpressionNode() {
-        return getFirst().getNext();
-    }
+	/**
+	 * @return the expression
+	 */
+	public ASTNode getExpressionNode() {
+		return getFirst().getNext();
+	}
 
 }

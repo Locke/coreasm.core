@@ -93,14 +93,14 @@ public class ParserTools
 	public Parser<Node> getKeywParser(String keyword, final String pluginName) {
 		if ( ! keywParsers.containsKey(keyword) ) {
 			Parser<Node> parser = terminals_keyw.token(keyword).map(from -> {
-                int index = from.index();
-                return new Node(
-                    pluginName,
-                    from.toString(),
-                    new ScannerInfo(index),
-                    Node.KEYWORD_NODE
-                );
-            });
+				int index = from.index();
+				return new Node(
+					pluginName,
+					from.toString(),
+					new ScannerInfo(index),
+					Node.KEYWORD_NODE
+				);
+			});
 			keywParsers.put(keyword, parser);
 		}
 		return keywParsers.get(keyword);
@@ -109,14 +109,14 @@ public class ParserTools
 	public Parser<Node> getOprParser(String operator) {
 		if ( ! oprParsers.containsKey(operator) ) {
 			Parser<Node> parser = terminals_keyw.token(operator).map(from -> {
-                int index = from.index();
-                return new Node(
-                        "Kernel",
-                        from.toString(),
-                        new ScannerInfo(index),
-                        Node.OPERATOR_NODE
-                        );
-            });
+				int index = from.index();
+				return new Node(
+						"Kernel",
+						from.toString(),
+						new ScannerInfo(index),
+						Node.OPERATOR_NODE
+						);
+			});
 			oprParsers.put(operator, parser);
 		}
 		return oprParsers.get(operator);
@@ -450,7 +450,7 @@ public class ParserTools
 	 * Returns a parser P that is:
 	 * <p>
 	 * P: parser delimiter (',' delimiter parser delimiter)*
-     *
+	 *
 	 * @param parser parser to be repeated at least once
 	 */
 	public Parser<Object[]> csplus(Parser<?> parser) {
@@ -461,8 +461,8 @@ public class ParserTools
 	 * Returns a parser P that is:
 	 * <p>
 	 * P: parser delimiter (commaParser delimiter parser delimiter)*
-     *
-     * @param commaParser the parser that parses the comma or any other symbol
+	 *
+	 * @param commaParser the parser that parses the comma or any other symbol
 	 * @param parser parser to be repeated at least once
 	 */
 	public Parser<Object[]> csplus(Parser<?> commaParser, Parser<?> parser) {

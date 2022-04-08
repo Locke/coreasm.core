@@ -26,27 +26,27 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberIntegerFunction extends FunctionElement {
 
-    public static String NUMBER_INTEGER_FUNCTION_NAME = "isIntegerNumber";
+	public static String NUMBER_INTEGER_FUNCTION_NAME = "isIntegerNumber";
 
-    /**
-     * Creates a new NumberIntegerFunction
-     */
-    public NumberIntegerFunction() {
-        setFClass(FunctionClass.fcDerived);
-    }
+	/**
+	 * Creates a new NumberIntegerFunction
+	 */
+	public NumberIntegerFunction() {
+		setFClass(FunctionClass.fcDerived);
+	}
 
-    /* (non-Javadoc)
-     * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
-     */
-    @Override
-    public Element getValue(List<? extends Element> args) {
-        Element ret = BooleanElement.FALSE;
+	/* (non-Javadoc)
+	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
+	 */
+	@Override
+	public Element getValue(List<? extends Element> args) {
+		Element ret = BooleanElement.FALSE;
 
-        if (args.size() == 1) {
-            if (NumberUtil.isInteger(args.get(0))) {
-                ret = BooleanElement.TRUE;
-            }
-        }
-        return ret;
-    }
+		if (args.size() == 1) {
+			if (NumberUtil.isInteger(args.get(0))) {
+				ret = BooleanElement.TRUE;
+			}
+		}
+		return ret;
+	}
 }

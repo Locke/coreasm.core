@@ -91,14 +91,14 @@ public class HashStorage implements AbstractStorage {
 	public HashStorage(Runtime runtime) {
 		this.runtime = runtime;
 		updateStack = new ThreadLocal<Stack<Map<Location,Element>>>() {
-	         protected Stack<Map<Location,Element>> initialValue() {
-	             return new Stack<Map<Location,Element>>();
-	         }
+			 protected Stack<Map<Location,Element>> initialValue() {
+				 return new Stack<Map<Location,Element>>();
+			 }
 		};
 		stateStacked = new ThreadLocal<Boolean>() {
-	         protected Boolean initialValue() {
-	             return false;
-	         }
+			 protected Boolean initialValue() {
+				 return false;
+			 }
 		};
 		monitoredCache = new ConcurrentHashMap<Location, Element>();
 		lastInconsistentUpdates = null;
@@ -143,16 +143,16 @@ public class HashStorage implements AbstractStorage {
 	public void initAbstractStorage(CompilerRuntime.Rule initRule) {
 		//clearState();
 
-        runtime.getScheduler().setStepCount(0);
+		runtime.getScheduler().setStepCount(0);
 
-        try {
-        	UniverseElement agentsuniverse = new UniverseElement();
-        	Element initagent = new InitAgent();
-        	agentsuniverse.setValue(initagent, BooleanElement.TRUE);
-        	List<Element> arglist = new ArrayList<Element>();
-        	arglist.add(initagent);
-        	Location loc = new Location(CompilerRuntime.AbstractStorage.PROGRAM_FUNCTION_NAME, arglist);
-        	try {
+		try {
+			UniverseElement agentsuniverse = new UniverseElement();
+			Element initagent = new InitAgent();
+			agentsuniverse.setValue(initagent, BooleanElement.TRUE);
+			List<Element> arglist = new ArrayList<Element>();
+			arglist.add(initagent);
+			Location loc = new Location(CompilerRuntime.AbstractStorage.PROGRAM_FUNCTION_NAME, arglist);
+			try {
 				this.setValue(loc, initRule);
 			} catch (InvalidLocationException e) {
 				//should never happen aswell
@@ -276,7 +276,7 @@ public class HashStorage implements AbstractStorage {
 		runtime.getScheduler().getUpdateSet().clear();
 		runtime.getScheduler().getUpdateSet().addAll(tempUpdateSet);
 
-        runtime.getScheduler().getUpdateInstructions().clear();
+		runtime.getScheduler().getUpdateInstructions().clear();
 }
 
 	public UpdateList compose(UpdateList updateSet1, UpdateList updateSet2) {
@@ -332,7 +332,7 @@ public class HashStorage implements AbstractStorage {
 			uSet = performAggregation(uSet);
 		}
 
-        HashMap<Location,Update> updateMap = new HashMap<Location,Update>();
+		HashMap<Location,Update> updateMap = new HashMap<Location,Update>();
 		for (Update u: uSet) {
 			if (updateMap.containsKey(u.loc)) {
 				lastInconsistentUpdates = new UpdateList();
@@ -471,7 +471,7 @@ public class HashStorage implements AbstractStorage {
 		/**/
 	}
 
-    public String getFunctionName(FunctionElement function) {
+	public String getFunctionName(FunctionElement function) {
 		return state.getFunctionName(function);
 	}
 
@@ -510,20 +510,20 @@ public class HashStorage implements AbstractStorage {
 			table.put(name, value);
 		}
 
-        @SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
-            if (args.size() == 1){
-                try {
-                	setValue(args.get(0).toString(),(E) value);
-                }
-                catch (ClassCastException e) {
-                    runtime.error(e);
-                }
-            }
-            else {
-            	runtime.error("NameTableFunctions can have only one argument.");
-            }
-        }
+			if (args.size() == 1){
+				try {
+					setValue(args.get(0).toString(),(E) value);
+				}
+				catch (ClassCastException e) {
+					runtime.error(e);
+				}
+			}
+			else {
+				runtime.error("NameTableFunctions can have only one argument.");
+			}
+		}
 
 		public E getValue(String name) {
 			return table.get(name);
@@ -561,15 +561,15 @@ public class HashStorage implements AbstractStorage {
 			return table.containsKey(name);
 		}
 
-        public Set<Location> getLocations(String name) {
-            Set<Location> locations = new HashSet<Location>();
+		public Set<Location> getLocations(String name) {
+			Set<Location> locations = new HashSet<Location>();
 
-            for (String functionName: table.keySet()) {
-                locations.add(new Location(name, ElementList.create(new NameElement(functionName))));
-            }
+			for (String functionName: table.keySet()) {
+				locations.add(new Location(name, ElementList.create(new NameElement(functionName))));
+			}
 
-            return locations;
-        }
+			return locations;
+		}
 
 	}
 
@@ -682,11 +682,11 @@ public class HashStorage implements AbstractStorage {
 		 */
 		public synchronized void setValue(Location l, Element v) throws InvalidLocationException {
 			if (!nameExists(l.name)) {
-		        FunctionElement f = new MapFunction(Element.UNDEF);
-	            try {
+				FunctionElement f = new MapFunction(Element.UNDEF);
+				try {
 					addFunction(l.name, f);
 				} catch (NameConflictException e) {
-		            throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
+					throw new EngineError("There is a name conflict (in 'handleUndefinedIdentifier(String, ElementList)') for \"" + id + "\".");
 				}
 			}
 			Element id;
@@ -726,8 +726,8 @@ public class HashStorage implements AbstractStorage {
 				else
 					throw new InvalidLocationException("Not a valid location.");
 			} else {
-		        FunctionElement f = new MapFunction(Element.UNDEF);
-	            addFunction(id, f);
+				FunctionElement f = new MapFunction(Element.UNDEF);
+				addFunction(id, f);
 				throw new InvalidLocationException("There is no such function in the state.");
 			}
 		}
@@ -838,21 +838,21 @@ public class HashStorage implements AbstractStorage {
 		}
 
 		/* (non-Javadoc)
-         * @see org.coreasm.engine.absstorage.State#getFunctionName(org.coreasm.engine.absstorage.FunctionElement)
-         */
-        public String getFunctionName(FunctionElement function) {
-            for (String name: functionElements.table.keySet()) {
-                if (functionElements.table.get(name).equals(function)) {
-                    return name;
-                }
-            }
+		 * @see org.coreasm.engine.absstorage.State#getFunctionName(org.coreasm.engine.absstorage.FunctionElement)
+		 */
+		public String getFunctionName(FunctionElement function) {
+			for (String name: functionElements.table.keySet()) {
+				if (functionElements.table.get(name).equals(function)) {
+					return name;
+				}
+			}
 
-            for (Entry<String, AbstractUniverse> u : universeElements.table.entrySet()) {
-            	if (u.getValue().equals(function))
-            		return u.getKey();
-            }
-            return null;
-        }
+			for (Entry<String, AbstractUniverse> u : universeElements.table.entrySet()) {
+				if (u.getValue().equals(function))
+					return u.getKey();
+			}
+			return null;
+		}
 
 		/*
 		 * Cut the string to a specific length

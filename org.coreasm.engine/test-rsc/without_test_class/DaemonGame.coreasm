@@ -33,7 +33,7 @@ init InitRule
  */
 rule InitRule =
 	par
-	    lastPlayId := 0
+		lastPlayId := 0
 		envMode := 0
 		extend Agents with daemon do
 			program(daemon) := @DaemonGame

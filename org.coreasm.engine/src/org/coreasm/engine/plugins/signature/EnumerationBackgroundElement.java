@@ -35,33 +35,33 @@ import org.coreasm.engine.absstorage.Enumerable;
  *
  */
 public class EnumerationBackgroundElement extends BackgroundElement
-    implements Enumerable {
+	implements Enumerable {
 
-    private final List<EnumerationElement> members;
-    private final List<Element> enumCache;
+	private final List<EnumerationElement> members;
+	private final List<Element> enumCache;
 
-    public EnumerationBackgroundElement(List<EnumerationElement> members) {
-        this.members = members;
-        enumCache = List.copyOf(members);
-    }
+	public EnumerationBackgroundElement(List<EnumerationElement> members) {
+		this.members = members;
+		enumCache = List.copyOf(members);
+	}
 
-    @Override
-    public Element getNewValue() {
-        return members.get(0);
-    }
+	@Override
+	public Element getNewValue() {
+		return members.get(0);
+	}
 
-    @Override
-    protected Element getValue(Element e) {
-        return (members.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE);
-    }
+	@Override
+	protected Element getValue(Element e) {
+		return (members.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE);
+	}
 
-    public Collection<Element> enumerate() {
-    	return getIndexedView();
-    }
+	public Collection<Element> enumerate() {
+		return getIndexedView();
+	}
 
-    public boolean contains(Element e) {
-        return enumerate().contains(e);
-    }
+	public boolean contains(Element e) {
+		return enumerate().contains(e);
+	}
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		return enumCache;

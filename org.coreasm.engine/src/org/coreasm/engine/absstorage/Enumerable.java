@@ -34,48 +34,48 @@ public interface Enumerable {
 	 */
 	public Collection<? extends Element> enumerate();
 
-    /**
-     * Returns true of the enumerable object contains the specified element;
-     * false otherwise.
-     *
-     * A common implementation of this method may be:
-     * <code>
-     * public boolean contains(Element e) {
-     *   return enumerate().contains(e);
-     * }
-     * </code>
-     *
-     * However, that implementation may be inefficient in some cases.
-     *
-     * @param e
-     */
-    public boolean contains(Element e);
+	/**
+	 * Returns true of the enumerable object contains the specified element;
+	 * false otherwise.
+	 *
+	 * A common implementation of this method may be:
+	 * <code>
+	 * public boolean contains(Element e) {
+	 *   return enumerate().contains(e);
+	 * }
+	 * </code>
+	 *
+	 * However, that implementation may be inefficient in some cases.
+	 *
+	 * @param e
+	 */
+	public boolean contains(Element e);
 
-    /**
-     * @return the size of this enumerable.
-     */
-    public int size();
+	/**
+	 * @return the size of this enumerable.
+	 */
+	public int size();
 
-    /**
-     * Returns <code>true</code> if and only if this element can provide
-     * an indexed view of itself; i.e., if the {@link #getIndexedView()}
-     * does not throw an {@link UnsupportedOperationException}; otherwise,
-     * it should return <code>false</code>.
-     */
-    public boolean supportsIndexedView();
+	/**
+	 * Returns <code>true</code> if and only if this element can provide
+	 * an indexed view of itself; i.e., if the {@link #getIndexedView()}
+	 * does not throw an {@link UnsupportedOperationException}; otherwise,
+	 * it should return <code>false</code>.
+	 */
+	public boolean supportsIndexedView();
 
-    /**
-     * If supported, gives an indexed view of this enumerable.
-     * Such type-specific views can improve performance
-     * in any rule or expression that chooses or iterates over the
-     * elements.
-     * <p>
-     * The output of this method should be consistent with {@link #supportsIndexedView()}.
-     *
-     * @return a list of elements
-     * @throws UnsupportedOperationException if this method is not supported.
-     */
-    public List<Element> getIndexedView() throws UnsupportedOperationException;
+	/**
+	 * If supported, gives an indexed view of this enumerable.
+	 * Such type-specific views can improve performance
+	 * in any rule or expression that chooses or iterates over the
+	 * elements.
+	 * <p>
+	 * The output of this method should be consistent with {@link #supportsIndexedView()}.
+	 *
+	 * @return a list of elements
+	 * @throws UnsupportedOperationException if this method is not supported.
+	 */
+	public List<Element> getIndexedView() throws UnsupportedOperationException;
 
 
 }

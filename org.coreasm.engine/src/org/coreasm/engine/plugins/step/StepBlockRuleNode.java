@@ -23,18 +23,18 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class StepBlockRuleNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public StepBlockRuleNode(ScannerInfo info) {
-        super(StepPlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		"StepBlockRule",
-        		null,
-        		info);
-    }
+	public StepBlockRuleNode(ScannerInfo info) {
+		super(StepPlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				"StepBlockRule",
+				null,
+				info);
+	}
 
-    public StepBlockRuleNode(StepBlockRuleNode node) {
-    	super(node);
-    }
+	public StepBlockRuleNode(StepBlockRuleNode node) {
+		super(node);
+	}
 
 }

@@ -25,42 +25,42 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class PickExpNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    public PickExpNode(ScannerInfo info) {
-        super(
-        		ChooseRulePlugin.PLUGIN_NAME,
-        		ASTNode.EXPRESSION_CLASS,
-        		"PickExp",
-        		null,
-        		info);
-    }
+	public PickExpNode(ScannerInfo info) {
+		super(
+				ChooseRulePlugin.PLUGIN_NAME,
+				ASTNode.EXPRESSION_CLASS,
+				"PickExp",
+				null,
+				info);
+	}
 
-    public PickExpNode(PickExpNode node) {
-    	super(node);
-    }
+	public PickExpNode(PickExpNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the node representing the bound variable of the 'pick' expression
-     */
-    public ASTNode getVariable() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the bound variable of the 'pick' expression
+	 */
+	public ASTNode getVariable() {
+		return getFirst();
+	}
 
-    /**
-     * Returns the node representing the domain of the 'pick' expression
-     */
-    public ASTNode getDomain() {
-        return getVariable().getNext();
-    }
+	/**
+	 * Returns the node representing the domain of the 'pick' expression
+	 */
+	public ASTNode getDomain() {
+		return getVariable().getNext();
+	}
 
-    /**
-     * Returns the node representing the condition of the 'pick' expression.
-     */
-    public ASTNode getCondition() {
-        return getDomain().getNext();
-    }
+	/**
+	 * Returns the node representing the condition of the 'pick' expression.
+	 */
+	public ASTNode getCondition() {
+		return getDomain().getNext();
+	}
 }

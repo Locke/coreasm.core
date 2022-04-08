@@ -36,37 +36,37 @@ import org.coreasm.engine.plugins.signature.EnumerationElement;
  *
  */
 public class EnumerationBackgroundElement extends BackgroundElement
-    implements Enumerable {
+	implements Enumerable {
 
-    private List<EnumerationElement> members;
-    private List<Element> enumCache = null;
+	private List<EnumerationElement> members;
+	private List<Element> enumCache = null;
 
-    /**
-     * Sets the members of this enumeration background
-     * @param members The members
-     */
-    public void setMembers(List<EnumerationElement> members){
-        this.members = members;
-        enumCache =  Collections.unmodifiableList(new ArrayList<Element>(members));
-    }
+	/**
+	 * Sets the members of this enumeration background
+	 * @param members The members
+	 */
+	public void setMembers(List<EnumerationElement> members){
+		this.members = members;
+		enumCache =  Collections.unmodifiableList(new ArrayList<Element>(members));
+	}
 
-    @Override
-    public Element getNewValue() {
-        return members.get(0);
-    }
+	@Override
+	public Element getNewValue() {
+		return members.get(0);
+	}
 
-    @Override
-    protected Element getValue(Element e) {
-        return (members.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE);
-    }
+	@Override
+	protected Element getValue(Element e) {
+		return (members.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE);
+	}
 
-    public Collection<Element> enumerate() {
-    	return getIndexedView();
-    }
+	public Collection<Element> enumerate() {
+		return getIndexedView();
+	}
 
-    public boolean contains(Element e) {
-        return enumerate().contains(e);
-    }
+	public boolean contains(Element e) {
+		return enumerate().contains(e);
+	}
 
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		return enumCache;

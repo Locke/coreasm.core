@@ -181,16 +181,16 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+		if (a.length < size)
+			a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
 		int i = 0;
 		for (Element e : this) {
 			a[i] = (T)e;
 			i++;
 		}
-        if (a.length > size)
-            a[size] = null;
-        return a;
+		if (a.length > size)
+			a[size] = null;
+		return a;
 	}
 
 	/**

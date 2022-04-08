@@ -38,14 +38,14 @@ public abstract class FunctionElement extends Element {
 	 * The default value of this function.
 	 * By default, this value is <code>Element.UNDEF</code>.
 	 */
-    protected final Element defaultValue;
+	protected final Element defaultValue;
 
-    /**
-     * Class of this function.
-     *
-     * @refer ASM Book, Section 2.2.3
-     */
-    private FunctionClass fClass = FunctionClass.fcControlled;
+	/**
+	 * Class of this function.
+	 *
+	 * @refer ASM Book, Section 2.2.3
+	 */
+	private FunctionClass fClass = FunctionClass.fcControlled;
 
 	/**
 	 * The signature of this function.

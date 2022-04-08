@@ -47,22 +47,22 @@ rule Philosopher = {
 
 /* starts eating */
 rule StartEating =
-   par
+	par
 		chopOwner(leftChop(self)) := self
 		chopOwner(rightChop(self)) := self
 		eating(self) := true
 		print name(self) + " starts eating."
-   endpar
+	endpar
 
 
 // stops eating
 rule StopEating =
-   par
-      chopOwner(leftChop(self)) := undef
-      chopOwner(rightChop(self)) := undef
-      eating(self) := false
-      print name(self) + " stops eating."
-   endpar
+	par
+		chopOwner(leftChop(self)) := undef
+		chopOwner(rightChop(self)) := undef
+		eating(self) := false
+		print name(self) + " stops eating."
+	endpar
 
 
 
@@ -74,7 +74,7 @@ derived flip =
 
  // Initializes the table!
 rule initRule =
-   par
+	par
 		/* setup philosophers around table with chopsticks in between
 		   no philosopher is eating initially
 		   philosophers are hungry at random */
@@ -140,4 +140,4 @@ rule initRule =
 		print "TABLE:  c1  Herbert  c2  Fredrich  c3  Sina  c4  Juan  c5  Albert  c1\n"
 
 		Agents(self) := false
- 	endpar
+	endpar

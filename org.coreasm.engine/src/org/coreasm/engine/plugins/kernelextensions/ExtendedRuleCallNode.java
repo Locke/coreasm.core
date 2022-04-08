@@ -27,30 +27,30 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class ExtendedRuleCallNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private List<ASTNode> argsList = null;
 
-    public ExtendedRuleCallNode(ScannerInfo info) {
-        super(
-        		KernelExtensionsPlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		KernelExtensionsPlugin.EXTENDED_RULE_CALL_NAME,
-        		null,
-        		info);
-    }
+	public ExtendedRuleCallNode(ScannerInfo info) {
+		super(
+				KernelExtensionsPlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				KernelExtensionsPlugin.EXTENDED_RULE_CALL_NAME,
+				null,
+				info);
+	}
 
-    public ExtendedRuleCallNode(ExtendedRuleCallNode node) {
-    	super(node);
-    }
+	public ExtendedRuleCallNode(ExtendedRuleCallNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the node representing the basic function-rule term
-     */
-    public ASTNode getTerm() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the basic function-rule term
+	 */
+	public ASTNode getTerm() {
+		return getFirst();
+	}
 
-    /**
+	/**
 	 * Returns the list of arguments in a <code>List</code> object.
 	 * This method caches the result of its first call, assuming that
 	 * the node structure does not change.

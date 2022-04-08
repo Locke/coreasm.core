@@ -51,7 +51,7 @@ import org.coreasm.util.Tools;
  *
  */
 public class ForallRulePlugin extends Plugin implements ParserPlugin,
-        InterpreterPlugin {
+		InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 3, "");
 
@@ -60,42 +60,42 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	private final String[] keywords = {"forall", "in", "with", "do", "ifnone", "endforall"};
 	private final String[] operators = {};
 
-    private ThreadLocal<Map<Node,Iterator<? extends Element>>> iterators;
-    private ThreadLocal<Map<Node,UpdateMultiset>> updates;
+	private ThreadLocal<Map<Node,Iterator<? extends Element>>> iterators;
+	private ThreadLocal<Map<Node,UpdateMultiset>> updates;
 
-    private Map<String, GrammarRule> parsers;
+	private Map<String, GrammarRule> parsers;
 
-    private final CompilerPlugin compilerPlugin = new CompilerForallRulePlugin(this);
+	private final CompilerPlugin compilerPlugin = new CompilerForallRulePlugin(this);
 
-    @Override
-    public CompilerPlugin getCompilerPlugin(){
-    	return compilerPlugin;
-    }
+	@Override
+	public CompilerPlugin getCompilerPlugin(){
+		return compilerPlugin;
+	}
 
-    @Override
-    public void initialize() {
-        //considered = new IdentityHashMap<Node,ArrayList<Element>>();
-        iterators = new ThreadLocal<Map<Node, Iterator<? extends Element>>>() {
+	@Override
+	public void initialize() {
+		//considered = new IdentityHashMap<Node,ArrayList<Element>>();
+		iterators = new ThreadLocal<Map<Node, Iterator<? extends Element>>>() {
 			@Override
 			protected Map<Node, Iterator<? extends Element>> initialValue() {
 				return new IdentityHashMap<Node, Iterator<? extends Element>>();
 			}
-        };
-        updates= new ThreadLocal<Map<Node,UpdateMultiset>>() {
+		};
+		updates= new ThreadLocal<Map<Node,UpdateMultiset>>() {
 			@Override
 			protected Map<Node, UpdateMultiset> initialValue() {
 				return new IdentityHashMap<Node, UpdateMultiset>();
 			}
-        };
-    }
+		};
+	}
 
-    private Map<Node, Iterator<? extends Element>> getIteratorMap() {
-    	return iterators.get();
-    }
+	private Map<Node, Iterator<? extends Element>> getIteratorMap() {
+		return iterators.get();
+	}
 
-    private Map<Node, UpdateMultiset> getUpdatesMap() {
-    	return updates.get();
-    }
+	private Map<Node, UpdateMultiset> getUpdatesMap() {
+		return updates.get();
+	}
 
 	public String[] getKeywords() {
 		return keywords;
@@ -106,7 +106,7 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 	}
 
 
-    public Map<String, GrammarRule> getParsers() {
+	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
@@ -139,176 +139,176 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 							"'forall' ID 'in' Term (',' ID 'in' Term) ('with' Guard)? 'do' Rule ('ifnone' Rule)? ('endforall')?", forallParser, PLUGIN_NAME));
 		}
 		return parsers;
-    }
+	}
 
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
-        if (pos instanceof ForallRuleNode) {
-            ForallRuleNode forallNode = (ForallRuleNode) pos;
-            Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
-            Map<Node, UpdateMultiset> updates = getUpdatesMap();
-            Map<String, ASTNode> variableMap;
+		if (pos instanceof ForallRuleNode) {
+			ForallRuleNode forallNode = (ForallRuleNode) pos;
+			Map<Node, Iterator<? extends Element>> iterators = getIteratorMap();
+			Map<Node, UpdateMultiset> updates = getUpdatesMap();
+			Map<String, ASTNode> variableMap;
 
-            try {
-            	variableMap = forallNode.getVariableMap();
-            }
-            catch (CoreASMError e) {
-            	capi.error(e);
-            	return pos;
-            }
+			try {
+				variableMap = forallNode.getVariableMap();
+			}
+			catch (CoreASMError e) {
+				capi.error(e);
+				return pos;
+			}
 
-            // evaluate all domains
-            for (ASTNode domain : variableMap.values()) {
-            	if (!domain.isEvaluated()) {
-            		// SPEC: considered := {}
-                	iterators.remove(domain);
+			// evaluate all domains
+			for (ASTNode domain : variableMap.values()) {
+				if (!domain.isEvaluated()) {
+					// SPEC: considered := {}
+					iterators.remove(domain);
 
-                    // SPEC: pos := beta
-            		return domain;
-            	}
-            }
+					// SPEC: pos := beta
+					return domain;
+				}
+			}
 
-            if (!forallNode.getDoRule().isEvaluated() &&
-            		(forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated()) &&
-                    // depending on short circuit evaluation
-                     ((forallNode.getCondition() == null) || !forallNode.getCondition().isEvaluated())) {
-            	// pos := gamma
-            	if (forallNode.getCondition() != null)
-            		pos = forallNode.getCondition();
-            	else
-            		pos = forallNode.getDoRule();
-            	boolean shouldChoose = true;
-            	for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-	                if (variable.getValue().getValue() instanceof Enumerable) {
+			if (!forallNode.getDoRule().isEvaluated() &&
+					(forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated()) &&
+					// depending on short circuit evaluation
+					 ((forallNode.getCondition() == null) || !forallNode.getCondition().isEvaluated())) {
+				// pos := gamma
+				if (forallNode.getCondition() != null)
+					pos = forallNode.getCondition();
+				else
+					pos = forallNode.getDoRule();
+				boolean shouldChoose = true;
+				for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+					if (variable.getValue().getValue() instanceof Enumerable) {
 
-	                    // SPEC: s := enumerate(v)/considered
-	                	Iterator<? extends Element> it = iterators.get(variable.getValue());
-	                	if (it == null) {
-	            			Enumerable domain = (Enumerable)variable.getValue().getValue();
-	            			if (domain.supportsIndexedView())
-	            				it = domain.getIndexedView().iterator();
-	            			else
-	            				it = domain.enumerate().iterator();
-	            			if (!it.hasNext()) {
-	            				if (forallNode.getIfnoneRule() == null) {
-	                    			for (Entry<String, ASTNode> var : variableMap.entrySet()) {
-	                	    			if (iterators.remove(var.getValue()) != null)
-	                	    				interpreter.removeEnv(var.getKey());
-	                	    		}
-	                				// [pos] := (undef,{},undef)
-	                    			forallNode.setNode(null, new UpdateMultiset(), null);
-	                	            return forallNode;
-	            				}
-                	         	// pos := delta
-	                           	pos = forallNode.getIfnoneRule();
-	                           	interpreter.addEnv(variable.getKey(), Element.UNDEF);
-	                    	}
-	            			iterators.put(variable.getValue(), it);
-	                		shouldChoose = true;
-	                	}
-	                	else if (shouldChoose)
-	                		interpreter.removeEnv(variable.getKey());
+						// SPEC: s := enumerate(v)/considered
+						Iterator<? extends Element> it = iterators.get(variable.getValue());
+						if (it == null) {
+							Enumerable domain = (Enumerable)variable.getValue().getValue();
+							if (domain.supportsIndexedView())
+								it = domain.getIndexedView().iterator();
+							else
+								it = domain.enumerate().iterator();
+							if (!it.hasNext()) {
+								if (forallNode.getIfnoneRule() == null) {
+									for (Entry<String, ASTNode> var : variableMap.entrySet()) {
+										if (iterators.remove(var.getValue()) != null)
+											interpreter.removeEnv(var.getKey());
+									}
+									// [pos] := (undef,{},undef)
+									forallNode.setNode(null, new UpdateMultiset(), null);
+									return forallNode;
+								}
+								// pos := delta
+								pos = forallNode.getIfnoneRule();
+								interpreter.addEnv(variable.getKey(), Element.UNDEF);
+							}
+							iterators.put(variable.getValue(), it);
+							shouldChoose = true;
+						}
+						else if (shouldChoose)
+							interpreter.removeEnv(variable.getKey());
 
-	                	if (shouldChoose) {
-		                    if (it.hasNext()) {
-		                    	// SPEC: considered := considered union {t}
-		                        Element chosen = it.next();
-		                        shouldChoose = false;
+						if (shouldChoose) {
+							if (it.hasNext()) {
+								// SPEC: considered := considered union {t}
+								Element chosen = it.next();
+								shouldChoose = false;
 
-		                        // SPEC: AddEnv(x,t)
-		                        interpreter.addEnv(variable.getKey(),chosen);
-		                    }
-		                    else {
-		                        iterators.remove(variable.getValue());
-		                        if (pos != forallNode.getIfnoneRule())
-			            			pos = forallNode;
-		                    }
-	                	}
-	                }
-	                else {
-	                    capi.error("Cannot perform a 'forall' over " + Tools.sizeLimit(variable.getValue().getValue().denotation())
-	                    		+ ". Forall domain must be an enumerable element.", variable.getValue(), interpreter);
-	                    return pos;
-	                }
-            	}
-            	if (shouldChoose) {
-        			if (forallNode.getIfnoneRule() == null || updates.containsKey(forallNode)) {
-            			// we're done
-        				UpdateMultiset updateSet = updates.remove(pos);
-        				if (updateSet == null)
-        					updateSet = new UpdateMultiset();
-        				forallNode.setNode(null, updateSet, null);
-        	            return forallNode;
-        			}
-        			// pos := delta
-        			pos = forallNode.getIfnoneRule();
-        		}
-            }
-            else if (((forallNode.getCondition() != null) && forallNode.getCondition().isEvaluated()) &&
-                     !forallNode.getDoRule().isEvaluated() &&
-                     (forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated())) {
+								// SPEC: AddEnv(x,t)
+								interpreter.addEnv(variable.getKey(),chosen);
+							}
+							else {
+								iterators.remove(variable.getValue());
+								if (pos != forallNode.getIfnoneRule())
+									pos = forallNode;
+							}
+						}
+					}
+					else {
+						capi.error("Cannot perform a 'forall' over " + Tools.sizeLimit(variable.getValue().getValue().denotation())
+								+ ". Forall domain must be an enumerable element.", variable.getValue(), interpreter);
+						return pos;
+					}
+				}
+				if (shouldChoose) {
+					if (forallNode.getIfnoneRule() == null || updates.containsKey(forallNode)) {
+						// we're done
+						UpdateMultiset updateSet = updates.remove(pos);
+						if (updateSet == null)
+							updateSet = new UpdateMultiset();
+						forallNode.setNode(null, updateSet, null);
+						return forallNode;
+					}
+					// pos := delta
+					pos = forallNode.getIfnoneRule();
+				}
+			}
+			else if (((forallNode.getCondition() != null) && forallNode.getCondition().isEvaluated()) &&
+					 !forallNode.getDoRule().isEvaluated() &&
+					 (forallNode.getIfnoneRule() == null || !forallNode.getIfnoneRule().isEvaluated())) {
 
-                boolean value;
-                if (forallNode.getCondition().getValue() instanceof BooleanElement) {
-                    value = ((BooleanElement) forallNode.getCondition().getValue()).getValue();
-                }
-                else {
-                    capi.error("Value of forall condition is not Boolean.", forallNode.getCondition(), interpreter);
-                    return pos;
-                }
+				boolean value;
+				if (forallNode.getCondition().getValue() instanceof BooleanElement) {
+					value = ((BooleanElement) forallNode.getCondition().getValue()).getValue();
+				}
+				else {
+					capi.error("Value of forall condition is not Boolean.", forallNode.getCondition(), interpreter);
+					return pos;
+				}
 
-                if (value) {
-                    // pos := delta
-                    return forallNode.getDoRule();
-                }
-                else {
-                    // ClearTree(gamma)
-                    interpreter.clearTree(forallNode.getCondition());
+				if (value) {
+					// pos := delta
+					return forallNode.getDoRule();
+				}
+				else {
+					// ClearTree(gamma)
+					interpreter.clearTree(forallNode.getCondition());
 
-                    // pos := beta
-                    return forallNode;
-                }
+					// pos := beta
+					return forallNode;
+				}
 
-            }
-            else if (((forallNode.getCondition() == null) || forallNode.getCondition().isEvaluated()) &&
-                    (forallNode.getDoRule().isEvaluated())) {
+			}
+			else if (((forallNode.getCondition() == null) || forallNode.getCondition().isEvaluated()) &&
+					(forallNode.getDoRule().isEvaluated())) {
 
-            	UpdateMultiset updateSet = updates.get(pos);
-            	if (updateSet == null) {
-	            	// SPEC: [pos] := {undef,{},undef}
-            		updateSet = new UpdateMultiset();
-	                updates.put(pos,updateSet);
-            	}
-                // [pos] := (undef,updates(pos) union u,undef)
-                if (forallNode.getDoRule().getUpdates() != null)
-                	updateSet.addAll(forallNode.getDoRule().getUpdates());
+				UpdateMultiset updateSet = updates.get(pos);
+				if (updateSet == null) {
+					// SPEC: [pos] := {undef,{},undef}
+					updateSet = new UpdateMultiset();
+					updates.put(pos,updateSet);
+				}
+				// [pos] := (undef,updates(pos) union u,undef)
+				if (forallNode.getDoRule().getUpdates() != null)
+					updateSet.addAll(forallNode.getDoRule().getUpdates());
 
-                // ClearTree(gamma/delta)
-                interpreter.clearTree(forallNode.getDoRule());
+				// ClearTree(gamma/delta)
+				interpreter.clearTree(forallNode.getDoRule());
 
-                if (forallNode.getCondition() != null) {
-                    // ClearTree(gamma)
-                    interpreter.clearTree(forallNode.getCondition());
-                }
+				if (forallNode.getCondition() != null) {
+					// ClearTree(gamma)
+					interpreter.clearTree(forallNode.getCondition());
+				}
 
-                return pos;
-            }
-            else if (forallNode.getIfnoneRule() != null && forallNode.getIfnoneRule().isEvaluated()) {
-                // [pos] := (undef,u,undef)
-                pos.setNode(null,forallNode.getIfnoneRule().getUpdates(),null);
-                return pos;
-            }
-            if (pos == forallNode.getIfnoneRule()) {
-            	// RemoveEnv(x)
-        		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-        			if (iterators.remove(variable.getValue()) != null)
-        				interpreter.removeEnv(variable.getKey());
-        		}
-            }
-        }
+				return pos;
+			}
+			else if (forallNode.getIfnoneRule() != null && forallNode.getIfnoneRule().isEvaluated()) {
+				// [pos] := (undef,u,undef)
+				pos.setNode(null,forallNode.getIfnoneRule().getUpdates(),null);
+				return pos;
+			}
+			if (pos == forallNode.getIfnoneRule()) {
+				// RemoveEnv(x)
+				for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+					if (iterators.remove(variable.getValue()) != null)
+						interpreter.removeEnv(variable.getKey());
+				}
+			}
+		}
 
-        return pos;
-    }
+		return pos;
+	}
 
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
@@ -326,8 +326,8 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 		@Override
 		public Node apply(Object[] vals) {
 			nextChildName = "alpha";
-            Node node = new ForallRuleNode(((Node)vals[0]).getScannerInfo());
-            addChildren(node, vals);
+			Node node = new ForallRuleNode(((Node)vals[0]).getScannerInfo());
+			addChildren(node, vals);
 			return node;
 		}
 
@@ -337,12 +337,12 @@ public class ForallRulePlugin extends Plugin implements ParserPlugin,
 				parent.addChild(nextChildName, child);
 			else {
 				String token = child.getToken();
-		        if (token.equals("with"))
-		        	nextChildName = "guard";
-		        else if (token.equals("do"))
-	        		nextChildName = "rule";
-		        else if (token.equals("ifnone"))
-		        	nextChildName = "ifnone";
+				if (token.equals("with"))
+					nextChildName = "guard";
+				else if (token.equals("do"))
+					nextChildName = "rule";
+				else if (token.equals("ifnone"))
+					nextChildName = "ifnone";
 				super.addChild(parent, child);
 			}
 		}

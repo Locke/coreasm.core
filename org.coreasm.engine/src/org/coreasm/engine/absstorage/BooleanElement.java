@@ -22,31 +22,31 @@ package org.coreasm.engine.absstorage;
  */
 public class BooleanElement extends Element {
 
-  	/**
- 	 * Name of the 'true' value.
- 	 */
- 	public static final String TRUE_NAME = "true";
+	/**
+	 * Name of the 'true' value.
+	 */
+	public static final String TRUE_NAME = "true";
 
- 	/**
- 	 * Name of the 'false' value.
- 	 */
- 	public static final String FALSE_NAME = "false";
+	/**
+	 * Name of the 'false' value.
+	 */
+	public static final String FALSE_NAME = "false";
 
- 	/**
- 	 * Holds the value of this Boolean Element as a
- 	 * Java boolean value
- 	 */
- 	private final Boolean value;
+	/**
+	 * Holds the value of this Boolean Element as a
+	 * Java boolean value
+	 */
+	private final Boolean value;
 
- 	/**
- 	 * Represents the 'true' value in ASM.
- 	 */
- 	public static final BooleanElement TRUE = new BooleanElement(true);
+	/**
+	 * Represents the 'true' value in ASM.
+	 */
+	public static final BooleanElement TRUE = new BooleanElement(true);
 
- 	/**
- 	 * Represents the 'flase' value in ASM.
- 	 */
- 	public static final BooleanElement FALSE = new BooleanElement(false);
+	/**
+	 * Represents the 'flase' value in ASM.
+	 */
+	public static final BooleanElement FALSE = new BooleanElement(false);
 
 	/**
 	 * Returns a Boolean Element of the given boolean value

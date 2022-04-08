@@ -24,47 +24,47 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class ConditionalRuleNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new ConditionalRuleNode
-     */
-    public ConditionalRuleNode(ScannerInfo info) {
-        super(ConditionalRulePlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		"ConditionalRule",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new ConditionalRuleNode
+	 */
+	public ConditionalRuleNode(ScannerInfo info) {
+		super(ConditionalRulePlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				"ConditionalRule",
+				null,
+				info);
+	}
 
-    public ConditionalRuleNode(ConditionalRuleNode node) {
-    	super(node);
-    }
+	public ConditionalRuleNode(ConditionalRuleNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the node representing the guard of the conditional rule
-     */
-    public ASTNode getGuard() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the guard of the conditional rule
+	 */
+	public ASTNode getGuard() {
+		return getFirst();
+	}
 
-    /**
-     * Returns the node representing the consequent of the conditional rule
-     * (i.e. rule to execute if the guard is true)
-     */
-    public ASTNode getIfRule() {
-        return getGuard().getNext();
-    }
+	/**
+	 * Returns the node representing the consequent of the conditional rule
+	 * (i.e. rule to execute if the guard is true)
+	 */
+	public ASTNode getIfRule() {
+		return getGuard().getNext();
+	}
 
-    /**
-     * Returns the node representing the 'else' part the conditional rule.
-     * (i.e. rule to execute if the guard is false)
-     * This value may be null.
-     */
-    public ASTNode getElseRule() {
-        return getIfRule().getNext();
-    }
+	/**
+	 * Returns the node representing the 'else' part the conditional rule.
+	 * (i.e. rule to execute if the guard is false)
+	 * This value may be null.
+	 */
+	public ASTNode getElseRule() {
+		return getIfRule().getNext();
+	}
 }

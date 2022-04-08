@@ -28,86 +28,86 @@ public class NumberUtil {
 	 * is a {@link NumberElement} and it has a valid
 	 * non-infinite value.
 	 */
-    public static boolean isReal(Element e) {
-        if (e instanceof NumberElement) {
-        	final double d = ((NumberElement)e).value;
-        	return !Double.isInfinite(d) && !Double.isNaN(d);
-        } else
-        	return false;
-    }
+	public static boolean isReal(Element e) {
+		if (e instanceof NumberElement) {
+			final double d = ((NumberElement)e).value;
+			return !Double.isInfinite(d) && !Double.isNaN(d);
+		} else
+			return false;
+	}
 
-    public static boolean isInteger(Element e) {
-        boolean ret = false;
+	public static boolean isInteger(Element e) {
+		boolean ret = false;
 
-        if (isReal(e)) {
-            NumberElement n = (NumberElement) e;
+		if (isReal(e)) {
+			NumberElement n = (NumberElement) e;
 
-            if (n.value - n.value.longValue() == 0) {
-                ret = true;
-            }
-        }
+			if (n.value - n.value.longValue() == 0) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public static boolean isNatural(Element e) {
-        boolean ret = false;
+	public static boolean isNatural(Element e) {
+		boolean ret = false;
 
-        if (isInteger(e)) {
-            if (((NumberElement) e).value > 0) {
-                ret = true;
-            }
-        }
+		if (isInteger(e)) {
+			if (((NumberElement) e).value > 0) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public static boolean isPositive(Element e) {
-        boolean ret = false;
+	public static boolean isPositive(Element e) {
+		boolean ret = false;
 
-        if (isReal(e)) {
-            if (((NumberElement) e).value > 0) {
-                ret = true;
-            }
-        }
+		if (isReal(e)) {
+			if (((NumberElement) e).value > 0) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public static boolean isNegative(Element e) {
-        boolean ret = false;
+	public static boolean isNegative(Element e) {
+		boolean ret = false;
 
-        if (isReal(e)) {
-            if (((NumberElement) e).value < 0) {
-                ret = true;
-            }
-        }
+		if (isReal(e)) {
+			if (((NumberElement) e).value < 0) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public static boolean isEven(Element e) {
-        boolean ret = false;
+	public static boolean isEven(Element e) {
+		boolean ret = false;
 
-        if (isInteger(e)) {
-            if ((((NumberElement) e).value.longValue() % 2) == 0) {
-                ret = true;
-            }
-        }
+		if (isInteger(e)) {
+			if ((((NumberElement) e).value.longValue() % 2) == 0) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    // There is a problem with the spec.  Odd is not simply the inverse of Even
-    public static boolean isOdd(Element e) {
-        boolean ret = false;
+	// There is a problem with the spec.  Odd is not simply the inverse of Even
+	public static boolean isOdd(Element e) {
+		boolean ret = false;
 
-        if (isInteger(e)) {
-            if ((((NumberElement) e).value.longValue() % 2) == 1) {
-                ret = true;
-            }
-        }
+		if (isInteger(e)) {
+			if ((((NumberElement) e).value.longValue() % 2) == 1) {
+				ret = true;
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 }

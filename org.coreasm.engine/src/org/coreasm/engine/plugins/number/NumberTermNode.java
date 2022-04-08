@@ -25,26 +25,26 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class NumberTermNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new Number Term Node
-     */
-    public NumberTermNode(ScannerInfo info, String token) {
-        super(
-        		NumberPlugin.PLUGIN_NAME,
-        		ASTNode.EXPRESSION_CLASS,
-        		"NUMBER",
-        		token,
-        		info,
-        		Node.LITERAL_NODE);
-    }
+	/**
+	 * Creates a new Number Term Node
+	 */
+	public NumberTermNode(ScannerInfo info, String token) {
+		super(
+				NumberPlugin.PLUGIN_NAME,
+				ASTNode.EXPRESSION_CLASS,
+				"NUMBER",
+				token,
+				info,
+				Node.LITERAL_NODE);
+	}
 
-    public NumberTermNode(NumberTermNode node) {
-    	super(node);
-    }
+	public NumberTermNode(NumberTermNode node) {
+		super(node);
+	}
 
 }

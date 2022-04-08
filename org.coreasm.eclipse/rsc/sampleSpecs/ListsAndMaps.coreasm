@@ -27,23 +27,23 @@ init TestAll
 
 rule TestAll =
 	seqblock
-	    // the 'map' function
+		// the 'map' function
 		let l = [ {1, 2, 3}, {10, 20, 30} ] in
 			print "map(" + l + ", @foo) is " + map(l, @foo)
 
-	    // the 'map' function
+		// the 'map' function
 		let m = {1->2, "a"->"b", 3->"d", 1.5->2} in
 			print "mapping the map " + m + " through 'reverse' gives us " + map(m, @reverse)
 
-	    // the 'filter' function
+		// the 'filter' function
 		let l = ["a", 1.5, 2, 3.4, 5] in
 			print "Natural numbers in " + l + " are " + filter(l, @isNaturalNumber)
 
-	    // the 'filter' function
+		// the 'filter' function
 		let m = {1->2, "a"->"b", 3->"d", 1.5->5} in
 			print "filtering the map " + m + " gives us " + filter(m, @isHeadNatural)
 
-	    // the 'fold' function
+		// the 'fold' function
 		let l = ["a", "b", "c"] in
 			print "fold( " + l + " , concat, \"it goes\") is: \"" + fold(l, @folder, "it goes") + "\""
 
@@ -52,7 +52,7 @@ rule TestAll =
 
 		let l = ["a", "b", "a", "d", "e", "f", "g"] in
 		seqblock
-		    print "If l = " + l + ", we have:"
+			print "If l = " + l + ", we have:"
 			print "  take(l, 3) : " + take(l, 3)
 			print "  drop(l, 5) : " + drop(l, 5)
 			print "  size(l) : " + size(l)

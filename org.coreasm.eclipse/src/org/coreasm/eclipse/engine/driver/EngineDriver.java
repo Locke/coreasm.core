@@ -211,12 +211,12 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	public void dolaunch(String abspathname) {
 		this.abspathname=abspathname;
 		Thread t=new Thread(this);
-        try {
-            t.setName("CoreASM run of "+abspathname.substring(abspathname.lastIndexOf(File.separator)));
-        }
-        catch (Throwable e) {
-            t.setName("CoreASM run of "+abspathname);
-        }
+		try {
+			t.setName("CoreASM run of "+abspathname.substring(abspathname.lastIndexOf(File.separator)));
+		}
+		catch (Throwable e) {
+			t.setName("CoreASM run of "+abspathname);
+		}
 		t.start();
 		// TODO should wait until after loadSpecification (due to global abspathname);
 	}
@@ -732,47 +732,47 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			message = "Enginemode should be " + EngineMode.emIdle + " but is " + engine.getEngineMode();
 
 //		JOptionPane.showMessageDialog(null, message, "CoreASM Engine Error", JOptionPane.ERROR_MESSAGE);
-        showErrorDialog("CoreASM Engine Error",message);
+		showErrorDialog("CoreASM Engine Error",message);
 
-        lastError = null;
+		lastError = null;
 		stepFailedMsg = null;
 		engine.recover();
 		engine.waitWhileBusy();
 	}
 
-    private void showErrorDialog(String title, String message) {
-    	//MessageDialog.openError(shell, title, message);
-    	stderr.println("\n" + message);
-    }
+	private void showErrorDialog(String title, String message) {
+		//MessageDialog.openError(shell, title, message);
+		stderr.println("\n" + message);
+	}
 
-    /*
-    private void showErrorDialog(String title, String message) {
-        Display d = new Display();
-        Shell s = new Shell(d);
-        MessageBox errorBox = new MessageBox(s,SWT.ICON_ERROR|SWT.OK);
-        errorBox.setText(title);
-        errorBox.setMessage(message);
-        errorBox.open();
+	/*
+	private void showErrorDialog(String title, String message) {
+		Display d = new Display();
+		Shell s = new Shell(d);
+		MessageBox errorBox = new MessageBox(s,SWT.ICON_ERROR|SWT.OK);
+		errorBox.setText(title);
+		errorBox.setMessage(message);
+		errorBox.open();
 
-        s.dispose();
-        while(!s.isDisposed( )){
-            if(!d.readAndDispatch( ))
-                d.sleep( );
-        }
-        d.dispose( );
-    }
-    */
+		s.dispose();
+		while(!s.isDisposed( )){
+			if(!d.readAndDispatch( ))
+				d.sleep( );
+		}
+		d.dispose( );
+	}
+	*/
 
-    /**
-     * An internal exception class.
-     */
-    private class EngineDriverException extends Exception {
+	/**
+	 * An internal exception class.
+	 */
+	private class EngineDriverException extends Exception {
 		private static final long serialVersionUID = 1L;
 
 		public EngineDriverException() {
 
-    	}
-    }
+		}
+	}
 
 	public boolean isDumpFinal() {
 		return dumpFinal;

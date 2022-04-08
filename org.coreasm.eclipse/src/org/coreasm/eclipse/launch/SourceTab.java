@@ -70,9 +70,9 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 		comp.getStopOnErrors().addSelectionListener(cl);
 		comp.getStopOnFailedUpdates().addSelectionListener(cl);
 		comp.getStopOnMaxSteps().addSelectionListener(cl);
-        comp.getMaxSteps().addModifyListener(tl);
-        comp.getStopOnStableUpdates().addSelectionListener(cl);
-        comp.getStopOnEmptyActiveAgents().addSelectionListener(cl);
+		comp.getMaxSteps().addModifyListener(tl);
+		comp.getStopOnStableUpdates().addSelectionListener(cl);
+		comp.getStopOnEmptyActiveAgents().addSelectionListener(cl);
 
 		comp.getDumpFinal().addSelectionListener(cl);
 		comp.getDumpState().addSelectionListener(cl);
@@ -98,7 +98,7 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 		if (image!=null)
 			return image;
 		else {
-            String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
+			String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
 //			ImageDescriptor id = CoreASMPlugin.getImageDescriptor(root + CoreASMPlugin.MAIN_ICON_PATH);
 //			return id.createImage();
 			return new Image(Display.getCurrent(), root+CoreASMPlugin.MAIN_ICON_PATH);

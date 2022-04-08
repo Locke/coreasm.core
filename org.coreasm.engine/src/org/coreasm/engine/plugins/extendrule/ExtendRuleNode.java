@@ -25,11 +25,11 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 public class ExtendRuleNode extends ASTNode {
 
 	/**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
+	/**
 	 */
 	public ExtendRuleNode(ScannerInfo info) {
 		super(ExtendRulePlugin.PLUGIN_NAME,

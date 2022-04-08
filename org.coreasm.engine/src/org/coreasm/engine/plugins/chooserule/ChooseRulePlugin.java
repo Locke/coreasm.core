@@ -55,7 +55,7 @@ import org.coreasm.util.Tools;
  *
  */
 public class ChooseRulePlugin extends Plugin implements ParserPlugin,
-        InterpreterPlugin {
+		InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 9, 3, "");
 
@@ -68,30 +68,30 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	private final String[] keywords = {"choose", "pick", "with", "in", "do", "ifnone", "endchoose"};
 	private final String[] operators = {};
 
-    private ThreadLocal<Map<Node,Iterator<Element>>> iterators;
+	private ThreadLocal<Map<Node,Iterator<Element>>> iterators;
 
-    private Map<String, GrammarRule> parsers;
+	private Map<String, GrammarRule> parsers;
 
-    private final CompilerPlugin compilerPlugin = new CompilerChooseRulePlugin(this);
+	private final CompilerPlugin compilerPlugin = new CompilerChooseRulePlugin(this);
 
-    @Override
-    public CompilerPlugin getCompilerPlugin(){
-    	return compilerPlugin;
-    }
+	@Override
+	public CompilerPlugin getCompilerPlugin(){
+		return compilerPlugin;
+	}
 
-    @Override
-    public void initialize() {
-        iterators = new ThreadLocal<Map<Node, Iterator<Element>>>() {
+	@Override
+	public void initialize() {
+		iterators = new ThreadLocal<Map<Node, Iterator<Element>>>() {
 			@Override
 			protected Map<Node, Iterator<Element>> initialValue() {
 				return new IdentityHashMap<Node, Iterator<Element>>();
 			}
-        };
-    }
+		};
+	}
 
-    private Map<Node, Iterator<Element>> getIteratorMap() {
-    	return iterators.get();
-    }
+	private Map<Node, Iterator<Element>> getIteratorMap() {
+		return iterators.get();
+	}
 
 	@Override
 	public void setControlAPI(ControlAPI capi) {
@@ -164,7 +164,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 								termParser).optional(null)
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new PickExpNode(((Node)vals[0]).getScannerInfo());
 							addChildren(node, vals);
@@ -183,536 +183,536 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 		return parsers;
 	}
 
-    public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
-        if (pos instanceof ChooseRuleNode) {
-            ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-            // Here, we follow the specification of the choose rule
-            // and for a more readable code, we clearly distinguish between various
-            // forms of choose
+		if (pos instanceof ChooseRuleNode) {
+			ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
+			// Here, we follow the specification of the choose rule
+			// and for a more readable code, we clearly distinguish between various
+			// forms of choose
 
-            // CASE 1. 'choose X in E do R'
-            if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() == null)
-            	return interpretChooseRule_NoCondition_NoIfnone(interpreter, pos);
+			// CASE 1. 'choose X in E do R'
+			if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() == null)
+				return interpretChooseRule_NoCondition_NoIfnone(interpreter, pos);
 
-            // CASE 2. 'choose X in E do R1 ifnone R2'
-            if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() != null)
-            	return interpretChooseRule_NoCondition_WithIfnone(interpreter, pos);
+			// CASE 2. 'choose X in E do R1 ifnone R2'
+			if (chooseNode.getCondition() == null && chooseNode.getIfnoneRule() != null)
+				return interpretChooseRule_NoCondition_WithIfnone(interpreter, pos);
 
-            // CASE 3. 'choose X in E with C do R'
-            if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() == null)
-            	return interpretChooseRule_WithCondition_NoIfnone(interpreter, pos);
+			// CASE 3. 'choose X in E with C do R'
+			if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() == null)
+				return interpretChooseRule_WithCondition_NoIfnone(interpreter, pos);
 
-            // CASE 4. 'choose X in E with C do R1 ifnone R2'
-            if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() != null)
-            	return interpretChooseRule_WithCondition_WithIfnone(interpreter, pos);
-        }
-        else if (pos instanceof PickExpNode) {
-        	PickExpNode node = (PickExpNode)pos;
+			// CASE 4. 'choose X in E with C do R1 ifnone R2'
+			if (chooseNode.getCondition() != null && chooseNode.getIfnoneRule() != null)
+				return interpretChooseRule_WithCondition_WithIfnone(interpreter, pos);
+		}
+		else if (pos instanceof PickExpNode) {
+			PickExpNode node = (PickExpNode)pos;
 
-        	if (node.getCondition() == null)
-        		return interpretPickExpression_NoCondition(interpreter, node);
-        	else
-        		return interpretPickExpression_WithCondition(interpreter, node);
-        }
+			if (node.getCondition() == null)
+				return interpretPickExpression_NoCondition(interpreter, node);
+			else
+				return interpretPickExpression_WithCondition(interpreter, node);
+		}
 
-        // in case of error
-        return pos;
-    }
+		// in case of error
+		return pos;
+	}
 
-    private ASTNode interpretPickExpression_NoCondition(Interpreter interpreter, PickExpNode node) {
+	private ASTNode interpretPickExpression_NoCondition(Interpreter interpreter, PickExpNode node) {
 		// if domain 'E' is not evaluated
-    	if (!node.getDomain().isEvaluated()) {
-            // pos := beta
-            return node.getDomain();
-        }
+		if (!node.getDomain().isEvaluated()) {
+			// pos := beta
+			return node.getDomain();
+		}
 
-    	// if domain 'E' is evaluated, but rule 'R' is not evaluated
-    	else if (node.getDomain().getValue() instanceof Enumerable) {
-        	// s := enumerate(v)
+		// if domain 'E' is evaluated, but rule 'R' is not evaluated
+		else if (node.getDomain().getValue() instanceof Enumerable) {
+			// s := enumerate(v)
 			Enumerable domain = (Enumerable)node.getDomain().getValue();
 			List<Element> elements;
 			if (domain.supportsIndexedView())
 				elements = domain.getIndexedView();
 			else
 				elements = new ArrayList<Element>(domain.enumerate());
-            if (!elements.isEmpty()) {
-                // choose t in s
-            	int i = Tools.randInt(elements.size());
-                Element picked = elements.get(i);
-                node.setNode(null, null, picked);
-            }
-            else {
-                // [pos] := (undef,undef,uu)
-                node.setNode(null, null, Element.UNDEF);
-            }
-        }
-        else {
-            capi.error("Cannot pick from " + Tools.sizeLimit(node.getDomain().getValue().denotation()) + ". " +
-            		"Pick domain should be an enumerable element.", node.getDomain(), interpreter);
-        }
+			if (!elements.isEmpty()) {
+				// choose t in s
+				int i = Tools.randInt(elements.size());
+				Element picked = elements.get(i);
+				node.setNode(null, null, picked);
+			}
+			else {
+				// [pos] := (undef,undef,uu)
+				node.setNode(null, null, Element.UNDEF);
+			}
+		}
+		else {
+			capi.error("Cannot pick from " + Tools.sizeLimit(node.getDomain().getValue().denotation()) + ". " +
+					"Pick domain should be an enumerable element.", node.getDomain(), interpreter);
+		}
 
-    	return node;
-    }
+		return node;
+	}
 
-    private ASTNode interpretPickExpression_WithCondition(Interpreter interpreter, PickExpNode node) {
-        String x = node.getVariable().getToken();
+	private ASTNode interpretPickExpression_WithCondition(Interpreter interpreter, PickExpNode node) {
+		String x = node.getVariable().getToken();
 
-        Map<Node, Iterator<Element>> iterators = getIteratorMap();
+		Map<Node, Iterator<Element>> iterators = getIteratorMap();
 
 		// if domain 'E' is not evaluated
-        if (!node.getDomain().isEvaluated()) {
-            // considered(beta) := {}
-        	iterators.remove(node.getDomain());
-            // pos := beta
-            return node.getDomain();
-        }
+		if (!node.getDomain().isEvaluated()) {
+			// considered(beta) := {}
+			iterators.remove(node.getDomain());
+			// pos := beta
+			return node.getDomain();
+		}
 
-    	// if domain 'E' is evaluated, but condition 'C' is not evaluated
-    	else if (!node.getCondition().isEvaluated()) {
-            if (node.getDomain().getValue() instanceof Enumerable) {
-            	// s := enumerate(v)
-                // s := enumerate(v)/considered(beta)
-            	Enumerable domain = (Enumerable)node.getDomain().getValue();
-            	Iterator<Element> it = iterators.get(node.getDomain());
-            	if (it == null) {
-            		it = new RandomElementIterator(domain);
-            		iterators.put(node.getDomain(), it);
-            	}
-                if (it.hasNext()) {
-                    // choose t in s
-                    Element chosen = it.next();
-                    // AddEnv(x,t)s
-                    interpreter.addEnv(x, chosen);
-                    // considered := considered union {t}
-                    //considered.get(chooseNode.getDomain()).add(chosen);
-                    // pos := gamma
-                    return node.getCondition();
-                }
-                else {
-                	iterators.remove(node.getDomain());
-                	// [pos] := (undef,undef, uu)
-                	node.setNode(null, null, Element.UNDEF);
-                	return node;
-                }
-            }
-            else {
-                capi.error("Cannot pick from " + Tools.sizeLimit(node.getDomain().getValue().denotation()) + ". " +
-                		"Pick domain should be an enumerable element.", node.getDomain(), interpreter);
-            }
-    	}
+		// if domain 'E' is evaluated, but condition 'C' is not evaluated
+		else if (!node.getCondition().isEvaluated()) {
+			if (node.getDomain().getValue() instanceof Enumerable) {
+				// s := enumerate(v)
+				// s := enumerate(v)/considered(beta)
+				Enumerable domain = (Enumerable)node.getDomain().getValue();
+				Iterator<Element> it = iterators.get(node.getDomain());
+				if (it == null) {
+					it = new RandomElementIterator(domain);
+					iterators.put(node.getDomain(), it);
+				}
+				if (it.hasNext()) {
+					// choose t in s
+					Element chosen = it.next();
+					// AddEnv(x,t)s
+					interpreter.addEnv(x, chosen);
+					// considered := considered union {t}
+					//considered.get(chooseNode.getDomain()).add(chosen);
+					// pos := gamma
+					return node.getCondition();
+				}
+				else {
+					iterators.remove(node.getDomain());
+					// [pos] := (undef,undef, uu)
+					node.setNode(null, null, Element.UNDEF);
+					return node;
+				}
+			}
+			else {
+				capi.error("Cannot pick from " + Tools.sizeLimit(node.getDomain().getValue().denotation()) + ". " +
+						"Pick domain should be an enumerable element.", node.getDomain(), interpreter);
+			}
+		}
 
-    	// if domain 'E' is evaluated and condition 'C' is evaluated
-    	else {
-            boolean value;
-            if (node.getCondition().getValue() instanceof BooleanElement) {
-                value = ((BooleanElement) node.getCondition().getValue()).getValue();
-            }
-            else {
-                capi.error("Value of pick condition is not Boolean.", node.getCondition(), interpreter);
-                return node;
-            }
+		// if domain 'E' is evaluated and condition 'C' is evaluated
+		else {
+			boolean value;
+			if (node.getCondition().getValue() instanceof BooleanElement) {
+				value = ((BooleanElement) node.getCondition().getValue()).getValue();
+			}
+			else {
+				capi.error("Value of pick condition is not Boolean.", node.getCondition(), interpreter);
+				return node;
+			}
 
-            if (value) {
-            	Element picked = interpreter.getEnv(x);
-                // RemoveEnv(x)
-                interpreter.removeEnv(x);
-                iterators.remove(node.getDomain());
+			if (value) {
+				Element picked = interpreter.getEnv(x);
+				// RemoveEnv(x)
+				interpreter.removeEnv(x);
+				iterators.remove(node.getDomain());
 
-                // [pos] := (undef,undef, value)
-                node.setNode(null, null, picked);
-                return node;
-            }
-            else {
-                // ClearTree(gamma)
-                interpreter.clearTree(node.getCondition());
-                // RemoveEnv(x)
-                interpreter.removeEnv(x);
-                // pos := beta
-                return node.getDomain();
-            }
-    	}
+				// [pos] := (undef,undef, value)
+				node.setNode(null, null, picked);
+				return node;
+			}
+			else {
+				// ClearTree(gamma)
+				interpreter.clearTree(node.getCondition());
+				// RemoveEnv(x)
+				interpreter.removeEnv(x);
+				// pos := beta
+				return node.getDomain();
+			}
+		}
 
-        return node;
-    }
+		return node;
+	}
 
 	/*
-     * Interpreting rule of the form: 'choose x in E do R'
-     */
+	 * Interpreting rule of the form: 'choose x in E do R'
+	 */
 	private ASTNode interpretChooseRule_NoCondition_NoIfnone(Interpreter interpreter, ASTNode pos) {
-        ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<String, ASTNode> variableMap;
+		ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
+		Map<String, ASTNode> variableMap;
 
-        try {
-        	variableMap = chooseNode.getVariableMap();
-        }
-        catch (CoreASMError e) {
-        	capi.error(e);
-        	return pos;
-        }
+		try {
+			variableMap = chooseNode.getVariableMap();
+		}
+		catch (CoreASMError e) {
+			capi.error(e);
+			return pos;
+		}
 
-        // evaluate all domains
-        for (ASTNode domain : variableMap.values()) {
-        	if (!domain.isEvaluated())
-        		return domain;
-        }
+		// evaluate all domains
+		for (ASTNode domain : variableMap.values()) {
+			if (!domain.isEvaluated())
+				return domain;
+		}
 
-    	// if rule is not evaluated
-    	if (!chooseNode.getDoRule().isEvaluated()) {
-    		boolean none = false;
-    		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-	    		if (variable.getValue().getValue() instanceof Enumerable) {
-	            	// s := enumerate(v)
-	    			Enumerable domain = (Enumerable) variable.getValue().getValue();
-	    			List<Element> s;
-	    			if (domain.supportsIndexedView())
-	    				s = domain.getIndexedView();
-	    			else
-	    				s = new ArrayList<Element>(domain.enumerate());
-	                if (!s.isEmpty()) {
-	                    // choose t in s
-	                	int i = Tools.randInt(s.size());
-	                    Element chosen = s.get(i);
-	                    // AddEnv(x,t)s
-	                    interpreter.addEnv(variable.getKey(), chosen);
-	                }
-	                else {
-	                	none = true;
-	                	interpreter.addEnv(variable.getKey(), Element.UNDEF);
-	                }
-	            }
-	            else {
-	                capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
-	                		"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
-	                return pos;
-	            }
-    		}
-    		if (none) {
-    			for (String x : variableMap.keySet())
-        			interpreter.removeEnv(x);
-    			// [pos] := (undef,{},undef)
-                pos.setNode(null, new UpdateMultiset(), null);
-                return pos;
-    		}
-    		// pos := gamma
-            return chooseNode.getDoRule();
-    	}
+		// if rule is not evaluated
+		if (!chooseNode.getDoRule().isEvaluated()) {
+			boolean none = false;
+			for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+				if (variable.getValue().getValue() instanceof Enumerable) {
+					// s := enumerate(v)
+					Enumerable domain = (Enumerable) variable.getValue().getValue();
+					List<Element> s;
+					if (domain.supportsIndexedView())
+						s = domain.getIndexedView();
+					else
+						s = new ArrayList<Element>(domain.enumerate());
+					if (!s.isEmpty()) {
+						// choose t in s
+						int i = Tools.randInt(s.size());
+						Element chosen = s.get(i);
+						// AddEnv(x,t)s
+						interpreter.addEnv(variable.getKey(), chosen);
+					}
+					else {
+						none = true;
+						interpreter.addEnv(variable.getKey(), Element.UNDEF);
+					}
+				}
+				else {
+					capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
+							"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
+					return pos;
+				}
+			}
+			if (none) {
+				for (String x : variableMap.keySet())
+					interpreter.removeEnv(x);
+				// [pos] := (undef,{},undef)
+				pos.setNode(null, new UpdateMultiset(), null);
+				return pos;
+			}
+			// pos := gamma
+			return chooseNode.getDoRule();
+		}
 
-    	// if rule 'R' is evaluated as well
-    	else {
-            // RemoveEnv(x)
-    		for (String x : variableMap.keySet())
-    			interpreter.removeEnv(x);
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
-            return pos;
-    	}
+		// if rule 'R' is evaluated as well
+		else {
+			// RemoveEnv(x)
+			for (String x : variableMap.keySet())
+				interpreter.removeEnv(x);
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
+			return pos;
+		}
 	}
 
 
 	/*
-     * Interpreting rule of the form: 'choose x in E do R1 ifnone R2'
-     */
-    private ASTNode interpretChooseRule_NoCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
-        ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<String, ASTNode> variableMap;
+	 * Interpreting rule of the form: 'choose x in E do R1 ifnone R2'
+	 */
+	private ASTNode interpretChooseRule_NoCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
+		ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
+		Map<String, ASTNode> variableMap;
 
-        try {
-        	variableMap = chooseNode.getVariableMap();
-        }
-        catch (CoreASMError e) {
-        	capi.error(e);
-        	return pos;
-        }
+		try {
+			variableMap = chooseNode.getVariableMap();
+		}
+		catch (CoreASMError e) {
+			capi.error(e);
+			return pos;
+		}
 
-        // evaluate all domains
-        for (ASTNode domain : variableMap.values()) {
-        	if (!domain.isEvaluated())
-        		return domain;
-        }
+		// evaluate all domains
+		for (ASTNode domain : variableMap.values()) {
+			if (!domain.isEvaluated())
+				return domain;
+		}
 
-    	// if neither of the rules 'R1' or 'R2' are evaluated
-    	if (!chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
-    		boolean none = false;
-    		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-	    		if (variable.getValue().getValue() instanceof Enumerable) {
-	            	// s := enumerate(v)
-	    			Enumerable domain = (Enumerable) variable.getValue().getValue();
-	    			List<Element> s;
-	    			if (domain.supportsIndexedView())
-	    				s = domain.getIndexedView();
-	    			else
-	    				s = new ArrayList<Element>(domain.enumerate());
-	                if (!s.isEmpty()) {
-	                    // choose t in s
-	                	int i = Tools.randInt(s.size());
-	                    Element chosen = s.get(i);
-	                    // AddEnv(x,t)s
-	                    interpreter.addEnv(variable.getKey(), chosen);
-	                }
-	                else {
-	                	none = true;
-	                	interpreter.addEnv(variable.getKey(), Element.UNDEF);
-	                }
-	            }
-	            else {
-	                capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
-	                		"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
-	                return pos;
-	            }
-    		}
-    		if (none) {
-    			// RemoveEnv(x)
-        		for (String x : variableMap.keySet())
-        			interpreter.removeEnv(x);
-    			// pos := delta
-                return chooseNode.getIfnoneRule();
-    		}
-    		 // pos := gamma
-            return chooseNode.getDoRule();
-    	}
+		// if neither of the rules 'R1' or 'R2' are evaluated
+		if (!chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
+			boolean none = false;
+			for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+				if (variable.getValue().getValue() instanceof Enumerable) {
+					// s := enumerate(v)
+					Enumerable domain = (Enumerable) variable.getValue().getValue();
+					List<Element> s;
+					if (domain.supportsIndexedView())
+						s = domain.getIndexedView();
+					else
+						s = new ArrayList<Element>(domain.enumerate());
+					if (!s.isEmpty()) {
+						// choose t in s
+						int i = Tools.randInt(s.size());
+						Element chosen = s.get(i);
+						// AddEnv(x,t)s
+						interpreter.addEnv(variable.getKey(), chosen);
+					}
+					else {
+						none = true;
+						interpreter.addEnv(variable.getKey(), Element.UNDEF);
+					}
+				}
+				else {
+					capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
+							"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
+					return pos;
+				}
+			}
+			if (none) {
+				// RemoveEnv(x)
+				for (String x : variableMap.keySet())
+					interpreter.removeEnv(x);
+				// pos := delta
+				return chooseNode.getIfnoneRule();
+			}
+			 // pos := gamma
+			return chooseNode.getDoRule();
+		}
 
-    	// if rule 'R1' is evaluated
-    	else if (chooseNode.getDoRule().isEvaluated()) {
-            // RemoveEnv(x)
-    		for (String x : variableMap.keySet())
-    			interpreter.removeEnv(x);
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
-            return pos;
-    	}
+		// if rule 'R1' is evaluated
+		else if (chooseNode.getDoRule().isEvaluated()) {
+			// RemoveEnv(x)
+			for (String x : variableMap.keySet())
+				interpreter.removeEnv(x);
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
+			return pos;
+		}
 
-    	// if rule 'R2' is evaluated
-    	else {
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getIfnoneRule().getUpdates(),null);
-            return pos;
-    	}
+		// if rule 'R2' is evaluated
+		else {
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getIfnoneRule().getUpdates(),null);
+			return pos;
+		}
 	}
 
 
 	/*
-     * Interpreting rule of the form: 'choose x in E with C do R'
-     */
+	 * Interpreting rule of the form: 'choose x in E with C do R'
+	 */
 	private ASTNode interpretChooseRule_WithCondition_NoIfnone(Interpreter interpreter, ASTNode pos) {
-        ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<Node, Iterator<Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap;
+		ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
+		Map<Node, Iterator<Element>> iterators = getIteratorMap();
+		Map<String, ASTNode> variableMap;
 
-        try {
-        	variableMap = chooseNode.getVariableMap();
-        }
-        catch (CoreASMError e) {
-        	capi.error(e);
-        	return pos;
-        }
+		try {
+			variableMap = chooseNode.getVariableMap();
+		}
+		catch (CoreASMError e) {
+			capi.error(e);
+			return pos;
+		}
 
-        // evaluate all domains
-        for (ASTNode domain : variableMap.values()) {
-        	if (!domain.isEvaluated()) {
-        		// considered(beta) := {}
-        		iterators.remove(domain);
-        		// pos := beta
-        		return domain;
-        	}
-        }
+		// evaluate all domains
+		for (ASTNode domain : variableMap.values()) {
+			if (!domain.isEvaluated()) {
+				// considered(beta) := {}
+				iterators.remove(domain);
+				// pos := beta
+				return domain;
+			}
+		}
 
-    	// if condition 'C' is not evaluated
-    	if (!chooseNode.getCondition().isEvaluated())
-    		return chooseVariableValues_WithCondition(chooseNode, iterators, variableMap, interpreter);
+		// if condition 'C' is not evaluated
+		if (!chooseNode.getCondition().isEvaluated())
+			return chooseVariableValues_WithCondition(chooseNode, iterators, variableMap, interpreter);
 
-    	// if domain 'E' is evaluated, condition 'C' is evaluated, but rule 'R' is not evaluated
-    	else if (!chooseNode.getDoRule().isEvaluated()) {
-            boolean value;
-            if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
-                value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
-            }
-            else {
-                capi.error("Value of choose condition is not Boolean.", chooseNode.getCondition(), interpreter);
-                return pos;
-            }
+		// if domain 'E' is evaluated, condition 'C' is evaluated, but rule 'R' is not evaluated
+		else if (!chooseNode.getDoRule().isEvaluated()) {
+			boolean value;
+			if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
+				value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
+			}
+			else {
+				capi.error("Value of choose condition is not Boolean.", chooseNode.getCondition(), interpreter);
+				return pos;
+			}
 
-            if (value) {
-                // pos := delta
-                return chooseNode.getDoRule();
-            }
-            else {
-                // ClearTree(gamma)
-                interpreter.clearTree(chooseNode.getCondition());
+			if (value) {
+				// pos := delta
+				return chooseNode.getDoRule();
+			}
+			else {
+				// ClearTree(gamma)
+				interpreter.clearTree(chooseNode.getCondition());
 
-                return chooseNode;
-            }
-    	}
+				return chooseNode;
+			}
+		}
 
-    	// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R' is evaluated
-    	else {
-            // RemoveEnv(x)
-    		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-    			if (iterators.remove(variable.getValue()) != null)
-    				interpreter.removeEnv(variable.getKey());
-    		}
+		// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R' is evaluated
+		else {
+			// RemoveEnv(x)
+			for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+				if (iterators.remove(variable.getValue()) != null)
+					interpreter.removeEnv(variable.getKey());
+			}
 
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
-            return pos;
-    	}
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
+			return pos;
+		}
 	}
 
 
 	/*
-     * Interpreting rule of the form: 'choose x in E with C do R1 ifnone R2'
-     */
-    private ASTNode interpretChooseRule_WithCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
-        ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
-        Map<Node, Iterator<Element>> iterators = getIteratorMap();
-        Map<String, ASTNode> variableMap;
+	 * Interpreting rule of the form: 'choose x in E with C do R1 ifnone R2'
+	 */
+	private ASTNode interpretChooseRule_WithCondition_WithIfnone(Interpreter interpreter, ASTNode pos) {
+		ChooseRuleNode chooseNode = (ChooseRuleNode) pos;
+		Map<Node, Iterator<Element>> iterators = getIteratorMap();
+		Map<String, ASTNode> variableMap;
 
-        try {
-        	variableMap = chooseNode.getVariableMap();
-        }
-        catch (CoreASMError e) {
-        	capi.error(e);
-        	return pos;
-        }
+		try {
+			variableMap = chooseNode.getVariableMap();
+		}
+		catch (CoreASMError e) {
+			capi.error(e);
+			return pos;
+		}
 
-        // evaluate all domains
-        for (ASTNode domain : variableMap.values()) {
-        	if (!domain.isEvaluated()) {
-        		// considered(beta) := {}
-        		iterators.remove(domain);
-        		// pos := beta
-        		return domain;
-        	}
-        }
+		// evaluate all domains
+		for (ASTNode domain : variableMap.values()) {
+			if (!domain.isEvaluated()) {
+				// considered(beta) := {}
+				iterators.remove(domain);
+				// pos := beta
+				return domain;
+			}
+		}
 
-    	// if condition 'C' is not evaluated
-    	if (!chooseNode.getCondition().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated())
-    		return chooseVariableValues_WithCondition(chooseNode, iterators, variableMap, interpreter);
+		// if condition 'C' is not evaluated
+		if (!chooseNode.getCondition().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated())
+			return chooseVariableValues_WithCondition(chooseNode, iterators, variableMap, interpreter);
 
-    	// if domain 'E' is evaluated, condition 'C' is evaluated, but neither of the rules 'R1' or 'R2' are evaluated
-    	else if (chooseNode.getCondition().isEvaluated() && !chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
-            boolean value;
-            if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
-                value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
-            }
-            else {
-                capi.error("Value of choose condition not Boolean", chooseNode.getCondition(), interpreter);
-                return pos;
-            }
+		// if domain 'E' is evaluated, condition 'C' is evaluated, but neither of the rules 'R1' or 'R2' are evaluated
+		else if (chooseNode.getCondition().isEvaluated() && !chooseNode.getDoRule().isEvaluated() && !chooseNode.getIfnoneRule().isEvaluated()) {
+			boolean value;
+			if (chooseNode.getCondition().getValue() instanceof BooleanElement) {
+				value = ((BooleanElement) chooseNode.getCondition().getValue()).getValue();
+			}
+			else {
+				capi.error("Value of choose condition not Boolean", chooseNode.getCondition(), interpreter);
+				return pos;
+			}
 
-            if (value) {
-                // pos := delta
-                return chooseNode.getDoRule();
-            }
-            else {
-                // ClearTree(gamma)
-                interpreter.clearTree(chooseNode.getCondition());
+			if (value) {
+				// pos := delta
+				return chooseNode.getDoRule();
+			}
+			else {
+				// ClearTree(gamma)
+				interpreter.clearTree(chooseNode.getCondition());
 
-                return chooseNode;
-            }
-    	}
+				return chooseNode;
+			}
+		}
 
-    	// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R1' is evaluated
-    	else if (chooseNode.getCondition().isEvaluated() && chooseNode.getDoRule().isEvaluated()) {
-            // RemoveEnv(x)
-    		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-    			if (iterators.remove(variable.getValue()) != null)
-    				interpreter.removeEnv(variable.getKey());
-    		}
+		// if domain 'E' is evaluated, condition 'C' is evaluated, and rule 'R1' is evaluated
+		else if (chooseNode.getCondition().isEvaluated() && chooseNode.getDoRule().isEvaluated()) {
+			// RemoveEnv(x)
+			for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+				if (iterators.remove(variable.getValue()) != null)
+					interpreter.removeEnv(variable.getKey());
+			}
 
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
-            return pos;
-    	}
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getDoRule().getUpdates(),null);
+			return pos;
+		}
 
-    	// if domain 'E' is evaluated and rule 'R2' is evaluated
-    	else if (chooseNode.getIfnoneRule().isEvaluated()) {
-    		// RemoveEnv(x)
-    		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-    			if (iterators.remove(variable.getValue()) != null)
-    				interpreter.removeEnv(variable.getKey());
-    		}
+		// if domain 'E' is evaluated and rule 'R2' is evaluated
+		else if (chooseNode.getIfnoneRule().isEvaluated()) {
+			// RemoveEnv(x)
+			for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
+				if (iterators.remove(variable.getValue()) != null)
+					interpreter.removeEnv(variable.getKey());
+			}
 
-            // [pos] := (undef,u,undef)
-            pos.setNode(null,chooseNode.getIfnoneRule().getUpdates(),null);
-            return pos;
-    	}
+			// [pos] := (undef,u,undef)
+			pos.setNode(null,chooseNode.getIfnoneRule().getUpdates(),null);
+			return pos;
+		}
 
-        // in case of error
-        return pos;
+		// in case of error
+		return pos;
 	}
 
-    private ASTNode chooseVariableValues_WithCondition(ChooseRuleNode chooseNode, Map<Node, Iterator<Element>> iterators, Map<String, ASTNode> variableMap, Interpreter interpreter) {
-    	// pos := gamma
-    	ASTNode pos = chooseNode.getCondition();
-    	boolean shouldChoose = true;
+	private ASTNode chooseVariableValues_WithCondition(ChooseRuleNode chooseNode, Map<Node, Iterator<Element>> iterators, Map<String, ASTNode> variableMap, Interpreter interpreter) {
+		// pos := gamma
+		ASTNode pos = chooseNode.getCondition();
+		boolean shouldChoose = true;
 		for (Entry<String, ASTNode> variable : variableMap.entrySet()) {
-    		if (variable.getValue().getValue() instanceof Enumerable) {
-                // s := enumerate(v)/considered(beta)
-    			Iterator<Element> it = iterators.get(variable.getValue());
-                if (it == null) {
-        			Enumerable domain = (Enumerable) variable.getValue().getValue();
-        			it = new RandomElementIterator(domain);
-                	if (!it.hasNext()) {
-                		if (chooseNode.getIfnoneRule() == null) {
-                			for (Entry<String, ASTNode> var : variableMap.entrySet()) {
-            	    			if (iterators.remove(var.getValue()) != null)
-            	    				interpreter.removeEnv(var.getKey());
-            	    		}
-            				// [pos] := (undef,{},undef)
-                			chooseNode.setNode(null, new UpdateMultiset(), null);
-            	            return chooseNode;
-            			}
-                		// pos := delta
-                        pos = chooseNode.getIfnoneRule();
-                        interpreter.addEnv(variable.getKey(), Element.UNDEF);
-                	}
-                	iterators.put(variable.getValue(), it);
-                	shouldChoose = true;
-                }
-                else if (shouldChoose)
-                	interpreter.removeEnv(variable.getKey());
-                if (shouldChoose) {
-	                if (it.hasNext()) {
-	                    // choose t in s
-	                    Element chosen = it.next();
-	                    // AddEnv(x,t)s
-	                    interpreter.addEnv(variable.getKey(), chosen);
-	            	}
-	            	else {
-	            		iterators.remove(variable.getValue());
-	            		if (pos != chooseNode.getIfnoneRule())
-	            			pos = chooseNode;
-	            		shouldChoose = true;
-	            		continue;
-	            	}
-                }
-            }
-            else {
-                capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
-                		"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
-                return pos;
-            }
-    		shouldChoose = false;
+			if (variable.getValue().getValue() instanceof Enumerable) {
+				// s := enumerate(v)/considered(beta)
+				Iterator<Element> it = iterators.get(variable.getValue());
+				if (it == null) {
+					Enumerable domain = (Enumerable) variable.getValue().getValue();
+					it = new RandomElementIterator(domain);
+					if (!it.hasNext()) {
+						if (chooseNode.getIfnoneRule() == null) {
+							for (Entry<String, ASTNode> var : variableMap.entrySet()) {
+								if (iterators.remove(var.getValue()) != null)
+									interpreter.removeEnv(var.getKey());
+							}
+							// [pos] := (undef,{},undef)
+							chooseNode.setNode(null, new UpdateMultiset(), null);
+							return chooseNode;
+						}
+						// pos := delta
+						pos = chooseNode.getIfnoneRule();
+						interpreter.addEnv(variable.getKey(), Element.UNDEF);
+					}
+					iterators.put(variable.getValue(), it);
+					shouldChoose = true;
+				}
+				else if (shouldChoose)
+					interpreter.removeEnv(variable.getKey());
+				if (shouldChoose) {
+					if (it.hasNext()) {
+						// choose t in s
+						Element chosen = it.next();
+						// AddEnv(x,t)s
+						interpreter.addEnv(variable.getKey(), chosen);
+					}
+					else {
+						iterators.remove(variable.getValue());
+						if (pos != chooseNode.getIfnoneRule())
+							pos = chooseNode;
+						shouldChoose = true;
+						continue;
+					}
+				}
+			}
+			else {
+				capi.error("Cannot choose from " + Tools.sizeLimit(variable.getValue().getValue().denotation()) + ". " +
+						"Choose domain should be an enumerable element.", variable.getValue(), interpreter);
+				return pos;
+			}
+			shouldChoose = false;
 		}
 		if (shouldChoose) {
 			if (chooseNode.getIfnoneRule() == null) {
 				// [pos] := (undef,{},undef)
 				chooseNode.setNode(null, new UpdateMultiset(), null);
-	            return chooseNode;
+				return chooseNode;
 			}
 			// pos := delta
-            pos = chooseNode.getIfnoneRule();
+			pos = chooseNode.getIfnoneRule();
 		}
 		if (pos == chooseNode.getIfnoneRule()) {
 			// RemoveEnv(x)
 			for (Entry<String, ASTNode> var : variableMap.entrySet()) {
-    			if (iterators.remove(var.getValue()) != null)
-    				interpreter.removeEnv(var.getKey());
-    		}
+				if (iterators.remove(var.getValue()) != null)
+					interpreter.removeEnv(var.getKey());
+			}
 		}
-        return pos;
-    }
+		return pos;
+	}
 
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
@@ -725,9 +725,9 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 	 */
 	public static class ChooseParseMap extends ParserTools.ArrayParseMap {
 
-	    String nextChildName = "alpha";
+		String nextChildName = "alpha";
 
-	    public ChooseParseMap() {
+		public ChooseParseMap() {
 			super(PLUGIN_NAME);
 		}
 
@@ -745,14 +745,14 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 				parent.addChild(nextChildName, child);
 			else {
 				String token = child.getToken();
-		        if (token.equals("with"))
-		        	nextChildName = ChooseRulePlugin.GUARD_NAME;
-		        else if (token.equals("do"))
-		        	nextChildName = ChooseRulePlugin.DO_RULE_NAME;
-		        else if (token.equals("ifnone"))
-		        	nextChildName = ChooseRulePlugin.IFNONE_RULE_NAME;
+				if (token.equals("with"))
+					nextChildName = ChooseRulePlugin.GUARD_NAME;
+				else if (token.equals("do"))
+					nextChildName = ChooseRulePlugin.DO_RULE_NAME;
+				else if (token.equals("ifnone"))
+					nextChildName = ChooseRulePlugin.IFNONE_RULE_NAME;
 				parent.addChild(child);
-		        //super.addChild(parent, child);
+				//super.addChild(parent, child);
 			}
 		}
 

@@ -53,10 +53,10 @@ public class ParserException extends EngineException {
 			StringBuffer buf = new StringBuffer();
 			org.jparsec.error.ParseErrorDetails err = pcause.getErrorDetails();
 			if (err != null) {
-		        showExpecting(buf, err.getExpected().toArray(new String[] {} ));
-		        showUnexpected(buf, new String[] {err.getUnexpected()} );
-		        showMessages(buf, new String[] {err.getFailureMessage()} );
-		        showEncountered(buf, err.getEncountered());
+				showExpecting(buf, err.getExpected().toArray(new String[] {} ));
+				showUnexpected(buf, new String[] {err.getUnexpected()} );
+				showMessages(buf, new String[] {err.getFailureMessage()} );
+				showEncountered(buf, err.getEncountered());
 			}
 			this.msg = buf.toString();
 			pos = new CharacterPosition(pcause.getLine(), pcause.getColumn());

@@ -198,7 +198,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "SuspendAgentRule");
 							node.addChild((Node)vals[0]);
@@ -216,7 +216,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "ResumeAgentRule");
 							node.addChild((Node)vals[0]);
@@ -234,7 +234,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "TerminateAgentRule");
 							node.addChild((Node)vals[0]);
@@ -249,7 +249,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					pTools.getKeywParser(SHUTDOWN_KEYWORD, PLUGIN_NAME).map(
 					new ParseMap<Node, Node>(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Node v) {
 							Node node = new AgentManagementRuleNode(v.getScannerInfo(), "ShutdownRule");
 							node.addChild(v);

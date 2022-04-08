@@ -27,52 +27,52 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class EnumerationNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new EnumerationNode with the given
-     * scanner information.
-     */
-    public EnumerationNode(ScannerInfo info) {
-        super(
-        		SignaturePlugin.class.getSimpleName(),
-        		ASTNode.DECLARATION_CLASS,
-        		"EnumerationDefinition",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new EnumerationNode with the given
+	 * scanner information.
+	 */
+	public EnumerationNode(ScannerInfo info) {
+		super(
+				SignaturePlugin.class.getSimpleName(),
+				ASTNode.DECLARATION_CLASS,
+				"EnumerationDefinition",
+				null,
+				info);
+	}
 
-    public EnumerationNode(EnumerationNode node) {
-    	super(node);
-    }
+	public EnumerationNode(EnumerationNode node) {
+		super(node);
+	}
 
 
-    /**
-     * Returns the name of the enumeration
-     * @return the name of the enumeration
-     */
-    public String getName() {
-        return getFirst().getToken();
-    }
+	/**
+	 * Returns the name of the enumeration
+	 * @return the name of the enumeration
+	 */
+	public String getName() {
+		return getFirst().getToken();
+	}
 
-    /**
-     * Returns a List of the members of the enumeration
-     * @return a List of the members of the enumeration
-     */
-    public List<EnumerationElement> getMembers() {
-        List<EnumerationElement> members = new ArrayList<EnumerationElement>();
+	/**
+	 * Returns a List of the members of the enumeration
+	 * @return a List of the members of the enumeration
+	 */
+	public List<EnumerationElement> getMembers() {
+		List<EnumerationElement> members = new ArrayList<EnumerationElement>();
 
-        ASTNode member = getFirst().getNext();
+		ASTNode member = getFirst().getNext();
 
-        while (member != null) {
-            //members.add(new EnumerationElement(member.getFirst().getToken()));
-            members.add(new EnumerationElement(member.getToken()));
-            member = member.getNext();
-        }
+		while (member != null) {
+			//members.add(new EnumerationElement(member.getFirst().getToken()));
+			members.add(new EnumerationElement(member.getToken()));
+			member = member.getNext();
+		}
 
-        return members;
-    }
+		return members;
+	}
 }

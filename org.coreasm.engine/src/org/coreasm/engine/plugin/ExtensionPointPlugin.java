@@ -64,7 +64,7 @@ public interface ExtensionPointPlugin {
 	 * Default call priority is {@link #DEFAULT_PRIORITY}.
 	 *
 	 * @return a map of engine modes to priorities
- 	 */
+	 */
 	public abstract Map<ControlAPI.EngineMode, Integer> getSourceModes();
 
 	/**

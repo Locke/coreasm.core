@@ -70,36 +70,36 @@ public class Scheduler {
 	}
 
 	public void startStep(){
-    	updateInstructions = new CompilerRuntime.UpdateList();
-    	updateSet = new CompilerRuntime.UpdateList();
+		updateInstructions = new CompilerRuntime.UpdateList();
+		updateSet = new CompilerRuntime.UpdateList();
 
-    	agentSet = null;
-    	selectedAgentSet.clear();
-    }
+		agentSet = null;
+		selectedAgentSet.clear();
+	}
 
-    public void retrieveAgents() throws CoreASMCException{
-    	AbstractStorage storage = runtime.getStorage();
+	public void retrieveAgents() throws CoreASMCException{
+		AbstractStorage storage = runtime.getStorage();
 
-    	FunctionElement agentSetFlat = storage
-    			.getUniverse(CompilerRuntime.AbstractStorage.AGENTS_UNIVERSE_NAME);
+		FunctionElement agentSetFlat = storage
+				.getUniverse(CompilerRuntime.AbstractStorage.AGENTS_UNIVERSE_NAME);
 
-    	/*if(stepCount < 1){
-    		//first step, add initial agent to the agent set
-    		agentSet = new java.util.HashSet<CompilerRuntime.Rule>();
-    		agentSet.add(initRule);
-    	}
-    	else*/{
-    		//otherwise retrieve all current agents from the abstract storage
-    		agentSet = new java.util.HashSet<Element>();
+		/*if(stepCount < 1){
+			//first step, add initial agent to the agent set
+			agentSet = new java.util.HashSet<CompilerRuntime.Rule>();
+			agentSet.add(initRule);
+		}
+		else*/{
+			//otherwise retrieve all current agents from the abstract storage
+			agentSet = new java.util.HashSet<Element>();
 
-    		for(Element agent : ((Enumerable) agentSetFlat).enumerate()){
-    			java.util.ArrayList<Element> tmp = new java.util.ArrayList<Element>();
-    			tmp.add(agent);
+			for(Element agent : ((Enumerable) agentSetFlat).enumerate()){
+				java.util.ArrayList<Element> tmp = new java.util.ArrayList<Element>();
+				tmp.add(agent);
 
-    			Location loc = new Location(CompilerRuntime.AbstractStorage.PROGRAM_FUNCTION_NAME, tmp);
+				Location loc = new Location(CompilerRuntime.AbstractStorage.PROGRAM_FUNCTION_NAME, tmp);
 
 				try {
-	    			Element rule = storage.getValue(loc);
+					Element rule = storage.getValue(loc);
 
 					if(!rule.equals(Element.UNDEF)){
 						agentSet.add((CompilerRuntime.Rule)rule);
@@ -108,28 +108,28 @@ public class Scheduler {
 				} catch (InvalidLocationException e) {
 					throw new CompilerRuntime.CoreASMCException("invalid agent found");
 				}
-    		}
-    	}
+			}
+		}
 
-    	schedule = policy.getNewSchedule(policy, agentSet);
+		schedule = policy.getNewSchedule(policy, agentSet);
 
-    }
+	}
 
-    public boolean selectAgents(){
-    	if(agentsCombinationExists()){
-    		selectedAgentSet = schedule.next();
-    		lastSelectedAgents = java.util.Collections.unmodifiableSet(selectedAgentSet);
-    		return true;
-    	}
-    	else{
-    		selectedAgentSet = java.util.Collections.emptySet();
-    		lastSelectedAgents = selectedAgentSet;
-    		return false;
-    	}
-    }
-    public void handleFailedUpdate(){
-    	//dont do anything
-    }
+	public boolean selectAgents(){
+		if(agentsCombinationExists()){
+			selectedAgentSet = schedule.next();
+			lastSelectedAgents = java.util.Collections.unmodifiableSet(selectedAgentSet);
+			return true;
+		}
+		else{
+			selectedAgentSet = java.util.Collections.emptySet();
+			lastSelectedAgents = selectedAgentSet;
+			return false;
+		}
+	}
+	public void handleFailedUpdate(){
+		//dont do anything
+	}
 	public boolean isSingleAgentInconsistent(){
 		CompilerRuntime.UpdateList inUp = runtime.getStorage().getLastInconsistentUpdate();
 		boolean result = false;
@@ -149,9 +149,9 @@ public class Scheduler {
 		return result;
 	}
 
-    public boolean agentsCombinationExists(){
-    	return schedule.hasNext();
-    }
+	public boolean agentsCombinationExists(){
+		return schedule.hasNext();
+	}
 
 	public void executeAgentPrograms() throws CompilerRuntime.CoreASMCException{
 		java.util.ArrayList<CompilerRuntime.Rule> agentsList = new java.util.ArrayList<Rule>();//>(selectedAgentSet);
@@ -189,18 +189,18 @@ public class Scheduler {
 		}
 	}
 
-    public CompilerRuntime.Rule getInitAgent(){
-    	return initRule;
-    }
+	public CompilerRuntime.Rule getInitAgent(){
+		return initRule;
+	}
 
-    public void setStepCount(int count){
-    	this.stepCount = count;
-    }
+	public void setStepCount(int count){
+		this.stepCount = count;
+	}
 
-    public int getStepCount(){
-    	return this.stepCount;
-    }
-    public void incrementStepCount(){
-    	this.stepCount++;
-    }
+	public int getStepCount(){
+		return this.stepCount;
+	}
+	public void incrementStepCount(){
+		this.stepCount++;
+	}
 }

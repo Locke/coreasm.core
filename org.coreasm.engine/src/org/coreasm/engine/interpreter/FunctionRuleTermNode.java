@@ -28,9 +28,9 @@ import org.coreasm.engine.kernel.Kernel;
  */
 public class FunctionRuleTermNode extends ASTNode {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private ASTNode actualNode = null;
+	private ASTNode actualNode = null;
 
 	private List<ASTNode> argsList = null;
 
@@ -42,16 +42,16 @@ public class FunctionRuleTermNode extends ASTNode {
 				info);
 	}
 
-    public FunctionRuleTermNode(FunctionRuleTermNode node) {
-    	super(node);
+	public FunctionRuleTermNode(FunctionRuleTermNode node) {
+		super(node);
    }
 
-    protected void checkNodeValidity() {
+	protected void checkNodeValidity() {
 		if (!this.getGrammarClass().equals(ASTNode.FUNCTION_RULE_CLASS))
 			throw new IllegalArgumentException("Expecting a FunctionRuleTerm node.");
 	}
 
-    /**
+	/**
 	 * Returns <code>true</code> if this node has a list of arguments.
 	 */
 	public boolean hasArguments() {

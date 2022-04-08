@@ -78,9 +78,9 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	};
 
 
-    /**
-     * Initializes the engine.
-     */
+	/**
+	 * Initializes the engine.
+	 */
 	public void initialize();
 
 	/**
@@ -96,7 +96,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void recover();
 
-    /**
+	/**
 	 * Loads a new specification into the engine for execution.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, parse the whole specification
@@ -106,7 +106,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void loadSpecification(String specFileName);
 
-    /**
+	/**
 	 * Loads a new specification into the engine for execution.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, parse the whole specification
@@ -116,7 +116,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void loadSpecification(Reader src);
 
-    /**
+	/**
 	 * Loads a new specification into the engine for execution.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, parse the whole specification
@@ -127,7 +127,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void loadSpecification(String name, Reader src);
 
-    /**
+	/**
 	 * Parses a new specification.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, and parse the whole specification.
@@ -140,7 +140,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void parseSpecification(String specFileName);
 
-    /**
+	/**
 	 * Parses a new specification.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, and parse the whole specification.
@@ -153,7 +153,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void parseSpecification(Reader src);
 
-    /**
+	/**
 	 * Parses a new specification.
 	 * This will load the specification, parse its header,
 	 * loads the necessary plugins, and parse the whole specification.
@@ -167,7 +167,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void parseSpecification(String name, Reader src);
 
-    /**
+	/**
 	 * Parses the header section of a new specification.
 	 * This will load the specification, parse its header, and
 	 * loads the necessary plugins.
@@ -198,7 +198,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public void parseSpecificationHeader(String specFileName, boolean loadPlugins);
 
-    /**
+	/**
 	 * Parses the header section of a new specification.
 	 * This will load the specification, parse its header, and
 	 * loads the necessary plugins.
@@ -214,7 +214,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	@Deprecated
 	public void parseSpecificationHeader(Reader src);
 
-    /**
+	/**
 	 * Parses the header section of a new specification.
 	 * This will load the specification, parse its header, and
 	 * if <code>loadPlugins</code> is true, loads the necessary plugins.
@@ -448,7 +448,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * @see org.coreasm.engine.EngineEvent
 	 * @see #removeObserver(EngineObserver)
 	 * @see #getObservers()
- 	 */
+	 */
 	public void addObserver(EngineObserver observer);
 
 	/**
@@ -526,10 +526,10 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 */
 	public Map<String,VersionInfo> getPluginsVersionInfo();
 
-    /**
-     * Returns the number of successfully completed steps in the current
-     * run of the engine.
-     */
+	/**
+	 * Returns the number of successfully completed steps in the current
+	 * run of the engine.
+	 */
 	public int getStepCount();
 
 	/**

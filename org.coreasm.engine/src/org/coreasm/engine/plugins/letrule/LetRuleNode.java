@@ -31,63 +31,63 @@ import org.coreasm.engine.plugins.turboasm.TurboASMPlugin;
  */
 public class LetRuleNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private VariableMap variableMap;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	private VariableMap variableMap;
 
-    /**
-     * Creates a new LetRuleNode
-     */
-    public LetRuleNode(ScannerInfo info) {
-        super(
-        		LetRulePlugin.PLUGIN_NAME,
-        		ASTNode.RULE_CLASS,
-        		"LetRule",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new LetRuleNode
+	 */
+	public LetRuleNode(ScannerInfo info) {
+		super(
+				LetRulePlugin.PLUGIN_NAME,
+				ASTNode.RULE_CLASS,
+				"LetRule",
+				null,
+				info);
+	}
 
-    public LetRuleNode(LetRuleNode node) {
-    	super(node);
-    }
+	public LetRuleNode(LetRuleNode node) {
+		super(node);
+	}
 
-    @Override
+	@Override
 	public void addChild(String name, Node node) {
 		if (node instanceof ASTNode) {
 			ASTNode astNode = (ASTNode)node;
 			if (ASTNode.ID_CLASS.equals(astNode.getGrammarClass())) {
 				for (ASTNode current = getFirst(); current != null && current.getNext() != null && ASTNode.ID_CLASS.equals(current.getGrammarClass()); current = current.getNext().getNext()) {
-		            if (astNode.getToken().equals(current.getToken())) {
-		            	super.addChild(name, node);
-		            	throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in let rule.", node);
-		            }
-		        }
+					if (astNode.getToken().equals(current.getToken())) {
+						super.addChild(name, node);
+						throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in let rule.", node);
+					}
+				}
 			}
 		}
 		super.addChild(name, node);
 	}
 
-    public boolean isLetResultRule() {
-    	return TurboASMPlugin.RETURN_RESULT_TOKEN.equals(getFirst().getNextCSTNode().getToken());
-    }
+	public boolean isLetResultRule() {
+		return TurboASMPlugin.RETURN_RESULT_TOKEN.equals(getFirst().getNextCSTNode().getToken());
+	}
 
-    /**
-     * Returns a map of the variable names to the nodes which
-     * represent the domains that variable should be taken from
-     */
-    public Map<String,ASTNode> getVariableMap() {
-    	if (variableMap != null)
-    		return variableMap;
-    	return variableMap = new VariableMap(this);
-    }
+	/**
+	 * Returns a map of the variable names to the nodes which
+	 * represent the domains that variable should be taken from
+	 */
+	public Map<String,ASTNode> getVariableMap() {
+		if (variableMap != null)
+			return variableMap;
+		return variableMap = new VariableMap(this);
+	}
 
-    /**
-     * Returns the node representing the 'in' part the let rule.
-     */
-    public ASTNode getInRule() {
-        return (ASTNode)getChildNode("gamma");
-    }
+	/**
+	 * Returns the node representing the 'in' part the let rule.
+	 */
+	public ASTNode getInRule() {
+		return (ASTNode)getChildNode("gamma");
+	}
 
 }

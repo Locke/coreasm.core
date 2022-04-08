@@ -67,13 +67,13 @@ public interface State {
 	 */
 	public FunctionElement getFunction(String name);
 
-    /**
-     * Returns the name of the given function element.
-     *
-     * @return the name of the function element; <code>null</code> if no
-     * such function exists.
-     */
-    public String getFunctionName(FunctionElement function);
+	/**
+	 * Returns the name of the given function element.
+	 *
+	 * @return the name of the function element; <code>null</code> if no
+	 * such function exists.
+	 */
+	public String getFunctionName(FunctionElement function);
 
 	/**
 	 * Adds a new function to the state.

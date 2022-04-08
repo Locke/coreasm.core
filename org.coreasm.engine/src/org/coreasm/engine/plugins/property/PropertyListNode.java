@@ -25,34 +25,34 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 public class PropertyListNode extends ASTNode {
 
 	private int propertyCount = 0;
-    private boolean hasCheck = false;
+	private boolean hasCheck = false;
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public void setHasCheck(boolean hasCheck) {
-        this.hasCheck = hasCheck;
-    }
+	public void setHasCheck(boolean hasCheck) {
+		this.hasCheck = hasCheck;
+	}
 
-    public PropertyListNode(ScannerInfo info) {
-        super(PropertyPlugin.PLUGIN_NAME,
-        		ASTNode.DECLARATION_CLASS,
-        		"PropertyList",
-        		null,
-        		info
-        		);
-    }
+	public PropertyListNode(ScannerInfo info) {
+		super(PropertyPlugin.PLUGIN_NAME,
+				ASTNode.DECLARATION_CLASS,
+				"PropertyList",
+				null,
+				info
+				);
+	}
 
-    public void incrementPropertyCount() {
-        if (!hasCheck) {
-            propertyCount++;
-        }
-    }
+	public void incrementPropertyCount() {
+		if (!hasCheck) {
+			propertyCount++;
+		}
+	}
 
-    public int getPropertyIndex() {
-        if (!hasCheck) {
-            return 0;
-        }
+	public int getPropertyIndex() {
+		if (!hasCheck) {
+			return 0;
+		}
 
-        return propertyCount;
-    }
+		return propertyCount;
+	}
 }

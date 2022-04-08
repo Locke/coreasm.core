@@ -43,8 +43,8 @@ public class CoreASMGlobal {
 	/** The kernel configuration file. */
 	private static final String KERNEL_CONF_FILE_NAME = "kernel.conf";
 
-    /** The environment variable giving the CoreASM root directory. */
-    //private static final String COREASM_ROOT_ENV_VAR = "COREASM_HOME";
+	/** The environment variable giving the CoreASM root directory. */
+	//private static final String COREASM_ROOT_ENV_VAR = "COREASM_HOME";
 
 	/** Holds the absolute path to the root folder, if it is not
 	 * defined in the global properties

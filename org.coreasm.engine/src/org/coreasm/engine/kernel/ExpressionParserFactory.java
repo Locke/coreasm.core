@@ -92,55 +92,55 @@ public class ExpressionParserFactory {
 	 * Loads all the operator rules from plugins.
 	 */
 	private void loadOperatorRules(ControlAPI capi) {
-    	for (Plugin p: plugins) {
-    		if (p instanceof OperatorProvider) {
-    			Collection<OperatorRule> oprRules = ((OperatorProvider)p).getOperatorRules();
-    			for (OperatorRule oprRule: oprRules) {
+		for (Plugin p: plugins) {
+			if (p instanceof OperatorProvider) {
+				Collection<OperatorRule> oprRules = ((OperatorProvider)p).getOperatorRules();
+				for (OperatorRule oprRule: oprRules) {
 
-    				switch (oprRule.getType()) {
+					switch (oprRule.getType()) {
 
-    				case INFIX_LEFT:
-    					addOperator(infixLeftOprs, oprRule);
-    					addOperatorPlugin(infixLeftPlugins, oprRule);
-    					break;
+					case INFIX_LEFT:
+						addOperator(infixLeftOprs, oprRule);
+						addOperatorPlugin(infixLeftPlugins, oprRule);
+						break;
 
-    				case INFIX_NON:
-    					addOperator(infixNonOprs, oprRule);
-    					addOperatorPlugin(infixNonPlugins, oprRule);
-    					break;
+					case INFIX_NON:
+						addOperator(infixNonOprs, oprRule);
+						addOperatorPlugin(infixNonPlugins, oprRule);
+						break;
 
-    				case INFIX_RIGHT:
-    					addOperator(infixRightOprs, oprRule);
-    					addOperatorPlugin(infixRightPlugins, oprRule);
-    					break;
+					case INFIX_RIGHT:
+						addOperator(infixRightOprs, oprRule);
+						addOperatorPlugin(infixRightPlugins, oprRule);
+						break;
 
-    				case POSTFIX:
-    					addOperator(postfixOprs, oprRule);
-    					addOperatorPlugin(postfixPlugins, oprRule);
-    					break;
+					case POSTFIX:
+						addOperator(postfixOprs, oprRule);
+						addOperatorPlugin(postfixPlugins, oprRule);
+						break;
 
-    				case PREFIX:
-    					addOperator(prefixOprs, oprRule);
-    					addOperatorPlugin(prefixPlugins, oprRule);
-    					break;
+					case PREFIX:
+						addOperator(prefixOprs, oprRule);
+						addOperatorPlugin(prefixPlugins, oprRule);
+						break;
 
-    				case INDEX:
-    					addOperator(indexOprs, oprRule);
-    					addOperatorPlugin(indexPlugins, oprRule);
+					case INDEX:
+						addOperator(indexOprs, oprRule);
+						addOperatorPlugin(indexPlugins, oprRule);
 
-    				}
-    			}
-    		}
-    	}
+					}
+				}
+			}
+		}
 
-    	// Loading the results into the operator registry
-    	OperatorRegistry oprReg = OperatorRegistry.getInstance(capi);
-    	oprReg.binOps.clear();
-    	oprReg.binOps.putAll(binOps);
-    	oprReg.unOps.clear();
-    	oprReg.unOps.putAll(unOps);
-    	oprReg.indexOps.clear();
-    	oprReg.indexOps.putAll(indexOps);
+		// Loading the results into the operator registry
+		OperatorRegistry oprReg = OperatorRegistry.getInstance(capi);
+		oprReg.binOps.clear();
+		oprReg.binOps.putAll(binOps);
+		oprReg.unOps.clear();
+		oprReg.unOps.putAll(unOps);
+		oprReg.indexOps.clear();
+		oprReg.indexOps.putAll(indexOps);
 	}
 
 	/**
@@ -220,11 +220,11 @@ public class ExpressionParserFactory {
 		if (type == OpType.PREFIX) {
 			final Parser<Node> tempParser = ParserTools.getOprParser(opr);//, termParser.peek());
 			return ParserTools.seq(tempParser.peek(), tempParser).map(
-	    			new UnaryParseMap(opr, pluginNames, type));
+					new UnaryParseMap(opr, pluginNames, type));
 		}
 		else //if (type == OpType.POSTFIX)
-	    	return ParserTools.seq(ParserTools.getOprParser(opr)).map(
-	    			new UnaryParseMap(opr, pluginNames, type));
+			return ParserTools.seq(ParserTools.getOprParser(opr)).map(
+					new UnaryParseMap(opr, pluginNames, type));
 	}
 
 	/*

@@ -117,7 +117,7 @@ rule RunVendingMachine =
 			par
 				DispenseProduct
 				SettleAccount
- 				ReleaseChange
+				ReleaseChange
 				mode := PurchaseCompleted
 			endpar
 		else

@@ -30,62 +30,62 @@ import org.coreasm.engine.interpreter.ScannerInfo;
 
 public class ForallExpNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private VariableMap variableMap;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	private VariableMap variableMap;
 
-    /**
-     * Creates a new ForallExpNode
-     */
-    public ForallExpNode(ScannerInfo info) {
-        super(
-        		PredicateLogicPlugin.PLUGIN_NAME,
-        		ASTNode.EXPRESSION_CLASS,
-        		"ForallExp",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new ForallExpNode
+	 */
+	public ForallExpNode(ScannerInfo info) {
+		super(
+				PredicateLogicPlugin.PLUGIN_NAME,
+				ASTNode.EXPRESSION_CLASS,
+				"ForallExp",
+				null,
+				info);
+	}
 
-    public ForallExpNode(ForallExpNode node) {
-    	super(node);
-    }
+	public ForallExpNode(ForallExpNode node) {
+		super(node);
+	}
 
-    @Override
+	@Override
 	public void addChild(String name, Node node) {
 		if (node instanceof ASTNode) {
 			ASTNode astNode = (ASTNode)node;
 			if (ASTNode.ID_CLASS.equals(astNode.getGrammarClass())) {
 				for (ASTNode current = getFirst(); current != null && current.getNext() != null && ASTNode.ID_CLASS.equals(current.getGrammarClass()); current = current.getNext().getNext()) {
-		            if (astNode.getToken().equals(current.getToken())) {
-		            	super.addChild(name, node);
-		            	throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in forall expression.", node);
-		            }
-		        }
+					if (astNode.getToken().equals(current.getToken())) {
+						super.addChild(name, node);
+						throw new CoreASMError("Variable \""+current.getToken()+"\" already defined in forall expression.", node);
+					}
+				}
 			}
 		}
 		super.addChild(name, node);
 	}
 
-    /**
-     * Returns a map of the variable names to the nodes which
-     * represent the domains that variable should be taken from
-     */
-    public Map<String,ASTNode> getVariableMap() {
-    	if (variableMap != null)
-    		return variableMap;
-    	return variableMap = new VariableMap(this);
-    }
+	/**
+	 * Returns a map of the variable names to the nodes which
+	 * represent the domains that variable should be taken from
+	 */
+	public Map<String,ASTNode> getVariableMap() {
+		if (variableMap != null)
+			return variableMap;
+		return variableMap = new VariableMap(this);
+	}
 
-    /**
-     * Returns the node representing the condition of the forall expression.
-     */
-    public ASTNode getCondition() {
-    	ASTNode current = getFirst();
-    	while (current.getNext() != null && current.getNext().getNext() != null && ASTNode.ID_CLASS.equals(current.getGrammarClass()))
-    		current = current.getNext().getNext();
-    	return current;
-    }
+	/**
+	 * Returns the node representing the condition of the forall expression.
+	 */
+	public ASTNode getCondition() {
+		ASTNode current = getFirst();
+		while (current.getNext() != null && current.getNext().getNext() != null && ASTNode.ID_CLASS.equals(current.getGrammarClass()))
+			current = current.getNext().getNext();
+		return current;
+	}
 
 }

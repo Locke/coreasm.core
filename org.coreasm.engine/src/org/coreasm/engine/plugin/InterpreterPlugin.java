@@ -27,17 +27,17 @@ import org.coreasm.engine.interpreter.InterpreterException;
 public interface InterpreterPlugin {
 
 	/**
- 	 * This method is the interpreter rule of this plugin.
- 	 * This method gets the value of <i>pos</i> and returns
- 	 * a new value for <i>pos</i>. This is the implementation
- 	 * of the <i>pluginRule</i> function.
- 	 * <p>
- 	 * This method should NOT return <code>null</code>. If this method
- 	 * cannot interpret <code>pos</code>, it should return <code>pos</code>.
- 	 * <p>
- 	 * <b>NOTE:</b> Any implementation of this method must be thread-safe, since
- 	 * it may be called simultaneously by more than one thread during the simulation.
- 	 *
+	 * This method is the interpreter rule of this plugin.
+	 * This method gets the value of <i>pos</i> and returns
+	 * a new value for <i>pos</i>. This is the implementation
+	 * of the <i>pluginRule</i> function.
+	 * <p>
+	 * This method should NOT return <code>null</code>. If this method
+	 * cannot interpret <code>pos</code>, it should return <code>pos</code>.
+	 * <p>
+	 * <b>NOTE:</b> Any implementation of this method must be thread-safe, since
+	 * it may be called simultaneously by more than one thread during the simulation.
+	 *
 	 * @param interpreter the parent interpreter (most likely, component of the engine)
 	 * @param pos the value of <i>pos</i>
 	 *

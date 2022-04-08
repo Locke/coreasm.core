@@ -25,48 +25,48 @@ import org.coreasm.engine.interpreter.ScannerInfo;
  */
 public class NumberRangeNode extends ASTNode {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new Number Range Node
-     */
-    public NumberRangeNode(ScannerInfo info) {
-        super(
-        		NumberPlugin.PLUGIN_NAME,
-        		ASTNode.EXPRESSION_CLASS,
-        		"NumberRangeTerm",
-        		null,
-        		info);
-    }
+	/**
+	 * Creates a new Number Range Node
+	 */
+	public NumberRangeNode(ScannerInfo info) {
+		super(
+				NumberPlugin.PLUGIN_NAME,
+				ASTNode.EXPRESSION_CLASS,
+				"NumberRangeTerm",
+				null,
+				info);
+	}
 
-    public NumberRangeNode(NumberRangeNode node) {
-    	super(node);
-    }
+	public NumberRangeNode(NumberRangeNode node) {
+		super(node);
+	}
 
-    /**
-     * Returns the node representing the guard of the conditional rule
-     */
-    public ASTNode getStart() {
-        return getFirst();
-    }
+	/**
+	 * Returns the node representing the guard of the conditional rule
+	 */
+	public ASTNode getStart() {
+		return getFirst();
+	}
 
-    /**
-     * Returns the node representing the consequent of the conditional rule
-     * (i.e. rule to execute if the guard is true)
-     */
-    public ASTNode getEnd() {
-        return getStart().getNext();
-    }
+	/**
+	 * Returns the node representing the consequent of the conditional rule
+	 * (i.e. rule to execute if the guard is true)
+	 */
+	public ASTNode getEnd() {
+		return getStart().getNext();
+	}
 
-    /**
-     * Returns the node representing the 'else' part the conditional rule.
-     * (i.e. rule to execute if the guard is false)
-     * This value may be null.
-     */
-    public ASTNode getStep() {
-        return getEnd().getNext();
-    }
+	/**
+	 * Returns the node representing the 'else' part the conditional rule.
+	 * (i.e. rule to execute if the guard is false)
+	 * This value may be null.
+	 */
+	public ASTNode getStep() {
+		return getEnd().getNext();
+	}
 }
