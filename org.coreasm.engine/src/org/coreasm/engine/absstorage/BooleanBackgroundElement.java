@@ -71,22 +71,27 @@ public class BooleanBackgroundElement extends BackgroundElement
 		return (e instanceof BooleanElement)?BooleanElement.TRUE:BooleanElement.FALSE;
 	}
 
+	@Override
 	public Collection<Element> enumerate() {
 		return enumeration;
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		return (e.equals(BooleanElement.TRUE) || e.equals(BooleanElement.FALSE));
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		return enumeration;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}
 
+	@Override
 	public int size() {
 		return 2;
 	}

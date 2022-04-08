@@ -60,22 +60,27 @@ public class EnumerationBackgroundElement extends BackgroundElement
 		return (members.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE);
 	}
 
+	@Override
 	public Collection<Element> enumerate() {
 		return getIndexedView();
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		return enumerate().contains(e);
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		return enumCache;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}
 
+	@Override
 	public int size() {
 		return enumCache.size();
 	}

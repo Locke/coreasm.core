@@ -212,6 +212,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	 * Expands the powerset to a string
 	 * representation.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		for (Element e: this)
@@ -344,6 +345,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			return Collections.unmodifiableCollection(value);
 		}
 
+		@Override
 		public String toString() {
 			StringBuilder result = new StringBuilder();
 			for (Element e: value)

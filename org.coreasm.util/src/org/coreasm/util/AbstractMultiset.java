@@ -238,6 +238,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@Override
 	public abstract Set<E> toSet();
 
+	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 
