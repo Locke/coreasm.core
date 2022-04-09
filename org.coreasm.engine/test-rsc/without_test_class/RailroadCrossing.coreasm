@@ -3,7 +3,7 @@ CoreASM RailRoadCrossing
 // @require "Track track1 is empty"
 // @require "Track track2 is empty"
 // @require "Gate is opened"
-// @maxsteps 50
+// @maxsteps 100
 
 use StandardPlugins
 use TimePlugin

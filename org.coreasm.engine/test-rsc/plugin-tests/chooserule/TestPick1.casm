@@ -9,7 +9,7 @@ init Pick1
 
 /*
  * @minsteps 2
- * @maxsteps 10
+ * @maxsteps 50
  *
  * @require "Test 1 -1\n"
  * @require "Test 1 -2\n"

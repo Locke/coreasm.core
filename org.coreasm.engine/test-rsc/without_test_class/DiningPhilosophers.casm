@@ -9,7 +9,7 @@
 // @require "starts eating."
 // @require "is hungry but can't eat."
 // @require "stops eating."
-// @maxsteps 10
+// @maxsteps 100
 
 CoreASM DiningPhilosophers
 
