@@ -1,4 +1,4 @@
-[![build status](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml/badge.svg?branch=locke)](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml) [![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
+[![build status](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml/badge.svg?branch=locke)](https://github.com/Locke/coreasm.core/actions/workflows/maven.yml) [![codecov](https://codecov.io/gh/Locke/coreasm.core/branch/locke/graph/badge.svg?token=03UoiCXfOn)](https://codecov.io/gh/Locke/coreasm.core) [![maven-central: de.athalis.coreasm:coreasm-parent](https://img.shields.io/maven-central/v/de.athalis.coreasm/coreasm-parent)](https://search.maven.org/search?q=g:de.athalis.coreasm%20a:coreasm-parent)
 
 About
 =====
