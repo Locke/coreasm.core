@@ -146,7 +146,7 @@
 					<configuration>
 						<skipTests>${skipTests}</skipTests>
 						<reuseForks>false</reuseForks>
-						<forkCount>0</forkCount>
+						<forkCount>2C</forkCount>
 					</configuration>
 				</plugin>
 
