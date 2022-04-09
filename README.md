@@ -16,7 +16,7 @@ Branches
 
 The branch [upstream](https://github.com/Locke/coreasm.core/tree/upstream) follows the master branch of CoreASM. The [master](https://github.com/Locke/coreasm.core/tree/master) branch follows `upstream`, adds this README and a custom SNAPSHOT version.
 
-Feature branches are based on `upstream`, and may be rebased when `upstream` is updated.
+These feature branches are based on `upstream`, and may be rebased when `upstream` is updated:
 
 - [jparsec3](https://github.com/Locke/coreasm.core/tree/jparsec3), Pull Request at [PR29](https://github.com/CoreASM/coreasm.core/pull/29)
   - updates the minimum required Java version to 8
@@ -35,9 +35,13 @@ Feature branches are based on `upstream`, and may be rebased when `upstream` is 
   - batched execution ([recursive] evaluation of multiple agents in one tasks) has been removed, as the ForkJoinPool can better distribute the work across workers
   - TODO: determine number of processors to be used
 
-The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch contains a somewhat stable version of features that are likely to be released next. Its history may be rewritten to pull in different features and pick commits from the development branch. It is also used for changes, that are not too experimental.
+Since important features have not yet been merged upstream and additional work was needed, isolated branches on top of master became too hard to maintain.
 
-There are some additional major differences to upstream & changes in the "locke" branch, that are not in any feature branch:
+The [locke](https://github.com/Locke/coreasm.core/tree/locke) branch is now the default branch of this fork.
+It contains a somewhat stable version of features that are likely to be released next.
+Its history may be rewritten to pull in different features and pick commits from the development branch, but rebases unlikely to happen anymore.
+
+There are some additional major differences to upstream & changes in the "locke" branch, that are not mentioned in the above feature branches:
 
 - targets Java 11 (instead of Java 7)
 - the maven layout has been changed
@@ -47,7 +51,9 @@ There are some additional major differences to upstream & changes in the "locke"
   - compiler (I started working on the branch [dev-compiler](https://github.com/Locke/coreasm.core/tree/dev-compiler))
   - eclipse modules / plugin
 
-Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch. It must be considered as experimental, as it contains experiments and patches for my specific workload. I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
+Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch.
+It must be considered as experimental, as it contains experiments and patches for my specific workload.
+I share them for the interested visitor, but be warned that the history is dirty and will be rewritten a lot (i.e. expect things that I try out but discard later on).
 
 Some noteworthy changes of the "dev" branch, not in any feature nor the "locke" branch:
 
