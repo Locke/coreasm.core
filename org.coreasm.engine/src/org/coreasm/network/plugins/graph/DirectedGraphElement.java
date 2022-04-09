@@ -1,6 +1,6 @@
-/*	
- * DirectedGraphElement.java 
- * 
+/*
+ * DirectedGraphElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -21,17 +21,17 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**
  * Directed graph elements in CoreASM state.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class DirectedGraphElement extends GraphElement {
 
 	protected final DirectedGraph<Element, Element> graph;
-	
+
 	/**
 	 * Creates a new directed graph.
-	 * 
+	 *
 	 * @see DefaultDirectedGraph
 	 */
 	public DirectedGraphElement() {
@@ -44,7 +44,7 @@ public class DirectedGraphElement extends GraphElement {
 	protected DirectedGraphElement(DirectedGraph<Element, Element> graph) {
 		this.graph = graph;
 	}
-	
+
 	@Override
 	public Graph<Element, Element> getGraph() {
 		return graph;
@@ -59,5 +59,5 @@ public class DirectedGraphElement extends GraphElement {
 	public UndirectedGraph<Element, Element> getUndirectedGraph() {
 		return new AsUndirectedGraph<Element, Element>(graph);
 	}
-	
+
 }

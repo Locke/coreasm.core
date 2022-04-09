@@ -3,9 +3,9 @@ CoreASM TestList
 use StandardPlugins
 use ListPlugin
 
-init R1 
+init R1
 
-rule R1 = 
+rule R1 =
 	seq
 		myList := [1, 2, 3, 4, 5, 6, 3]
 	next
@@ -31,5 +31,3 @@ rule R1 =
 
 		program(self) := undef
 	endseqblock
-
-

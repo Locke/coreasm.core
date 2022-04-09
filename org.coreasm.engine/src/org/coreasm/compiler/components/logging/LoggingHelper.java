@@ -34,10 +34,10 @@ public class LoggingHelper {
 		 */
 		ERROR
 	}
-	
+
 	private Map<Level, List<MessageListener>> listeners;
 	private Map<Class<?>, Logger> loggers;
-	
+
 	/**
 	 * Public constructor
 	 */
@@ -56,12 +56,12 @@ public class LoggingHelper {
 			list = new ArrayList<MessageListener>();
 			listeners.put(level, list);
 		}
-		
+
 		if(!list.contains(listener)){
 			list.add(listener);
 		}
 	}
-	
+
 	/**
 	 * Removes a listener from the provided severity level
 	 * @param level The level of the messages the listener no longer wants to receive
@@ -73,7 +73,7 @@ public class LoggingHelper {
 			list.remove(listener);
 		}
 	}
-	
+
 	/**
 	 * Logs a new message using the default logger and passes the message to registered listeners
 	 * @param level The severity level of the message
@@ -85,13 +85,13 @@ public class LoggingHelper {
 		if(l != null){
 			for(MessageListener m : l) m.receiveMessage(level, message);
 		}
-		
+
 		Logger log = loggers.get(clazz);
 		if(log == null){
 			log = LoggerFactory.getLogger(clazz);
 			loggers.put(clazz, log);
 		}
-		
+
 		switch(level){
 			case DEBUG: log.debug(message);
 				break;
@@ -101,7 +101,7 @@ public class LoggingHelper {
 				break;
 		}
 	}
-	
+
 	/**
 	 * Logs a debug message
 	 * @param clazz The cause of the message
@@ -115,11 +115,11 @@ public class LoggingHelper {
 	 * Logs a warning message
 	 * @param clazz The cause of the message
 	 * @param message The message
-	 */	
+	 */
 	public void warn(Class<?> clazz, String message){
 		log(Level.WARN, clazz, message);
 	}
-	
+
 	/**
 	 * Logs an error message
 	 * @param clazz The cause of the message
@@ -128,6 +128,6 @@ public class LoggingHelper {
 	public void error(Class<?> clazz, String message){
 		log(Level.ERROR, clazz, message);
 	}
-	
-	
+
+
 }

@@ -1,6 +1,6 @@
-/*	
+/*
  * EngineWarningObserver.java  	$Revision$
- * 
+ *
  * Copyright (C) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.

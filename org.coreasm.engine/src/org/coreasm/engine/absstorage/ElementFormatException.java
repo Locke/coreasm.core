@@ -1,6 +1,6 @@
-/*	
+/*
  * ElementFormatException.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2008 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,26 +10,26 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
-/** 
- * Thrown to indicate that the application has attempted to 
- * convert a string to a specific element, but that the string 
+/**
+ * Thrown to indicate that the application has attempted to
+ * convert a string to a specific element, but that the string
  * does not have the appropriate format.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class ElementFormatException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new exception that indicates conversion 
+	 * Creates a new exception that indicates conversion
 	 * to all the given element types have been tried
 	 * but they all failed.
-	 * 
+	 *
 	 *  @param value failed value
 	 *  @param failedElementTypes element classes that failed
 	 */
@@ -51,9 +51,9 @@ public class ElementFormatException extends Exception {
 	}
 
 	/**
-	 * Creates a new instance of this exception 
+	 * Creates a new instance of this exception
 	 * with the given message.
-	 * 
+	 *
 	 * @param msg error message
 	 */
 	public ElementFormatException(String msg) {

@@ -20,40 +20,40 @@ import org.coreasm.engine.interpreter.ASTNode;
  */
 public class KernelRuleDeclarationHandler implements CompilerCodeHandler {
 	//boolean tmp = false;
-	
-	
+
+
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
 		try{
 			engine.getLogger().debug(CompilerKernelPlugin.class, "creating a rule for node");
-	
+
 			// first, find the signature
 			ASTNode signature = node.getAbstractChildNodes().get(0);
 			ASTNode body = node.getAbstractChildNodes().get(1);
-	
+
 			String ruleName = signature.getFirst().getToken();
-			
+
 			List<String> ruleParameters = new ArrayList<String>();
 			for (int i = 1; i < signature.getAbstractChildNodes().size(); i++) {
 				ruleParameters.add(signature.getAbstractChildNodes().get(i)
 						.getToken());
 			}
-	
+
 			// compile the body
 			CodeFragment cbody = engine.compile(body, CodeType.U);
 			RuleClassFile r = new RuleClassFile(ruleName, ruleParameters,
 					cbody, engine);
 			engine.getClassLibrary().addEntry(r);
-	
+
 			engine.getLogger().debug(CompilerKernelPlugin.class, "end rule creation");
-			
+
 			/*System.out.println("rule name is " + ruleName);
 			if(ruleName.equals("initializeASTOriginalSpecification")){
 				System.exit(0);
 			}
-			
-			
+
+
 			if(ruleName.equals("CloneIteratively") && tmp) throw new Exception();
 			else if(ruleName.equals("CloneIteratively")) tmp = true;*/
 		}

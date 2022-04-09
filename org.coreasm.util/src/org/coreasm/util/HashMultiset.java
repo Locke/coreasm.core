@@ -1,6 +1,6 @@
-/*	
+/*
  * HashMultiset.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.util;
 
 import java.util.Collection;
@@ -19,11 +19,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/** 
+/**
  * Implementation of {@link AbstractMultiset} using {@link HashMap}.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class HashMultiset<E> extends AbstractMultiset<E> {
 
@@ -37,7 +37,7 @@ public class HashMultiset<E> extends AbstractMultiset<E> {
 	/**
 	 * Creates a new <code>HashMultiset</code> and adds
 	 * the given elements to it.
-	 * 
+	 *
 	 * @see AbstractMultiset#AbstractMultiset(Object[])
 	 */
 	public HashMultiset(E... elements) {
@@ -46,8 +46,8 @@ public class HashMultiset<E> extends AbstractMultiset<E> {
 
 	/**
 	 * Creates a new <code>HashMultiset</code> and adds all the
-	 * elements of collection <code>c</code> to it. 
-	 * 
+	 * elements of collection <code>c</code> to it.
+	 *
 	 * @see AbstractMultiset#AbstractMultiset(Collection)
 	 */
 	public HashMultiset(Collection<? extends E> c) {

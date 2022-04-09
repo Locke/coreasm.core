@@ -14,11 +14,11 @@ import org.coreasm.engine.CoreASMError;
  */
 public class CoreASMErrorRecognizer implements ITextErrorRecognizer {
 	private final ASMEditor parentEditor;
-	
+
 	public CoreASMErrorRecognizer(ASMEditor parentEditor) {
 		this.parentEditor = parentEditor;
 	}
-	
+
 	@Override
 	public void checkForErrors(ASMDocument document, List<AbstractError> errors) {
 		SlimEngine slimEngine = (SlimEngine)parentEditor.getParser().getSlimEngine();

@@ -1,10 +1,10 @@
 /*
  * ConditionalRulePlugin.java 1.0 $Revision: 243 $
- * 
- * 
+ *
+ *
  * Copyright (C) 2006 George Ma
  * Copyright (c) 2007 Roozbeh Farahbod
- * 
+ *
  * Licensed under the Academic Free License version 3.0
  * http://www.opensource.org/licenses/afl-3.0.php
  * http://www.coreasm.org/afl-3.0.php
@@ -38,9 +38,9 @@ import org.coreasm.engine.plugin.Plugin;
 
 /**
  * Plugin for conditional rule
- * 
+ *
  * @author George Ma, Roozbeh Farahbod
- * 
+ *
  */
 public class ConditionalRulePlugin extends Plugin
 		implements ParserPlugin, InterpreterPlugin {
@@ -55,12 +55,12 @@ public class ConditionalRulePlugin extends Plugin
 	private Map<String, GrammarRule> parsers = null;
 
 	private final CompilerPlugin compilerPlugin = new CompilerConditionalRulePlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
 	}
-	
+
 	@Override
 	public String[] getKeywords() {
 		return keywords;
@@ -73,7 +73,7 @@ public class ConditionalRulePlugin extends Plugin
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
@@ -82,7 +82,7 @@ public class ConditionalRulePlugin extends Plugin
 
 		if (pos instanceof ConditionalRuleNode) {
 			ConditionalRuleNode conditionalNode = (ConditionalRuleNode) pos;
-			
+
 			if (!conditionalNode.getGuard().isEvaluated()) {
 				return conditionalNode.getGuard();
 			}
@@ -101,7 +101,7 @@ public class ConditionalRulePlugin extends Plugin
 					}
 				}
 				else { // guard is false
-					if (conditionalNode.getElseRule() == null) { // there is no else 
+					if (conditionalNode.getElseRule() == null) { // there is no else
 						pos.setNode(null, new UpdateMultiset(), null);
 						return pos;
 					}
@@ -181,7 +181,7 @@ public class ConditionalRulePlugin extends Plugin
 					new GrammarRule("ConditionalRule",
 							"'if' Guard 'then' Rule ('else' Rule )? ('endif')?",
 							condRuleParser, PLUGIN_NAME));
-			
+
 			Parser<Node> condTermParser = Parsers.array(pTools.getKeywParser("if", PLUGIN_NAME),
 					termParser,
 					pTools.getKeywParser("then", PLUGIN_NAME),
@@ -204,7 +204,7 @@ public class ConditionalRulePlugin extends Plugin
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.coreasm.engine.Plugin#initialize()
 	 */
 	@Override

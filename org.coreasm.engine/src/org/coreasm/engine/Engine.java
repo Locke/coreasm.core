@@ -60,9 +60,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * implements {@link ControlAPI} and has
  * four components: a {@link Parser}, a {@link Scheduler}, an
  * {@link Interpreter}, and an {@link AbstractStorage}.
- * 
+ *
  * @author Roozbeh Farahbod, Michael Stegmaier, Marcel Dausend
- * 
+ *
  */
 public class Engine implements ControlAPI {
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 7, 3, "SNAPSHOT");
@@ -80,7 +80,7 @@ public class Engine implements ControlAPI {
 	private final Scheduler scheduler;
 
 	private final Interpreter interpreter;
-	
+
 	/** Loader used to obtain plugin classes */
 	private final PluginManager pluginLoader;
 
@@ -519,7 +519,7 @@ public class Engine implements ControlAPI {
 	private void notifySuccess() {
 		// TODO no notification is sent
 		logger.debug("Last update succeeded.");
-        scheduler.incrementStepCount();
+		scheduler.incrementStepCount();
 	}
 
 	/**
@@ -1041,7 +1041,7 @@ public class Engine implements ControlAPI {
 						//   logger.error( ste.toString());
 					}
 				}
-				
+
 				storage.clearState();
 				scheduler.dispose();
 				ParserTools.removeInstance(Engine.this);
@@ -1263,9 +1263,9 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-    public int getStepCount() {
-        return scheduler.getStepCount();
-    }
+	public int getStepCount() {
+		return scheduler.getStepCount();
+	}
 
 	@Override
 	public void addServiceProvider(String type, ServiceProvider provider) {
@@ -1392,4 +1392,3 @@ class NamedStringReader {
 	}
 
 }
-

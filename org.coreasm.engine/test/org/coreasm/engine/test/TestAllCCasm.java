@@ -30,7 +30,7 @@ public class TestAllCCasm {
 	final static PrintStream origError = System.err;
 	//list of test cases
 	protected static List<File> testFiles = null;
-	
+
 	@BeforeClass
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
@@ -45,7 +45,7 @@ public class TestAllCCasm {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Before
 	public void setUpStreams() {
 		//redirect output
@@ -59,7 +59,7 @@ public class TestAllCCasm {
 		System.setOut(origOutput);
 		System.setErr(origError);
 	}
-	
+
 	@Test
 	public void performTest(){
 		boolean successful = true;

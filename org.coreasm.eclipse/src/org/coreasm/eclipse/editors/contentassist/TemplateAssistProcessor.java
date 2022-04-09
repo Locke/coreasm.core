@@ -28,8 +28,8 @@ import org.eclipse.swt.graphics.Image;
  */
 public class TemplateAssistProcessor extends TemplateCompletionProcessor {
 
-	private static final String DEFAULT_IMAGE= "icons/editor/templateprop_co.gif"; 
-	
+	private static final String DEFAULT_IMAGE= "icons/editor/templateprop_co.gif";
+
 	/**
 	 * Helper function for computeCompletionProposals
 	 */
@@ -57,10 +57,10 @@ public class TemplateAssistProcessor extends TemplateCompletionProcessor {
 			return 90;
 		return 0;
 	}
-	
+
 	/**
 	 * Returns all templates from the given context
-	 * 
+	 *
 	 * @param contextTypeId the context type
 	 * @return all templates
 	 */
@@ -71,7 +71,7 @@ public class TemplateAssistProcessor extends TemplateCompletionProcessor {
 
 	/**
 	 * Return the context type that is supported by this plug-in.
-	 * 
+	 *
 	 * @param viewer the viewer, ignored in this implementation
 	 * @param region the region, ignored in this implementation
 	 * @return the supported Scenario context type
@@ -85,43 +85,43 @@ public class TemplateAssistProcessor extends TemplateCompletionProcessor {
 
 	/**
 	 * Always return the default image.
-	 * 
+	 *
 	 * @param template the template, ignored in this implementation
 	 * @return the default template image
 	 */
 	protected Image getImage(Template template) {
 		ImageRegistry registry= TemplateManager.getInstance().getImageRegistry();
 		Image image= registry.get(DEFAULT_IMAGE);
-		
+
 		if (image == null) {
 			ImageDescriptor desc = TemplateManager.imageDescriptorFromPlugin(CoreASMPlugin.PLUGIN_ID, DEFAULT_IMAGE); //$NON-NLS-1$
 			registry.put(DEFAULT_IMAGE, desc);
 			image= registry.get(DEFAULT_IMAGE);
 		}
-		
+
 		return image;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.text.templates.TemplateCompletionProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		ITextSelection selection = (ITextSelection) viewer
 				.getSelectionProvider().getSelection();
-		
+
 		// adjust offset to end of normalized selection
 		if (selection.getOffset() == offset)
 			offset = selection.getOffset() + selection.getLength();
 		String prefix = extractPrefix(viewer, offset);
 		Region region = new Region(offset - prefix.length(), prefix.length());
 		TemplateContext context = createContext(viewer, region);
-		
+
 		if (context == null)
 			return new ICompletionProposal[0];
 		context.setVariable("selection", selection.getText()); // name of the selection variables {line, word_selection //$NON-NLS-1$
-		
+
 		Template[] templates = getTemplates(context.getContextType().getId());
-		
+
 		List<ICompletionProposal> matches = new ArrayList<ICompletionProposal>();
 		for (int i = 0; i < templates.length; i++) {
 			Template template = templates[i];
@@ -138,7 +138,7 @@ public class TemplateAssistProcessor extends TemplateCompletionProcessor {
 				matches.add(createProposal(template, context, (IRegion) region,
 						getRelevance(template, prefix)));
 		}
-		
+
 		return matches.toArray(new ICompletionProposal[matches.size()]);
 	}
 }

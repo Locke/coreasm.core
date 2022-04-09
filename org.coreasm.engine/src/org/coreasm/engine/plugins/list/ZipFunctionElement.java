@@ -9,11 +9,11 @@ import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 
-/** 
+/**
  * Function element providing the 'zip' function.
- *   
+ *
  * @author Marcel Dausend, Michael Stegmaier
- * 
+ *
  */
 public class ZipFunctionElement extends ListFunctionElement {
 
@@ -35,7 +35,7 @@ public class ZipFunctionElement extends ListFunctionElement {
 	public Signature getSignature() {
 		return signature;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
 	 */
@@ -50,7 +50,7 @@ public class ZipFunctionElement extends ListFunctionElement {
 
 	/**
 	 * Implementation of a Haskell like zip function for two lists.
-	 * 
+	 *
 	 * @param list0
 	 * @param list1
 	 * @return list of tuples
@@ -67,7 +67,7 @@ public class ZipFunctionElement extends ListFunctionElement {
 	}
 
 	protected boolean checkArguments(List<? extends Element> args) {
-		return (args.size() == 2) 
+		return (args.size() == 2)
 				&& (args.get(0) != null && args.get(0) instanceof AbstractListElement)
 				&& (args.get(1) != null && args.get(1) instanceof AbstractListElement);
 	}

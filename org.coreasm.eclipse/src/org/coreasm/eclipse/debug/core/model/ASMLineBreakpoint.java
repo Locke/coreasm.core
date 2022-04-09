@@ -31,7 +31,7 @@ public class ASMLineBreakpoint extends LineBreakpoint {
 		};
 		run(getMarkerRule(resource), runnable);
 	}
-	
+
 	/**
 	 * Returns the name of the specification assigned to this method breakpoint.
 	 * @return the name of the specification assigned to this method breakpoint
@@ -39,7 +39,7 @@ public class ASMLineBreakpoint extends LineBreakpoint {
 	public String getSpecName() {
 		return getMarker().getResource().getName();
 	}
-	
+
 	@Override
 	public String getModelIdentifier() {
 		return "org.coreasm.eclipse.debug";

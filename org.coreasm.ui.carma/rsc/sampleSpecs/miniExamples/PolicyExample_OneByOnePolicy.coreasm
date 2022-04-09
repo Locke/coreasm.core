@@ -1,8 +1,8 @@
 /*
  * An example to show the use of 'onebyone' scheduling policy.
  * Tested with CoreASM engine ver 1.1
- * 
- * (c) 2009 Roozbeh Farahbod 
+ *
+ * (c) 2009 Roozbeh Farahbod
  */
 
 CoreASM TestOneByOnePolicy
@@ -31,4 +31,3 @@ rule AgentProgram = {
 		add self to set
 	print set
 }
-

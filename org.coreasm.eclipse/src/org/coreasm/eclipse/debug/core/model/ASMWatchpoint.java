@@ -15,13 +15,13 @@ import org.eclipse.debug.core.model.IWatchpoint;
  *
  */
 public class ASMWatchpoint extends ASMLineBreakpoint implements IWatchpoint {
-	
+
 	public ASMWatchpoint() {
 	}
-	
+
 	public ASMWatchpoint(final IResource resource, final int lineNumber, final String functionName, final String functionType) throws DebugException {
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
-			
+
 			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IMarker marker = resource.createMarker("asm.markerType.watchpoint");
@@ -38,7 +38,7 @@ public class ASMWatchpoint extends ASMLineBreakpoint implements IWatchpoint {
 		};
 		run(getMarkerRule(resource), runnable);
 	}
-	
+
 	@Override
 	public boolean isAccess() throws CoreException {
 		return getMarker().getAttribute("ACCESS", true);
@@ -76,7 +76,7 @@ public class ASMWatchpoint extends ASMLineBreakpoint implements IWatchpoint {
 	public String getFuctionName() {
 		return getMarker().getAttribute("FUNCTION_NAME", (String)null);
 	}
-	
+
 	/**
 	 * Returns the type of the function assigned to this watchpoint.
 	 * @return the type of the function assigned to this watchpoint

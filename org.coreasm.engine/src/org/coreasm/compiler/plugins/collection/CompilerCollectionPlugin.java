@@ -33,7 +33,7 @@ import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 public class CompilerCollectionPlugin extends CompilerCodePlugin implements CompilerVocabularyExtender, CompilerPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -41,7 +41,7 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 	public CompilerCollectionPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -63,14 +63,14 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 			throws CompilerException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 		ClassLibrary library = engine.getClassLibrary();
-		
-		
+
+
 		File enginePath = engine.getOptions().enginePath;
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
 		}
-		else{			
+		else{
 			try {
 				//add package replacements for imported classes which can be used by other plugins
 				library.addPackageReplacement("org.coreasm.engine.plugins.collection.AbstractBagElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "AbstractBagElement", "CollectionPlugin"));
@@ -80,9 +80,9 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 				library.addPackageReplacement("org.coreasm.engine.plugins.collection.AbstractSetElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "AbstractSetElement", "CollectionPlugin"));
 				library.addPackageReplacement("org.coreasm.compiler.plugins.collection.include.ModifiableCollection", engine.getPath().getEntryName(LibraryEntryType.STATIC, "ModifiableCollection", "CollectionPlugin"));
 				library.addPackageReplacement("org.coreasm.engine.plugins.collection.CollectionFunctionElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "CollectionFunctionElement", "CollectionPlugin"));
-				
+
 				JarIncludeHelper include = new JarIncludeHelper(engine, this);
-				
+
 				result = include.includeStatic("org/coreasm/engine/plugins/collection/AbstractBagElement.java", EntryType.INCLUDEONLY).
 					includeStatic("org/coreasm/engine/plugins/collection/AbstractListElement.java", EntryType.INCLUDEONLY).
 					includeStatic("org/coreasm/compiler/plugins/collection/include/ModifiableIndexedCollection.java", EntryType.INCLUDEONLY).

@@ -28,12 +28,12 @@ public class IOAggregator implements UpdateAggregator {
 		synchronized (this) {
 			Set<Location> locsToAggregate = pluginAgg.getLocsWithAnyAction(IOPlugin.PRINT_ACTION);
 			List<Element> contributingAgents = new ArrayList<Element>();
-			
+
 			// for all locations to aggregate
 			for (Location l : locsToAggregate) {
 				if (l.equals(IOPlugin.PRINT_OUTPUT_FUNC_LOC)) {
 					String outputResult = "";
-					
+
 					// if regular update affects this location
 					if (pluginAgg.regularUpdatesAffectsLoc(l)) {
 						pluginAgg.handleInconsistentAggregationOnLocation(l,this);
@@ -49,11 +49,11 @@ public class IOAggregator implements UpdateAggregator {
 					}
 					pluginAgg.addResultantUpdate(
 							new Update(
-									IOPlugin.PRINT_OUTPUT_FUNC_LOC, 
-									new	StringElement(outputResult),  
+									IOPlugin.PRINT_OUTPUT_FUNC_LOC,
+									new	StringElement(outputResult),
 									Update.UPDATE_ACTION,
 									new HashSet<Element>(contributingAgents), null
-							), 
+							),
 							this
 					);
 				}
@@ -68,7 +68,7 @@ public class IOAggregator implements UpdateAggregator {
 			String outputResult1 = "";
 			String outputResult2 = "";
 			List<Element> contributingAgents = new ArrayList<Element>();
-			
+
 			// First, add all the updates in the second set
 			for (Update u: compAPI.getLocUpdates(2, IOPlugin.PRINT_OUTPUT_FUNC_LOC)) {
 				if (u.action.equals(IOPlugin.PRINT_ACTION)) {
@@ -80,8 +80,8 @@ public class IOAggregator implements UpdateAggregator {
 				else
 					compAPI.addComposedUpdate(u, "IOPlugin");
 			}
-			
-			// if the second set does not have a basic update, 
+
+			// if the second set does not have a basic update,
 			// add all the updates from the first set as well
 			if (!compAPI.isLocUpdatedWithActions(2, IOPlugin.PRINT_OUTPUT_FUNC_LOC, Update.UPDATE_ACTION)) {
 				for (Update u: compAPI.getLocUpdates(1, IOPlugin.PRINT_OUTPUT_FUNC_LOC)) {
@@ -101,8 +101,8 @@ public class IOAggregator implements UpdateAggregator {
 					outputResult = outputResult2;
 				else if (!outputResult2.isEmpty())
 					outputResult = outputResult1 + '\n' + outputResult2;
-				compAPI.addComposedUpdate(new Update(IOPlugin.PRINT_OUTPUT_FUNC_LOC, 
-						new StringElement(outputResult), 
+				compAPI.addComposedUpdate(new Update(IOPlugin.PRINT_OUTPUT_FUNC_LOC,
+						new StringElement(outputResult),
 						IOPlugin.PRINT_ACTION, new HashSet<Element>(contributingAgents), null), "IOPlugin");
 			}
 		}

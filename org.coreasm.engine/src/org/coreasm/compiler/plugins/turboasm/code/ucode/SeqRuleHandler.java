@@ -19,7 +19,7 @@ public class SeqRuleHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		CodeFragment first = engine.compile(node.getAbstractChildNodes().get(0), CodeType.U);
 		CodeFragment second = engine.compile(node.getAbstractChildNodes().get(1), CodeType.U);
-		
+
 		//obtain the updates of the first rule
 		result.appendFragment(first);
 		result.appendLine("@decl(@RuntimePkg@.UpdateList,ulist)=(@RuntimePkg@.UpdateList)evalStack.pop();\n");

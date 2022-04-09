@@ -39,7 +39,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 		CompilerVocabularyExtender, CompilerFunctionPlugin, CompilerMakroProvider {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs the plugin
 	 * @param parent The interpreter version
@@ -47,7 +47,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 	public CompilerStringPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
@@ -63,7 +63,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			throws CompilerException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 		//ClassLibrary library = engine.getClassLibrary();
-	
+
 		try {
 			File enginePath = engine.getOptions().enginePath;
 			if(enginePath == null){
@@ -75,7 +75,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 				//classLibrary.addPackageReplacement("org.coreasm.engine.plugins.number.NumberElement", "plugins.NumberPlugin.NumberElement");
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.string.StringBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "StringBackgroundElement", "StringPlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.string.StringElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "StringElement", "StringPlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/engine/plugins/string/StringBackgroundElement.java", EntryType.BACKGROUND, "STRING").
 						includeStatic("org/coreasm/engine/plugins/string/StringElement.java", EntryType.INCLUDEONLY).

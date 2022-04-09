@@ -27,14 +27,14 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
 /**
- * 
+ *
  * @author Michael Stegmaier
  *
  */
 public final class Utilities {
-	
+
 	private static ArrayList<OutlineContentProvider> outlineContentProviders = new ArrayList<OutlineContentProvider>();
-	
+
 	public static IEditorPart openEditor(Object object) throws PartInitException {
 		if (object instanceof IResource)
 			return openEditor((IResource)object);
@@ -42,21 +42,21 @@ public final class Utilities {
 			return openEditor((IMarker)object);
 		return null;
 	}
-	
+
 	public static IEditorPart openEditor(IMarker marker) throws PartInitException {
 		return openEditor(marker.getResource());
 	}
-	
+
 	public static IEditorPart openEditor(IResource resource) throws PartInitException {
 		if (resource instanceof IFile)
 			return openEditor((IFile)resource);
 		return null;
 	}
-	
+
 	public static IEditorPart openEditor(final IFile file) throws PartInitException {
 		final IWorkbenchPage[] pointer = new IWorkbenchPage[1];
 		Display.getDefault().syncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
@@ -71,11 +71,11 @@ public final class Utilities {
 			return null;
 		return IDE.openEditor(pointer[0], file, true);
 	}
-	
+
 	public static IEditorPart openEditor(String filename) throws PartInitException {
 		return openEditor(getFile(filename));
 	}
-	
+
 	public static IEditorPart getEditor(Object object) {
 		if (object instanceof IFileEditorInput)
 			return getEditor((IFileEditorInput)object);
@@ -85,28 +85,28 @@ public final class Utilities {
 			return getEditor((IMarker)object);
 		return null;
 	}
-	
+
 	public static IEditorPart getEditor(IMarker marker) {
 		return getEditor(marker.getResource());
 	}
-	
+
 	public static IEditorPart getEditor(IResource resource) {
 		if (resource instanceof IFile)
 			return getEditor((IFile)resource);
 		return null;
 	}
-	
+
 	public static IEditorPart getEditor(String filename) {
 		return getEditor(getFile(filename));
 	}
-	
+
 	public static IFile getFile(String filename) {
 		IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new File(filename).toURI());
 		if (files.length > 0)
 			return files[0];
 		return null;
 	}
-	
+
 	public static void refreshFile(String filename) {
 		IFile file = getFile(filename);
 		try {
@@ -115,17 +115,17 @@ public final class Utilities {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static IEditorPart getEditor(IFile file) {
 		if (file != null)
 			return getEditor(new FileEditorInput(file));
 		return null;
 	}
-	
+
 	public static IEditorPart getEditor(final IFileEditorInput input) {
 		final IEditorPart[] pointer = new IEditorPart[1];
 		Display.getDefault().syncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
@@ -141,14 +141,14 @@ public final class Utilities {
 		});
 		return pointer[0];
 	}
-	
+
 	public static Set<IFile> getIncludedFiles(IFile file, boolean transitive) {
 		return ASMIncludeWatcher.getIncludedFiles(file, transitive);
 	}
-	
+
 	public static void createMarker(String markerType, String filename, int line, int column, int length, Map<String, Object> attributes) {
 		ASMEditor editor = (ASMEditor)getEditor(filename);
-		
+
 		if (editor != null) {
 			try {
 				ASMDocument doc = (ASMDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
@@ -164,10 +164,10 @@ public final class Utilities {
 			}
 		}
 	}
-	
+
 	public static void removeMarkers(String markerType, String filename) {
 		ASMEditor editor = (ASMEditor)getEditor(filename);
-		
+
 		if (editor != null)
 			editor.removeMarkers(markerType);
 	}
@@ -175,12 +175,12 @@ public final class Utilities {
 	public static ArrayList<OutlineContentProvider> getOutlineContentProviders() {
 		return outlineContentProviders;
 	}
-	
+
 	public static void addOutlineContentProvider(OutlineContentProvider provider) {
 		if (!outlineContentProviders.contains(provider))
 			outlineContentProviders.add(provider);
 	}
-	
+
 	public static void removeOutlineContentProvider(OutlineContentProvider provider) {
 		outlineContentProviders.remove(provider);
 	}

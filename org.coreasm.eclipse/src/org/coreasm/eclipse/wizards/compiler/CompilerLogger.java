@@ -10,15 +10,15 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 public class CompilerLogger implements MessageListener{
 	private MessageConsoleStream out;
-	
+
 	public CompilerLogger(MessageConsole console){
 		out = console.newMessageStream();
 	}
-	
+
 	@Override
 	public void receiveMessage(Level arg0, String arg1) {
 		String s = "";
-		
+
 		switch(arg0){
 			case DEBUG: s = "[DEBUG] "; break;
 			case WARN: s = "[WARN] "; break;
@@ -31,7 +31,7 @@ public class CompilerLogger implements MessageListener{
 			//hide exception
 		}
 	}
-	
+
 	public void destroy() throws IOException{
 		out.close();
 	}

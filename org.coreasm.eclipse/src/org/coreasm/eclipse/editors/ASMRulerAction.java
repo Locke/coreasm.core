@@ -33,7 +33,7 @@ public class ASMRulerAction extends SelectMarkerRulerAction {
 	public void run() {
 		runWithEvent(null);
 	}
-	
+
 	@Override
 	public void runWithEvent(Event event) {
 		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
@@ -47,27 +47,27 @@ public class ASMRulerAction extends SelectMarkerRulerAction {
 		}
 		super.run();
 	}
-	
+
 	@Override
 	public void update() {
 		findMarkerAnnotation();
 		setEnabled(true);
 		super.update();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void findMarkerAnnotation() {
 		annotation = null;
-		
+
 		AbstractMarkerAnnotationModel model = getAnnotationModel();
 		if (model == null)
 			return;
-		
+
 		IAnnotationAccessExtension annotationAccess = getAnnotationAccessExtension();
-		
+
 		Iterator<Annotation> iterator = model.getAnnotationIterator();
 		int layer = -1;
-		
+
 		while (iterator.hasNext()) {
 			Annotation a = iterator.next();
 			if (!(a instanceof MarkerAnnotation) || a.isMarkedDeleted())

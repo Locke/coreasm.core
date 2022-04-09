@@ -30,7 +30,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  * <ul>
  * <li>Is the include statement in its own line?</li>
  * <li>Is the filename a valid one, and does the file exist?</li>
- * <li>If the statement part of an multiline comment?</li> 
+ * <li>If the statement part of an multiline comment?</li>
  * </ul>
  * @author Markus M�ller
  */
@@ -46,19 +46,19 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 	private static final String CHILD_ERROR = "ChildError";
 	private static final String MISSING_PLUGINS = "MissingPlugins";
 	private static final String OUT_OF_PROJECT = "OutOfProject";
-	
+
 	// PATTERN_RAW: recognizes any of: include "filename"
 	// PATTERN_CODE_OK: recognizes lines which contains only an include and whitespaces
 	// PATTERN_COMMENT_OK: recognizes lines with an commented include statement: // include "filename"
 	private static final String PATTERN_RAW = "include\\s+\"([^\"\\n]+)\"";
 	private static final String PATTERN_CODE_OK = "\\s*" + PATTERN_RAW + "\\s*";
 	private static final String PATTERN_COMMENT_OK = "\\s*//.*";
-	
+
 	private static final String PATTERN_BEFORE = "\\s*";
 	private static final String PATTERN_AFTER = "\\s*";
-	
+
 	private ASMEditor parentEditor;
-	
+
 	public ModularityErrorRecognizer(ASMEditor parentEditor) {
 		super();
 		this.parentEditor = parentEditor;
@@ -66,11 +66,11 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 
 
 	@Override
-	public void checkForErrors(ASMDocument document, List<AbstractError> errors) 
-	{	
+	public void checkForErrors(ASMDocument document, List<AbstractError> errors)
+	{
 		List<IncludeStatement> includes = getIncludes(document);
 		for (IncludeStatement include: includes) {
-			
+
 			// build a string which contains the whole line
 			IRegion lineInfo = null;
 			try {
@@ -83,11 +83,11 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				continue;
 			String line = document.get().substring(lineInfo.getOffset(), lineInfo.getOffset()+lineInfo.getLength());
 
-			// is line commented correctly? 
+			// is line commented correctly?
 			// -> dont't perform any further tests
 			if (line.matches(PATTERN_COMMENT_OK))
 				continue;
-			
+
 			// is keyword commented anyway (check content type)
 			// -> line is part of a multiline comment
 			if ( ! include.partitiontype.equals(ASMEditor.PARTITION_CODE) ) {
@@ -99,9 +99,9 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				AbstractError error = new SimpleError(title, message, pos, length, CLASSNAME, MULTI_COMMENT);
 				errors.add(error);
 				// don't perform any further tests
-				continue;			
+				continue;
 			}
-			
+
 			// is line correct? (only whitespaces before keyword and after filename)
 			// -> yes: check if filename is valid, if file is existing and if the file has errors
 			// -> no: check if there are non-whitespace chars before keyword or after filename
@@ -115,7 +115,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 					int length = include.filename.length();
 					AbstractError error = new SimpleError(title, message, pos, length, CLASSNAME, INVALID_NAME);
 					errors.add(error);
-				} else if (include.filenameProj == null) { 
+				} else if (include.filenameProj == null) {
 					String title = "File out of project";
 					String message = "The filename \"" + include.filename + "\" leads to a location out of the project";
 					// Mark filename
@@ -157,14 +157,14 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
-				
+
 					checkIncludedPlugins(include, document, errors);
 				}
 			} else {
 				// NO:
 				checkLineWithError(include, line, errors);
 			}
-			
+
 		}
 
 	}
@@ -176,10 +176,10 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 	private List<IncludeStatement> getIncludes(IDocument document)
 	{
 		List<IncludeStatement> includes = new LinkedList<IncludeStatement>();
-		
+
 		Pattern pattern = Pattern.compile(PATTERN_RAW);
 		Matcher matcher = pattern.matcher(document.get());
-		
+
 		while (matcher.find() == true) {
 			String source = matcher.group(0);
 			String name = matcher.group(1);
@@ -195,10 +195,10 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 			IncludeStatement is = new IncludeStatement(pos, length, source, name, partitiontype);
 			includes.add(is);
 		}
-		
+
 		return includes;
 	}
-		
+
 	/**
 	 * Helper method for checking incorrect include lines, which contain code or
 	 * comments before or after the include statement
@@ -206,7 +206,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		private void checkLineWithError(IncludeStatement include, String line, List<AbstractError> errors)
 	{
 		int offset = line.indexOf("include");
-		
+
 		// Check if there is something except whitespaces before the include
 		String before = line.substring(0, offset);
 		if ( ! before.matches(PATTERN_BEFORE)) {
@@ -240,18 +240,18 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 			int pos = include.position + include.length + spacesbefore;
 			int length = after.length() - spacesbefore - spacesafter;
 			AbstractError error = new SimpleError(title, message, pos, length, CLASSNAME, CODE_AFTER);
-			errors.add(error);			
+			errors.add(error);
 		}
-		
+
 	}
-		
+
 	/**
 	 * Helper method for checking if this specification uses all plugins which
 	 * are used by a child specification.
 	 */
 	private void checkIncludedPlugins(IncludeStatement include, ASMDocument document, List<AbstractError> errors)
 	{
-		
+
 		// Get the names of all plugins being used by this specification
 		// and store them in pluginsThis.
 		// TODO will be done for each include!
@@ -273,7 +273,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 			for (String p: str.split("/"))
 				pluginsThis.add(p);
 		}
-		
+
 		// Get the names of all plugins being used by the included specification
 		// and store them in pluginsIncluded
 		IFile file = FileManager.getFile(include.filenameProj, parentEditor.getInputFile().getProject());
@@ -282,7 +282,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (markers != null && markers.length > 0) {
 			IMarker marker = markers[0];
 			String str = "";
@@ -291,8 +291,8 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
-			String[] pluginsIncluded = str.split("/");			
-			
+			String[] pluginsIncluded = str.split("/");
+
 			// Compare pluginsIncluded and pluginsThis, and store
 			// all missing plugins in pluginsMissing
 			List<String> pluginsMissing = new LinkedList<String>();
@@ -300,7 +300,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				if (pluginsThis.contains(plugin) == false)
 					pluginsMissing.add(plugin);
 			}
-			
+
 			// Throw out all plugins from pluginsMissing which are already
 			// loaded because of a PackagePlugin (i.e. Number through Standard)
 			ListIterator<String> it = pluginsMissing.listIterator();
@@ -309,7 +309,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				if (parentEditor.getParser().isPluginLoaded(plugin) == true)
 					it.remove();
 			}
-			
+
 			// If there are missing plugins, create an error object.
 			if (pluginsMissing.size() > 0) {
 				String title = "Missing plugins";
@@ -327,11 +327,11 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				AbstractError error = new SimpleError(title, message.toString(), position, length, CLASSNAME, MISSING_PLUGINS);
 				errors.add(error);
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * Delivers a list of QuickFixes depending on the given error type.
 	 * @param errorID	the tag of the error type of the error to be fix.
@@ -340,7 +340,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 	public static List<AbstractQuickFix> getQuickFixes(String errorID)
 	{
 		List<AbstractQuickFix> fixes = new LinkedList<AbstractQuickFix>();
-		
+
 		if (errorID.equals(MULTI_COMMENT)) {
 			fixes.add(new AbstractQuickFix.QF_Replace("Delete", "", true));
 		}
@@ -362,8 +362,8 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 
 		return fixes;
 	}
-	
-		
+
+
 	/**
 	 * Helper class for storing include statements with their relevant data
 	 * @author Markus M�ller
@@ -376,7 +376,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		final String filename;	// the filename of the statement
 		final String filenameProj;	// the filename, relative to the project
 		final String partitiontype; // the content type the statement is standing in
-		
+
 		private IncludeStatement(int position, int length, String source, String filename,
 				String partitiontype) {
 			super();
@@ -387,10 +387,10 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 			this.filenameProj = FileManager.getFilenameRelativeToProject(filename, parentEditor.getInputFile());
 			this.partitiontype = partitiontype;
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * QuickFix for creating a new file if there is an include statement referring
 	 * to a non-existing file. Also opens an editor for the new file.
@@ -402,35 +402,35 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		{
 			super("Create file", null);
 		}
-		
+
 		@Override
 		public void fix(AbstractError error, String choice)
 		{
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
-				
+
 				// Parse names of the filename out of hover message
 				int pos1 = sError.getDescription().indexOf('"') + 1;
 				int pos2 = sError.getDescription().indexOf('"', pos1);
 				String filename = sError.getDescription().substring(pos1, pos2);
-				
+
 				// Get the filename relative to the project
 				ASMEditor editor = (ASMEditor) FileManager.getActiveEditor();
 				String filenameProj = FileManager.getFilenameRelativeToProject(filename, editor.getInputFile());
-				
+
 				FileManager.createFile(filenameProj, FileManager.getActiveProject());
 				FileManager.openEditor(filenameProj, FileManager.getActiveProject());
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError)
 				proposals.add(new QuickFixProposal(this, error, null));
 		}
 	}
-	
-	
+
+
 	/**
 	 * QuickFix for opening an included document if this document contains errors.
 	 * @author Markus M�ller
@@ -442,24 +442,24 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		{
 			super("Open", null);
 		}
-		
+
 		@Override
 		public void fix(AbstractError error, String choice)
 		{
 			if (error instanceof SimpleError)
 			{
 				SimpleError sError = (SimpleError) error;
-				
+
 				// Parse names of the filename out of hover message
 				int pos1 = sError.getDescription().indexOf('"') + 1;
 				int pos2 = sError.getDescription().indexOf('"', pos1);
 				String filename = sError.getDescription().substring(pos1, pos2);
 				ASMEditor editor = (ASMEditor)FileManager.getActiveEditor();
-				
+
 				FileManager.openEditor(editor.getInputFile().getProjectRelativePath().removeLastSegments(1).append(filename).toString(), FileManager.getActiveProject());
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError)
@@ -467,10 +467,10 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		}
 	}
 
-	
+
 	/**
 	 * Quick fix for adding uses for missing plugins
-	 * 
+	 *
 	 * @author Markus
 	 */
 	public static class QF_Dependency_AddAll
@@ -486,12 +486,12 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 		{
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
-				
+
 				// Parse names of missing plugins out of hover message
 				int pos = sError.getDescription().indexOf(':') + 1;
 				String strList = sError.getDescription().substring(pos).trim();
 				String[] plugins = strList.split(", ");
-				
+
 				StringBuilder sb = new StringBuilder();
 				for (String pl: plugins) {
 					String _pl = pl;
@@ -501,7 +501,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 						_pl = pl.substring(0,pl.length()-7);
 					sb.append("use ").append(_pl).append("\n");
 				}
-				
+
 				int begin = error.getPosition();
 				int len = 0;
 				try {
@@ -509,20 +509,20 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
-				
+
 				// Parse names of missing plugins out of hover message
 				int pos = sError.getDescription().indexOf(':') + 1;
 				String strList = sError.getDescription().substring(pos).trim();
 				String[] plugins = strList.split(", ");
-				
+
 				StringBuilder sb = new StringBuilder();
 				for (String pl: plugins) {
 					String _pl = pl;
@@ -532,7 +532,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 						_pl = pl.substring(0,pl.length()-7);
 					sb.append("use ").append(_pl).append("\n");
 				}
-				
+
 				proposals.add(new CompletionProposal(sb.toString(), error.getPosition(), 0, 0, IconManager.getIcon("/icons/editor/bullet.gif"), prompt, null, null));
 			}
 		}

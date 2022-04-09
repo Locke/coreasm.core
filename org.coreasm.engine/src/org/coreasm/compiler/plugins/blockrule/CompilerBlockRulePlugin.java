@@ -32,7 +32,7 @@ public class CompilerBlockRulePlugin extends CompilerCodePlugin implements Compi
 	public CompilerBlockRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

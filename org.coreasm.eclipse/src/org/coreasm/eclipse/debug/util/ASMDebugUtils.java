@@ -31,7 +31,7 @@ import org.eclipse.ui.ide.IDE;
 public class ASMDebugUtils {
 	private ASMDebugUtils() {
 	}
-	
+
 	public static String getFileName(Update update, ControlAPI capi) {
 		if (capi != null) {
 			Parser parser = capi.getParser();
@@ -49,7 +49,7 @@ public class ASMDebugUtils {
 		}
 		return null;
 	}
-	
+
 	public static int getLineNumber(Update update, ControlAPI capi) {
 		if (capi != null) {
 			Parser parser = capi.getParser();
@@ -64,7 +64,7 @@ public class ASMDebugUtils {
 		}
 		return -1;
 	}
-	
+
 	public static String getFileName(Node node, ControlAPI capi) {
 		if (capi != null) {
 			Parser parser = capi.getParser();
@@ -84,7 +84,7 @@ public class ASMDebugUtils {
 		}
 		return null;
 	}
-	
+
 	public static int getLineNumber(Node node, ControlAPI capi) {
 		if (capi != null) {
 			Parser parser = capi.getParser();
@@ -101,7 +101,7 @@ public class ASMDebugUtils {
 		}
 		return -1;
 	}
-	
+
 	private static int indexOfCasmFilename(String context) {
 		int index;
 		if (context.contains(".coreasm") && context.indexOf(".coreasm") != context.indexOf(".coreasm."))
@@ -114,45 +114,45 @@ public class ASMDebugUtils {
 			return 0;
 		return index;
 	}
-	
+
 	public static String parseSourceName(String context) {
 		int beginIndex = ASMDebugUtils.indexOfCasmFilename(context);
-		
+
 		if (beginIndex < 0)
 			return null;
-		
+
 		context = context.substring(beginIndex);
 		context = context.substring(context.lastIndexOf(File.separator) + 1);
 		return context.substring(0, context.indexOf(":"));
 	}
-	
+
 	public static int parseLineNumber(String context) {
 		int beginIndex = ASMDebugUtils.indexOfCasmFilename(context);
-		
+
 		if (beginIndex < 0)
 			return -1;
-		
+
 		context = context.substring(beginIndex);
-		
+
 		beginIndex = context.lastIndexOf(File.separator);
-		
+
 		if (beginIndex >= 0)
 			context = context.substring(beginIndex + 1);
-		
+
 		return Integer.parseInt(context.substring(context.indexOf(":") + 1, context.indexOf(",")));
 	}
-	
+
 	private static IResource findFile(IResource res, String filename) {
 		if (res == null)
 			res = ResourcesPlugin.getWorkspace().getRoot();
 		if (res.getName().equals(filename))
 			return res;
-		
+
 		if (res instanceof IContainer) {
 			try {
 				if (res.isAccessible()) {
 					for (IResource member : ((IContainer)res).members()) {
-						IResource file = findFile(member, filename); 
+						IResource file = findFile(member, filename);
 						if (file != null)
 							return file;
 					}
@@ -163,7 +163,7 @@ public class ASMDebugUtils {
 		}
 		return null;
 	}
-	
+
 	private static IFile findFile(String filename) {
 		String path = null;
 		EngineDebugger debugger = EngineDebugger.getRunningInstance();
@@ -176,7 +176,7 @@ public class ASMDebugUtils {
 			resource = resource.getParent();
 		return (IFile)findFile(resource, filename);
 	}
-	
+
 	/**
 	 * Opens an editor for the specified ASM Update View element.
 	 * @param updateViewElement element to open to view for
@@ -184,10 +184,10 @@ public class ASMDebugUtils {
 	public static void openEditor(ASMUpdateViewElement updateViewElement) {
 		openEditor(updateViewElement.getSourceName(), updateViewElement.getLineNumber());
 	}
-	
+
 	private static void openEditor(final String filename, final int lineNumber) {
 		Display.getDefault().asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				IFile file = findFile(filename);

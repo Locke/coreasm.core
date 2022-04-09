@@ -26,78 +26,78 @@ public class ToJarExportWizardPage extends WizardPage {
 	private Map<Field, Text> textInputs;
 	private Map<Field, Text> fileInputs;
 	private List<String> hideList;
-	
+
 	private Button btnCompileAndRun;
-	
+
 	public ToJarExportWizardPage(IFile selected) {
 		super("Export information");
 		setTitle("Export information");
 		setDescription("Jar export: Information");
 		this.selected = selected;
 		makeHideList();
-	}	
-	
+	}
+
 	private void makeHideList(){
 		hideList = new ArrayList<String>();
 		hideList.add("enginePath");
 		hideList.add("tempDirectory");
 	}
-	
+
 	@Override
 	public void createControl(Composite parent) {
 		resultOptions = new CompilerOptions();
 		Class<?> options = CompilerOptions.class;
-		
+
 		container = new Composite(parent, SWT.NONE);
-		
+
 		GridLayout grid = new GridLayout();
 		container.setLayout(grid);
 		grid.numColumns = 3;
-		
+
 		booleanInputs = new HashMap<Field, Button>();
 		textInputs = new HashMap<Field, Text>();
 		fileInputs = new HashMap<Field, Text>();
-	
+
 		Field[] fields = options.getFields();
 		for(Field f : fields){
 			if(hideList.contains(f.getName())) continue;
-			
+
 			if(!f.isAccessible()){
 				f.setAccessible(true);
 			}
-			
+
 			if(f.getType() == File.class){
 				Label lblPropertyText = new Label(container, SWT.NONE);
 				lblPropertyText.setText(f.getName());
-				
+
 				Text txtProperty = new Text(container, SWT.SINGLE | SWT.BORDER);
 				txtProperty.setEnabled(false);
 				fileInputs.put(f, txtProperty);
 				GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 				gridData.grabExcessHorizontalSpace = true;
 				gridData.horizontalSpan = 1;
-			    txtProperty.setLayoutData(gridData);
-			    
-			    if(f.getName().equals("SpecificationName") && selected != null){
-			    	txtProperty.setText(selected.getLocation().toOSString());
-			    }
-			    else{
-				    File file = null;
-				    try {
+				txtProperty.setLayoutData(gridData);
+
+				if(f.getName().equals("SpecificationName") && selected != null){
+					txtProperty.setText(selected.getLocation().toOSString());
+				}
+				else{
+					File file = null;
+					try {
 						file = (File) f.get(resultOptions);
 					} catch (Exception e){
 						//should not happen
 						e.printStackTrace();
 					}
-				    
-				    if(file != null){
-				    	txtProperty.setText(file.getAbsolutePath());
-				    }
-			    }
-				
+
+					if(file != null){
+						txtProperty.setText(file.getAbsolutePath());
+					}
+				}
+
 				Button btnProperty = new Button(container, SWT.PUSH);
 				btnProperty.setText("...");
-				
+
 				btnProperty.addListener(SWT.Selection, new FileSelectionListener(txtProperty, f.getName()));
 			}
 			else if(f.getType() == boolean.class){
@@ -116,7 +116,7 @@ public class ToJarExportWizardPage extends WizardPage {
 			}
 			else if(f.getType() == int.class){
 				makePlaceHolder(container);
-				Composite compContainer = new Composite(container, SWT.NONE);		
+				Composite compContainer = new Composite(container, SWT.NONE);
 				compContainer.setLayout(new GridLayout(2, false));
 				Text txtProperty = new Text(compContainer, SWT.BORDER);
 				textInputs.put(f, txtProperty);
@@ -132,15 +132,15 @@ public class ToJarExportWizardPage extends WizardPage {
 		}
 		btnCompileAndRun = new Button(container, SWT.CHECK);
 		btnCompileAndRun.setText("Run jar after compilation");
-		
+
 		setControl(container);
 		setPageComplete(true);
 	}
-	
+
 	public boolean runJar(){
 		return btnCompileAndRun.getSelection();
 	}
-	
+
 	public CompilerOptions getResult(){
 		Field[] fields = resultOptions.getClass().getFields();
 		for(Field f : fields){
@@ -174,7 +174,7 @@ public class ToJarExportWizardPage extends WizardPage {
 		}
 		return resultOptions;
 	}
-	
+
 	private void makePlaceHolder(Composite container){
 		Label lblPlaceHolder = new Label(container, SWT.NONE);lblPlaceHolder.setText("");
 	}

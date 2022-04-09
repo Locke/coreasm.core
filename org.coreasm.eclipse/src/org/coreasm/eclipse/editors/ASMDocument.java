@@ -24,7 +24,7 @@ import org.eclipse.jface.text.Position;
 /**
  * The ASMDocument class represents a CoreASM specification as a document of an
  * Eclipse CoreASM editor.
- * 
+ *
  * @author Markus Müller, Michael Stegmaier, Marcel Dausend
  */
 public class ASMDocument
@@ -59,7 +59,7 @@ public class ASMDocument
 
 	/**
 	 * This method returns if a specification is a module or not.
-	 * 
+	 *
 	 * @return true if it is a module, false otherwise.
 	 */
 	public boolean isIncludedSpecification()
@@ -93,7 +93,7 @@ public class ASMDocument
 			int offset = mCoreModule.start();
 			String type = getContent(offset);
 
-			// if this "CoreModule" is part of a comment 
+			// if this "CoreModule" is part of a comment
 			// > continue with next one:
 			if (!type.equals(ASMEditor.PARTITION_CODE))
 				continue;
@@ -108,8 +108,8 @@ public class ASMDocument
 				}
 			}
 
-			// If we reach this point and bCoreModule is still null, we have found a 
-			// CoreModule keyword which is only preceded by whitespaces or comments 
+			// If we reach this point and bCoreModule is still null, we have found a
+			// CoreModule keyword which is only preceded by whitespaces or comments
 			// (so we set bCoreModule to true to store this result).
 			// If we reach this point and bCoreModule is false, we have found
 			// a CoreModule keyword which is preceded by something else than
@@ -145,7 +145,7 @@ public class ASMDocument
 
 	/**
 	 * Returns the position of the specified Node in this document
-	 * 
+	 *
 	 * @param node Node to return position of
 	 * @return position of the specified node
 	 */
@@ -169,7 +169,7 @@ public class ASMDocument
 			return node.getScannerInfo().charPosition;
 		return 0;
 	}
-	
+
 	public int calculateLength(Node node) {
 		if (node != null) {
 			Node lastChild = node;
@@ -182,10 +182,10 @@ public class ASMDocument
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Returns the position of the specified CharacterPosition in this document
-	 * 
+	 *
 	 * @param charPos CharacterPosition to return position of
 	 * @param spec Specification of the CharacterPosition
 	 * @return position of the specified CharacterPosition
@@ -203,11 +203,11 @@ public class ASMDocument
 		}
 		return 0;
 	}
-	
+
 	public IFile getNodeFile(Node node) {
 		return Utilities.getFile(getNodeFilename(node));
 	}
-	
+
 	public String getNodeFilename(Node node) {
 		if (capi != null) {
 			Parser parser = capi.getParser();
@@ -222,7 +222,7 @@ public class ASMDocument
 		}
 		return null;
 	}
-	
+
 	public ASTNode getSurroundingDeclarationAt(int offset) {
 		ASTNode declaration = null;
 		if (getRootnode() != null) {
@@ -236,7 +236,7 @@ public class ASMDocument
 		}
 		return declaration;
 	}
-	
+
 	public static ASTNode getSurroundingDeclaration(Node node) {
 		if (node == null)
 			return null;
@@ -250,7 +250,7 @@ public class ASMDocument
 		}
 		return null;
 	}
-	
+
 	public ASTNode getIDnodeAt(int offset) {
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
 		ASTNode rootNode = (ASTNode) getRootnode();
@@ -270,7 +270,7 @@ public class ASMDocument
 
 	/**
 	 * Returns a list of nodes in the specified line
-	 * 
+	 *
 	 * @param line
 	 *            Line to return nodes of
 	 * @return List of nodes in the specified line
@@ -298,7 +298,7 @@ public class ASMDocument
 
 	/**
 	 * Returns a list of nodes in the line of the specified offset
-	 * 
+	 *
 	 * @param offset
 	 *            Offset in the line of which the nodes should be returned
 	 * @return List of nodes in the line of the specified offset
@@ -309,7 +309,7 @@ public class ASMDocument
 
 	/**
 	 * Returns the line number of the specified node
-	 * 
+	 *
 	 * @param node
 	 *            Node to return line number of
 	 * @return the line number of the specified node
@@ -328,7 +328,7 @@ public class ASMDocument
 	 * is not null, it also rebuilds the header element list from the new syntax
 	 * tree.
 	 * This method is intended to be called by the parser after parsing.
-	 * 
+	 *
 	 * @param rootnode
 	 *            The rootnode of the new syntax tree.
 	 */
@@ -339,7 +339,7 @@ public class ASMDocument
 			// Rebuilding the list of header elements
 			headerElements.clear();
 			List<Node> childnodes = rootnode.getChildNodes();
-			// skip first two child nodes -> 1.: keyword 'CoreASM' - 2.: specification ID 
+			// skip first two child nodes -> 1.: keyword 'CoreASM' - 2.: specification ID
 			for (int i = 2; i < childnodes.size(); i++) {
 				Node child = childnodes.get(i);
 				String token = null;
@@ -368,7 +368,7 @@ public class ASMDocument
 	 * Updates the position of header elements after the document has been
 	 * edited without an successful parsing, so the document knows the updated
 	 * position of all header elements even without a new parsing.
-	 * 
+	 *
 	 * @param offset
 	 *            Where did the edit occur?
 	 * @param delta
@@ -386,7 +386,7 @@ public class ASMDocument
 	/**
 	 * Returns the current offset of a specific header element, specified by its
 	 * original offset at the last successful parsing.
-	 * 
+	 *
 	 * @param oldOffset
 	 *            The original offset of a header element from the last
 	 *            successful parsing.
@@ -403,7 +403,7 @@ public class ASMDocument
 
 	/**
 	 * Returns the content type of the partition at a certain offset
-	 * 
+	 *
 	 * @param offset
 	 *            The character for which the content type shouls be returned
 	 * @return The tag of the content type, or "" if there was an exception.
@@ -424,14 +424,14 @@ public class ASMDocument
 	 * This class represents an header element of the syntax tree. It tracks the
 	 * changes of its offset which occur when the document gets edited without
 	 * a successful reparsing.
-	 * 
+	 *
 	 * @author Markus
-	 * 
+	 *
 	 */
 	private class HeaderElement
 	{
 		int offset;		// the current offset of the element.
-		int oldOffset;	// the original offset of the element from the last parsing 
+		int oldOffset;	// the original offset of the element from the last parsing
 
 		//String token;	// the token of the element node.
 

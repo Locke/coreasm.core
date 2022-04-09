@@ -1,6 +1,6 @@
-/*	
- * FlattenListTest.java 
- * 
+/*
+ * FlattenListTest.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -33,7 +33,7 @@ public class FlattenListTest {
 
 	ListElement[] lists = new ListElement[4];
 	FlattenListFunctionElement func = new FlattenListFunctionElement();
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */

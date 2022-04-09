@@ -20,13 +20,13 @@ public class BlockRuleHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		
+
 		CodeFragment tmpresult = new CodeFragment("");
-		
+
 		result.appendLine("");
-		
+
 		if(node.getAbstractChildNodes().size() <= 0) throw new CompilerException("empty BlockRule");
-		
+
 		for(int i = 0; i < node.getAbstractChildNodes().size(); i++){
 			tmpresult.appendLine("//blockrule child " + i + " start\n");
 			tmpresult.appendFragment(engine.compile(node.getAbstractChildNodes().get(i), CodeType.U));
@@ -34,15 +34,15 @@ public class BlockRuleHandler implements CompilerCodeHandler {
 				tmpresult = CodeWrapperEntry.buildWrapper(tmpresult, "blockrulehandler", engine);
 			}
 		}
-	
+
 		tmpresult.appendLine("@decl(@RuntimePkg@.UpdateList,ulist)=new @RuntimePkg@.UpdateList();\n");
-		
+
 		tmpresult.appendLine("//blockrule collection handler\n");
 		tmpresult.appendLine("for(@decl(int,i)=0; @i@ < " + node.getAbstractChildNodes().size() + "; @i@++){\n");
 		tmpresult.appendLine("@ulist@.addAll((@RuntimePkg@.UpdateList)evalStack.pop());\n");
 		tmpresult.appendLine("}\n");
 		tmpresult.appendLine("evalStack.push(@ulist@);\n");
-		
+
 		result.appendFragment(tmpresult);
 	}
 

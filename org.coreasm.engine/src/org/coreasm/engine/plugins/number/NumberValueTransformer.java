@@ -18,7 +18,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  */
 public class NumberValueTransformer implements SynthesizeRule {
 	private List<String> ops;
-	
+
 	/**
 	 * Initializes the rule
 	 */
@@ -36,30 +36,30 @@ public class NumberValueTransformer implements SynthesizeRule {
 		ops.add("<");
 		ops.add("<=");
 	}
-	
-	
+
+
 	@Override
 	public Map<String, Information> transform(ASTNode n,
-			List<Map<String, Information>> children) {		
+			List<Map<String, Information>> children) {
 		if(n.getGrammarClass().equals("BinaryOperator") && n.getGrammarRule().equals("")){
 			if(!ops.contains(n.getToken())) return null;
 			//find out if child node values are known
 			Information lhs = children.get(0).get("value");
 			Information rhs = children.get(1).get("value");
-			
+
 			if(lhs == null || rhs == null) return null;
-			
-			try{				
+
+			try{
 				Double val1 = (Double)lhs.getInformation("value").getValue();
 				Double val2 = (Double)rhs.getInformation("value").getValue();
-				
+
 				String type1 = (String) lhs.getInformation("type").getValue();
 				String type2 = (String) rhs.getInformation("type").getValue();
-				
+
 				if(type1 != "NUMBER" || type2 != "NUMBER"){
 					return null;
 				}
-				
+
 				Map<String, Information> result = new HashMap<String, Information>();
 				Information i = new Information();
 				if(n.getToken().equals("+")){
@@ -133,7 +133,7 @@ public class NumberValueTransformer implements SynthesizeRule {
 				}
 				result.put("value", i);
 				return result;
-								
+
 			}
 			catch(NullPointerException e){
 				return null;
@@ -142,9 +142,9 @@ public class NumberValueTransformer implements SynthesizeRule {
 				return null;
 			}
 		}
-		
-		
-		
+
+
+
 		return null;
 	}
 

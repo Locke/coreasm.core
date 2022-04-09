@@ -1,6 +1,6 @@
-/*	
+/*
  * KernelServices.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.kernel;
 
 import org.jparsec.Parser;
@@ -18,16 +18,16 @@ import org.jparsec.Parser;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.plugin.PluginServiceInterface;
 
-/** 
+/**
  * Provides kernel-specific services to other plugins.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class KernelServices implements PluginServiceInterface {
 
 	private final Kernel kernel;
-	
+
 	protected KernelServices(Kernel kernel) {
 		this.kernel = kernel;
 	}
@@ -101,18 +101,18 @@ public class KernelServices implements PluginServiceInterface {
 	public Parser<Node> getTupleTermParser() {
 		return kernel.getParser("TupleTerm");
 	}
-	
+
 	/**
-	 * Returns the parser component of the kernel that is associated with the 
+	 * Returns the parser component of the kernel that is associated with the
 	 * given grammar rule. Calling this rule makes sense only after
 	 * the Kernel has gathered all the plugin components (e.g., after parsing).
-	 * 
+	 *
 	 * @param grammarRule name of a grammar rule
-	 * @return the parser component of the kernel that is associated with the 
+	 * @return the parser component of the kernel that is associated with the
 	 * 			given grammar rule
 	 */
 	public Parser<Node> getParserComponent(String grammarRule) {
 		return kernel.getParsers().get(grammarRule).parser;
 	}
-	
+
 }

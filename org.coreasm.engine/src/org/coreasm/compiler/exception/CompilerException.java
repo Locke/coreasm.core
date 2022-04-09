@@ -8,7 +8,7 @@ package org.coreasm.compiler.exception;
 public class CompilerException extends Exception {
 	private static final long serialVersionUID = -3225927157444291083L;
 	private boolean evaluated;
-	
+
 	/**
 	 * Builds a new exception with the given child
 	 * @param e A child exception
@@ -16,7 +16,7 @@ public class CompilerException extends Exception {
 	public CompilerException(Exception e){
 		super(e);
 	}
-	
+
 	/**
 	 * Builds a new exception with the given error message
 	 * @param s The error message
@@ -24,7 +24,7 @@ public class CompilerException extends Exception {
 	public CompilerException(String s){
 		super(s);
 	}
-	
+
 	/**
 	 * Constructs a new compiler exception with an evaluated flag
 	 * @param e The child exception
@@ -34,7 +34,7 @@ public class CompilerException extends Exception {
 		super(e);
 		this.evaluated = evaluated;
 	}
-	
+
 	/**
 	 * Determines, if the exception was already handled (that is, displayed).
 	 * @return True, if the exception was already displayed

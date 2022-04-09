@@ -14,7 +14,7 @@ public abstract class AbstractWarning {
 	private final String data;
 	private final int position;
 	private final int length;
-	
+
 	public AbstractWarning(String description, String data, Node node, ASMDocument document) {
 		this(description, data, document.getNodePosition(node), document.calculateLength(node));
 	}
@@ -25,19 +25,19 @@ public abstract class AbstractWarning {
 		this.position = position;
 		this.length = length;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getData() {
 		return data;
 	}
-	
+
 	public int getPosition() {
 		return position;
 	}
-	
+
 	public int getLength() {
 		return length;
 	}

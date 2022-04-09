@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2005-2012 Roozbeh Farahbod 
- * 
- * Licensed under the Academic Free License version 3.0 
+ * Copyright (C) 2005-2012 Roozbeh Farahbod
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -29,66 +29,66 @@ public interface ICoreASMPlugin extends VersionInfoProvider {
 	/**
 	 * Returns the name of this Plug-in,
 	 * which is the name of the runtime class of this plugin.
-	 * 
+	 *
 	 * @return name of the plugin
 	 */
 	public String getName();
-	
+
 	/**
 	 * Sets the Control API of the instance of the engine which
 	 * this plugin is associated with.
-	 * 
+	 *
 	 * @param capi The <code>ControlAPI</code> of this instance
 	 * of the engine.
 	 */
 	public void setControlAPI(ControlAPI capi);
-	
+
 	/**
-	 * Initializes this plugin. This includes registration 
+	 * Initializes this plugin. This includes registration
 	 * of operators in the engine.
 	 */
 	public void initialize() throws InitializationFailedException;
 
 	/**
-	 * Initializes this plugin. This includes registration 
+	 * Initializes this plugin. This includes registration
 	 * of operators in the engine. This method also sets
 	 * the reference to the ControlAPI instance.
 	 */
 	public void initialize(ControlAPI capi) throws InitializationFailedException;
 
 	/**
-	 * Finalizes the activities of this plugin. Will be called by the engine, 
+	 * Finalizes the activities of this plugin. Will be called by the engine,
 	 * when the engine is terminated.
 	 */
 	public void terminate();
 
 	/**
-	 * Provides a set of the <b>names</b> of other plugins that 
+	 * Provides a set of the <b>names</b> of other plugins that
 	 * this plugin depends on. It should return an empty Set if
 	 * there is no dependency requirement for this plugin.
-	 * 
-	 * @return a set of plugin names 
+	 *
+	 * @return a set of plugin names
 	 */
 	public Set<String> getDependencyNames();
-	
+
 	/**
-	 * Provides a map of <b>(name -> versionInfo)</b> of other plugins that 
-	 * this plugin depends on. The versionInfo is the minimum 
+	 * Provides a map of <b>(name -> versionInfo)</b> of other plugins that
+	 * this plugin depends on. The versionInfo is the minimum
 	 * version the required plugin should have.
-	 * 
-	 * This method should return an empty map 
+	 *
+	 * This method should return an empty map
 	 * ({@link Collections#emptyMap()}) if
 	 * there is no dependency requirement for this plugin.
-	 * 
+	 *
 	 * By default, this method will return the dependency names
-	 * provided by {@link #getDependencyNames()} with a version info 
-	 * of 0.0.0. 
-	 * 
+	 * provided by {@link #getDependencyNames()} with a version info
+	 * of 0.0.0.
+	 *
 	 * @return a set of plugin names
 	 * @see VersionInfo
 	 */
 	public Map<String,VersionInfo> getDependencies();
-	
+
 	/**
 	 * @return some information about this plugin in form of a <code>PluginInfo</code> object
 	 */
@@ -96,28 +96,28 @@ public interface ICoreASMPlugin extends VersionInfoProvider {
 
 	/**
 	 * Returns an interface to provide services to engine's environment (GUIs, tools, etc.).
-	 * By default this method returns <code>null</code>, but can be overridden by 
+	 * By default this method returns <code>null</code>, but can be overridden by
 	 * plugins.
 	 */
 	public PluginServiceInterface getPluginInterface();
 
 	/**
 	 * Returns the suggested loading priority of this plug-in.
-	 * Zero (0) is the lowest priority and 100 is the highest loading 
-	 * priority. The engine will consider this priority when 
+	 * Zero (0) is the lowest priority and 100 is the highest loading
+	 * priority. The engine will consider this priority when
 	 * loading plug-ins. All plug-ins with the same priority level will
 	 * be loaded in a non-deterministic order.
-	 * 
+	 *
 	 * @see org.coreasm.engine.plugin.Plugin#DEFAULT_LOAD_PRIORITY
 	 */
 	public double getLoadPriority();
-	
+
 	/**
 	 * Returns the options of this plugin.
 	 * @return the options of this plugin.
 	 */
 	public Set<String> getOptions();
-	
+
 	/**
 	 * Checks whether the given value is valid for the given option.
 	 * @param option the option to check the given value for
@@ -125,7 +125,7 @@ public interface ICoreASMPlugin extends VersionInfoProvider {
 	 * @throws CoreASMIssue if the given value is not valid for the given option
 	 */
 	public void checkOptionValue(String option, String value) throws CoreASMIssue;
-	
+
 	/**
 	 * Returns the compiler component of the plugin, or null, if there is no
 	 * compiler implementation of it

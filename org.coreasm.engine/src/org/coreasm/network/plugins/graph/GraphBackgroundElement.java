@@ -1,6 +1,6 @@
-/*	
- * GraphBackgroundElement.java 
- * 
+/*
+ * GraphBackgroundElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -18,14 +18,14 @@ import org.coreasm.engine.absstorage.Element;
 
 /**
  * Background of {@link GraphElement}s.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class GraphBackgroundElement extends BackgroundElement {
 
 	public static String BACKGROUND_NAME = "GRAPH";
-	
+
 	@Override
 	public Element getNewValue() {
 		return GraphElement.createNewInstance();

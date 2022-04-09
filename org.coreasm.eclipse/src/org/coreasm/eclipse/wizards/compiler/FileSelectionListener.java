@@ -11,12 +11,12 @@ import org.eclipse.ui.PlatformUI;
 public class FileSelectionListener implements Listener {
 	private Text selection;
 	private String fieldName;
-	
+
 	public FileSelectionListener(Text txt, String fieldName){
 		this.selection = txt;
 		this.fieldName = fieldName;
 	}
-	
+
 	@Override
 	public void handleEvent(Event arg0) {
 		//Display display = new Display();

@@ -1,11 +1,11 @@
 /*
  * StopEngineAction.java 	1.0 	$Revision: 8 $
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-01-28 03:32:43 -0500 (Wed, 28 Jan 2009) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -26,14 +26,14 @@ import org.eclipse.ui.actions.ActionDelegate;
 
 /**
  * Implements an action to stop an already running CoreASM engine.
- * 
+ *
  * @author Roozbeh Farahbod
  * @version 1.0, Last Modified: $Date: 2009-01-28 03:32:43 -0500 (Wed, 28 Jan 2009) $ by $Author: rfarahbod $
  * @see IWorkbenchWindowActionDelegate
  */
-public class StopEngineAction extends ActionDelegate 
+public class StopEngineAction extends ActionDelegate
 		implements IWorkbenchWindowActionDelegate, EngineDriverAction {
-	
+
 	private IWorkbenchWindow window;
 	private IAction action;
 
@@ -69,9 +69,9 @@ public class StopEngineAction extends ActionDelegate
 
 
 	/**
-	 * Selection in the workbench has been changed. We 
+	 * Selection in the workbench has been changed. We
 	 * can change the state of the 'real' action here
-	 * if we want, but this can only happen after 
+	 * if we want, but this can only happen after
 	 * the delegate has been created.
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
@@ -97,7 +97,7 @@ public class StopEngineAction extends ActionDelegate
 
 	public void update(EngineDriverStatus newStatus) {
 		if (this.action != null)
-			action.setEnabled(newStatus == EngineDriverStatus.running 
+			action.setEnabled(newStatus == EngineDriverStatus.running
 					|| newStatus == EngineDriverStatus.paused);
 	}
 }

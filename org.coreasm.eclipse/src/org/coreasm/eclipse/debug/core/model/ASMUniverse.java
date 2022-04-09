@@ -30,28 +30,28 @@ public class ASMUniverse extends AbstractUniverse {
 				elements.addAll(((UniverseElement)abstractUniverse).enumerate());
 		}
 	}
-	
+
 	public boolean isUniverseElement() {
 		return abstractUniverse instanceof UniverseElement;
 	}
-	
+
 	@Override
 	public String getBackground() {
 		return abstractUniverse.getBackground();
 	}
-	
+
 	@Override
 	protected Element getValue(Element e) {
 		if (!abstractUniverse.isModifiable())
 			return (abstractUniverse.member(e) ? BooleanElement.TRUE : BooleanElement.FALSE);
 		return (elements.contains(e) ? BooleanElement.TRUE : BooleanElement.FALSE);
 	}
-	
+
 	@Override
 	public Set<? extends Element> getRange() {
 		return abstractUniverse.getRange();
 	}
-	
+
 	@Override
 	public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
 		super.setValue(args, value);
@@ -62,7 +62,7 @@ public class ASMUniverse extends AbstractUniverse {
 				elements.remove(args.get(0));
 		}
 	}
-	
+
 	@Override
 	public Set<Location> getLocations(String name) {
 		if (!abstractUniverse.isModifiable())
@@ -72,7 +72,7 @@ public class ASMUniverse extends AbstractUniverse {
 			locations.add(new Location(name, ElementList.create(element)));
 		return locations;
 	}
-	
+
 	@Override
 	public String toString() {
 		return abstractUniverse.toString();

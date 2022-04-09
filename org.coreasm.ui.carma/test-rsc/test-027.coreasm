@@ -13,4 +13,3 @@ rule R1 = {
 	endseqblock
 	program(self) := undef
 }
-

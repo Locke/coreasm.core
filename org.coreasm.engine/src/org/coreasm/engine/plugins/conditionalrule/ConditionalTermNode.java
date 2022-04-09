@@ -15,19 +15,19 @@ public class ConditionalTermNode extends ASTNode {
 		super(ConditionalRulePlugin.PLUGIN_NAME, ASTNode.EXPRESSION_CLASS, "ConditionalTerm", null, info);
 	}
 
-    public ConditionalTermNode(ConditionalTermNode node) {
-    	super(node);
-    }
-    
-    public ASTNode getCondition() {
-        return getFirst();
-    }
-    
-    public ASTNode getIfTerm() {
-        return getCondition().getNext();
-    }
-    
-    public ASTNode getElseTerm() {
-        return getIfTerm().getNext();
-    }
+	public ConditionalTermNode(ConditionalTermNode node) {
+		super(node);
+	}
+
+	public ASTNode getCondition() {
+		return getFirst();
+	}
+
+	public ASTNode getIfTerm() {
+		return getCondition().getNext();
+	}
+
+	public ASTNode getElseTerm() {
+		return getIfTerm().getNext();
+	}
 }

@@ -1,17 +1,17 @@
-/*	
+/*
  * UniverseElement.java 	1.0 	$Revision: 80 $
- * 
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-07-24 16:25:41 +0200 (Fr, 24 Jul 2009) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.ArrayList;
@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** 
+/**
  *	The element representing a Universe in the state.
- *   
+ *
  *  @author  Roozbeh Farahbod
  */
 public class UniverseElement extends AbstractUniverse implements Enumerable {
@@ -30,39 +30,39 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	/* Underlying function *
 	protected MapFunction universeFunction;
 	*/
-	
+
 	protected final Set<Element> elements;
-	
-	protected List<Element> enumerationCache = null; 
-	
+
+	protected List<Element> enumerationCache = null;
+
 	/**
-	 * Creates a new Universe. 
+	 * Creates a new Universe.
 	 * The default value will be <code>BooleanElement.FALSE</code>.
-	 * 
+	 *
 	 */
 	public UniverseElement() {
 		elements = new HashSet<Element>();
 	}
-	
+
 	public UniverseElement(UniverseElement universe) {
 		this.elements = new HashSet<Element>(universe.elements);
 	}
 
-	/** 
+	/**
 	 * Provides a set of all the Elements in this universe.
-	 * 
+	 *
 	 * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
 	 */
 	public Collection<? extends Element> enumerate() {
 		return getIndexedView();
 	}
 
-	/** 
+	/**
 	 * Adds/Removes an Element into/from this universe. If the given
-	 * list of arguments is not of size one, or the given 
+	 * list of arguments is not of size one, or the given
 	 * value is not instance of <code>BOOLEAN</code> Element, this
 	 * method does nothing.
-	 * 
+	 *
 	 */
 	public void setValue(List<? extends Element> args, Element value) {
 		if (args.isEmpty() && value instanceof UniverseElement) {
@@ -98,9 +98,9 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	}
 
 	/**
-	 * Sets the value of the membership function 
+	 * Sets the value of the membership function
 	 * for this universe.
-	 *  
+	 *
 	 * @param value a given Element
 	 * @param b if <code>true</code>, the given value is
 	 * added to this universe; if <code>false</code>,
@@ -110,15 +110,15 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 		setValue(value, BooleanElement.valueOf(b));
 	}
 
-    public boolean contains(Element e) {
-        return elements.contains(e);
-    }
+	public boolean contains(Element e) {
+		return elements.contains(e);
+	}
 
 	public List<Element> getIndexedView()
 			throws UnsupportedOperationException {
 		if (enumerationCache == null) {
 			enumerationCache = new ArrayList<Element>(elements);
-		} 
+		}
 		return enumerationCache;
 	}
 

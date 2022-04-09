@@ -32,7 +32,7 @@ public class TestAllCasm {
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
 		URL url = TestAllCasm.class.getClassLoader().getResource("./without_test_class");
-		
+
 		try {
 			testFiles = new LinkedList<File>();
 			//recursively search for specifications
@@ -75,7 +75,7 @@ public class TestAllCasm {
 		}
 		return filteredOutputList;
 	}
-	
+
 	public static int getParameter(File file, String name) {
 		int value = -1;
 		BufferedReader input = null;

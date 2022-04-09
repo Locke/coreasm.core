@@ -49,28 +49,28 @@ public class WatchExpressionAPI implements ControlAPI {
 	public WatchExpressionAPI(ControlAPI capi) {
 		this.capi = capi;
 	}
-	
+
 	public synchronized Element evaluateExpression(ASTNode expression, Element agent, ASMStorage storage) throws InterpreterException {
 		this.storage = storage;
 		copyOprRegFromCapi();
-		
+
 		Interpreter interpreter = new InterpreterImp(this);
 		interpreter.cleanUp();
-		
+
 		for (Entry<String, Element> environmentVariable : storage.getEnvVars().entrySet())
 			interpreter.addEnv(environmentVariable.getKey(), environmentVariable.getValue());
-		
+
 		bindPlugins();
 		storage.applyStackedUpdates();
-		
+
 		try {
 			if (!(storage.getChosenProgram(agent) instanceof RuleElement))
 				throw new InterpreterException("The program of agent '" + agent + "' is not a rule but " + storage.getChosenProgram(agent) + " instead.");
 			interpreter.setSelf(agent);
 			interpreter.setPosition(expression);
-			
+
 			lastError = null;
-		
+
 			do {
 				interpreter.executeTree();
 			} while (!(interpreter.isExecutionComplete() || hasErrorOccurred()));
@@ -81,41 +81,41 @@ public class WatchExpressionAPI implements ControlAPI {
 			storage.discardStackedUpdates();
 			OperatorRegistry.removeInstance(this);
 		}
-		
+
 		if (hasErrorOccurred())
 			throw new InterpreterException(lastError);
-		
+
 		return expression.getValue();
 	}
-	
+
 	public void dispose() {
 		capi = null;
 		storage = null;
 		lastError = null;
 		warnings = null;
 	}
-	
+
 	private void bindPlugins() {
 		for (Plugin plugin : getPlugins())
 			plugin.setControlAPI(this);
 	}
-	
+
 	private void unbindPlugins() {
 		for (Plugin plugin : getPlugins())
 			plugin.setControlAPI(capi);
 	}
-	
+
 	private void copyOprRegFromCapi() {
 		OperatorRegistry oprRegCapi = OperatorRegistry.getInstance(capi);
 		OperatorRegistry oprReg = OperatorRegistry.getInstance(this);
 		oprReg.binOps.clear();
-    	oprReg.binOps.putAll(oprRegCapi.binOps);
-    	oprReg.unOps.clear();
-    	oprReg.unOps.putAll(oprRegCapi.unOps);
-    	oprReg.indexOps.clear();
-    	oprReg.indexOps.putAll(oprRegCapi.indexOps);
+		oprReg.binOps.putAll(oprRegCapi.binOps);
+		oprReg.unOps.clear();
+		oprReg.unOps.putAll(oprRegCapi.unOps);
+		oprReg.indexOps.clear();
+		oprReg.indexOps.putAll(oprRegCapi.indexOps);
 	}
-	
+
 	@Override
 	public void initialize() {
 	}
@@ -183,7 +183,7 @@ public class WatchExpressionAPI implements ControlAPI {
 	public Specification getSpec() {
 		return capi.getSpec();
 	}
-	
+
 	@Override
 	public State getState() {
 		return storage;
@@ -414,7 +414,7 @@ public class WatchExpressionAPI implements ControlAPI {
 
 	@Override
 	public void error(String msg, Node errorNode, Interpreter interpreter) {
-		CoreASMError error; 
+		CoreASMError error;
 		if (interpreter != null)
 			error = new CoreASMError(msg, interpreter.getCurrentCallStack(), errorNode);
 		else
@@ -424,7 +424,7 @@ public class WatchExpressionAPI implements ControlAPI {
 
 	@Override
 	public void error(Throwable e, Node errorNode, Interpreter interpreter) {
-		CoreASMError error; 
+		CoreASMError error;
 		if (interpreter != null)
 			error = new CoreASMError(e, interpreter.getCurrentCallStack(), errorNode);
 		else
@@ -436,7 +436,7 @@ public class WatchExpressionAPI implements ControlAPI {
 	public void error(CoreASMError e) {
 		if (lastError != null)
 			return;
-		
+
 		lastError = e;
 
 		e.setContext(getParser(), getSpec());
@@ -454,7 +454,7 @@ public class WatchExpressionAPI implements ControlAPI {
 
 	@Override
 	public void warning(String src, String msg, Node node, Interpreter interpreter) {
-		CoreASMWarning warning; 
+		CoreASMWarning warning;
 		if (interpreter != null)
 			warning = new CoreASMWarning(src, msg, interpreter.getCurrentCallStack(), node);
 		else
@@ -464,7 +464,7 @@ public class WatchExpressionAPI implements ControlAPI {
 
 	@Override
 	public void warning(String src, Throwable e, Node node, Interpreter interpreter) {
-		CoreASMWarning warning; 
+		CoreASMWarning warning;
 		if (interpreter != null)
 			warning = new CoreASMWarning(src, e, interpreter.getCurrentCallStack(), node);
 		else

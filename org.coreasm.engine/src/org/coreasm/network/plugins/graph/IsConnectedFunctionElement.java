@@ -1,6 +1,6 @@
-/*	
- * IsConnectedFunctionElement.java 
- * 
+/*
+ * IsConnectedFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -25,7 +25,7 @@ import org.jgrapht.alg.ConnectivityInspector;
 
 /**
  *  Test if the given graph is connected
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -33,13 +33,13 @@ public class IsConnectedFunctionElement extends FunctionElement {
 
 	Signature sig = null;
 	final ConnectivityInspectorCache inspectorCache;
-	
+
 	public static final String FUNCTION_NAME = "isConnected";
-	
+
 	public IsConnectedFunctionElement(ConnectivityInspectorCache inspectorCache) {
 		this.inspectorCache = inspectorCache;
 	}
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -57,13 +57,13 @@ public class IsConnectedFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 1 && args.get(0) instanceof GraphElement))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		Graph<Element, Element> g = ((GraphElement)args.get(0)).getGraph();
 		ConnectivityInspector<Element, Element> inspector = inspectorCache.getInspector(g);
-				
+
 		if (inspector != null)
 			return BooleanElement.valueOf(inspector.isGraphConnected());
-		
+
 		return Element.UNDEF;
 	}
 

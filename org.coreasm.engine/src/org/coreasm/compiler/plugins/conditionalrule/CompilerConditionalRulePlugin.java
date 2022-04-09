@@ -20,7 +20,7 @@ import org.coreasm.compiler.plugins.conditionalrule.code.ucode.ConditionalRuleHa
 public class CompilerConditionalRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -28,7 +28,7 @@ public class CompilerConditionalRulePlugin extends CompilerCodePlugin implements
 	public CompilerConditionalRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

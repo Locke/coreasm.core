@@ -14,7 +14,7 @@ import org.coreasm.compiler.exception.LibraryEntryException;
 public class EnumFile extends MemoryInclude{
 	private String enumName;
 	private ArrayList<String> elements;
-	
+
 	/**
 	 * Creates a new, empty enumeration with the given name and package
 	 * @param enumName The name of the enumeration
@@ -27,7 +27,7 @@ public class EnumFile extends MemoryInclude{
 		this.enumName = enumName;
 		this.elements = new ArrayList<String>();
 	}
-	
+
 	/**
 	 * Adds an element to the enumeration.
 	 * If the enumeration already holds the element, an exception will be thrown
@@ -42,11 +42,11 @@ public class EnumFile extends MemoryInclude{
 	@Override
 	protected String buildContent(String entryName) throws LibraryEntryException {
 		String s = "";
-		
+
 		s = s + ("package " + getPackage(entryName) + ";\n\n");
-		
+
 		s = s + ("\n");
-		
+
 		s = s + ("public enum " + enumName);
 		s = s + ("{\n");
 
@@ -54,9 +54,9 @@ public class EnumFile extends MemoryInclude{
 			s = s + elements.get(i);
 			if(i != elements.size() - 1) s = s + ",";
 		}
-		
+
 		s = s + ("}");
-			
+
 		return s;
 	}
 }

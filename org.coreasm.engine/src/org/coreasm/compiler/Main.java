@@ -17,10 +17,10 @@ public class Main {
 
 	/**
 	 * Main program entry point
-	 * @param args The command line parameters. 
+	 * @param args The command line parameters.
 	 * @see CommandLineParser
 	 */
-	public static void main(String[] args){			
+	public static void main(String[] args){
 		CompilerOptions co = null;
 		try {
 			co = CommandLineParser.parseCommandLine(args);

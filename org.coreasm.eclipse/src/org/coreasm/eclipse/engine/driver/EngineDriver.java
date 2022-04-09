@@ -2,14 +2,14 @@
  * EngineDriver.java 	$Revision: 108 $
  *
  * Copyright (C) 2005 Vincenzo Gervasi
- * 
+ *
  * Later modified and improved by
  *	 Roozbeh Farahbod
  *	 Daniel Sadilek
- * 
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-12-15 14:06:24 -0500 (Tue, 15 Dec 2009) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -70,14 +70,14 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	private static EngineDriver syntaxInstance=null;
 	protected static EngineDriver runningInstance=null;
 	private static Set<EngineDriverAction> actions = new HashSet<EngineDriverAction>();
-	
+
 	protected CoreASMEngine engine;
 	private final boolean isSyntaxEngine;
 	//private CoreASMEngine syntaxEngine;
-	
+
 	public enum EngineDriverStatus {stopped, running, paused};
 	private EngineDriverStatus status = EngineDriverStatus.stopped;
-	
+
 	private String abspathname;
 	private boolean updateFailed;
 	private String stepFailedMsg;
@@ -101,20 +101,20 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	private PrintStream stderr;
 	private PrintStream stddump;
 	private PrintStream systemErr;
-	
+
 	private volatile boolean shouldStop = false;
 	private volatile boolean shouldPause = false;
-	
+
 	public static synchronized EngineDriver getSyntaxInstance() {
 		if (syntaxInstance == null || PreferenceConstants.isPrefChanged())
 			syntaxInstance = new EngineDriver(true);
 		return syntaxInstance;
 	}
-	
+
 	public static EngineDriver getRunningInstance() {
 		return runningInstance;
 	}
-	
+
 	protected EngineDriver(boolean isSyntaxEngine) {
 		super();
 		CoreASMGlobal.setRootFolder(CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER));
@@ -132,17 +132,17 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	public static synchronized void addAction(EngineDriverAction action) {
 		actions.add(action);
 	}
-	
+
 	public synchronized void updateStatus(EngineDriverStatus status) {
 		this.status = status;
 		for (EngineDriverAction action: actions)
 			action.update(status);
 	}
-	
+
 	public EngineDriverStatus getStatus() {
 		return status;
 	}
-	
+
 	public void setDefaultConfig()
 	{
 		Logger.verbosityLevel=Logger.ERROR;
@@ -152,14 +152,14 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		stopOnFailedUpdates=true;
 		stopOnError=true;
 		stopOnStepsLimit=false; 	// TODO this should probably be false
-		stepsLimit=20;			
+		stepsLimit=20;
 		dumpUpdates=false;
 		dumpState=false;
 		dumpFinal=false;
 		markSteps=false;
 		printAgents=false;
 	}
-	
+
 	public void setConfig(ILaunchConfiguration config) {
 		try {
 			Logger.verbosityLevel=config.getAttribute(ICoreASMConfigConstants.VERBOSITY,Logger.ERROR);
@@ -179,11 +179,11 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void newLaunch(String abspathname) throws CoreException {
 		newLaunch(abspathname, null);
 	}
-	
+
 	public static void newLaunch(String abspathname, ILaunchConfiguration config) throws CoreException {
 		if (runningInstance == null) {
 			runningInstance = new EngineDriver(false);
@@ -201,34 +201,34 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		setDefaultConfig();
 		dolaunch(abspathname);
 	}
-	
+
 	public synchronized void launch(String abspathname, ILaunchConfiguration config) {
 		setConfig(config);
 		dolaunch(abspathname);
 	}
 	*/
-	
+
 	public void dolaunch(String abspathname) {
 		this.abspathname=abspathname;
 		Thread t=new Thread(this);
-        try {
-            t.setName("CoreASM run of "+abspathname.substring(abspathname.lastIndexOf(File.separator)));
-        }
-        catch (Throwable e) {
-            t.setName("CoreASM run of "+abspathname);
-        }
+		try {
+			t.setName("CoreASM run of "+abspathname.substring(abspathname.lastIndexOf(File.separator)));
+		}
+		catch (Throwable e) {
+			t.setName("CoreASM run of "+abspathname);
+		}
 		t.start();
 		// TODO should wait until after loadSpecification (due to global abspathname);
 	}
-	
+
 	public synchronized void stop() {
 		shouldStop = true;
 	}
-	
+
 	public synchronized void pause() {
 		shouldPause = true;
 	}
-	
+
 	public synchronized void resume() {
 		shouldPause = false;
 	}
@@ -240,15 +240,15 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	protected void postExecutionCallback() {
 		// Empty implementation. Can be overridden by subclasses.
 	}
-	
+
 	public void run()
 	{
-		if (this == runningInstance) 
+		if (this == runningInstance)
 			updateStatus(EngineDriverStatus.running);
-		
+
 		int step=0;
 		Exception exception = null;
-		
+
 		engine.addObserver(this); // TODO this too prevents more than a single syntaxInstance being run at the same time...
 		Set<Update> updates,prevupdates=null;
 
@@ -266,42 +266,42 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 				handleError();
 				return;
 			}
-			
+
 			if (shouldStop)
 				throw new EngineDriverException();
-			
+
 			setInputOutputPhase2();
-			
+
 			preExecutionCallback();
-			
+
 			clearEclipseRuntimeErrors();
 
 			while (engine.getEngineMode()==EngineMode.emIdle) {
 				if (shouldPause) {
 					if (this == runningInstance)
 						updateStatus(EngineDriverStatus.paused);
-					
+
 					stderr.println("[!] Run is paused by user. Click on resume to continue...");
 
 					while (shouldPause && !shouldStop)
 						Thread.sleep(100);
-					
+
 					if (!shouldStop)
 						stderr.println("[!] Resuming.");
 
 					if (this == runningInstance && !shouldStop)
 						updateStatus(EngineDriverStatus.running);
 				}
-				
+
 				if (shouldStop) {
 					throw new EngineDriverException();
 				}
-				
+
 				engine.step(); step++;
 
 				while (!shouldStop && engine.isBusy())
 					Thread.yield();
-				
+
 				if (shouldStop) {
 					// give some time to the engine to finish
 					if (engine.isBusy())
@@ -309,7 +309,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 
 					throw new EngineDriverException();
 				}
-				
+
 				updates = engine.getUpdateSet(0);
 				if (markSteps)
 					stddump.println("#--- end of step " + step);
@@ -322,15 +322,15 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 				if (terminated(step,updates,prevupdates))
 					break;
 				prevupdates=updates;
-				
+
 			}
-			if (engine.getEngineMode()!=EngineMode.emIdle) 
+			if (engine.getEngineMode()!=EngineMode.emIdle)
 				handleError();
 		} catch (Exception e) {
 			exception = e;
 		} finally {
 			engine.removeObserver(this);
-			if (exception != null) 
+			if (exception != null)
 				if (exception instanceof EngineDriverException)
 					stderr.println("[!] Run is terminated by user.");
 				else {
@@ -347,8 +347,8 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 				stddump.println("Final state was:\n"+engine.getState());
 				//stddump.println("Output history:\n"+getOutputString());
 
-				// Repeating 
-				if (exception != null) 
+				// Repeating
+				if (exception != null)
 					if (exception instanceof EngineDriverException)
 						stderr.println("[!] Run is terminated by user.");
 					else
@@ -356,16 +356,16 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			}
 			System.setErr(systemErr);
 			engine.terminate();
-			
+
 			if (this == runningInstance)
 				updateStatus(EngineDriverStatus.stopped);
-			
+
 			runningInstance.engine.hardInterrupt();
-			
+
 			runningInstance.engine = null;
-			
+
 			runningInstance = null;
-			
+
 			postExecutionCallback();
 		}
 	}
@@ -388,7 +388,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 
 	private void setInputOutputPhase1() {
 
-		console=new IOConsole("CoreASM Specification",null,CoreASMPlugin.getImageDescriptor(CoreASMPlugin.MAIN_ICON_PATH),true);	
+		console=new IOConsole("CoreASM Specification",null,CoreASMPlugin.getImageDescriptor(CoreASMPlugin.MAIN_ICON_PATH),true);
 		consoleStdout=console.newOutputStream();
 		consoleStderr=console.newOutputStream();
 		consoleStddump=console.newOutputStream();
@@ -405,10 +405,10 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		systemErr = System.err;
 		System.setErr(stderr);
 	}
-	
+
 	private void setInputOutputPhase2() {
 
-		console=new IOConsole("CoreASM "+curspecname(),null,CoreASMPlugin.getImageDescriptor(CoreASMPlugin.MAIN_ICON_PATH),true);	
+		console=new IOConsole("CoreASM "+curspecname(),null,CoreASMPlugin.getImageDescriptor(CoreASMPlugin.MAIN_ICON_PATH),true);
 		consoleStdout=console.newOutputStream();
 		consoleStderr=console.newOutputStream();
 		consoleStddump=console.newOutputStream();
@@ -431,7 +431,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 					return input;
 				}
 			});
-			
+
 			((IOPluginPSI)pi).setOutputStream(new PrintStream(consoleStdout));
 		}
 
@@ -449,7 +449,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		else
 			return "";
 	}
-	
+
 	/*
 	private String[] getOutput() {
 		PluginServiceInterface pi = engine.getPluginInterface("IOPlugin");
@@ -459,8 +459,8 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		}
 		return null;
 	}
-	
-	
+
+
 	private String getOutputString() {
 		String[] el=getOutput();
 		if (el!=null) {
@@ -475,11 +475,11 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			return "";
 	}
 	*/
-	
+
 	public synchronized Specification getSpec(String text, boolean loadPlugins) {
 		if (!isSyntaxEngine)
 			return null;
-		
+
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError) {
 			engine.recover();
@@ -507,12 +507,12 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			return engine.getSpec().getPluginNames();
 		*/
 //		HashSet<String> usedPlugins=new HashSet<String>();
-//		RegularExpression re=new RegularExpression("^[ \t]*use[ \t]+[a-zA-Z0-9_]+[ \t]*$");		
+//		RegularExpression re=new RegularExpression("^[ \t]*use[ \t]+[a-zA-Z0-9_]+[ \t]*$");
 //		text.replaceAll("(?s)/\\*.*?\\*/",""); // remove block comments
-//		text.replaceAll("//.*?$",""); // remove end-of-line comments 
+//		text.replaceAll("//.*?$",""); // remove end-of-line comments
 //		text.replaceAll("^#.*$",""); // remove # comments
 //		String lines[]=text.split("\n");
-//		usedPlugins.add("Kernel"); 
+//		usedPlugins.add("Kernel");
 //		for (int i = 0; i < lines.length; i++) {
 //			if (re.matches(lines[i])) {
 //				String words[]=lines[i].split("[ \t]+");
@@ -526,7 +526,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 //		}
 //		return usedPlugins;
 //	}
-	
+
 //	public synchronized Set<String> getKeywords(Set<String> usedPlugins) {
 //		return engine.getPluginsKeywords(usedPlugins);
 //		Engine engine=(Engine)this.engine;
@@ -544,13 +544,13 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 //		}
 //		return keywords;
 //	}
-	
+
 //	public synchronized Set<String> getKeywords(String spec) {
 //		return engine.getSpecKeywords(spec);
 //	}
 
 	public void update(EngineEvent event) {
-		
+
 		if (event instanceof EngineModeEvent) {
 			if (((EngineModeEvent)event).getNewMode() == EngineMode.emStepFailed) {
 				ControlAPI capi = (ControlAPI) engine;
@@ -570,10 +570,10 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			synchronized (this) {
 				updateFailed = true;
 				stepFailedMsg = sEvent.reason;
-				
+
 			}
 		}
-		
+
 		// Looking for errors
 		else if (event instanceof EngineErrorEvent) {
 			synchronized (this) {
@@ -584,19 +584,19 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 		else if (event instanceof EngineWarningEvent)
 			showWarningInEclipse(((EngineWarningEvent)event).getWarning());
 	}
-	
+
 	private void showErrorInEclipse(CoreASMError error) {
 		ASMEditor.createRuntimeErrorMark(error, (ControlAPI)engine);
 	}
-	
+
 	private void showWarningInEclipse(CoreASMWarning warning) {
 		ASMEditor.createRuntimeWarningMark(warning, (ControlAPI)engine);
 	}
-	
+
 	private void clearEclipseRuntimeErrors() {
 		ASMEditor.removeRuntimeProblemMarkers((ControlAPI)engine);
 	}
-	
+
 	/**
 	 * @return Returns the maxsteps.
 	 */
@@ -656,7 +656,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	public boolean isStopOnEmptyActiveAgents() {
 		return stopOnEmptyActiveAgents;
 	}
-	
+
 	public void setStopOnEmptyActiveAgents(boolean b) {
 		stopOnEmptyActiveAgents = b;
 	}
@@ -730,49 +730,49 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			message = lastError.showError();
 		else
 			message = "Enginemode should be " + EngineMode.emIdle + " but is " + engine.getEngineMode();
-        
-//		JOptionPane.showMessageDialog(null, message, "CoreASM Engine Error", JOptionPane.ERROR_MESSAGE);
-        showErrorDialog("CoreASM Engine Error",message);
 
-        lastError = null;
+//		JOptionPane.showMessageDialog(null, message, "CoreASM Engine Error", JOptionPane.ERROR_MESSAGE);
+		showErrorDialog("CoreASM Engine Error",message);
+
+		lastError = null;
 		stepFailedMsg = null;
-		engine.recover();     
+		engine.recover();
 		engine.waitWhileBusy();
 	}
-    
-    private void showErrorDialog(String title, String message) {
-    	//MessageDialog.openError(shell, title, message);
-    	stderr.println("\n" + message);
-    }
 
-    /*
-    private void showErrorDialog(String title, String message) {
-        Display d = new Display();
-        Shell s = new Shell(d);
-        MessageBox errorBox = new MessageBox(s,SWT.ICON_ERROR|SWT.OK);
-        errorBox.setText(title);
-        errorBox.setMessage(message);
-        errorBox.open();
-        
-        s.dispose();
-        while(!s.isDisposed( )){
-            if(!d.readAndDispatch( ))
-                d.sleep( );
-        }
-        d.dispose( );
-    }
-    */
-    
-    /**
-     * An internal exception class.
-     */
-    private class EngineDriverException extends Exception {
+	private void showErrorDialog(String title, String message) {
+		//MessageDialog.openError(shell, title, message);
+		stderr.println("\n" + message);
+	}
+
+	/*
+	private void showErrorDialog(String title, String message) {
+		Display d = new Display();
+		Shell s = new Shell(d);
+		MessageBox errorBox = new MessageBox(s,SWT.ICON_ERROR|SWT.OK);
+		errorBox.setText(title);
+		errorBox.setMessage(message);
+		errorBox.open();
+
+		s.dispose();
+		while(!s.isDisposed( )){
+			if(!d.readAndDispatch( ))
+				d.sleep( );
+		}
+		d.dispose( );
+	}
+	*/
+
+	/**
+	 * An internal exception class.
+	 */
+	private class EngineDriverException extends Exception {
 		private static final long serialVersionUID = 1L;
 
 		public EngineDriverException() {
-    		
-    	}
-    }
+
+		}
+	}
 
 	public boolean isDumpFinal() {
 		return dumpFinal;
@@ -781,5 +781,5 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 	public void setDumpFinal(boolean dumpFinal) {
 		this.dumpFinal = dumpFinal;
 	}
-    
+
 }

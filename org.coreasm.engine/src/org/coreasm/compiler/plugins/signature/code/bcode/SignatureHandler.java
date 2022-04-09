@@ -115,17 +115,17 @@ public class SignatureHandler implements CompilerCodeHandler {
 		// functions.put(name, new FunctionEntry(name, fclass, domain, range,
 		// init));
 	}
-	
+
 	private void parseDerivedFunction(ASTNode node, CompilerEngine engine) throws CompilerException{
 		ASTNode signature = node.getAbstractChildNodes().get(0);
-		
+
 		CodeFragment body;
 		try{
 			body = engine.compile(node.getAbstractChildNodes().get(1), CodeType.R);
 		}
 		catch(Exception e){
 			CodeFragment c = engine.compile(node.getAbstractChildNodes().get(1), CodeType.U);
-		
+
 			body = new CodeFragment("");
 			body.appendFragment(c);
 			body.appendLine("@decl(Object,res)=CompilerRuntime.Element.UNDEF;\n");
@@ -138,14 +138,14 @@ public class SignatureHandler implements CompilerCodeHandler {
 			body.appendLine("}\n");
 			body.appendLine("evalStack.push(@res@);\n");
 		}
-		
-		
+
+
 		String name = signature.getAbstractChildNodes().get(0).getToken();
 		String[] params = new String[signature.getAbstractChildNodes().size() - 1];
 		for(int i = 1; i < signature.getAbstractChildNodes().size(); i++){
 			params[i - 1] = signature.getAbstractChildNodes().get(i).getToken();
 		}
-		
+
 		parent.addEntry(name, new CompilerSignaturePlugin.IncludeEntry(SignatureEntryType.DERIVED, new DerivedFunctionEntry(name, params, body, engine)));
 		//derived.put(name, new DerivedFunctionEntry(name, params, body));
 	}

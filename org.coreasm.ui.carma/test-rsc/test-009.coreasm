@@ -12,7 +12,7 @@ use Standard
 init InitRule
 
 
-rule InitRule = 
+rule InitRule =
 	par
 		a := {1, 4, 7}
 		b := {y is z * x | x in [1..10:2], z in [2..4] with x > 5}
@@ -30,8 +30,7 @@ rule Main =
 			d := a diff b
 		endpar
 	else
-		par	
+		par
 			print size(a) + " " + size(b) + " " + |c|
 			program(self) := undef
 		endpar
-

@@ -1,28 +1,28 @@
-/*	
+/*
  * ElementList.java 	1.1 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2005 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/** 
+/**
  *	A helper class that implements an umodifiable list of Elements.
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 @SuppressWarnings("serial")
 public class ElementList extends ArrayList<Element> {
@@ -32,7 +32,7 @@ public class ElementList extends ArrayList<Element> {
 
 	/**
 	 * Creates an empty list of Elements.
-	 * 
+	 *
 	 * @see ArrayList#ArrayList()
 	 */
 	public ElementList() {
@@ -42,7 +42,7 @@ public class ElementList extends ArrayList<Element> {
 	/**
 	 * Creates a new argument list based on the given
 	 * Element collection.
-	 *  
+	 *
 	 * @param c collection of Elements
 	 * @see ArrayList#addAll(int, java.util.Collection)
 	 */
@@ -51,19 +51,19 @@ public class ElementList extends ArrayList<Element> {
 	}
 
 	/**
-	 * Creates a new argument list of the given 
+	 * Creates a new argument list of the given
 	 * Elements.
-	 * 
+	 *
 	 * @param args Elements
 	 */
 	public ElementList(Element ... args) {
 		super(List.of(args));
 	}
 
-	/** 
+	/**
 	 * An static method to create a list of elements.
-	 * 
-	 * @param args elements 
+	 *
+	 * @param args elements
 	 * @return a new <code>ElementList</code> containing the given elements.
 	 */
 	public static ElementList create(Element ... args) {
@@ -72,10 +72,10 @@ public class ElementList extends ArrayList<Element> {
 		else
 			return new ElementList(args);
 	}
-	
-	/** 
+
+	/**
 	 * An static method to create a list of elements.
-	 * 
+	 *
 	 * @param c collection of Elements
 	 * @return a new <code>ElementList</code> containing the given elements.
 	 */
@@ -85,10 +85,10 @@ public class ElementList extends ArrayList<Element> {
 		else
 			return new ElementList(c);
 	}
-	
+
 	public String toString() {
 		String str = "[";
-		
+
 		// for all members of this list
 		for (Element m : this)
 		{
@@ -155,6 +155,6 @@ public class ElementList extends ArrayList<Element> {
 	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException("ElementList cannot be modified.");
 	}
-	
-	
+
+
 }

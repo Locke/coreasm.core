@@ -1,6 +1,6 @@
-/*	
+/*
  * EnclosedTermNode.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,18 +10,18 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.kernel;
 
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  * Node of terms that are enclosed in parenthesis.
- * 
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class EnclosedTermNode extends ASTNode {
 
@@ -30,7 +30,7 @@ public class EnclosedTermNode extends ASTNode {
 	public EnclosedTermNode(EnclosedTermNode node) {
 		super(node);
 	}
-	
+
 	public EnclosedTermNode(ScannerInfo info) {
 		super(
 				Kernel.PLUGIN_NAME,
@@ -47,6 +47,6 @@ public class EnclosedTermNode extends ASTNode {
 	public Node getTerm() {
 		return this.getFirst();
 	}
-	
-		
+
+
 }

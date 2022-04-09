@@ -1,6 +1,6 @@
-/*	
+/*
  * ResumeAgentNode.java  	$Revision: 95 $
- * 
+ *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-08-04 12:40:53 +0200 (Di, 04 Aug 2009) $.
@@ -10,15 +10,15 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.schedulingpolicies;
 
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  * A node for <code>'resume' Term<code> nodes.
- *   
+ *
  * @author  Roozbeh Farahbod
  */
 public class ResumeAgentNode extends ASTNode {
@@ -33,7 +33,7 @@ public class ResumeAgentNode extends ASTNode {
 				null,
 				info);
 	}
-	
+
 	public ResumeAgentNode(ResumeAgentNode node) {
 		super(node);
 	}

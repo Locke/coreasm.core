@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LocalStack {	
+public class LocalStack {
 	private List<HashMap<String, Object>> variables;
-	
+
 	public LocalStack(){
 		this.variables = new ArrayList<HashMap<String,Object>>();
 		variables.add(new HashMap<String, Object>()); //add a base layer to prevent errors
 	}
-	
+
 	/**
 	 * adds a new layer to the stack.
 	 * new variables will be added to this layer
@@ -19,7 +19,7 @@ public class LocalStack {
 	public void pushLayer(){
 		this.variables.add(new HashMap<String, Object>());
 	}
-	
+
 	/**
 	 * Adds a new variable to the current layer.
 	 * Using an already existing name will update the variable
@@ -30,7 +30,7 @@ public class LocalStack {
 		HashMap<String, Object> top = variables.get(variables.size() - 1);
 		top.put(s, o);
 	}
-	
+
 	/**
 	 * Querys the stack for the given element.
 	 * @param s The name of the variable
@@ -44,7 +44,7 @@ public class LocalStack {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Pops the current layer with all its variables
 	 * from the stack, effectively removing them from the local

@@ -36,15 +36,15 @@ public class PluginManager {
 	private ClassLoader classLoader = null;
 	/** Set of loaded plugins */
 	private PluginDB loadedPlugins;
-	
+
 	public PluginManager(ControlAPI capi){
 		init(capi, null);
 	}
-	
+
 	public PluginManager(ControlAPI capi, ClassLoader classLoader){
 		init(capi, classLoader);
 	}
-	
+
 	public void clear(){
 		loadedPlugins.clear();
 		operatorRules.clear();
@@ -52,39 +52,39 @@ public class PluginManager {
 		//cleared the allplugins mapping
 		//allPlugins.clear();
 	}
-	
+
 	public void loadCatalog() throws IOException{
 		allPlugins = PluginClassLoader.loadCatalog(capi);
 	}
-	
+
 	public Map<String, Plugin> getAllPlugins(){
 		return Collections.unmodifiableMap(allPlugins);
 	}
-	
-	
+
+
 	public ClassLoader getClassLoader(){
 		return this.classLoader;
 	}
-	
+
 	public PluginDB getLoadedPlugins(){
 		return loadedPlugins;
 	}
-	
+
 	public Plugin getPlugin(String name){
 		Plugin result = allPlugins.get(name);
 		if(result == null) result = allPlugins.get(name + "Plugin");
 		if(result == null) result = allPlugins.get(name + "Plugins");
 		return result;
 	}
-	
+
 	public Set<Plugin> getPlugins(){
 		return new HashSet<Plugin>(loadedPlugins);
 	}
-	
+
 	public boolean hasLoadedPlugins(){
 		return !loadedPlugins.isEmpty();
 	}
-	
+
 	/**
 	 * Loads core plugins.
 	 */
@@ -105,13 +105,13 @@ public class PluginManager {
 		loadPlugin(kernelPlugin); // plugin is initialized and goes into
 								  // "loadedPlugins" collection
 	}
-	
+
 	/**
 	 * Loads plugins identified by the current specification.
 	 */
 	public void loadSpecPlugins() {
 		final List<Plugin> sortedList = new ArrayList<Plugin>();
-		
+
 		// 1. get the list of plugins
 		final Collection<String> requiredPlugins = new ArrayList<String>(capi.getSpec().getPluginNames());//getSpecPlugins());
 

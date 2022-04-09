@@ -38,7 +38,7 @@ public class JarInclude extends LibraryEntry {
 	private BufferedReader reader;
 	private String finalName;
 	private boolean packageFound;
-	
+
 	/**
 	 * Creates a new jar include
 	 * @param engine The compiler engine supervising the compilation process
@@ -55,7 +55,7 @@ public class JarInclude extends LibraryEntry {
 		this.engine = engine;
 		this.packageReplacements = new HashMap<String, String>();
 	}
-	
+
 	/**
 	 * Adds a package replacement to this include
 	 * @param original The original package declaration string
@@ -64,7 +64,7 @@ public class JarInclude extends LibraryEntry {
 	public void addPackageReplacement(String original, String replacement){
 		this.packageReplacements.put(original, replacement);
 	}
-	
+
 	@Override
 	public String getName() {
 		String tFile = sourceFile.substring(Math.max(0, sourceFile.lastIndexOf("/") + 1));
@@ -95,7 +95,7 @@ public class JarInclude extends LibraryEntry {
 			if(jarentry == null){
 				throw new IOException("jar entry " + sourceFile + " not found");
 			}
-	
+
 			reader = new BufferedReader(new InputStreamReader(jar.getInputStream(jarentry)));
 		}
 		catch(IOException e){
@@ -109,9 +109,9 @@ public class JarInclude extends LibraryEntry {
 	public String readLine() throws IOException{
 		String s = reader.readLine();
 		if(s == null) return s;
-		
+
 		if(!packageFound && s.trim().startsWith("package")){
-			packageFound = true;	
+			packageFound = true;
 			return "package " + getPackage(finalName) + ";\n";
 		}
 		if(s.trim().startsWith("import ")){
@@ -131,11 +131,11 @@ public class JarInclude extends LibraryEntry {
 		}
 		return s + "\n";
 	}
-	
+
 	@Override
 	public void close() throws IOException{
 		reader.close();
 		jar.close();
 	}
-	
+
 }

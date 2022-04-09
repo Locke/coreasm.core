@@ -1,6 +1,6 @@
-/*	
+/*
  * BasicSchedulingPolicy.java  	$Revision: 95 $
- * 
+ *
  * Copyright (C) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-08-04 12:40:53 +0200 (Di, 04 Aug 2009) $.
@@ -21,22 +21,22 @@ import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.scheduler.DefaultSchedulingPolicy;
 
 /**
- * Default scheduling policy of the SchedulingPolicy plugin that extends the one 
- * offered by the engine to add a filter on the set of agents that are considered 
+ * Default scheduling policy of the SchedulingPolicy plugin that extends the one
+ * offered by the engine to add a filter on the set of agents that are considered
  * for scheduling.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class BasicSchedulingPolicy extends DefaultSchedulingPolicy {
 
 	private final Set<Element> suspendedAgents;
-	
+
 	/**
-	 * Creates a new basic scheduling policy with a reference to a set 
+	 * Creates a new basic scheduling policy with a reference to a set
 	 * of "suspended" agents. These agents will be removed from the set
 	 * of agents available for scheduling.
-	 * 
+	 *
 	 * @param suspendedAgents set of suspended agents
 	 */
 	public BasicSchedulingPolicy(Set<Element> suspendedAgents) {

@@ -38,63 +38,63 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 		CompilerVocabularyExtender, CompilerExtensionPointPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
 
-    private static enum CheckMode {cmOff, cmWarn, cmStrict};
-    private CheckMode typeCheckingMode;    
-    
-    //TODO: implement undefined identifier handler so that this entry
-    //is put to use
-    //private CheckMode idCheckingMode;    
+	private static enum CheckMode {cmOff, cmWarn, cmStrict};
+	private CheckMode typeCheckingMode;
+
+	//TODO: implement undefined identifier handler so that this entry
+	//is put to use
+	//private CheckMode idCheckingMode;
 	/**
 	 * The type of a signature entry
 	 * @author Spellmaker
 	 *
 	 */
-    public enum SignatureEntryType {
-    	/**
-    	 * An universe
-    	 */
-    	UNIVERSE,
-    	/**
-    	 * An enum
-    	 */
-    	ENUM, 
-    	/**
-    	 * A derived function
-    	 */
-    	DERIVED, 
-    	/**
-    	 * A function
-    	 */
-    	FUNCTION
-    };
-    
-    /**
-     * An entry of the signature plugin
-     * @author Spellmaker
-     *
-     */
-    public static class IncludeEntry{
-    	SignatureEntryType type;
-    	LibraryEntry entry;
-    	
-    	/**
-    	 * Initializes a new entry
-    	 * @param t The type of the entry
-    	 * @param e The actual entry
-    	 */
-    	public IncludeEntry(SignatureEntryType t, LibraryEntry e){
-    		type = t;
-    		entry = e;
-    	}
-    }
-    
-    private Map<String, IncludeEntry> entries;
+	public enum SignatureEntryType {
+		/**
+		 * An universe
+		 */
+		UNIVERSE,
+		/**
+		 * An enum
+		 */
+		ENUM,
+		/**
+		 * A derived function
+		 */
+		DERIVED,
+		/**
+		 * A function
+		 */
+		FUNCTION
+	};
+
+	/**
+	 * An entry of the signature plugin
+	 * @author Spellmaker
+	 *
+	 */
+	public static class IncludeEntry{
+		SignatureEntryType type;
+		LibraryEntry entry;
+
+		/**
+		 * Initializes a new entry
+		 * @param t The type of the entry
+		 * @param e The actual entry
+		 */
+		public IncludeEntry(SignatureEntryType t, LibraryEntry e){
+			type = t;
+			entry = e;
+		}
+	}
+
+	private Map<String, IncludeEntry> entries;
 	/**
 	 * Creates a new signature plugin
 	 * @param p The interpreter version
@@ -106,10 +106,10 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException{
-		
+
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
-		
+
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
 			throw new CompilerException("could not load classes");
@@ -118,7 +118,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 			try {
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.signature.EnumerationBackgroundElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "EnumerationBackgroundElement", "SignaturePlugin"));
 				classLibrary.addPackageReplacement("org.coreasm.engine.plugins.signature.EnumerationElement", engine.getPath().getEntryName(LibraryEntryType.STATIC, "EnumerationElement", "SignaturePlugin"));
-				
+
 				result = (new JarIncludeHelper(engine, this)).
 						includeStatic("org/coreasm/compiler/plugins/signature/include/EnumerationBackgroundElement.java", EntryType.INCLUDEONLY).
 						includeStatic("org/coreasm/compiler/plugins/signature/include/EnumerationElement.java", EntryType.INCLUDEONLY).
@@ -129,9 +129,9 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 			} catch (EntryAlreadyExistsException e) {
 				throw new CompilerException(e);
 			}
-			
+
 		}
-		
+
 		//problem is here: we actually need to include universes and enums before functions, as they could be used
 		//in function declarations
 
@@ -142,7 +142,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 					result.add(new MainFileEntry(e.getValue().entry, (e.getValue().type == SignatureEntryType.ENUM) ? EntryType.BACKGROUND : EntryType.UNIVERSE, e.getKey()));
 				}
 			}
-			
+
 			for(Entry<String, IncludeEntry> e : entries.entrySet()){
 				try{
 					switch(e.getValue().type){
@@ -156,7 +156,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 					case FUNCTION:
 						classLibrary.addEntry(e.getValue().entry);
 						result.add(new MainFileEntry(e.getValue().entry, EntryType.FUNCTION, e.getKey()));
-						break;		
+						break;
 					}
 				}
 				catch(EntryAlreadyExistsException e1){
@@ -175,9 +175,9 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 	}
 
 	@Override
-	public List<EngineTransition> getTransitions() {		
+	public List<EngineTransition> getTransitions() {
 		List<EngineTransition> result = new ArrayList<EngineTransition>();
-		
+
 		if(getTypeCheckMode() != CheckMode.cmOff){
 			CodeFragment succ = new CodeFragment("");
 			succ.appendLine(buildTransition(true, typeCheckingMode));
@@ -185,15 +185,15 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 			fail.appendLine(buildTransition(false, typeCheckingMode));
 			//the success and fail code only differ in the action taken.
 			//therefore, build the code separately and then attach it to the codefragment afterwards
-			
-			
+
+
 			result.add(new EngineTransition(succ, "emAggregation", "emStepSucceeded"));
-			result.add(new EngineTransition(fail, "emAggregation", "emUpdateFailed"));	
+			result.add(new EngineTransition(fail, "emAggregation", "emUpdateFailed"));
 		}
-		
+
 		return result;
 	}
-	
+
 	private String buildTransition(boolean succ, CheckMode mode){
 		//if succ is false, only the error message is emitted without
 		//doing anything else
@@ -263,29 +263,29 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 					code += "continue;\n";
 				}
 			code += "}\n";
-		
+
 		code += "}\n";
-		
+
 		return code;
 	}
 
 	private CheckMode getTypeCheckMode() {
-    	String mode = engine.getOptions().properties.get("Signature.TypeChecking");
-    	typeCheckingMode = CheckMode.cmOff;
-    	if (mode != null) {
-    		if (mode.equals("warning"))
-    			typeCheckingMode = CheckMode.cmWarn;
-    		else
-    			if (mode.equals("on") || mode.equals("strict"))
-    				typeCheckingMode = CheckMode.cmStrict;
-    			else
-    				if (!mode.equals("off")){
-    					System.out.println("warning: Type Checking property is not set to a valid value");
-    				}
-    	}
-    	return typeCheckingMode;
-    }	
-	
+		String mode = engine.getOptions().properties.get("Signature.TypeChecking");
+		typeCheckingMode = CheckMode.cmOff;
+		if (mode != null) {
+			if (mode.equals("warning"))
+				typeCheckingMode = CheckMode.cmWarn;
+			else
+				if (mode.equals("on") || mode.equals("strict"))
+					typeCheckingMode = CheckMode.cmStrict;
+				else
+					if (!mode.equals("off")){
+						System.out.println("warning: Type Checking property is not set to a valid value");
+					}
+		}
+		return typeCheckingMode;
+	}
+
 	/**
 	 * Adds a new signature entry
 	 * @param name The name of the entry

@@ -21,9 +21,9 @@ public class RuleParamInheritRule implements InheritRule {
 	@Override
 	public List<Map<String, Information>> transform(ASTNode node,
 			Map<String, Information> nodeInformation) {
-		
+
 		if(node.getGrammarClass().equals("Declaration") && node.getGrammarRule().equals("RuleDeclaration")){
-			
+
 			//get the information if available
 			Information inf = nodeInformation.get("RuleDeclaration");
 			if(inf != null){
@@ -33,18 +33,18 @@ public class RuleParamInheritRule implements InheritRule {
 					List<Map<String, Information>> result = new ArrayList<Map<String, Information>>();
 					//don't propagate the information to the first node
 					result.add(null);
-					
+
 					Information list = new Information();
 					list.setValue(null, "params");
 					for(String s : params){
 						list.setValue(null, "params", s);
 					}
-					
-					
+
+
 					Map<String, Information> currentRule = new HashMap<String, Information>();
 					currentRule.put("RuleParameter", list);
 					result.add(currentRule);
-					return result;					
+					return result;
 				}
 			}
 		}
@@ -52,7 +52,7 @@ public class RuleParamInheritRule implements InheritRule {
 			Information inf = nodeInformation.get("RuleParameter");
 			if(inf != null){
 				List<String> params = inf.getInformation("params").getChildren();
-				
+
 				List<Map<String, Information>> result = new ArrayList<Map<String, Information>>();
 				for(int i = 0; i < node.getAbstractChildNodes().size(); i++){
 					Map<String, Information> tmp = new HashMap<String, Information>();
@@ -67,7 +67,7 @@ public class RuleParamInheritRule implements InheritRule {
 				return result;
 			}
 		}
-		
+
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -11,15 +11,15 @@ import org.coreasm.engine.absstorage.Update;
  */
 public class UpdateList extends ArrayList<Update>{
 	private static final long serialVersionUID = 1L;
-	
+
 	public UpdateList(){
 		super();
 	}
-	
+
 	public UpdateList(Collection<Update> set) {
 		super(set);
 	}
-	
+
 	public UpdateList(Update u){
 		super();
 		this.add(u);
@@ -33,7 +33,7 @@ public class UpdateList extends ArrayList<Update>{
 		}
 		return s.toString();
 	}
-	
+
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof UpdateList){

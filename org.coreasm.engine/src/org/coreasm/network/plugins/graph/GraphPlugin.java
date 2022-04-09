@@ -1,6 +1,6 @@
-/*	
- * GraphPlugin.java 
- * 
+/*
+ * GraphPlugin.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -67,14 +67,14 @@ import com.jgraph.layout.graph.JGraphSimpleLayout;
 
 /**
  * A plugin to provide the Graph background.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlugin, InterpreterPlugin, ExtensionPointPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 1, 1, "alpha");
-	
+
 	public static final String PLUGIN_NAME = GraphPlugin.class.getSimpleName();
 
 	public static final String VERTICES_FUNC_NAME = "vertices";
@@ -87,23 +87,23 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	public static final String ADD_VERTEX_GR_NAME = "AddGraphVertexRule";
 	public static final String ADD_EDGE_GR_NAME = "AddGraphEdgeRule";
 	public static final String SHOW_GRAPH_RULE_NAME = "ShowGraphRule";
-	
+
 	public static final String SHOW_GRAPH_KW_NAME = "showgraph";
 	public static final String NEW_EDGE_KW_NAME = "newedge";
-	
-	
+
+
 	private final String[] keywords = {NEW_EDGE_KW_NAME, SHOW_GRAPH_KW_NAME, "at"};
 	private final String[] operators = {};
-	
+
 	private Map<String, FunctionElement> functions = null;
 	private Map<String, BackgroundElement> backgrounds = null;
-    private Map<String, GrammarRule> parsers;
+	private Map<String, GrammarRule> parsers;
 
 	private HashSet<String> dependencies;
 	private HashMap<Location, VizData> graphViewers;
 
 	private Map<EngineMode, Integer> targetModes = null;
-	
+
 	@Override
 	public Set<String> getDependencyNames() {
 		if (dependencies == null) {
@@ -117,9 +117,9 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 	public GraphPlugin() {}
 
-    @Override
+	@Override
 	public void initialize() throws InitializationFailedException {
-    	graphViewers = new HashMap<Location, VizData>();
+		graphViewers = new HashMap<Location, VizData>();
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			backgrounds = new HashMap<String, BackgroundElement>();
 			backgrounds.put(GraphBackgroundElement.BACKGROUND_NAME, new GraphBackgroundElement());
 			backgrounds.put(EdgeBackgroundElement.BACKGROUND_NAME, new EdgeBackgroundElement());
-		} 
+		}
 		return backgrounds;
 	}
 
@@ -154,26 +154,26 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 			// vertices
 			functions.put(VERTICES_FUNC_NAME, new GraphAttributeFunctionElement() {
-				
+
 				@Override
 				public Element getValue(GraphElement ge) {
 					return new SetElement(ge.getGraph().vertexSet());
 				}
-				
+
 				@Override
 				public String getResultBackgroun() {
 					return SetBackgroundElement.SET_BACKGROUND_NAME;
 				}
 			});
-			
+
 			// edges
 			functions.put(EDGES_FUNC_NAME, new GraphAttributeFunctionElement() {
-				
+
 				@Override
 				public Element getValue(GraphElement ge) {
 					return new SetElement(ge.getGraph().edgeSet());
 				}
-				
+
 				@Override
 				public String getResultBackgroun() {
 					return SetBackgroundElement.SET_BACKGROUND_NAME;
@@ -182,12 +182,12 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 			// sourceVertex
 			functions.put(SRC_VERTEX_FUNC_NAME, new EdgeAttributeFunctionElement() {
-				
+
 				@Override
 				public Element getValue(EdgeElement ge) {
 					return ge.source;
 				}
-				
+
 				@Override
 				public String getResultBackgroun() {
 					return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
@@ -196,47 +196,47 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 			// targetVertex
 			functions.put(TRG_VERTEX_FUNC_NAME, new EdgeAttributeFunctionElement() {
-				
+
 				@Override
 				public Element getValue(EdgeElement ge) {
 					return ge.target;
 				}
-				
+
 				@Override
 				public String getResultBackgroun() {
 					return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
 				}
 			});
-			
+
 			ToGraphFunctionElement tgfe = new ToGraphFunctionElement();
 			// toGraph
 			functions.put(TO_GRAPH_FUNC_NAME, tgfe);
-			
+
 			// createGraph
 			functions.put(CREATE_GRAPH_FUNC_NAME, tgfe);
-			
+
 			// dijkstra
 			functions.put(DijkstraShortestPathFunctionElement.FUNCTION_NAME, new DijkstraShortestPathFunctionElement());
 
 			ConnectivityInspectorCache inspectorCache = new ConnectivityInspectorCache();
-			
+
 			// connected set
 			functions.put(ConnectedSetFunctionElement.FUNCTION_NAME, new ConnectedSetFunctionElement(inspectorCache));
 
 			// isConnected
 			functions.put(IsConnectedFunctionElement.FUNCTION_NAME, new IsConnectedFunctionElement(inspectorCache));
-			
+
 			CycleDetectorCache detectorCache = new CycleDetectorCache();
-			
+
 			// hasCycle
 			functions.put(HasCyclesFunctionElement.FUNCTION_NAME, new HasCyclesFunctionElement(detectorCache));
-			
+
 			// findCyclesWithVertex
 			functions.put(FindCyclesFunctionElement.FUNCTION_NAME, new FindCyclesFunctionElement(detectorCache));
-			
+
 			// subgraph
 			functions.put(SubGraphFunctionElement.FUNCTION_NAME, new SubGraphFunctionElement());
-			
+
 			// asUndirectedGraph
 			functions.put(AsUndirectedFunctionElement.FUNCTION_NAME, new AsUndirectedFunctionElement());
 		}
@@ -287,18 +287,18 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
-			
+
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			//Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
 			//Parser<Node> guardParser = kernel.getGuardParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			//Parser<Node> idParser = pTools.getIdParser();
-			
+
 			// NewEdgeTerm : 'newedge' Term
-			Parser<Node> newEdgeParser = Parsers.array( 
+			Parser<Node> newEdgeParser = Parsers.array(
 					new Parser[] {
 					pTools.getKeywParser(NEW_EDGE_KW_NAME, PLUGIN_NAME),
 					termParser}).map(
@@ -310,9 +310,9 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 							addChildren(node, nodes);
 							return node;
 						}
-				
+
 					});
-			
+
 			// ShowGraphRule : 'showgraph' Term
 			Parser<Node> showGraphParser = Parsers.array(
 					new Parser[] {
@@ -320,22 +320,22 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 					pTools.getKeywParser("at", PLUGIN_NAME).optional(null),
 					termParser}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
-					
+
 						@Override
 						public Node apply(Object[] nodes) {
 							ShowGraphNode node = new ShowGraphNode(((Node)nodes[0]).getScannerInfo());
 							addChildren(node, nodes);
 							return node;
 						}
-				
+
 					});
 
 			parsers.put("BasicTerm", new GrammarRule(NEW_EDGE_TERM_NAME, "'" + NEW_EDGE_KW_NAME + "' Term", newEdgeParser, PLUGIN_NAME));
-			
+
 			parsers.put("Rule", new GrammarRule(SHOW_GRAPH_RULE_NAME, "'" + SHOW_GRAPH_KW_NAME + "' Term", showGraphParser, PLUGIN_NAME));
-			
+
 		}
-		
+
 		return parsers;
 	}
 
@@ -348,7 +348,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			NewEdgeNode ne = (NewEdgeNode)pos;
 			if (!ne.getVertices().isEvaluated())
 				return ne.getVertices();
-			
+
 			Element v = ne.getVertices().getValue();
 			if (v != null && v instanceof Enumerable) {
 				Enumerable vs = (Enumerable)v;
@@ -357,7 +357,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 					return pos;
 				}
 			}
-			
+
 			// if we are here, we didn't have a tuple as vertices
 			String msg = "'" + NEW_EDGE_KW_NAME + "' requires a collection of two vertices to create a new edge";
 			capi.error(msg, pos, interpreter);
@@ -369,7 +369,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			ShowGraphNode sgn = (ShowGraphNode)pos;
 			if (!sgn.getGraphNode().isEvaluated())
 				return sgn.getGraphNode();
-			
+
 			Element g = sgn.getGraphNode().getValue();
 			if (g != null && g instanceof GraphElement) {
 				if (sgn.isLocationValue()) {
@@ -388,34 +388,34 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			}
 
 			// if we are here, the term did not evaluate to a graph element
-			String msg = "'" + SHOW_GRAPH_KW_NAME + " must be followed by a graph value."; 
+			String msg = "'" + SHOW_GRAPH_KW_NAME + " must be followed by a graph value.";
 			capi.error(msg, pos, interpreter);
 			Logger.log(Logger.ERROR, Logger.plugins, msg);
 		}
-		
+
 		return pos;
 	}
 
 	protected void showGraph(GraphElement ge, boolean persistent, Location loc) {
 		JGraph jgraph = createJGraph(ge);
-		
+
 		JPanel panel = new JPanel();
-	    panel.add(jgraph);
-	    
+		panel.add(jgraph);
+
 		JFrame frame = new JFrame("Graph Viewer");
 		frame.getContentPane().add( panel );
 		frame.setSize( new Dimension(800, 600));
 		frame.setVisible(true);
-		
-		if (persistent) 
+
+		if (persistent)
 			graphViewers.put(loc, new VizData(frame, panel, jgraph, ge));
 	}
 
 	/**
 	 * Creates a JGraph component based on the given graph element.
-	 * 
+	 *
 	 * @param ge an instance of {@link GraphElement}
-	 * @return a {@link JGraph} view of <code>ge</code> 
+	 * @return a {@link JGraph} view of <code>ge</code>
 	 */
 	public JGraph createJGraph(GraphElement ge) {
 		Graph<Element, Element> g = ge.getGraph();
@@ -425,41 +425,41 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			dg.addVertex(v);
 		for (Element e: g.edgeSet())
 			dg.addEdge(((EdgeElement)e).source, ((EdgeElement)e).target, e);
-		
-	    ListenableGraph<Element, Element> lg = new ListenableDirectedGraph<Element, Element>(dg);
 
-        // create a visualization using JGraph, via an adapter
-	    JGraphModelAdapter<Element, Element> m_jgAdapter = new JGraphModelAdapter<Element, Element>(lg);
-  
-	    JGraph jgraph = new JGraph( m_jgAdapter );
-	    jgraph.validate();
+		ListenableGraph<Element, Element> lg = new ListenableDirectedGraph<Element, Element>(dg);
 
-	    JGraphFacade facade = new JGraphFacade(jgraph); // Pass the facade the JGraph instance
-	    facade.setDirected(ge.isDirected());
-	    
-	    //JGraphLayout layout = new JGraphFastOrganicLayout(); // Create an instance of the appropriate layout
-	    JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);
+		// create a visualization using JGraph, via an adapter
+		JGraphModelAdapter<Element, Element> m_jgAdapter = new JGraphModelAdapter<Element, Element>(lg);
 
-	    layout.run(facade); // Run the layout on the facade. Note that layouts do not implement the Runnable interface, to avoid confusion
-	    Map<?,?> nested = facade.createNestedMap(true, true); // Obtain a map of the resulting attribute changes from the facade
-	    	    
-	    jgraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
-	    
-	    return jgraph;
+		JGraph jgraph = new JGraph( m_jgAdapter );
+		jgraph.validate();
+
+		JGraphFacade facade = new JGraphFacade(jgraph); // Pass the facade the JGraph instance
+		facade.setDirected(ge.isDirected());
+
+		//JGraphLayout layout = new JGraphFastOrganicLayout(); // Create an instance of the appropriate layout
+		JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);
+
+		layout.run(facade); // Run the layout on the facade. Note that layouts do not implement the Runnable interface, to avoid confusion
+		Map<?,?> nested = facade.createNestedMap(true, true); // Obtain a map of the resulting attribute changes from the facade
+
+		jgraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+
+		return jgraph;
 	}
 
 	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target)
 			throws EngineException {
 		if (target.equals(CoreASMEngine.EngineMode.emStepSucceeded)) {
-			
+
 			// update all the views that are monitoring a graph location
 			for (Location loc: graphViewers.keySet()) {
 				Element newValue = capi.getStorage().getValue(loc);
 				VizData data = graphViewers.get(loc);
 				// if the new value is changed and it is not null
 				if (newValue != null && !newValue.equals(data.value)) {
-					
+
 					// if the new value is a graph
 					if (newValue instanceof GraphElement) {
 						data.value = newValue;
@@ -501,11 +501,11 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 		JFrame frame;
 		JGraph graph;
 		Element value;
-		
+
 		public VizData(JFrame frame, JPanel panel, JGraph graph, Element value) {
 			this.panel = panel;
 			this.graph = graph;
-			this.value = value; 
+			this.value = value;
 			this.frame = frame;
 		}
 	}

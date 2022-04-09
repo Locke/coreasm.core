@@ -47,7 +47,7 @@ public interface CompilerOperatorPlugin extends CompilerPlugin{
 	 * @throws CompilerException If an error occurred
 	 */
 	public String compileBinaryOperator(String token) throws CompilerException;
-	
+
 	/**
 	 * Compiles an unary operator node according to the specification of an operator.
 	 * @param token The operator token

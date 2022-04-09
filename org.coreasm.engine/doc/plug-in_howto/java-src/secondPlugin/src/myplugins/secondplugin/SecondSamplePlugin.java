@@ -8,59 +8,59 @@ import java.util.*;
 
 public class SecondSamplePlugin extends Plugin implements VocabularyExtender{
 
-    public static final VersionInfo verInfo = new VersionInfo(0, 2, 1, "alpha");
-    
-    private Map<String,FunctionElement> functions = null;
-    private FunctionElement hashValueFunction;
-    private final Set<String> dependencySet;
+	public static final VersionInfo verInfo = new VersionInfo(0, 2, 1, "alpha");
 
-    public SecondSamplePlugin() {
-        super();
-        dependencySet = new HashSet<String>();
-        dependencySet.add("StringPlugin");
-        dependencySet.add("NumberPlugin");
-    }
+	private Map<String,FunctionElement> functions = null;
+	private FunctionElement hashValueFunction;
+	private final Set<String> dependencySet;
 
-    @Override
-    public void initialize() {
-        hashValueFunction = new HashValueFunction();
-    }
+	public SecondSamplePlugin() {
+		super();
+		dependencySet = new HashSet<String>();
+		dependencySet.add("StringPlugin");
+		dependencySet.add("NumberPlugin");
+	}
 
-    public VersionInfo getVersionInfo() {
-        return verInfo;
-    }
+	@Override
+	public void initialize() {
+		hashValueFunction = new HashValueFunction();
+	}
 
-    @Override
-    public Set<String> getDependencyNames() {
-        return this.dependencySet;
-    }
-	
-    public Map<String,FunctionElement> getFunctions() {
-        if (functions == null) {
-            functions = new HashMap<String,FunctionElement>();
-            functions.put("hashValue", hashValueFunction);
-        }
-        return functions;
-    }
+	public VersionInfo getVersionInfo() {
+		return verInfo;
+	}
 
-    public Set<String> getFunctionNames() {
-        return functions.keySet();
-    }
+	@Override
+	public Set<String> getDependencyNames() {
+		return this.dependencySet;
+	}
 
-    public Map<String,UniverseElement> getUniverses() {
-        return Collections.emptyMap();
-    }
+	public Map<String,FunctionElement> getFunctions() {
+		if (functions == null) {
+			functions = new HashMap<String,FunctionElement>();
+			functions.put("hashValue", hashValueFunction);
+		}
+		return functions;
+	}
 
-    public Set<String> getBackgroundNames() {
-        return Collections.emptySet();
-    }
+	public Set<String> getFunctionNames() {
+		return functions.keySet();
+	}
 
-    public Map<String,BackgroundElement> getBackgrounds() {
-        return Collections.emptyMap();
-    }
+	public Map<String,UniverseElement> getUniverses() {
+		return Collections.emptyMap();
+	}
 
-    public Set<String> getUniverseNames() {
-        return Collections.emptySet();
-    }
+	public Set<String> getBackgroundNames() {
+		return Collections.emptySet();
+	}
+
+	public Map<String,BackgroundElement> getBackgrounds() {
+		return Collections.emptyMap();
+	}
+
+	public Set<String> getUniverseNames() {
+		return Collections.emptySet();
+	}
 
 }

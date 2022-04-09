@@ -1,11 +1,11 @@
 /*
  * CollectionPlugin.java 		$Revision: 243 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -46,31 +46,31 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The base plugin of all the collection plugins
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 
-public class CollectionPlugin extends Plugin 
+public class CollectionPlugin extends Plugin
 	implements ParserPlugin, InterpreterPlugin, VocabularyExtender {
 
 	protected static final Logger logger = LoggerFactory.getLogger(CollectionPlugin.class);
 
 	/** plugin name */
 	public static final String PLUGIN_NAME = CollectionPlugin.class.getSimpleName();
-	
+
 	/** version info */
 	public static final VersionInfo version = new VersionInfo(0, 1, 1, "beta");
-	
+
 	private HashMap<String, GrammarRule> parsers = null;
 	private Map<String, FunctionElement> functions = null;
 	private Set<String> dependencyNames = null;
-	
+
 	private final String[] keywords = {"add", "to", "remove", "from"};
 	private final String[] operators = {};
-	
+
 	private final CompilerPlugin compilerPlugin = new CompilerCollectionPlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
@@ -102,7 +102,7 @@ public class CollectionPlugin extends Plugin
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -146,7 +146,7 @@ public class CollectionPlugin extends Plugin
 			parsers.put("AddToCollectionRule",
 					new GrammarRule("AddToCollectionRule", "'add' Term 'to' Term",
 							addtoRuleParser, PLUGIN_NAME));
-			
+
 			//
 			Parser<Node> removefromRuleParser = Parsers.array(
 					new Parser[] {
@@ -174,7 +174,7 @@ public class CollectionPlugin extends Plugin
 							Parsers.or(addtoRuleParser, removefromRuleParser), PLUGIN_NAME));
 
 		}
-		
+
 		return parsers;
 
 	}
@@ -182,7 +182,7 @@ public class CollectionPlugin extends Plugin
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		ASTNode nextPos = pos;
 		String gClass = pos.getGrammarClass();
-        
+
 		// if collection related rule
 		if (gClass.equals(ASTNode.RULE_CLASS))
 		{
@@ -191,42 +191,42 @@ public class CollectionPlugin extends Plugin
 				// add/to rule wrapper wrapper
 				AddToRuleNode atNode = (AddToRuleNode)pos;
 				ASTNode collectionNode = atNode.getToNode();
-				
+
 				nextPos = atNode.getUnevaluatedTerm();
-				
+
 				// no unevaluated terms
 				if (nextPos == null)
 				{
 					// set next pos to current position
 					nextPos = pos;
-					
+
 					if (atNode.getToLocation() != null) {
-					
+
 						if (collectionNode.getValue() instanceof ModifiableCollection) {
 
 							try {
 							// set vul for node
 							pos.setNode(
-									null, 
+									null,
 									((ModifiableCollection)collectionNode.getValue()).computeAddUpdate(
 											atNode.getToLocation(),
 											atNode.getAddElement(),
 											interpreter.getSelf(),
 											pos),
-											
+
 									null);
 							} catch (InterpreterException e) {
 								throw new CoreASMError(e.getMessage(), pos);
 							}
 
 						} else
-							throw new CoreASMError("Incremental add update only applies to modifiable enumerables." + Tools.getEOL() 
+							throw new CoreASMError("Incremental add update only applies to modifiable enumerables." + Tools.getEOL()
 									+ "Failed to add " + atNode.getAddElement() + " to " + atNode.getToLocation() + " because " + atNode.getToLocation() + " was " + collectionNode.getValue() + ".",
 									atNode);
 					} else
 						throw new CoreASMError("Cannot perform incremental add update on a non-location!", atNode);
 				}
-				
+
 			}
 			// remove/from rule
 			else if (pos instanceof RemoveFromRuleNode)
@@ -234,35 +234,35 @@ public class CollectionPlugin extends Plugin
 				// remove/from rule wrapper wrapper
 				RemoveFromRuleNode rfNode = (RemoveFromRuleNode)pos;
 				ASTNode collectionNode = rfNode.getFromNode();
-				
+
 				nextPos = rfNode.getUnevaluatedTerm();
-				
+
 				// no unevaluated terms
 				if (nextPos == null)
 				{
 					// set next pos to current position
 					nextPos = pos;
-				
+
 					if (rfNode.getFromLocation() != null) {
-						
+
 						if (collectionNode.getValue() instanceof ModifiableCollection) {
 
 							try{
 								// set vul for node
 								pos.setNode(
-										null, 
+										null,
 										((ModifiableCollection)collectionNode.getValue()).computeRemoveUpdate(
-												rfNode.getFromLocation(), 
-												rfNode.getRemoveElement(), 
+												rfNode.getFromLocation(),
+												rfNode.getRemoveElement(),
 												interpreter.getSelf(),
 												pos),
 										null);
 							} catch (InterpreterException e) {
 								throw new CoreASMError(e.getMessage(), pos);
 							}
-							
+
 						} else
-							throw new CoreASMError("Incremental remove update only applies to modifiable enumerables." + Tools.getEOL() 
+							throw new CoreASMError("Incremental remove update only applies to modifiable enumerables." + Tools.getEOL()
 										+ "Failed to remove " + rfNode.getRemoveElement() + " from " + rfNode.getFromLocation() + " because " + rfNode.getFromLocation() + " was " + collectionNode.getValue() + ".",
 										rfNode);
 					} else
@@ -270,8 +270,8 @@ public class CollectionPlugin extends Plugin
 				}
 			}
 		}
-            
-        return nextPos;
+
+		return nextPos;
 	}
 
 	public Set<String> getBackgroundNames() {
@@ -289,7 +289,7 @@ public class CollectionPlugin extends Plugin
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
-			
+
 			// moved back to NumberPlugin
 			//functions.put(SizeFunctionElement.NAME, new SizeFunctionElement());
 

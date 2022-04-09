@@ -2,8 +2,8 @@
   Copyright (C) 2012 Roozbeh Farahbod
 
   Licensed under the Academic Free License version 3.0
-    http://www.opensource.org/licenses/afl-3.0.php
-    http://www.coreasm.org/afl-3.0.php
+	http://www.opensource.org/licenses/afl-3.0.php
+	http://www.coreasm.org/afl-3.0.php
 
  */
 
@@ -26,8 +26,8 @@ import org.coreasm.util.Tools;
 import org.slf4j.Logger;
 
 /**
- * A collection of some utility functions needed by different engine components. 
- * 
+ * A collection of some utility functions needed by different engine components.
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -35,10 +35,10 @@ public class EngineTools {
 
 	/**
 	 * Creates a context info for the given collection of updates, appending it to the given StringBuffer.
-	 *  
+	 *
 	 * @param indent indentation
 	 * @param updates the collection of updates
-	 * @param parser a link to the parser 
+	 * @param parser a link to the parser
 	 * @param spec a link to the specification
 	 */
 	public static String getContextInfo(String indent, Collection<Update> updates, Parser parser, Specification spec) {
@@ -48,16 +48,16 @@ public class EngineTools {
 				result.append(getContextInfo(indent, u, parser, spec));
 			}
 		}
-		
+
 		return result.toString();
 	}
 
 	/**
 	 * Creates a context info for the given update, appending it to the given StringBuffer.
-	 *  
+	 *
 	 * @param indent indentation
 	 * @param update the update
-	 * @param parser a link to the parser 
+	 * @param parser a link to the parser
 	 * @param spec a link to the specification
 	 */
 	public static String getContextInfo(String indent, Update update, Parser parser, Specification spec) {
@@ -77,17 +77,17 @@ public class EngineTools {
 
 	/**
 	 * Given a list of nodes, returns the list of values of those nodes.
-	 * 
+	 *
 	 * @throws InterpreterException if a node in the list does not have a value
 	 */
 	public static ElementList getValueList(List<ASTNode> nodes) throws InterpreterException {
 		if (nodes.isEmpty())
 			return ElementList.NO_ARGUMENT;
-		
+
 		ArrayList<Element> vList = new ArrayList<Element>();
 		for (ASTNode n: nodes) {
 			Element value = n.getValue();
-			if (value == null) 
+			if (value == null)
 				throw new InterpreterException("Expecting expression as argument.");
 			vList.add(n.getValue());
 		}
@@ -96,16 +96,16 @@ public class EngineTools {
 	}
 
 	/**
-	 * Checks if the given node has updates attached to it. 
-	 * If not, it calls <code>capi.error(String, Node)</code> with 
+	 * Checks if the given node has updates attached to it.
+	 * If not, it calls <code>capi.error(String, Node)</code> with
 	 * an error message. If logger is not <code>null</code>, this method
 	 * also logs an error.
-	 * 
+	 *
 	 * @param node a node
 	 * @param capi the Control API of the plugin that calls this method
 	 * @param logger a logger instance ({@link Logger}).
 	 * @return <code>true</code> if the node has updates; <code>false</code> otherwise.
-	 * 
+	 *
 	 * @see Node
 	 * @see Loggers
 	 */

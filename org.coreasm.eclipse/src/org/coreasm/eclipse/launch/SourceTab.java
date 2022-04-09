@@ -28,16 +28,16 @@ import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 public class SourceTab extends AbstractLaunchConfigurationTab implements
 		ILaunchConfigurationTab {
 
-	private SourceTabComposite2 comp; 
+	private SourceTabComposite2 comp;
 	private Image image=null;
-	
+
 	public SourceTab() {
 		super();
 	}
 
 	public void createControl(Composite parent) {
 		comp = new SourceTabComposite2(parent, SWT.NONE);
-		
+
 		comp.getBrowseProjectButton().addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				browseProject();
@@ -49,7 +49,7 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 				browseSpec();
 			}
 		});
-		
+
 		ModifyListener tl=new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				updateLaunchConfigurationDialog();
@@ -63,28 +63,28 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 				updateLaunchConfigurationDialog();
 			}
 		};
-		
+
 		comp.getProject().addModifyListener(tl);
 		comp.getSpec().addModifyListener(tl);
 		comp.getStopOnEmptyUpdates().addSelectionListener(cl);
 		comp.getStopOnErrors().addSelectionListener(cl);
 		comp.getStopOnFailedUpdates().addSelectionListener(cl);
 		comp.getStopOnMaxSteps().addSelectionListener(cl);
-        comp.getMaxSteps().addModifyListener(tl);
-        comp.getStopOnStableUpdates().addSelectionListener(cl);
-        comp.getStopOnEmptyActiveAgents().addSelectionListener(cl);
-        
+		comp.getMaxSteps().addModifyListener(tl);
+		comp.getStopOnStableUpdates().addSelectionListener(cl);
+		comp.getStopOnEmptyActiveAgents().addSelectionListener(cl);
+
 		comp.getDumpFinal().addSelectionListener(cl);
 		comp.getDumpState().addSelectionListener(cl);
 		comp.getDumpUpdates().addSelectionListener(cl);
 		comp.getMarkSteps().addSelectionListener(cl);
 		comp.getPrintAgents().addSelectionListener(cl);
-		
+
 		String [] levels={"No log", "Fatal", "Error", "Warning","Information"};
 		comp.getLogLevel().setItems(levels);
 		comp.getLogLevel().addSelectionListener(cl);
-		
-		setControl(comp);	
+
+		setControl(comp);
 	}
 
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
@@ -98,7 +98,7 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 		if (image!=null)
 			return image;
 		else {
-            String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
+			String root = CoreASMPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.ROOT_FOLDER);
 //			ImageDescriptor id = CoreASMPlugin.getImageDescriptor(root + CoreASMPlugin.MAIN_ICON_PATH);
 //			return id.createImage();
 			return new Image(Display.getCurrent(), root+CoreASMPlugin.MAIN_ICON_PATH);
@@ -167,7 +167,7 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 			return false;
 		}
 		if (comp.getSpec().getText().isEmpty()) {
-			setErrorMessage("You must choose a specification (." 
+			setErrorMessage("You must choose a specification (."
 					+ CoreASMPlugin.COREASM_FILE_EXT_1 + " or ."
 					+ CoreASMPlugin.COREASM_FILE_EXT_2 + ") file.");
 			return false;
@@ -199,7 +199,7 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 	 * Uses the standard container selection dialog to choose the new value for
 	 * the container field.
 	 */
-	
+
 	private void browseProject() {
 		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
 				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
@@ -216,12 +216,12 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 	 * Uses the standard resource selection dialog to choose the new value for
 	 * the spec field.
 	 */
-	
+
 	private void browseSpec() {
 		IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
 		IResource proj=root.findMember(comp.getProject().getText());
 		ResourceSelectionDialog dialog = new ResourceSelectionDialog(
-				getShell(), 
+				getShell(),
 				proj!=null?proj:root,
 				"Select a CoreASM specification");
 		if (dialog.open() == ResourceSelectionDialog.OK) {
@@ -231,5 +231,5 @@ public class SourceTab extends AbstractLaunchConfigurationTab implements
 			}
 		}
 	}
-	
+
 }

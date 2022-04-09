@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class PluginClassLoader {
 	private static final Logger logger = LoggerFactory.getLogger(PluginClassLoader.class);
 	public static ClassLoader classLoader = null;
-	
+
 	/**
 	 * Loads plugin catalog. This method looks for all available plugins, and
 	 * creates a map of plugin names to plugin objects. This method does NOT
@@ -63,12 +63,12 @@ public class PluginClassLoader {
 				}
 			}
 		}
-		
+
 		//set the capi of the loaded plugins
 		for(Entry<String, Plugin> entry : result.entrySet()){
 			entry.getValue().setControlAPI(capi);
 		}
-		
+
 		return result;
 	}
 
@@ -95,7 +95,7 @@ public class PluginClassLoader {
 				String me = clazz.getName().replace(".", "/") + ".class";
 				dirURL = clazz.getClassLoader().getResource(me);
 			}
-	
+
 			//2nd case: jar
 			if (dirURL.getProtocol().equals("jar")) {
 				/* A JAR path */
@@ -138,7 +138,7 @@ public class PluginClassLoader {
 		}
 		return resultMap;
 	}
-	
+
 	/*
 	 * Loads a single plugin
 	 */
@@ -165,7 +165,7 @@ public class PluginClassLoader {
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Loads a single plugin
 	 */
@@ -192,7 +192,7 @@ public class PluginClassLoader {
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Loads a single plugin class from the given list of resources.
 	 */
@@ -221,7 +221,7 @@ public class PluginClassLoader {
 		Class<?> pc;
 		try {
 			logger.debug( "Loading plugin: {}", className);
-			
+
 			pc = loader.loadClass(className);
 			/*
 			MinimumEngineVersion minVersion = (MinimumEngineVersion)pc.getAnnotation(MinimumEngineVersion.class);
@@ -251,7 +251,7 @@ public class PluginClassLoader {
 		} else
 			logger.error(
 						"Invalid plugin '{}'. This class does not extend the CoreASM Plugin class.", className);
-		
+
 		return null;
 	}
 }

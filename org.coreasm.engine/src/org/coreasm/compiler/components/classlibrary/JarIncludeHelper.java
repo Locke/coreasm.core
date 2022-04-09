@@ -25,7 +25,7 @@ public class JarIncludeHelper {
 	private final int size;
 	private final CompilerEngine engine;
 	private final CompilerPlugin plugin;
-	
+
 	/**
 	 * Initializes a new JarIncludeHelper, valid for the specified plugin
 	 * @param engine The compiler engine supervising the compilation process
@@ -38,7 +38,7 @@ public class JarIncludeHelper {
 		this.engine = engine;
 		this.plugin = plugin;
 	}
-	
+
 	private JarIncludeHelper(JarIncludeHelper previous, MainFileEntry entry){
 		this.previous = previous;
 		this.entry = entry;
@@ -94,7 +94,7 @@ public class JarIncludeHelper {
 	public JarIncludeHelper includeStatic(File jarFile, String className, EntryType entryType, String name) throws EntryAlreadyExistsException{
 		return include(jarFile, className, entryType, name, LibraryEntryType.STATIC);
 	}
-	
+
 
 	/**
 	 * Dynamically includes a file from the runtime jar with no runtime name
@@ -143,24 +143,24 @@ public class JarIncludeHelper {
 	public JarIncludeHelper includeDynamic(File jarFile, String className, EntryType entryType, String name) throws EntryAlreadyExistsException{
 		return include(jarFile, className, entryType, name, LibraryEntryType.DYNAMIC);
 	}
-	
-	
+
+
 	private JarIncludeHelper include(File jarFile, String className, EntryType entryType, String name, LibraryEntryType libraryType) throws EntryAlreadyExistsException{
 		JarInclude incl = new JarInclude(engine, jarFile, className, plugin.getName(), LibraryEntryType.STATIC);
 		engine.getClassLibrary().addEntry(incl);
 		MainFileEntry entry = new MainFileEntry(incl, entryType, name);
-		
+
 		return new JarIncludeHelper(this, entry);
 	}
-	
+
 	private void build(List<MainFileEntry> result){
 		if(entry != null){
 			previous.build(result);
-			
+
 			result.add(entry);
 		}
 	}
-	
+
 	/**
 	 * Builds the helper into a list of {@link MainFileEntry} instances.
 	 * The intended use for this method is to generate a list which can be

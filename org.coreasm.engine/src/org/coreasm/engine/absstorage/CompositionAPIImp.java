@@ -9,12 +9,12 @@ import java.util.Set;
 
 import org.coreasm.engine.plugin.Plugin;
 
-/** 
+/**
  *	Provide composition related services to the engine and to the plugins, but
  *  encapsulate all composition and datastructure specific information in this object.
- *   
+ *
  * @author Roozbeh Farahbod, Michael Stegmaier
- * 
+ *
  */
 public class CompositionAPIImp implements EngineCompositionAPI,
 		PluginCompositionAPI {
@@ -26,7 +26,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 	protected Map<String, Set<Location>> actionLocations2;
 	protected Map<Location, UpdateMultiset> locUpdates1;
 	protected Map<Location, UpdateMultiset> locUpdates2;
-	
+
 	public void setUpdateInstructions(UpdateMultiset updates1, UpdateMultiset updates2) {
 		this.updates[1] = new UpdateMultiset(updates1);
 		this.updates[2] = new UpdateMultiset(updates2);
@@ -39,10 +39,10 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 
 	public UpdateMultiset getComposedUpdates() {
 		UpdateMultiset result = new UpdateMultiset();
-		
+
 		for (UpdatePluginPair pair: composedUpdates)
 			result.add(pair.update);
-		
+
 		return result;
 	}
 
@@ -93,37 +93,37 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 	public UpdateMultiset getLocUpdates(int setIndex, Location l) {
 		UpdateMultiset locUpdates;
 		Map<Location, UpdateMultiset> locUpdateMap;
-		
+
 		if (setIndex == 1)
 			locUpdateMap = locUpdates1;
 		else if (setIndex == 2)
 			locUpdateMap = locUpdates2;
 		else
 			return null;
-		
+
 		locUpdates = locUpdateMap.get(l);
 		if (locUpdates == null) {
 			locUpdates = new UpdateMultiset();
 			locUpdateMap.put(l, locUpdates);
-			for (Update u: updates[setIndex]) 
+			for (Update u: updates[setIndex])
 				if (u.loc.equals(l))
 					locUpdates.add(u);
 		}
-		
+
 		return locUpdates;
 	}
-	
+
 	private Set<Location> getActionLocations(int setIndex, String action) {
 		Set<Location> locations;
 		Map<String, Set<Location>> actionLocationsMap;
-		
+
 		if (setIndex == 1)
 			actionLocationsMap = actionLocations1;
 		else if (setIndex == 2)
 			actionLocationsMap = actionLocations2;
 		else
 			return null;
-		
+
 		locations = actionLocationsMap.get(action);
 		if (locations == null) {
 			locations = new HashSet<Location>();
@@ -133,7 +133,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 					locations.add(u.loc);
 			}
 		}
-		
+
 		return locations;
 	}
 
@@ -142,7 +142,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 			if (getActionLocations(setIndex, act).contains(l))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -160,13 +160,13 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 
 	/**
 	 * A container class to hold a pair of update and plugin.
-	 * 
+	 *
 	 * @author Roozbeh Farahbod
 	 */
 	private static class UpdatePluginPair {
 		public final Update update;
 		//private final Plugin plugin;
-		
+
 		public UpdatePluginPair(Update u, Plugin p) {
 			this.update = u;
 			//this.plugin = p;

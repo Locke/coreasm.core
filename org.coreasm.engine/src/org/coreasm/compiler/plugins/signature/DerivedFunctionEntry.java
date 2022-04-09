@@ -17,7 +17,7 @@ public class DerivedFunctionEntry extends MemoryInclude{
 	private String name;
 	private String[] params;
 	private CodeFragment body;
-	
+
 	/**
 	 * Builds a new derived function entry
 	 * @param name The name of the derived function
@@ -34,7 +34,7 @@ public class DerivedFunctionEntry extends MemoryInclude{
 	@Override
 	protected String buildContent(String entryName) throws LibraryEntryException {
 		String result = "";
-		
+
 		result += "package " + getPackage(entryName) + ";\n";
 		result += "public class " + name + " extends " + runtimePkg() + ".FunctionElement{\n";
 		//result += "private CompilerRuntime.EvalStack evalStack;\n";
@@ -51,30 +51,30 @@ public class DerivedFunctionEntry extends MemoryInclude{
 		result += "\t" + runtimePkg() + ".LocalStack localStack = new " + runtimePkg() + ".LocalStack();\n";
 		result += "java.util.Map<String, " + runtimePkg() + ".RuleParam> ruleparams = new java.util.HashMap<String, " + runtimePkg() + ".RuleParam>();\n";
 		result += "if(args.size() != " + params.length + ") return " + runtimePkg() + ".Element.UNDEF;\n";
-		
+
 		for(int i = 0; i < params.length; i++){
 			result += "localStack.put(\"" + params[i] + "\", args.get(" + i + "));\n";
 		}
-		
+
 		result += "try{\n";
-		
+
 		try {
 			result += body.generateCode(engine);
 		} catch (CodeFragmentException e) {
 			throw new LibraryEntryException(e);
 		}
-		
+
 		result += "}catch(Exception exc){return " + runtimePkg() + ".Element.UNDEF;\n}\n";
-		
+
 		result += "return (" + runtimePkg() + ".Element)evalStack.pop();\n";
-		
+
 		result += "}\n";
 		result += "}\n";
-		
-		
+
+
 		return result;
 	}
-	
-	
+
+
 
 }

@@ -15,7 +15,7 @@ public class ProgramFunction extends MapFunction {
 		else
 			el = ElementList.create(args);
 		Element temp = table.get(el);
-		if (temp == null) 
+		if (temp == null)
 			return defaultValue;
 		else{
 			if(temp instanceof CompilerRuntime.Rule){

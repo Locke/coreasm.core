@@ -19,7 +19,7 @@ import org.coreasm.compiler.plugins.letrule.code.ucode.LetRuleHandler;
 public class CompilerLetRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -27,12 +27,12 @@ public class CompilerLetRulePlugin extends CompilerCodePlugin implements Compile
 	public CompilerLetRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
-	
+
 	@Override
 	public String getName() {
 		return LetRulePlugin.PLUGIN_NAME;

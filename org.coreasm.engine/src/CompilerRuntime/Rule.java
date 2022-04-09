@@ -13,12 +13,12 @@ public abstract class Rule extends Element implements Callable<RuleResult> {
 	protected java.util.ArrayList<CompilerRuntime.RuleParam> params;
 	protected CompilerRuntime.LocalStack localStack;
 	protected CompilerRuntime.EvalStack evalStack;
-	
+
 	@Override
 	public String getBackground(){
 		return RuleBackgroundElement.RULE_BACKGROUND_NAME;
 	}
-	
+
 	public void clearResults(){
 		localStack = new CompilerRuntime.LocalStack();
 		evalStack = new CompilerRuntime.EvalStack();
@@ -39,12 +39,12 @@ public abstract class Rule extends Element implements Callable<RuleResult> {
 			this.localStack = ls;
 		}
 	}
-	
+
 	public Rule getUpdateResponsible(){
 		return this;
 	}
-	
+
 	public abstract Rule getCopy();
-	
+
 	public abstract int parameterCount();
 }

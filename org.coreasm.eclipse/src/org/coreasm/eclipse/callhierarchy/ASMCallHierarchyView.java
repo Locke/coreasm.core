@@ -25,11 +25,11 @@ public class ASMCallHierarchyView extends ViewPart {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void setInput(ASTNode node, IFile file) {
 		treeViewer.setInputData(new ASMCallHierarchyNode(node, node, file));
 	}
-	
+
 	public static ASMCallHierarchyView openView(ASTNode node, IFile file) {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = window.getActivePage();

@@ -1,6 +1,6 @@
-/*	
- * FindCyclesFunctionElement.java 
- * 
+/*
+ * FindCyclesFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -27,7 +27,7 @@ import org.jgrapht.alg.CycleDetector;
 
 /**
  * Computes the cycles that contain a vertex in a graph.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -37,11 +37,11 @@ public class FindCyclesFunctionElement extends FunctionElement {
 	final CycleDetectorCache detectorCache;
 
 	public static final String FUNCTION_NAME = "findCyclesWithVertex";
-	
+
 	public FindCyclesFunctionElement(CycleDetectorCache detectorCache) {
 		this.detectorCache = detectorCache;
 	}
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -60,17 +60,17 @@ public class FindCyclesFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 2 && args.get(0) instanceof GraphElement))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		Graph<Element, Element> g = ((GraphElement)args.get(0)).getGraph();
 		Element v = args.get(1);
 		CycleDetector<Element, Element> detector = detectorCache.getCycleDetector(g);
-				
+
 		if (detector != null) {
 			Set<Element> cycleSet = detector.findCyclesContainingVertex(v);
 			if (cycleSet != null)
 				return new SetElement(cycleSet);
 		}
-		
+
 		return Element.UNDEF;
 	}
 

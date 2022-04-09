@@ -1,0 +1,17 @@
+# top-most EditorConfig file
+root = true
+
+# newline ending for every file
+[*]
+indent_style = tab
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Windows-style newlines
+[*.{bat,cmd}]
+end_of_line = crlf
+
+# Unix-style newlines
+#[{.gitignore,.gitattributes,.travis.yml,*.md}]
+#end_of_line = lf

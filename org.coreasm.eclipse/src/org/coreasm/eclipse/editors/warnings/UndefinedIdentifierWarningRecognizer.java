@@ -39,15 +39,15 @@ public class UndefinedIdentifierWarningRecognizer implements IWarningRecognizer 
 	public UndefinedIdentifierWarningRecognizer(ASMEditor parentEditor) {
 		this.parentEditor = parentEditor;
 	}
-	
+
 	@Override
 	public List<AbstractWarning> checkForWarnings(ASMDocument document) {
 		List<AbstractWarning> warnings = new LinkedList<AbstractWarning>();
 		Set<String> functionNames = getDeclaredNames(document);
 		Stack<ASTNode> fringe = new Stack<ASTNode>();
-		
+
 		pluginFunctionNames = null;
-		
+
 		for (ASTNode declarationNode = ((ASTNode)document.getRootnode()).getFirst(); declarationNode != null; declarationNode = declarationNode.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(declarationNode.getGrammarClass())) {
 				if (Kernel.GR_RULEDECLARATION.equals(declarationNode.getGrammarRule())
@@ -76,16 +76,16 @@ public class UndefinedIdentifierWarningRecognizer implements IWarningRecognizer 
 				}
 			}
 		}
-		
+
 		return warnings;
 	}
-	
+
 	private boolean isFunctionName(String functionName, Set<String> functionNames) {
 		if (getPluginFunctionNames().contains(functionName))
 			return true;
 		return functionNames.contains(functionName);
 	}
-	
+
 	private Set<String> getPluginFunctionNames() {
 		if (pluginFunctionNames == null) {
 			pluginFunctionNames = new HashSet<String>();
@@ -98,7 +98,7 @@ public class UndefinedIdentifierWarningRecognizer implements IWarningRecognizer 
 		}
 		return pluginFunctionNames;
 	}
-	
+
 	private Set<String> getDeclaredNames(ASMDocument document) {
 		Set<String> declaredNames = new HashSet<String>();
 		for (ASTNode node = ((ASTNode)document.getRootnode()).getFirst(); node != null; node = node.getNext()) {

@@ -1,6 +1,6 @@
-/*	
- * TupleElement.java 
- * 
+/*
+ * TupleElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -30,7 +30,7 @@ import org.coreasm.engine.plugins.number.NumberElement;
 
 /**
  * Temporary class to model a fixed-length list until such elements are added to CoreASM.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -39,13 +39,13 @@ public abstract class TupleElement extends AbstractListElement {
 	private List<Element> tuple = null;
 
 	public abstract List<Element> getFixedTuple();
-	
+
 	public List<Element> getTuple() {
 		if (tuple == null)
 			tuple = Collections.unmodifiableList(getFixedTuple());
 		return tuple;
 	}
-	
+
 	//@Override
 	public UpdateMultiset computeAddUpdate(Location loc, NumberElement index,
 			Element e, Element agent, Node node) throws InterpreterException {
@@ -95,7 +95,7 @@ public abstract class TupleElement extends AbstractListElement {
 	}
 
 	/*
-	 * Returns true if the given number is natural and its 
+	 * Returns true if the given number is natural and its
 	 * value is a java integer.
 	 */
 	protected boolean isValidIndex(NumberElement index) {
@@ -108,7 +108,7 @@ public abstract class TupleElement extends AbstractListElement {
 			int i = ((NumberElement)index).intValue();
 			// note: in CoreASM list indices start from 1
 			Element result = getTuple().get(i - 1);
-			if (result == null) 
+			if (result == null)
 				result = defaultValue;
 			return result;
 		} else
@@ -136,7 +136,7 @@ public abstract class TupleElement extends AbstractListElement {
 	public NumberElement indexOf(Element e) {
 		// note: in CoreASM list indices start from 1
 		final int i = getTuple().indexOf(e);
-		if (i >=0) 
+		if (i >=0)
 			return NumberElement.getInstance(i+1);
 		else
 			return null;
@@ -144,7 +144,7 @@ public abstract class TupleElement extends AbstractListElement {
 
 	@Override
 	public Element last() {
-		if (size() > 0) 
+		if (size() > 0)
 			return getTuple().get(getTuple().size()-1);
 		else
 			return Element.UNDEF;
@@ -169,7 +169,7 @@ public abstract class TupleElement extends AbstractListElement {
 
 	@Override
 	public Set<? extends Element> keySet() {
-		HashSet<Element> result = new HashSet<Element>(); 
+		HashSet<Element> result = new HashSet<Element>();
 		for (int i=0; i < getTuple().size(); i++)
 			// note: in CoreASM list indices start from 1
 			result.add(NumberElement.getInstance(i + 1));
@@ -200,5 +200,5 @@ public abstract class TupleElement extends AbstractListElement {
 	public int size() {
 		return getTuple().size();
 	}
-	
+
 }

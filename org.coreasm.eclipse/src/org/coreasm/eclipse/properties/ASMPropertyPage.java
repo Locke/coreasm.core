@@ -110,7 +110,7 @@ public class ASMPropertyPage extends PropertyPage {
 		// Populate the author text field with the default value
 		authorText.setText(System.getProperty("user.name",DEFAULT_AUTHOR));
 	}
-	
+
 	public boolean performOk() {
 		// store the value in the author text field
 		try {

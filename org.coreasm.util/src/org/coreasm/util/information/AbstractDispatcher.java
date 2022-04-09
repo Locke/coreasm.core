@@ -20,7 +20,7 @@ abstract class AbstractDispatcher {
 	public enum DistributionMode {
 		COMMIT, AUTOCOMMIT;
 	};
-	
+
 	private final String id;
 
 	/** thread specific information */
@@ -69,27 +69,27 @@ abstract class AbstractDispatcher {
 	protected static void deleteSuperObervers() {
 		observers.clear();
 	}
-	
+
 	public synchronized void createInformation(String message, ResponseHandler responseHandler) {
 		createInformation(new InformationObject(this, message, responseHandler));
 	}
-	
+
 	public synchronized void createInformation(String message) {
 		createInformation(new InformationObject(this, message));
 	}
-	
+
 	public synchronized void createInformation(String message, Map<String, String> data, ResponseHandler responseHandler) {
 		createInformation(new InformationObject(this, message, data, responseHandler));
 	}
-	
+
 	public synchronized void createInformation(String message, Map<String, String> data) {
 		createInformation(new InformationObject(this, message, data));
 	}
-	
+
 	public synchronized void createInformation(String message, VerbosityLevel verbosity, Map<String, String> data, ResponseHandler responseHandler) {
 		createInformation(new InformationObject(this, message, verbosity, data, responseHandler));
 	}
-	
+
 	public synchronized void createInformation(String message, VerbosityLevel verbosity, Map<String, String> data) {
 		createInformation(new InformationObject(this, message, verbosity, data));
 	}
@@ -131,7 +131,7 @@ abstract class AbstractDispatcher {
 	public synchronized DistributionMode getDistributionMode() {
 		return this.distributionMode;
 	}
-	
+
 	public String getId() {
 		return id;
 	}

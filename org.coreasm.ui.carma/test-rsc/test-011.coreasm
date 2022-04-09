@@ -11,9 +11,9 @@ use Standard
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	par
-		if mode = "end" then 
+		if mode = "end" then
 			program(self) := undef
 
 		if a = undef then
@@ -26,7 +26,7 @@ rule InitRule =
 		endpar
 		else
 			if con = undef then
-			par 
+			par
 				seq
 					con := true and (false or (true xor false))
 				next
@@ -38,5 +38,3 @@ rule InitRule =
 					print a + " " + b + " " + c + " " + d + " " + e + " " + con + " " + notcon
 				endpar
 	endpar
-
-	

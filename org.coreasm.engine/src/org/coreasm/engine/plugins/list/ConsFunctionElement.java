@@ -1,6 +1,6 @@
-/*	
+/*
  * ConsFunctionsElement.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.list;
 
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 
-/** 
+/**
  * Implementation of the 'cons' function for lists.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class ConsFunctionElement extends FunctionElement {
 
@@ -36,7 +36,7 @@ public class ConsFunctionElement extends FunctionElement {
 	public ConsFunctionElement() {
 		setFClass(FunctionClass.fcDerived);
 	}
-	
+
 	@Override
 	public Element getValue(List<? extends Element> args) {
 		if (!checkArguments(args))
@@ -45,18 +45,18 @@ public class ConsFunctionElement extends FunctionElement {
 		newData.add(0, args.get(0));
 		return new ListElement(newData);
 	}
-	
+
 	public Signature getSignature() {
 		Signature sig = new Signature();
 
 		// TODO the domain should be ABSTRACT_LIST or something like that
-		sig.setDomain(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME, 
+		sig.setDomain(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME,
 				ListBackgroundElement.LIST_BACKGROUND_NAME);
 		sig.setRange(ListBackgroundElement.LIST_BACKGROUND_NAME);
-		
+
 		return sig;
 	}
-	
+
 	/*
 	 * Checks the arguments of the function
 	 */

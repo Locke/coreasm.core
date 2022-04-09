@@ -50,12 +50,12 @@ public class ASMStorage extends HashStorage {
 	private int lineNumber;
 	private ASTNode pos;
 	private int updated;
-	
+
 	public ASMStorage(ASMStorage storage) {
 		this(storage.wapi, storage.storage, storage.step, storage.lastSelectedAgents, storage.envVars, storage.updates, storage.agents, storage.callStack, storage.sourceName, storage.lineNumber);
 		this.updated = storage.updated;
 	}
-	
+
 	public ASMStorage(WatchExpressionAPI wapi, AbstractStorage storage, int step, Set<? extends Element> lastSelectedAgents, Map<String, Element> envVars, Set<ASMUpdate> updates, Set<? extends Element> agents, Stack<CallStackElement> callStack, String sourceName, int lineNumber) {
 		super(wapi);
 		this.wapi = wapi;
@@ -100,13 +100,13 @@ public class ASMStorage extends HashStorage {
 		this.lineNumber = lineNumber;
 		initAggregatorPluginCache();
 	}
-	
+
 	@Override
 	public synchronized void clearState() {
 		super.clearState();
 		storage = null;
 	}
-	
+
 	public void updateState(ASTNode pos, Set<? extends Element> lastSelectedAgents, Map<String, Element> envVars, Set<ASMUpdate> updates, Stack<CallStackElement> callStack, String sourceName, int lineNumber) {
 		this.pos = pos;
 		this.lastSelectedAgents = new HashSet<Element>(lastSelectedAgents);
@@ -118,16 +118,16 @@ public class ASMStorage extends HashStorage {
 		this.lineNumber = lineNumber;
 		updated++;
 	}
-	
+
 	public Element evaluateExpression(ControlAPI capi, String expression) throws InterpreterException {
 		ParserTools parserTools = ParserTools.getInstance(capi);
 		Parser<Node> termParser = ((ParserPlugin)capi.getPlugin("Kernel")).getParser("Term");
 		Parser<Node> parser = termParser.from(parserTools.getTokenizer(), parserTools.getIgnored());
 		Element[] lastSelectedAgents = this.lastSelectedAgents.toArray(new Element[this.lastSelectedAgents.size()]);
-		
+
 		return wapi.evaluateExpression((ASTNode)parser.parse(expression), lastSelectedAgents[0], this);
 	}
-	
+
 	public void applyStackedUpdates() {
 		if (stackedUpdates != null && !stackedUpdates.isEmpty()) {
 			if (getStackedUpdates().isEmpty())
@@ -138,36 +138,36 @@ public class ASMStorage extends HashStorage {
 			apply(updates);
 		}
 	}
-	
+
 	public void discardStackedUpdates() {
 		if (stackedUpdates != null && !stackedUpdates.isEmpty())
 			popState("Debugger");
 	}
-	
+
 	public int getStep() {
 		return step;
 	}
-	
+
 	public ASTNode getPosition() {
 		return pos;
 	}
-	
+
 	public Set<Element> getLastSelectedAgents() {
 		return lastSelectedAgents;
 	}
-	
+
 	public Map<String, Element> getEnvVars() {
 		return envVars;
 	}
-	
+
 	public Set<ASMUpdate> getUpdates() {
 		return updates;
 	}
-	
+
 	public Set<Element> getAgents() {
 		return agents;
 	}
-	
+
 	public Stack<CallStackElement> getCallStack() {
 		return callStack;
 	}
@@ -179,7 +179,7 @@ public class ASMStorage extends HashStorage {
 	public int getLineNumber() {
 		return lineNumber;
 	}
-	
+
 	@Override
 	public Map<String, RuleElement> getRules() {
 		return storage.getRules();

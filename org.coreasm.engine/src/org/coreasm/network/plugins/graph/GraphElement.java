@@ -1,6 +1,6 @@
-/*	
- * GraphElement.java 
- * 
+/*
+ * GraphElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -19,7 +19,7 @@ import org.jgrapht.UndirectedGraph;
 
 /**
  * Graph elements in CoreASM state.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -27,20 +27,20 @@ public abstract class GraphElement extends Element {
 
 	/**
 	 * Creates a default graph element.
-	 * 
+	 *
 	 * @see GraphElement#createDirectedGraph()
 	 */
 	public static GraphElement createNewInstance() {
 		return createDirectedGraph();
 	}
-	
+
 	/**
 	 * Creates a directed graph.
 	 */
 	public static GraphElement createDirectedGraph() {
 		return new DirectedGraphElement();
 	}
-	
+
 	@Override
 	public String denotation() {
 		return "Graph:" + this.toString();
@@ -54,7 +54,7 @@ public abstract class GraphElement extends Element {
 			return false;
 	}
 
-	
+
 	@Override
 	public int hashCode() {
 		return getGraph().hashCode();
@@ -69,7 +69,7 @@ public abstract class GraphElement extends Element {
 	public String toString() {
 		return getGraph().toString();
 	}
-	
+
 	/**
 	 * Returns the underlying graph object.
 	 */
@@ -84,7 +84,7 @@ public abstract class GraphElement extends Element {
 	 * @return an undirected graph view of this graph element
 	 */
 	public abstract UndirectedGraph<Element, Element> getUndirectedGraph();
-	
+
 	/**
 	 * @return <code>true</code> if this is a directed graph.
 	 */

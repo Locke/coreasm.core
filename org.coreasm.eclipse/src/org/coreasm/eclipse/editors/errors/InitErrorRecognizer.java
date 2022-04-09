@@ -18,11 +18,11 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
  * <ul>
  * <li>Is there at least one init statement?</li>
  * <li>Are there more than one init statements?</li>
- * <li>Is there a rule with the given name?</li> 
+ * <li>Is there a rule with the given name?</li>
  * </ul>
  * @author Markus M�ller
  */
-public class InitErrorRecognizer 
+public class InitErrorRecognizer
 implements ITreeErrorRecognizer
 {
 	// error code tags
@@ -30,15 +30,15 @@ implements ITreeErrorRecognizer
 	private static String NO_INIT = "NoInit";
 	private static String MULTI_INITS = "MultiInits";
 	private static String UNKN_INIT = "UnknInit";
-	
+
 	@Override
 	public void checkForErrors(ASMDocument document, List<AbstractError> errors)
 	{
 		ASTNode root = (ASTNode) document.getRootnode();
-		
+
 		// get a list with all initialization nodes
 		List<ASTNode> initList = AstTools.findChildNodes(root, AstTools.GRAMMAR_INIT);
-		
+
 		// check if there is at least one init node
 		if (initList.size() == 0 && !((ASMDocument) document).isIncludedSpecification()) {
 			String id = AstTools.findId(root);
@@ -57,7 +57,7 @@ implements ITreeErrorRecognizer
 				errors.add(error);
 			}
 		}
-		
+
 		// check if the rule for each init node is existing
 		for (ASTNode inode: initList) {
 			ASTNode rnode = getInitRuleDefinition(root, inode);
@@ -69,18 +69,18 @@ implements ITreeErrorRecognizer
 				String msg = "There is no rule \"" + name + "\"";
 				AbstractError error = new SimpleError("Undeclared initalization rule", msg, idNode, document, length, CLASSNAME, UNKN_INIT);
 				errors.add(error);
-			}	
+			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Helper method for getting a list of all rule declaration nodes.
 	 */
 	private ASTNode getInitRuleDefinition(ASTNode root, ASTNode init)
 	{
-		String initName = AstTools.findId(init); 
-		
+		String initName = AstTools.findId(init);
+
 		ASTNode rulenode = null;
 		List<ASTNode> ruleNodes = AstTools.findChildNodes(root, AstTools.GRAMMAR_RULE);
 		for (ASTNode node: ruleNodes) {
@@ -89,11 +89,11 @@ implements ITreeErrorRecognizer
 				break;
 			}
 		}
-			
+
 		return rulenode;
 	}
-	
-	
+
+
 	/**
 	 * Delivers a list of QuickFixes depending on the given error type.
 	 * @param errorID	the tag of the error type of the error to be fix.
@@ -102,10 +102,10 @@ implements ITreeErrorRecognizer
 	public static List<AbstractQuickFix> getQuickFixes(String errorID)
 	{
 		LinkedList<AbstractQuickFix> list = new LinkedList<AbstractQuickFix>();
-		
+
 		if (errorID.equals(UNKN_INIT)) {
 			list.add(new QF_UnknInit_Create());
-			list.add(new QF_UnknInit_Delete());			
+			list.add(new QF_UnknInit_Delete());
 			list.add(new QF_UnknInit_Replace());
 		}
 		if (errorID.equals(NO_INIT)) {
@@ -114,14 +114,14 @@ implements ITreeErrorRecognizer
 		if (errorID.equals(MULTI_INITS)) {
 			list.add(new QF_MultiInits_KeepOne());
 		}
-				
+
 		return list;
 	}
-	
-	
+
+
 	/**
 	 * Quick fix for adding an init for an existing rule declaration
-	 * 
+	 *
 	 * @author Markus M�ller
 	 */
 	public static class QF_NoInit_Add
@@ -131,10 +131,10 @@ implements ITreeErrorRecognizer
 		{
 			super("Add init for", null);
 		}
-		
+
 		/**
 		 * This QuickFix offers the name of each declared rule as a choice
-		 * for the new init statement. 
+		 * for the new init statement.
 		 */
 		@Override
 		public void initChoices(AbstractError error)
@@ -148,7 +148,7 @@ implements ITreeErrorRecognizer
 					choices.add(AstTools.findId(rulenode));
 			}
 		}
-		
+
 		/**
 		 * This QuickFix can only be offered to the user if there is at least
 		 * one declared rule.
@@ -184,7 +184,7 @@ implements ITreeErrorRecognizer
 				}
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError && error.getDocument() instanceof ASMDocument) {
@@ -197,12 +197,12 @@ implements ITreeErrorRecognizer
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Quick fix for deleting all init rules but one which was selected
 	 * by the user.
-	 * 
+	 *
 	 * @author Markus
 	 */
 	public static class QF_MultiInits_KeepOne
@@ -212,7 +212,7 @@ implements ITreeErrorRecognizer
 		{
 			super("Keep: @, delete the others", null);
 		}
-		
+
 		/**
 		 * This QuickFix offers the name of each found init statement as a choice
 		 * for the user.
@@ -229,7 +229,7 @@ implements ITreeErrorRecognizer
 					choices.add(AstTools.findId(initnode));
 			}
 		}
-		
+
 		/**
 		 * Deletes all init statements except the one which was chosen by the user.
 		 * @param choice The name of the init statement which is not deleted.
@@ -243,7 +243,7 @@ implements ITreeErrorRecognizer
 				Node rootnode = doc.getRootnode();
 				List<ASTNode> initnodes = AstTools.findChildNodes((ASTNode) rootnode, AstTools.GRAMMAR_INIT);
 				// walk through list & delete inits backwards, so the indexes
-				// of the other inits don't get messed up because of the deletions. 
+				// of the other inits don't get messed up because of the deletions.
 				for (int i=initnodes.size()-1; i>=0; i--) {
 					ASTNode initnode = initnodes.get(i);
 					String id = AstTools.findId(initnode);
@@ -273,7 +273,7 @@ implements ITreeErrorRecognizer
 				}
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError && error.getDocument() instanceof ASMDocument)
@@ -283,23 +283,23 @@ implements ITreeErrorRecognizer
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Quick fix for deleting an init statement.
-	 * 
+	 *
 	 * @author Markus M�ller
 	 */
 	public static class QF_UnknInit_Delete
 	extends AbstractQuickFix
 	{
-		public QF_UnknInit_Delete() 
+		public QF_UnknInit_Delete()
 		{
 			super("Delete", null);
 		}
-		
+
 		@Override
-		public void fix(AbstractError error, String choice) 
+		public void fix(AbstractError error, String choice)
 		{
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
@@ -312,19 +312,19 @@ implements ITreeErrorRecognizer
 				}
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError)
 				proposals.add(new CompletionProposal("", error.getPosition() - 5, error.getLength(), 0, IconManager.getIcon("/icons/editor/bullet.gif"), prompt, null, null));
 		}
 	}
-	
-	
-	/** 
+
+
+	/**
 	 * Quick fix for creating a new rule with the name of the given
 	 * include statement if a rule with that name doesn't exist.
-	 * 
+	 *
 	 * @author Markus M�ller
 	 */
 	public static class QF_UnknInit_Create
@@ -334,16 +334,16 @@ implements ITreeErrorRecognizer
 		{
 			super("Create", null);
 		}
-		
+
 		public void fix(AbstractError error, String choice)
 		{
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
 				ASMDocument doc = (ASMDocument) sError.getDocument();
-				
+
 				// Read rule name from document
 				String rulename = doc.get().substring(error.getPosition(), error.getPosition() + error.getLength());
-				
+
 				// The new rule should be inserted before the first existing rule
 				ASTNode firstRuleNode = AstTools.findFirstChildNode((ASTNode) doc.getRootnode(), AstTools.GRAMMAR_RULE);
 				int offset = doc.getLength();
@@ -358,16 +358,16 @@ implements ITreeErrorRecognizer
 				}
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError) {
 				SimpleError sError = (SimpleError) error;
 				ASMDocument doc = (ASMDocument) sError.getDocument();
-				
+
 				// Read rule name from document
 				String rulename = doc.get().substring(error.getPosition(), error.getPosition() + error.getLength());
-				
+
 				// The new rule should be inserted before the first existing rule
 				ASTNode firstRuleNode = AstTools.findFirstChildNode((ASTNode) doc.getRootnode(), AstTools.GRAMMAR_RULE);
 				int offset = doc.getLength();
@@ -377,12 +377,12 @@ implements ITreeErrorRecognizer
 			}
 		}
 	}
-	
-	
-	/** 
+
+
+	/**
 	 * Quick fix for replacing the rule name of an init statement with the
 	 * name of an existing rule.
-	 *  
+	 *
 	 * @author Markus
 	 */
 	public static class QF_UnknInit_Replace
@@ -392,7 +392,7 @@ implements ITreeErrorRecognizer
 		{
 			super("Relpace", null);
 		}
-		
+
 		/**
 		 * This QuickFix can only be offered to the user if there is at least
 		 * one declared rule.
@@ -405,12 +405,12 @@ implements ITreeErrorRecognizer
 			List<ASTNode> rulenodes = AstTools.findChildNodes((ASTNode)rootnode, AstTools.GRAMMAR_RULE);
 			if (rulenodes.size() == 0)
 				return false;
-			return true;			
+			return true;
 		}
 
 		/**
 		 * This QuickFix offers the name of each declared rule as a choice
-		 * for the new init statement. 
+		 * for the new init statement.
 		 */
 		@Override
 		public void initChoices(AbstractError error)
@@ -437,7 +437,7 @@ implements ITreeErrorRecognizer
 				}
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			if (error instanceof SimpleError) {

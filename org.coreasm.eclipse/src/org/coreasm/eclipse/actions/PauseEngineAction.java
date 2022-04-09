@@ -1,11 +1,11 @@
 /*
  * PauseEngineAction.java 		$Revision: 8 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 03:32:43 -0500 (Wed, 28 Jan 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -27,12 +27,12 @@ import org.eclipse.ui.actions.ActionDelegate;
 
 /**
  * Action of Pausing the engine.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
 
-public class PauseEngineAction extends ActionDelegate 
+public class PauseEngineAction extends ActionDelegate
 		implements IWorkbenchWindowActionDelegate, EngineDriverAction {
 
 	private IWorkbenchWindow window;
@@ -45,7 +45,7 @@ public class PauseEngineAction extends ActionDelegate
 
 	}
 
-	
+
 	@Override
 	public void init(IAction action) {
 		super.init(action);

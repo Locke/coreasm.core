@@ -34,7 +34,7 @@ public interface CompilerEngine {
 	public PluginLoader getPluginLoader();
 	/**
 	 * Returns a reference to the Variable Manager for access to the variable
-	 * generation 
+	 * generation
 	 * @return The {@link VarManager}
 	 */
 	public VarManager getVarManager();
@@ -66,7 +66,7 @@ public interface CompilerEngine {
 	 * @return The path configuration object used by the engine
 	 */
 	public CompilerPathConfig getPath();
-	
+
 	/**
 	 * Same as {@link #compile(ASTNode, CodeType)}, but hides errors.
 	 * The compiler will discard all errors generated during the processing
@@ -89,7 +89,7 @@ public interface CompilerEngine {
 	 */
 	public CodeFragment compile(ASTNode node, CodeType type) throws CompilerException;
 	/**
-	 * Adds an error message to the compiler engine. 
+	 * Adds an error message to the compiler engine.
 	 * Calling the method with the same error text will not add
 	 * another error with the same text.
 	 * Errors will be displayed at the end of the compiler run.
@@ -97,7 +97,7 @@ public interface CompilerEngine {
 	 */
 	public void addError(String msg);
 	/**
-	 * Adds a warning message to the compiler engine. 
+	 * Adds a warning message to the compiler engine.
 	 * Calling the method with the same warning text will not add
 	 * another warning with the same text.
 	 * Warnings will be displayed at the end of the compiler run.
@@ -123,7 +123,7 @@ public interface CompilerEngine {
 	 * @param l The duration of the operation
 	 */
 	public void addTiming(String s, long l);
-	
+
 	/**
 	 * Provides access to the global makros declared for this engine.
 	 * See {@link CodeFragment} for more information about makros

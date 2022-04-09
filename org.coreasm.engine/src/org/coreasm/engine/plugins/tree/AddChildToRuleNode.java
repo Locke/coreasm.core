@@ -1,6 +1,6 @@
-/*	
+/*
  * AddChildToRuleNode.java
- * 
+ *
  * Copyright (C) 2010 Dipartimento di Informatica, Universita` di Pisa, Italy.
  *
  * Author: Franco Alberto Cardillo 		(facardillo@gmail.com)
@@ -10,21 +10,21 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.tree;
 
 import org.coreasm.engine.interpreter.ASTNode;
 
 
-/** 
+/**
  *	AST node for rules: add child NODE to NODE (at POSITION)?
- *   
+ *
  *  @author  Franco Alberto Cardillo
  */
 public class AddChildToRuleNode extends ASTNode  {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class AddChildToRuleNode extends ASTNode  {
 				null,
 				null);
 	}
-	
+
 	/**
 	 * @param node
 	 */
@@ -44,7 +44,7 @@ public class AddChildToRuleNode extends ASTNode  {
 		super(node);
 	}
 
-	
+
 	/**
 	 * @return the second parameter of this rule
 	 */

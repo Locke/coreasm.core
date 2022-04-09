@@ -18,7 +18,7 @@ rule InitRule2 =
 	endpar
 
 rule RuleA =
-	par 
+	par
 		if (AisDone and BisDone) then
 		par
 			program(self) := undef
@@ -28,7 +28,7 @@ rule RuleA =
 			BisDone := true
 		a := 5
 	endpar
-											
+
 rule RuleB =
 	par
 		if (AisDone and BisDone) then
@@ -40,5 +40,3 @@ rule RuleB =
 			AisDone := true
 		a := 6
 	endpar
-														
-

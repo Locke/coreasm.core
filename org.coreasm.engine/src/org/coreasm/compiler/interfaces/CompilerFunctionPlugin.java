@@ -23,7 +23,7 @@ public interface CompilerFunctionPlugin {
 	 * @return A list of function names provided by this plugin
 	 */
 	public List<String> getCompileFunctionNames();
-	
+
 	/**
 	 * Compiles a function call
 	 * @param n The root node of the function call

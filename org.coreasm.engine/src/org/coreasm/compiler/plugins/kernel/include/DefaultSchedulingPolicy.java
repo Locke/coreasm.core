@@ -22,11 +22,11 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	public Iterator<Set<Element>> getNewSchedule(java.util.Set<? extends Element> set) {
 		return new DefaultIterator(set);
 	}
-	
+
 
 	/**
 	 * Does nothing.
-	 * 
+	 *
 	 * @see SchedulingPolicy#clearGroup(Object)
 	 */
 	public void clearGroup(Object groupHandle) {
@@ -35,7 +35,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 
 	/**
 	 * @return null
-	 * 
+	 *
 	 * @see SchedulingPolicy#getNewGroup()
 	 */
 	public Object getNewGroup() {
@@ -50,41 +50,41 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	}
 
 	/**
-	 * Iterator for the default scheduling policy. 
-	 * This iterator gets a set of elements and provides 
+	 * Iterator for the default scheduling policy.
+	 * This iterator gets a set of elements and provides
 	 * an iterator over all the possible subsets of the
 	 * given set.
-	 *   
+	 *
 	 * @author Roozbeh Farahbod
 	 *
 	 */
 	protected static class DefaultIterator implements Iterator<Set<Element>> {
-		
+
 		private final List<Element> list;
 		private final List<Integer> iteratedIndices;
 		private final int max_tries;	// this is actually an int value
-		
+
 		/**
 		 * Creates a new default iterator over the given set.
 		 * If the set is larger than {@link DefaultSchedulingPolicy#MAX_SET_SIZE}
 		 * then a subset of the given set (no larger than {@link DefaultSchedulingPolicy#MAX_SET_SIZE}
-		 * is considered.  
+		 * is considered.
 		 * @param set The set of agents
 		 */
 		public DefaultIterator(Set<? extends Element> set) {
 			List<Element> tempList = new ArrayList<Element>(set);
 
 			// Here I pick a subset of the given set with a size of MAX_SET_SIZE
-            if (set.size() > MAX_SET_SIZE) {
-    			this.list = new ArrayList<Element>();
-            	int clipIndex = CompilerRuntime.RuntimeProvider.getRuntime().randInt(set.size() - MAX_SET_SIZE + 1);
-            	for (int i = 0; i < MAX_SET_SIZE; i++)
-            		list.add(tempList.get(i + clipIndex));
-            } else
-    			this.list = new ArrayList<Element>(set);
+			if (set.size() > MAX_SET_SIZE) {
+				this.list = new ArrayList<Element>();
+				int clipIndex = CompilerRuntime.RuntimeProvider.getRuntime().randInt(set.size() - MAX_SET_SIZE + 1);
+				for (int i = 0; i < MAX_SET_SIZE; i++)
+					list.add(tempList.get(i + clipIndex));
+			} else
+				this.list = new ArrayList<Element>(set);
 
 			this.iteratedIndices = new ArrayList<Integer>();
-			this.max_tries = (int)Math.round(Math.pow(2, list.size())) - 1; 
+			this.max_tries = (int)Math.round(Math.pow(2, list.size())) - 1;
 		}
 
 		public boolean hasNext() {
@@ -92,25 +92,25 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 		}
 
 		public Set<Element> next() {
-			if (!hasNext()) 
+			if (!hasNext())
 				throw new Error("There is no possible combination left.");
-			
+
 			if (list.size() == 1) {
 				return new HashSet<Element>(list);
 			}
 			else {
 				Set<Element> result = new HashSet<Element>();
 
-	            // choose a subset index randomly
+				// choose a subset index randomly
 				int selectedIndex;
-				do 
+				do
 					selectedIndex = 1 + CompilerRuntime.RuntimeProvider.getRuntime().randInt(max_tries);
-				while 
+				while
 					(iteratedIndices.contains(selectedIndex));
-				
+
 				iteratedIndices.add(selectedIndex);
-					
-	            // compose the resultant subset based on the binary 
+
+				// compose the resultant subset based on the binary
 				// representation of the  selected subset index
 				int temp = selectedIndex;
 				int listIndex = 0;
@@ -122,11 +122,11 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 				}
 				return result;
 			}
-			
+
 		}
-		
+
 		public void remove() {
 			throw new UnsupportedOperationException();
-		}	
+		}
 	}
 }

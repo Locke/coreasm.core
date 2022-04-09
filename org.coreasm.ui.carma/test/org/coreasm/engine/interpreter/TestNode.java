@@ -1,6 +1,6 @@
-/*	
- * TestNode.java 
- * 
+/*
+ * TestNode.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -28,7 +28,7 @@ public class TestNode {
 	public Node youngParent;
 	public Node oldParent1;
 	public Node oldParent2;
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -48,7 +48,7 @@ public class TestNode {
 	@Test
 	public void testAddChildNode() {
 		int size = 0;
-		
+
 		size = youngParent.getNumberOfChildren();
 		youngParent.addChild(new Node("", "", null));
 		assertEquals(size+1, youngParent.getNumberOfChildren());
@@ -134,7 +134,7 @@ public class TestNode {
 		oldParent2.addChild("alpha", childNode1);
 		Node childNode2 = new Node("", "", null);
 		oldParent2.addChild("beta", childNode2);
-		
+
 		assertEquals(childNode2, childNode1.getNextCSTNode());
 	}
 
@@ -144,7 +144,7 @@ public class TestNode {
 	@Test
 	public void testGetFirstCSTNode() {
 		assertNull(youngParent.getFirstCSTNode());
-		
+
 		Node childNode = new Node("", "", null);
 		youngParent.addChild(childNode);
 		assertEquals(childNode, youngParent.getFirstCSTNode());

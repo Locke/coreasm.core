@@ -1,6 +1,6 @@
-/*	
- * XMLSerializable.java 
- * 
+/*
+ * XMLSerializable.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -14,22 +14,22 @@
 package org.coreasm.engine.absstorage;
 
 /**
- * This interface is introduced to provide a unified way of serializing 
- * CoreASM elements to and from XML elements. 
- * 
+ * This interface is introduced to provide a unified way of serializing
+ * CoreASM elements to and from XML elements.
+ *
  * @author Roozbeh Farahbod
  *
  */
 public interface XMLSerializable {
 
-	/** 
-	 * Writes the CoreASM element to an XML element. 
+	/**
+	 * Writes the CoreASM element to an XML element.
 	 */
 	public org.w3c.dom.Element toXML();
-	
-	/** 
+
+	/**
 	 * Reads an element from the given XML element.
-	 * 
+	 *
 	 * @param xmlElement an XML element representing an instance of this CoreASM element type
 	 * @return the created CoreASM element
 	 * @throws IllegalArgumentException

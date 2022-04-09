@@ -1,6 +1,6 @@
-/*	
+/*
  * InfoPanel.java 	1.0 	$Revision: 80 $
- * 
+ *
  * Copyright (C) 2008 Mona Vajihollahi
  * 					  Roozbeh Farahbod
  *
@@ -26,16 +26,16 @@ import org.coreasm.engine.absstorage.FunctionElement;
 
 public class InfoPanel extends JPanel {
 	/* keeps the mapping of functions to colors */
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1318175237865999621L;
 	private Map<FunctionElement, Color> fColors;
-	private Map<FunctionElement, String> fNames; 
+	private Map<FunctionElement, String> fNames;
 	private static final int MINIMUM_WIDTH = 100;
 	private static final int MINIMUM_HEIGHT = 500;
-	
+
 
 	public InfoPanel() {
 		super();
@@ -43,7 +43,7 @@ public class InfoPanel extends JPanel {
 		fColors = new HashMap<FunctionElement,Color>();
 		fNames = new HashMap<FunctionElement, String>();
 	}
-	
+
 	/**
 	 * Initializes this panel
 	 */
@@ -53,7 +53,7 @@ public class InfoPanel extends JPanel {
 		//setMinimumSize(new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT));
 		setPreferredSize(new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT));
 	}
-	
+
 	public void paint(Graphics g) {
 		super.paint(g);
 
@@ -62,12 +62,12 @@ public class InfoPanel extends JPanel {
 		//int delta = 25;
 		//int hp = h - 2 * delta;
 		//int wp = w - 2 * delta;
-		
+
 		//double minX = Double.MAX_VALUE;
 		//double minY = Double.MAX_VALUE;
 		//double maxX = Double.MIN_VALUE;
 		//double maxY = Double.MIN_VALUE;
-		
+
 		int x = 10;
 		int y = 30;
 
@@ -77,7 +77,7 @@ public class InfoPanel extends JPanel {
 		g.drawLine(x, y, MINIMUM_WIDTH - x, y);
 		y += 25;
 		x += 10;
-		
+
 		for (FunctionElement f: fColors.keySet()) {
 			Color color = fColors.get(f);
 			g.setColor(color);
@@ -86,17 +86,17 @@ public class InfoPanel extends JPanel {
 			g.drawString(fNames.get(f), x+10, y);
 
 			y +=15;
-			
+
 		}
 
 	}
-	
+
 	public void addFunction(FunctionElement f,Color c, String name) {
 		if (!fColors.containsKey(f)) {
 			fColors.put(f,c);
 			fNames.put(f, name);
 		}
 	}
-	
+
 
 }

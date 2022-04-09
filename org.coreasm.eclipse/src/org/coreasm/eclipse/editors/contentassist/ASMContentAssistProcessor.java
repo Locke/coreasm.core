@@ -30,15 +30,15 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Image;
 
 public class ASMContentAssistProcessor implements IContentAssistProcessor {
-	
+
 	private final ASMEditor editor;
 	private final IContentAssistProcessor templateProcessor;
-	
+
 	public ASMContentAssistProcessor(ASMEditor editor, IContentAssistProcessor templateProcessor) {
 		this.editor = editor;
 		this.templateProcessor = templateProcessor;
 	}
-	
+
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();

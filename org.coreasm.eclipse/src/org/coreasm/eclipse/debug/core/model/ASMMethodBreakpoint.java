@@ -17,10 +17,10 @@ public class ASMMethodBreakpoint extends ASMLineBreakpoint {
 
 	public ASMMethodBreakpoint() {
 	}
-	
+
 	public ASMMethodBreakpoint(final IResource resource, final int lineNumber, final String ruleName) throws DebugException {
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
-			
+
 			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IMarker marker = resource.createMarker("asm.markerType.methodBreakpoint");
@@ -34,7 +34,7 @@ public class ASMMethodBreakpoint extends ASMLineBreakpoint {
 		};
 		run(getMarkerRule(resource), runnable);
 	}
-	
+
 	/**
 	 * Returns the name of the rule assigned to this method breakpoint.
 	 * @return the name of the rule assigned to this method breakpoint

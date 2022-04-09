@@ -27,23 +27,23 @@ public class ComprehensionHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		//set comprehension was changed in a newer update of CoreASM.
 		//there are no longer two different set comprehension node types
-		
+
 
 		//evaluates a set comprehension of the form
 		//{id | id in value with guard}
 		//{id is exp | id1 in value1, ... idn in value n with guard}
 		//where the guard is optional.
 		//in the first case, the exp is simply id
-		
+
 		SetCompNode cnode = (SetCompNode) node;
-		
+
 		//guard might be non existent, so initialize it
 		CodeFragment guard = null;
 		//optimization: the true guard is always true anyway, so if it is existent, leave it out
 		if(!(cnode.getGuard() instanceof TrueGuardNode)) guard = engine.compile(cnode.getGuard(), CodeType.R);
 
 		List<String> constrnames = new ArrayList<String>();
-		
+
 		result.appendLine("@decl(java.util.List<@RuntimePkg@.Element>,list)=new java.util.ArrayList<@RuntimePkg@.Element>();\n");
 		try{
 			//evaluate all constrainer domains and collect the list of variable names
@@ -53,22 +53,22 @@ public class ComprehensionHandler implements CompilerCodeHandler {
 				result.appendFragment(engine.compile(e.getValue(), CodeType.R));
 				result.appendLine("@decl(java.util.List<@RuntimePkg@.Element>,domain" + counter + ")=new java.util.ArrayList<@RuntimePkg@.Element>(((@RuntimePkg@.Enumerable)evalStack.pop()).enumerate());\n");
 				counter++;
-			}	
+			}
 			//iterate
-			
+
 			//open for loops
 			for(int i = 0; i < constrnames.size(); i++){
 				String var = "@domain" + i + "@";
 				String cvar = "@c" + i + "@";
 				result.appendLine("for(@decl(int,c" + i + ")=0; " + cvar + " < " + var + ".size(); " + cvar + "++){\n");
 			}
-			
+
 			result.appendLine("localStack.pushLayer();\n");
-			
+
 			for(int i = 0; i < constrnames.size(); i++){
 				result.appendLine("localStack.put(\"" + constrnames.get(i) + "\", @domain" + i + "@.get(@c" + i + "@));\n");
 			}
-			
+
 			if(guard == null){
 				result.appendFragment(engine.compile(cnode.getSetFunction(), CodeType.R));
 				result.appendLine("@list@.add((@RuntimePkg@.Element)evalStack.pop());\n");
@@ -80,9 +80,9 @@ public class ComprehensionHandler implements CompilerCodeHandler {
 				result.appendLine("@list@.add((@RuntimePkg@.Element)evalStack.pop());\n");
 				result.appendLine("}\n");
 			}
-			
+
 			result.appendLine("localStack.popLayer();\n");
-			
+
 			//close for loops
 			for(int i = 0; i < constrnames.size(); i++){
 				result.appendLine("}\n");

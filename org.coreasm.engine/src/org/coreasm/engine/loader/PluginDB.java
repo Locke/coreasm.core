@@ -1,6 +1,6 @@
-/*	
+/*
  * PluginDB.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.loader;
 
 import java.util.ArrayList;
@@ -28,26 +28,26 @@ import org.coreasm.engine.CoreASMEngine.EngineMode;
 import org.coreasm.engine.plugin.ExtensionPointPlugin;
 import org.coreasm.engine.plugin.Plugin;
 
-/** 
- * A structure to hold CoreASM plugins. This is created to 
+/**
+ * A structure to hold CoreASM plugins. This is created to
  * improve performance.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class PluginDB extends HashSet<Plugin> {
 
 	public final Set<ExtensionPointPlugin> extensionPointPlugins;
-	
+
 	public final Map<EngineMode, List<Entry<ExtensionPointPlugin, Integer>>> srcModeMap;
 	public final Map<EngineMode, List<Entry<ExtensionPointPlugin, Integer>>> trgModeMap;
 	public final Map<EngineMode, Map<EngineMode, Set<ExtensionPointPlugin>>> modePairMap;
-	
+
 	private final EntryComparator comparator = new EntryComparator();
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public PluginDB() {
 		extensionPointPlugins = new HashSet<ExtensionPointPlugin>();
@@ -72,7 +72,7 @@ public class PluginDB extends HashSet<Plugin> {
 	}
 
 	/**
-	 * Returns a subset of this set that only includes the 
+	 * Returns a subset of this set that only includes the
 	 * extension points plugins.
 	 */
 	public Set<ExtensionPointPlugin> getExtensionPointPlugins() {
@@ -81,9 +81,9 @@ public class PluginDB extends HashSet<Plugin> {
 
 	/**
 	 * Returns a list of (plugin, priority) pairs that are registered for
-	 * the given source mode. The list is ordered according to 
-	 * the call priorities. 
-	 * 
+	 * the given source mode. The list is ordered according to
+	 * the call priorities.
+	 *
 	 * The return value can be <code>null</code>.
 	 */
 	public List<Entry<ExtensionPointPlugin, Integer>> getSrcModePlugins(EngineMode mode) {
@@ -95,12 +95,12 @@ public class PluginDB extends HashSet<Plugin> {
 			return result;
 		}
 	}
-	
+
 	/**
 	 * Returns a list of (plugin, priority) pairs that are registered for
-	 * the given target mode. The list is ordered according to 
-	 * the call priorities. 
-	 * 
+	 * the given target mode. The list is ordered according to
+	 * the call priorities.
+	 *
 	 * The return value can be <code>null</code>.
 	 */
 	public List<Entry<ExtensionPointPlugin, Integer>> getTrgModePlugins(EngineMode mode) {
@@ -112,14 +112,14 @@ public class PluginDB extends HashSet<Plugin> {
 				return result;
 			}
 	}
-	
+
 	/*
-	 * Returns the x of ExtensionPointPlugins that are registered for 
+	 * Returns the x of ExtensionPointPlugins that are registered for
 	 * the given src and trg mode. It caches the results;
 	 *
 	public Set<ExtensionPointPlugin> getExtensionPointPlugins(EngineMode src, EngineMode trg) {
 		//FIXME problamatic! This is not dynamic anymore!
-		
+
 		Map<EngineMode, Set<ExtensionPointPlugin>> map = modePairMap.get(src);
 		if (map == null) {
 			map = new HashMap<EngineMode, Set<ExtensionPointPlugin>>();
@@ -133,24 +133,24 @@ public class PluginDB extends HashSet<Plugin> {
 			map.put(trg, set);
 			return set;
 		}
-		
+
 		return set;
 	}
 	*/
-	
+
 	// ------- Internal Methods ---------
-	
+
 	/*
-	 * Adds the given ExtensionPointPlugin to the internal 
+	 * Adds the given ExtensionPointPlugin to the internal
 	 * cache of extension point plugins.
 	 */
 	private boolean addEPPlugin(ExtensionPointPlugin p) {
 		putInModeMap(p);
 		return extensionPointPlugins.add(p);
 	}
-	
+
 	/*
-	 * removes the given ExtensionPointPlugin from the internal 
+	 * removes the given ExtensionPointPlugin from the internal
 	 * cache of extension point plugins.
 	 */
 	private boolean removeEPPlugin(ExtensionPointPlugin p) {
@@ -160,17 +160,17 @@ public class PluginDB extends HashSet<Plugin> {
 		return extensionPointPlugins.remove(p);
 		*/
 	}
-	
+
 	/*
 	 * Clears the set of ExtensionPoint plugins
-	 */	
+	 */
 	private void clearEPs() {
 		srcModeMap.clear();
 		trgModeMap.clear();
 		modePairMap.clear();
 		extensionPointPlugins.clear();
 	}
-	
+
 	/*
 	 * Removes all the given plugins from the internal
 	 * cache of EP plugins.
@@ -216,9 +216,9 @@ public class PluginDB extends HashSet<Plugin> {
 				}
 				list.add(new PluginEntry(p, pair.getValue()));
 			}
-		
+
 	}
-	
+
 	/*
 	 * Removes the modes of p from mode maps.
 	 *
@@ -235,14 +235,14 @@ public class PluginDB extends HashSet<Plugin> {
 		if (p.getTargetModes() != null)
 			for (Entry<EngineMode, Integer> pair: p.getTargetModes().entrySet()) {
 				List<Entry<ExtensionPointPlugin, Integer>> list = trgModeMap.get(pair.getKey());
-				if (list != null) 
+				if (list != null)
 					list.remove(new PluginEntry(p, pair.getValue()));
 			}
 	}
 	*/
 
 	// ------- HashSet Methods ---------
-	
+
 	@Override
 	public boolean add(Plugin o) {
 		if (o instanceof ExtensionPointPlugin)
@@ -274,7 +274,7 @@ public class PluginDB extends HashSet<Plugin> {
 class ModePair {
 	final EngineMode src;
 	final EngineMode trg;
-	
+
 	public ModePair(EngineMode src, EngineMode trg) {
 		this.src = src;
 		this.trg = trg;
@@ -285,27 +285,27 @@ class EntryComparator implements Comparator<Entry<ExtensionPointPlugin, Integer>
 
 	/**
 	 * @see Comparator#compare(Object, Object)
-	 * 
+	 *
 	 * Note: this comparator
-     * imposes orderings that are inconsistent with equals.
+	 * imposes orderings that are inconsistent with equals.
 	 */
 	public int compare(Entry<ExtensionPointPlugin, Integer> o1,
 			Entry<ExtensionPointPlugin, Integer> o2) {
 		return o2.getValue() - o1.getValue();
 	}
-	
+
 }
 
 class PluginEntry implements Entry<ExtensionPointPlugin, Integer> {
 
 	public final ExtensionPointPlugin key;
 	public final Integer value;
-	
+
 	public PluginEntry(ExtensionPointPlugin p, Integer i) {
 		this.key = p;
 		this.value = i;
 	}
-	
+
 	public ExtensionPointPlugin getKey() {
 		return key;
 	}
@@ -317,5 +317,5 @@ class PluginEntry implements Entry<ExtensionPointPlugin, Integer> {
 	public Integer setValue(Integer value) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 }

@@ -1,26 +1,26 @@
-/*	
+/*
  * Location.java 	1.0 	$Revision: 243 $
- * 
  *
- * Copyright (C) 2005-2008 Roozbeh Farahbod 
- * 
+ *
+ * Copyright (C) 2005-2008 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.absstorage;
 
 import java.util.List;
 
-/** 
+/**
  *	Implements LOCATION elements
- *   
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class Location {
 
@@ -28,19 +28,19 @@ public class Location {
 	 * The name of the location function
 	 */
 	public final String name;
-	
+
 	/**
 	 * Arguments; list of Elements
 	 */
 	public final ElementList args;
-	
+
 	/** if not null, indicates whether this location is modifiable or not. */
 	public final Boolean isModifiable;
-	
+
 	/**
 	 * Creates a new location with the given
 	 * function and agruments.
-	 * 
+	 *
 	 * @param name the name of the function element the new location
 	 * @param args list of abstract object values as arguments
 	 */
@@ -57,7 +57,7 @@ public class Location {
 	/**
 	 * Creates a new location with the given
 	 * function and agruments.
-	 * 
+	 *
 	 * @param name the name of the function element the new location
 	 * @param args list of abstract object values as arguments
 	 * @param isModifiable indicates whether this location is modifiable.
@@ -73,9 +73,9 @@ public class Location {
 	}
 
 	/**
-	 * Provides a <code>String</code> representation of this 
+	 * Provides a <code>String</code> representation of this
 	 * location.
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

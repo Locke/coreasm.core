@@ -36,7 +36,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 	@Override
 	public List<File> writeEntriesToDisk(List<LibraryEntry> entries,
 			CompilerEngine engine) throws CompilerException{
-		
+
 		List<File> result = new ArrayList<File>();
 		CompilerPathConfig path = engine.getPath();
 
@@ -62,8 +62,8 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 				throw new CompilerException(msg);
 			}
 		}
-		
-		
+
+
 		return result;
 	}
 }

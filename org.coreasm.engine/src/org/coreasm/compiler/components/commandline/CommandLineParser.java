@@ -47,7 +47,7 @@ public class CommandLineParser {
 	 */
 	public static CompilerOptions parseCommandLine(String[] args) throws CommandLineException{
 		CompilerOptions options = new CompilerOptions();
-		
+
 		try{
 			for(int i = 0; i < args.length; i++){
 				if(args[i].equals("-o")){
@@ -142,10 +142,10 @@ public class CommandLineParser {
 		catch(NumberFormatException e){
 			throw new CommandLineException("wrongly formatted input");
 		}
-		
+
 		if(options.SpecificationName == null) throw new CommandLineException("No specification provided");
-		
-		
+
+
 		return options;
 	}
 }

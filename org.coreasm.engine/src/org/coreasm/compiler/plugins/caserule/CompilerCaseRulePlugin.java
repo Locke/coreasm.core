@@ -19,7 +19,7 @@ import org.coreasm.compiler.plugins.caserule.code.ucode.CaseRuleHandler;
 public class CompilerCaseRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Initializes a new case rule plugin
 	 * @param parent The interpreter version
@@ -27,7 +27,7 @@ public class CompilerCaseRulePlugin extends CompilerCodePlugin implements Compil
 	public CompilerCaseRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

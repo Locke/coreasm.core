@@ -19,15 +19,15 @@ public class CreateRuleProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public CreateRuleProposal(String name, int arguments) {
 		this(name, arguments, null, null, null);
 	}
-	
+
 	public CreateRuleProposal(String name, int arguments, Image image) {
 		this(name, arguments, image, null, null);
 	}
-	
+
 	public CreateRuleProposal(String name, int arguments, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.name = name;
 		this.arguments = arguments;
@@ -42,16 +42,16 @@ public class CreateRuleProposal implements ICompletionProposal {
 			int offset = document.getLength();
 			if (arguments <= 0) {
 				String declarationString = "\n\nrule " + name + " =\n\t";
-				
+
 				document.replace(offset, 0, declarationString + "skip");
-				
+
 				selection = new Point(offset + declarationString.length(), "skip".length());
 			}
 			else {
 				String declarationString = "\n\nrule " + name + "(";
-				
+
 				document.replace(offset, 0, declarationString + "arguments) =\n\tskip");
-				
+
 				selection = new Point(offset + declarationString.length(), "arguments".length());
 			}
 		} catch (BadLocationException e) {

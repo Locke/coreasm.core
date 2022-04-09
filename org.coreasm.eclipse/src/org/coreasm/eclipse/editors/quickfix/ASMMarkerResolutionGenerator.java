@@ -19,11 +19,11 @@ public class ASMMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 
 	private static class ASMMarkerResolution implements IMarkerResolution {
 		private ICompletionProposal proposal;
-		
+
 		public ASMMarkerResolution(ICompletionProposal proposal) {
 			this.proposal = proposal;
 		}
-		
+
 		@Override
 		public String getLabel() {
 			return proposal.getDisplayString();
@@ -46,22 +46,22 @@ public class ASMMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 			if (editor instanceof ASMEditor)
 				proposal.apply(((ASMEditor)editor).getDocumentProvider().getDocument(editor.getEditorInput()));
 		}
 	}
-	
+
 	@Override
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
 		ArrayList<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 		ASMQuickAssistProcessor.collectProposals(marker, proposals);
-		
+
 		for (ICompletionProposal proposal : proposals)
 			resolutions.add(new ASMMarkerResolution(proposal));
-		
+
 		return resolutions.toArray(new IMarkerResolution[resolutions.size()]);
 	}
 }

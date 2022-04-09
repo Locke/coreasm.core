@@ -13,18 +13,18 @@ public class ASMUpdateViewElement {
 	private String text;
 	private String sourceName;
 	private int lineNumber;
-	
+
 	public ASMUpdateViewElement(Update update, ControlAPI capi) {
 		sourceName = ASMDebugUtils.getFileName(update, capi);
 		lineNumber = ASMDebugUtils.getLineNumber(update, capi);
 	}
-	
+
 	public ASMUpdateViewElement(String text) {
 		this.text = text;
 		sourceName = ASMDebugUtils.parseSourceName(text);
 		lineNumber = ASMDebugUtils.parseLineNumber(text);
 	}
-	
+
 	/**
 	 * Returns whether this element is an error.
 	 * @return whether this element is an error.
@@ -32,7 +32,7 @@ public class ASMUpdateViewElement {
 	public boolean isError() {
 		return true;
 	}
-	
+
 	/**
 	 * Returns the number of the line in the assigned source file.
 	 * @return the number of the line in the assigned source file
@@ -40,7 +40,7 @@ public class ASMUpdateViewElement {
 	public int getLineNumber() {
 		return lineNumber;
 	}
-	
+
 	/**
 	 * Returns the name of the assigned source file.
 	 * @return the name of the assigned source file
@@ -48,7 +48,7 @@ public class ASMUpdateViewElement {
 	public String getSourceName() {
 		return sourceName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return text;

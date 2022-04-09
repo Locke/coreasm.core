@@ -1,6 +1,6 @@
-/*	
+/*
  * AgentManagementRuleNode.java  	$Revision: 95 $
- * 
+ *
  * Copyright (c) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2009-08-04 12:40:53 +0200 (Di, 04 Aug 2009) $.
@@ -10,15 +10,15 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.schedulingpolicies;
 
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
-/** 
+/**
  * A node for <code>'suspend' Term<code> nodes.
- *   
+ *
  * @author  Roozbeh Farahbod
  */
 public class AgentManagementRuleNode extends ASTNode {
@@ -33,7 +33,7 @@ public class AgentManagementRuleNode extends ASTNode {
 				null,
 				info);
 	}
-	
+
 	public AgentManagementRuleNode(AgentManagementRuleNode node) {
 		super(node);
 	}
@@ -44,7 +44,7 @@ public class AgentManagementRuleNode extends ASTNode {
 	public String getKeyword() {
 		return this.getFirstCSTNode().getToken();
 	}
-	
+
 	/**
 	 * @return the term part of this node that refers to the agent
 	 */

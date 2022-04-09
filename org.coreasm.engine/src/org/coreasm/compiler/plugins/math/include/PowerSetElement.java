@@ -1,6 +1,6 @@
 /*
  * PowerSetElement.java 		$Revision: 11 $
- * 
+ *
  * Copyright (c) 2007 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-01-28 11:03:35 +0100 (Mi, 28 Jan 2009) $ by $Author: rfarahbod $
@@ -29,7 +29,7 @@ import org.coreasm.engine.absstorage.Enumerable;
 
 /**
  * Provide the powerset of an enumerable.
- *   
+ *
  * @author Roozbeh Farahbod
  * @version Last modified on $Date: 2009-01-28 11:03:35 +0100 (Mi, 28 Jan 2009) $
  *
@@ -41,13 +41,13 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	 * The maximum size
 	 */
 	public static final int MAX_SIZE = 31;
-	
+
 	//protected static final Logger logger = LoggerFactory.getLogger(PowerSetElement.class);
 
 	private final ArrayList<Element> elements;
 	private Set<Element> elementsSet = null;
 	private String denotationalValue = null;
-	
+
 	/**
 	 * Constructs a new powerset
 	 * @param baseSet The base set
@@ -59,7 +59,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 					"MathPlugin: Powerset function over a collection of more than " + MAX_SIZE + " elements.");
 		elements = new ArrayList<Element>(base);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.Enumerable#contains(org.coreasm.engine.absstorage.Element)
 	 */
@@ -74,19 +74,19 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	}
 
 	/*
-	 * Single implementation for both 
+	 * Single implementation for both
 	 * contains(Element) and contains(Object)
 	 */
 	private boolean containsElement(Object o) {
 		if (o instanceof Enumerable) {
-			for (Element element: ((Enumerable)o).enumerate()) 
+			for (Element element: ((Enumerable)o).enumerate())
 				if (!elements.contains(element))
 					return false;
 			return true;
 		} else
 			return false;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
 	 */
@@ -102,7 +102,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			elementsSet = new HashSet<Element>(elements);
 		return elementsSet;
 	}
-	
+
 	@Override
 	public boolean equals(Object anElement) {
 		if (anElement instanceof PowerSetElement) {
@@ -163,7 +163,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			System.out.println(
 					"MathPlugin: Cannot return the size of the Powerset function over a collection of more than " + MAX_SIZE + " elements.");
 			return Integer.MAX_VALUE;
-		} else 
+		} else
 			return (int)Math.pow(2, elements.size());
 	}
 
@@ -181,16 +181,16 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+		if (a.length < size)
+			a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
 		int i = 0;
 		for (Element e : this) {
 			a[i] = (T)e;
 			i++;
 		}
-        if (a.length > size)
-            a[size] = null;
-        return a;
+		if (a.length > size)
+			a[size] = null;
+		return a;
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		else
 			return "{}";
 	}
-	
+
 	public String denotation() {
 		if (denotationalValue == null) {
 			denotationalValue = "P({";
@@ -220,7 +220,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 	}
 
 	/**
-	 * The iterator for powerset elements. It 
+	 * The iterator for powerset elements. It
 	 * creates the next element in every call to the
 	 * <code>next()</code> function.
 	 *
@@ -229,15 +229,15 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 
 		private final ArrayList<Element> baseList;
 		private final int baseSize;
-	
+
 		// having two indices for large base sets and small base sets
 		// is just to increase the performance on small base sets
 		private final BigInteger powersetSize;
-		private final int smallPowersetSize; 
+		private final int smallPowersetSize;
 		private final boolean overSizeBaseSet;
 		private BigInteger bigIndex;
 		private long smallIndex;
-		
+
 		public PowerSetIterator(ArrayList<Element> baseList) {
 			this.baseList = baseList;
 			this.baseSize = baseList.size();
@@ -251,14 +251,14 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 			}
 			bigIndex = BigInteger.ZERO;
 			smallIndex = 0;
-			
+
 		}
 
 		public boolean hasNext() {
 			if (overSizeBaseSet)
 				return bigIndex.compareTo(powersetSize) < 0;
 			else
-				return smallIndex < smallPowersetSize;  
+				return smallIndex < smallPowersetSize;
 		}
 
 		public Element next() {
@@ -266,8 +266,8 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 				Collection<Element> resultSet = new ArrayList<Element>();
 
 				if (overSizeBaseSet) {
-					// if the base set is too large then 
-					// we need to use BigIntegers to compute the next element of 
+					// if the base set is too large then
+					// we need to use BigIntegers to compute the next element of
 					// the powerset
 					BigInteger indices = bigIndex;
 					int ci = 0;
@@ -285,7 +285,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 					long indices = smallIndex;
 					int ci = 0;
 					while (indices > 0) {
-						if ((indices & 1) > 0) 
+						if ((indices & 1) > 0)
 							resultSet.add(baseList.get(ci));
 						indices = indices >> 1;
 						ci++;
@@ -303,18 +303,18 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		public void remove() {
 			throw new UnsupportedOperationException("Cannot remove elements from powerset iterators.");
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static class PowerSetMember extends SetElement {
 
 		private final Collection<Element> value;
-		
+
 		public PowerSetMember(Collection<Element> value) {
 			this.value = value;
 		}
-		
+
 		public boolean contains(Element e) {
 			return value.contains(e);
 		}
@@ -322,7 +322,7 @@ public class PowerSetElement extends Element implements Enumerable, Collection<E
 		public Collection<Element> enumerate() {
 			return Collections.unmodifiableCollection(value);
 		}
-	
+
 		public String toString() {
 			StringBuffer result = new StringBuffer();
 			for (Element e: value)

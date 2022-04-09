@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2005-2012 Roozbeh Farahbod 
- * 
- * Licensed under the Academic Free License version 3.0 
+ * Copyright (C) 2005-2012 Roozbeh Farahbod
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This is the default implementation of the {@link IPluginRegistry} offering a plugin registry for CoreASM.
- * 
+ *
  * TODO: This class is not yet used by the engine.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -44,16 +44,16 @@ public class PluginRegistry implements IPluginRegistry {
 			SINGLETON = new PluginRegistry();
 		return SINGLETON;
 	}
-	
+
 	@Override
 	public Collection<ICoreASMPlugin> getPlugins() {
 		Collection<ICoreASMPlugin> result = plugins.values();
-		
+
 		if (result != null) {
 			return Collections.unmodifiableCollection(result);
 		} else
 			return Collections.emptySet();
-		
+
 	}
 
 	@Override
@@ -78,10 +78,10 @@ public class PluginRegistry implements IPluginRegistry {
 
 	/**
 	 * Loads all the plugins that are available.
-	 */ 
+	 */
 	private void loadPlugins() {
 		logger.info("Loading CoreASM plugins...");
-		
+
 		throw new IllegalAccessError("The new CoreASM plugin registry is still under development.");
 	}
 

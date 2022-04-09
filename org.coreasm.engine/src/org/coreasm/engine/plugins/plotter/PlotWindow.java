@@ -1,6 +1,6 @@
-/*	
+/*
  * PlotWindow.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.plotter;
 
 import java.awt.BorderLayout;
@@ -24,31 +24,31 @@ import javax.swing.JPanel;
 
 import org.coreasm.engine.absstorage.FunctionElement;
 
-/** 
+/**
  * Opens a JFrame window that plots functions of the form <i>f: X -> Y</i>.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class PlotWindow extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private PlotPanel plotPanel;
 	private InfoPanel infoPanel;
 	private JPanel buttonsPanel;
 	private boolean killed = false;
-	
+
 	public PlotWindow() {
 		super("Plot Window");
 		initComponents();
 	}
-	
+
 	private void initComponents() {
-		
+
 		plotPanel = new PlotPanel();
 		infoPanel = new InfoPanel();
-		
+
 		JButton closeButton = new JButton("Close");
 		closeButton.setActionCommand("close");
 		closeButton.setMnemonic(KeyEvent.VK_C);
@@ -57,16 +57,16 @@ public class PlotWindow extends JFrame implements ActionListener {
 		buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
 		buttonsPanel.add(closeButton, BorderLayout.EAST);
-		
+
 		setLayout(new BorderLayout());
 		add(plotPanel, BorderLayout.CENTER);
 		add(buttonsPanel, BorderLayout.SOUTH);
 		add(infoPanel, BorderLayout.EAST);
-		
+
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-		
+
 		addWindowStateListener(null);
-		
+
 		pack();
 	}
 
@@ -80,7 +80,7 @@ public class PlotWindow extends JFrame implements ActionListener {
 
 	/**
 	 * Adds a new function to be plotted in this window
-	 *  
+	 *
 	 * @param f function element
 	 * @param name name of the function
 	 */
@@ -90,12 +90,12 @@ public class PlotWindow extends JFrame implements ActionListener {
 			infoPanel.addFunction(f, plotPanel.getColorMap().get(f), name);
 		}
 	}
-	
+
 	/**
-	 * This is overriden so as to dispose the window 
+	 * This is overriden so as to dispose the window
 	 * if it already has alread received a <i>kill</i> signal.
 	 * If not, it normally hides the window.
-	 * 
+	 *
 	 * @see JFrame#setVisible(boolean)
 	 */
 	public void setVisible(boolean b) {

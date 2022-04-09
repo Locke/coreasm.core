@@ -1,6 +1,6 @@
-/*	
+/*
  * DerivedFunctionElement.java  	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.signature;
 
 import java.util.Collections;
@@ -25,13 +25,13 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
 import org.coreasm.engine.interpreter.InterpreterException;
 
-/** 
- * Derived functions keep a copy of the expression tree and call the 
+/**
+ * Derived functions keep a copy of the expression tree and call the
  * interpreter to evaluate the subtree everytime they are asked for
  * their value.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class DerivedFunctionElement extends FunctionElement {
 
@@ -40,9 +40,9 @@ public class DerivedFunctionElement extends FunctionElement {
 	protected final List<String> params;
 	protected final ASTNode expr;
 	protected final ThreadLocal<Map<ASTNode, ASTNode>> exprCopiesCache = new ThreadLocal<>();
-	
+
 	/**
-	 * Creates a new derived function with the given list 
+	 * Creates a new derived function with the given list
 	 * of parameters.
 	 */
 	public DerivedFunctionElement(ControlAPI capi, String name, List<String> params, ASTNode expr) {
@@ -56,7 +56,7 @@ public class DerivedFunctionElement extends FunctionElement {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/*
 	 * @see org.coreasm.engine.absstorage.FunctionElement#getValue(java.util.List)
 	 */
@@ -90,7 +90,7 @@ public class DerivedFunctionElement extends FunctionElement {
 				interpreter.clearTree(exprCopy);
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -99,7 +99,7 @@ public class DerivedFunctionElement extends FunctionElement {
 		for (int i=0; i < params.size(); i++)
 			interpreter.addEnv(params.get(i), values.get(i));
 	}
-	
+
 	protected void unbindArguments(Interpreter interpreter) {
 		for (int i=0; i < params.size(); i++)
 			interpreter.removeEnv(params.get(i));

@@ -16,7 +16,7 @@ use IO
 
 init InitRule
 
-rule InitRule = 
+rule InitRule =
 	seqblock
 		print 1 > 2
 		print 2 >= 2

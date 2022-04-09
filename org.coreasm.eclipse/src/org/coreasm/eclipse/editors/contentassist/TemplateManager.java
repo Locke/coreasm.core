@@ -13,7 +13,7 @@ import org.eclipse.ui.editors.text.templates.ContributionTemplateStore;
 
 /**
  * @author Tobias
- * 
+ *
  * Singleton manager for templates
  */
 
@@ -21,31 +21,31 @@ public class TemplateManager {
 	/** Key to store custom templates. */
 	private static final String CUSTOM_TEMPLATES_KEY = CoreASMPlugin.getDefault()
 			.toString() + ".customtemplates";
-	
+
 	/** The shared instance. */
 	private static TemplateManager instance;
-	
+
 	/** The template store. */
 	private TemplateStore fStore;
-	
+
 	/** The context type registry. */
 	private ContributionContextTypeRegistry fRegistry;
 
 	private TemplateManager() {
-		
+
 	}
 
 	public static TemplateManager getInstance() {
 		if (instance == null) {
 			instance = new TemplateManager();
 		}
-		
+
 		return instance;
 	}
 
 	/**
 	 * Returns this plug-in's template store.
-	 * 
+	 *
 	 * @return the template store of this plug-in instance
 	 */
 	public TemplateStore getTemplateStore() {
@@ -65,15 +65,15 @@ public class TemplateManager {
 
 	/**
 	 * Returns this plug-in's context type registry.
-	 * 
+	 *
 	 * @return the context type registry for this plug-in instance
-	 */ 
+	 */
 	public ContextTypeRegistry getContextTypeRegistry() {
 		if (fRegistry == null) {
 			fRegistry = new ContributionContextTypeRegistry();
 			fRegistry.addContextType(ASMTemplateContextType.CONTEXT_TYPE);
-		} 
-		
+		}
+
 		return fRegistry;
 	}
 
@@ -81,11 +81,11 @@ public class TemplateManager {
 	public ImageRegistry getImageRegistry() {
 		return CoreASMPlugin.getDefault().getImageRegistry();
 	}
-	
+
 	public static ImageDescriptor imageDescriptorFromPlugin(String string, String default_image) {
 		return CoreASMPlugin.imageDescriptorFromPlugin(string, default_image);
 	}
-	
+
 	public IPreferenceStore getPreferenceStore() {
 		return CoreASMPlugin.getDefault().getPreferenceStore();
 	}
@@ -95,4 +95,3 @@ public class TemplateManager {
 		CoreASMPlugin.getDefault().savePluginPreferences();
 	}
 }
-

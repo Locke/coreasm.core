@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.coreasm.eclipse.engine;
 
@@ -12,14 +12,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * A CoreASM Engine Factory for the Eclipse plugin.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class CoreASMEngineFactory {
 
 	/**
-	 * Creates an instance of CoreASM Engine configured for the 
+	 * Creates an instance of CoreASM Engine configured for the
 	 * CoreASM Eclipse plugin.
 	 */
 	public static CoreASMEngine createCoreASMEngine() {
@@ -32,11 +32,11 @@ public class CoreASMEngineFactory {
 		engine.waitWhileBusy();
 		return engine;
 	}
-	
+
 	private static void setEngineProperties(CoreASMEngine engine) {
 		IPreferenceStore prefStore = CoreASMPlugin.getDefault().getPreferenceStore();
-		
-		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, 
+
+		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY,
 				prefStore.getString(PreferenceConstants.ADDITIONAL_PLUGINS_FOLDERS));
 	}
 

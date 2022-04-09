@@ -49,7 +49,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  *
  */
 public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
-	
+
 	private static HashSet<FunctionInfo> pluginFunctions = null;
 
 	@Override
@@ -63,21 +63,21 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 		collectProposals(annotation, proposals);
 		return !proposals.isEmpty();
 	}
-	
+
 	@Override
 	public ICompletionProposal[] computeQuickAssistProposals(IQuickAssistInvocationContext invocationContext) {
 		ISourceViewer viewer = invocationContext.getSourceViewer();
 		TextInvocationContext context = new TextInvocationContext(viewer, invocationContext.getOffset(), (viewer != null ? viewer.getSelectedRange().y : 0));
 		IAnnotationModel model = viewer.getAnnotationModel();
-		
+
 		if (model == null)
 			return null;
-		
+
 		List<ICompletionProposal> proposals = computeProposals(context, model);
-		
+
 		return proposals.toArray(new ICompletionProposal[proposals.size()]);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private List<ICompletionProposal> computeProposals(IQuickAssistInvocationContext context, IAnnotationModel model) {
 		ArrayList<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
@@ -91,16 +91,16 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 		return proposals;
 	}
-	
+
 	private boolean isAtPosition(int offset, Position pos) {
 		return pos != null && offset >= pos.getOffset() && offset <= pos.getOffset() + pos.getLength();
 	}
-	
+
 	public static void collectProposals(Annotation annotation, List<ICompletionProposal> proposals) {
 		if (annotation instanceof MarkerAnnotation)
 			collectProposals(((MarkerAnnotation)annotation).getMarker(), proposals);
 	}
-	
+
 	public static void collectProposals(IMarker marker, List<ICompletionProposal> proposals) {
 		if (MarkerUtilities.getSeverity(marker) == IMarker.SEVERITY_WARNING) {
 			String[] data = marker.getAttribute("data", "").split(" ");
@@ -230,7 +230,7 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 			}
 		}
 	}
-	
+
 	private static HashSet<FunctionInfo> getPluginFunctions() {
 		if (pluginFunctions == null) {
 			pluginFunctions = new HashSet<FunctionInfo>();
@@ -240,7 +240,7 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 		return pluginFunctions;
 	}
-	
+
 	/**
 	 * Returns whether two strings are similar.
 	 * @param string first string
@@ -250,18 +250,18 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 	private static boolean isSimilar(String string, String anotherString) {
 		String shortString = string.toLowerCase();
 		String longString = anotherString.toLowerCase();
-		
+
 		if (shortString.length() > longString.length()) {
 			String tmp = longString;
 			longString = shortString;
 			shortString = tmp;
 		}
-		
+
 		int lengthShortString = shortString.length();
 		int lengthLongString = longString.length();
 		int lengthDiff = lengthLongString - lengthShortString;
 		int min = lengthLongString;
-		
+
 		for (int i = 0; i <= lengthDiff; i++) {
 			int sum = lengthDiff;
 			for (int j = 0; j < lengthShortString; j++) {
@@ -291,7 +291,7 @@ public class ASMQuickAssistProcessor implements IQuickAssistProcessor {
 			if (min < lengthShortString)
 				return true;
 		}
-		
+
 		return false;
 	}
 

@@ -20,11 +20,11 @@ public class KernelRuleOrFuncHandler implements CompilerCodeHandler {
 			throws CompilerException {
 		try {
 			String name = node.getAbstractChildNodes().get(0).getToken();
-								
+
 			//get rule names
 			Preprocessor prep = engine.getPreprocessor();
 			Information inf = prep.getGeneralInfo().get("RuleDeclaration");
-			
+
 			if (inf.getChildren().contains(name)) {
 				// if it is a rule, return the rule element
 				result.appendLine(

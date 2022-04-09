@@ -14,19 +14,19 @@ import org.coreasm.compiler.CompilerOptions;
 public class ToJarExportWizard extends Wizard implements IExportWizard {
 	private ToJarExportWizardPage page;
 	private IFile selected;
-	
+
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		if(selection.getFirstElement() instanceof IFile){
 			selected = (IFile) selection.getFirstElement();
 		}
 	}
-	
+
 	@Override
 	public String getWindowTitle(){
 		return "CoreASM To Jar Export";
 	}
-	
+
 	@Override
 	public void addPages(){
 		page = new ToJarExportWizardPage(selected);
@@ -36,22 +36,22 @@ public class ToJarExportWizard extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		System.out.println("requested to compile specification");
-		
+
 		//build a compiler options object and fill in information
 		CompilerOptions co = page.getResult();
-		
+
 		//create temporary directory
 		try{
 			File temp = File.createTempFile("coreasmc", Long.toString(System.nanoTime()));
 			temp.delete();
 			temp.mkdir();
-			
-			co.tempDirectory = temp;	
+
+			co.tempDirectory = temp;
 		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
-		
+
 		CompileJob cj = new CompileJob("Compiling CoreASM specification", co, page.runJar());
 		cj.setPriority(Job.BUILD);
 		cj.schedule();
@@ -62,7 +62,7 @@ public class ToJarExportWizard extends Wizard implements IExportWizard {
 	public boolean isHelpAvailable(){
 		return false;
 	}
-	
+
 	@Override
 	public boolean needsPreviousAndNextButtons(){
 		return false;

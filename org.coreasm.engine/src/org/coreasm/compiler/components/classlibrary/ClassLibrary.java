@@ -25,7 +25,7 @@ public class ClassLibrary {
 	private final List<RuleClassFile> rules;
 	private final CompilerEngine engine;
 	private final Map<String, String> packageReplacements;
-	
+
 	/**
 	 * Constructs a new ClassLibrary
 	 * @param engine The compiler engine supervising the compilation process
@@ -36,7 +36,7 @@ public class ClassLibrary {
 		this.engine = engine;
 		this.packageReplacements = new HashMap<String, String>();
 	}
-	
+
 	/**
 	 * Adds a new entry to the class library
 	 * @param entry A new library entry
@@ -47,13 +47,13 @@ public class ClassLibrary {
 			engine.addError("Entry (" + entry.toString() + " already exists in the library");
 			throw new EntryAlreadyExistsException(entry.toString());
 		}
-		
+
 		entries.add(entry);
 		if(entry instanceof RuleClassFile){
 			rules.add((RuleClassFile)entry);
 		}
 	}
-	
+
 	/**
 	 * Selects all rules contained in the class library
 	 * @return A list of {@link RuleClassFile} instances
@@ -61,7 +61,7 @@ public class ClassLibrary {
 	public List<RuleClassFile> getRules(){
 		return Collections.unmodifiableList(rules);
 	}
-	
+
 	/**
 	 * Finds a LibraryEntry matching the given filters.
 	 * If a filter is set to null, the search will match all values to it.
@@ -84,7 +84,7 @@ public class ClassLibrary {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Adds a global package replacement.
 	 * A global package replacement will be applied to all LibraryEntry instances of type JarInclude
@@ -96,7 +96,7 @@ public class ClassLibrary {
 	public void addPackageReplacement(String original, String replacement){
 		packageReplacements.put(original, replacement);
 	}
-	
+
 	/**
 	 * Finalizes the class library.
 	 * This will execute final modifications to the library entries.

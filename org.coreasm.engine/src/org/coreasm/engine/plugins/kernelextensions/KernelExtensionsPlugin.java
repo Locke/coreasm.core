@@ -1,6 +1,6 @@
-/*	
- * KernelExtensionsPlugin.java 
- * 
+/*
+ * KernelExtensionsPlugin.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Adds functionality in handling function and rule elements
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -69,18 +69,18 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 	public static final String EXTENDED_RULE_CALL_NAME = "ExtendedRullCall";
 
 	private HashMap<String, GrammarRule> parsers = null;
-	
+
 	private final String[] keywords = {"call"};
 	private final String[] operators = {"(", ")"};
 
-    private ThreadLocal<Map<Node,Node>> terms;
-    
-    private final CompilerPlugin compilerPlugin = new CompilerKernelExtensionsPlugin(this);
-    
-    @Override
-    public CompilerPlugin getCompilerPlugin(){
-    	return compilerPlugin;
-    }
+	private ThreadLocal<Map<Node,Node>> terms;
+
+	private final CompilerPlugin compilerPlugin = new CompilerKernelExtensionsPlugin(this);
+
+	@Override
+	public CompilerPlugin getCompilerPlugin(){
+		return compilerPlugin;
+	}
 
 	public KernelExtensionsPlugin() {
 		terms = new ThreadLocal<Map<Node,Node>>() {
@@ -89,11 +89,11 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 			}
 		};
 	}
-	
+
 	protected Map<Node, Node> getTerms() {
 		return terms.get();
 	}
-	
+
 	@Override
 	public void initialize() throws InitializationFailedException {
 	}
@@ -127,70 +127,70 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
-			
+
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> termParser = kernel.getTermParser();
 			Parser<Node> tupleTermParser = kernel.getTupleTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 			Parser<Node> idParser = pTools.getIdParser();
-			
+
 			// ExtendedFunctionRuleTerm1: ID TupleTerm TupleTerm
 			Parser<Node> extFuncRuleTermParser1 = Parsers.array(
-	       			new Parser[] {
-       				idParser,
-       				tupleTermParser,
-       				tupleTermParser
-       				}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
+					new Parser[] {
+					idParser,
+					tupleTermParser,
+					tupleTermParser
+					}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-       					@Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new ExtendedFunctionRuleTermNode(((Node)vals[0]).getScannerInfo());
 							addChild(node, (new FunctionRuleTermParseMap()).map(vals[0], vals[1]));
 							for (Node n: ((Node)vals[2]).getChildNodes())
-								if (n instanceof ASTNode) 
+								if (n instanceof ASTNode)
 									node.addChild("lambda", n);
-								else 
+								else
 									node.addChild(n);
 							return node;
 						}
-				
+
 					});
 
 			// ExtendedFunctionRuleTerm2: '(' Term ')' TupleTerm
 			Parser<Node> extFuncRuleTermParser2 = Parsers.array(
-	       			new Parser[] {
-       				pTools.getOprParser("("),
-       				termParser,
-       				pTools.getOprParser(")"),
-       				tupleTermParser
-       				}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
-       					@Override
+					new Parser[] {
+					pTools.getOprParser("("),
+					termParser,
+					pTools.getOprParser(")"),
+					tupleTermParser
+					}).map( new ParserTools.ArrayParseMap(PLUGIN_NAME) {
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new ExtendedFunctionRuleTermNode(((Node)vals[0]).getScannerInfo());
 							for (int i = 0; i < 3; i++)
 								if (vals[i] != null)
 									addChild(node, (Node)vals[i]);
 							for (Node n: ((Node)vals[3]).getChildNodes())
-								if (n instanceof ASTNode) 
+								if (n instanceof ASTNode)
 									node.addChild("lambda", n);
-								else 
+								else
 									node.addChild(n);
 							return node;
 						}
-				
+
 					});
 
 			Parser<Node> extendedFuncRuleTermParser = Parsers.longest(
 					extFuncRuleTermParser1, extFuncRuleTermParser2);
-			
+
 			// ExtendedRuleCall: 'call' ExtendedFunctionRuleTerm
 			Parser<Node> extRuleCallParser = Parsers.array(
 					new Parser[] {
 					pTools.getKeywParser("call", PLUGIN_NAME),
 					extendedFuncRuleTermParser
-					}).map( 
+					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
 						@Override
@@ -201,27 +201,27 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 								node.addChild(nt.name, nt.node);
 							return node;
 						}
-				
+
 					});
-						
-					
+
+
 			parsers.put(extFuncRuleTermParser1.toString(),
-					new GrammarRule(extFuncRuleTermParser1.toString(), 
+					new GrammarRule(extFuncRuleTermParser1.toString(),
 							"ID TupleTerm TupleTerm", extFuncRuleTermParser1, PLUGIN_NAME));
 
 			parsers.put(extFuncRuleTermParser2.toString(),
-					new GrammarRule(extFuncRuleTermParser2.toString(), 
+					new GrammarRule(extFuncRuleTermParser2.toString(),
 							"'(' Term ')' TupleTerm", extFuncRuleTermParser2, PLUGIN_NAME));
 
 			parsers.put("FunctionRuleTerm",
 					new GrammarRule(EXTENDED_FUNC_RULE_TERM_NAME,
 							EXTENDED_FUNC_RULE_TERM_NAME + "1 | " + EXTENDED_FUNC_RULE_TERM_NAME + "2",
-							extendedFuncRuleTermParser, 
+							extendedFuncRuleTermParser,
 							PLUGIN_NAME));
-			
-			parsers.put("Rule", 
+
+			parsers.put("Rule",
 					new GrammarRule(EXTENDED_RULE_CALL_NAME,
-							"'call' " + EXTENDED_FUNC_RULE_TERM_NAME, 
+							"'call' " + EXTENDED_FUNC_RULE_TERM_NAME,
 							extRuleCallParser,
 							PLUGIN_NAME));
 		}
@@ -233,13 +233,13 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 			throws InterpreterException {
 		if (pos instanceof ExtendedFunctionRuleTermNode) {
 			ExtendedFunctionRuleTermNode pnode = (ExtendedFunctionRuleTermNode)pos;
-			
+
 			// 1. evaluate the term part
 			if (!pnode.getTerm().isEvaluated()) {
 				return pnode.getTerm();
 			} else {
 				Element func = pnode.getTerm().getValue();
-				
+
 				if (func instanceof FunctionElement) {
 					FunctionElement fe = (FunctionElement)func;
 					final List<ASTNode> args = pnode.getArguments();
@@ -277,12 +277,12 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 						pos.setNode(loc, null, value);
 					} else
 						pos = toBeEvaluated;
-				} else { 
+				} else {
 					String msg = "Cannot apply arguments to a non-function value.";
 					capi.error(msg, pos, interpreter);
 					logger.error(msg);
 				}
-			} 
+			}
 		} else
 			if (pos instanceof ExtendedRuleCallNode) {
 				ExtendedRuleCallNode pnode = (ExtendedRuleCallNode)pos;
@@ -290,7 +290,7 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 					return pnode.getTerm();
 				else {
 					Element func = pnode.getTerm().getValue();
-					
+
 					if (func instanceof RuleElement) {
 						RuleElement re = (RuleElement)func;
 						final List<ASTNode> args = pnode.getArguments();
@@ -301,12 +301,12 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 							else
 								pos = capi.getInterpreter().ruleCall(re, re.getParam(), args, pos);
 						} else {
-							capi.error("The number of arguments passed to '" + re.getName()  + 
+							capi.error("The number of arguments passed to '" + re.getName()  +
 									"' does not match its signature.", pos, interpreter);
 						}
 					}
 				}
-			} else { 
+			} else {
 				String msg = "Cannot call a non-rule value.";
 				capi.error(msg, pos, interpreter);
 				logger.error(msg);
@@ -316,19 +316,19 @@ public class KernelExtensionsPlugin extends Plugin implements ParserPlugin, Inte
 	}
 
 	/**
-	 * The goal is to ensure that the given nodes are all evaluated. If there is 
+	 * The goal is to ensure that the given nodes are all evaluated. If there is
 	 * an unevaluated node, returns that node. If all the given nodes are evaluated
-	 * returns <code>null</code>. 
-	 * 
+	 * returns <code>null</code>.
+	 *
 	 * @param nodes list of nodes
 	 */
 	private ASTNode getUnevaluatedNode(List<ASTNode> nodes) {
-		for (ASTNode n: nodes) 
+		for (ASTNode n: nodes)
 			if (!n.isEvaluated()) {
 				return n;
 			}
 		return null;
 	}
-	
+
 
 }

@@ -12,7 +12,7 @@ import org.coreasm.compiler.components.classlibrary.MemoryInclude;
 public class EnumBackgroundEntry extends MemoryInclude {
 	private String name;
 	private String[] elements;
-	
+
 	/**
 	 * Builds a new enum background
 	 * @param name The name of the enum
@@ -27,7 +27,7 @@ public class EnumBackgroundEntry extends MemoryInclude {
 
 	protected String buildContent(String entryName) {
 		String result = "";
-		
+
 		result = "package " + getPackage(entryName) + ";\n"
 				+ "public class " + name + " extends " + engine.getPath().pluginStaticPkg() + ".SignaturePlugin.EnumerationBackgroundElement{\n"
 						+ "public " + name + "() throws Exception{\n";
@@ -41,17 +41,17 @@ public class EnumBackgroundEntry extends MemoryInclude {
 			result += "list.add(e);\n";
 			result += "f = new " + runtimePkg() + ".MapFunction();\n";
 			result += "f.setValue(" + runtimePkg() + ".ElementList.NO_ARGUMENT, e);\n";
-			result += "f.setFClass(" + runtimePkg() + ".FunctionElement.FunctionClass.fcStatic);\n";           
+			result += "f.setFClass(" + runtimePkg() + ".FunctionElement.FunctionClass.fcStatic);\n";
 			result += "e.setBackground(\"" + name + "\");\n";
 			result += engine.getPath().runtimeProvider() + ".getStorage().addFunction(\"" + s + "\", f);\n";
 			result += "\n//next entry\n";
 		}
-		
+
 		result += "this.setMembers(list);\n";
 		//result += "}catch(Exception exc){}\n";
-		
+
 		result += "}\n}\n";
-		
+
 		return result;
 	}
 }

@@ -18,9 +18,9 @@ public class LocalRuleHandler implements CompilerCodeHandler {
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
-		
-		LocalRuleNode local = (LocalRuleNode) node;	
-		
+
+		LocalRuleNode local = (LocalRuleNode) node;
+
 		CodeFragment rule = engine.compile(local.getRuleNode(), CodeType.U);
 		result.appendLine("@decl(java.util.ArrayList,locs)= new java.util.ArrayList();\n");
 		for(String s : local.getFunctionNames()){

@@ -1,6 +1,6 @@
-/*	
- * GraphAttributeFunctionElement.java 
- * 
+/*
+ * GraphAttributeFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -20,7 +20,7 @@ import org.coreasm.engine.absstorage.Signature;
 
 /**
  * Base class for edge attribute functions.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -54,5 +54,5 @@ public abstract class EdgeAttributeFunctionElement extends FunctionElement {
 	 * @return value of this function
 	 */
 	public abstract Element getValue(EdgeElement ge);
-	
+
 }

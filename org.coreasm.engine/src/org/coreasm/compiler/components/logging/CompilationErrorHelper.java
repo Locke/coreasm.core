@@ -24,12 +24,12 @@ public class CompilationErrorHelper {
 		while(lastChild.getFirst() != null){
 			lastChild = getLast(lastChild);
 		}
-		
-		return lastChild.getScannerInfo().charPosition + 
-				(lastChild.getToken() != null ? lastChild.getToken().length() : 0) - 
+
+		return lastChild.getScannerInfo().charPosition +
+				(lastChild.getToken() != null ? lastChild.getToken().length() : 0) -
 				node.getScannerInfo().charPosition;
 	}
-	
+
 	/**
 	 * Finds the character position of a node
 	 * @param node A node in the parse tree
@@ -39,11 +39,11 @@ public class CompilationErrorHelper {
 	public static CharacterPosition getNodePos(ASTNode node, CoreASMEngine engine){
 		return node.getCharPos(((ControlAPI) engine).getParser());
 	}
-	
+
 	private static ASTNode getLast(ASTNode node){
 		return node.getAbstractChildNodes().get(node.getAbstractChildNodes().size() - 1);
 	}
-	
+
 	/**
 	 * Creates an error message including the position of the error in the specification
 	 * @param node The node causing the error
@@ -59,7 +59,7 @@ public class CompilationErrorHelper {
 		error.append("compilation error at pos [").append(pos.getLineNumber()).
 		append(":").append(pos.getColumnNumber()).append(",").append(len).append("], caused by plugin '").append(pluginName).
 		append("': ").append(message);
-		
+
 		return error.toString();
 	}
 }

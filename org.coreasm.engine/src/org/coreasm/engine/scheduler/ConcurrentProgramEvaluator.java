@@ -1,11 +1,11 @@
 /*
  * ConcurrentProgramEvaluator.java 		$Revision: 80 $
- * 
+ *
  * Copyright (c) 2008 Roozbeh Farahbod
  *
  * Last modified on $Date: 2009-07-24 16:25:41 +0200 (Fr, 24 Jul 2009) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Evaluates programs of a set of agents in parallel using
  * Java concurrency methods.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -44,7 +44,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	protected static final Logger logger = LoggerFactory.getLogger(ConcurrentProgramEvaluator.class);
 
 	private final AgentContextMap agentContextMap;
-	
+
 	private final ControlAPI capi;
 	private final AbstractStorage storage;
 	private final Element agent;
@@ -53,7 +53,7 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
 	/**
 	 * Creates a new program evaluator.
-	 * 
+	 *
 	 * @param capi
 	 * @param agentContextMap
 	 * @param agent
@@ -86,12 +86,12 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 
 		return result;
 	}
-	
+
 	/*
 	 * Evaluates the program of the given agent.
 	 */
 	private UpdateMultiset evaluate(Element agent) throws EngineException {
-		AgentContext context = agentContextMap.get(agent); 
+		AgentContext context = agentContextMap.get(agent);
 		Interpreter inter;
 		if (context == null) {
 			context = new AgentContext(agent);
@@ -105,41 +105,41 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 		inter.cleanUp();
 
 		Element program = storage.getChosenProgram(agent);
-		if (program.equals(Element.UNDEF)) 
+		if (program.equals(Element.UNDEF))
 			throw new EngineException("Program of agent " + agent.denotation() + " is undefined.");
-		if (!(program instanceof RuleElement)) 
+		if (!(program instanceof RuleElement))
 			throw new EngineException("Program of agent " + agent.denotation() + " is not a rule element: " + program);
 		inter.setSelf(agent);
-		
+
 		ASTNode ruleNode = ((RuleElement)program).getBody();
 		ASTNode rootNode = context.nodeCopyCache.get(ruleNode);
 		if (rootNode == null) {
-			rootNode = (ASTNode)inter.copyTree(ruleNode); 
+			rootNode = (ASTNode)inter.copyTree(ruleNode);
 			context.nodeCopyCache.put(ruleNode, rootNode);
 		} else {
 			inter.clearTree(rootNode);
 		}
-		
+
 		inter.setPosition(rootNode);
-		// allow the interpreter to perform internal initialization 
+		// allow the interpreter to perform internal initialization
 		// prior to program execution
 		inter.initProgramExecution();
 
-		do 
-			inter.executeTree();	
+		do
+			inter.executeTree();
 		while (!(inter.isExecutionComplete() || capi.hasErrorOccurred()));
-		
+
 		// if rootNode hasn't been evaluated after inter.isExecutionComplete() returned true, the AST has been corrupted
-		if (!rootNode.isEvaluated() && !capi.hasErrorOccurred()) 
+		if (!rootNode.isEvaluated() && !capi.hasErrorOccurred())
 			throw new EngineException("AST of " + agent.denotation() + program.denotation() + " has been corrupted.");
-		
+
 		// if an error occurred in the engine, just return an empty multiset
 		UpdateMultiset result;
-		if (capi.hasErrorOccurred()) 
+		if (capi.hasErrorOccurred())
 			result = new UpdateMultiset();
 		else
 			result = rootNode.getUpdates();
-		
+
 		if (logger.isDebugEnabled())
 			logger.debug("Updates are: " + result.toString());
 
@@ -149,5 +149,5 @@ public class ConcurrentProgramEvaluator extends RecursiveTask<UpdateMultiset> {
 	public String getExecutionStats() {
 		return executionStats;
 	}
-	
+
 }

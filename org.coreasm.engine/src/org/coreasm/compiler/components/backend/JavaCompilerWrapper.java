@@ -23,11 +23,11 @@ import org.coreasm.compiler.exception.CompilerException;
  * @author Markus Brenner
  *
  */
-public class JavaCompilerWrapper {	
+public class JavaCompilerWrapper {
 	/**
 	 * Compiles the given classes using the system java compiler (note that this will
 	 * fail, if no jdk is installed or if the jdk is not added to the PATH variable).
-	 * 
+	 *
 	 * @param options Options to be used for the compilation process. Currently unused, but
 	 * can be used to add parameters for the java compiler
 	 * @param files A list of classes which need to be compiled
@@ -38,7 +38,7 @@ public class JavaCompilerWrapper {
 		JavaCompiler jc = ToolProvider.getSystemJavaCompiler();
 		if(jc == null){
 			engine.addError("java compiler not found");
-			
+
 			engine.getLogger().error(JavaCompilerWrapper.class, "javac.exe not found");
 			throw new CompilerException("java compiler not found - is there a jdk installed?");
 		}
@@ -49,7 +49,7 @@ public class JavaCompilerWrapper {
 		Iterable<? extends JavaFileObject> units = fileManager.getJavaFileObjectsFromFiles(files);
 		//set compiler options
 		ArrayList<String> copt = new ArrayList<String>();
-		
+
 		//there was some kind of warning this option prevented from
 		//displaying. not sure right now what it was and also its not appearing anymore.
 		//leaving this line here for further reference
@@ -57,9 +57,9 @@ public class JavaCompilerWrapper {
 		CompilationTask task = jc.getTask(null, fileManager, diagnostics, copt, null, units);
 
 		task.call();
-		
+
 		boolean hasError = false;
-		
+
 		for(Diagnostic<?> error : diagnostics.getDiagnostics()){
 			if(error.getKind() == Diagnostic.Kind.ERROR){
 				engine.addError("javac.exe: " + error.toString());
@@ -68,10 +68,10 @@ public class JavaCompilerWrapper {
 			else if(error.getKind() == Diagnostic.Kind.WARNING){
 				engine.addWarning("javac.exe: " + error.getMessage(null));
 			}
-		}	
-		
+		}
+
 		if(hasError) throw new CompilerException("compilation failed");
-		
+
 		try {
 			fileManager.close();
 		} catch (IOException e) {

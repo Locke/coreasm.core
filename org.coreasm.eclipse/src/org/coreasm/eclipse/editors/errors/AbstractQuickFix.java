@@ -19,8 +19,8 @@ import org.eclipse.swt.graphics.Point;
 public abstract class AbstractQuickFix
 {
 	/** The prompt string is shown in the hover window */
-	public final String prompt;	
-	
+	public final String prompt;
+
 	/** A QuickFix can offer a list of choices, which are presented to the user
 	 * as a list of alternatives. The QuickFix uses the chosen alternative as
 	 * a parameter for its fixing. */
@@ -32,7 +32,7 @@ public abstract class AbstractQuickFix
 	 * @param choices	The list of choices which is presented to the user in the
 	 * 					hover window, or null if there are no choices for this QuickFix.
 	 */
-	public AbstractQuickFix(String prompt, List<String> choices) 
+	public AbstractQuickFix(String prompt, List<String> choices)
 	{
 		super();
 		this.prompt = prompt;
@@ -59,7 +59,7 @@ public abstract class AbstractQuickFix
 	{
 		return true;
 	}
-	
+
 	/**
 	 * This method initializes the choices which are offered to the hover window.
 	 * Subclasses which offer choices must override this method. The implementation
@@ -76,7 +76,7 @@ public abstract class AbstractQuickFix
 	/**
 	 * General QuickFix for replacing the whole hover region with a given string
 	 * or inserting the string at the offset of the hover region.
-	 * 
+	 *
 	 * @author Markus M�ller
 	 */
 	public static class QF_Replace
@@ -84,7 +84,7 @@ public abstract class AbstractQuickFix
 	{
 		private String insert;		// the string to be inserted, use "" for deletions
 		private boolean replace;
-		
+
 		/**
 		 * Generates a new instance of this class.
 		 * @param prompt	The prompt which is shown in the hover window
@@ -115,7 +115,7 @@ public abstract class AbstractQuickFix
 				e.printStackTrace();
 			}
 		}
-		
+
 		@Override
 		public void collectProposals(AbstractError error, List<ICompletionProposal> proposals) {
 			int length = 0;
@@ -123,7 +123,7 @@ public abstract class AbstractQuickFix
 				length = error.getLength();
 			proposals.add(new CompletionProposal(insert, error.getPosition(), length, 0, IconManager.getIcon("/icons/editor/bullet.gif"), prompt, null, null));
 		}
-		
+
 		/**
 		 * Sets the text which is inserted or which should replace the present text.
 		 */
@@ -131,7 +131,7 @@ public abstract class AbstractQuickFix
 		{
 			this.insert = insert;
 		}
-		
+
 		/**
 		 * Returns the text which is inserted or which should replace the present text.
 		 */
@@ -145,7 +145,7 @@ public abstract class AbstractQuickFix
 		private AbstractQuickFix quickFix;
 		private AbstractError error;
 		private String choice;
-		
+
 		public QuickFixProposal(AbstractQuickFix quickFix, AbstractError error, String choice) {
 			this.quickFix = quickFix;
 			this.error = error;

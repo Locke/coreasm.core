@@ -12,10 +12,10 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * This class represents a preference page that
- * is contributed to the Preferences dialog. By 
+ * is contributed to the Preferences dialog. By
  * subclassing <samp>FieldEditorPreferencePage</samp>, we
  * can use the field support built into JFace that allows
- * us to create a page that is small and knows how to 
+ * us to create a page that is small and knows how to
  * save, restore and apply itself.
  * <p>
  * This page is used to modify preferences only. They
@@ -33,7 +33,7 @@ public class ASMPreferencePage
 		setPreferenceStore(CoreASMPlugin.getDefault().getPreferenceStore());
 		setDescription("Global preferences for CoreASM Eclipse Plugin");
 	}
-	
+
 	/**
 	 * Creates the field editors. Field editors are abstractions of
 	 * the common GUI blocks needed to manipulate various types
@@ -42,23 +42,23 @@ public class ASMPreferencePage
 	 */
 	public void createFieldEditors() {
 		/*
-		addField(new DirectoryFieldEditor(PreferenceConstants.ROOT_FOLDER, 
+		addField(new DirectoryFieldEditor(PreferenceConstants.ROOT_FOLDER,
 				"CoreASM &root folder:", getFieldEditorParent()));
 		*/
-		
-		addField(new DirectoryFieldEditor(PreferenceConstants.ADDITIONAL_PLUGINS_FOLDERS, 
+
+		addField(new DirectoryFieldEditor(PreferenceConstants.ADDITIONAL_PLUGINS_FOLDERS,
 				"CoreASM additional plugins folder:", getFieldEditorParent()));
 
-		addField(new IntegerFieldEditor(PreferenceConstants.MAX_PROCESSORS, 
+		addField(new IntegerFieldEditor(PreferenceConstants.MAX_PROCESSORS,
 				"Max. number of processors to use (beta):", getFieldEditorParent()));
-		
+
 		//preferences from the ASMEditor component regarding color and activation status of bracket highlighting
 		addField(new ColorFieldEditor(PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR,
 				"highlighting color for brackets" , getFieldEditorParent()));
-		
+
 		addField(new BooleanFieldEditor(PreferenceConstants.EDITOR_MATCHING_BRACKETS,
 				"highlight brackets (), {}, []" , getFieldEditorParent()));
-		
+
 		/*
 		addField(
 			new BooleanFieldEditor(
@@ -96,5 +96,5 @@ public class ASMPreferencePage
 		//PreferenceConstants.setDirtyBit();
 		PreferenceConstants.setDirtyBit(true);
 	}
-	
+
 }

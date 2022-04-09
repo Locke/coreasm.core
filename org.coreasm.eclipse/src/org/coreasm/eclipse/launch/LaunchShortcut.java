@@ -36,7 +36,7 @@ public class LaunchShortcut implements ILaunchShortcut {
 	public void launch(IEditorPart editor, String mode) {
 		launch((IFile)editor.getEditorInput().getAdapter(IFile.class), mode);
 	}
-	
+
 	private ILaunchConfiguration findLaunchConfiguration(IFile file, HashMap<String, ILaunchConfiguration> launchConfigurations, HashSet<IFile> consideredFiles) {
 		if (consideredFiles.contains(file))
 			return null;
@@ -53,7 +53,7 @@ public class LaunchShortcut implements ILaunchShortcut {
 		}
 		return null;
 	}
-	
+
 	private IFile findMainSpecification(IFile file, HashSet<IFile> consideredFiles) {
 		if (consideredFiles.contains(file))
 			return null;
@@ -72,9 +72,9 @@ public class LaunchShortcut implements ILaunchShortcut {
 		String project = file.getProject().getName();
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = launchManager.getLaunchConfigurationType("org.coreasm.eclipse.launchConfigurationType");
-		
+
 		HashMap<String, ILaunchConfiguration> launchConfigurations = new HashMap<String, ILaunchConfiguration>();
-		
+
 		try {
 			for (ILaunchConfiguration configuration : launchManager.getLaunchConfigurations(type)) {
 				if (project.equals(configuration.getAttribute(ICoreASMConfigConstants.PROJECT, (String)null)))
@@ -83,17 +83,17 @@ public class LaunchShortcut implements ILaunchShortcut {
 		} catch (CoreException e) {
 			return;
 		}
-		
+
 		ILaunchConfiguration launchConfiguration = findLaunchConfiguration(file, launchConfigurations, new HashSet<IFile>());
 		if (launchConfiguration != null) {
 			DebugUITools.launch(launchConfiguration, mode);
 			return;
 		}
-		
+
 		IFile mainSpec = findMainSpecification(file, new HashSet<IFile>());
 		if (mainSpec != null)
 			file = mainSpec;
-		
+
 		try {
 			ILaunchConfigurationWorkingCopy wCopy = type.newInstance(null, file.getName());
 			LaunchCommon.setDefaults(wCopy);
@@ -106,7 +106,7 @@ public class LaunchShortcut implements ILaunchShortcut {
 			return;
 		}
 	}
-	
+
 	private static boolean isMainSpecification(IFile file) {
 		IEditorPart editor = Utilities.getEditor(file);
 		if (editor instanceof ASMEditor) {

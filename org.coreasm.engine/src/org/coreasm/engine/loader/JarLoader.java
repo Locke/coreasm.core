@@ -53,7 +53,7 @@ public class JarLoader {
 	}
 	/**
 	 * Given a Jar file name, looks for the name of the plugin class.
-	 * 
+	 *
 	 * @param inputStream
 	 *            input stream from a jar file
 	 * @return full class name of the plugin (e.g., "test.plugin.TestPlugin")

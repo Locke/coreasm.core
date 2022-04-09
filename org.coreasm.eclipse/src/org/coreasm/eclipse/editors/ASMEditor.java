@@ -75,11 +75,11 @@ implements IDocumentListener
 {
 	/** Logger intended for debugging output */
 	public static final Logger LOGGER_UI_DEBUG = new Logger("UI-Debug");
-	
+
 	/** The default time in milliseconds before the parser will be delayed after
 	 * the last occurred edit. */
 	public final static int REPARSE_DELAY = 500;
-	
+
 	// constants for partition types
 	public static final String PARTITION_CODE = "__asm_default";
 	public static final String PARTITION_COMMENT = "__asm_comment";
@@ -90,9 +90,9 @@ implements IDocumentListener
 	public static final String MARKER_TYPE_PLUGINS = "org.coreasm.eclipse.markers.PluginMarker";
 	public static final String MARKER_TYPE_INCLUDE = "org.coreasm.eclipse.markers.IncludeMarker";
 	public static final String MARKER_TYPE_DECLARATIONS = "asm.markerType.declarations";
-	
+
 	private final ISelectionListener postSelectionListener = new ISelectionListener() {
-		
+
 		@Override
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			if (part == ASMEditor.this && selection instanceof ITextSelection)
@@ -101,33 +101,33 @@ implements IDocumentListener
 		}
 	};
 	private final ListenerList postSelectionListeners = new ListenerList(ListenerList.IDENTITY);
-	
+
 	private ASMDocumentProvider documentProvider;
 	private ASMParser parser;
 	private ASMIncludeWatcher includeWatcher;
 	private ASMOutlinePage outlinePage;
 	private IEditorInput input;
-	
+
 	private ISelection currentSelection;
 
 	static {
 		LOGGER_UI_DEBUG.setVisible(false);
 	}
-	
+
 	public ASMEditor()
 	{
 		super();
-		
+
 		// The full engine should be ready as soon as possible, which means that
 		// all available plugins are loaded and initialized. So we're calling
 		// SlimEngine.getFullEngine() here, which creates a new full engine in
 		// its first call (which will be the first call of this constructor).
 		SlimEngine.getFullEngine();
-		
+
 		documentProvider = new ASMDocumentProvider(this);
 		setSourceViewerConfiguration(new ASMConfiguration(this));
 		setDocumentProvider(documentProvider);
-		
+
 		includeWatcher = new ASMIncludeWatcher(this);
 		parser = new ASMParser(this);
 		parser.addObserver(new ErrorManager(this));
@@ -136,9 +136,9 @@ implements IDocumentListener
 
 		parser.getJob().pause();
 		parser.getJob().schedule();
-		
+
 		new ASMOccurenceHighlighter(this);
-		
+
 		Action action = new Action("Open Declaration") {
 			@Override
 			public void run() {
@@ -192,7 +192,7 @@ implements IDocumentListener
 		action.setActionDefinitionId("org.coreasm.eclipse.actions.OpenCallHierarchy");
 		setAction("org.coreasm.eclipse.actions.OpenCallHierarchy", action);
 	}
-	
+
 	public ASTNode getSelectedIDnode() {
 		if (currentSelection instanceof ITextSelection) {
 			ITextSelection selection = (ITextSelection)currentSelection;
@@ -202,14 +202,14 @@ implements IDocumentListener
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void editorContextMenuAboutToShow(IMenuManager menu) {
 		super.editorContextMenuAboutToShow(menu);
 		menu.insertBefore(ICommonMenuConstants.GROUP_OPEN, getAction("org.coreasm.eclipse.actions.OpenDeclaration"));
 		menu.insertBefore(ICommonMenuConstants.GROUP_OPEN, getAction("org.coreasm.eclipse.actions.OpenCallHierarchy"));
 	}
-	
+
 	/*
 	 * create a common preference store of the editor's standard preference store and the CoreASMPlugin preference store
 	 * Hint: First matching preference is used if one preference exists in both preference stores!
@@ -221,7 +221,7 @@ implements IDocumentListener
 	protected void initializeEditor() {
 		super.initializeEditor();
 		ChainedPreferenceStore chainPrefStore = new ChainedPreferenceStore(
-				new IPreferenceStore[]{getPreferenceStore(),CoreASMPlugin.getDefault().getPreferenceStore()}); 
+				new IPreferenceStore[]{getPreferenceStore(),CoreASMPlugin.getDefault().getPreferenceStore()});
 		//use the CoreASM preference store to save and access preferences of the editor, e.g. the bracket highlighting
 		setPreferenceStore(chainPrefStore);
 	}
@@ -238,27 +238,27 @@ implements IDocumentListener
 			;
 		}
 		super.dispose();
-		
+
 		getEditorSite().getPage().removePostSelectionListener(postSelectionListener);
-		
+
 		// remove the childDocWatcher as WorkspaceListener
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(includeWatcher);
 	}
-	
+
 	@Override
 	protected void doSetInput(IEditorInput newInput)
-	throws CoreException 
+	throws CoreException
 	{
 		// System.out.println("*** doSetInput ***");
 		Logger.log(Logger.INFORMATION, LOGGER_UI_DEBUG, "called: doSetInput()");
-		
+
 		super.doSetInput(newInput);
 		this.input = newInput;
-		
+
 		// schedule an immediate reparse
 		parser.getJob().unpause();
 		parser.getJob().schedule(0);
-		
+
 		getEditorSite().getPage().addPostSelectionListener(postSelectionListener);
 	}
 
@@ -271,7 +271,7 @@ implements IDocumentListener
 			// This block binds an instance of ParsedOutlinePage for this
 			// editor to the outline view. If the instance isn't existing yet
 			// it is created.
-			
+
 			if (outlinePage == null)
 				outlinePage = new ASMOutlinePage(this);
 			return outlinePage;
@@ -283,20 +283,20 @@ implements IDocumentListener
 	protected void editorSaved() {
 		super.editorSaved();
 	}
-	
+
 	public void addPostSelectionListener(IASMSelectionListener listener) {
 		postSelectionListeners.add(listener);
 	}
-	
+
 	public void removePostSelectionListener(IASMSelectionListener listener) {
 		postSelectionListeners.remove(listener);
 	}
-	
+
 	public void firePostSelectionChanged(ITextSelection selection) {
 		for (Object listener : postSelectionListeners.getListeners())
 			((IASMSelectionListener)listener).selectionChanged(this, selection, getParser().getRootNode());
 	}
-	
+
 	/**
 	 * This method reconfigures the syntax highlighting of the editor with a new
 	 * set of keywords and ids.
@@ -306,7 +306,7 @@ implements IDocumentListener
 		ASMConfiguration configuration = (ASMConfiguration) getSourceViewerConfiguration();
 		KeywordScanner keywordScanner = configuration.getASMKeywordScanner();
 		keywordScanner.init(keywords, ids);
-		
+
 		Display display = getEditorSite().getWorkbenchWindow().getWorkbench().getDisplay();
 		display.asyncExec(new Runnable() {
 			public void run() {
@@ -319,7 +319,7 @@ implements IDocumentListener
 			}
 		});
 	}
-	
+
 	/**
 	 * Creates an error mark for a SimpleError.
 	 */
@@ -332,7 +332,7 @@ implements IDocumentListener
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		MarkerUtilities.setLineNumber(map, line);
 		MarkerUtilities.setMessage(map, error.getDescription());
@@ -346,9 +346,9 @@ implements IDocumentListener
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Creates an error mark for a SyntaxError.
 	 */
@@ -362,15 +362,15 @@ implements IDocumentListener
 		map.put(IMarker.CHAR_START, error.getPosition());
 		map.put(IMarker.CHAR_END, error.getPosition()+error.getLength());
 		map.put("data", error.encode());
-		
+
 		try {
 			MarkerUtilities.createMarker(getInputFile(), map, MARKER_TYPE_PROBLEM);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Creates an error mark for a UndefinedError.
 	 */
@@ -392,14 +392,14 @@ implements IDocumentListener
 		map.put(IMarker.CHAR_START, position);
 		map.put(IMarker.CHAR_END, position+1);
 		map.put("data", error.encode());
-		
+
 		try {
 			MarkerUtilities.createMarker(getInputFile(), map, MARKER_TYPE_PROBLEM);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Creates an invisible marker which stores the name of the plugins which
 	 * are used by the CoreASM specification currently loaded by this editor.
@@ -414,26 +414,26 @@ implements IDocumentListener
 		} catch (CoreException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// Build a string with the names of all plugins (separator: '/')
 		StringBuilder strPlugins = new StringBuilder();
 		for (String p: plugins)
 			strPlugins.append(p).append('/');
 		if (strPlugins.length() > 0)
 			strPlugins.deleteCharAt(strPlugins.length()-1);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(IMarker.LOCATION, getInputFile().getFullPath().toString());
 		map.put("plugins", strPlugins.toString());
 		map.put(IMarker.CHAR_START, 0);
-		map.put(IMarker.CHAR_END, 1);		
+		map.put(IMarker.CHAR_END, 1);
 		try {
 			MarkerUtilities.createMarker(getInputFile(), map, MARKER_TYPE_PLUGINS);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Creates an invisible marker which stores the name of all modules which
 	 * are included by the CoreASM specification currently loaded by this editor.
@@ -448,30 +448,30 @@ implements IDocumentListener
 		} catch (CoreException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// Only create a new marker if there are includes
 		if (includes.isEmpty())
 			return;
-		
+
 		// Build a string with the names of all includes
 		StringBuilder strIncludes = new StringBuilder();
 		for (IPath p: includes)
 			strIncludes.append(p).append(AbstractError.SEPERATOR_VAL);
 		if (strIncludes.length() > 0)
 			strIncludes.deleteCharAt(strIncludes.length()-1);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(IMarker.LOCATION, getInputFile().getFullPath().toString());
 		map.put("includes", strIncludes.toString());
 		map.put(IMarker.CHAR_START, 0);
-		map.put(IMarker.CHAR_END, 1);		
+		map.put(IMarker.CHAR_END, 1);
 		try {
 			MarkerUtilities.createMarker(getInputFile(), map, MARKER_TYPE_INCLUDE);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createDeclarationsMark(String declarations) {
 		try {
 			getInputFile().deleteMarkers(MARKER_TYPE_DECLARATIONS, false, IResource.DEPTH_ZERO);
@@ -489,7 +489,7 @@ implements IDocumentListener
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void createRuntimeErrorMark(CoreASMError error, ControlAPI capi) {
 		if (error.getSpec() == null)
 			error.setContext(capi.getParser(), capi.getSpec());
@@ -500,7 +500,7 @@ implements IDocumentListener
 			asmEditor.createErrorMark(new CoreASMEclipseError(error, asmDocument), true);
 		}
 	}
-	
+
 	private static String getIssueFileName(CoreASMIssue issue, ControlAPI capi) {
 		CharacterPosition charPos = issue.pos;
 		Specification spec = issue.getSpec();
@@ -519,7 +519,7 @@ implements IDocumentListener
 		}
 		return null;
 	}
-	
+
 	public void createErrorMark(AbstractError error, boolean runtime)
 	{
 		IDocument document = getInputDocument();
@@ -529,7 +529,7 @@ implements IDocumentListener
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		MarkerUtilities.setLineNumber(map, line);
 		MarkerUtilities.setMessage(map, error.get(AbstractError.DESCRIPTION));
@@ -544,11 +544,11 @@ implements IDocumentListener
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createErrorMark(AbstractError error) {
 		createErrorMark(error, false);
 	}
-	
+
 	public static void createRuntimeWarningMark(CoreASMWarning warning, ControlAPI capi) {
 		IEditorPart editor = Utilities.getEditor(getIssueFileName(warning, capi));
 		if (editor instanceof ASMEditor) {
@@ -556,7 +556,7 @@ implements IDocumentListener
 			asmEditor.createWarningMark(new CoreASMEclipseWarning(warning, asmEditor.getDocumentProvider().getDocument(editor.getEditorInput())), true);
 		}
 	}
-	
+
 	public void createWarningMark(AbstractWarning warning, boolean runtime) {
 		int line = 0;
 		try {
@@ -564,7 +564,7 @@ implements IDocumentListener
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		MarkerUtilities.setLineNumber(map, line);
 		MarkerUtilities.setMessage(map, warning.getDescription());
@@ -579,11 +579,11 @@ implements IDocumentListener
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createWarningMark(AbstractWarning warning) {
 		createWarningMark(warning, false);
 	}
-	
+
 	/**
 	 * Removes all markers of the specified type from the current document
 	 */
@@ -595,7 +595,7 @@ implements IDocumentListener
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void removeRuntimeProblemMarkers(ControlAPI capi) {
 		Specification spec = capi.getSpec();
 		String fileName = spec.getAbsolutePath();
@@ -605,13 +605,13 @@ implements IDocumentListener
 			asmEditor.removeMarkers(ASMEditor.MARKER_TYPE_RUNTIME_PROBLEM);
 		}
 	}
-	
+
 	public Specification getSpec() {
 		if (parser != null)
 			return parser.getSpec();
 		return null;
 	}
-	
+
 	/**
 	 * Returns the parser object which is bound to this ASMEditor instance.
 	 */
@@ -619,7 +619,7 @@ implements IDocumentListener
 	{
 		return parser;
 	}
-	
+
 	/**
 	 * Returns an ASMDocument for the current editor input from the document provider
 	 */
@@ -628,12 +628,12 @@ implements IDocumentListener
 		IDocument document = getDocumentProvider().getDocument(input);
 		return document;
 	}
-	
+
 	public IEditorInput getInput()
 	{
 		return input;
 	}
-	
+
 	/**
 	 * Returns the IFile object for the file the specification loaded in this
 	 * editor is stored in.
@@ -646,7 +646,7 @@ implements IDocumentListener
 		IFile file = ife.getFile();
 		return file;
 	}
-	
+
 
 	@Override
 	public void documentAboutToBeChanged(DocumentEvent event) {
@@ -659,14 +659,14 @@ implements IDocumentListener
 	 * not run after each edit, it is just rescheduled for a second after the last
 	 * edit. So the document won't be parsed unless the user makes no input for
 	 * at least one second.
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
 	 */
 	@Override
 	public void documentChanged(DocumentEvent event) {
 		parser.getJob().cancel();
 		parser.getJob().schedule(REPARSE_DELAY);
-		
+
 		// Don't forget to update the offset of the header elements in ASMDocument!
 		IDocument doc = event.getDocument();
 		if (doc instanceof ASMDocument) {
@@ -674,7 +674,7 @@ implements IDocumentListener
 			((ASMDocument) doc).updateHeaders(event.getOffset(), delta);
 		}
 	}
-	
+
 	/**
 	 * This method is a public interface for the protected method getSourceViewer()
 	 * of superclass AbstractTextEditor.
@@ -683,27 +683,27 @@ implements IDocumentListener
 	public ISourceViewer getASMSourceViewer() {
 		return getSourceViewer();
 	}
-	
+
 	/**
 	 * The method configureSourceViewerDecorationSupport implements the syntax highlighting for matching brackets (),{},[]
 	 * The highlighting can be (de-)activated via CoreASM preference page and the highlighting Color can be selected their, too. Updates occur automatically by the framework.
-	 * @param support 
+	 * @param support
 	 */
 	@Override
 	protected void configureSourceViewerDecorationSupport (SourceViewerDecorationSupport support) {
 		super.configureSourceViewerDecorationSupport(support);
 
 		//create the matcher for pairs of brackets
-		char[] matchChars = {'(', ')', '{', '}','[',']'}; //which brackets to match		
+		char[] matchChars = {'(', ')', '{', '}','[',']'}; //which brackets to match
 		ICharacterPairMatcher matcher = new DefaultCharacterPairMatcher(matchChars , IDocumentExtension3.DEFAULT_PARTITIONING);
 		support.setCharacterPairMatcher(matcher);
 		support.setMatchingCharacterPainterPreferenceKeys(PreferenceConstants.EDITOR_MATCHING_BRACKETS,PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR);
-		
+
 		//Enable bracket highlighting in the preference store
 		//and set default values
 		IPreferenceStore store = CoreASMPlugin.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.EDITOR_MATCHING_BRACKETS, true); //highlighting activated
 		store.setDefault(PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR, "128,128,128"); //color of highlighting box is gray
-	
+
 	}
 }

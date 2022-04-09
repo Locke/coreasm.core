@@ -1,6 +1,6 @@
-/*	
+/*
  * ExtendRulePlugin.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006-2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.extendrule;
 
 import java.util.Collections;
@@ -42,27 +42,27 @@ import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 
-/** 
+/**
  * Adds the 'extend U with u do R' rule form.
- *   
+ *
  * @author  Roozbeh Farahbod
- * 
+ *
  */
 public class ExtendRulePlugin extends Plugin implements ParserPlugin, InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(0, 8, 1, "");
-	
+
 	public static final String PLUGIN_NAME = ExtendRulePlugin.class.getSimpleName();
-	
+
 	public static final String EXTEND_TOKEN = "extend";
-	
+
 	private Map<String, GrammarRule> parsers = null;
 
 	private final String[] keywords = {"extend", "with", "do"};
 	private final String[] operators = {};
 
 	private final CompilerPlugin compilerPlugin = new CompilerExtendRulePlugin(this);
-	
+
 	@Override
 	public CompilerPlugin getCompilerPlugin(){
 		return compilerPlugin;
@@ -73,7 +73,7 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 	 */
 	@Override
 	public void initialize() {
-		
+
 	}
 
 
@@ -84,11 +84,11 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 	public String[] getOperators() {
 		return operators;
 	}
-	
+
 	public Set<Parser<? extends Object>> getLexers() {
 		return Collections.emptySet();
 	}
-	
+
 	/**
 	 * @return <code>null</code>
 	 */
@@ -100,10 +100,10 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
 
 			Parser<Node> extendParser = Parsers.array(
@@ -115,22 +115,22 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 					pTools.getKeywParser("do", PLUGIN_NAME),
 					ruleParser
 					}).map( new ExtendParseMap());
-			parsers.put("Rule", 
+			parsers.put("Rule",
 					new GrammarRule("ExtendRule",
 							"'extend' Term 'with' ID 'do' Rule", extendParser, PLUGIN_NAME));
 		}
-		
+
 		return parsers;
 	}
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
-		
+
 		if (pos instanceof ExtendRuleNode) {
 			ExtendRuleNode node = (ExtendRuleNode) pos;
 			Element domain = node.getUniverseNode().getValue();
-			 
-			if (!node.getUniverseNode().isEvaluated()) 
+
+			if (!node.getUniverseNode().isEvaluated())
 				return node.getUniverseNode();
-			   
+
 			if (!node.getRuleNode().isEvaluated()) {
 				if (domain instanceof UniverseElement) {
 					Element e = capi.getStorage().getNewElement();
@@ -155,17 +155,17 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 					Element newElement = interpreter.getEnv(node.getIdNode().getToken());
 					augU.add(new Update(
 							new Location(node.getUniverseName(), ElementList.create(newElement)),
-							BooleanElement.TRUE, 
+							BooleanElement.TRUE,
 							Update.UPDATE_ACTION,
 							interpreter.getSelf(),
 							pos.getScannerInfo()));
 				}
-				
+
 				pos.setNode(null, augU, null);
 				interpreter.removeEnv(node.getIdNode().getToken());
 			}
 		}
-		
+
 		return pos;
 	}
 
@@ -185,6 +185,6 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 			addChildren(node, vals);
 			return node;
 		}
-		
+
 	}
 }

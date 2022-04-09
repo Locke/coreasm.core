@@ -22,19 +22,19 @@ public class NumberValueSpawner implements SynthesizeRule{
 	public Map<String, Information> transform(ASTNode n, List<Map<String, Information>> children) {
 		if(n.getGrammarClass().equals("Expression") && n.getGrammarRule().equals("NUMBER")){
 			double val = Double.parseDouble(n.getToken());
-			
+
 			Information i = new Information();
 			i.setValue(val, "value");
 			i.setValue("NUMBER", "type");
 			i.setValue("@NumberElement@.getInstance(" + val + ")", "code");
-						
+
 			Map<String, Information> result = new HashMap<String, Information>();
 			result.put("value", i);
 			return result;
 		}
-		
-		
-		
+
+
+
 		return null;
 	}
 
@@ -44,5 +44,5 @@ public class NumberValueSpawner implements SynthesizeRule{
 		triggers.add(new Trigger(null, "Expression", "NUMBER", null));
 		return triggers;
 	}
-	
+
 }

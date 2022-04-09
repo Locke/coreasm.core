@@ -1,6 +1,6 @@
-/*	
+/*
  * CoreASMWarning.java  	$Revision$
- * 
+ *
  * Copyright (C) 2009 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -23,7 +23,7 @@ import org.coreasm.engine.parser.ParserException;
 
 /**
  * Represents a CoreASM warning message.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -31,12 +31,12 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	private static final long serialVersionUID = 1L;
 
-	public final String src; 
-	
+	public final String src;
+
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param msg the warning msg
 	 * @param cause the throwable that casused this warning
 	 * @param pos position of the cause of this warning in the spec
@@ -51,8 +51,8 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param msg the warning msg
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
@@ -64,8 +64,8 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param cause the throwable that casused this warning
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
@@ -78,8 +78,8 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param msg the warning msg
 	 * @param node the parse-tree node that caused this warning
 	 */
@@ -90,8 +90,8 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param msg the warning msg
 	 */
 	public CoreASMWarning(String src, String msg) {
@@ -101,8 +101,8 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates a new CoreASM Warning.
-	 * 
-	 * @param src the module generating this warning 
+	 *
+	 * @param src the module generating this warning
 	 * @param cause the throwable that casused this warning
 	 */
 	public CoreASMWarning(String src, ParserException cause) {
@@ -112,7 +112,7 @@ public class CoreASMWarning extends CoreASMIssue {
 
 	/**
 	 * Creates and returns a string representation of this warning.
-	 * 
+	 *
 	 * @param parser the current instance of {@link Parser}
 	 * @param spec the current specification that caused this warning
 	 */

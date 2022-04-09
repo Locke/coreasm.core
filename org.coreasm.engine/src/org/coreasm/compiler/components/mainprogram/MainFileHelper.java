@@ -19,8 +19,8 @@ public class MainFileHelper {
 	public static void populateStateMachine(StateMachine sm, CompilerEngine engine){
 		//list of engine modes in the original core asm implementation:
 		/*
-		 * emIdle, 
-		 * emInitKernel, 
+		 * emIdle,
+		 * emInitKernel,
 		 * emLoadingCatalog,
 		 * emLoadingCorePlugins,
 		 * emParsingHeader,
@@ -28,18 +28,18 @@ public class MainFileHelper {
 		 * emParsingSpec,
 		 * emInitializingState,
 		 * emPreparingInitialState,
-		 * emStartingStep, 
-		 * emSelectingAgents, 
+		 * emStartingStep,
+		 * emSelectingAgents,
 		 * emRunningAgents,
-		 * emStepSucceeded, 
-		 * emStepFailed, 
-		 * emUpdateFailed, 
+		 * emStepSucceeded,
+		 * emStepFailed,
+		 * emUpdateFailed,
 		 * emAggregation,
 		 * emTerminating,
 		 * emTerminated,
 		 * emError
 		 * */
-		
+
 		//TODO: insert error handling in the state code
 
 		CodeFragment logCode = new CodeFragment("");
@@ -51,7 +51,7 @@ public class MainFileHelper {
 			logCode.appendLine("\t\t\t\tSystem.out.println(\"State at step \" + scheduler.getStepCount() + \":\\n\" + storage);\n");
 		if (engine.getOptions().logAgentSetAfterStep)
 			logCode.appendLine("\t\t\t\tSystem.out.println(\"Last selected agents at step \" + scheduler.getStepCount() + \":\\n\" + scheduler.getLastSelectedAgents());\n");
-		
+
 		CodeFragment termCode = new CodeFragment("");
 		//if(Main.getEngine().getOptions().terminateOnFailedUpdate)
 		//	termCode.appendLine("");
@@ -73,7 +73,7 @@ public class MainFileHelper {
 					+ "\t\t\t\tSystem.out.println(\"Execution terminated: Max step count of " + engine.getOptions().terminateOnStepCount + " reached\");\n"
 					+ "\t\t\t\tSystem.exit(0);\n"
 					+ "\t\t\t\t}\n");
-	
+
 		EngineState emIdle = new EngineState("emIdle", engine);
 		emIdle.appendCode("\t\t\t\tif(lastError != null){\n");
 		emIdle.appendCode(sm.makeTransit("emIdle", "emError"));
@@ -82,8 +82,8 @@ public class MainFileHelper {
 		emIdle.appendCode("\t\t\t\t}\n");
 		//TODO: handle idle state
 		sm.addState(emIdle);
-		
-		EngineState emStartingStep = new EngineState("emStartingStep", engine);		
+
+		EngineState emStartingStep = new EngineState("emStartingStep", engine);
 		emStartingStep.appendCode("\t\t\t\tscheduler.startStep();\n");
 		emStartingStep.appendCode("\t\t\t\ttry{\n");
 		emStartingStep.appendCode("\t\t\t\tscheduler.retrieveAgents();\n");
@@ -93,7 +93,7 @@ public class MainFileHelper {
 		emStartingStep.appendCode("\t\t\t\t}\n");
 		emStartingStep.appendCode(sm.makeTransit("emStartingStep", "emSelectingAgents"));
 		sm.addState(emStartingStep);
-		
+
 		//TODO: error state is still a mess
 		EngineState emError = new EngineState("emError", engine);
 		emError.appendCode("\t\t\t\tSystem.out.println(lastError);\n");
@@ -104,7 +104,7 @@ public class MainFileHelper {
 		emError.appendCode(sm.makeTransit("emError", "emIdle"));
 		emError.appendCode("\t\t\t\t}\n");
 		sm.addState(emError);
-		
+
 		EngineState emSelectingAgents = new EngineState("emSelectingAgents", engine);
 		emSelectingAgents.appendCode("\t\t\t\tif(scheduler.selectAgents()){\n");
 		emSelectingAgents.appendCode(sm.makeTransit("emSelectingAgents", "emRunningAgents"));
@@ -112,7 +112,7 @@ public class MainFileHelper {
 		emSelectingAgents.appendCode(sm.makeTransit("emSelectingAgents", "emStepSucceeded"));
 		emSelectingAgents.appendCode("\t\t\t\t}\n");
 		sm.addState(emSelectingAgents);
-		
+
 		EngineState emRunningAgents = new EngineState("emRunningAgents", engine);
 		emRunningAgents.appendCode("\t\t\t\tif (scheduler.getSelectedAgentSet().size() == 0){\n");
 		emRunningAgents.appendCode(sm.makeTransit("emRunningAgents", "emAggregation"));
@@ -125,7 +125,7 @@ public class MainFileHelper {
 		emRunningAgents.appendCode(sm.makeTransit("emRunningAgents", "emAggregation"));
 		emRunningAgents.appendCode("\n\t\t\t\t}\n");
 		sm.addState(emRunningAgents);
-		
+
 		EngineState emAggregation = new EngineState("emAggregation", engine);
 		emAggregation.appendCode("\t\t\t\tstorage.aggregateUpdates();\n");
 		emAggregation.appendCode("\t\t\t\tif (storage.isConsistent(scheduler.getUpdateSet())) {\n");
@@ -139,7 +139,7 @@ public class MainFileHelper {
 		emAggregation.appendCode(sm.makeTransit("emAggregation", "emUpdateFailed"));
 		emAggregation.appendCode("\t\t\t\t}\n");
 		sm.addState(emAggregation);
-		
+
 		EngineState emUpdateFailed = new EngineState("emUpdateFailed", engine);
 		emUpdateFailed.appendCode("\t\t\t\tif (scheduler.isSingleAgentInconsistent()){\n");
 		emUpdateFailed.appendCode(sm.makeTransit("emUpdateFailed", "emStepFailed"));
@@ -151,7 +151,7 @@ public class MainFileHelper {
 		emUpdateFailed.appendCode(sm.makeTransit("emUpdateFailed", "emStepFailed"));
 		emUpdateFailed.appendCode("\t\t\t\t}\n\t\t\t\t}\n");
 		sm.addState(emUpdateFailed);
-		
+
 		EngineState emStepFailed = new EngineState("emStepFailed", engine);
 		emStepFailed.appendCode(logCode);
 		emStepFailed.appendCode(termCode);
@@ -159,15 +159,15 @@ public class MainFileHelper {
 			emStepFailed.appendCode("System.out.println(\"Execution terminated: Update failed\");System.exit(0);\n");
 		emStepFailed.appendCode(sm.makeTransit("emStepFailed", "emIdle"));
 		sm.addState(emStepFailed);
-		
+
 		EngineState emStepSucceeded = new EngineState("emStepSucceeded", engine);
 		emStepSucceeded.appendCode("\t\t\t\tscheduler.incrementStepCount();\n");
 		emStepSucceeded.appendCode(logCode);
 		emStepSucceeded.appendCode(termCode);
 		emStepSucceeded.appendCode(sm.makeTransit("emStepSucceeded", "emIdle"));
 		sm.addState(emStepSucceeded);
-		
-		
-		
+
+
+
 	}
 }

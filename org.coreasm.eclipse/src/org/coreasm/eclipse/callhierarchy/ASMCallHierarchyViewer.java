@@ -21,9 +21,9 @@ public class ASMCallHierarchyViewer extends TreeViewer {
 		super(new Tree(parent, SWT.MULTI));
 		setContentProvider(new ASMCallHierarchyContentProvider());
 		setLabelProvider(new ASMCallHierarchyLabelProvider());
-		
+
 		addDoubleClickListener(new IDoubleClickListener() {
-			
+
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				ISelection selection = event.getSelection();
@@ -34,7 +34,7 @@ public class ASMCallHierarchyViewer extends TreeViewer {
 						ASMCallHierarchyNode node = (ASMCallHierarchyNode) element;
 						IFile file = node.getFile();
 						Utilities.openEditor(file);
-						
+
 						if (node.getNode() != null) {
 							ASMDocument document = (ASMDocument)getEditor(file).getInputDocument();
 							getEditor(file).setHighlightRange(document.getUpdatedOffset(document.getNodePosition(node.getNode())), document.calculateLength(node.getNode()), true);
@@ -49,7 +49,7 @@ public class ASMCallHierarchyViewer extends TreeViewer {
 			}
 		});
 	}
-	
+
 	public void setInputData(ASMCallHierarchyNode node) {
 		if (this.inputData != null)
 			this.inputData.clear();
@@ -57,7 +57,7 @@ public class ASMCallHierarchyViewer extends TreeViewer {
 		setInput(new ASMCallHierarchyNode(node));
 		getControl().setFocus();
 	}
-	
+
 	private ASMEditor getEditor(IFile file) {
 		return (ASMEditor)Utilities.getEditor(file);
 	}

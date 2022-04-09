@@ -22,10 +22,10 @@ public class ASMUpdate extends ASMUpdateViewElement {
 	private final Update update;
 	private final boolean consistent;
 	private boolean onBreakpoint;
-	
+
 	private ASMUpdate(Update update, boolean consistent, ControlAPI capi) {
 		super(update, capi);
-		
+
 		this.consistent = consistent;
 		this.update = update;
 
@@ -48,7 +48,7 @@ public class ASMUpdate extends ASMUpdateViewElement {
 			}
 		}
 	}
-	
+
 	/**
 	 * Wraps a given set of the class Update into a set of the class ASMUpdate.
 	 * @param updates the set of updates to be wrapped
@@ -64,22 +64,22 @@ public class ASMUpdate extends ASMUpdateViewElement {
 			asmUpdateSet.add(new ASMUpdate(update, consistent, capi));
 		return asmUpdateSet;
 	}
-	
+
 	public static Set<ASMUpdate> wrapUpdateSet(ControlAPI capi) {
 		return wrapUpdateSet(capi.getUpdateSet(0), true, capi);
 	}
-	
+
 	public static Set<Update> unwrap(Set<ASMUpdate> asmUpdateSet) {
 		HashSet<Update> updates = new HashSet<Update>();
 		for (ASMUpdate asmUpdate : asmUpdateSet)
 			updates.add(asmUpdate.update);
 		return updates;
 	}
-	
+
 	public Update getUpdate() {
 		return update;
 	}
-	
+
 	/**
 	 * Returns the location assigned to this update.
 	 * @return the location assigned to this update
@@ -87,7 +87,7 @@ public class ASMUpdate extends ASMUpdateViewElement {
 	public Location getLocation() {
 		return update.loc;
 	}
-	
+
 	/**
 	 * Returns the agents assigned to this update.
 	 * @return the agents assigned to this update
@@ -95,7 +95,7 @@ public class ASMUpdate extends ASMUpdateViewElement {
 	public Set<Element> getAgents() {
 		return update.agents;
 	}
-	
+
 	/**
 	 * Returns whether this update is affected by a breakpoint
 	 * @return the location assigned to this update
@@ -103,12 +103,12 @@ public class ASMUpdate extends ASMUpdateViewElement {
 	public boolean isOnBreakpoint() {
 		return onBreakpoint;
 	}
-	
+
 	@Override
 	public boolean isError() {
 		return !consistent;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

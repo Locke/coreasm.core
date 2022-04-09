@@ -14,7 +14,7 @@ public class MainFileEntry {
 	LibraryEntry classFile;
 	EntryType entryType;
 	String entryName;
-	
+
 	/**
 	 * Builds a new MainFileEntry.
 	 * Note that the LibraryEntry needs to be imported in the ClassLibrary
@@ -28,7 +28,7 @@ public class MainFileEntry {
 		this.entryType = entryType;
 		this.entryName = entryName;
 	}
-	
+
 	@Override
 	public String toString(){
 		return "{MFE::" + classFile + "::" + entryType + "::" + entryName + "}";

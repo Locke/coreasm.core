@@ -19,7 +19,7 @@ import org.coreasm.compiler.plugins.extendrule.code.ucode.ExtendRuleHandler;
 public class CompilerExtendRulePlugin extends CompilerCodePlugin implements CompilerPlugin{
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new plugin
 	 * @param parent The interpreter version
@@ -27,7 +27,7 @@ public class CompilerExtendRulePlugin extends CompilerCodePlugin implements Comp
 	public CompilerExtendRulePlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;

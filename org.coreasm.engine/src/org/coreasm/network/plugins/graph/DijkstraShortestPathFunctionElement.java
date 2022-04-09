@@ -1,6 +1,6 @@
-/*	
- * DijkstraShortestPathFunctionElement.java 
- * 
+/*
+ * DijkstraShortestPathFunctionElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -25,7 +25,7 @@ import org.jgrapht.alg.DijkstraShortestPath;
 
 /**
  * Computes a shortest path on a graph using the Dijkstra algorithm.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -33,7 +33,7 @@ public class DijkstraShortestPathFunctionElement extends FunctionElement {
 
 	Signature sig = null;
 	public static final String FUNCTION_NAME = "dijkstraShortestPath";
-	
+
 	@Override
 	public FunctionClass getFClass() {
 		return FunctionClass.fcDerived;
@@ -53,11 +53,11 @@ public class DijkstraShortestPathFunctionElement extends FunctionElement {
 	public Element getValue(List<? extends Element> args) {
 		if (!(args.size() == 3 && args.get(0) instanceof GraphElement))
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
-		
+
 		GraphElement ge = (GraphElement)args.get(0);
 		Element start = args.get(1);
 		Element end = args.get(2);
-		
+
 		List<Element> shortestPath = DijkstraShortestPath.findPathBetween(ge.getGraph(), start, end);
 		if (shortestPath != null)
 			return new ListElement(shortestPath);

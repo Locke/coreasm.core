@@ -12,7 +12,7 @@ public class KernelHelper {
 	 * @return The initial part of a rule class
 	 */
 	public static String getFirstRulePart(String constructor){
-		return "\t//Rule parameters\n" + 
+		return "\t//Rule parameters\n" +
 				"\tprivate java.util.ArrayList<CompilerRuntime.RuleParam> params;\n" +
 				"\t//local Stack for rule local parameters\n" +
 				"\tprivate CompilerRuntime.LocalStack localStack;\n" +
@@ -37,7 +37,7 @@ public class KernelHelper {
 				"\t\n" +
 				"\t@Override\n" +
 				"\tpublic CompilerRuntime.UpdateList call(){\n" +
-				"\t\tlocalStack.pushLayer();\n" + 
+				"\t\tlocalStack.pushLayer();\n" +
 				"\t\tevalStack.push(new CompilerRuntime.UpdateList());";
 	}
 	/**
@@ -50,5 +50,5 @@ public class KernelHelper {
 				"\t\treturn (CompilerRuntime.UpdateList) evalStack.pop();\n" +
 				"\t}\n";
 	}
-	
+
 }

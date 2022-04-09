@@ -11,7 +11,7 @@ import org.coreasm.engine.interpreter.ASTNode;
  * @author Spellmaker
  *
  */
-public interface CompilerCodeHandler {	
+public interface CompilerCodeHandler {
 	/**
 	 * Compiles the given node into a CodeFragment.
 	 * Note that the result object cannot be replaced with a new {@link CodeFragment}, as it

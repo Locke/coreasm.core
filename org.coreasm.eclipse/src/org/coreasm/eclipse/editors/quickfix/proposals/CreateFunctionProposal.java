@@ -25,15 +25,15 @@ public class CreateFunctionProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public CreateFunctionProposal(String name, List<String> domain) {
 		this(name, domain, null, null, null);
 	}
-	
+
 	public CreateFunctionProposal(String name, List<String> domain, Image image) {
 		this(name, domain, image, null, null);
 	}
-	
+
 	public CreateFunctionProposal(String name, List<String> domain, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.name = name;
 		this.domain = domain;
@@ -66,10 +66,10 @@ public class CreateFunctionProposal implements ICompletionProposal {
 				int line = asmDocument.getLineOfNode(nodeToAddAfter) + 1;
 				int offset = document.getLineOffset(line);
 				String declarationString = "function " + name + ": ";
-				
+
 				if (!(nodeToAddAfter instanceof FunctionNode))
 					declarationString = '\n' + declarationString;
-				
+
 				if (domain != null) {
 					for (String domainElement : domain) {
 						if (!declarationString.endsWith(": "))
@@ -80,9 +80,9 @@ public class CreateFunctionProposal implements ICompletionProposal {
 						declarationString += " ";
 					declarationString += "-> ";
 				}
-				
+
 				document.replace(offset, 0, declarationString + "\n");
-				
+
 				selection = new Point(offset + declarationString.length(), 0);
 			}
 		} catch (BadLocationException e) {

@@ -25,51 +25,51 @@ public class SignatureTransformer implements SynthesizeRule {
 	@Override
 	public Map<String, Information> transform(ASTNode n,
 			List<Map<String, Information>> children) {
-		
+
 		if(n.getGrammarClass().equals("Declaration") && n.getGrammarRule().equals("RuleSignature")){
 			HashMap<String, Information> result = new HashMap<String, Information>();
-			
+
 			//first node is id
 			if(children.size() <= 0) return null;
-			
+
 			String rname = (String) children.get(0).get("ID").getValue();
 			if(rname == null) return null;
-			
+
 			List<String> params = new ArrayList<String>();
-			
+
 			for(int i = 1; i < children.size(); i++){
 				String s = (String) children.get(i).get("ID").getValue();
 				if(s == null) return null;
 				params.add(s);
 			}
-			
+
 			Information inf = new Information();
 			inf.setValue(null, rname);
 			for(String s : params){
 				inf.setValue(null, rname, s);
 			}
 			result.put("RuleDeclaration", inf);
-			
+
 			return result;
 		}
 		else if (n.getGrammarClass().equals("Declaration") && n.getGrammarRule().equals("RuleDeclaration")){
 			HashMap<String, Information> result = new HashMap<String, Information>();
-			
+
 			if(children.size() < 0) return null;
-			
+
 			Information inf = children.get(0).get("RuleDeclaration");
-			
+
 			if(inf == null) return null;
-			
-			result.put("RuleDeclaration", inf);		
-			
+
+			result.put("RuleDeclaration", inf);
+
 			return result;
 		}
 		else if(n.getGrammarClass().equals("CoreASM") && n.getGrammarRule().equals("CoreASM")){
 			//collect all rules and put them in the head
 			HashMap<String, Information> result = new HashMap<String, Information>();
 			Information resultInfo = new Information();
-			
+
 			for(Map<String, Information> m : children){
 				Information inf = m.get("RuleDeclaration");
 				if(inf == null) continue;
@@ -81,7 +81,7 @@ public class SignatureTransformer implements SynthesizeRule {
 					if(resultInfo.getInformation(s) != null) return null;
 					resultInfo.setValue(null, s);
 					List<String> params = inf.getInformation(s).getChildren();
-					
+
 					if(params != null){
 						for(String p : params){
 							resultInfo.setValue(null, s, p);
@@ -92,8 +92,8 @@ public class SignatureTransformer implements SynthesizeRule {
 			result.put("RuleDeclaration", resultInfo);
 			return result;
 		}
-		
-		
+
+
 		return null;
 	}
 

@@ -1,11 +1,11 @@
 /*
  * SchedulingPoliciesPlugin.java 		$Revision: 216 $
- * 
+ *
  * Copyright (c) 2008 Roozbeh Farahbod
  *
  * Last modified on $Date: 2010-12-08 23:01:43 +0100 (Mi, 08 Dez 2010) $  by $Author: rfarahbod $
- * 
- * Licensed under the Academic Free License version 3.0 
+ *
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
@@ -61,26 +61,26 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provides some basic scheduling policies for running agents.
- *   
+ *
  * @author Roozbeh Farahbod
  *
  */
 
-public class SchedulingPoliciesPlugin extends Plugin implements 
+public class SchedulingPoliciesPlugin extends Plugin implements
 			SchedulerPlugin, ParserPlugin, InterpreterPlugin, VocabularyExtender, ExtensionPointPlugin {
 
 	protected static final Logger logger = LoggerFactory.getLogger(SchedulingPoliciesPlugin.class);
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 6, 3, "alpha");
-	
+
 	public static final String PLUGIN_NAME = SchedulingPoliciesPlugin.class.getSimpleName();
-	
+
 	/** The name of the SchedulingPolicies.Policy property */
 	public static final String POLICY_PROPERTY = "policy";
-	
-	/** default value of {@link #POLICY_PROPERTY} property */ 
+
+	/** default value of {@link #POLICY_PROPERTY} property */
 	public static final String DEFAULT_POLICY_NAME = "default";
-	
+
 	/** the policy that tries to run all the agents together in every step */
 	public static final String ALL_FIRST_NAME = "allfirst";
 
@@ -89,7 +89,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 
 	/** the policy that tries agents one by one with no guarantee of fairness*/
 	public static final String ONE_BY_ONE_UNFAIR_NAME = "onebyoneunfair";
-	
+
 	private static final String SUSPEND_AGENT_KEYWORD = "suspend";
 	private static final String RESUME_AGENT_KEYWORD = "resume";
 	private static final String TERMINATE_AGENT_KEYWORD = "terminate";
@@ -104,15 +104,15 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 	private final String[] operators = {};
 	private static final Set<String> options = Set.of(POLICY_PROPERTY);
 	private Map<EngineMode, Integer> targetModes = null;
-	
+
 	private SchedulingPolicy currentPolicy = null;
-	
+
 	private Set<Element> suspendedOrTerminatedAgents = new HashSet<Element>();
 
 	private Map<String, GrammarRule> parsers = null;
 
 	private Map<String, FunctionElement> funcs = null;
-	
+
 	@Override
 	public void initialize() throws InitializationFailedException {
 		agentSchedulingStatusFunction.clear();
@@ -128,15 +128,15 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 	}
 
 	/*
-	 * Creates a new policy based on the value of 
-	 * the POLICY_PROPERTY property. 
+	 * Creates a new policy based on the value of
+	 * the POLICY_PROPERTY property.
 	 */
 	private SchedulingPolicy createPolicy() {
 		String policyName = getOptionValue(POLICY_PROPERTY);
-		if (policyName == null) 
+		if (policyName == null)
 			policyName = DEFAULT_POLICY_NAME;
-		
-		if (policyName.equals(DEFAULT_POLICY_NAME)) 
+
+		if (policyName.equals(DEFAULT_POLICY_NAME))
 			return new BasicSchedulingPolicy(suspendedOrTerminatedAgents);
 		else
 			if (policyName.equals(ALL_FIRST_NAME))
@@ -145,9 +145,9 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 				if (policyName.equals(ONE_BY_ONE_NAME))
 					return new OneByOneSchedulingPolicy(suspendedOrTerminatedAgents);
 				else
-					if (policyName.equals(ONE_BY_ONE_UNFAIR_NAME)) 
+					if (policyName.equals(ONE_BY_ONE_UNFAIR_NAME))
 						return new OneByOneUnfairSchedulingPolicy(suspendedOrTerminatedAgents);
-		
+
 		throw new EngineError("Scheduling policy '" + policyName + "' not found.");
 	}
 
@@ -162,18 +162,18 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 	public String[] getOperators() {
 		return operators;
 	}
-	
+
 	@Override
 	public Set<String> getOptions() {
 		return options;
 	}
-	
+
 	@Override
 	public void checkOptionValue(String option, String value) throws CoreASMIssue {
 		if (!DEFAULT_POLICY_NAME.equals(value)
 		&&  !ALL_FIRST_NAME.equals(value)
 		&&  !ONE_BY_ONE_NAME.equals(value)
-		&&  !ONE_BY_ONE_UNFAIR_NAME.equals(value)) 
+		&&  !ONE_BY_ONE_UNFAIR_NAME.equals(value))
 			throw new CoreASMError("Scheduling policy '" + value + "' not found.");
 	}
 
@@ -185,11 +185,11 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 		if (parsers  == null) {
 			parsers = new HashMap<String, GrammarRule>();
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
-			
+
 			Parser<Node> termParser = kernel.getTermParser();
-			
+
 			ParserTools pTools = ParserTools.getInstance(capi);
-			
+
 			// SuspendAgentRule ::= 'suspend' TERM
 			Parser<Node> suspendParser = Parsers.array(
 					new Parser[] {
@@ -198,14 +198,14 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "SuspendAgentRule");
 							node.addChild((Node)vals[0]);
 							node.addChild("alpha", (Node)vals[1]);
 							return node;
 						}
-				
+
 					});
 
 			// ResumeAgentRule ::= 'resume' TERM
@@ -216,14 +216,14 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "ResumeAgentRule");
 							node.addChild((Node)vals[0]);
 							node.addChild("alpha", (Node)vals[1]);
 							return node;
 						}
-				
+
 					});
 
 			// TerminateAgentRule ::= 'terminate' TERM
@@ -234,22 +234,22 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					}).map(
 					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Object[] vals) {
 							Node node = new AgentManagementRuleNode(((Node)vals[0]).getScannerInfo(), "TerminateAgentRule");
 							node.addChild((Node)vals[0]);
 							node.addChild("alpha", (Node)vals[1]);
 							return node;
 						}
-				
+
 					});
 
 			// ShutdownRule ::= 'shutdown'
-			Parser<Node> shutdownParser = 
+			Parser<Node> shutdownParser =
 					pTools.getKeywParser(SHUTDOWN_KEYWORD, PLUGIN_NAME).map(
 					new ParseMap<Node, Node>(PLUGIN_NAME) {
 
-					    @Override
+						@Override
 						public Node apply(Node v) {
 							Node node = new AgentManagementRuleNode(v.getScannerInfo(), "ShutdownRule");
 							node.addChild(v);
@@ -259,88 +259,88 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 					});
 
 			// AgentManagementRule ::= SuspendAgentParserRule | ResumeAgentParserRule | TerminateAgentRule | ShutdownRule
-			final String grbody = suspendParser.toString() + " | " 
+			final String grbody = suspendParser.toString() + " | "
 								+ resumeParser.toString() + " | "
 								+ terminateParser.toString() + " | "
 								+ shutdownParser.toString();
-			final GrammarRule gr = new GrammarRule("AgentManagementRule", grbody, 
+			final GrammarRule gr = new GrammarRule("AgentManagementRule", grbody,
 						Parsers.or(suspendParser, resumeParser, terminateParser, shutdownParser), PLUGIN_NAME);
-			
+
 			parsers.put(gr.name, gr);
-			
-			parsers.put("Rule", new GrammarRule("Rule", gr.name, gr.parser, PLUGIN_NAME)); 
+
+			parsers.put("Rule", new GrammarRule("Rule", gr.name, gr.parser, PLUGIN_NAME));
 		}
-		
+
 		return parsers;
 	}
 
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos)
 			throws InterpreterException {
-		
+
 		if (pos instanceof AgentManagementRuleNode) {
 			AgentManagementRuleNode node = (AgentManagementRuleNode)pos;
-			
+
 			if (node.getKeyword().equals(SUSPEND_AGENT_KEYWORD)) {
 				ASTNode agentNode = node.getAgent();
-				
+
 				if (!agentNode.isEvaluated())
-					return agentNode; 
+					return agentNode;
 
 				if (agentNode.getValue() == null) {
 					capi.error("The agent argument passed to 'suspend' does not have a value.", pos, interpreter);
 				} else {
 					pos.setNode(null, new UpdateMultiset(
-							new Update(getSchedulingStatusLocation(agentNode.getValue()), 
+							new Update(getSchedulingStatusLocation(agentNode.getValue()),
 									suspendedFlag, Update.UPDATE_ACTION, interpreter.getSelf(), pos.getScannerInfo())), null);
 
 					logger.debug("Suspending agent '{}'.", agentNode.getValue());
 				}
-			} else 
+			} else
 				if (node.getKeyword().equals(RESUME_AGENT_KEYWORD)) {
 					ASTNode agentNode = node.getAgent();
-					
+
 					if (!agentNode.isEvaluated())
-						return agentNode; 
-					
+						return agentNode;
+
 					if (agentNode.getValue() == null) {
 						capi.error("The agent argument passed to 'resume' does not have a value.", pos, interpreter);
 					} else {
 						if (agentSchedulingStatusFunction.getValue(new ElementList(agentNode.getValue())) == suspendedFlag) {
-							
+
 							pos.setNode(null, new UpdateMultiset(
-									new Update(getSchedulingStatusLocation(agentNode.getValue()), 
+									new Update(getSchedulingStatusLocation(agentNode.getValue()),
 											Element.UNDEF, Update.UPDATE_ACTION, interpreter.getSelf(), pos.getScannerInfo())), null);
 
 							logger.debug("Resuming agent '{}'", agentNode.getValue());
 						} else
 							capi.error("The agent is not suspended and cannot be resumed.", pos, interpreter);
 					}
-				} else 
+				} else
 					if (node.getKeyword().equals(TERMINATE_AGENT_KEYWORD)) {
 						ASTNode agentNode = node.getAgent();
-						
+
 						if (!agentNode.isEvaluated())
-							return agentNode; 
-						
+							return agentNode;
+
 						if (agentNode.getValue() == null) {
 							capi.error("The agent argument passed to 'terminate' does not have a value.", pos, interpreter);
 						} else {
 							final Location loc = new Location(AbstractStorage.PROGRAM_FUNCTION_NAME, new ElementList(agentNode.getValue()));
 							final UpdateMultiset updates = new UpdateMultiset();
-							
+
 							updates.add(new Update(loc, Element.UNDEF, Update.UPDATE_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
-							updates.add(new Update(getSchedulingStatusLocation(agentNode.getValue()), 
+							updates.add(new Update(getSchedulingStatusLocation(agentNode.getValue()),
 											terminatedFlag, Update.UPDATE_ACTION, interpreter.getSelf(), pos.getScannerInfo()));
 
 							pos.setNode(null, updates, null);
 
 							logger.debug("Terminating agent '{}'.", agentNode.getValue());
 						}
-					} else 
+					} else
 						if (node.getKeyword().equals(SHUTDOWN_KEYWORD)) {
 							// TODO can also send a "terminate" command to engine
 							//      but that would prevent this step to be completed.
-							
+
 							final AbstractUniverse agents = capi.getStorage().getUniverse(AbstractStorage.AGENTS_UNIVERSE_NAME);
 							final UpdateMultiset updates = new UpdateMultiset();
 							for (Element a: ((Enumerable)agents).enumerate()) {
@@ -351,20 +351,20 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 
 							logger.debug("Shutting down.");
 						}
-			
-		} 
-		
+
+		}
+
 		return pos;
 	}
-	
+
 	/*
 	 * returns the location of the agent scheduling function for
-	 * the given agent 
+	 * the given agent
 	 */
 	private Location getSchedulingStatusLocation(Element agent) {
 		return new Location(AGENT_SCHEDULING_STATUS_FUNC_NAME, new ElementList(agent));
 	}
-	
+
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
@@ -413,7 +413,7 @@ public class SchedulingPoliciesPlugin extends Plugin implements
 						suspendedOrTerminatedAgents.add(agent);
 				}
 			}
-		}		
+		}
 	}
 
 	public Map<EngineMode, Integer> getSourceModes() {

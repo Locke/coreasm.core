@@ -1,6 +1,6 @@
-/*	
+/*
  * EngineStepObserver.java 	1.0 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2006 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,14 +10,14 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine;
 
-/** 
+/**
  * Observes success or failure of a step.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public interface EngineStepObserver extends EngineObserver {
 

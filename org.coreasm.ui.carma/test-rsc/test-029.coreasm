@@ -2,41 +2,39 @@ CoreASM TestCase
 
 use Standard
 
-init R1 
+init R1
 
-rule R1 = 
-  case a of
-	undef : a := 5
-		
-    5 : {
-			print "a is " + a
-			a := 7
-		 }
+rule R1 =
+	case a of
+		undef : a := 5
 
-	7 : case b of 
-			undef : b := 100
+		5 : {
+				print "a is " + a
+				a := 7
+			 }
 
-			c : c := 60
+		7 : case b of
+				undef : b := 100
 
-			100 : b := c
+				c : c := 60
 
-			60 : 
-				par
-					print b + ":" + c
-					b := 0
-				endpar
+				100 : b := c
 
-			0 : a := 10
-		endcase
+				60 :
+					par
+						print b + ":" + c
+						b := 0
+					endpar
 
-	10 : 
-		{
-			case c of
-				5 : print "oh, no!"
-				10 : print "not again!"
-		  	endcase
-			program(self) := undef 
-		}
+				0 : a := 10
+			endcase
 
-  endcase
-    
+		10 :
+			{
+				case c of
+					5 : print "oh, no!"
+					10 : print "not again!"
+				endcase
+				program(self) := undef
+			}
+	endcase

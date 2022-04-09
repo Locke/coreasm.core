@@ -14,18 +14,18 @@ init R1
 
 rule R1 = {
 	seqblock
-		
-		A := "a" | "b" 
-		
+
+		A := "a" | "b"
+
 		parse "a" by A into TA
 		print TA
-		
-		
+
+
 		B := "c" || "d" . @B . "e" . @B || "z"
-		
+
 		parse "d c e z" by B into T
-		
-		print T		
+
+		print T
 		print treeLeaves(T)
 
 
@@ -35,7 +35,7 @@ rule R1 = {
 		print T
 
 
-		
+
 	endseqblock
 	program(self) := undef
 	}

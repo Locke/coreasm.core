@@ -18,7 +18,7 @@ public class ListTermHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {		
+			throws CompilerException {
 		result.appendLine("@decl(java.util.List<@RuntimePkg@.Element>,list)=new java.util.ArrayList<@RuntimePkg@.Element>();\n");
 		for(ASTNode child : node.getAbstractChildNodes()){
 			result.appendFragment(engine.compile(child, CodeType.R));

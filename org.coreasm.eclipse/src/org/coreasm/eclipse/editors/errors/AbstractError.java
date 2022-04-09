@@ -17,23 +17,23 @@ import org.eclipse.ui.IEditorPart;
  * serialization of the attributes into a String, which is then used as an
  * attribute for an error marker. Afterwards the String can be deserialized
  * back into an instance of this class.
- * 
+ *
  * This class does not manage what attributes are available, this is the task
  * of its subclasses.
  * @author Markus Müller
  */
-public abstract class AbstractError 
+public abstract class AbstractError
 {
 	// These two Strings are uses to separate keys and their values respectively
 	// different key/value pairs within the serialization string. We use exotic
 	// Unicode chars here, so there is no need for escaping.
 	public static final String SEPERATOR_ATTR = new StringBuilder().append('\u25c9').toString();
 	public static final String SEPERATOR_VAL = new StringBuilder().append('\u25b7').toString();
-	
+
 	public static enum ErrorType {
-		UNDEFINED, SIMPLE, SYNTAX_ERROR, COREASM_ERROR 
+		UNDEFINED, SIMPLE, SYNTAX_ERROR, COREASM_ERROR
 	}
-	
+
 	// ATTRIBUTE NAMES:
 	// general attributes:
 	public static final String TYPE = "type";
@@ -49,10 +49,10 @@ public abstract class AbstractError
 	// syntax error attributes:
 	public static final String ENCOUNTERED = "encountered";
 	public static final String EXPECTED = "expected";
-	
+
 	private Map<String, String> attributes;
 	private IDocument document;
-	
+
 	/**
 	 * Generates a new instance of the given type with an empty attributes map.
 	 */
@@ -62,7 +62,7 @@ public abstract class AbstractError
 		attributes.put(TYPE, type.name());
 		document = null;
 	}
-	
+
 	/**
 	 * Generates a new instance of the given type and initializes the attributs
 	 * map with the given map.
@@ -71,7 +71,7 @@ public abstract class AbstractError
 	{
 		this.attributes = new HashMap<String, String>(attributes);
 	}
-	
+
 	/**
 	 * Returns the type of this error.
 	 */
@@ -80,7 +80,7 @@ public abstract class AbstractError
 		String sType = attributes.get(TYPE);
 		return ErrorType.valueOf(sType);
 	}
-	
+
 	/**
 	 * Returns the value of the attribute with the given key.
 	 */
@@ -88,7 +88,7 @@ public abstract class AbstractError
 	{
 		return attributes.get(attribute);
 	}
-	
+
 	/**
 	 * Returns the value of the attribute with the given key as an integer.
 	 * @param attribute
@@ -106,7 +106,7 @@ public abstract class AbstractError
 		}
 		return i;
 	}
-	
+
 	/**
 	 * Returns the value of the POSITION attribute.
 	 */
@@ -115,9 +115,9 @@ public abstract class AbstractError
 		if (attributes.containsKey(POSITION))
 			return getInt(POSITION, 0);
 		return 0;
-		
+
 	}
-	
+
 	/**
 	 * Returns the value of the LENGTH attribute.
 	 */
@@ -127,7 +127,7 @@ public abstract class AbstractError
 			return getInt(LENGTH, 0);
 		return 0;
 	}
-	
+
 	/**
 	 * Returns a reference to the document this error is bound to.
 	 */
@@ -135,11 +135,11 @@ public abstract class AbstractError
 	{
 		return document;
 	}
-	
+
 	public List<AbstractQuickFix> getQuickFixes() {
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * Sets an attribute.
 	 * @param attribute	The key of the attribute
@@ -149,7 +149,7 @@ public abstract class AbstractError
 	{
 		attributes.put(attribute, value);
 	}
-	
+
 	/**
 	 * Sets an attribute as integer.
 	 * @param attribute	The key of the attribute
@@ -159,7 +159,7 @@ public abstract class AbstractError
 	{
 		attributes.put(attribute, Integer.toString(value));
 	}
-	
+
 	/**
 	 * Binds the error to an document. Since we cannot use references as attributes
 	 * for error markers the error object must be manually bound to its corresponding
@@ -170,7 +170,7 @@ public abstract class AbstractError
 	{
 		this.document = document;
 	}
-	
+
 	/**
 	 * Encodes the attributes of this error object as a String.
 	 */
@@ -186,10 +186,10 @@ public abstract class AbstractError
 		}
 		if (sbEncode.length() > 0)
 			sbEncode.deleteCharAt(sbEncode.length()-1);
-		
-		return sbEncode.toString(); 
+
+		return sbEncode.toString();
 	}
-	
+
 	public static AbstractError createFromMarker(IMarker marker) {
 		try {
 			AbstractError error = AbstractError.decode(marker.getAttribute("data", ""));
@@ -202,12 +202,12 @@ public abstract class AbstractError
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Decodes a String, which have been created by encode(), back into an
 	 * instance of the correct subclass of AbstractError (subclass is chosen
 	 * by the error type attribute).
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private static AbstractError decode(String encoded) throws Exception
 	{
@@ -218,7 +218,7 @@ public abstract class AbstractError
 				String[] kv = pair.split(SEPERATOR_VAL);
 					attributes.put(kv[0], kv[1]);
 			}
-			
+
 			ErrorType type = ErrorType.valueOf(attributes.get(AbstractError.TYPE));
 			AbstractError error;
 			switch (type) {
@@ -237,9 +237,9 @@ public abstract class AbstractError
 			default:
 				error = null;
 			}
-			
+
 			return error;
-	
+
 		}catch(Exception e) {
 			//@warning there maybe unhandled error types which will cause an exception during decoding
 			throw new Exception("Exception in AbstractError.decode("+encoded+") with message\n"+e.getMessage());

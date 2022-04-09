@@ -7,7 +7,5 @@ use IOPlugin
 
 init Main
 
-rule Main = 
+rule Main =
    print hashValue("R Farahbod")
-
-

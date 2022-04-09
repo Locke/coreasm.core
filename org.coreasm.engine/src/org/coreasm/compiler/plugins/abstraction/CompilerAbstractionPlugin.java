@@ -18,7 +18,7 @@ import org.coreasm.compiler.plugins.abstraction.code.ucode.AbstractionAbstractHa
 public class CompilerAbstractionPlugin extends CompilerCodePlugin implements CompilerPlugin {
 
 	private Plugin interpreterPlugin;
-	
+
 	/**
 	 * Constructs a new instance
 	 * @param parent The interpreter version
@@ -26,12 +26,12 @@ public class CompilerAbstractionPlugin extends CompilerCodePlugin implements Com
 	public CompilerAbstractionPlugin(Plugin parent){
 		this.interpreterPlugin = parent;
 	}
-	
+
 	@Override
 	public Plugin getInterpreterPlugin(){
 		return interpreterPlugin;
 	}
-	
+
 	@Override
 	public String getName() {
 		return AbstractionPlugin.PLUGIN_NAME;

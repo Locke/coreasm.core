@@ -9,6 +9,7 @@ tmp*
 .metadata
 .DS_Store
 .flattened-pom.xml
+*.orig
 **/*.class
 **/*.iml
 **/*.prefs

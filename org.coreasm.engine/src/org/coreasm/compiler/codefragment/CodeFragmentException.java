@@ -15,7 +15,7 @@ public class CodeFragmentException extends Exception {
 	public CodeFragmentException(String string) {
 		super(string);
 	}
-	
+
 	/**
 	 * Calls the super constructor, building a new CodeFragmentException
 	 */

@@ -13,9 +13,9 @@ init R1
 rule R1 = {
 	time := now
 	if time != undef then {
-		if stepcount < 10 then 
+		if stepcount < 10 then
 			print stepcount + ", " + (now > time)
 		else
 			program(self) := undef
 	}
- }	
+}

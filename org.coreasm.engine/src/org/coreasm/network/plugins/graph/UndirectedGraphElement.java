@@ -1,6 +1,6 @@
-/*	
- * UndirectedGraphElement.java 
- * 
+/*
+ * UndirectedGraphElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -21,7 +21,7 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**
  * Undirected graph elements in CoreASM state.
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
@@ -29,7 +29,7 @@ public class UndirectedGraphElement extends GraphElement {
 
 	protected final DirectedGraph<Element, Element> dgraph;
 	protected final UndirectedGraph<Element, Element> ugraph;
-	
+
 	/**
 	 * Creates a new graph element based on the given directed graph.
 	 */
@@ -37,10 +37,10 @@ public class UndirectedGraphElement extends GraphElement {
 		this.dgraph = graph;
 		this.ugraph = new AsUndirectedGraph<Element, Element>(dgraph);
 	}
-	
+
 	/**
 	 * Creates a new undirected graph.
-	 * 
+	 *
 	 * @see DefaultDirectedGraph
 	 * @see AsUndirectedGraph
 	 */
@@ -55,9 +55,9 @@ public class UndirectedGraphElement extends GraphElement {
 	public Graph<Element, Element> getGraph() {
 		return ugraph;
 	}
-	
+
 	/**
-	 * Returns the backing directed graph. 
+	 * Returns the backing directed graph.
 	 */
 	public DirectedGraph<Element, Element> getDirectedGraph() {
 		return dgraph;
@@ -67,5 +67,5 @@ public class UndirectedGraphElement extends GraphElement {
 	public UndirectedGraph<Element, Element> getUndirectedGraph() {
 		return ugraph;
 	}
-	
+
 }

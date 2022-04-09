@@ -25,15 +25,15 @@ public class UsePluginProposal implements ICompletionProposal {
 	private final IContextInformation contextInformation;
 	private final String additionalProposalInfo;
 	private Point selection;
-	
+
 	public UsePluginProposal(String name) {
 		this(name, null, null, null);
 	}
-	
+
 	public UsePluginProposal(String name, Image image) {
 		this(name, image, null, null);
 	}
-	
+
 	public UsePluginProposal(String name, Image image, IContextInformation contextInformation, String additionalProposalInfo) {
 		this.name = name;
 		this.image = image;

@@ -8,11 +8,11 @@ public class IncludeNode extends ASTNode {
 	public IncludeNode(IncludeNode node){
 		super(node);
 	}
-	
+
 	public IncludeNode(ScannerInfo scannerInfo) {
 		super(ModularityPlugin.PLUGIN_NAME, ASTNode.DECLARATION_CLASS, "Include", null, scannerInfo);
 	}
-	
+
 	public String getFilename() {
 		return getFirst().getToken();
 	}

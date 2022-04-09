@@ -46,11 +46,11 @@ import org.eclipse.jface.text.BadLocationException;
  */
 public class ASMDeclarationWatcher implements Observer {
 	private static final String DECLARATION_SEPERATOR = "\u25c9";
-	
+
 	public static abstract class Declaration {
 		protected final String name;
 		protected final IFile file;
-		
+
 		protected Declaration(String name, IFile file) {
 			if (name == null)
 				throw new IllegalArgumentException("Name must not be null!");
@@ -61,11 +61,11 @@ public class ASMDeclarationWatcher implements Observer {
 		public String getName() {
 			return name;
 		}
-		
+
 		public IFile getFile() {
 			return file;
 		}
-		
+
 		public static Declaration decode(String declaration, IFile file) {
 			String type = declaration.substring(0, declaration.indexOf(':'));
 			declaration = declaration.substring(type.length() + 2);
@@ -81,11 +81,11 @@ public class ASMDeclarationWatcher implements Observer {
 				return new RuleDeclaration(declaration, file);
 			return null;
 		}
-		
+
 		public static Declaration from(ASTNode signature) {
 			return from(signature, null);
 		}
-		
+
 		public static Declaration from(ASTNode signature, String comment) {
 			if (signature instanceof EnumerationNode)
 				return new EnumerationDeclaration((EnumerationNode)signature, comment);
@@ -103,7 +103,7 @@ public class ASMDeclarationWatcher implements Observer {
 	public static class FunctionDeclaration extends Declaration {
 		private final Signature signature;
 		private String comment;
-		
+
 		private FunctionDeclaration(FunctionNode node, String comment) {
 			super(node.getName(), null);
 			this.signature = new Signature();
@@ -111,7 +111,7 @@ public class ASMDeclarationWatcher implements Observer {
 			this.signature.setRange(node.getRange());
 			this.comment = comment;
 		}
-		
+
 		private FunctionDeclaration(String declaration, IFile file) {
 			super(declaration.substring(0, declaration.indexOf(':')), file);
 			int index = declaration.indexOf("->");
@@ -128,7 +128,7 @@ public class ASMDeclarationWatcher implements Observer {
 			else
 				signature.setRange(declaration.substring(index + 3));
 		}
-		
+
 		public List<String> getDomain() {
 			return signature.getDomain();
 		}
@@ -136,11 +136,11 @@ public class ASMDeclarationWatcher implements Observer {
 		public String getRange() {
 			return signature.getRange();
 		}
-		
+
 		public Signature getSignature() {
 			return signature;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Function: " + name + ": " + signature + (comment != null ? "\n\n" + comment : "");
@@ -149,12 +149,12 @@ public class ASMDeclarationWatcher implements Observer {
 	public static class UniverseDeclaration extends Declaration {
 		public static class Member extends Declaration {
 			private UniverseDeclaration parent;
-			
+
 			private Member(UniverseDeclaration parent, String name) {
 				super(name, parent.getFile());
 				this.parent = parent;
 			}
-			
+
 			@Override
 			public String toString() {
 				return "Universe member: " + parent.getName() + "(" + name + ")";
@@ -162,14 +162,14 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		private List<Member> members = new ArrayList<Member>();
 		private String comment;
-		
+
 		private UniverseDeclaration(UniverseNode node, String comment) {
 			super(node.getName(), null);
 			for (ASTNode member = node.getFirst().getNext(); member != null; member = member.getNext())
 				members.add(new Member(this, member.getToken()));
 			this.comment = comment;
 		}
-		
+
 		private UniverseDeclaration(String declaration, IFile file) {
 			super(declaration.substring(0, declaration.indexOf('=') - 1), file);
 			int indexOfMembers = declaration.indexOf('{');
@@ -181,7 +181,7 @@ public class ASMDeclarationWatcher implements Observer {
 			if (indexOfNewLine >= 0)
 				comment = declaration.substring(indexOfNewLine + 2);
 		}
-		
+
 		public List<Member> getMembers() {
 			return members;
 		}
@@ -204,12 +204,12 @@ public class ASMDeclarationWatcher implements Observer {
 	public static class EnumerationDeclaration extends Declaration {
 		public static class Member extends Declaration {
 			private EnumerationDeclaration parent;
-			
+
 			private Member(EnumerationDeclaration parent, String name) {
 				super(name, parent.getFile());
 				this.parent = parent;
 			}
-			
+
 			@Override
 			public String toString() {
 				return "Enumeration member: " + parent.getName() + "(" + name + ")";
@@ -217,14 +217,14 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		private List<Member> members = new ArrayList<Member>();
 		private String comment;
-		
+
 		private EnumerationDeclaration(EnumerationNode node, String comment) {
 			super(node.getName(), null);
 			for (EnumerationElement member : node.getMembers())
 				members.add(new Member(this, member.getName()));
 			this.comment = comment;
 		}
-		
+
 		private EnumerationDeclaration(String declaration, IFile file) {
 			super(declaration.substring(0, declaration.indexOf('=') - 1), file);
 			int indexOfMembers = declaration.indexOf('{');
@@ -236,7 +236,7 @@ public class ASMDeclarationWatcher implements Observer {
 			if (indexOfNewLine >= 0)
 				comment = declaration.substring(indexOfNewLine + 2);
 		}
-		
+
 		public List<Member> getMembers() {
 			return members;
 		}
@@ -259,16 +259,16 @@ public class ASMDeclarationWatcher implements Observer {
 		private List<String> params = new ArrayList<String>();
 		private String comment;
 		private String returnExpression;
-		
+
 		private DerivedFunctionDeclaration(DerivedFunctionNode node, String comment) {
 			super(node.getNameSignatureNode().getFirst().getToken(), null);
-			for (ASTNode param = node.getNameSignatureNode().getFirst().getNext(); param != null; param = param.getNext()) 
+			for (ASTNode param = node.getNameSignatureNode().getFirst().getNext(); param != null; param = param.getNext())
 				params.add(param.getToken());
 			if (node.getFirst().getNext() instanceof ReturnTermNode)
 				returnExpression = node.getFirst().getNext().getFirst().unparseTree().replace("  ", " ");
 			this.comment = comment;
 		}
-		
+
 		private DerivedFunctionDeclaration(String declaration, IFile file) {
 			super(findName(declaration), file);
 			declaration = declaration.substring(name.length());
@@ -286,7 +286,7 @@ public class ASMDeclarationWatcher implements Observer {
 			if (indexOfNewLine >= 0)
 				comment = declaration.substring(indexOfNewLine + 2);
 		}
-		
+
 		private static String findName(String declaration) {
 			int indexOfNewline = declaration.indexOf('\n');
 			if (indexOfNewline >= 0)
@@ -296,11 +296,11 @@ public class ASMDeclarationWatcher implements Observer {
 				declaration = declaration.substring(0, indexOfBracket);
 			return declaration;
 		}
-		
+
 		public List<String> getParams() {
 			return params;
 		}
-		
+
 		@Override
 		public String toString() {
 			String declaration = "Derived Function: " + name + "(";
@@ -320,7 +320,7 @@ public class ASMDeclarationWatcher implements Observer {
 	public static class RuleDeclaration extends Declaration {
 		private List<String> params = new ArrayList<String>();
 		private String comment;
-		
+
 		private RuleDeclaration(ASTNode node, String comment) {
 			super(node.getFirst().getFirst().getToken(), null);
 			if (!Kernel.GR_RULEDECLARATION.equals(node.getGrammarRule()))
@@ -329,7 +329,7 @@ public class ASMDeclarationWatcher implements Observer {
 				params.add(param.getToken());
 			this.comment = comment;
 		}
-		
+
 		private RuleDeclaration(String declaration, IFile file) {
 			super(findName(declaration), file);
 			declaration = declaration.substring(name.length());
@@ -339,7 +339,7 @@ public class ASMDeclarationWatcher implements Observer {
 			if (indexOfNewLine >= 0)
 				comment = declaration.substring(indexOfNewLine + 2);
 		}
-		
+
 		private static String findName(String declaration) {
 			int indexOfNewline = declaration.indexOf('\n');
 			if (indexOfNewline >= 0)
@@ -349,11 +349,11 @@ public class ASMDeclarationWatcher implements Observer {
 				declaration = declaration.substring(0, indexOfBracket);
 			return declaration;
 		}
-		
+
 		public List<String> getParams() {
 			return params;
 		}
-		
+
 		@Override
 		public String toString() {
 			String declaration = "Rule: " + name + "(";
@@ -372,13 +372,13 @@ public class ASMDeclarationWatcher implements Observer {
 		private final ASTNode declarationNode;
 		private final ASTNode callerNode;
 		private final IFile file;
-		
+
 		public Call(ASTNode declarationNode, ASTNode callerNode, IFile file) {
 			this.declarationNode = declarationNode;
 			this.callerNode = callerNode;
 			this.file = file;
 		}
-		
+
 		public Call(IFile file) {
 			this(null, null, file);
 		}
@@ -395,13 +395,13 @@ public class ASMDeclarationWatcher implements Observer {
 			return file;
 		}
 	}
-	
+
 	private final ASMEditor editor;
-	
+
 	public ASMDeclarationWatcher(ASMEditor editor) {
 		this.editor = editor;
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o != editor.getParser() || !(arg instanceof ParsingResult))
@@ -419,7 +419,7 @@ public class ASMDeclarationWatcher implements Observer {
 			editor.createDeclarationsMark(declarations);
 		}
 	}
-	
+
 	public static List<Call> getCallers(ASTNode referenceNode, IFile referenceFile) {
 		List<Call> callers = new ArrayList<Call>();
 		ASTNode node = referenceNode;
@@ -470,13 +470,13 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return callers;
 	}
-	
+
 	public static List<Declaration> getDeclarations(IFile file, boolean includedDeclarations) {
 		List<Declaration> declarations = new ArrayList<Declaration>();
 		collectDeclarations(file, includedDeclarations, declarations);
 		return declarations;
 	}
-	
+
 	public static Declaration findDeclaration(String name, IFile contextfile) {
 		for (IFile file : ASMIncludeWatcher.getInvolvedFiles(contextfile)) {
 			for (Declaration declaration : getDeclarations(file, false)) {
@@ -486,7 +486,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return null;
 	}
-	
+
 	public static ASTNode findDeclarationNode(String name, ASMDocument document) {
 		for (ASTNode node = ((ASTNode)document.getRootnode()).getFirst(); node != null; node = node.getNext()) {
 			if (ASTNode.DECLARATION_CLASS.equals(node.getGrammarClass())) {
@@ -517,7 +517,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return null;
 	}
-	
+
 	private static void collectDeclarations(IFile file, boolean includedDeclarations, List<Declaration> declarations) {
 		if (file == null)
 			return;
@@ -581,7 +581,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return declarations;
 	}
-	
+
 	private static String parseComment(ASMDocument document, ASTNode node) {
 		try {
 			String comment = "";
@@ -616,7 +616,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return null;
 	}
-	
+
 	public static boolean isLocalFunction(FunctionRuleTermNode frNode) {
 		for (LocalRuleNode localRuleNode = getParentLocalRuleNode(frNode); localRuleNode != null; localRuleNode = getParentLocalRuleNode(localRuleNode)) {
 			if (localRuleNode.getFunctionNames().contains(frNode.getName()))
@@ -626,7 +626,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return true;
 		return false;
 	}
-	
+
 	private static LocalRuleNode getParentLocalRuleNode(ASTNode node) {
 		ASTNode localRuleNode = node.getParent();
 		while (localRuleNode != null && !(localRuleNode instanceof LocalRuleNode))
@@ -635,7 +635,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (LocalRuleNode)localRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isReturnTermExpression(FunctionRuleTermNode frNode) {
 		for (ReturnTermNode returnTermNode = getParentReturnTermNode(frNode); returnTermNode != null; returnTermNode = getParentReturnTermNode(returnTermNode)) {
 			ASTNode expression = returnTermNode.getExpressionNode();
@@ -644,7 +644,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ReturnTermNode getParentReturnTermNode(ASTNode node) {
 		ASTNode returnTermNode = node.getParent();
 		while (returnTermNode != null && !(returnTermNode instanceof ReturnTermNode))
@@ -653,7 +653,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ReturnTermNode)returnTermNode;
 		return null;
 	}
-	
+
 	public static boolean isEnvironmentVariable(FunctionRuleTermNode frNode) {
 		if (isParam(frNode))
 			return true;
@@ -683,7 +683,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return true;
 		return false;
 	}
-	
+
 	private static boolean isParam(FunctionRuleTermNode frNode) {
 		final ASTNode ruleNode = getParentRuleNode(frNode);
 		if (ruleNode != null) {
@@ -695,14 +695,14 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ASTNode getParentRuleNode(ASTNode node) {
 		ASTNode parentRuleNode = node.getParent();
 		while (parentRuleNode != null && !Kernel.GR_RULEDECLARATION.equals(parentRuleNode.getGrammarRule()) && !"DerivedFunctionDeclaration".equals(parentRuleNode.getGrammarRule()))
 			parentRuleNode = parentRuleNode.getParent();
 		return parentRuleNode;
 	}
-	
+
 	private static boolean isInLetVariableMap(FunctionRuleTermNode frNode) {
 		for (LetRuleNode letRuleNode = getParentLetRuleNode(frNode); letRuleNode != null; letRuleNode = getParentLetRuleNode(letRuleNode)) {
 			try {
@@ -722,7 +722,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (LetRuleNode)letRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isForallRuleVariable(FunctionRuleTermNode frNode) {
 		for (ForallRuleNode forallRuleNode = getParentForallRuleNode(frNode); forallRuleNode != null; forallRuleNode = getParentForallRuleNode(forallRuleNode)) {
 			if (forallRuleNode.getVariableMap().containsKey(frNode.getName()))
@@ -730,7 +730,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ForallRuleNode getParentForallRuleNode(ASTNode node) {
 		ASTNode forallRuleNode = node.getParent();
 		while (forallRuleNode != null && !(forallRuleNode instanceof ForallRuleNode))
@@ -739,7 +739,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ForallRuleNode)forallRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isForallExpVariable(FunctionRuleTermNode frNode) {
 		for (ForallExpNode forallExpNode = getParentForallExpNode(frNode); forallExpNode != null; forallExpNode = getParentForallExpNode(forallExpNode)) {
 			if (forallExpNode.getVariableMap().containsKey(frNode.getName()))
@@ -747,7 +747,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ForallExpNode getParentForallExpNode(ASTNode node) {
 		ASTNode forallExpNode = node.getParent();
 		while (forallExpNode != null && !(forallExpNode instanceof ForallExpNode))
@@ -756,7 +756,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ForallExpNode)forallExpNode;
 		return null;
 	}
-	
+
 	private static boolean isForeachRuleVariable(FunctionRuleTermNode frNode) {
 		for (ForeachRuleNode foreachRuleNode = getParentForeachRuleNode(frNode); foreachRuleNode != null; foreachRuleNode = getParentForeachRuleNode(foreachRuleNode)) {
 			if (foreachRuleNode.getVariableMap().containsKey(frNode.getName()))
@@ -764,7 +764,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ForeachRuleNode getParentForeachRuleNode(ASTNode node) {
 		ASTNode foreachRuleNode = node.getParent();
 		while (foreachRuleNode != null && !(foreachRuleNode instanceof ForeachRuleNode))
@@ -773,7 +773,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ForeachRuleNode)foreachRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isExistsExpVariable(FunctionRuleTermNode frNode) {
 		for (ExistsExpNode existsExpNode = getParentExistsExpNode(frNode); existsExpNode != null; existsExpNode = getParentExistsExpNode(existsExpNode)) {
 			if (existsExpNode.getVariableMap().containsKey(frNode.getName()))
@@ -781,7 +781,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ExistsExpNode getParentExistsExpNode(ASTNode node) {
 		ASTNode existsExpNode = node.getParent();
 		while (existsExpNode != null && !(existsExpNode instanceof ExistsExpNode))
@@ -790,7 +790,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ExistsExpNode)existsExpNode;
 		return null;
 	}
-	
+
 	private static boolean isChooseVariable(FunctionRuleTermNode frNode) {
 		for (ChooseRuleNode chooseRuleNode = getParentChooseRuleNode(frNode); chooseRuleNode != null; chooseRuleNode = getParentChooseRuleNode(chooseRuleNode)) {
 			if (chooseRuleNode.getVariableMap().containsKey(frNode.getName()))
@@ -798,7 +798,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ChooseRuleNode getParentChooseRuleNode(ASTNode node) {
 		ASTNode chooseRuleNode = node.getParent();
 		while (chooseRuleNode != null && !(chooseRuleNode instanceof ChooseRuleNode))
@@ -807,7 +807,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ChooseRuleNode)chooseRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isPickExpVariable(FunctionRuleTermNode frNode) {
 		for (PickExpNode pickExpNode = getParentPickExpNode(frNode); pickExpNode != null; pickExpNode = getParentPickExpNode(pickExpNode)) {
 			if (pickExpNode.getVariable().getToken().equals(frNode.getName()))
@@ -815,7 +815,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static PickExpNode getParentPickExpNode(ASTNode node) {
 		ASTNode pickExpNode = node.getParent();
 		while (pickExpNode != null && !(pickExpNode instanceof PickExpNode))
@@ -824,7 +824,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (PickExpNode)pickExpNode;
 		return null;
 	}
-	
+
 	private static boolean isExtendRuleVariable(FunctionRuleTermNode frNode) {
 		for (ExtendRuleNode extendRuleNode = getParentExtendRuleNode(frNode); extendRuleNode != null; extendRuleNode = getParentExtendRuleNode(extendRuleNode)) {
 			if (extendRuleNode.getIdNode().getToken().equals(frNode.getName()))
@@ -832,7 +832,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ExtendRuleNode getParentExtendRuleNode(ASTNode node) {
 		ASTNode extendRuleNode = node.getParent();
 		while (extendRuleNode != null && !(extendRuleNode instanceof ExtendRuleNode))
@@ -841,7 +841,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ExtendRuleNode)extendRuleNode;
 		return null;
 	}
-	
+
 	private static boolean isSetComprehensionVariable(FunctionRuleTermNode frNode) {
 		for (SetCompNode setCompNode = getParentSetCompNode(frNode); setCompNode != null; setCompNode = getParentSetCompNode(setCompNode)) {
 			try {
@@ -854,7 +854,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static SetCompNode getParentSetCompNode(ASTNode node) {
 		ASTNode setCompNode = node.getParent();
 		while (setCompNode != null && !(setCompNode instanceof SetCompNode))
@@ -863,7 +863,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (SetCompNode)setCompNode;
 		return null;
 	}
-	
+
 	private static boolean isBagComprehensionVariable(FunctionRuleTermNode frNode) {
 		for (BagCompNode bagCompNode = getParentBagCompNode(frNode); bagCompNode != null; bagCompNode = getParentBagCompNode(bagCompNode)) {
 			try {
@@ -876,7 +876,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static BagCompNode getParentBagCompNode(ASTNode node) {
 		ASTNode bagCompNode = node.getParent();
 		while (bagCompNode != null && !(bagCompNode instanceof BagCompNode))
@@ -885,7 +885,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (BagCompNode)bagCompNode;
 		return null;
 	}
-	
+
 	private static boolean isListComprehensionVariable(FunctionRuleTermNode frNode) {
 		for (ListCompNode listCompNode = getParentListCompNode(frNode); listCompNode != null; listCompNode = getParentListCompNode(listCompNode)) {
 			try {
@@ -898,7 +898,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ListCompNode getParentListCompNode(ASTNode node) {
 		ASTNode listCompNode = node.getParent();
 		while (listCompNode != null && !(listCompNode instanceof ListCompNode))
@@ -907,7 +907,7 @@ public class ASMDeclarationWatcher implements Observer {
 			return (ListCompNode)listCompNode;
 		return null;
 	}
-	
+
 	private static boolean isImportRuleVariable(FunctionRuleTermNode frNode) {
 		for (ASTNode importRuleNode = getParentImportRuleNode(frNode); importRuleNode != null; importRuleNode = getParentImportRuleNode(importRuleNode)) {
 			if (importRuleNode.getFirst().getToken().equals(frNode.getName()))
@@ -915,7 +915,7 @@ public class ASMDeclarationWatcher implements Observer {
 		}
 		return false;
 	}
-	
+
 	private static ASTNode getParentImportRuleNode(ASTNode node) {
 		ASTNode importRuleNode = node.getParent();
 		while (importRuleNode != null && !"ImportRule".equals(importRuleNode.getGrammarRule()))

@@ -36,7 +36,7 @@ import org.coreasm.compiler.CompilerEngine;
  * To use the State Machine, first fill its transitions and then
  * create the actual state code, using the makeTransition function as
  * a helper.
- * 
+ *
  * @author Markus Brenner
  *
  */
@@ -47,7 +47,7 @@ public class StateMachine {
 	private HashMap<String, ArrayList<EngineTransition>> onLeave;
 	private ArrayList<EngineTransition> general;
 	private CompilerEngine engine;
-	
+
 	/**
 	 * Builds an empty state machine
 	 * @param engine The compiler engine supervising the compilation process
@@ -60,7 +60,7 @@ public class StateMachine {
 		onLeave = new HashMap<String, ArrayList<org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition>>();
 		general = new ArrayList<org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition>();
 	}
-	
+
 	/**
 	 * Adds a new state to the state machine
 	 * @param es The new state of the machine
@@ -73,7 +73,7 @@ public class StateMachine {
 		states.add(es);
 		return true;
 	}
-	
+
 	/**
 	 * Generates the code for a transition from start to end.
 	 * The code will be added in the following order:
@@ -81,7 +81,7 @@ public class StateMachine {
 	 * <li>All transition code from a start to an end state
 	 * <li>All transition code without a trigger specified
 	 * <li>All transition code to the end state
-	 * <li>All transition code from the start state 
+	 * <li>All transition code from the start state
 	 * </ul>
 	 * And will then be sorted by priority (lowest to highest). The actual transition
 	 * (changing the current state variable) will happen afterwards.
@@ -92,7 +92,7 @@ public class StateMachine {
 	public CodeFragment makeTransit(String start, String end){
 		//collect all transitions
 		ArrayList<EngineTransition> finalTransitions = new ArrayList<EngineTransition>();
-		
+
 		//transitions from start to end
 		HashMap<String, ArrayList<EngineTransition>> transitionsFromStartToEnd = transitions.get(start);
 		CodeFragment result = new CodeFragment();
@@ -119,22 +119,22 @@ public class StateMachine {
 		if(transitionsFromStart != null){
 			finalTransitions.addAll(transitionsFromStart);
 		}
-		
+
 		//sort by priority
 		Collections.sort(finalTransitions);
-		
+
 		//append code
 		for(int i = finalTransitions.size() - 1; i >= 0; i--){
 			result.appendFragment(finalTransitions.get(i).getCode());
 		}
-		
-		if(engine.getOptions().logStateTransition) 
+
+		if(engine.getOptions().logStateTransition)
 			result.appendLine("System.out.println(\"Transit from " + start + " to " + end + "\");\n");
-		
+
 		result.appendFragment(new CodeFragment("\t\t\t\t//Transit from " + start + " to " + end + "\n\t\t\t\tengineState = @RuntimePkg@.EngineState." + end + ";\n\t\t\t\tcontinue;\n"));
 		return result;
 	}
-	
+
 	/**
 	 * Adds a transition to the state machine.
 	 * All information is extracted from the transition.
@@ -162,7 +162,7 @@ public class StateMachine {
 			}
 			tmp.add(et);
 		}
-		else{		
+		else{
 			HashMap<String, ArrayList<EngineTransition>> tmp = transitions.get(et.getStart());
 			if(tmp == null){
 				tmp = new HashMap<String, ArrayList<EngineTransition>>();
@@ -176,7 +176,7 @@ public class StateMachine {
 			t.add(et);
 		}
 	}
-	
+
 	/**
 	 * Generates the classes and code required by the state machine.
 	 * This will drop an enum for the states into the temporary directory
@@ -192,31 +192,31 @@ public class StateMachine {
 		}
 		EnumFile se = new EnumFile("EngineState", LibraryEntryType.RUNTIME, "Kernel", engine);
 		CodeFragment mainBody = new CodeFragment("\t\t@RuntimePkg@.EngineState engineState = @RuntimePkg@.EngineState." + states.get(0).getName() + ";\n\t\twhile(isRunning){\n\t\t\t");
-		
+
 		for(int i = 0; i < states.size(); i++){
 			try {
 				se.addElement(states.get(i).getName());
 			} catch (ElementAlreadyExistsException e) {
 				throw new InvalidStateMachineException(e);
 			}
-				
+
 			mainBody.appendLine("if(engineState == @RuntimePkg@.EngineState." + states.get(i).getName() + "){\n");
 			mainBody.appendFragment(states.get(i).getCode());
 			mainBody.appendLine("\n\t\t\t}\n");
-			
+
 			if(i != states.size() - 1){
 				mainBody.appendLine("\t\t\telse ");
 			}
-		}		
-		
+		}
+
 		mainBody.appendLine("\t\t}\n");
-		
+
 		try {
 			engine.getClassLibrary().addEntry(se);
 		} catch (EntryAlreadyExistsException e) {
 			throw new InvalidStateMachineException(e);
 		}
-		
+
 		return mainBody;
 	}
 }

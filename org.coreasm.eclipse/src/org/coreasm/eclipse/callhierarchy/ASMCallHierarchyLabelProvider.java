@@ -23,13 +23,13 @@ public class ASMCallHierarchyLabelProvider implements ILabelProvider {
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ASMCallHierarchyLabelProvider implements ILabelProvider {
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -1,6 +1,6 @@
-/*	
- * EdgeBackgroundElement.java 
- * 
+/*
+ * EdgeBackgroundElement.java
+ *
  * Copyright (C) 2010 Roozbeh Farahbod
  *
  * Last modified by $Author$ on $Date$.
@@ -18,14 +18,14 @@ import org.coreasm.engine.absstorage.Element;
 
 /**
  * Background element of Edges
- * 
+ *
  * @author Roozbeh Farahbod
  *
  */
 public class EdgeBackgroundElement extends BackgroundElement {
 
 	public static final String BACKGROUND_NAME = "EDGE";
-	
+
 	@Override
 	public Element getNewValue() {
 		return new EdgeElement(Element.UNDEF, Element.UNDEF);

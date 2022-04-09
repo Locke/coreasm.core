@@ -14,14 +14,14 @@ init R1
 
 rule R1 = {
 	seqblock
-		
-		A := "a" | "b" 
-		
+
+		A := "a" | "b"
+
 		B := "c" || "d" . @B
-		
+
 		T := parse(B, "d d c")
 		print T
-		
+
 	endseqblock
 	program(self) := undef
 	}

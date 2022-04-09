@@ -20,7 +20,7 @@ public abstract class MemoryInclude extends LibraryEntry {
 	private LibraryEntryType type;
 	protected CompilerEngine engine;
 	private BufferedReader reader;
-	
+
 	/**
 	 * Generates the content for this memory include.
 	 * @param entryName The complete name of this entry in the compilation unit
@@ -28,7 +28,7 @@ public abstract class MemoryInclude extends LibraryEntry {
 	 * @throws Exception If an error occured
 	 */
 	protected abstract String buildContent(String entryName) throws Exception;
-	
+
 	/**
 	 * Quick access to the runtime package path of the {@link CompilerPathConfig}
 	 * @return The runtime package of the compilation unit
@@ -36,7 +36,7 @@ public abstract class MemoryInclude extends LibraryEntry {
 	protected String runtimePkg(){
 		return engine.getPath().runtimePkg();
 	}
-	
+
 	/**
 	 * Constructs a new memory entry.
 	 * Must be called via super from child class constructors to initialize the variables.
@@ -51,7 +51,7 @@ public abstract class MemoryInclude extends LibraryEntry {
 		this.type = type;
 		this.engine = engine;
 	}
-	
+
 	@Override
 	public String getName() {
 		return this.targetName;
@@ -76,7 +76,7 @@ public abstract class MemoryInclude extends LibraryEntry {
 	public String readLine() throws IOException {
 		return reader.readLine();
 	}
-	
+
 	@Override
 	public void close() throws IOException{
 		reader.close();

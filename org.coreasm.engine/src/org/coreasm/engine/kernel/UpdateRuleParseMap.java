@@ -1,6 +1,6 @@
-/*	
+/*
  * UpdateRuleParseMap.java 	$Revision: 243 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
@@ -10,17 +10,17 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.kernel;
 
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.ParseMap;
 
-/** 
+/**
  * A parser map for the update rule form.
- *   
+ *
  * @author Roozbeh Farahbod
- * 
+ *
  */
 public class UpdateRuleParseMap extends ParseMap<Object[], Node> {
 
@@ -31,12 +31,12 @@ public class UpdateRuleParseMap extends ParseMap<Object[], Node> {
 	@Override
 	public Node apply(Object[] v) {
 		Node node = new UpdateRuleNode(((Node)v[0]).getScannerInfo());
-		
+
 		for (int i=0; i < v.length; i++) {
 			if (i == 0)
 				node.addChild("alpha", (Node)v[i]); 	// LHS
 			else
-				if (i == 2) 
+				if (i == 2)
 					node.addChild("beta", (Node)v[i]); 	// RHS
 				else
 					if (v[i] != null)
@@ -44,5 +44,5 @@ public class UpdateRuleParseMap extends ParseMap<Object[], Node> {
 		}
 		return node;
 	}
-	
+
 }

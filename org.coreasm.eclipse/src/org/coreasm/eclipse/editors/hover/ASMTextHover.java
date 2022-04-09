@@ -77,7 +77,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 {
 	private static class HoverInfo {
 		public final String text;
-		
+
 		public HoverInfo(String text) {
 			this.text = text;
 		}
@@ -86,7 +86,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		public final Annotation annotation;
 		public final Position position;
 		public final ITextViewer viewer;
-		
+
 		public AnnotationHoverInfo(Annotation annotation, Position position, ITextViewer viewer) {
 			super(annotation.getText());
 			this.annotation = annotation;
@@ -96,11 +96,11 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 	}
 	private static class HoverControlCreator extends AbstractReusableInformationControlCreator {
 		private final IInformationControlCreator informationPresenterControlCreator;
-		
+
 		public HoverControlCreator(IInformationControlCreator informationPresenterControlCreator) {
 			this.informationPresenterControlCreator = informationPresenterControlCreator;
 		}
-		
+
 		@Override
 		protected IInformationControl doCreateInformationControl(Shell parent) {
 			return new InformationControl(parent) {
@@ -120,7 +120,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		this.editor = editor;
 		DebugUITools.getDebugContextManager().getContextService(PlatformUI.getWorkbench().getActiveWorkbenchWindow()).addDebugContextListener(this);
 	}
-	
+
 	@Override
 	public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
 		Point selection = textViewer.getSelectedRange();
@@ -142,7 +142,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 				iterator = ((IAnnotationModelExtension2)model).getAnnotationIterator(hoverRegion.getOffset(), hoverRegion.getLength(), true, true);
 			else
 				iterator = model.getAnnotationIterator();
-			
+
 			int layer = -1;
 			Annotation annotation = null;
 			Position position = null;
@@ -152,7 +152,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 					continue;
 				Position p = model.getPosition(a);
 				int l = annotationAccess.getLayer(a);
-				
+
 				if (l > layer && p != null && p.overlapsWith(hoverRegion.getOffset(), hoverRegion.getLength())) {
 					String text = a.getText();
 					if (text != null && text.trim().length() > 0) {
@@ -215,7 +215,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		}
 		return null;
 	}
-	
+
 	private String getExpressionValue(IDocument doc, int offset, int length) {
 		try {
 			return getExpressionValue(doc, doc.get(offset, length));
@@ -223,7 +223,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		}
 		return null;
 	}
-	
+
 	private String getExpressionValue(IDocument doc, String expression) {
 		if (EngineDebugger.getRunningInstance() != null && selectedState != null) {
 			try {
@@ -236,7 +236,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		}
 		return null;
 	}
-	
+
 	private String getDeclaration(ASMDocument document, String functionName) {
 		for (Declaration declaration : ASMDeclarationWatcher.getDeclarations(editor.getInputFile(), true)) {
 			if (declaration.getName().equals(functionName)) {
@@ -247,7 +247,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		}
 		return null;
 	}
-	
+
 	private FunctionInfo getPluginFunction(String functionName) {
 		Map<String, FunctionInfo> pluginFunctions = new HashMap<String, FunctionInfo>();
 		for (FunctionInfo functionInfo : editor.getSpec().getDefinedFunctions())
@@ -258,9 +258,9 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 			pluginFunctions.put(functionInfo.name, functionInfo);
 		return pluginFunctions.get(functionName);
 	}
-	
+
 	@Override
-	public IInformationControlCreator getHoverControlCreator() 
+	public IInformationControlCreator getHoverControlCreator()
 	{
 		if (hoverControlCreator == null)
 			hoverControlCreator = new HoverControlCreator(new HoverControlCreator(null));
@@ -285,7 +285,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 			}
 		}
 	}
-	
+
 	private static class InformationControl extends AbstractInformationControl implements IInformationControlExtension2 {
 		private Composite parent;
 		private DefaultMarkerAnnotationAccess markerAnnotationAccess;
@@ -306,12 +306,12 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 		public void setInput(Object input) {
 			if (!(input instanceof HoverInfo))
 				return;
-			
+
 			this.input = (HoverInfo)input;
-			
+
 			for (Control child : parent.getChildren())
 				child.dispose();
-			
+
 			createHeader(parent, this.input);
 			if (input instanceof AnnotationHoverInfo) {
 				ArrayList<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
@@ -332,10 +332,10 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 			layout.marginHeight = 0;
 			parent.setLayout(layout);
 		}
-		
+
 		@Override
 		public Point computeSizeHint()
-		{		
+		{
 			Point size = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 			Point constraints = getSizeConstraints();
 			if (constraints == null)
@@ -344,14 +344,14 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 			Point constrainedSize = getShell().computeSize(constraints.x - trim.width, SWT.DEFAULT, true);
 			return new Point(Math.min(size.x, constrainedSize.x), Math.max(size.y, constrainedSize.y));
 		}
-		
+
 		private void createHeader(Composite parent, final HoverInfo info) {
 			Composite composite = new Composite(parent, SWT.NONE);
 			composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 			GridLayout layout = new GridLayout(2, false);
 			layout.horizontalSpacing = 0;
 			composite.setLayout(layout);
-			
+
 			if (info instanceof AnnotationHoverInfo) {
 				final Canvas canvas = new Canvas(composite, SWT.NO_FOCUS);
 				GridData gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
@@ -359,7 +359,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 				gridData.heightHint = 16;
 				canvas.setLayoutData(gridData);
 				canvas.addPaintListener(new PaintListener() {
-					
+
 					@Override
 					public void paintControl(PaintEvent e) {
 						e.gc.setFont(null);
@@ -367,23 +367,23 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 					}
 				});
 			}
-				
+
 			StyledText text = new StyledText(composite, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			text.setLayoutData(data);
 			if (info.text != null)
 				text.setText(info.text);
 		}
-		
+
 		private void createProposalList(Composite parent, List<ICompletionProposal> proposals) {
 			new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-			
+
 			ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 			scrolledComposite.setLayoutData(gridData);
 			scrolledComposite.setExpandHorizontal(false);
 			scrolledComposite.setExpandVertical(false);
-			
+
 			Composite composite = new Composite(scrolledComposite, SWT.NONE);
 			composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			GridLayout layout = new GridLayout(2, false);
@@ -392,12 +392,12 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 			for (ICompletionProposal proposal : proposals)
 				createProposalLink(composite, proposal);
 			scrolledComposite.setContent(composite);
-			
+
 			Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 			composite.setSize(size);
 			gridData.heightHint = size.y;
 		}
-		
+
 		private void createProposalLink(Composite parent, final ICompletionProposal proposal) {
 			Label imageLabel = new Label(parent, SWT.NONE);
 			imageLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -409,7 +409,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 						applyProposal(proposal);
 				}
 			});
-			
+
 			Link link = new Link(parent, SWT.WRAP);
 			link.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			link.setText("<a>" + proposal.getDisplayString() + "</a>");
@@ -420,7 +420,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 				}
 			});
 		}
-		
+
 		private void applyParentDesign(Control control) {
 			control.setForeground(parent.getForeground());
 			control.setBackground(parent.getBackground());
@@ -430,7 +430,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 					applyParentDesign(child);
 			}
 		}
-		
+
 		private void applyProposal(ICompletionProposal proposal) {
 			if (!(input instanceof AnnotationHoverInfo))
 				return;
@@ -440,7 +440,7 @@ implements ITextHover, ITextHoverExtension, ITextHoverExtension2, IDebugContextL
 				((ICompletionProposalExtension)proposal).apply(info.viewer.getDocument(), (char)0, info.position.offset);
 			else
 				proposal.apply(info.viewer.getDocument());
-			
+
 			Point selection = proposal.getSelection(info.viewer.getDocument());
 			if (selection != null) {
 				info.viewer.setSelectedRange(selection.x, selection.y);

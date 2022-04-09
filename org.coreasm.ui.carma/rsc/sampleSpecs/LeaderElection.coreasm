@@ -49,7 +49,7 @@ rule InitDistances =
 		InitBidirDistance(4, 5, 5)
 		InitBidirDistance(5, 6, 3)
 	endpar
-	
+
 rule InitBidirDistance(a1, a2, distance) =
 	par
 		distanceBetween(a1, a2) := distance
@@ -79,8 +79,8 @@ derived bestCand = nth(bestProposal, 1)
 derived bestNearNeighbor = nth(bestProposal, 2)
 derived bestDistance = nth(bestProposal, 3)
 // Proposal improved current status if better leader or shorter path to same leader
-derived proposalsImprove = bestCand > myCandidate or (bestCand = myCandidate and bestDistance < myDistance) 
-derived networkConverged = 
+derived proposalsImprove = bestCand > myCandidate or (bestCand = myCandidate and bestDistance < myDistance)
+derived networkConverged =
 	forall x in [1..agentCount] holds
 		cand(x) = agentCount and state(x) = checkProposals and size(proposals(x)) = 0
 // Every agent knows correct leader and minimal path, is in state 'check proposals' and it's proposal set is empty
@@ -98,11 +98,11 @@ rule InitRule =
 				Agents(i) := true
 				program(i) := @AgentProgram
 				// Initial values for agents
-				state(i) := proposeToNeighbors	// agent state 
+				state(i) := proposeToNeighbors	// agent state
 				cand(i) := i					// leader candidate -> self
 				proposals(i) := []				// no proposals
 				distance(i) := 0				// distance to leader
-				nearNeighbor(i) := i			// Next hop -> self (initial candidate)						
+				nearNeighbor(i) := i			// Next hop -> self (initial candidate)
 			endpar endforall
 		endpar
 	next
@@ -115,8 +115,8 @@ rule AgentProgram =
 		case myState of
 			proposeToNeighbors: ProposeToNeighbors
 			checkProposals: CheckProposals
-		endcase		
-		// Termination condition 
+		endcase
+		// Termination condition
 		// This is a bit like cheating (single agent does not know global state), but
 		// we only use it to shutdown the ASM execution engine.
 		// Only terminate agent if agent already knows the correct leader and there are
@@ -132,10 +132,10 @@ rule ProposeToNeighbors =
 		// Propose candidate to neighbors
 		forall a in myNeighbors do par
 			// We need enqueue because of concurrency
-			enqueue [myCandidate, self, myDistance + distanceBetween(self, a)] into proposals(a)	
+			enqueue [myCandidate, self, myDistance + distanceBetween(self, a)] into proposals(a)
 		endpar endforall
 		print myName + ": proposing " + myCandidate+ "/" + myDistance + " to " + myNeighbors
-		// Update state		
+		// Update state
 		state(self) := checkProposals
 	endpar
 
@@ -156,4 +156,4 @@ rule CheckProposals =
 		// Remove proposals from set
 		proposals(self) := []
 		print myName + ": clearing proposals " + myProposals
-	endpar endif 
+	endpar endif

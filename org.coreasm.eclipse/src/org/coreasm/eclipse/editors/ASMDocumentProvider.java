@@ -13,8 +13,8 @@ public class ASMDocumentProvider
 extends FileDocumentProvider
 {
 	ASMEditor parentEditor;
-	
-	public ASMDocumentProvider(ASMEditor parentEditor) 
+
+	public ASMDocumentProvider(ASMEditor parentEditor)
 	{
 		super();
 		this.parentEditor = parentEditor;
@@ -27,7 +27,7 @@ extends FileDocumentProvider
 		// The super constructor calls createEmptyDocument() which is overridden
 		// below to create a new ASMDocument.
 		IDocument document = super.createDocument(element);
-		
+
 		if (document != null)
 		{
 			// Set up the document partitioning
@@ -39,7 +39,7 @@ extends FileDocumentProvider
 					});
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
-			
+
 			document.addDocumentListener(parentEditor);
 		}
 
@@ -55,8 +55,8 @@ extends FileDocumentProvider
 	{
 		return new ASMDocument();
 	}
-	
-	
+
+
 
 
 }

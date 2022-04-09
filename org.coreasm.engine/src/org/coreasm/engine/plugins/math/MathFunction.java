@@ -1,6 +1,6 @@
-/*	
+/*
  * MathFunction.java 	1.0 	$Revision: 116 $
- * 
+ *
  * Copyright (C) 2007 Roozbeh Farahbod
  *
  * Last modified by $Author: rfarahbod $ on $Date: 2010-02-08 23:48:50 +0100 (Mo, 08 Feb 2010) $.
@@ -10,7 +10,7 @@
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package org.coreasm.engine.plugins.math;
 
 import java.util.HashMap;
@@ -24,10 +24,10 @@ import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.plugins.number.NumberElement;
 
-/** 
- * This class implements a series of Math functions that will be 
+/**
+ * This class implements a series of Math functions that will be
  * provided to the CoreASM engine through {@link MathPlugin}.
- *   
+ *
  * @author Roozbeh Farahbod
  * @version 1.0, $Revision: 116 $, Last modified: $Date: 2010-02-08 23:48:50 +0100 (Mo, 08 Feb 2010) $
  */
@@ -39,19 +39,19 @@ public abstract class MathFunction extends FunctionElement {
 	public MathFunction() {
 		this.setFClass(this.getMathFunctionClass());
 	}
-	
+
 	/*
-	 * Create new instances of various math functions and returns 
-	 * a map of function name to its instance. 
+	 * Create new instances of various math functions and returns
+	 * a map of function name to its instance.
 	 */
 	protected static Map<String, FunctionElement> createFunctions(ControlAPI capi) {
 		Map<String, FunctionElement> result = new HashMap<String, FunctionElement>();
-		
+
 		// One can get the number background in order to create
 		// numbers. That would make it too complicated, so I skipped
 		// this knowing that it would be equivalent to creating a new
 		// NumberElement instance. -- Roozbeh
-		
+
 		// Math.PI
 		result.put("MathPI", new MathFunction() {
 
@@ -67,9 +67,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.E
 		result.put("MathE", new MathFunction() {
 
@@ -85,9 +85,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.abs(x)
 		result.put("abs", new MathFunction() {
 
@@ -98,9 +98,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.acos(x)
 		result.put("acos", new MathFunction() {
 
@@ -111,9 +111,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.asin(x)
 		result.put("asin", new MathFunction() {
 
@@ -124,9 +124,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.atan(x)
 		result.put("atan", new MathFunction() {
 
@@ -137,9 +137,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.atan2(x, y)
 		result.put("atan2", new MathFunction() {
 
@@ -150,9 +150,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.cbrt(x)
 		result.put("cuberoot", new MathFunction() {
 
@@ -163,9 +163,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.cbrt(x)
 		result.put("cbrt", new MathFunction() {
 
@@ -176,9 +176,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.ceil(x)
 		result.put("ceil", new MathFunction() {
 
@@ -189,9 +189,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.cos(x)
 		result.put("cos", new MathFunction() {
 
@@ -202,9 +202,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.cosh(x)
 		result.put("cosh", new MathFunction() {
 
@@ -215,9 +215,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.exp(x)
 		result.put("exp", new MathFunction() {
 
@@ -228,9 +228,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.expm1(x)
 		result.put("expm1", new MathFunction() {
 
@@ -241,9 +241,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.floor(x)
 		result.put("floor", new MathFunction() {
 
@@ -254,9 +254,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.hypot(x, y)
 		// Returns sqrt(x^2 +y^2) without intermediate overflow or underflow.
 		result.put("hypot", new MathFunction() {
@@ -268,11 +268,11 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.IEEEremainder(x, y)
-		// Computes the remainder operation on two arguments 
+		// Computes the remainder operation on two arguments
 		// as prescribed by the IEEE 754 standard.
 		result.put("IEEEremainder", new MathFunction() {
 
@@ -283,9 +283,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.log(x)
 		result.put("log", new MathFunction() {
 
@@ -296,7 +296,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.log10(x)
@@ -309,9 +309,9 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
+
 		// Math.log1p(x)
 		result.put("log1p", new MathFunction() {
 
@@ -322,13 +322,13 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		/*
 		 * - max(x, y)
 		 *   returns the maximum of x and y
-		 *   
+		 *
 		 * - max(enumerable)
 		 *   This function returns the maximum number in a collection of numbers.
 		 *   If there is one non-number in the collection, it returns undef.
@@ -355,16 +355,16 @@ public abstract class MathFunction extends FunctionElement {
 						return NumberElement.getInstance(max);
 					} else
 						return Element.UNDEF;
-					
+
 				}
 			}
-			
+
 		});
-		
+
 		/*
 		 * - min(x, y)
 		 *   returns the minimum of x and y
-		 *   
+		 *
 		 * - min(enumerable)
 		 *   This function returns the minimum numeric value in a collection of numbers.
 		 *   If there is one non-number in the collection, it returns undef.
@@ -391,12 +391,12 @@ public abstract class MathFunction extends FunctionElement {
 						return NumberElement.getInstance(min);
 					} else
 						return Element.UNDEF;
-					
+
 				}
 			}
-			
+
 		});
-		
+
 		// Math.pow(x, y)
 		result.put("pow", new MathFunction() {
 
@@ -407,10 +407,10 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
-		
-		
+
+
 		// powerset(s)
 		result.put("powerset", new MathFunction() {
 
@@ -421,7 +421,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.random()
@@ -441,7 +441,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.round(x)
@@ -454,7 +454,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.signum(x)
@@ -467,7 +467,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.sin(x)
@@ -480,7 +480,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.sinh(x)
@@ -493,7 +493,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.sqrt(x)
@@ -506,7 +506,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.tan(x)
@@ -519,7 +519,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.tanh(x)
@@ -532,11 +532,11 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.toDegrees(x)
-		// Converts an angle measured in radians to 
+		// Converts an angle measured in radians to
 		// an approximately equivalent angle measured in degrees.
 		result.put("toDegrees", new MathFunction() {
 
@@ -547,11 +547,11 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		// Math.toRadians(x)
-		// Converts an angle measured in degrees to an 
+		// Converts an angle measured in degrees to an
 		// approximately equivalent angle measured in radians.
 		result.put("toRadians", new MathFunction() {
 
@@ -562,7 +562,7 @@ public abstract class MathFunction extends FunctionElement {
 				else
 					return Element.UNDEF;
 			}
-			
+
 		});
 
 		/*
@@ -575,26 +575,26 @@ public abstract class MathFunction extends FunctionElement {
 			protected Element calcFunction(List<? extends Element> args) {
 				if (args.size() > 2)
 					return Element.UNDEF;
-				
+
 				Element arg1 = null;
 				Element arg2 = null;
 				Enumerable enumerable = null;
 				FunctionElement f = null;
-				try { 
+				try {
 					arg1 = args.get(0);
 					arg2 = args.get(1);
 				} catch (Exception e) {}
-				
-				
+
+
 				if (arg1 != null && arg1 instanceof Enumerable) {
 					enumerable = (Enumerable) arg1;
 					if (arg2 != null && arg2 instanceof FunctionElement)
 						f  = (FunctionElement) arg2;
-				} 
-				
+				}
+
 				if (enumerable != null) {
 					double sum = 0;
-			
+
 					// if there is also a function provided
 					if (f != null) {
 						for (Element e: enumerable.enumerate()) {
@@ -607,7 +607,7 @@ public abstract class MathFunction extends FunctionElement {
 						}
 					} else {
 						for (Element e: enumerable.enumerate()) {
-							if (e instanceof NumberElement)  
+							if (e instanceof NumberElement)
 								sum += ((NumberElement)e).getNumber();
 							else
 								return Element.UNDEF;
@@ -617,9 +617,9 @@ public abstract class MathFunction extends FunctionElement {
 				} else
 					return Element.UNDEF;
 			}
-			
+
 		});
-				
+
 		return result;
 	}
 
@@ -629,16 +629,16 @@ public abstract class MathFunction extends FunctionElement {
 	@Override
 	public Element getValue(List<? extends Element> args) {
 		Element result = calcFunction(args);
-		
+
 		if (result instanceof NumberElement) {
 			double number = ((NumberElement)result).getNumber();
 			if (Double.isNaN(number))
 				return Element.UNDEF;
 		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	 * This is the core of the function computation.
 	 */
@@ -649,26 +649,26 @@ public abstract class MathFunction extends FunctionElement {
 	 */
 	protected boolean checkNumberArguments(int count, List<? extends Element> args) {
 		boolean result = true;
-		
+
 		if (args.size() != count)
 			result = false;
-		else 
+		else
 			for (int i=0; i < count; i++)
 				if ( ! (args.get(i) instanceof NumberElement)) {
 					result = false;
 					break;
 				}
-		
+
 		return result;
 	}
-	
+
 	/*
 	 * handy method to get the double value of the ith argument
 	 */
 	protected double ithValue(List<? extends Element> args, int i) {
 		return ((NumberElement)args.get(i)).getNumber();
 	}
-	
+
 	/*
 	 * a placeholder for function class
 	 */

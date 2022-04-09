@@ -87,19 +87,19 @@ public class ASMUpdateView extends ViewPart implements IDebugContextListener {
 	}
 	class NameSorter extends ViewerSorter {
 	}
-	
+
 	public ASMUpdateView() {
 	}
-	
+
 	@Override
 	public void dispose() {
 		DebugUITools.getDebugContextManager().getContextService(getSite().getWorkbenchWindow()).removeDebugContextListener(this);
 		super.dispose();
 	}
-	
+
 	public void refresh() {
 		Display.getDefault().asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				hookLocalPullDown();
@@ -126,7 +126,7 @@ public class ASMUpdateView extends ViewPart implements IDebugContextListener {
 		IMenuManager manager = getViewSite().getActionBars().getMenuManager();
 		manager.add(filterAllAgentsAction);
 		manager.addMenuListener(new IMenuListener() {
-			
+
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				manager.removeAll();
@@ -185,11 +185,11 @@ public class ASMUpdateView extends ViewPart implements IDebugContextListener {
 			}
 		});
 	}
-	
+
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	@Override
 	public void debugContextChanged(DebugContextEvent event) {
 		ISelection context = event.getContext();
@@ -238,16 +238,16 @@ public class ASMUpdateView extends ViewPart implements IDebugContextListener {
 						ArrayList<ASMUpdateViewElement> errors = new ArrayList<ASMUpdateViewElement>();
 						String[] errorLines = debugTarget.getStepFailedMsg().replaceAll("\t", " ").split(Tools.getEOL());
 						String reason = errorLines[0];
-						
+
 						for (int i = 0; i < errorLines.length; i++) {
 							if (errorLines[i].endsWith(":")) {
 								errors.add(new ASMUpdateViewElement(reason + errorLines[i].trim() + errorLines[i + 1].trim()));
 								i++;
 							}
 						}
-//						
+//
 						elements = errors.toArray();
-						
+
 						refresh();
 					}
 					else {

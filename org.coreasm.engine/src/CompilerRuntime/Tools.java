@@ -1,25 +1,25 @@
-/*	
+/*
 
  * Tools.java 	1.0 	$Revision: 243 $
  * The CoreASM Project
  *
- * Copyright (C) 2005-2009 Roozbeh Farahbod 
- * 
+ * Copyright (C) 2005-2009 Roozbeh Farahbod
+ *
  * Last modified by $Author: rfarahbod $ on $Date: 2011-03-29 02:05:21 +0200 (Di, 29 Mrz 2011) $.
  *
- * Licensed under the Academic Free License version 3.0 
+ * Licensed under the Academic Free License version 3.0
  *   http://www.opensource.org/licenses/afl-3.0.php
  *   http://www.coreasm.org/afl-3.0.php
  *
  */
- 
+
 package CompilerRuntime;
 
-/** 
- *	Provides some general functionalities 
- *   
+/**
+ *	Provides some general functionalities
+ *
  *  @author  Roozbeh Farahbod
- *  
+ *
  */
 public class Tools {
 	public static String convertToEscapeSqeuence(String string) {
@@ -61,20 +61,20 @@ public class Tools {
 			srcIndex++;
 			resIndex++;
 		}
-		
+
 		return new String(result, 0, resIndex);
 	}
 
 	/**
-	 * Converts escape sequences to their corresponding characters. 
+	 * Converts escape sequences to their corresponding characters.
 	 * This method replaces all escape sequences to their corresponding special
 	 * characters.
 	 * <p>
 	 * The supported escape sequences are: <code>\\, \n, \t, \r, \"</code>
 	 *
-	 *  @return the same string with all the escape sequences converted to their 
+	 *  @return the same string with all the escape sequences converted to their
 	 *  		corresponding special characters
-	 *   
+	 *
 	 * @throws IllegalArgumentException if there is an invalid escape character
 	 */
 	public static String convertFromEscapeSequence(String str) throws IllegalArgumentException {
@@ -110,7 +110,7 @@ public class Tools {
 			srcIndex++;
 			resIndex++;
 		}
-		
+
 		if (chars.length > 0 && srcIndex < chars.length ) {
 			if (chars[srcIndex] == '\\')
 				throw new IllegalArgumentException("Invalid escape sequence '\\' in the string constant.");
@@ -119,8 +119,7 @@ public class Tools {
 			srcIndex++;
 			resIndex++;
 		}
-			
+
 		return new String(result, 0, resIndex);
 	}
 }
-

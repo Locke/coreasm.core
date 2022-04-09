@@ -26,7 +26,7 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 	private final String[] operators = {};
 
 	private Map<String, GrammarRule> parsers = null;
-	
+
 	@Override
 	public VersionInfo getVersionInfo() {
 		return version;
@@ -55,9 +55,9 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 						pTools.getOprParser("="),
 						Parsers.array(ruleParser).or(Parsers.array(termParser))
 			}).map(new TestingParseMap());
-			
+
 			Parser<Node> paramkeyw = pTools.getKeywParser("PARAM", PLUGIN_NAME);
-			
+
 			Parser<Node> testParamExpr = Parsers.array(
 					new Parser[]{
 						paramkeyw,
@@ -70,10 +70,10 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 								addChildren(node, from);
 								return node;
 							}});
-					
+
 			parsers.put("PARAM", new GrammarRule("PARAM", "'PARAM' ID", testParamExpr, PLUGIN_NAME));
 			parsers.put("BasicTerm",  new GrammarRule("TestingBasicTerm", "PARAM", testParamExpr, PLUGIN_NAME));
-			
+
 			Parser<Node> testParamRule = Parsers.array(
 					new Parser[]{
 							paramkeyw,
@@ -85,7 +85,7 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 							return node;
 						}
 					});
-			
+
 			parsers.put("Header", new GrammarRule("Header", "TestHeader", testParser, PLUGIN_NAME));
 			parsers.put("Rule", new GrammarRule("Rule", "ParamRule", testParamRule, PLUGIN_NAME));
 
@@ -114,19 +114,19 @@ public class TestingPlugin extends Plugin implements ParserPlugin {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public static class TestingParseMap extends ArrayParseMap{
 		public TestingParseMap(){
 			super(PLUGIN_NAME);
 		}
-		
+
 		@Override
 		public Node apply(Object[] vals){
 			Node node = new ASTNode(PLUGIN_NAME, ASTNode.RULE_CLASS, "TestRule", null, ((Node) vals[0]).getScannerInfo());
 			addChildren(node, vals);
 			return node;
 		}
-		
+
 		@Override
 		public void addChild(Node parent, Node child){
 			parent.addChild(child);

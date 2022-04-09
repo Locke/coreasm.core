@@ -7,13 +7,13 @@ init InitRule
 
 rule InitRule = {
 	if steps = undef then {
-		steps := 1 
+		steps := 1
 		a(5) := "a5"
 		b(8, 12) := "b8-12"
 		c(10) := undef
 		alist := [1, 5, 19]
 		amap := {10->100, 20->400, 30->900}
-	} 
+	}
 
 	if steps = 1 then {
 		pb := @b
@@ -23,22 +23,21 @@ rule InitRule = {
 	}
 
 	if steps = 2 then {
-		print (@a)(5) + ", " + pb()(8,12) + ", " + (alist)(2) + ", " + (amap)(20) 
+		print (@a)(5) + ", " + pb()(8,12) + ", " + (alist)(2) + ", " + (amap)(20)
 		(pb)(8, 12) := "b812"
 		pb()(8, 13) := "b813"
 		steps := 3
 	}
 
-	if steps = 3 then 
+	if steps = 3 then
 		seq call myrule1() ()
 		next call myrule2() ("he", "it")
 }
 
-rule TestRule1 = 
-	print "TestRule: " + pb()(8, 12) 
+rule TestRule1 =
+	print "TestRule: " + pb()(8, 12)
 
 rule TestRule2(a, b) = {
 	print a + " likes " + b
 	program(self) := undef
 }
-

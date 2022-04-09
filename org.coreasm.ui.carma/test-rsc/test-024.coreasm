@@ -13,7 +13,7 @@ use Bag
 init InitRule
 
 
-rule InitRule = 
+rule InitRule =
 	par
 		a := << 3, 3, 4, 7, 7, 7, 3 >>
 		b := <<y is z * x | x in [1..10:2], z in [2..4] with x > 5 >>
@@ -46,7 +46,7 @@ rule Main =
 			f := a union <<"f1", 3>>
 			g := c diff <<11, 12>>
 			h := a intersect d
-			j := a + <<500, 3, 3>>			
+			j := a + <<500, 3, 3>>
 			i := << x | x in {1, 2} with x < 0>>
 		endpar
 	else
@@ -64,4 +64,3 @@ rule Main =
 			print <<>>
 			program(self) := undef
 		endseqblock
-

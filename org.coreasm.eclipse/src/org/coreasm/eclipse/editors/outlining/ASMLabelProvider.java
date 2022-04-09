@@ -14,7 +14,7 @@ public class ASMLabelProvider extends StyledCellLabelProvider implements ILabelP
 	{
 		Object element = cell.getElement();
 		StyledString text = new StyledString();
-		
+
 		if (element instanceof ASMOutlineTreeNode) {
 			ASMOutlineTreeNode node = (ASMOutlineTreeNode)element;
 			cell.setImage(node.getImage());
@@ -30,13 +30,13 @@ public class ASMLabelProvider extends StyledCellLabelProvider implements ILabelP
 			String suffix = node.getSuffix();
 			if (suffix != null)
 				text.append(" : " + suffix, StyledString.DECORATIONS_STYLER);
-			
+
 			cell.setText(text.toString());
 			cell.setStyleRanges(text.getStyleRanges());
 		}
 		else if (element != null)
 			cell.setText(element.toString());
-		
+
 		super.update(cell);
 	}
 

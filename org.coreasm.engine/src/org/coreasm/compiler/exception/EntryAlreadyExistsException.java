@@ -16,7 +16,7 @@ public class EntryAlreadyExistsException extends Exception {
 		super("An entry with the name " + name + " already exists in the library");
 		entryName = name;
 	}
-	
+
 	/**
 	 * @return the entryname causing this exception
 	 */

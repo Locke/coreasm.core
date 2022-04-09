@@ -22,15 +22,15 @@ public class ExistsExpHandler implements CompilerCodeHandler {
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
 			throws CompilerException {
 		ExistsExpNode existsExp = (ExistsExpNode)node;
-		
+
 		Map<String, ASTNode> vars = existsExp.getVariableMap();
-		
+
 		result.appendLine("//existsExp starts here\n");
 		result.appendLine("localStack.pushLayer();\n");
 		int varcount = 0;
-		
+
 		String[] varnames = new String[vars.size()];
-		
+
 		//compile the sources
 		result.appendLine("@decl(boolean,result) = false;\n");
 		result.appendLine("@decl(boolean,hasempty) = false;\n");
@@ -41,9 +41,9 @@ public class ExistsExpHandler implements CompilerCodeHandler {
 			result.appendLine("@hasempty@ = @hasempty@ || @var" + varcount + "@.size() <= 0;\n");
 			varcount++;
 		}
-		
+
 		result.appendLine("if(!@hasempty@) {\n");
-		
+
 		//open for loops
 		for(int i = 0; i < varcount; i++){
 			result.appendLine("for(@decl(int, i" + i + ")=0; @i" + i + "@ < @var" + i + "@.size(); @i" + i + "@++){\n");

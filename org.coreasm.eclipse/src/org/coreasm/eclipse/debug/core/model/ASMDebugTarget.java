@@ -43,35 +43,35 @@ public class ASMDebugTarget extends ASMDebugElement implements IDebugTarget {
 //		DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(this);
 		debugger.setDebugTarget(this);
 	}
-	
+
 	public void cleanUp() {
 		((ASMThread)threads[0]).cleanUp();
 	}
-	
+
 	public boolean isStepFailed() {
 		return debugger.isStepFailed();
 	}
-	
+
 	public boolean isUpdateFailed() {
 		return debugger.isUpdateFailed();
 	}
-	
+
 	public boolean isUpdateConsistent(ASMUpdate update) {
 		return debugger.isUpdateConsistent(update);
 	}
-	
+
 	public Set<ASMUpdate> getLastInconsistentUpdate() {
 		return debugger.getLastInconsistentUpdate();
 	}
-	
+
 	public String getStepFailedMsg() {
 		return debugger.getStepFailedMsg();
 	}
-	
+
 	public CoreASMError getLastError() {
 		return debugger.getLastError();
 	}
-	
+
 	@Override
 	public IDebugTarget getDebugTarget() {
 		return this;
@@ -202,12 +202,12 @@ public class ASMDebugTarget extends ASMDebugElement implements IDebugTarget {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public ILaunch getLaunch() {
 		return launch;
 	}
-	
+
 	@Override
 	public void fireEvent(DebugEvent event) {
 		// All events that are fired on the debug target should be fired on the thread as well.
