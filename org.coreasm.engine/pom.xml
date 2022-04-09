@@ -63,8 +63,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes>
+						<!--
 						<exclude>**/TestAllCCasm.java</exclude>
 						<exclude>**/TestCompiler*.java</exclude>
+						-->
 					</excludes>
 				</configuration>
 			</plugin>
