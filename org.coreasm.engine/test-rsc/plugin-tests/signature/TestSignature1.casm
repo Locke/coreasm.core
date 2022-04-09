@@ -15,7 +15,7 @@ init Start
 
 /*
  * @minsteps 1
- * @maxsteps 10
+ * @maxsteps 50
  *
  * @refuse "Drinking this applejuice is awesome.\n"
  * @refuse "Drinking this bananajuice is awesome.\n
