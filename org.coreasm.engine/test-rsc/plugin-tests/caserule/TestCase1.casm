@@ -6,7 +6,7 @@ init Start
 
 /*
  * @minsteps 2
- * @maxsteps 10
+ * @maxsteps 50
  *
  * @refuse "b\n"
  * @refuse "matched string with undef\n"
