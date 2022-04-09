@@ -11,10 +11,6 @@
 		<relativePath>../org.coreasm.parent</relativePath>
 	</parent>
 
-	<properties>
-		<skipTests>true</skipTests>
-	</properties>
-
 	<build>
 		<resources>
 			<resource>
