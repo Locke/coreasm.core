@@ -8,10 +8,8 @@
 *.cmd text eol=crlf
 
 # Check out with lf (UNIX) line endings
-#.gitignore text eol=lf
-#.gitattributes text eol=lf
-#*.md text eol=lf
-#.travis.yml text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf
 
 # For the remaining files the line endings of checked out
 # files is defined by the ``core.eol`` git config variable.
