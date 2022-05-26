@@ -114,8 +114,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.sf.jgrapht</groupId>
-			<artifactId>jgrapht</artifactId>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-ext</artifactId>
 		</dependency>
 
 		<dependency>

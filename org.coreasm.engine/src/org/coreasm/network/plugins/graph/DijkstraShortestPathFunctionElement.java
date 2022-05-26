@@ -21,7 +21,8 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.list.ListBackgroundElement;
 import org.coreasm.engine.plugins.list.ListElement;
-import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 /**
  * Computes a shortest path on a graph using the Dijkstra algorithm.
@@ -58,9 +59,9 @@ public class DijkstraShortestPathFunctionElement extends FunctionElement {
 		Element start = args.get(1);
 		Element end = args.get(2);
 
-		List<Element> shortestPath = DijkstraShortestPath.findPathBetween(ge.getGraph(), start, end);
+		GraphPath<Element, Element> shortestPath = DijkstraShortestPath.findPathBetween(ge.getGraph(), start, end);
 		if (shortestPath != null)
-			return new ListElement(shortestPath);
+			return new ListElement(shortestPath.getEdgeList());
 		return new ListElement();
 	}
 
