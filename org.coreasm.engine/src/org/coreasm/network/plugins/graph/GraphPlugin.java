@@ -388,7 +388,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			}
 
 			// if we are here, the term did not evaluate to a graph element
-			String msg = "'" + SHOW_GRAPH_KW_NAME + " must be followed by a graph value.";
+			String msg = "'" + SHOW_GRAPH_KW_NAME + "' must be followed by a graph value.";
 			capi.error(msg, pos, interpreter);
 			Logger.log(Logger.ERROR, Logger.plugins, msg);
 		}
