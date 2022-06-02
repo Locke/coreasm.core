@@ -1,0 +1,27 @@
+CoreASM Graph8_asUndirectedGraph
+
+use Standard
+use Graph
+init Start
+
+function g : -> GRAPH
+
+/*
+ * @minsteps 1
+ * @maxsteps 1
+ *
+ * @require "g: ([a, b, c], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c), (c:a)=(c,a)])"
+ * @require "asUndirectedGraph(g): ([a, b, c], [(a:b)={a,b}, (b:c)={b,c}, (a:c)={a,c}, (c:a)={c,a}])"
+ * @require "dijkstraShortestPath(g, c, b): [(c:a), (a:b)]"
+ * @require "dijkstraShortestPath(asUndirectedGraph(g), c, b): [(b:c)]"
+ */
+rule Start =
+	seqblock
+		g := toGraph(["a", "b", "c"], [["a", "b"], ["b", "c"], ["a", "c"], ["c", "a"]])
+		print "g: " + g
+
+		print "asUndirectedGraph(g): " + asUndirectedGraph(g)
+
+		print "dijkstraShortestPath(g, c, b): " + dijkstraShortestPath(g, "c", "b")
+		print "dijkstraShortestPath(asUndirectedGraph(g), c, b): " + dijkstraShortestPath(asUndirectedGraph(g), "c", "b")
+	endseqblock

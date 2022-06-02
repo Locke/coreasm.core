@@ -1,0 +1,24 @@
+CoreASM Graph3_connectedSet
+
+use Standard
+use Graph
+init Start
+
+function g : -> GRAPH
+
+/*
+ * @minsteps 1
+ * @maxsteps 1
+ *
+ * @require "g: ([a, b, c, x, y], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c), (x:y)=(x,y)])"
+ * @require "connectedSet(g, a): {a, b, c}"
+ * @require "connectedSet(g, y): {x, y}"
+ */
+rule Start =
+	seqblock
+		g := toGraph(["a", "b", "c", "x", "y"], [["a", "b"], ["b", "c"], ["a", "c"], ["x", "y"]])
+		print "g: " + g
+
+		print "connectedSet(g, a): " + connectedSet(g, "a")
+		print "connectedSet(g, y): " + connectedSet(g, "y")
+	endseqblock

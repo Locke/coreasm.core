@@ -1,0 +1,26 @@
+CoreASM Graph2_dijkstra
+
+use Standard
+use Graph
+init Start
+
+function g : -> GRAPH
+
+/*
+ * @minsteps 1
+ * @maxsteps 1
+ *
+ * @require "g: ([a, b, c, x], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c), (c:x)=(c,x)])"
+ * @require "dijkstraShortestPath(g, a, c): [(a:c)]"
+ * @require "dijkstraShortestPath(g, a, x): [(a:c), (c:x)]"
+ * @require "dijkstraShortestPath(g, b, x): [(b:c), (c:x)]"
+ */
+rule Start =
+	seqblock
+		g := toGraph(["a", "b", "c", "x"], [["a", "b"], ["b", "c"], ["a", "c"], ["c", "x"]])
+		print "g: " + g
+
+		print "dijkstraShortestPath(g, a, c): " + dijkstraShortestPath(g, "a", "c")
+		print "dijkstraShortestPath(g, a, x): " + dijkstraShortestPath(g, "a", "x")
+		print "dijkstraShortestPath(g, b, x): " + dijkstraShortestPath(g, "b", "x")
+	endseqblock

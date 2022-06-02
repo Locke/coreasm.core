@@ -1,0 +1,45 @@
+CoreASM Graph1_construct
+
+use Standard
+use Graph
+init Start
+
+function g1 : -> GRAPH
+function g2 : -> GRAPH
+function g3 : -> GRAPH
+
+/*
+ * @minsteps 1
+ * @maxsteps 1
+ *
+ * @require "g1: ([], [])"
+ * @require "g1.vertices: {}"
+ * @require "g1.edges: {}"
+ *
+ * @require "g2: ([], [])"
+ * @require "g2.vertices: {}"
+ * @require "g2.edges: {}"
+ *
+ * @require "g3: ([a, b, c], [(a:b)=(a,b), (b:c)=(b,c)])"
+ * @require "g3.vertices: {a, b, c}
+ * @require "g3.edges: {(a:b), (b:c)}"
+ */
+rule Start =
+	seqblock
+		extend GRAPH with g do {
+			g1 := g
+		}
+		print "g1: " + g1
+		print "g1.vertices: " + vertices(g1)
+		print "g1.edges: " + edges(g1)
+
+		g2 := toGraph([], [])
+		print "g2: " + g2
+		print "g2.vertices: " + vertices(g2)
+		print "g2.edges: " + edges(g2)
+
+		g3 := toGraph(["a", "b", "c"], [["a", "b"], ["b", "c"]])
+		print "g3: " + g3
+		print "g3.vertices: " + vertices(g3)
+		print "g3.edges: " + edges(g3)
+	endseqblock

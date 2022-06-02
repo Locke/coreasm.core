@@ -14,7 +14,10 @@
 package org.coreasm.network.plugins.graph;
 
 import org.coreasm.engine.interpreter.ASTNode;
+import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
+
+import java.util.List;
 
 /**
  *	A node for showgraph rules.
@@ -46,7 +49,13 @@ public class ShowGraphNode extends ASTNode {
 	}
 
 	public boolean isLocationValue() {
-		final String token = getChildNodes().get(2).getToken();
-		return (token != null && token.equals("at"));
+		List<Node> childNodes = getChildNodes();
+		if (childNodes.size() < 3) {
+			return false;
+		}
+		else {
+			final String token = childNodes.get(2).getToken();
+			return (token != null && token.equals("at"));
+		}
 	}
 }
