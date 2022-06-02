@@ -7,7 +7,7 @@
  * @require "(user1) ->  New Game"
  * @require "(user2) ->  New Game"
  * @require "->  score"
- * @maxsteps 10
+ * @maxsteps 50
  */
 CoreASM DaemonGame
 
