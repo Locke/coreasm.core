@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.coreasm.engine.Engine;
+import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.Tools;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +28,14 @@ import junit.framework.Assert;
 public class TestAllCasm {
 
 	protected static List<File> testFiles = null;
+
+	private static final java.util.Properties properties;
+
+	static {
+		java.util.Properties props = new EngineProperties();
+		props.setProperty(EngineProperties.PRINT_STACK_TRACE, EngineProperties.YES);
+		properties = props;
+	}
 
 	@BeforeClass
 	public static void onlyOnce() {
@@ -188,7 +197,7 @@ public class TestAllCasm {
 		try {
 			outContent.reset();
 			errContent.reset();
-			td = TestEngineDriver.newLaunch(testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins");
+			td = TestEngineDriver.newLaunch(testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins", properties);
 			if (TestEngineDriver.TestEngineDriverStatus.stopped.equals(td.getStatus()))
 				return new TestReport(
 						testFile, "engine is stopped!", steps, false);
