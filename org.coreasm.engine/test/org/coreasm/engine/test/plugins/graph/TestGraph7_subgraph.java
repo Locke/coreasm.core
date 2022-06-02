@@ -1,0 +1,25 @@
+package org.coreasm.engine.test.plugins.graph;
+
+import org.coreasm.engine.test.TestAllCasm;
+import org.junit.BeforeClass;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.LinkedList;
+
+public class TestGraph7_subgraph extends TestAllCasm {
+
+	@BeforeClass
+	public static void onlyOnce() {
+		URL url = TestGraph7_subgraph.class.getClassLoader().getResource(".");
+
+		try {
+			testFiles = new LinkedList<File>();
+			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph7_subgraph.class);
+		}
+		catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+}
