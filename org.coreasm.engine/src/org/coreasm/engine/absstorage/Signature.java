@@ -14,9 +14,7 @@
 
 package org.coreasm.engine.absstorage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *	Holds the signature of a function.
@@ -50,11 +48,7 @@ public class Signature {
 	public Signature(String ... signature) {
 		range = signature[signature.length - 1];
 		if (signature.length > 1) {
-			List<String> list = new ArrayList<String>();
-			for (int i=0; i < signature.length -1; i++) {
-				list.add(signature[i]);
-			}
-			domain = Collections.unmodifiableList(list);
+			domain = List.of(signature).subList(0, signature.length - 1);
 		} else
 			domain = Collections.emptyList();
 	}
