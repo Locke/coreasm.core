@@ -135,22 +135,24 @@ public class Signature {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String ret = "";
+		String ret;
 
-		if (domain != null) {
-			for (int i = 0; i < domain.size(); i++) {
-				if (i == 0) {
-					ret += domain.get(i);
+		int arity = domain.size();
+		if (arity > 0) {
+			StringBuilder retBuilder = new StringBuilder();
+			for (int i = 0; i < arity; i++) {
+				if (i != 0) {
+					retBuilder.append(" x ");
 				}
-				else {
-					ret += " x " + domain.get(i);
-				}
+				retBuilder.append(domain.get(i));
 			}
+			ret = retBuilder.toString();
+		}
+		else {
+			ret = "";
 		}
 
-		ret += " -> " + range;
-
-		return ret;
+		return ret + " -> " + range;
 	}
 
 	public boolean checkArguments(ElementList args, AbstractStorage storage) {
