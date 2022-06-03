@@ -46,11 +46,19 @@ public class Signature {
 	 * @param signature an array of domain names ended with the range name
 	 */
 	public Signature(String ... signature) {
-		range = signature[signature.length - 1];
+		if (signature.length == 0) {
+			throw new IllegalArgumentException("a signature requires at least the range");
+		}
+
 		if (signature.length > 1) {
+			// all but last, which is the range
 			domain = List.of(signature).subList(0, signature.length - 1);
-		} else
+		}
+		else {
 			domain = Collections.emptyList();
+		}
+
+		range = signature[signature.length - 1];
 	}
 
 	/**
@@ -61,15 +69,17 @@ public class Signature {
 	 * @param arity the number of elements in the domain
 	 */
 	public Signature(int arity) {
-		if (arity == 0)
-			domain = Collections.emptyList();
-		else {
-			domain = new ArrayList<String>();
-			for (int i=0; i < arity; i++)
-				domain.add(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME);
-			domain = Collections.unmodifiableList(domain);
+		if (arity > 0) {
+			List<String> dom = new ArrayList<>(arity);
+			for (int i = 0; i < arity; i++)
+				dom.add(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME);
+			domain = Collections.unmodifiableList(dom);
 		}
-	   range = ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
+		else {
+			domain = Collections.emptyList();
+		}
+
+		range = ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
 	}
 
 	/**
