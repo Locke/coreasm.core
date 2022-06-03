@@ -113,6 +113,7 @@ public abstract class FunctionElement extends Element {
 		this.fClass = fClass;
 	}
 
+	@Override
 	public String getBackground() {
 		return FunctionBackgroundElement.FUNCTION_BACKGROUND_NAME;
 	}

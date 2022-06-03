@@ -95,29 +95,35 @@ public class CollectionPlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return version;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -179,6 +185,7 @@ public class CollectionPlugin extends Plugin
 
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		ASTNode nextPos = pos;
 		String gClass = pos.getGrammarClass();
@@ -274,18 +281,22 @@ public class CollectionPlugin extends Plugin
 		return nextPos;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return null;
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
@@ -302,18 +313,22 @@ public class CollectionPlugin extends Plugin
 		return functions;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return null;
 	}

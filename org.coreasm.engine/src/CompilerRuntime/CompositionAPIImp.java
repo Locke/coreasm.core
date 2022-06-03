@@ -34,11 +34,13 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 	protected UpdateList[] updates = new UpdateList[3];
 	protected List<UpdatePluginPair> composedUpdates = new ArrayList<UpdatePluginPair>();
 
+	@Override
 	public void setUpdateInstructions(UpdateList updates1, UpdateList updates2) {
 		this.updates[1] = new UpdateList(updates1);
 		this.updates[2] = new UpdateList(updates2);
 	}
 
+	@Override
 	public UpdateList getComposedUpdates() {
 		UpdateList result = new UpdateList();
 
@@ -48,6 +50,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return result;
 	}
 
+	@Override
 	public Set<Location> getAffectedLocations() {
 		Set<Location> result = new HashSet<Location>();
 
@@ -59,6 +62,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return result;
 	}
 
+	@Override
 	public UpdateList getLocUpdates(int setIndex, Location l) {
 		UpdateList result = new UpdateList();
 
@@ -69,6 +73,7 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return result;
 	}
 
+	@Override
 	public boolean isLocUpdatedWithActions(int setIndex, Location l, String... action) {
 		// getting updates affecting location 'l'
 		UpdateList updates = getLocUpdates(setIndex, l);
@@ -81,14 +86,17 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 		return false;
 	}
 
+	@Override
 	public boolean isLocationUpdated(int setIndex, Location l) {
 		return !getLocUpdates(setIndex, l).isEmpty();
 	}
 
+	@Override
 	public UpdateList getAllUpdates(int setIndex) {
 		return updates[setIndex];
 	}
 
+	@Override
 	public void addComposedUpdate(Update update, String plugin) {
 		composedUpdates.add(new UpdatePluginPair(update, plugin));
 	}

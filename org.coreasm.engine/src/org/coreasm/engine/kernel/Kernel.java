@@ -194,10 +194,11 @@ public class Kernel extends Plugin
 	}
 
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		HashSet<String> kws = new HashSet<String>();
 		HashSet<String> oprs = new HashSet<String>();
-		Set<Parser<? extends Object>> lexers = new HashSet<Parser<? extends Object>>();
+		Set<Parser<?>> lexers = new HashSet<Parser<?>>();
 
 		// Getting keywords and operators from all other plugins
 		Set<Plugin> plugins = capi.getPlugins();
@@ -231,6 +232,7 @@ public class Kernel extends Plugin
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		if (exposedParsers == null) {
 			exposedParsers = new HashMap<String, Parser<Node>>();
@@ -282,6 +284,7 @@ public class Kernel extends Plugin
 	}
 	*/
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 
 		if (parsers == null) {
@@ -831,6 +834,7 @@ public class Kernel extends Plugin
 	/**
 	 * This plugin returns an empty set of instructions.
 	 */
+	@Override
 	public String[] getUpdateActions() {
 		return UPDATE_ACTIONS;
 	}
@@ -840,6 +844,7 @@ public class Kernel extends Plugin
 	 *
 	 * @param pluginAgg plugin aggregation API object.
 	 */
+	@Override
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
 
 		// all locations on which basic updates occur
@@ -919,6 +924,7 @@ public class Kernel extends Plugin
 	/**
 	 * This is the basic update composer.
 	 */
+	@Override
 	public void compose(PluginCompositionAPI compAPI) {
 		UpdateMultiset updateSet1 = compAPI.getAllUpdates(1);
 		UpdateMultiset updateSet2 = compAPI.getAllUpdates(2);
@@ -949,6 +955,7 @@ public class Kernel extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
@@ -963,6 +970,7 @@ public class Kernel extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String,UniverseElement> getUniverses() {
 		if (universes == null) {
 			universes = new HashMap<String, UniverseElement>();
@@ -975,6 +983,7 @@ public class Kernel extends Plugin
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String,BackgroundElement> getBackgrounds() {
 		if (backgroundElements == null) {
 			backgroundElements = new HashMap<String,BackgroundElement>();
@@ -1004,6 +1013,7 @@ public class Kernel extends Plugin
 	 *
 	 * @see VocabularyExtender#getRules()
 	 */
+	@Override
 	public Map<String, RuleElement> getRules() {
 		if (ruleElements == null) {
 			ruleElements = new HashMap<String, RuleElement>();
@@ -1059,6 +1069,7 @@ public class Kernel extends Plugin
 	 * This method provides provides the equality operator, the
 	 * only operator provided in the kernel.
 	 */
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 		ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
 
@@ -1075,6 +1086,7 @@ public class Kernel extends Plugin
 	/**
 	 * This method provides the interpretation of the equality operator.
 	 */
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		Element result = null;
 		String x = opNode.getToken();
@@ -1123,30 +1135,37 @@ public class Kernel extends Plugin
 		return le.equals(re) || re.equals(le) ;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return backgroundNames;
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return universeNames;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return getRules().keySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}

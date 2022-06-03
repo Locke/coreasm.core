@@ -63,6 +63,7 @@ public class AllFirstSchedulingPolicy extends BasicSchedulingPolicy {
 			this.iterator = iterator;
 		}
 
+		@Override
 		public boolean hasNext() {
 			if (firstTime)
 				return !set.isEmpty();
@@ -70,6 +71,7 @@ public class AllFirstSchedulingPolicy extends BasicSchedulingPolicy {
 				return iterator.hasNext();
 		}
 
+		@Override
 		public Set<Element> next() {
 			if (firstTime) {
 				if (set.isEmpty())
@@ -80,6 +82,7 @@ public class AllFirstSchedulingPolicy extends BasicSchedulingPolicy {
 				return iterator.next();
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

@@ -56,6 +56,7 @@ public class OutputFunctionElement extends FunctionElement {
 	 * Sets the value of this function only if there
 	 * is no argument.
 	 */
+	@Override
 	public void setValue(List<? extends Element> args, Element value) {
 		if (args.isEmpty()) {
 			if (value instanceof StringElement)
@@ -70,6 +71,7 @@ public class OutputFunctionElement extends FunctionElement {
 	 *
 	 * @see FunctionElement#getLocations(String)
 	 */
+	@Override
 	public Set<Location> getLocations(String name) {
 		return locations;
 	}

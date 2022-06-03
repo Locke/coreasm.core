@@ -91,6 +91,7 @@ public class HashStorage implements AbstractStorage {
 	public HashStorage(ControlAPI capi) {
 		this.capi = capi;
 		updateStack = new ThreadLocal<Stack<Map<Location,Element>>>() {
+			 @Override
 			 protected Stack<Map<Location,Element>> initialValue() {
 				 return new Stack<Map<Location,Element>>();
 			 }
@@ -250,6 +251,7 @@ public class HashStorage implements AbstractStorage {
 		}
 	}
 
+	@Override
 	public Element getValue(Location l) throws InvalidLocationException {
 		FunctionElement f = this.getFunction(l.name);
 
@@ -281,6 +283,7 @@ public class HashStorage implements AbstractStorage {
 		return e;
 	}
 
+	@Override
 	public synchronized void setValue(Location l, Element v) throws InvalidLocationException {
 		if (!isStateStacked())
 			state.setValue(l, v);
@@ -482,42 +485,52 @@ public class HashStorage implements AbstractStorage {
 			capi.error("Cannot apply updates when state stack is empty.");
 	}
 
+	@Override
 	public Map<String,AbstractUniverse> getUniverses() {
 		return state.getUniverses();
 	}
 
+	@Override
 	public AbstractUniverse getUniverse(String name) {
 		return state.getUniverse(name);
 	}
 
+	@Override
 	public synchronized void addUniverse(String name, AbstractUniverse universe) throws NameConflictException {
 		state.addUniverse(name, universe);
 	}
 
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		return state.getFunctions();
 	}
 
+	@Override
 	public FunctionElement getFunction(String name) {
 		return state.getFunction(name);
 	}
 
+	@Override
 	public synchronized void addFunction(String name, FunctionElement function) throws NameConflictException {
 		state.addFunction(name, function);
 	}
 
+	@Override
 	public Map<String,RuleElement> getRules() {
 		return state.getRules();
 	}
 
+	@Override
 	public RuleElement getRule(String name) {
 		return state.getRule(name);
 	}
 
+	@Override
 	public synchronized void addRule(String name, RuleElement rule) throws NameConflictException {
 		state.addRule(name, rule);
 	}
 
+	@Override
 	public Set<Location> getLocations() {
 		return state.getLocations();
 	}
@@ -554,6 +567,7 @@ public class HashStorage implements AbstractStorage {
 		state = new HashState();
 	}
 
+	@Override
 	public String getFunctionName(FunctionElement function) {
 		return state.getFunctionName(function);
 	}
@@ -567,14 +581,17 @@ public class HashStorage implements AbstractStorage {
 		return lastInconsistentUpdates;
 	}
 
+	@Override
 	public FunctionElement getFunctionElementFunction() {
 		return state.getFunctionElementFunction();
 	}
 
+	@Override
 	public FunctionElement getRuleElementFunction() {
 		return state.getRuleElementFunction();
 	}
 
+	@Override
 	public FunctionElement getUniverseElementFunction() {
 		return state.getUniverseElementFunction();
 	}
@@ -598,6 +615,7 @@ public class HashStorage implements AbstractStorage {
 			table.put(name, value);
 		}
 
+		@Override
 		@SuppressWarnings("unchecked")
 		public void setValue(List<? extends Element> args, Element value) throws UnmodifiableFunctionException {
 			if (args.size() == 1){
@@ -647,9 +665,7 @@ public class HashStorage implements AbstractStorage {
 
 		public Map<String,E> getTableClone() {
 			Map<String,E> result = new HashMap<String,E>();
-			for (Entry<String,E> e: table.entrySet()) {
-				result.put(e.getKey(), e.getValue());
-			}
+			result.putAll(table);
 			return result;
 		}
 
@@ -657,6 +673,7 @@ public class HashStorage implements AbstractStorage {
 			return table.containsKey(name);
 		}
 
+		@Override
 		public Set<Location> getLocations(String name) {
 			Set<Location> locations = new HashSet<Location>();
 
@@ -933,7 +950,7 @@ public class HashStorage implements AbstractStorage {
 				if (e.getValue() instanceof UniverseElement) {
 					UniverseElement ue = (UniverseElement)e.getValue();
 					writer.print("    - " + e.getKey() + ": {");
-					StringBuffer str = new StringBuffer();
+					StringBuilder str = new StringBuilder();
 					for (Location l: ue.getLocations(e.getKey())) {
 						if (ue.getValue(l.args).equals(BooleanElement.TRUE)) {
 							if (!l.args.isEmpty()) {
@@ -976,7 +993,7 @@ public class HashStorage implements AbstractStorage {
 		 * Cut the string to a specific length
 		 */
 		private String reformatFunctionValue(String value) {
-			StringBuffer result = new StringBuffer(value);
+			StringBuilder result = new StringBuilder(value);
 			int TRIM = 50;
 
 			if (result.length() > TRIM) {

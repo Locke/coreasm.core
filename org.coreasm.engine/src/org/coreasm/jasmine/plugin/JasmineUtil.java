@@ -55,7 +55,7 @@ public class JasmineUtil {
 	 * @see Class#forName(String)
 	 * @see Class#forName(String, boolean, ClassLoader)
 	 */
-	public static Class<? extends Object> getJavaClass(String x, ClassLoader loader) throws ClassNotFoundException {
+	public static Class<?> getJavaClass(String x, ClassLoader loader) throws ClassNotFoundException {
 		if (loader != null)
 			return Class.forName(x, true, loader);
 		else
@@ -258,7 +258,7 @@ public class JasmineUtil {
 	 * @param field the field to store the value in
 	 * @param value the new value
 	 */
-	public static Object specialTypeCast(Class<? extends Object> clazz, Object value) {
+	public static Object specialTypeCast(Class<?> clazz, Object value) {
 		if (value instanceof Number) {
 			Number n = (Number)value;
 			if (clazz.equals(Byte.class) || clazz.equals(Byte.TYPE))
@@ -285,7 +285,7 @@ public class JasmineUtil {
 	 * @param expectedClasses expected types
 	 * @param arguments actual arguments
 	 */
-	public static Object[] adjustArgumentTypes(Class<? extends Object>[] expectedClasses, Object[] arguments) {
+	public static Object[] adjustArgumentTypes(Class<?>[] expectedClasses, Object[] arguments) {
 		for (int i=0; i < arguments.length; i++) {
 			arguments[i] = specialTypeCast(expectedClasses[i], arguments[i]);
 		}
@@ -303,7 +303,7 @@ public class JasmineUtil {
 	 * @param subClass class of <code>value</code> (for performance issues)
 	 * @param value the value that should match into the required class
 	 */
-	public static boolean classMatches(Class<? extends Object> superClass, Class<? extends Object> subClass, Object value) {
+	public static boolean classMatches(Class<?> superClass, Class<?> subClass, Object value) {
 		if (value == null)
 			return true;	// null fits in any class
 
@@ -357,7 +357,7 @@ public class JasmineUtil {
 	 * @param subClasses classes of <code>values</code> (needed for performance)
 	 * @param values the actual values that should match the required classes
 	 */
-	public static boolean classesMatch(Class<? extends Object>[] superClasses, Class<? extends Object>[] subClasses, Object[] values) {
+	public static boolean classesMatch(Class<?>[] superClasses, Class<?>[] subClasses, Object[] values) {
 		if (superClasses.length != subClasses.length)
 			return false;
 

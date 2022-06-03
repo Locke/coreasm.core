@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -177,10 +176,12 @@ public class IOPlugin extends Plugin implements
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -200,17 +201,20 @@ public class IOPlugin extends Plugin implements
 		targetModes.put(EngineMode.emInitializingState, ExtensionPointPlugin.DEFAULT_PRIORITY);
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -255,6 +259,7 @@ public class IOPlugin extends Plugin implements
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		// Print Rule
 		if (pos instanceof PrintRuleNode) {
@@ -320,6 +325,7 @@ public class IOPlugin extends Plugin implements
 	 * <li><i>output</i></li>
 	 * </ul>
 	 */
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String,FunctionElement>();
@@ -331,10 +337,12 @@ public class IOPlugin extends Plugin implements
 		return functions;
 	}
 
+	@Override
 	public Map<String,UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Map<String,BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
@@ -402,6 +410,7 @@ public class IOPlugin extends Plugin implements
 	 * @param target
 	 * @throws UnmodifiableFunctionException
 	 */
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) throws UnmodifiableFunctionException {
 		//on initialization clear output messages
 		if (EngineMode.emInitializingState.equals(target))
@@ -474,30 +483,37 @@ public class IOPlugin extends Plugin implements
 		}
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return sourceModes;
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		return targetModes;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return functionNames;
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
 		synchronized (this) {
 			aggregatePrint(pluginAgg);
@@ -638,6 +654,7 @@ public class IOPlugin extends Plugin implements
 	 * Compose print updates, write updates and append updates in turbo asm blocks.
 	 * @param compAPI
 	 */
+	@Override
 	public void compose(PluginCompositionAPI compAPI) {
 		synchronized (this) {
 			composePrint(compAPI);
@@ -758,10 +775,12 @@ public class IOPlugin extends Plugin implements
 		return UPDATE_ACTIONS;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}

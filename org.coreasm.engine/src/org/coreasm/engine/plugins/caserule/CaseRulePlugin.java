@@ -70,10 +70,12 @@ public class CaseRulePlugin extends Plugin
 		};
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -81,10 +83,12 @@ public class CaseRulePlugin extends Plugin
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -121,6 +125,7 @@ public class CaseRulePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
 		if (pos instanceof CaseRuleNode) {
@@ -180,10 +185,12 @@ public class CaseRulePlugin extends Plugin
 		}
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

@@ -25,7 +25,7 @@ import org.coreasm.engine.absstorage.FunctionElement;
  *
  */public class NumberOddFunction extends FunctionElement {
 
-	public static String NUMBER_ODD_FUNCTION_NAME = "isOddNumber";
+	public static final String NUMBER_ODD_FUNCTION_NAME = "isOddNumber";
 
 	/**
 	 * Creates a new NumberOddFunction

@@ -35,10 +35,12 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 		rand = new Random();
 	}
 
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(Set<? extends Element> set) {
 		return new ExtendedIterator(filteredSet(set), null);
 	}
 
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(Object groupHandle, Set<? extends Element> set) {
 		return new ExtendedIterator(filteredSet(set), groupHandle);
 	}
@@ -53,6 +55,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 			//this.handle = groupHandle;
 		}
 
+		@Override
 		public boolean hasNext() {
 			if (!originalSet.isEmpty())
 				return true;
@@ -60,6 +63,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 				return false;
 		}
 
+		@Override
 		public Set<Element> next() {
 			if (!hasNext())
 				throw new NoSuchElementException("There is no possible combination left.");
@@ -72,6 +76,7 @@ public class OneByOneUnfairSchedulingPolicy extends BasicSchedulingPolicy implem
 			return result;
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

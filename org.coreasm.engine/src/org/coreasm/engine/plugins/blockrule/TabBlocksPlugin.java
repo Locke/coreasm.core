@@ -44,6 +44,7 @@ public class TabBlocksPlugin extends Plugin implements ExtensionPointPlugin {
 	/**
 	 * @return {{@link EngineMode#emParsingSpec} -> 10}.
 	 */
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();
@@ -52,6 +53,7 @@ public class TabBlocksPlugin extends Plugin implements ExtensionPointPlugin {
 		return targetModes;
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
@@ -64,6 +66,7 @@ public class TabBlocksPlugin extends Plugin implements ExtensionPointPlugin {
 		return false;
 	}
 
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		boolean ruleReached = false;
 
@@ -155,6 +158,7 @@ public class TabBlocksPlugin extends Plugin implements ExtensionPointPlugin {
 		return str.toString();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

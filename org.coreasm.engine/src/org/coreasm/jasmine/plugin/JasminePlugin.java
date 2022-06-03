@@ -247,6 +247,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -254,6 +255,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getOperators()
 	 */
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -322,6 +324,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -440,6 +443,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.InterpreterPlugin#interpret(org.coreasm.engine.interpreter.ASTNode)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (!classPathUpdatedThroughOptions) {
@@ -463,7 +467,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 			String x = node.getClassName().trim();
 
-			Class<? extends Object> c;
+			Class<?> c;
 			try {
 				c = JasmineUtil.getJavaClass(x, this.loader);
 			} catch (Exception e) {
@@ -639,7 +643,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 * Finds a method with the given name that matches the given list of arguments.
 	 * TODO if more than one method match the arguments, it picks the first one it finds.
 	 */
-	private Method findMethod(Class<?> clazz, String name, List<? extends Object> arguments) throws NoSuchMethodException {
+	private Method findMethod(Class<?> clazz, String name, List<?> arguments) throws NoSuchMethodException {
 		Class<?>[] classes = new Class[arguments.size()];
 		int i = 0;
 		for (Object obj: arguments) {
@@ -668,7 +672,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	 * Finds a constructor of clazz that matches the given arguments.
 	 * TODO if more than one constructor match the arguments, it picks the first one it finds.
 	 */
-	private Constructor<?> findConstructor(Class<?> clazz, List<? extends Object> arguments) throws SecurityException, NoSuchMethodException {
+	private Constructor<?> findConstructor(Class<?> clazz, List<?> arguments) throws SecurityException, NoSuchMethodException {
 		// if looking for the default constructor
 		if (arguments.isEmpty())
 			return clazz.getConstructor();
@@ -778,6 +782,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Aggregator#aggregateUpdates(org.coreasm.engine.absstorage.PluginAggregationAPI)
 	 */
+	@Override
 	public void aggregateUpdates(PluginAggregationAPI pluginAgg) {
 
 		// TODO the channel should be agent-dependent
@@ -983,7 +988,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 				Location l = jue.getCoreASMLocation();
 				Object obj = ((JObjectElement)jue.arguments.get(1)).object; // 'value(alpha)'
 				String methodName = (String)jue.arguments.get(2);  // the 'x'
-				List<? extends Object> args = (List<?>)jue.arguments.get(3);  // method arguments
+				List<?> args = (List<?>)jue.arguments.get(3);  // method arguments
 
 				Method method;
 				Object result;
@@ -1044,6 +1049,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Aggregator#compose(org.coreasm.engine.absstorage.PluginCompositionAPI)
 	 */
+	@Override
 	public void compose(PluginCompositionAPI compAPI) {
 		Collection<JasmineAbstractUpdateElement> set1 = new HashMultiset<JasmineAbstractUpdateElement>();
 		Collection<JasmineAbstractUpdateElement> set2 = new HashMultiset<JasmineAbstractUpdateElement>();
@@ -1076,6 +1082,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Aggregator#getUpdateActions()
 	 */
+	@Override
 	public String[] getUpdateActions() {
 		return UPDATE_ACTIONS;
 	}
@@ -1083,6 +1090,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgroundNames()
 	 */
+	@Override
 	public Set<String> getBackgroundNames() {
 		return Collections.emptySet();
 	}
@@ -1090,6 +1098,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		return Collections.emptyMap();
 	}
@@ -1097,6 +1106,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctionNames()
 	 */
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
@@ -1104,6 +1114,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String, FunctionElement>();
@@ -1128,6 +1139,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverseNames()
 	 */
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
@@ -1135,6 +1147,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
@@ -1142,23 +1155,28 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return version;
 	}
 
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return Collections.emptyMap();
 	}
@@ -1256,6 +1274,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		}
 	}
 
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 		//return Collections.emptySet();
 		/**/
@@ -1270,6 +1289,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		/**/
 	}
 
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode) throws InterpreterException {
 		Element result = null;
 
@@ -1459,6 +1479,7 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 
 	}
 
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		/* TODO This whole method is temporary. */
 		if (target.equals(EngineMode.emParsingSpec)) {
@@ -1468,10 +1489,12 @@ public class JasminePlugin extends Plugin implements ParserPlugin,
 		}
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();

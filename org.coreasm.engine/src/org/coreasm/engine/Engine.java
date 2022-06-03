@@ -124,7 +124,7 @@ public class Engine implements ControlAPI {
 	private final LinkedList<InterpreterListener> interpreterListeners;
 
 	/** Remaining steps of the current run */
-	private AtomicInteger remainingRunCount = new AtomicInteger(0);
+	private final AtomicInteger remainingRunCount = new AtomicInteger(0);
 
 	/** Last error occurred in the engine */
 	private volatile CoreASMError lastError = null;

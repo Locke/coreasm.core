@@ -95,6 +95,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getKeywords()
 	 */
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -104,11 +105,13 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getOperators()
 	 */
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
@@ -117,6 +120,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		if (parsers != null)
 			return parsers.get(nonterminal).parser;
@@ -129,6 +133,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParsers()
 	 */
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -263,6 +268,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.plugin.Aggregator#compose(PluginCompositionAPI)
 	 */
+	@Override
 	public void compose(PluginCompositionAPI compAPI) {
 		// nothing to do
 	}
@@ -272,6 +278,7 @@ public class ActivationPlugin extends Plugin implements ParserPlugin, Interprete
 	 *
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

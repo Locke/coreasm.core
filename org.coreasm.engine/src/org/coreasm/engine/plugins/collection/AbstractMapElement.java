@@ -73,6 +73,7 @@ public abstract class AbstractMapElement extends FunctionElement implements Enum
 	 *
 	 * @see Element#UNDEF
 	 */
+	@Override
 	public Element getValue(List<? extends Element> args) {
 		if (args.size() == 1) {
 			return this.getValue(args.get(0));
@@ -103,6 +104,7 @@ public abstract class AbstractMapElement extends FunctionElement implements Enum
 	}
 	*/
 
+	@Override
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
 		Set<ElementList> argSet = new HashSet<ElementList>();

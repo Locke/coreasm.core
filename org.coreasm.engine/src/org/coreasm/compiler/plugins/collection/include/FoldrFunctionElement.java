@@ -50,7 +50,7 @@ public class FoldrFunctionElement extends CollectionFunctionElement {
 	public static final String FOLDL_NAME = "foldl";
 
 	protected final boolean isFoldR;
-	private Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT", "ELEMENT");
+	private final Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT", "ELEMENT");
 
 
 	/**

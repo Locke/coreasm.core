@@ -14,9 +14,7 @@
 
 package org.coreasm.engine.absstorage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *	Holds the signature of a function.
@@ -48,15 +46,19 @@ public class Signature {
 	 * @param signature an array of domain names ended with the range name
 	 */
 	public Signature(String ... signature) {
-		range = signature[signature.length - 1];
+		if (signature.length == 0) {
+			throw new IllegalArgumentException("a signature requires at least the range");
+		}
+
 		if (signature.length > 1) {
-			List<String> list = new ArrayList<String>();
-			for (int i=0; i < signature.length -1; i++) {
-				list.add(signature[i]);
-			}
-			domain = Collections.unmodifiableList(list);
-		} else
+			// all but last, which is the range
+			domain = List.of(signature).subList(0, signature.length - 1);
+		}
+		else {
 			domain = Collections.emptyList();
+		}
+
+		range = signature[signature.length - 1];
 	}
 
 	/**
@@ -67,15 +69,17 @@ public class Signature {
 	 * @param arity the number of elements in the domain
 	 */
 	public Signature(int arity) {
-		if (arity == 0)
-			domain = Collections.emptyList();
-		else {
-			domain = new ArrayList<String>();
-			for (int i=0; i < arity; i++)
-				domain.add(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME);
-			domain = Collections.unmodifiableList(domain);
+		if (arity > 0) {
+			List<String> dom = new ArrayList<>(arity);
+			for (int i = 0; i < arity; i++)
+				dom.add(ElementBackgroundElement.ELEMENT_BACKGROUND_NAME);
+			domain = Collections.unmodifiableList(dom);
 		}
-	   range = ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
+		else {
+			domain = Collections.emptyList();
+		}
+
+		range = ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
 	}
 
 	/**
@@ -131,22 +135,24 @@ public class Signature {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String ret = "";
+		String ret;
 
-		if (domain != null) {
-			for (int i = 0; i < domain.size(); i++) {
-				if (i == 0) {
-					ret += domain.get(i);
+		int arity = domain.size();
+		if (arity > 0) {
+			StringBuilder retBuilder = new StringBuilder();
+			for (int i = 0; i < arity; i++) {
+				if (i != 0) {
+					retBuilder.append(" x ");
 				}
-				else {
-					ret += " x " + domain.get(i);
-				}
+				retBuilder.append(domain.get(i));
 			}
+			ret = retBuilder.toString();
+		}
+		else {
+			ret = "";
 		}
 
-		ret += " -> " + range;
-
-		return ret;
+		return ret + " -> " + range;
 	}
 
 	public boolean checkArguments(ElementList args, AbstractStorage storage) {

@@ -22,9 +22,7 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
-import org.jparsec.Scanners;
 import org.jparsec.Terminals;
-import org.jparsec.Token;
 import org.jparsec.Tokens;
 import org.jparsec.Tokens.Fragment;
 import org.jparsec.Tokens.Tag;
@@ -112,7 +110,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	private Map<String, FunctionElement> functionElements = null;
 
 	private Map<String, GrammarRule> parsers = null;
-	private Set<Parser<? extends Object>> lexers = null;
+	private Set<Parser<?>> lexers = null;
 	private final Map<String, Parser<Node>> exposedParsers;
 
 	private final Parser.Reference<Node> refNumberRangeParser = Parser.newReference();
@@ -148,6 +146,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @see org.coreasm.engine.Plugin#interpret(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
 		ASTNode nextPos = pos;
@@ -197,7 +196,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 						return pos;
 					}
 				}
-;
+
 				try {
 					NumberRangeElement rangeElement = numberRangeBackgroundElement.getNewValue(
 							from, to, step);
@@ -249,9 +248,10 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return nextPos;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		if (lexers == null) {
-			lexers = new HashSet<Parser<? extends Object>>();
+			lexers = new HashSet<>();
 
 			// Define pattern for the numbers tokenizer manually to aviod the
 			// recognition of strings like '1.' as 1.0 or '.1' as 0.1
@@ -272,10 +272,12 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/*
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return exposedParsers.get(nonterminal);
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -367,6 +369,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functionElements == null) {
 			functionElements = new HashMap<String, FunctionElement>();
@@ -408,6 +411,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		// no universe
 		return Collections.emptyMap();
@@ -416,6 +420,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		if (backgroundElements == null) {
 			backgroundElements = new HashMap<String, BackgroundElement>();
@@ -439,10 +444,12 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return backgroundElements;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}
@@ -451,6 +458,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	// Operator Implementor Interface
 	// --------------------------------
 
+	@Override
 	public Collection<OperatorRule> getOperatorRules() {
 
 		ArrayList<OperatorRule> opRules = new ArrayList<OperatorRule>();
@@ -489,6 +497,7 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @see org.coreasm.engine.OperatorImplementor#interpretOperatorNode(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public Element interpretOperatorNode(Interpreter interpreter, ASTNode opNode)
 			throws InterpreterException {
 		Element result = null;
@@ -605,14 +614,17 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		getUniverses();
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return getBackgrounds().keySet();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
@@ -625,14 +637,17 @@ public class NumberPlugin extends Plugin implements ParserPlugin,
 		return numberRangeBackgroundElement;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}

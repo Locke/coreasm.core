@@ -24,7 +24,7 @@ import org.coreasm.engine.absstorage.Element;
  */
 public class GraphBackgroundElement extends BackgroundElement {
 
-	public static String BACKGROUND_NAME = "GRAPH";
+	public static final String BACKGROUND_NAME = "GRAPH";
 
 	@Override
 	public Element getNewValue() {

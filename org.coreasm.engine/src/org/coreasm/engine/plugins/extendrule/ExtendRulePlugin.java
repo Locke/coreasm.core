@@ -77,25 +77,30 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -122,6 +127,7 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 
 		return parsers;
 	}
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (pos instanceof ExtendRuleNode) {
@@ -169,6 +175,7 @@ public class ExtendRulePlugin extends Plugin implements ParserPlugin, Interprete
 		return pos;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

@@ -48,7 +48,7 @@ public class FilterFunctionElement extends CollectionFunctionElement {
 	/** suggested name for this function */
 	public static final String NAME = "filter";
 
-	private Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT");
+	private final Signature signature = new Signature("ELEMENT", "FUNCTION", "ELEMENT");
 
 	public FilterFunctionElement(ControlAPI capi) {
 		super(capi);

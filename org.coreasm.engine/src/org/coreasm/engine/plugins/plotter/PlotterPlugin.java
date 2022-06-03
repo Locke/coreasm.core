@@ -98,6 +98,7 @@ public class PlotterPlugin extends Plugin implements
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -111,25 +112,30 @@ public class PlotterPlugin extends Plugin implements
 		return dependencyNames;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -165,6 +171,7 @@ public class PlotterPlugin extends Plugin implements
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 		/* only if pos is a Plot rule ... */
 		if (pos instanceof PlotRuleNode) {
@@ -226,6 +233,7 @@ public class PlotterPlugin extends Plugin implements
 	 * @param source the source mode
 	 * @param target the target mode
 	 */
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		/* Step Succeeded */
 		if (target.equals(EngineMode.emStepSucceeded)) {
@@ -264,10 +272,12 @@ public class PlotterPlugin extends Plugin implements
 			}
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();
@@ -277,10 +287,12 @@ public class PlotterPlugin extends Plugin implements
 		return targetModes;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return getBackgrounds().keySet();
 	}
 
+	@Override
 	public Map<String, BackgroundElement> getBackgrounds() {
 		if (backgrounds == null) {
 			backgrounds = new HashMap<String,BackgroundElement>();
@@ -289,10 +301,12 @@ public class PlotterPlugin extends Plugin implements
 		return backgrounds;
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Map<String, FunctionElement> getFunctions() {
 		if (functions == null) {
 			functions = new HashMap<String,FunctionElement>();
@@ -302,18 +316,22 @@ public class PlotterPlugin extends Plugin implements
 		return functions;
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, UniverseElement> getUniverses() {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		return null;
 	}

@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -84,8 +85,8 @@ public class Tools {
 		String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 		str.toUpperCase().getChars(0, str.length(), chars, 0);
-		for (int i=0; i < chars.length; i++) {
-			if (alphabets.indexOf(chars[i]) < 0)
+		for (char aChar : chars) {
+			if (alphabets.indexOf(aChar) < 0)
 				return false;
 		}
 		return true;
@@ -106,7 +107,7 @@ public class Tools {
 	 * @return the string version of the order
 	 */
 	public static String getIth(int i) {
-		String result = null;
+		String result;
 		switch(i % 10) {
 		case 1:
 			result = "st";
@@ -372,22 +373,17 @@ public class Tools {
 		}
 
 
-		try {
-			fullPath = URLDecoder.decode(fullPath, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			logger.warn("{} UTF-8 encoding is not supported.", baseErrorMsg);
-			return ".";
-		}
+		fullPath = URLDecoder.decode(fullPath, StandardCharsets.UTF_8);
 
-		if (fullPath.indexOf("file:") > -1) {
+		if (fullPath.contains("file:")) {
 			fullPath = fullPath.replaceFirst("file:", "").replaceFirst(classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
 		}
-		if (fullPath.indexOf("jar:") > -1) {
+		if (fullPath.contains("jar:")) {
 			fullPath = fullPath.replaceFirst("jar:", "").replaceFirst("!" + classFile, "");
 			fullPath = fullPath.substring(0, fullPath.lastIndexOf('/'));
 		}
-		if (fullPath.indexOf("bundleresource:") > -1) {
+		if (fullPath.contains("bundleresource:")) {
 			fullPath = fullPath.substring(0, fullPath.indexOf(sampleClassFile));
 		}
 

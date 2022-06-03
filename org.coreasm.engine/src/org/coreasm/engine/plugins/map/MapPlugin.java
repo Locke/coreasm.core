@@ -68,7 +68,7 @@ public class MapPlugin extends Plugin implements ParserPlugin, InterpreterPlugin
 	private Map<String, GrammarRule> parsers = null;
 	private final String[] keywords = {};
 	private final String[] operators = {"{", "}", "->", ","};
-	Parser.Reference<Node> refMapTermParser = Parser.newReference();
+	final Parser.Reference<Node> refMapTermParser = Parser.newReference();
 	private Set<String> dependencies = null;
 	private Map<String, BackgroundElement> bkgs = null;
 
@@ -144,7 +144,7 @@ public class MapPlugin extends Plugin implements ParserPlugin, InterpreterPlugin
 	}
 
 	@Override
-	public Set<Parser<? extends Object>> getLexers() {
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 

@@ -42,6 +42,7 @@ public class StringElement extends Element implements Enumerable {
 		this.string = string;
 	}
 
+	@Override
 	public String getBackground() {
 		return StringBackgroundElement.STRING_BACKGROUND_NAME;
 	}
@@ -51,6 +52,7 @@ public class StringElement extends Element implements Enumerable {
 	 * enclosed in double-quotes. All special characters
 	 * like tab and new-line are converted to escape sequences.
 	 */
+	@Override
 	public String denotation() {
 		if (denotationalValue == null) {
 			denotationalValue = "\"" + Tools.convertToEscapeSqeuence(string) + "\"";
@@ -147,6 +149,7 @@ public class StringElement extends Element implements Enumerable {
 		return e.toString().length() == 1;
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		if (isChar(e))
 			return string.contains(e.toString());
@@ -154,10 +157,12 @@ public class StringElement extends Element implements Enumerable {
 			return false;
 	}
 
+	@Override
 	public Collection<? extends Element> enumerate() {
 		return getIndexedView();
 	}
 
+	@Override
 	public List<Element> getIndexedView() throws UnsupportedOperationException {
 		if (indexedView == null) {
 			indexedView = new ArrayList<Element>();
@@ -167,10 +172,12 @@ public class StringElement extends Element implements Enumerable {
 		return indexedView;
 	}
 
+	@Override
 	public int size() {
 		return string.length();
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}

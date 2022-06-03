@@ -50,6 +50,7 @@ public class TailFunctionElement extends ListFunctionElement {
 		return list.tail();
 	}
 
+	@Override
 	public Signature getSignature() {
 		if (signature == null) {
 			signature = new Signature();

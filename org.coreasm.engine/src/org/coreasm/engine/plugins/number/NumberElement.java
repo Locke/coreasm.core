@@ -50,6 +50,7 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 		return new NumberElement(d);
 	}
 
+	@Override
 	public String getBackground() {
 		return NumberBackgroundElement.NUMBER_BACKGROUND_NAME;
 	}
@@ -176,6 +177,7 @@ public class NumberElement extends Element implements Comparable<NumberElement> 
 	 *
 	 * @see Comparable#compareTo(Object)
 	 */
+	@Override
 	public int compareTo(NumberElement n) {
 		return value.compareTo(n.value);
 	}

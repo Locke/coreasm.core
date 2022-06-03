@@ -13,7 +13,6 @@
 
 package org.coreasm.engine.plugins.tree;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -99,9 +98,9 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	public static final String LIST_FOR_TREES_OPT = "LIST_FOR_TREES";
 
 	// Values for LIST_FOR_TREES_OPT option
-	protected static String LIST_FOR_TREES_OPT_SHORT = "short";
-	protected static String LIST_FOR_TREES_OPT_LONG = "long";
-	protected static String LIST_FOR_TREES_OPT_DEFAULT = LIST_FOR_TREES_OPT_SHORT;
+	protected static final String LIST_FOR_TREES_OPT_SHORT = "short";
+	protected static final String LIST_FOR_TREES_OPT_LONG = "long";
+	protected static final String LIST_FOR_TREES_OPT_DEFAULT = LIST_FOR_TREES_OPT_SHORT;
 
 
 	// Background offered by this plugin
@@ -148,7 +147,8 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 	} // VersionInfo getVersionInfo
 
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		// No particular lexers.
 		return Collections.emptySet();
 	} // getLexers
@@ -158,6 +158,7 @@ implements ParserPlugin, InterpreterPlugin,	VocabularyExtender {
 		return options;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if(parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();

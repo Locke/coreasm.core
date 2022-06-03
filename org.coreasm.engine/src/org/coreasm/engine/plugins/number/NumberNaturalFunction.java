@@ -26,7 +26,7 @@ import org.coreasm.engine.absstorage.FunctionElement;
  */
 public class NumberNaturalFunction extends FunctionElement {
 
-	public static String NUMBER_NATURAL_FUNCTION_NAME = "isNaturalNumber";
+	public static final String NUMBER_NATURAL_FUNCTION_NAME = "isNaturalNumber";
 
 	/**
 	 * Creates a new NumberNaturalFunction

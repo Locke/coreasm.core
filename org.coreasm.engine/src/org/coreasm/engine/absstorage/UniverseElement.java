@@ -53,6 +53,7 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	 *
 	 * @see org.coreasm.engine.absstorage.Enumerable#enumerate()
 	 */
+	@Override
 	public Collection<? extends Element> enumerate() {
 		return getIndexedView();
 	}
@@ -64,6 +65,7 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 	 * method does nothing.
 	 *
 	 */
+	@Override
 	public void setValue(List<? extends Element> args, Element value) {
 		if (args.isEmpty() && value instanceof UniverseElement) {
 			UniverseElement universe = (UniverseElement)value;
@@ -88,6 +90,7 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 		return elements.contains(e)?BooleanElement.TRUE:BooleanElement.FALSE;
 	}
 
+	@Override
 	public Set<Location> getLocations(String name) {
 		Set<Location> locSet = new HashSet<Location>();
 		for (Element e : elements) {
@@ -110,10 +113,12 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 		setValue(value, BooleanElement.valueOf(b));
 	}
 
+	@Override
 	public boolean contains(Element e) {
 		return elements.contains(e);
 	}
 
+	@Override
 	public List<Element> getIndexedView()
 			throws UnsupportedOperationException {
 		if (enumerationCache == null) {
@@ -122,10 +127,12 @@ public class UniverseElement extends AbstractUniverse implements Enumerable {
 		return enumerationCache;
 	}
 
+	@Override
 	public boolean supportsIndexedView() {
 		return true;
 	}
 
+	@Override
 	public int size() {
 		return elements.size();
 	}

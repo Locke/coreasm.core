@@ -16,7 +16,6 @@ package org.coreasm.engine.plugins.debuginfo;
 
 
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -115,10 +114,12 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		}
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
@@ -128,14 +129,17 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		return options;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		GrammarRule rule = getParsers().get(nonterminal);
 		if (rule != null)
@@ -144,6 +148,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 			return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -182,6 +187,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos)
 			throws InterpreterException {
 
@@ -202,6 +208,7 @@ public class DebugInfoPlugin extends Plugin implements ParserPlugin, Interpreter
 		return pos;
 	}
 
+	@Override
 	public PluginServiceInterface getPluginInterface() {
 		return pluginPSI;
 	}

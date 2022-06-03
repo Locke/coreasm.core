@@ -69,10 +69,12 @@ public class StandardPlugins extends Plugin implements PackagePlugin {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.PackagePlugin#getEnclosedPluginNames()
 	 */
+	@Override
 	public Set<String> getEnclosedPluginNames() {
 		return names;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}

@@ -95,6 +95,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#fireOnModeTransition(org.coreasm.engine.CoreASMEngine.EngineMode, org.coreasm.engine.CoreASMEngine.EngineMode)
 	 */
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		if (target == EngineMode.emParsingSpec) {
 			loadedModules = new HashSet<String>();
@@ -116,6 +117,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getSourceModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		return Collections.emptyMap();
 	}
@@ -123,6 +125,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getTargetModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		if (targetModes == null) {
 			targetModes = new HashMap<EngineMode, Integer>();
@@ -134,18 +137,22 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.VersionInfoProvider#getVersionInfo()
 	 */
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -155,6 +162,7 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	 *
 	 * @author Markus
 	 */
+	@Override
 	public Set<String> getDependencyNames() {
 		Set<String> names = new HashSet<String>(super.getDependencyNames());
 		names.add("StringPlugin");
@@ -165,10 +173,12 @@ public class ModularityPlugin extends Plugin implements ParserPlugin,
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();

@@ -185,7 +185,7 @@ public class Specification {
 	public void updateLines(ArrayList<SpecLine> lines) {
 		lines.trimToSize();
 		this.lines = Collections.unmodifiableList(lines);
-		StringBuffer txt = new StringBuffer();
+		StringBuilder txt = new StringBuilder();
 		Iterator<SpecLine> it = lines.iterator();
 		while (it.hasNext()) {
 			txt.append(it.next().text);

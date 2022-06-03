@@ -27,7 +27,7 @@ public class TestObject {
 	public Date date;
 	public String str;
 	public Double dbl;
-	public List<? extends Object> list;
+	public List<?> list;
 
 	public TestObject() {
 		date = new Date();

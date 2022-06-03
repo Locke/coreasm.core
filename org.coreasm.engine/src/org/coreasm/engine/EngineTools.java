@@ -107,7 +107,7 @@ public class EngineTools {
 	 * @return <code>true</code> if the node has updates; <code>false</code> otherwise.
 	 *
 	 * @see Node
-	 * @see Loggers
+	 * @see Logger
 	 */
 	public static boolean hasUpdates(Interpreter interpreter, ASTNode node, ControlAPI capi, Logger logger) {
 		if (node.getUpdates() == null) {

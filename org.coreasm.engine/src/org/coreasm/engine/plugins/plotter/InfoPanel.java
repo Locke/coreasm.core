@@ -54,6 +54,7 @@ public class InfoPanel extends JPanel {
 		setPreferredSize(new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT));
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 

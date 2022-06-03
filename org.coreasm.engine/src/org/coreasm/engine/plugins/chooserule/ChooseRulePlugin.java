@@ -98,26 +98,31 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 		super.setControlAPI(capi);
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/**
 	 * @return <code>null</code>
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -183,6 +188,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 		return parsers;
 	}
 
+	@Override
 	public ASTNode interpret(Interpreter interpreter, ASTNode pos) throws InterpreterException {
 
 		if (pos instanceof ChooseRuleNode) {
@@ -714,6 +720,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 		return pos;
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
@@ -740,6 +747,7 @@ public class ChooseRulePlugin extends Plugin implements ParserPlugin,
 			return node;
 		}
 
+		@Override
 		public void addChild(Node parent, Node child) {
 			if (child instanceof ASTNode)
 				parent.addChild(nextChildName, child);

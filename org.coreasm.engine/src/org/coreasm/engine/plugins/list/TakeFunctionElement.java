@@ -63,6 +63,7 @@ public class TakeFunctionElement extends NthFunctionElement {
 		return new ListElement(newValues);
 	}
 
+	@Override
 	protected boolean checkArguments(List<? extends Element> args) {
 		return (args.size() == 2)
 				&& (args.get(0) instanceof AbstractListElement)

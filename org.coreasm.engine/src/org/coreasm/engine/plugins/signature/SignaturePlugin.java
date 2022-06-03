@@ -15,7 +15,6 @@
 package org.coreasm.engine.plugins.signature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -130,6 +129,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.Plugin#initialize()
 	 */
+	@Override
 	public void initialize() {
 		typeCheckingMode = CheckMode.OFF;
 		idCheckingMode = CheckMode.OFF;
@@ -144,21 +144,25 @@ public class SignaturePlugin extends Plugin
 		rules = null;
 	}
 
-	public Set<Parser<? extends Object>> getLexers() {
+	@Override
+	public Set<Parser<?>> getLexers() {
 		return Collections.emptySet();
 	}
 
 	/*
 	 * @see org.coreasm.engine.plugin.ParserPlugin#getParser(java.lang.String)
 	 */
+	@Override
 	public Parser<Node> getParser(String nonterminal) {
 		return null;
 	}
 
+	@Override
 	public String[] getKeywords() {
 		return keywords;
 	}
 
+	@Override
 	public String[] getOperators() {
 		return operators;
 	}
@@ -179,6 +183,7 @@ public class SignaturePlugin extends Plugin
 		}
 	}
 
+	@Override
 	public Map<String, GrammarRule> getParsers() {
 		if (parsers == null) {
 			parsers = new HashMap<String, GrammarRule>();
@@ -389,6 +394,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getTargetModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getTargetModes() {
 		return Collections.emptyMap();
 		/*
@@ -401,6 +407,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#getSourceModes()
 	 */
+	@Override
 	public Map<EngineMode, Integer> getSourceModes() {
 		if (sourceModes == null) {
 			sourceModes = new HashMap<EngineMode, Integer>();
@@ -459,6 +466,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.ExtensionPointPlugin#fireOnModeTransition(org.coreasm.engine.CoreASMEngine.EngineMode, org.coreasm.engine.CoreASMEngine.EngineMode)
 	 */
+	@Override
 	public void fireOnModeTransition(EngineMode source, EngineMode target) {
 		/*
 		 * Michael Altenhofen (SAP) suggested that type checking should not
@@ -1011,6 +1019,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getFunctions()
 	 */
+	@Override
 	public Map<String,FunctionElement> getFunctions() {
 		if (functions == null) {
 			processSignatures();
@@ -1018,10 +1027,12 @@ public class SignaturePlugin extends Plugin
 		return functions;
 	}
 
+	@Override
 	public Set<String> getRuleNames() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Map<String, RuleElement> getRules() {
 		if (rules == null)
 			processSignatures();
@@ -1031,6 +1042,7 @@ public class SignaturePlugin extends Plugin
    /* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getUniverses()
 	 */
+	@Override
 	public Map<String,UniverseElement> getUniverses() {
 		if (universes == null) {
 			processSignatures();
@@ -1041,6 +1053,7 @@ public class SignaturePlugin extends Plugin
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.plugin.VocabularyExtender#getBackgrounds()
 	 */
+	@Override
 	public Map<String,BackgroundElement> getBackgrounds() {
 		if (backgrounds == null) {
 			processSignatures();
@@ -1048,22 +1061,27 @@ public class SignaturePlugin extends Plugin
 		return backgrounds;
 	}
 
+	@Override
 	public Set<String> getBackgroundNames() {
 		return getBackgrounds().keySet();
 	}
 
+	@Override
 	public Set<String> getFunctionNames() {
 		return getFunctions().keySet();
 	}
 
+	@Override
 	public Set<String> getUniverseNames() {
 		return getUniverses().keySet();
 	}
 
+	@Override
 	public VersionInfo getVersionInfo() {
 		return VERSION_INFO;
 	}
 
+	@Override
 	public void handleUndefinedIndentifier(Interpreter interpreter, ASTNode pos, String id, List<? extends Element> args) {
 		getIdCheckMode();
 		if (processingSignatures || idCheckingMode != CheckMode.OFF) {
