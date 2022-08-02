@@ -828,7 +828,7 @@ public class SignaturePlugin extends Plugin
 		}
 		*/
 		if (checkNameUniqueness(name, "background", node, interpreter))
-		backgrounds.put(name, background);
+			backgrounds.put(name, background);
 	}
 
 	private void addFunction(String name, FunctionElement function, ASTNode node, Interpreter interpreter) {
