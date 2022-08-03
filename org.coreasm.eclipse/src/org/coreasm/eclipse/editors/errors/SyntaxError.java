@@ -15,7 +15,7 @@ import java.util.Map;
  * <li>Encountered: The token which was found, which is illegal at this position</li>
  * <li>Expected: A list of grammar elements which are allowed at this position</li>
  * </ul>
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public class SyntaxError
 extends AbstractError

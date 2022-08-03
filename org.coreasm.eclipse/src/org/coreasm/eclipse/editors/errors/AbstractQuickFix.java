@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Point;
 
 /**
  * This class is an abstract implementation of QuickFixes for an error.
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public abstract class AbstractQuickFix
 {
@@ -77,7 +77,7 @@ public abstract class AbstractQuickFix
 	 * General QuickFix for replacing the whole hover region with a given string
 	 * or inserting the string at the offset of the hover region.
 	 *
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public static class QF_Replace
 	extends AbstractQuickFix

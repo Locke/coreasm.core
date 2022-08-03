@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * This class defines the rules and formatting of comments
  * for the syntax highlighting.
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public class CommentScanner
 extends RuleBasedScanner

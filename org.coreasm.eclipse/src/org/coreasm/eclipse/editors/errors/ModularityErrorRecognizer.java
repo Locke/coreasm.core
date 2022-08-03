@@ -32,7 +32,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  * <li>Is the filename a valid one, and does the file exist?</li>
  * <li>If the statement part of an multiline comment?</li>
  * </ul>
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 
@@ -366,7 +366,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 
 	/**
 	 * Helper class for storing include statements with their relevant data
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	private class IncludeStatement
 	{
@@ -433,7 +433,7 @@ public class ModularityErrorRecognizer implements ITextErrorRecognizer {
 
 	/**
 	 * QuickFix for opening an included document if this document contains errors.
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public static class QF_ChildError_Open
 	extends AbstractQuickFix

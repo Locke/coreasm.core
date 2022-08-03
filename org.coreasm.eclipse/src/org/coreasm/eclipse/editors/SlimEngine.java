@@ -51,7 +51,7 @@ import org.coreasm.engine.scheduler.Scheduler;
  * initialized with a partial set of these plugins, load their plugins from this
  * full engine.
  *
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public class SlimEngine implements ControlAPI {
 
