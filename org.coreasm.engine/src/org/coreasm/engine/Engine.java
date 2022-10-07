@@ -1146,7 +1146,6 @@ public class Engine implements ControlAPI {
 		}
 
 		private void processNextCommand(EngineCommand cmd) throws EngineException {
-			String tempMsg;
 			switch (cmd.type) {
 
 			case ecTerminate:
@@ -1158,11 +1157,11 @@ public class Engine implements ControlAPI {
 				break;
 
 			case ecLoadSpec:
-				tempMsg = "Loading specification file";
+				logger.debug("Loading specification file, and ...");
 			case ecOnlyParseSpec:
-				tempMsg = "Parsing specification file";
+				logger.debug("Parsing specification file, and ...");
 			case ecOnlyParseHeader:
-				tempMsg = "Parsing the header of the specification file";
+				final String debugMsg = "Parsing the header of the specification file";
 				ParseCommandData cmdData = null;
 				if (cmd.metaData instanceof ParseCommandData)
 					cmdData = (ParseCommandData)cmd.metaData;
@@ -1173,7 +1172,7 @@ public class Engine implements ControlAPI {
 					try {
 						specification = new Specification(Engine.this, new File((String)cmdData.specInfo));
 						parser.setSpecification(specification);
-						logger.debug("{}: {}", tempMsg, cmdData.specInfo);
+						logger.debug("{}: {}", debugMsg, cmdData.specInfo);
 						next(EngineMode.emParsingHeader);
 					} catch (FileNotFoundException e) {
 						error("Specification file is not found (" + cmdData.specInfo + ")\n. Nothing is loaded.");
@@ -1186,7 +1185,7 @@ public class Engine implements ControlAPI {
 						try {
 							specification = new Specification(Engine.this, nsrData.reader, nsrData.fileName);
 							parser.setSpecification(specification);
-							logger.debug("{}.", tempMsg);
+							logger.debug("{}.", debugMsg);
 							next(EngineMode.emParsingHeader);
 						} catch (IOException e) {
 							error("Specification file cannot be read from (" + nsrData.fileName + ")\n. Nothing is loaded.");
