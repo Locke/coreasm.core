@@ -1055,8 +1055,11 @@ public class Engine implements ControlAPI {
 
 			isBusyLock.lock();
 			try {
-				// empty command queue
-				commandQueue.clear();
+				// empty command queue and warn if any commands are left
+				EngineCommand cmd;
+				while ((cmd = commandQueue.poll()) != null) {
+					logger.warn("Ignore user command {}, Engine is terminated", cmd.type);
+				}
 
 				engineBusy = false;
 				isNotBusy.signalAll();
