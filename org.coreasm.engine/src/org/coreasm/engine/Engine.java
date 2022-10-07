@@ -1101,7 +1101,8 @@ public class Engine implements ControlAPI {
 		}
 
 		/**
-		 * Switches the engine mode to a new mode.
+		 * Switches the engine mode to a new mode,
+		 * notifying EngineModeObservers, SrcModePlugins, and TrgModePlugins.
 		 *
 		 * @param newMode
 		 *            new mode of the engine
@@ -1110,24 +1111,14 @@ public class Engine implements ControlAPI {
 			final EngineMode oldMode = engineMode;
 			engineMode = newMode;
 
-			Map<EngineMode, EngineModeEvent> map = null;
-			EngineModeEvent event = null;
-			// notifying all engine mode observers
+			// create the mode-change event instance
+			EngineModeEvent event = modeEventCache
+				.computeIfAbsent(oldMode, oldM -> new HashMap<>())
+				.computeIfAbsent(newMode, newM -> new EngineModeEvent(oldMode, newM));
+
+			// notifying all engine mode observers about this event
 			for (EngineObserver o : observers)
 				if (o instanceof EngineModeObserver) {
-					if (event == null) {
-						// create the mode-change event
-						map = modeEventCache.get(oldMode);
-						if (map == null) {
-							map = new HashMap<EngineMode, EngineModeEvent>();
-							modeEventCache.put(oldMode, map);
-						}
-						event = map.get(newMode);
-						if (event == null) {
-							event = new EngineModeEvent(oldMode, newMode);
-							map.put(newMode, event);
-						}
-					}
 					o.update(event);
 				}
 
