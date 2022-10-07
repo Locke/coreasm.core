@@ -1004,10 +1004,18 @@ public class Engine implements ControlAPI {
 									isBusyLock.unlock();
 								}
 
-								EngineCommand cmd = commandQueue.take();
-								assert engineBusy;
+								EngineCommand cmd = null;
+								try {
+									cmd = commandQueue.take();
+									assert engineBusy;
+								}
+								catch (InterruptedException ex) {
+									logger.warn("Engine is in error state and needs to be terminated or reset. Interrupted while waiting for TERMINATE or RECOVER command. Going to wait again.");
+								}
 
-								if (cmd.type == EngineCommand.CmdType.ecTerminate) {
+								if (cmd == null) {
+									// can only happen via InterruptedException, repeat the loop
+								} else if (cmd.type == EngineCommand.CmdType.ecTerminate) {
 									next(EngineMode.emTerminating);
 									lastError = null;
 									logger.debug("Engine terminated by user command.");
