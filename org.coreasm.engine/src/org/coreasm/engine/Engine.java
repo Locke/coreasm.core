@@ -1129,8 +1129,8 @@ public class Engine implements ControlAPI {
 		 *
 		 * @see #next(EngineMode)
 		 */
-		private void processNextCommand() throws EngineException, InterruptedException {
-			EngineCommand cmd;
+		private void processNextCommand() throws EngineException {
+			EngineCommand cmd = null;
 			int rrc = remainingRunCount.getAndDecrement();
 			String tempMsg = null;
 
@@ -1150,12 +1150,18 @@ public class Engine implements ControlAPI {
 				finally {
 					isBusyLock.unlock();
 				}
-
-				// blocking wait for the next command
-				cmd = commandQueue.take();
 			}
 
-			assert engineBusy;
+			while (cmd == null) {
+				try {
+					// blocking wait for the next command
+					cmd = commandQueue.take();
+					assert engineBusy;
+				}
+				catch (InterruptedException ex) {
+					logger.warn("Engine got interrupted while waiting for the next command. Going to wait again.");
+				}
+			}
 
 			lastCommand = cmd;
 
