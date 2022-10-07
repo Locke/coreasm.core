@@ -1116,7 +1116,6 @@ public class Engine implements ControlAPI {
 		private void processNextCommand() throws EngineException, InterruptedException {
 			EngineCommand cmd;
 			int rrc = remainingRunCount.getAndDecrement();
-			String tempMsg = null;
 
 			if (rrc > 0)
 				cmd = new EngineCommand(EngineCommand.CmdType.ecStep, null);
@@ -1143,6 +1142,11 @@ public class Engine implements ControlAPI {
 
 			lastCommand = cmd;
 
+			processNextCommand(cmd);
+		}
+
+		private void processNextCommand(EngineCommand cmd) throws EngineException {
+			String tempMsg;
 			switch (cmd.type) {
 
 			case ecTerminate:
