@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
@@ -178,7 +179,7 @@ public class Engine implements ControlAPI {
 		grammarRules = new ArrayList<GrammarRule>();
 		operatorRules = new ArrayList<OperatorRule>();
 		engineMode = EngineMode.emIdle;
-		observers = new HashSet<EngineObserver>();
+		observers = ConcurrentHashMap.newKeySet();
 		interpreterListeners = new LinkedList<InterpreterListener>();
 		modeEventCache = new HashMap<EngineMode, Map<EngineMode,EngineModeEvent>>();
 		specification = null;
@@ -481,16 +482,12 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void addObserver(EngineObserver observer) {
-		synchronized (observers) {
-			observers.add(observer);
-		}
+		observers.add(observer);
 	}
 
 	@Override
 	public void removeObserver(EngineObserver observer) {
-		synchronized (observers) {
-			observers.remove(observer);
-		}
+		observers.remove(observer);
 	}
 
 	/**
@@ -500,7 +497,7 @@ public class Engine implements ControlAPI {
 	 */
 	@Override
 	public Collection<EngineObserver> getObservers() {
-		return new HashSet<EngineObserver>(observers);
+		return Set.copyOf(observers);
 	}
 
 	/**
