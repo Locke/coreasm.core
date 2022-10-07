@@ -465,14 +465,12 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void step() {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecStep,
-				null));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecStep, null));
 	}
 
 	@Override
 	public void run(int i) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun,
-				Integer.valueOf(i)));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun, i));
 	}
 
 	@Override
@@ -529,7 +527,7 @@ public class Engine implements ControlAPI {
 	private void notifyFailure() {
 		String reason = "";
 		if (storage.getLastInconsistentUpdate() != null) {
-			reason = "Incosistent updates: " + Tools.getEOL()
+			reason = "Inconsistent updates: " + Tools.getEOL()
 					+ EngineTools.getContextInfo("", storage.getLastInconsistentUpdate(), getParser(), getSpec());
 		}
 		EngineEvent event = new StepFailedEvent(reason);
@@ -789,7 +787,7 @@ public class Engine implements ControlAPI {
 		 * switches the mode appropriately.
 		 *
 		 * When the engine is in idle mode, it calls
-		 * <code>porcessNextCommand()</code> to respond to user commands. Mode
+		 * <code>processNextCommand()</code> to respond to user commands. Mode
 		 * switching is performed by calling <code>next(newMode)</code>.
 		 *
 		 * @see Runnable#run()
@@ -1199,7 +1197,7 @@ public class Engine implements ControlAPI {
 
 			case ecRun:
 				if (cmd.metaData instanceof Integer) {
-					int i = ((Integer) cmd.metaData).intValue();
+					int i = (Integer) cmd.metaData;
 					if (i > 0) {
 						remainingRunCount.set(i);
 					}
