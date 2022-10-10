@@ -65,6 +65,7 @@ public class BooleanElement extends Element {
 		this.value = value;
 	}
 
+	@Override
 	public String getBackground() {
 		return BooleanBackgroundElement.BOOLEAN_BACKGROUND_NAME;
 	}

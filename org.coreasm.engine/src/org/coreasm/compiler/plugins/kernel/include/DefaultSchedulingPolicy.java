@@ -19,6 +19,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	/** Maximum number of elements considered, 30 */
 	public static final int MAX_SET_SIZE = 30;
 
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(java.util.Set<? extends Element> set) {
 		return new DefaultIterator(set);
 	}
@@ -29,6 +30,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	 *
 	 * @see SchedulingPolicy#clearGroup(Object)
 	 */
+	@Override
 	public void clearGroup(Object groupHandle) {
 		// do nothing
 	}
@@ -38,6 +40,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	 *
 	 * @see SchedulingPolicy#getNewGroup()
 	 */
+	@Override
 	public Object getNewGroup() {
 		return null;
 	}
@@ -45,6 +48,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 	/**
 	 * @see #getNewSchedule(Set)
 	 */
+	@Override
 	public Iterator<Set<Element>> getNewSchedule(Object groupHandle, Set<? extends Element> set) {
 		return getNewSchedule(set);
 	}
@@ -87,10 +91,12 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 			this.max_tries = (int)Math.round(Math.pow(2, list.size())) - 1;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return iteratedIndices.size() < max_tries;
 		}
 
+		@Override
 		public Set<Element> next() {
 			if (!hasNext())
 				throw new Error("There is no possible combination left.");
@@ -125,6 +131,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

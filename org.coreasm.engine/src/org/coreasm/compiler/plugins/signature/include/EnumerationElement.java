@@ -47,6 +47,7 @@ public class EnumerationElement extends Element {
 		return name;
 	}
 
+	@Override
 	public String getBackground() {
 		if (backgroundName == null)
 			return super.getBackground();

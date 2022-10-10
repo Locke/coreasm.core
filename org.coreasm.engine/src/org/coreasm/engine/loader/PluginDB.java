@@ -289,6 +289,7 @@ class EntryComparator implements Comparator<Entry<ExtensionPointPlugin, Integer>
 	 * Note: this comparator
 	 * imposes orderings that are inconsistent with equals.
 	 */
+	@Override
 	public int compare(Entry<ExtensionPointPlugin, Integer> o1,
 			Entry<ExtensionPointPlugin, Integer> o2) {
 		return o2.getValue() - o1.getValue();
@@ -306,14 +307,17 @@ class PluginEntry implements Entry<ExtensionPointPlugin, Integer> {
 		this.value = i;
 	}
 
+	@Override
 	public ExtensionPointPlugin getKey() {
 		return key;
 	}
 
+	@Override
 	public Integer getValue() {
 		return value;
 	}
 
+	@Override
 	public Integer setValue(Integer value) {
 		throw new UnsupportedOperationException();
 	}

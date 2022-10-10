@@ -145,6 +145,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		globalMakros.put("RuntimeProvider", paths.runtimeProvider());
 	}
 
+	@Override
 	public void addTiming(String name, long time){
 		timings.add(name + ": " + (time));
 	}

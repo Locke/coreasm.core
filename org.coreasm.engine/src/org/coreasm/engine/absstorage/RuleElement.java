@@ -64,6 +64,7 @@ public class RuleElement extends Element {
 		this.name = name;
 	}
 
+	@Override
 	public String getBackground() {
 		return RuleBackgroundElement.RULE_BACKGROUND_NAME;
 	}

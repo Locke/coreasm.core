@@ -107,6 +107,7 @@ public class InterpreterImp implements Interpreter {
 		this.workCopies = new IdentityHashMap<ASTNode,Map<String, ASTNode>>();
 	}
 
+	@Override
 	public Interpreter getInterpreterInstance() {
 		Interpreter result = interpreters.get();
 		if (result == null)
@@ -115,6 +116,7 @@ public class InterpreterImp implements Interpreter {
 			return result;
 	}
 
+	@Override
 	public void executeTree() throws InterpreterException {
 
 		// !!! IMPORTANT !!!
@@ -239,14 +241,17 @@ public class InterpreterImp implements Interpreter {
 		return newPos;
 	}
 
+	@Override
 	public boolean isExecutionComplete() {
 		return (pos.getParent() == null && pos.isEvaluated());
 	}
 
+	@Override
 	public void setPosition(ASTNode node) {
 		pos = node;
 	}
 
+	@Override
 	public ASTNode getPosition() {
 		return pos;
 	}
@@ -258,6 +263,7 @@ public class InterpreterImp implements Interpreter {
 	 * @param newSelf
 	 *            reference to the self element of an agent
 	 */
+	@Override
 	public void setSelf(Element newSelf) {
 //		if (capi.getEngineMode() == CoreASMEngine.EngineMode.emRunningAgents)
 //			throw new EngineError("Cannot set value of 'self' while a program is being evaluated.");
@@ -266,6 +272,7 @@ public class InterpreterImp implements Interpreter {
 				new CallStackElement((RuleElement)storage.getChosenProgram(newSelf)), 0);
 	}
 
+	@Override
 	public Element getSelf() {
 		return this.self;
 	}
@@ -281,6 +288,7 @@ public class InterpreterImp implements Interpreter {
 		return envVars;
 	}
 
+	@Override
 	public Element getEnv(String token) {
 		Stack<Element> stack = envMap.get(token);
 		if (stack == null || stack.isEmpty())
@@ -312,6 +320,7 @@ public class InterpreterImp implements Interpreter {
 		envMap = hiddenEnvMaps.pop();
 	}
 
+	@Override
 	public void addEnv(String name, Element value) {
 		if (name == null)
 			throw new IllegalArgumentException("The name of an environment variable must not be null.");
@@ -328,6 +337,7 @@ public class InterpreterImp implements Interpreter {
 		stack.push(value);
 	}
 
+	@Override
 	public void removeEnv(String name) {
 		Stack<Element> stack = envMap.get(name);
 		if (stack == null || stack.size() <= 0)
@@ -913,6 +923,7 @@ public class InterpreterImp implements Interpreter {
 	 * @param args arguments
 	 * @param pos current node being interpreted
 	 */
+	@Override
 	public synchronized ASTNode ruleCall(RuleElement rule, List<String> params, List<ASTNode> args, ASTNode pos) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Interpreting rule call '" + rule.name + "' (agent: " + this.getSelf() + ", stack size: " + ruleCallStack.size() + ")");
@@ -1033,6 +1044,7 @@ public class InterpreterImp implements Interpreter {
 	/**
 	 * @see Interpreter#copyTreeSub(ASTNode, List, List)
 	 */
+	@Override
 	public ASTNode copyTreeSub(ASTNode a, List<String> params, List<ASTNode> args) {
 		return (ASTNode)copyTreeSub(a, params, args, null);
 	}
@@ -1152,6 +1164,7 @@ public class InterpreterImp implements Interpreter {
 		return arg;
 	}
 
+	@Override
 	public Node copyTree(Node a) {
 		return a.cloneTree();
 	}
@@ -1159,6 +1172,7 @@ public class InterpreterImp implements Interpreter {
 	/**
 	 * @see org.coreasm.engine.interpreter.Interpreter#clearTree(org.coreasm.engine.interpreter.ASTNode)
 	 */
+	@Override
 	public void clearTree(ASTNode root) {
 		if (root != null) {
 			root.setNode(null, null, null);
@@ -1167,6 +1181,7 @@ public class InterpreterImp implements Interpreter {
 		}
 	}
 
+	@Override
 	public void prepareInitialState() {
 		AbstractStorage storage = capi.getStorage();
 
@@ -1232,6 +1247,7 @@ public class InterpreterImp implements Interpreter {
 	/**
 	 * @see Interpreter#initProgramExecution()
 	 */
+	@Override
 	public void initProgramExecution() {
 		// clearing the program tree is not needed in the
 		// concurrent version of the Engine
@@ -1252,6 +1268,7 @@ public class InterpreterImp implements Interpreter {
 			listener.initProgramExecution(agent, program);
 	}
 
+	@Override
 	public synchronized void interpret(ASTNode node, Element agent) throws InterpreterException {
 		ASTNode oldPos = pos;
 		pos = node;
@@ -1276,11 +1293,13 @@ public class InterpreterImp implements Interpreter {
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized Stack<CallStackElement> getCurrentCallStack() {
 		return (Stack<CallStackElement>)ruleCallStack.clone();
 	}
 
+	@Override
 	public void cleanUp() {
 		envMap.clear();
 		hiddenEnvMaps.clear();

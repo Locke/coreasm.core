@@ -85,6 +85,7 @@ public class JParsecParser implements Parser {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.parser.Parser#getRequiredPlugins()
 	 */
+	@Override
 	public Set<String> getRequiredPlugins() {
 		return pluginNames;
 	}
@@ -92,6 +93,7 @@ public class JParsecParser implements Parser {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.parser.Parser#getRootNode()
 	 */
+	@Override
 	public ASTNode getRootNode() {
 		return rootNode;
 	}
@@ -103,6 +105,7 @@ public class JParsecParser implements Parser {
 	 *
 	 * @see org.coreasm.engine.parser.Parser#parseHeader()
 	 */
+	@Override
 	public void parseHeader() throws ParserException
 	{
 
@@ -160,6 +163,7 @@ public class JParsecParser implements Parser {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.parser.Parser#parseSpecification()
 	 */
+	@Override
 	public void parseSpecification() throws ParserException {
 		if (headerParsed) {
 			Plugin kernel = capi.getPlugin("Kernel");
@@ -199,6 +203,7 @@ public class JParsecParser implements Parser {
 		}
 	}
 
+	@Override
 	public void setSpecification(Specification spec) {
 		positionMap = null;
 		pluginNames = null;
@@ -210,6 +215,7 @@ public class JParsecParser implements Parser {
 	/*
 	 * @see org.coreasm.engine.parser.Parser#getPositionMap()
 	 */
+	@Override
 	public PositionMap getPositionMap() {
 		if (positionMap == null) {
 			positionMap = new PositionMap(specification.getText(), 1, 1);
