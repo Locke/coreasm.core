@@ -10,7 +10,6 @@ import org.coreasm.compiler.components.classlibrary.EnumFile;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.exception.ElementAlreadyExistsException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
-import org.coreasm.compiler.exception.InvalidCodeException;
 import org.coreasm.compiler.exception.InvalidStateMachineException;
 
 /**
@@ -180,11 +179,9 @@ public class StateMachine {
 	 * This will drop an enum for the states into the temporary directory
 	 * and create the complete code for the state machine.
 	 * @return The code for the state machine
-	 * @throws InvalidCodeException If there was any invalid code in a transition or state
 	 * @throws InvalidStateMachineException If the state machine was incomplete or the enum could not be created
 	 */
-	@SuppressWarnings("resource")
-	public CodeFragment generateClasses() throws InvalidCodeException, InvalidStateMachineException{
+	public CodeFragment generateClasses() throws InvalidStateMachineException {
 		if(states.size() == 0){
 			throw new InvalidStateMachineException();
 		}
