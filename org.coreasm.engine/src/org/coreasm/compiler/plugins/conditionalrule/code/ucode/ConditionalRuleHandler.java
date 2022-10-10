@@ -3,7 +3,7 @@ package org.coreasm.compiler.plugins.conditionalrule.code.ucode;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -16,7 +16,7 @@ public class ConditionalRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		ASTNode cond = node.getAbstractChildNodes().get(0);
 		ASTNode ifpart = node.getAbstractChildNodes().get(1);
 		ASTNode elsepart = null;
@@ -41,7 +41,7 @@ public class ConditionalRuleHandler implements CompilerCodeHandler {
 			}
 		}
 		catch(Exception e){
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 	}
 

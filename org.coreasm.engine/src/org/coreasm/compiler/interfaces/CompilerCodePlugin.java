@@ -8,7 +8,7 @@ import java.util.Map;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.interpreter.ASTNode;
 
 /**
@@ -25,9 +25,9 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 
 	/**
 	 * Registers code handlers of this plugin
-	 * @throws CompilerException If an error occurred
+	 * @throws CompilationException If an error occurred
 	 */
-	public abstract void registerCodeHandlers() throws CompilerException;
+	public abstract void registerCodeHandlers() throws CompilationException;
 
 	/**
 	 * Registers a code handler in the data structures of the abstract base class.
@@ -40,15 +40,15 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 	 * @param gClass The grammar class for which this handler will activate or null, if irrelevant
 	 * @param gRule The grammar rule for which this handler will activate or null, if irrelevant
 	 * @param token The token for which this handler will activate or null, if irrelevant
-	 * @throws CompilerException If the compilation had errors
+	 * @throws CompilationException If the compilation had errors
 	 */
-	protected void register(CompilerCodeHandler handler, CodeType type, String gClass, String gRule, String token) throws CompilerException{
+	protected void register(CompilerCodeHandler handler, CodeType type, String gClass, String gRule, String token) throws CompilationException {
 		if(handlers == null){
 			handlers = new Mapper();
 		}
 
 		if(!handlers.insert(handler, type, gClass, gRule, token)){
-			throw new CompilerException("Handler already registered for (" + type + ", " + gClass + ", " + gRule + ", " + token + ")");
+			throw new CompilationException("Handler already registered for (" + type + ", " + gClass + ", " + gRule + ", " + token + ")");
 		}
 	}
 
@@ -59,9 +59,9 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 	 * @param t The requested CodeType
 	 * @param n The node for which code is to be produced
 	 * @return Code for the compiled node
-	 * @throws CompilerException If the compilation failed or if less or more than one handler was found for the node
+	 * @throws CompilationException If the compilation failed or if less or more than one handler was found for the node
 	 */
-	public CodeFragment compile(CodeType t, ASTNode n) throws CompilerException{
+	public CodeFragment compile(CodeType t, ASTNode n) throws CompilationException {
 		List<Object> h = handlers.find(t, n.getGrammarClass(), n.getGrammarRule(), n.getToken());
 
 		if(h.size() == 0){
@@ -80,10 +80,10 @@ public abstract class CompilerCodePlugin implements CompilerPlugin{
 			}
 
 
-			throw new CompilerException("no handler registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
+			throw new CompilationException("no handler registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
 		else if(h.size() > 1){
-			throw new CompilerException("multiple handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
+			throw new CompilationException("multiple handlers registered for (" + this.getClass().getName() + ", " + t + ", " + n.getGrammarClass() + ", " + n.getGrammarRule() + ", " + n.getToken() + ")");
 		}
 
 		CompilerCodeHandler current = (CompilerCodeHandler) h.get(0);

@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class PreprocessorError extends Exception {
+public class PreprocessorError extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -6,7 +6,7 @@ import java.util.List;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.compiler.plugins.signature.CompilerSignaturePlugin;
 import org.coreasm.compiler.plugins.signature.DerivedFunctionEntry;
@@ -34,7 +34,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		ASTNode root = node.getAbstractChildNodes().get(0);
 		if (root.getGrammarRule().equals("UniverseDefinition")) {
 			parseUniverse(root, engine);
@@ -76,7 +76,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 		// enums.put(name, new EnumBackgroundEntry(name, elements));
 	}
 
-	private void parseFunction(ASTNode node, CompilerEngine engine) throws CompilerException{
+	private void parseFunction(ASTNode node, CompilerEngine engine) throws CompilationException {
 		// first node is either the function id or the function class
 		String name;
 		String fclass = null;
@@ -116,7 +116,7 @@ public class SignatureHandler implements CompilerCodeHandler {
 		// init));
 	}
 
-	private void parseDerivedFunction(ASTNode node, CompilerEngine engine) throws CompilerException{
+	private void parseDerivedFunction(ASTNode node, CompilerEngine engine) throws CompilationException {
 		ASTNode signature = node.getAbstractChildNodes().get(0);
 
 		CodeFragment body;

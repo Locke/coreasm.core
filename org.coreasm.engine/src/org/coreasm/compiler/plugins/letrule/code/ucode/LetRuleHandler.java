@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.plugins.letrule.LetRuleNode;
@@ -20,7 +20,7 @@ public class LetRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		System.out.println("called, father is " + node.getParent());
 		try {
 			LetRuleNode letrule = (LetRuleNode) node;
@@ -38,7 +38,7 @@ public class LetRuleHandler implements CompilerCodeHandler {
 			result.appendLine("localStack.popLayer();\n");
 			result.appendLine("//end of let\n");
 		} catch (Exception e) {
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 	}
 

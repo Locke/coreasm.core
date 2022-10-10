@@ -4,7 +4,7 @@ import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.classlibrary.CodeWrapperEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -19,13 +19,13 @@ public class BlockRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 
 		CodeFragment tmpresult = new CodeFragment("");
 
 		result.appendLine("");
 
-		if(node.getAbstractChildNodes().size() <= 0) throw new CompilerException("empty BlockRule");
+		if(node.getAbstractChildNodes().size() <= 0) throw new CompilationException("empty BlockRule");
 
 		for(int i = 0; i < node.getAbstractChildNodes().size(); i++){
 			tmpresult.appendLine("//blockrule child " + i + " start\n");

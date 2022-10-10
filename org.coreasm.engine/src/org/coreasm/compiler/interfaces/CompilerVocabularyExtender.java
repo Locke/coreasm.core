@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.coreasm.compiler.components.classlibrary.ClassLibrary;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 
 
 /**
@@ -34,8 +34,8 @@ public interface CompilerVocabularyExtender extends CompilerPlugin{
 	 * The LibraryEntrys are assumed to be loaded into the class library
 	 * @param classLibrary The class library into which classes need to be loaded
 	 * @return A list of MainFileEntries
-	 * @throws CompilerException If an error occurred while loading classes
+	 * @throws CompilationException If an error occurred while loading classes
 	 */
-	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException;
+	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException;
 
 }

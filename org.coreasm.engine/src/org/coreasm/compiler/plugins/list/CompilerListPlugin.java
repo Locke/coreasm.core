@@ -12,7 +12,7 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.list.code.rcode.ListCompHandler;
 import org.coreasm.compiler.plugins.list.code.rcode.ListTermHandler;
@@ -89,7 +89,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 
 	@Override
 	public String compileBinaryOperator(String token)
-			throws CompilerException {
+			throws CompilationException {
 
 		String result = "";
 		String listelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "ListElement", "ListPlugin");
@@ -101,7 +101,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 			result += "evalStack.push(new " + listelement + "(@list@));\n";
 			result += "}\n";
 		}
-		else throw new CompilerException("unkown operator: ListPlugin, " + token);
+		else throw new CompilationException("unkown operator: ListPlugin, " + token);
 
 		result = result + " else ";
 
@@ -110,20 +110,20 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 
 	@Override
 	public String compileUnaryOperator(String token)
-			throws CompilerException {
+			throws CompilationException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
+	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException {
 
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -166,7 +166,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 				LibraryEntry indexes = classLibrary.findEntry("IndexesFunctionElement", "ListPlugin", LibraryEntryType.STATIC);
 				result.add(new MainFileEntry(indexes, EntryType.FUNCTION_CAPI, IndexesFunctionElement.NAME_ALTERNATIVE));
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 		}
 
@@ -174,7 +174,7 @@ public class CompilerListPlugin extends CompilerCodePlugin implements CompilerPl
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ShiftRuleHandler(), CodeType.U, "Rule", "ShiftRule", null);
 		register(new ListTermHandler(), CodeType.R, "Expression", "ListTerm", null);
 		register(new ListCompHandler(), CodeType.R, "Expression", "ListComprehension", null);

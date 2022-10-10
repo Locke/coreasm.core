@@ -2,7 +2,7 @@ package org.coreasm.compiler.plugins.options;
 
 import java.util.Map;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.options.OptionsPlugin;
 import org.coreasm.compiler.CodeType;
@@ -54,7 +54,7 @@ public class CompilerOptionsPlugin extends CompilerCodePlugin implements Compile
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new PropertyHandler(), CodeType.BASIC, "Declaration", "PropertyOption", null);
 	}
 }

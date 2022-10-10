@@ -13,13 +13,15 @@
 
 package org.coreasm.engine.plugin;
 
+import org.coreasm.engine.EngineException;
+
 /**
  * Exception thrown if a plugin initialization fails.
  *
  * @author  Roozbeh Farahbod
  *
  */
-public class InitializationFailedException extends Exception {
+public class InitializationFailedException extends EngineException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,20 +46,20 @@ public class InitializationFailedException extends Exception {
 
 	/**
 	 * @param p failed plugin
-	 * @param reason the {@link Throwable} that caused the failure
+	 * @param reason the {@link Exception} that caused the failure
 	 */
-	public InitializationFailedException(Plugin p, Throwable reason) {
-		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reason);
+	public InitializationFailedException(Plugin p, Exception reason) {
+		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reason, reason);
 		plugin = p;
 	}
 
 	/**
 	 * @param p failed plugin
 	 * @param reasonText the reason for failure
-	 * @param reasonThrowable the {@link Throwable} that caused the failure
+	 * @param reasonException the {@link Exception} that caused the failure
 	 */
-	public InitializationFailedException(Plugin p, String reasonText, Throwable reasonThrowable) {
-		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reasonText + " -- " + reasonThrowable);
+	public InitializationFailedException(Plugin p, String reasonText, Exception reasonException) {
+		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reasonText + " -- " + reasonException, reasonException);
 		plugin = p;
 	}
 

@@ -630,7 +630,7 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public synchronized void error(Throwable e) {
+	public synchronized void error(Exception e) {
 		error(e, null, null);
 	}
 
@@ -645,7 +645,7 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public synchronized void error(Throwable e, Node errorNode, Interpreter interpreter) {
+	public synchronized void error(Exception e, Node errorNode, Interpreter interpreter) {
 		CoreASMError error;
 		if (interpreter != null)
 			error = new CoreASMError(e, interpreter.getCurrentCallStack(), errorNode);
@@ -686,12 +686,12 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public void warning(String src, Throwable e) {
+	public void warning(String src, Exception e) {
 		warning(src, e, null, null);
 	}
 
 	@Override
-	public void warning(String src, Throwable e, Node node,
+	public void warning(String src, Exception e, Node node,
 			Interpreter interpreter) {
 		CoreASMWarning warning;
 		if (interpreter != null)
@@ -1027,8 +1027,8 @@ public class Engine implements ControlAPI {
 						}
 					} catch (CoreASMError ce) {
 						error(ce);
-						logger.error( "Error occurred: {}", ce.showError());
-					} catch (Throwable e) {
+						logger.error("Error occurred: {}", ce.showError());
+					} catch (Exception e) {
 						if (e instanceof ParserException)
 							error(new CoreASMError((ParserException)e));
 						else

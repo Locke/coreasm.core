@@ -15,13 +15,15 @@ package org.coreasm.engine.parser;
 
 /**
  * This error is used to report errors during the parsing, specially
- * where an exception cannot be easily thrown.
+ * where an exception cannot be easily thrown (e.g., within a lambda).
  *
  * @author  Roozbeh Farahbod
  *
  */
-public class ParserError extends Error {
-	private static final long serialVersionUID = 8632506195271246615L;
+public class ParserError extends RuntimeException {
+	// v1: extends Error
+	// v2: extends RuntimeException
+	private static final long serialVersionUID = 2L;
 
 	public ParserError() {
 	}
@@ -30,11 +32,11 @@ public class ParserError extends Error {
 		super(message);
 	}
 
-	public ParserError(Throwable cause) {
+	public ParserError(Exception cause) {
 		super(cause.getMessage(), cause);
 	}
 
-	public ParserError(String message, Throwable cause) {
+	public ParserError(String message, Exception cause) {
 		super(message, cause);
 	}
 

@@ -17,7 +17,7 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.components.preprocessor.InheritRule;
 import org.coreasm.compiler.components.preprocessor.SynthesizeRule;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerFunctionPlugin;
@@ -63,7 +63,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 	}
 
 		@Override
-		public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
+		public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException {
 			List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 			ClassLibrary library = engine.getClassLibrary();
 
@@ -97,7 +97,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				result.add(new MainFileEntry(le, EntryType.FUNCTION, "infinity"));
 			}
 			catch(EntryAlreadyExistsException e){
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 			return result;
 		}
@@ -132,7 +132,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 
 		@Override
 		public String compileBinaryOperator(String token)
-				throws CompilerException {
+				throws CompilationException {
 			String result = "";
 
 			String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
@@ -205,7 +205,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 						+ "evalStack.push(CompilerRuntime.BooleanElement.valueOf(@nmbr1@<=@nmbr2@));\n";
 				result = result + "}\n";
 			} else {
-				throw new CompilerException("unknown operator call: NumberPlugin, "
+				throw new CompilationException("unknown operator call: NumberPlugin, "
 						+ token);
 			}
 
@@ -216,7 +216,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 
 		@Override
 		public String compileUnaryOperator(String token)
-				throws CompilerException {
+				throws CompilationException {
 			String result = "";
 			if (token.equals("-")) {
 				result = "if((@lhs@ instanceof @NumberElement@)){\n";
@@ -224,7 +224,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 						+ "evalStack.push(@NumberElement@.getInstance(0 - ((@NumberElement@)@lhs@).getValue()));\n";
 				result = result + "}\n";
 			} else
-				throw new CompilerException("unknown operator call: NumberPlugin, "
+				throw new CompilationException("unknown operator call: NumberPlugin, "
 						+ token);
 
 			result = result + " else ";
@@ -250,7 +250,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 
 		@Override
 		public CodeFragment compileFunctionCall(ASTNode n)
-				throws CompilerException {
+				throws CompilationException {
 
 			String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
 			List<ASTNode> children = n.getAbstractChildNodes();
@@ -258,7 +258,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 			if (fname.equals("isEvenNumber")) {
 				CodeFragment result = new CodeFragment("");
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment param = engine.compile(children.get(1),
@@ -273,14 +273,14 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("infinity")) {
 				if (children.size() != 1)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				return new CodeFragment(
 						"evalStack.push(" + numberelement + ".POSITIVE_INFINITY);\n");
 			} else if (fname.equals("isIntegerNumber")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -295,7 +295,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("isNaturalNumber")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -310,7 +310,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("isNegativeValue")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -325,7 +325,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("isOddNumber")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -340,7 +340,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("isPositiveValue")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -355,7 +355,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("isRealNumber")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -371,7 +371,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			} else if (fname.equals("size")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -393,7 +393,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 
 			} else if (fname.equals("toNumber")) {
 				if (children.size() != 2)
-					throw new CompilerException(
+					throw new CompilationException(
 							"wrong number of arguments for function " + fname);
 
 				CodeFragment result = new CodeFragment("");
@@ -410,7 +410,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 				return result;
 			}
 
-			throw new CompilerException(
+			throw new CompilationException(
 					"unknown function name for plugin NumberPlugin: " + fname);
 		}
 
@@ -452,7 +452,7 @@ public class CompilerNumberPlugin extends CompilerCodePlugin implements
 		}
 
 		@Override
-		public void registerCodeHandlers() throws CompilerException {
+		public void registerCodeHandlers() throws CompilationException {
 			register(new NumberHandler(), CodeType.R, "Expression", "NUMBER", null);
 			register(new NumberRangeHandler(), CodeType.R, "Expression", "NumberRangeTerm", null);
 			register(new SizeOfHandler(), CodeType.R, "Expression", "SizeOfEnumTerm", null);

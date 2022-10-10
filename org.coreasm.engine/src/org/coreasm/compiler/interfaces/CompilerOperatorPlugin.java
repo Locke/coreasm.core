@@ -2,7 +2,7 @@ package org.coreasm.compiler.interfaces;
 
 import java.util.List;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 
 /**
  * Interfaces for operator providing plugins.
@@ -44,15 +44,15 @@ public interface CompilerOperatorPlugin extends CompilerPlugin{
 	 * Compiles a binary operator node according to the specification of an operator.
 	 * @param token The operator token
 	 * @return The compiled String
-	 * @throws CompilerException If an error occurred
+	 * @throws CompilationException If an error occurred
 	 */
-	public String compileBinaryOperator(String token) throws CompilerException;
+	public String compileBinaryOperator(String token) throws CompilationException;
 
 	/**
 	 * Compiles an unary operator node according to the specification of an operator.
 	 * @param token The operator token
 	 * @return The compiled String
-	 * @throws CompilerException If an error occurred
+	 * @throws CompilationException If an error occurred
 	 */
-	public String compileUnaryOperator(String token) throws CompilerException;
+	public String compileUnaryOperator(String token) throws CompilationException;
 }

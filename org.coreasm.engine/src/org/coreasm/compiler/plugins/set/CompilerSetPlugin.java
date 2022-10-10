@@ -9,7 +9,7 @@ import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.set.code.rcode.ComprehensionHandler;
 import org.coreasm.compiler.plugins.set.code.rcode.EnumerateHandler;
@@ -75,7 +75,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 
 	@Override
 	public String compileBinaryOperator(String token)
-			throws CompilerException {
+			throws CompilationException {
 		String result = "";
 		String abstractsetelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "AbstractSetElement", "CollectionPlugin");
 		String setelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "SetElement", "SetPlugin");
@@ -126,7 +126,7 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 			result += "evalStack.push(@RuntimePkg@.BooleanElement.valueOf(@el2@.containsAll(@el1@)));\n";
 		}
 		else{
-			throw new CompilerException("unknown operator call: SetPlugin, "
+			throw new CompilationException("unknown operator call: SetPlugin, "
 					+ token);
 		}
 
@@ -138,19 +138,19 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 
 	@Override
 	public String compileUnaryOperator(String token)
-			throws CompilerException {
+			throws CompilationException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
+	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException {
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -165,14 +165,14 @@ public class CompilerSetPlugin extends CompilerCodePlugin implements CompilerPlu
 						includeStatic("org/coreasm/compiler/plugins/set/include/SetAggregator.java", EntryType.AGGREGATOR).
 						build();
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new EnumerateHandler(), CodeType.R, "Expression", "SetEnumerate", null);
 		register(new ComprehensionHandler(), CodeType.R, "Expression", "SetComprehension", null);
 	}

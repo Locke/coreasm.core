@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class DirectoryNotEmptyException extends Exception {
+public class DirectoryNotEmptyException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 4960230388525320056L;
 
 	/**

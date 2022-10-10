@@ -33,11 +33,11 @@ public class UnmodifiableFunctionException extends EngineException {
 		super(message);
 	}
 
-	public UnmodifiableFunctionException(String message, Throwable cause) {
+	public UnmodifiableFunctionException(String message, Exception cause) {
 		super(message, cause);
 	}
 
-	public UnmodifiableFunctionException(Throwable cause) {
+	public UnmodifiableFunctionException(Exception cause) {
 		super(cause);
 	}
 

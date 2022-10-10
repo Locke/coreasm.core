@@ -12,7 +12,7 @@ import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.string.code.rcode.StringTermHandler;
 import org.coreasm.engine.interpreter.ASTNode;
@@ -60,7 +60,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
-			throws CompilerException {
+			throws CompilationException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 		//ClassLibrary library = engine.getClassLibrary();
 
@@ -68,7 +68,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			File enginePath = engine.getOptions().enginePath;
 			if(enginePath == null){
 				engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-				throw new CompilerException("could not load classes");
+				throw new CompilationException("could not load classes");
 			}
 			else{
 				//load classes from jar archive
@@ -86,7 +86,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 						build();
 			}
 		} catch (EntryAlreadyExistsException e) {
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 
 		return result;
@@ -107,7 +107,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 	}
 
 	@Override
-	public String compileBinaryOperator(String token) throws CompilerException {
+	public String compileBinaryOperator(String token) throws CompilationException {
 		String result = "";
 		String stringelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "StringElement", "StringPlugin");
 		if (token.equals("+")) {
@@ -115,7 +115,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			result += "evalStack.push(new " + stringelement + "(@lhs@.toString() + @rhs@.toString()));\n";
 			result += "}\n";
 		} else
-			throw new CompilerException("unkown operator: StringPlugin, "
+			throw new CompilationException("unkown operator: StringPlugin, "
 					+ token);
 
 		result = result + " else ";
@@ -124,8 +124,8 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 	}
 
 	@Override
-	public String compileUnaryOperator(String token) throws CompilerException {
-		throw new CompilerException("unkown operator: StringPlugin, " + token);
+	public String compileUnaryOperator(String token) throws CompilationException {
+		throw new CompilationException("unkown operator: StringPlugin, " + token);
 	}
 
 	@Override
@@ -139,14 +139,14 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 	}
 
 	@Override
-	public CodeFragment compileFunctionCall(ASTNode n) throws CompilerException {
+	public CodeFragment compileFunctionCall(ASTNode n) throws CompilationException {
 		String stringelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "StringElement", "StringPlugin");
 		String numberelement = engine.getPath().getEntryName(LibraryEntryType.STATIC, "NumberElement", "NumberPlugin");
 		List<ASTNode> children = n.getAbstractChildNodes();
 		String fname = children.get(0).getToken();
 		if (fname.equals("strlen")) {
 			if (children.size() != 2)
-				throw new CompilerException(
+				throw new CompilationException(
 						"wrong number of arguments for function " + fname);
 
 			CodeFragment result = new CodeFragment("");
@@ -162,7 +162,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			return result;
 		} else if (fname.equals("matches")) {
 			if (children.size() != 3)
-				throw new CompilerException(
+				throw new CompilationException(
 						"wrong number of arguments for function " + fname);
 			CodeFragment result = new CodeFragment("");
 			result.appendFragment(engine.compile(
@@ -181,7 +181,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 		}
 		else if (StringSubstringFunction.STRING_SUBSTRING_FUNCTION_NAME.equals(fname)) {
 			if (children.size() != 4)
-				throw new CompilerException(
+				throw new CompilationException(
 						"wrong number of arguments for function " + fname);
 			CodeFragment result = new CodeFragment("");
 			result.appendFragment(engine.compile(
@@ -203,7 +203,7 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			return result;
 		} else if (fname.equals("toString")) {
 			if (children.size() != 2)
-				throw new CompilerException(
+				throw new CompilationException(
 						"wrong number of arguments for function " + fname);
 			CodeFragment result = new CodeFragment("");
 			result.appendFragment(engine.compile(
@@ -218,12 +218,12 @@ public class CompilerStringPlugin extends CompilerCodePlugin implements Compiler
 			return result;
 		}
 
-		throw new CompilerException(
+		throw new CompilationException(
 				"unknown function name for plugin NumberPlugin: " + fname);
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new StringTermHandler(), CodeType.R, "Expression", "StringTerm", null);
 	}
 

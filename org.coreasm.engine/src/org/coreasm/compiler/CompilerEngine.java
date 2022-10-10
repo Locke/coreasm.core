@@ -10,7 +10,7 @@ import org.coreasm.compiler.components.mainprogram.StateMachineFile;
 import org.coreasm.compiler.components.pluginloader.PluginLoader;
 import org.coreasm.compiler.components.preprocessor.Preprocessor;
 import org.coreasm.compiler.components.variablemanager.VarManager;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.paths.CompilerPathConfig;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -74,9 +74,9 @@ public interface CompilerEngine {
 	 * @param node The node to be compiled
 	 * @param type The code type to be generated
 	 * @return A CodeFragment for the node
-	 * @throws CompilerException If an error occured
+	 * @throws CompilationException If an error occured
 	 */
-	CodeFragment tryCompile(ASTNode node, CodeType type) throws CompilerException;
+	CodeFragment tryCompile(ASTNode node, CodeType type) throws CompilationException;
 	/**
 	 * Instructs the compiler engine to generate code for the given node.
 	 * Even though plugins could be called directly to compile code,
@@ -85,9 +85,9 @@ public interface CompilerEngine {
 	 * @param node The node to be compiled
 	 * @param type What kind of code should be produced and what is expected to be on the stack after execution
 	 * @return The compiled code for the node or null, if CodeType was BASE
-	 * @throws CompilerException If an error occured while compiling the node
+	 * @throws CompilationException If an error occured while compiling the node
 	 */
-	public CodeFragment compile(ASTNode node, CodeType type) throws CompilerException;
+	public CodeFragment compile(ASTNode node, CodeType type) throws CompilationException;
 	/**
 	 * Adds an error message to the compiler engine.
 	 * Calling the method with the same error text will not add

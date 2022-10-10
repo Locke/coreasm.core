@@ -29,7 +29,9 @@ import org.coreasm.engine.parser.ParserException;
  */
 public class CoreASMWarning extends CoreASMIssue {
 
-	private static final long serialVersionUID = 1L;
+	// v1 -> v2: CoreASMIssue extends Error -> CoreASMIssue extends RuntimeException
+	// v2 -> v3: Throwable CoreASMIssue.cause -> Exception CoreASMIssue.cause
+	private static final long serialVersionUID = 3L;
 
 	public final String src;
 
@@ -38,12 +40,12 @@ public class CoreASMWarning extends CoreASMIssue {
 	 *
 	 * @param src the module generating this warning
 	 * @param msg the warning msg
-	 * @param cause the throwable that caused this warning
+	 * @param cause the Exception that caused this warning
 	 * @param pos position of the cause of this warning in the spec
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
 	 */
-	public CoreASMWarning(String src, String msg, Throwable cause, CharacterPosition pos,
+	public CoreASMWarning(String src, String msg, Exception cause, CharacterPosition pos,
 			Stack<CallStackElement> stack, Node node) {
 		super(msg, cause, pos, stack, node);
 		this.src = src;
@@ -66,11 +68,11 @@ public class CoreASMWarning extends CoreASMIssue {
 	 * Creates a new CoreASM Warning.
 	 *
 	 * @param src the module generating this warning
-	 * @param cause the throwable that caused this warning
+	 * @param cause the exception that caused this warning
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
 	 */
-	public CoreASMWarning(String src, Throwable cause, Stack<CallStackElement> stack,
+	public CoreASMWarning(String src, Exception cause, Stack<CallStackElement> stack,
 			Node node) {
 		super(cause, stack, node);
 		this.src = src;
@@ -103,7 +105,7 @@ public class CoreASMWarning extends CoreASMIssue {
 	 * Creates a new CoreASM Warning.
 	 *
 	 * @param src the module generating this warning
-	 * @param cause the throwable that caused this warning
+	 * @param cause the exception that caused this warning
 	 */
 	public CoreASMWarning(String src, ParserException cause) {
 		super(cause);

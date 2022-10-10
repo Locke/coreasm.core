@@ -29,7 +29,7 @@ public class ParserException extends EngineException {
 
 	public final CharacterPosition pos;
 	public final String msg;
-	public final Throwable cause;
+	public final Exception cause;
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +47,7 @@ public class ParserException extends EngineException {
 		this.cause = null;
 	}
 
-	public ParserException(Throwable cause) {
+	public ParserException(Exception cause) {
 		if (cause instanceof org.jparsec.error.ParserException) {
 			org.jparsec.error.ParserException pcause = (org.jparsec.error.ParserException) cause;
 			StringBuffer buf = new StringBuffer();

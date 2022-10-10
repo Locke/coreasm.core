@@ -40,14 +40,14 @@ public class InconsistentUpdateSetException extends EngineException {
 	/**
 	 * @see Exception#Exception(java.lang.String, java.lang.Throwable)
 	 */
-	public InconsistentUpdateSetException(String message, Throwable cause) {
+	public InconsistentUpdateSetException(String message, Exception cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @see Exception#Exception(java.lang.Throwable)
 	 */
-	public InconsistentUpdateSetException(Throwable cause) {
+	public InconsistentUpdateSetException(Exception cause) {
 		super(cause);
 	}
 

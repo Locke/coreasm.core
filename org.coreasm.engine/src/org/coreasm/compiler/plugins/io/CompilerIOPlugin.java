@@ -13,7 +13,7 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerExtensionPointPlugin;
@@ -53,13 +53,13 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 	}
 
 	@Override
-	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException {
+	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException {
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -77,7 +77,7 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 						includeStatic("org/coreasm/compiler/plugins/io/include/IOAggregator.java", EntryType.AGGREGATOR).build();
 
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 		}
 		return result;
@@ -107,7 +107,7 @@ public class CompilerIOPlugin extends CompilerCodePlugin implements CompilerPlug
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new PrintRuleHandler(), CodeType.U, "Rule", "PrintRule", null);
 	}
 

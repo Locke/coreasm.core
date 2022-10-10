@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.blockrule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.blockrule.BlockRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -44,7 +44,7 @@ public class CompilerBlockRulePlugin extends CompilerCodePlugin implements Compi
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new BlockRuleHandler(), CodeType.U, null, "BlockRule", null);
 	}
 }

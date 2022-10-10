@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class MainFileException extends Exception {
+public class MainFileException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -3,7 +3,7 @@ package org.coreasm.compiler.interfaces;
 import java.util.List;
 
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.interpreter.ASTNode;
 
 /**
@@ -28,7 +28,7 @@ public interface CompilerFunctionPlugin {
 	 * Compiles a function call
 	 * @param n The root node of the function call
 	 * @return The code for the function call
-	 * @exception CompilerException if an error occurred during the compilation
+	 * @exception CompilationException if an error occurred during the compilation
 	 */
-	public CodeFragment compileFunctionCall(ASTNode n) throws CompilerException;
+	public CodeFragment compileFunctionCall(ASTNode n) throws CompilationException;
 }

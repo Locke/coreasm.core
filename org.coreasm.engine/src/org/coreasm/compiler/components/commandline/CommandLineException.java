@@ -1,5 +1,7 @@
 package org.coreasm.compiler.components.commandline;
 
+import org.coreasm.compiler.exception.CoreASMCompilerException;
+
 /**
  * Thrown to signalize an error in the command line
  * of CoreASMC
@@ -7,7 +9,7 @@ package org.coreasm.compiler.components.commandline;
  *
  */
 @Deprecated
-public class CommandLineException extends Exception {
+public class CommandLineException extends CoreASMCompilerException {
 	/**
 	 * @param string The concrete error message
 	 */

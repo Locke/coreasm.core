@@ -35,11 +35,11 @@ public class NameConflictException extends EngineException {
 		super(message);
 	}
 
-	public NameConflictException(String message, Throwable cause) {
+	public NameConflictException(String message, Exception cause) {
 		super(message, cause);
 	}
 
-	public NameConflictException(Throwable cause) {
+	public NameConflictException(Exception cause) {
 		super(cause);
 	}
 

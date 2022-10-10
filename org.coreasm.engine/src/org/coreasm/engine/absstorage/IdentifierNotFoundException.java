@@ -32,11 +32,11 @@ public class IdentifierNotFoundException extends EngineException {
 		super(message);
 	}
 
-	public IdentifierNotFoundException(String message, Throwable cause) {
+	public IdentifierNotFoundException(String message, Exception cause) {
 		super(message, cause);
 	}
 
-	public IdentifierNotFoundException(Throwable cause) {
+	public IdentifierNotFoundException(Exception cause) {
 		super(cause);
 	}
 

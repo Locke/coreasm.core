@@ -1,11 +1,13 @@
 package org.coreasm.compiler.codefragment;
 
+import org.coreasm.compiler.exception.CoreASMCompilerException;
+
 /**
  * Signals an error within a code fragment
  * @author Markus Brenner
  *
  */
-public class CodeFragmentException extends Exception {
+public class CodeFragmentException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 	/**

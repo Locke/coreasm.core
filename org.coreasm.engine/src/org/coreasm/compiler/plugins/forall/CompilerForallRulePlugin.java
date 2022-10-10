@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.forall;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.forallrule.ForallRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -37,7 +37,7 @@ public class CompilerForallRulePlugin extends CompilerCodePlugin implements Comp
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ForallRuleHandler(), CodeType.U, "Rule", "ForallRule", null);
 	}
 

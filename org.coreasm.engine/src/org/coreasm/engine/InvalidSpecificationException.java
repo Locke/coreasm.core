@@ -40,14 +40,14 @@ public class InvalidSpecificationException extends EngineException {
 	/**
 	 * @see Exception#Exception(java.lang.String, java.lang.Throwable)
 	 */
-	public InvalidSpecificationException(String message, Throwable cause) {
+	public InvalidSpecificationException(String message, Exception cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @see Exception#Exception(java.lang.Throwable)
 	 */
-	public InvalidSpecificationException(Throwable cause) {
+	public InvalidSpecificationException(Exception cause) {
 		super(cause);
 	}
 

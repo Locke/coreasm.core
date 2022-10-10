@@ -92,9 +92,9 @@ public interface ControlAPI extends CoreASMEngine, ServiceRegistry {
 
 	/**
 	 * Puts the engine in an error mode,
-	 * saves the throwable object and sends out the throwable's detailed message.
+	 * saves the exception object and sends out the exception's detailed message.
 	 */
-	public void error(Throwable e);
+	public void error(Exception e);
 
 	/**
 	 * Puts the engine in an error mode and sends out an error message.
@@ -107,13 +107,13 @@ public interface ControlAPI extends CoreASMEngine, ServiceRegistry {
 
 	/**
 	 * Puts the engine in an error mode,
-	 * saves the Throwable object and sends out the throwable's detailed message.
+	 * saves the exception object and sends out the exception's detailed message.
 	 *
 	 * @param e error
 	 * @param errorNode the {@link ASTNode} on which the error occured
 	 * @param interpreter the instance of the interpreter generating the error (can be <code>null</code>)
 	 */
-	public void error(Throwable e, Node errorNode, Interpreter interpreter);
+	public void error(Exception e, Node errorNode, Interpreter interpreter);
 
 	/**
 	 * Puts the engine in an error mode,
@@ -136,7 +136,7 @@ public interface ControlAPI extends CoreASMEngine, ServiceRegistry {
 	 * @param src the source component generating this warning
 	 * @param e the cause of this warning
 	 */
-	public void warning(String src, Throwable e);
+	public void warning(String src, Exception e);
 
 	/**
 	 * Sends a warning message to the engine.
@@ -156,7 +156,7 @@ public interface ControlAPI extends CoreASMEngine, ServiceRegistry {
 	 * @param node the {@link ASTNode} on which the warning occurred
 	 * @param interpreter the instance of the interpreter generating the warning (can be <code>null</code>)
 	 */
-	public void warning(String src, Throwable e, Node node, Interpreter interpreter);
+	public void warning(String src, Exception e, Node node, Interpreter interpreter);
 
 	/**
 	 * Sends a warning message to the engine.

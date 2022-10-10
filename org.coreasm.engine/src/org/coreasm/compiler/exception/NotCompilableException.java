@@ -8,7 +8,7 @@ import java.util.List;
  * @author Markus Brenner
  *
  */
-public class NotCompilableException extends Exception {
+public class NotCompilableException extends CoreASMCompilerException {
 	private static final long serialVersionUID = -2956569025051079022L;
 	private List<String> plugins;
 

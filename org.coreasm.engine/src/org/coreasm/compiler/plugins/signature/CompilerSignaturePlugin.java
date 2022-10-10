@@ -15,7 +15,7 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.signature.code.bcode.SignatureHandler;
 import org.coreasm.engine.plugin.Plugin;
@@ -105,14 +105,14 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 	}
 
 	@Override
-	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilerException{
+	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary) throws CompilationException {
 
 		File enginePath = engine.getOptions().enginePath;
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -127,7 +127,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 						includeStatic("org/coreasm/engine/plugins/signature/FunctionRangeFunctionElement.java", EntryType.FUNCTION, FunctionRangeFunctionElement.FUNCTION_NAME).
 						build();
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 
 		}
@@ -160,11 +160,11 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 					}
 				}
 				catch(EntryAlreadyExistsException e1){
-					throw new CompilerException(e1);
+					throw new CompilationException(e1);
 				}
 			}
 		} catch (EntryAlreadyExistsException e1) {
-			throw new CompilerException(e1);
+			throw new CompilationException(e1);
 		}
 		return result;
 	}
@@ -296,7 +296,7 @@ public class CompilerSignaturePlugin extends CompilerCodePlugin implements Compi
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new SignatureHandler(this), CodeType.BASIC, "Declaration", "Signature", null);
 	}
 

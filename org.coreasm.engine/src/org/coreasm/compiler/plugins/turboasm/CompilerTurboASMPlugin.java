@@ -2,7 +2,7 @@ package org.coreasm.compiler.plugins.turboasm;
 
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
@@ -49,7 +49,7 @@ public class CompilerTurboASMPlugin extends CompilerCodePlugin implements Compil
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ReturnTermHandler(), CodeType.R, "Expression", "ReturnTerm", null);
 
 		CompilerCodeHandler cch = new SeqRuleHandler();

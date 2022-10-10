@@ -9,7 +9,7 @@ import org.coreasm.compiler.components.classlibrary.ClassLibrary;
 import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
@@ -46,14 +46,14 @@ public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExt
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
-			throws CompilerException {
+			throws CompilationException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 
 		File enginePath = engine.getOptions().enginePath;
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -63,7 +63,7 @@ public class CompilerTimePlugin implements CompilerPlugin, CompilerVocabularyExt
 						includeStatic("org/coreasm/engine/plugins/time/StepCountFunctionElement.java", EntryType.FUNCTION_CAPI, StepCountFunctionElement.FUNC_NAME).
 						build();
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 
 		}

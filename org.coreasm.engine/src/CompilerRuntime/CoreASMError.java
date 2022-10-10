@@ -1,8 +1,9 @@
 package CompilerRuntime;
 
-public class CoreASMError extends Error{
+public class CoreASMError extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+	// v1 -> v2: extends Error -> extends RuntimeException
+	private static final long serialVersionUID = 2L;
 
 	public CoreASMError(String s){
 		super(s);

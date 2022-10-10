@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.caserule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.caserule.CaseRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -39,7 +39,7 @@ public class CompilerCaseRulePlugin extends CompilerCodePlugin implements Compil
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new CaseRuleHandler(), CodeType.U, "Rule", "CaseRule", null);
 	}
 
