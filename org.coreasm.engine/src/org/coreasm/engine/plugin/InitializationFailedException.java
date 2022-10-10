@@ -47,7 +47,7 @@ public class InitializationFailedException extends Exception {
 	 * @param reason the {@link Exception} that caused the failure
 	 */
 	public InitializationFailedException(Plugin p, Exception reason) {
-		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reason);
+		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reason, reason);
 		plugin = p;
 	}
 
@@ -57,7 +57,7 @@ public class InitializationFailedException extends Exception {
 	 * @param reasonException the {@link Exception} that caused the failure
 	 */
 	public InitializationFailedException(Plugin p, String reasonText, Exception reasonException) {
-		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reasonText + " -- " + reasonException);
+		super("Plugin " + p.getName() + " failed to initialize. Reason: " + reasonText + " -- " + reasonException, reasonException);
 		plugin = p;
 	}
 
