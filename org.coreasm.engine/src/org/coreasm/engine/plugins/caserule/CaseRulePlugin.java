@@ -147,11 +147,7 @@ public class CaseRulePlugin extends Plugin
 						return guard;
 				}
 
-				Set<ASTNode> matchingRules = this.matchingRules.get().get(caseNode);
-				if (matchingRules == null) {
-					matchingRules = new HashSet<ASTNode>();
-					this.matchingRules.get().put(caseNode, matchingRules);
-				}
+				Set<ASTNode> matchingRules = this.matchingRules.get().computeIfAbsent(caseNode, k -> new HashSet<>());
 
 				// At this point, all guards are evaluated
 				// It's time to evaluate rules with a matching guard

@@ -196,25 +196,17 @@ public class PluginDB extends HashSet<Plugin> {
 		// source modes
 		if (p.getSourceModes() != null)
 			for (Entry<EngineMode, Integer> pair: p.getSourceModes().entrySet()) {
-				List<Entry<ExtensionPointPlugin, Integer>> list = srcModeMap.get(pair.getKey());
-				// if set is not there, create it
-				if (list == null) {
-					list = new ArrayList<Entry<ExtensionPointPlugin, Integer>>();
-					srcModeMap.put(pair.getKey(), list);
-				}
-				list.add(new PluginEntry(p, pair.getValue()));
+				srcModeMap
+					.computeIfAbsent(pair.getKey(), k -> new ArrayList<>())
+					.add(new PluginEntry(p, pair.getValue()));
 			}
 
 		// target modes
 		if (p.getTargetModes() != null)
 			for (Entry<EngineMode, Integer> pair: p.getTargetModes().entrySet()) {
-				List<Entry<ExtensionPointPlugin, Integer>> list = trgModeMap.get(pair.getKey());
-				// if set is not there, create it
-				if (list == null) {
-					list = new ArrayList<Entry<ExtensionPointPlugin, Integer>>();
-					trgModeMap.put(pair.getKey(), list);
-				}
-				list.add(new PluginEntry(p, pair.getValue()));
+				trgModeMap
+					.computeIfAbsent(pair.getKey(), k -> new ArrayList<>())
+					.add(new PluginEntry(p, pair.getValue()));
 			}
 
 	}

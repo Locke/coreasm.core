@@ -143,34 +143,21 @@ public class StateMachine {
 				general.add(et);
 			}
 			else{
-				ArrayList<EngineTransition> tmp = onEnter.get(et.getEnd());
-				if(tmp == null){
-					tmp = new ArrayList<org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition>();
-					onEnter.put(et.getEnd(), tmp);
-				}
-				tmp.add(et);
+				onEnter
+					.computeIfAbsent(et.getEnd(), k -> new ArrayList<>())
+					.add(et);
 			}
 		}
 		else if(et.getEnd() == null){
-			ArrayList<EngineTransition> tmp = onLeave.get(et.getStart());
-			if(tmp == null){
-				tmp = new ArrayList<org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition>();
-				onLeave.put(et.getStart(), tmp);
-			}
-			tmp.add(et);
+			onLeave
+				.computeIfAbsent(et.getStart(), k -> new ArrayList<>())
+				.add(et);
 		}
 		else{
-			HashMap<String, ArrayList<EngineTransition>> tmp = transitions.get(et.getStart());
-			if(tmp == null){
-				tmp = new HashMap<String, ArrayList<EngineTransition>>();
-				transitions.put(et.getStart(), tmp);
-			}
-			ArrayList<EngineTransition> t = tmp.get(et.getEnd());
-			if(t == null){
-				t = new ArrayList<EngineTransition>();
-				tmp.put(et.getEnd(), t);
-			}
-			t.add(et);
+			transitions
+				.computeIfAbsent(et.getStart(), k -> new HashMap<>())
+				.computeIfAbsent(et.getEnd(), k -> new ArrayList<>())
+				.add(et);
 		}
 	}
 
