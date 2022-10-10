@@ -135,8 +135,7 @@ class StreamGobbler implements Runnable{
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 
-			while(true){
-				if(quit) break;
+			while (!quit) {
 				String line = br.readLine();
 				if(line == null) continue;
 				if(output.length() == 0)
