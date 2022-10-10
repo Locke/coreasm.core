@@ -62,10 +62,9 @@ public abstract class BackgroundElement extends AbstractUniverse {
 	 * @param denotation the string representation of the element
 	 * @return an element of this background that is represented by the given string value
 	 *
-	 * @throws ElementFormatException if the conversion fails
 	 * @throws UnsupportedOperationException if this operation is not supported by this background
 	 */
-	public Element valueOf(String denotation) throws ElementFormatException {
+	public Element valueOf(String denotation) {
 		throw new UnsupportedOperationException("This background cannot parse values from a String representation.");
 	}
 
