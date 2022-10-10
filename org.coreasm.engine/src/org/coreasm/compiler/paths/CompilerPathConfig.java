@@ -3,6 +3,8 @@ package org.coreasm.compiler.paths;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 
+import java.io.File;
+
 /**
  * Maps {@link LibraryEntry} instances to paths and provides package definitions.
  * The compilation units contains several different locations, in which plugins and
@@ -61,7 +63,7 @@ public abstract class CompilerPathConfig {
 	 * @return The fully specified file name of the entry
 	 */
 	public String getEntryPath(LibraryEntry entry){
-		return getEntryName(entry.getType(), entry.getName(), entry.getSource()).replace(".", "\\") + ".java";
+		return getEntryName(entry.getType(), entry.getName(), entry.getSource()).replace(".", File.separator) + ".java";
 	}
 	/**
 	 * Maps an assumed LibraryEntry to a fully specified class name

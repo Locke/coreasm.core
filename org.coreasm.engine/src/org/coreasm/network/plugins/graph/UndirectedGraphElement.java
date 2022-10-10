@@ -59,6 +59,7 @@ public class UndirectedGraphElement extends GraphElement {
 	/**
 	 * Returns the backing directed graph.
 	 */
+	@Override
 	public DirectedGraph<Element, Element> getDirectedGraph() {
 		return dgraph;
 	}

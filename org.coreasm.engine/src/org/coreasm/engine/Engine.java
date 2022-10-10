@@ -465,14 +465,12 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void step() {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecStep,
-				null));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecStep, null));
 	}
 
 	@Override
 	public void run(int i) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun,
-				Integer.valueOf(i)));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun, i));
 	}
 
 	@Override
@@ -529,7 +527,7 @@ public class Engine implements ControlAPI {
 	private void notifyFailure() {
 		String reason = "";
 		if (storage.getLastInconsistentUpdate() != null) {
-			reason = "Incosistent updates: " + Tools.getEOL()
+			reason = "Inconsistent updates: " + Tools.getEOL()
 					+ EngineTools.getContextInfo("", storage.getLastInconsistentUpdate(), getParser(), getSpec());
 		}
 		EngineEvent event = new StepFailedEvent(reason);
@@ -789,7 +787,7 @@ public class Engine implements ControlAPI {
 		 * switches the mode appropriately.
 		 *
 		 * When the engine is in idle mode, it calls
-		 * <code>porcessNextCommand()</code> to respond to user commands. Mode
+		 * <code>processNextCommand()</code> to respond to user commands. Mode
 		 * switching is performed by calling <code>next(newMode)</code>.
 		 *
 		 * @see Runnable#run()
@@ -1118,7 +1116,6 @@ public class Engine implements ControlAPI {
 		private void processNextCommand() throws EngineException, InterruptedException {
 			EngineCommand cmd;
 			int rrc = remainingRunCount.getAndDecrement();
-			String tempMsg = null;
 
 			if (rrc > 0)
 				cmd = new EngineCommand(EngineCommand.CmdType.ecStep, null);
@@ -1145,6 +1142,10 @@ public class Engine implements ControlAPI {
 
 			lastCommand = cmd;
 
+			processNextCommand(cmd);
+		}
+
+		private void processNextCommand(EngineCommand cmd) throws EngineException {
 			switch (cmd.type) {
 
 			case ecTerminate:
@@ -1156,11 +1157,11 @@ public class Engine implements ControlAPI {
 				break;
 
 			case ecLoadSpec:
-				tempMsg = "Loading specification file";
+				logger.debug("Loading specification file, and ...");
 			case ecOnlyParseSpec:
-				tempMsg = "Parsing specification file";
+				logger.debug("Parsing specification file, and ...");
 			case ecOnlyParseHeader:
-				tempMsg = "Parsing the header of the specification file";
+				final String debugMsg = "Parsing the header of the specification file";
 				ParseCommandData cmdData = null;
 				if (cmd.metaData instanceof ParseCommandData)
 					cmdData = (ParseCommandData)cmd.metaData;
@@ -1171,7 +1172,7 @@ public class Engine implements ControlAPI {
 					try {
 						specification = new Specification(Engine.this, new File((String)cmdData.specInfo));
 						parser.setSpecification(specification);
-						logger.debug("{}: {}", tempMsg, cmdData.specInfo);
+						logger.debug("{}: {}", debugMsg, cmdData.specInfo);
 						next(EngineMode.emParsingHeader);
 					} catch (FileNotFoundException e) {
 						error("Specification file is not found (" + cmdData.specInfo + ")\n. Nothing is loaded.");
@@ -1184,7 +1185,7 @@ public class Engine implements ControlAPI {
 						try {
 							specification = new Specification(Engine.this, nsrData.reader, nsrData.fileName);
 							parser.setSpecification(specification);
-							logger.debug("{}.", tempMsg);
+							logger.debug("{}.", debugMsg);
 							next(EngineMode.emParsingHeader);
 						} catch (IOException e) {
 							error("Specification file cannot be read from (" + nsrData.fileName + ")\n. Nothing is loaded.");
@@ -1199,7 +1200,7 @@ public class Engine implements ControlAPI {
 
 			case ecRun:
 				if (cmd.metaData instanceof Integer) {
-					int i = ((Integer) cmd.metaData).intValue();
+					int i = (Integer) cmd.metaData;
 					if (i > 0) {
 						remainingRunCount.set(i);
 					}
@@ -1237,7 +1238,7 @@ public class Engine implements ControlAPI {
 
 	/**
 	 * Sets a customized class loader for the engine
-	 * (used in loading plugins. If this value is set
+	 * (used in loading plugins). If this value is set
 	 * to <code>null</code>, the engine will use the
 	 * default class loader.
 	 */
@@ -1328,7 +1329,7 @@ public class Engine implements ControlAPI {
 
 /**
  * Instances of this class represent various engine commands send to CoreASM
- * engine by its environment. This class is only instanciated internally by the
+ * engine by its environment. This class is only instantiated internally by the
  * engine for its own records.
  *
  * @author Roozbeh Farahbod

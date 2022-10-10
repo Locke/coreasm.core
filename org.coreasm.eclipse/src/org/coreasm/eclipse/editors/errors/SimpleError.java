@@ -23,7 +23,7 @@ import org.coreasm.engine.interpreter.Node;
  * tag which is used by the getQuickFixes() method to deliver the right set
  * of QuickFixes.</li>
  * </ul>
- * @author Markus M�ller
+ * @author Markus Müller
  */
 public class SimpleError
 extends AbstractError

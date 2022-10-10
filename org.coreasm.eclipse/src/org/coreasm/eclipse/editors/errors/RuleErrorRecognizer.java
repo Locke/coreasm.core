@@ -31,7 +31,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 /**
  * Checks an ASMDocument for the correct usage of rule declaration.
  * It checks if several rules have the same name.
- * @author Markus M�ller, Michael Stegmaier
+ * @author Markus Müller, Michael Stegmaier
  */
 public class RuleErrorRecognizer
 implements ITreeErrorRecognizer
@@ -187,7 +187,7 @@ implements ITreeErrorRecognizer
 	 * The rules are renamed by adding an integer to them
 	 * (rule -> rule, rule_1, rule_2, ...)
 	 *
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public static class QF_MultiName_Rename
 	extends AbstractQuickFix

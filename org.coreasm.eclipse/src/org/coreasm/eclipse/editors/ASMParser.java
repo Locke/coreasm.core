@@ -42,7 +42,7 @@ import org.eclipse.jface.text.IDocument;
  * are interested in the result of each parsing can be notified after each
  * run of the parser.
  *
- * @author Markus M�ller, Michael Stegmaier
+ * @author Markus Müller, Michael Stegmaier
  */
 public class ASMParser extends Observable implements org.coreasm.engine.parser.Parser
 {
@@ -447,7 +447,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	/**
 	 * This class stores the result of a parser run. It is delivered to the
 	 * observers of the parser.
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public class ParsingResult
 	{
@@ -475,7 +475,7 @@ public class ASMParser extends Observable implements org.coreasm.engine.parser.P
 	 * Job class, so it can be managed by the Eclipse job scheduler. The job
 	 * doesn't reschedule itself after parsing, this must be done manually,
 	 * and this is done by the ASMEditor class each time an edit occurs.
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public class ParsingJob
 	extends Job

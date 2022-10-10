@@ -298,11 +298,11 @@ public class HashStorage implements AbstractStorage {
 	}
 
 	@Override
-	public UpdateList performAggregation(UpdateList updateInsts) {
+	public UpdateList performAggregation(UpdateList updateInstructions) {
 
 		// instantiate engine aggregation API, and set update multiset
 		AggregationHelperImpl aggAPI = new AggregationHelperImpl();
-		aggAPI.setUpdateInstructions(updateInsts);
+		aggAPI.setUpdateInstructions(updateInstructions);
 
 		// for each plugin
 		for (UpdateAggregator p: runtime.getAggregators())

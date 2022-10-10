@@ -33,7 +33,7 @@ extends RuleBasedScanner
 	/**
 	 * This class defines the rules and formatting of keywords, IDs and strings
 	 * for the syntax highlighting.
-	 * @author Markus M�ller
+	 * @author Markus Müller
 	 */
 	public KeywordScanner()
 	{

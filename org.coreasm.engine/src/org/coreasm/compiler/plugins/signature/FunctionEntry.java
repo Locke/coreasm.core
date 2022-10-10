@@ -38,6 +38,7 @@ public class FunctionEntry extends MemoryInclude {
 		this.init = init;
 	}
 
+	@Override
 	protected String buildContent(String entryName) throws CodeFragmentException {
 		String result = "";
 

@@ -52,6 +52,7 @@ public class LaTeXFormatStringMapper implements NodeToFormatStringMapper<Node> {
 	/* (non-Javadoc)
 	 * @see org.coreasm.engine.interpreter.NodeToFormatStringMapper#getFormatString(org.coreasm.engine.interpreter.Node)
 	 */
+	@Override
 	public String getFormatString(Node node) {
 		if (node.getConcreteNodeType().equals(Node.KEYWORD_NODE))
 			return " \\clkeyword{%s} ";

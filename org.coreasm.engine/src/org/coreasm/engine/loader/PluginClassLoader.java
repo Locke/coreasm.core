@@ -249,8 +249,7 @@ public class PluginClassLoader {
 			logger.debug("Plugin '{}' is usable.", p.getName());
 			return p; //allPlugins.put(p.getName(), p);
 		} else
-			logger.error(
-						"Invalid plugin '{}'. This class does not extend the CoreASM Plugin class.", className);
+			logger.error("Invalid plugin '{}'. This class does not extend the CoreASM Plugin class.", className);
 
 		return null;
 	}

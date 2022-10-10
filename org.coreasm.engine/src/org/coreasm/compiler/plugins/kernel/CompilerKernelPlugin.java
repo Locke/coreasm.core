@@ -85,6 +85,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 						engine.getPath().runtimePkg() + "." + name);
 	}
 
+	@Override
 	public void registerCodeHandlers() throws CompilerException {
 		this.register(new KernelIDCodeHandler(), CodeType.L, null, "ID", null);
 		this.register(new KernelFunctionRuleTermHandler(), CodeType.L,

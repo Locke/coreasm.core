@@ -96,7 +96,7 @@ public class CoreASMIssue extends Error {
 		StringBuilder buf = new StringBuilder();
 		if (message == null)
 			if (cause != null)
-				buf.append("Exception occured: " + (cause.getCause() != null ? cause.getCause() : cause));
+				buf.append("Exception occurred: " + (cause.getCause() != null ? cause.getCause() : cause));
 			else
 				buf.append("Something is not right.");
 		else

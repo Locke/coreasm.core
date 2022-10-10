@@ -54,6 +54,7 @@ public class VersionInfo implements Comparable<VersionInfo> {
 			   (MAX_VALUE+1) * minor + build;
 	}
 
+	@Override
 	public int compareTo(VersionInfo o) {
 		long dl = this.combinedValue();
 		long dr = o.combinedValue();

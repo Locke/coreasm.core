@@ -27,6 +27,7 @@ public class MathFunctionEntry extends MemoryInclude {
 		this.body = body;
 	}
 
+	@Override
 	protected String buildContent(String entryName) throws CodeFragmentException{
 		String result = "package " + getPackage(entryName) + ";\n"
 				+ "import " + runtimePkg() + ".*;\n"

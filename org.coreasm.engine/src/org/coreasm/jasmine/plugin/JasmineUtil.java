@@ -255,7 +255,7 @@ public class JasmineUtil {
 	 * the given type, for those cases that the castings
 	 * are not done automatically by JVM (e.g., numbers).
 	 *
-	 * @param field the field to store the value in
+	 * @param clazz the type of the field to store the value in
 	 * @param value the new value
 	 */
 	public static Object specialTypeCast(Class<?> clazz, Object value) {
