@@ -326,15 +326,10 @@ public class InterpreterImp implements Interpreter {
 			throw new IllegalArgumentException("The name of an environment variable must not be null.");
 		if (value == null)
 			throw new IllegalArgumentException("The value of an environment variable (" + name + ") must not be null.");
-		Stack<Element> stack = envMap.get(name);
-		if (stack == null) {
-			// if this is the first time
-			// setting a value for this variable,
-			// create the stack
-			stack = new Stack<Element>();
-			envMap.put(name, stack);
-		}
-		stack.push(value);
+
+		envMap
+			.computeIfAbsent(name, k -> new Stack<>())
+			.push(value);
 	}
 
 	@Override
