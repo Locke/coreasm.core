@@ -29,9 +29,10 @@ import org.coreasm.engine.parser.ParserException;
  *
  */
 
-public class CoreASMIssue extends Error {
+public class CoreASMIssue extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+	// v1 -> v2: extends Error -> extends RuntimeException
+	private static final long serialVersionUID = 2L;
 
 	public final String message;
 	public final Throwable cause;

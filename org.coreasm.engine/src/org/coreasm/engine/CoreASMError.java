@@ -31,7 +31,8 @@ import org.coreasm.engine.parser.ParserException;
 
 public class CoreASMError extends CoreASMIssue {
 
-	private static final long serialVersionUID = 1L;
+	// v1 -> v2: CoreASMIssue extends Error -> CoreASMIssue extends RuntimeException
+	private static final long serialVersionUID = 2L;
 
 	public CoreASMError(String msg, Throwable cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
 		super(msg, cause, pos, stack, node);

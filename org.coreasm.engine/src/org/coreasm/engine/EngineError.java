@@ -19,7 +19,7 @@ package org.coreasm.engine;
  *
  */
 @SuppressWarnings("serial")
-public class EngineError extends Error {
+public class EngineError extends RuntimeException {
 
 	public EngineError() {
 		super();
