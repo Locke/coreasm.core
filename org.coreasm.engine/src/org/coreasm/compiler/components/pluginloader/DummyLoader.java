@@ -173,12 +173,9 @@ public class DummyLoader implements PluginLoader {
 	}
 
 	private void addToMap(Class<?> type, CompilerPlugin plugin){
-		Map<String, CompilerPlugin> m = pluginMap.get(type);
-		if(m == null){
-			m = new HashMap<String, CompilerPlugin>();
-			pluginMap.put(type, m);
-		}
-		m.put(plugin.getName(), plugin);
+		pluginMap
+			.computeIfAbsent(type, k -> new HashMap<>())
+			.put(plugin.getName(), plugin);
 	}
 
 	private void putPlugin(ICoreASMPlugin icap, Engine cae) throws NotCompilableException{

@@ -172,13 +172,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// **********************************************************************************************
 	// **********************************************************************************************
 	public void setValue(Element newValue) {
-		Location valLoc = InternalUpdate.buildValueLocation(this);
-		List<Element> values = cachedUpdates.get(valLoc);
-		if(values == null) {
-			values = new LinkedList<Element>();
-			cachedUpdates.put(valLoc, values);
-		}
-		values.add(newValue);
+		Location valueLoc = InternalUpdate.buildValueLocation(this);
+
+		cachedUpdates
+			.computeIfAbsent(valueLoc, k -> new LinkedList<>())
+			.add(newValue);
 	} // setValue
 
 
@@ -216,15 +214,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// **********************************************************************************************
 
 	public void setParent(TreeNodeElement newParent) {
-		Location myLoc = InternalUpdate.buildParentLocation(this);
+		Location parentLoc = InternalUpdate.buildParentLocation(this);
 
-		List<Element> list = cachedUpdates.get(myLoc);
-		if(list == null) {
-			list = new LinkedList<Element>();
-			cachedUpdates.put(myLoc, list);
-		}
-		list.add(newParent);
-		// cachedUpdates.add(u);
+		cachedUpdates
+			.computeIfAbsent(parentLoc, k -> new LinkedList<>())
+			.add(newParent);
 	} // setParent
 
 
@@ -273,13 +267,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// **********************************************************************************************
 
 	public void setFirst(TreeNodeElement first) {
-		Location myLoc = InternalUpdate.buildFirstLocation(this);
-		List<Element> list = cachedUpdates.get(myLoc);
-		if(list == null) {
-			list = new LinkedList<Element>();
-			cachedUpdates.put(myLoc, list);
-		}
-		list.add(first);
+		Location firstLoc = InternalUpdate.buildFirstLocation(this);
+
+		cachedUpdates
+			.computeIfAbsent(firstLoc, k -> new LinkedList<>())
+			.add(first);
 	} // setFirst
 
 
@@ -330,13 +322,11 @@ public class TreeNodeElement extends Element implements Enumerable {
 	// **********************************************************************************************
 
 	public void setNext(TreeNodeElement next) {
-		Location myLoc = InternalUpdate.buildNextLocation(this);
-		List<Element> list = cachedUpdates.get(myLoc);
-		if(list == null) {
-			list = new LinkedList<Element>();
-			cachedUpdates.put(myLoc, list);
-		}
-		list.add(next);
+		Location nextLoc = InternalUpdate.buildNextLocation(this);
+
+		cachedUpdates
+			.computeIfAbsent(nextLoc, k -> new LinkedList<>())
+			.add(next);
 	} // setNext
 
 

@@ -60,12 +60,9 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 				}
 				locUpdates.add(u);
 				if (!Update.UPDATE_ACTION.equals(u.action)) {
-					Set<Location> locations = actionLocations1.get(u.action);
-					if (locations == null) {
-						locations = new HashSet<Location>();
-						actionLocations1.put(u.action, locations);
-					}
-					locations.add(u.loc);
+					actionLocations1
+						.computeIfAbsent(u.action, k -> new HashSet<>())
+						.add(u.loc);
 				}
 			}
 			locUpdates2 = new HashMap<Location, UpdateMultiset>();
@@ -77,12 +74,9 @@ public class CompositionAPIImp implements EngineCompositionAPI,
 				}
 				locUpdates.add(u);
 				if (!Update.UPDATE_ACTION.equals(u.action)) {
-					Set<Location> locations = actionLocations2.get(u.action);
-					if (locations == null) {
-						locations = new HashSet<Location>();
-						actionLocations2.put(u.action, locations);
-					}
-					locations.add(u.loc);
+					actionLocations2
+						.computeIfAbsent(u.action, k -> new HashSet<>())
+						.add(u.loc);
 				}
 			}
 			affectedLocationsComputed = true;
