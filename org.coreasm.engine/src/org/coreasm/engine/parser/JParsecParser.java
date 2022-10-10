@@ -173,7 +173,7 @@ public class JParsecParser implements Parser {
 				try {
 					org.jparsec.Parser<Node> _parser =  parser.from(parserTools.getTokenizer(), parserTools.getIgnored());
 					rootNode = (ASTNode) _parser.parse(specification.getText());
-				} catch (Throwable e) {
+				} catch (Exception e) {
 					if (e instanceof org.jparsec.error.ParserException) {
 						org.jparsec.error.ParserException pe = (org.jparsec.error.ParserException) e;
 						Throwable cause = pe.getCause();

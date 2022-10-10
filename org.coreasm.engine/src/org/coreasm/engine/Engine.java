@@ -1027,8 +1027,8 @@ public class Engine implements ControlAPI {
 						}
 					} catch (CoreASMError ce) {
 						error(ce);
-						logger.error( "Error occurred: {}", ce.showError());
-					} catch (Throwable e) {
+						logger.error("Error occurred: {}", ce.showError());
+					} catch (Exception e) {
 						if (e instanceof ParserException)
 							error(new CoreASMError((ParserException)e));
 						else

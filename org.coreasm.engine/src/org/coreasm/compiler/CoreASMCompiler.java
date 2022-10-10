@@ -492,8 +492,8 @@ public class CoreASMCompiler implements CompilerEngine {
 			//System.out.println("error: " + nce.getMessage());
 			throw new CompilerException(nce);
 		}
-		catch(Throwable t){
-			System.out.println("throwable: " + t.getMessage());
+		catch(Exception ex){
+			System.out.println("exception: " + ex.getMessage());
 		}
 		cTime = System.nanoTime();
 		addTiming("Plugin loading");
