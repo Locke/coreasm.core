@@ -1297,12 +1297,9 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void addServiceProvider(String type, ServiceProvider provider) {
-		Set<ServiceProvider> set = serviceRegistry.get(type);
-		if (set == null) {
-			set = new HashSet<ServiceProvider>();
-			serviceRegistry.put(type, set);
-		}
-		set.add(provider);
+		serviceRegistry
+			.computeIfAbsent(type, k -> new HashSet<>())
+			.add(provider);
 	}
 
 	@Override

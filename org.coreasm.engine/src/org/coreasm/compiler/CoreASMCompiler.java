@@ -545,18 +545,18 @@ public class CoreASMCompiler implements CompilerEngine {
 		//operator plugins
 		lastTime = System.nanoTime();
 		getLogger().debug(CoreASMCompiler.class, "loading operators");
-		List<CompilerPlugin> ops = pluginLoader.getPluginByType(CompilerOperatorPlugin.class);
-		for(CompilerPlugin cp : ops){
+		List<CompilerPlugin> compilerPlugins = pluginLoader.getPluginByType(CompilerOperatorPlugin.class);
+		for(CompilerPlugin cp : compilerPlugins){
 			CompilerOperatorPlugin cop = (CompilerOperatorPlugin) cp;
 			getLogger().debug(CoreASMCompiler.class, "loading operators of plugin " + cop.getName());
 			for(String s : cop.unaryOperations()){
-				if(unaryOperators.get(s) == null) unaryOperators.put(s, new ArrayList<CompilerPlugin>());
-				unaryOperators.get(s).add(cop);
+				List<CompilerPlugin> ops = unaryOperators.computeIfAbsent(s, k -> new ArrayList<>());
+				ops.add(cop);
 				getLogger().debug(CoreASMCompiler.class, "loaded unary Operator " + s);
 			}
 			for(String s : cop.binaryOperations()){
-				if(binaryOperators.get(s) == null) binaryOperators.put(s, new ArrayList<CompilerPlugin>());
-				binaryOperators.get(s).add(cop);
+				List<CompilerPlugin> ops = binaryOperators.computeIfAbsent(s, k -> new ArrayList<>());
+				ops.add(cop);
 				getLogger().debug(CoreASMCompiler.class, "loaded binary Operator " + s);
 			}
 		}
