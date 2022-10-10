@@ -18,7 +18,6 @@ import org.coreasm.engine.absstorage.InvalidLocationException;
 import org.coreasm.engine.absstorage.Update;
 import org.coreasm.engine.absstorage.State;
 import org.coreasm.engine.absstorage.UpdateMultiset;
-import org.coreasm.engine.Specification;
 import org.coreasm.engine.plugin.PluginServiceInterface;
 import org.coreasm.engine.scheduler.Scheduler;
 
