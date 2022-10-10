@@ -3,7 +3,7 @@ package org.coreasm.compiler.plugins.turboasm.code.ucode;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -16,7 +16,7 @@ public class IterateRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 
 		result.appendLine("@decl(@RuntimePkg@.AbstractStorage,storage)=@RuntimeProvider@.getStorage();\n");
 		result.appendLine("@decl(@RuntimePkg@.UpdateList,composed)=new @RuntimePkg@.UpdateList();\n");

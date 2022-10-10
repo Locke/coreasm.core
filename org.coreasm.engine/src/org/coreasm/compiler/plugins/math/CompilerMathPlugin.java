@@ -13,7 +13,7 @@ import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.math.code.rcode.RandomValueHandler;
 import org.coreasm.engine.plugin.Plugin;
@@ -52,7 +52,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
-			throws CompilerException {
+			throws CompilationException {
 
 		Map<String, MathFunctionEntry> functions = MathPluginHelper
 				.createFunctions(engine);
@@ -63,7 +63,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -81,7 +81,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 				}
 
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 		}
 
@@ -94,7 +94,7 @@ public class CompilerMathPlugin extends CompilerCodePlugin implements CompilerPl
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new RandomValueHandler(), CodeType.R, "Expression", "RandomValue", null);
 	}
 }

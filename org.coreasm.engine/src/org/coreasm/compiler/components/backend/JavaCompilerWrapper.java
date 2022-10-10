@@ -15,7 +15,7 @@ import javax.tools.JavaCompiler.CompilationTask;
 
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.CompilerOptions;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 
 /**
  * Wraps access to the Java compiler for easier use.
@@ -32,15 +32,15 @@ public class JavaCompilerWrapper {
 	 * can be used to add parameters for the java compiler
 	 * @param files A list of classes which need to be compiled
 	 * @param engine The compiler engine supervising the compilation process
-	 * @throws CompilerException If an error occured during the compilation process
+	 * @throws CompilationException If an error occured during the compilation process
 	 */
-	public static void compile(CompilerOptions options, List<File> files, CompilerEngine engine) throws CompilerException{
+	public static void compile(CompilerOptions options, List<File> files, CompilerEngine engine) throws CompilationException {
 		JavaCompiler jc = ToolProvider.getSystemJavaCompiler();
 		if(jc == null){
 			engine.addError("java compiler not found");
 
 			engine.getLogger().error(JavaCompilerWrapper.class, "javac.exe not found");
-			throw new CompilerException("java compiler not found - is there a jdk installed?");
+			throw new CompilationException("java compiler not found - is there a jdk installed?");
 		}
 		//create a diagnostics object to collect errors
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
@@ -70,12 +70,12 @@ public class JavaCompilerWrapper {
 			}
 		}
 
-		if(hasError) throw new CompilerException("compilation failed");
+		if(hasError) throw new CompilationException("compilation failed");
 
 		try {
 			fileManager.close();
 		} catch (IOException e) {
-			throw new CompilerException("could not close file manager");
+			throw new CompilationException("could not close file manager");
 		}
 	}
 }

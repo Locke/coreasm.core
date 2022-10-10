@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.paths.CompilerPathConfig;
 
 /**
@@ -27,7 +27,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 		try{
 			JarPacker.packJar(engine.getOptions(), engine);
 		}
-		catch(CompilerException e){
+		catch(CompilationException e){
 			return false;
 		}
 		return true;
@@ -35,7 +35,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 
 	@Override
 	public List<File> writeEntriesToDisk(List<LibraryEntry> entries,
-			CompilerEngine engine) throws CompilerException{
+			CompilerEngine engine) throws CompilationException {
 
 		List<File> result = new ArrayList<File>();
 		CompilerPathConfig path = engine.getPath();
@@ -59,7 +59,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 			} catch (Exception e) {
 				String msg = "error writing entry '" + f + "': '" + e.getMessage() + "'" + engine.getOptions().enginePath.getAbsolutePath();
 				engine.addError(msg);
-				throw new CompilerException(msg);
+				throw new CompilationException(msg);
 			}
 		}
 

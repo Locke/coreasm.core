@@ -3,7 +3,7 @@ package org.coreasm.compiler.plugins.conditionalrule.code.rcode;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.plugins.conditionalrule.ConditionalTermNode;
@@ -17,8 +17,8 @@ public class ConditionalTermHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
-		if(!(node instanceof ConditionalTermNode)) throw new CompilerException("invalid node type in conditionalterm");
+			throws CompilationException {
+		if(!(node instanceof ConditionalTermNode)) throw new CompilationException("invalid node type in conditionalterm");
 		ConditionalTermNode cond = (ConditionalTermNode) node;
 
 		result.appendFragment(engine.compile(cond.getCondition(), CodeType.R));

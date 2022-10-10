@@ -3,7 +3,7 @@ package org.coreasm.compiler.plugins.kernel.code.ucode;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.kernel.UpdateRuleNode;
@@ -17,10 +17,10 @@ public class KernelUpdateRule implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		// rule of the form identifier := value
 		if (!(node instanceof UpdateRuleNode))
-			throw new CompilerException(
+			throw new CompilationException(
 					"Illegal Node found - expected UpdateRuleNode");
 
 		ASTNode location = node.getFirst();

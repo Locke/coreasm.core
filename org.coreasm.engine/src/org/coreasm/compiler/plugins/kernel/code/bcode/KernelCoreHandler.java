@@ -1,12 +1,11 @@
 package org.coreasm.compiler.plugins.kernel.code.bcode;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -20,7 +19,7 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		List<ASTNode> children = new ArrayList<>(node.getAbstractChildNodes());
 
 		// Find the id node and drop all use nodes
@@ -29,7 +28,7 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 			ASTNode cnode = children.get(i);
 			if (cnode.getGrammarRule().equals("ID")) {
 				if (id != null)
-					throw new CompilerException(
+					throw new CompilationException(
 							"only one id node allowed");
 				id = cnode;
 				children.remove(i);
@@ -41,7 +40,7 @@ public class KernelCoreHandler implements CompilerCodeHandler {
 			}
 		}
 		if (id == null)
-			throw new CompilerException(
+			throw new CompilationException(
 					"Couldn't find id node for init rule");
 
 

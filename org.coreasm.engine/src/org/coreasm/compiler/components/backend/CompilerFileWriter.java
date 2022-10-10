@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.paths.CompilerPathConfig;
 
 /**
@@ -23,7 +23,7 @@ public interface CompilerFileWriter {
 	 * @param entries A list of library entries
 	 * @param engine The compiler engine supervising the operation
 	 * @return A list of files generated from the library entries
-	 * @throws CompilerException If an error occurs
+	 * @throws CompilationException If an error occurs
 	 */
-	public List<File> writeEntriesToDisk(List<LibraryEntry> entries, CompilerEngine engine) throws CompilerException;
+	public List<File> writeEntriesToDisk(List<LibraryEntry> entries, CompilerEngine engine) throws CompilationException;
 }

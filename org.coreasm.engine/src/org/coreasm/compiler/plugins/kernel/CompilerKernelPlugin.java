@@ -20,7 +20,7 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.components.preprocessor.InheritRule;
 import org.coreasm.compiler.components.preprocessor.SynthesizeRule;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
@@ -86,7 +86,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		this.register(new KernelIDCodeHandler(), CodeType.L, null, "ID", null);
 		this.register(new KernelFunctionRuleTermHandler(), CodeType.L,
 				"FunctionRule", "FunctionRuleTerm", null);
@@ -126,7 +126,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
-			throws CompilerException {
+			throws CompilationException {
 		// load runtime classes
 		List<MainFileEntry> loadedClasses = new ArrayList<MainFileEntry>();
 
@@ -135,7 +135,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 		// runtime directory
 		if (enginePath == null) {
 			engine.getLogger().error(getClass(), "Loading the runtime from a directory is currently not supported");
-			throw new CompilerException("could not load compiler runtime");
+			throw new CompilationException("could not load compiler runtime");
 		} else {
 			// otherwise the runtime is contained in the jar archive
 			JarFile jar = null;
@@ -274,7 +274,7 @@ public class CompilerKernelPlugin extends CompilerCodePlugin implements
 						"org/coreasm/engine/scheduler/SchedulingPolicy.java",
 						"Kernel", LibraryEntryType.RUNTIME));
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException("could not load classes "
+				throw new CompilationException("could not load classes "
 						+ e.getMessage());
 			}
 			//add all remaining runtime entries in the CompilerRuntime directory

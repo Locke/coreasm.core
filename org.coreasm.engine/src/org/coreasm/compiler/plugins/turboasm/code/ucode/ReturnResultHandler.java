@@ -5,7 +5,7 @@ import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.preprocessor.Information;
 import org.coreasm.compiler.components.preprocessor.Preprocessor;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 
@@ -18,7 +18,7 @@ public class ReturnResultHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		//note: this implementation currently contains a lot of code from the kernel
 		//macro call. might be a good idea to merge it somehow
 

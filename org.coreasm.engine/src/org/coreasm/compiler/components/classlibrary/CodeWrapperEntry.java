@@ -3,7 +3,7 @@ package org.coreasm.compiler.components.classlibrary;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.codefragment.CodeFragmentException;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.exception.LibraryEntryException;
 
@@ -37,15 +37,15 @@ public class CodeWrapperEntry extends MemoryInclude {
 	 * @param responsible A string denoting the class responsible for the creation of this wrapper for debugging
 	 * @param engine The compiler engine supervising the compilation process
 	 * @return A code fragment which executes the code wrapper
-	 * @throws CompilerException If an error occured during the creation
+	 * @throws CompilationException If an error occured during the creation
 	 */
-	public static CodeFragment buildWrapper(CodeFragment body, String responsible, CompilerEngine engine) throws CompilerException{
+	public static CodeFragment buildWrapper(CodeFragment body, String responsible, CompilerEngine engine) throws CompilationException {
 		CodeWrapperEntry repl = new CodeWrapperEntry(body, responsible, engine);
 		try{
 			engine.getClassLibrary().addEntry(repl);
 		}
 		catch(EntryAlreadyExistsException e){
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 
 		String name = engine.getPath().pluginStaticPkg() + ".Kernel." + repl.name;

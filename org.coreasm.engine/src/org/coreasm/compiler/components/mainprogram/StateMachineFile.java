@@ -12,12 +12,9 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.classlibrary.MemoryInclude;
 import org.coreasm.compiler.components.classlibrary.RuleClassFile;
-import org.coreasm.compiler.components.mainprogram.EntryType;
-import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.components.mainprogram.MainFileHelper;
 import org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition;
 import org.coreasm.compiler.components.mainprogram.statemachine.StateMachine;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.exception.LibraryEntryException;
 import org.coreasm.compiler.interfaces.CompilerExtensionPointPlugin;
@@ -80,9 +77,9 @@ public class StateMachineFile extends MemoryInclude{
 	 * Adds all main file entries provided by the plugins to the file,
 	 * including them as necessary in the generated main class.
 	 * @param vocabularyExtenderPlugins A list of vocabulary extender plugins
-	 * @throws CompilerException If an error occurred in on of the plugins
+	 * @throws CompilationException If an error occurred in on of the plugins
 	 */
-	public void processVocabularyExtenderPlugins(List<CompilerPlugin> vocabularyExtenderPlugins) throws CompilerException {
+	public void processVocabularyExtenderPlugins(List<CompilerPlugin> vocabularyExtenderPlugins) throws CompilationException {
 		//load extenders in order, respecting dependencies of plugins
 		Map<CompilerVocabularyExtender, Boolean> isLoaded = new HashMap<CompilerVocabularyExtender, Boolean>();
 		Map<String, CompilerVocabularyExtender> pluginMapping = new HashMap<String, CompilerVocabularyExtender>();
@@ -110,7 +107,7 @@ public class StateMachineFile extends MemoryInclude{
 		}
 	}
 
-	private void attemptLoad(Map<CompilerVocabularyExtender, Boolean> loaded, Map<String, CompilerVocabularyExtender> plugins, CompilerVocabularyExtender current) throws CompilerException{
+	private void attemptLoad(Map<CompilerVocabularyExtender, Boolean> loaded, Map<String, CompilerVocabularyExtender> plugins, CompilerVocabularyExtender current) throws CompilationException {
 		if(!loaded.get(current)){
 			for(String s : ((CompilerPlugin)current).getInterpreterPlugin().getDependencyNames()){
 				CompilerVocabularyExtender dep = plugins.get(s);
@@ -124,11 +121,11 @@ public class StateMachineFile extends MemoryInclude{
 		}
 	}
 
-	private void loadVocabExtender(CompilerVocabularyExtender cve) throws CompilerException{
+	private void loadVocabExtender(CompilerVocabularyExtender cve) throws CompilationException {
 		try{
 			extensions.addAll(cve.loadClasses(engine.getClassLibrary()));
 		}
-		catch(CompilerException e){
+		catch(CompilationException e){
 			if(e.getCause() instanceof EntryAlreadyExistsException){
 				String tmp = ((EntryAlreadyExistsException)e.getCause()).getEntryName();
 				engine.addError("Plugin " + cve.getName() + " could not load all its classes, an entry with the name " + tmp + " already exists");

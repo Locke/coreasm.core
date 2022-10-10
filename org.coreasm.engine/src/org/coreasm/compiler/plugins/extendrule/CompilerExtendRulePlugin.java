@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.extendrule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.extendrule.ExtendRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -39,7 +39,7 @@ public class CompilerExtendRulePlugin extends CompilerCodePlugin implements Comp
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ExtendRuleHandler(), CodeType.U, "Rule", "ExtendRule", null);
 	}
 

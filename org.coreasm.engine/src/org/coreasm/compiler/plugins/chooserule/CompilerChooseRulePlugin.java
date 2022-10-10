@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.chooserule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.chooserule.ChooseRulePlugin;
@@ -49,7 +49,7 @@ public class CompilerChooseRulePlugin extends CompilerCodePlugin implements Comp
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ChooseRuleHandler(), CodeType.U, "Rule", "ChooseRule", null);
 		register(new PickRuleHandler(), CodeType.R, "Expression", "PickExp", null);
 	}

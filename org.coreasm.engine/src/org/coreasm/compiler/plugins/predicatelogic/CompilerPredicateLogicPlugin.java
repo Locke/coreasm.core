@@ -3,7 +3,7 @@ package org.coreasm.compiler.plugins.predicatelogic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.predicatelogic.PredicateLogicPlugin;
 import org.coreasm.compiler.CodeType;
@@ -66,7 +66,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 	}
 
 	@Override
-	public String compileBinaryOperator(String token) throws CompilerException {
+	public String compileBinaryOperator(String token) throws CompilationException {
 		String result = "";
 
 		if (token.equals("or")) {
@@ -163,7 +163,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 			result += ("}\n");
 		}
 		else
-			throw new CompilerException(
+			throw new CompilationException(
 					"unkown operator: PredicateLogicPlugin, " + token);
 
 		result = result + "}\n";
@@ -174,7 +174,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 	}
 
 	@Override
-	public String compileUnaryOperator(String token) throws CompilerException {
+	public String compileUnaryOperator(String token) throws CompilationException {
 		String result = "";
 
 		if (token.equals("not")) {
@@ -182,7 +182,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 			result += "evalStack.push(@RuntimePkg@.BooleanElement.valueOf(@lhs@.equals(@RuntimePkg@.BooleanElement.FALSE)));\n";
 			result += "}\n";
 		} else
-			throw new CompilerException(
+			throw new CompilationException(
 					"unkown operator: PredicateLogicPlugin, " + token);
 
 		result = result + " else ";
@@ -191,7 +191,7 @@ public class CompilerPredicateLogicPlugin extends CompilerCodePlugin implements 
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ExistsExpHandler(), CodeType.R, "Expression", "ExistsExp", null);
 		register(new ForallExpHandler(), CodeType.R, "Expression", "ForallExp", null);
 	}

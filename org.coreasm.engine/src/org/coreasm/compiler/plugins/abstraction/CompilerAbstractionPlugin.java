@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.abstraction;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.abstraction.AbstractionPlugin;
 import org.coreasm.compiler.CodeType;
@@ -38,7 +38,7 @@ public class CompilerAbstractionPlugin extends CompilerCodePlugin implements Com
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new AbstractionAbstractHandler(), CodeType.U, "Rule", "AbstractRule", null);
 	}
 

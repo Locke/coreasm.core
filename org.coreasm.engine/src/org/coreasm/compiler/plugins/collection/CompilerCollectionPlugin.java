@@ -10,7 +10,7 @@ import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
 import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.plugins.collection.code.ucode.AddToHandler;
 import org.coreasm.compiler.plugins.collection.code.ucode.RemoveFromHandler;
@@ -60,7 +60,7 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 
 	@Override
 	public List<MainFileEntry> loadClasses(ClassLibrary classLibrary)
-			throws CompilerException {
+			throws CompilationException {
 		List<MainFileEntry> result = new ArrayList<MainFileEntry>();
 		ClassLibrary library = engine.getClassLibrary();
 
@@ -68,7 +68,7 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 		File enginePath = engine.getOptions().enginePath;
 		if(enginePath == null){
 			engine.getLogger().error(getClass(), "loading classes from a directory is currently not supported");
-			throw new CompilerException("could not load classes");
+			throw new CompilationException("could not load classes");
 		}
 		else{
 			try {
@@ -98,14 +98,14 @@ public class CompilerCollectionPlugin extends CompilerCodePlugin implements Comp
 				LibraryEntry foldElement = classLibrary.findEntry("FoldFunctionElement", this.getName(), LibraryEntryType.STATIC);
 				result.add(new MainFileEntry(foldElement, EntryType.FUNCTION_CAPI, FoldName));
 			} catch (EntryAlreadyExistsException e) {
-				throw new CompilerException(e);
+				throw new CompilationException(e);
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new AddToHandler(), CodeType.U, "Rule", "AddToCollectionRule", null);
 		register(new RemoveFromHandler(), CodeType.U, "Rule", "RemoveFromCollectionRule", null);
 	}

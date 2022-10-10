@@ -1,7 +1,7 @@
 package org.coreasm.compiler.plugins.modularity;
 
 import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.engine.plugin.Plugin;
@@ -37,7 +37,7 @@ public class CompilerModularityPlugin extends CompilerCodePlugin implements
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		this.register(new ModularityDummyHandler(), null, null, null, null);
 	}
 

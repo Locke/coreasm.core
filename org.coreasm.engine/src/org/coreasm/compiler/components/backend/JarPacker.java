@@ -12,7 +12,7 @@ import java.util.jar.Manifest;
 
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.CompilerOptions;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 
 
 /**
@@ -29,9 +29,9 @@ public class JarPacker {
 	 * the root of the temporary directory
 	 * @param options Options for the compilation process
 	 * @param engine The compiler engine supervising the compilation process
-	 * @throws CompilerException If the jar archive could not be packed
+	 * @throws CompilationException If the jar archive could not be packed
 	 */
-	public static void packJar(CompilerOptions options, CompilerEngine engine) throws CompilerException{
+	public static void packJar(CompilerOptions options, CompilerEngine engine) throws CompilationException {
 		JarOutputStream target = null;
 		try{
 			Manifest manifest = new Manifest();
@@ -45,7 +45,7 @@ public class JarPacker {
 		}
 		catch(Exception e){
 			engine.addError("Could not pack jar: " + e.getMessage());
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 		finally{
 			if(target != null)

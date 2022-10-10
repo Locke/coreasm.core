@@ -5,7 +5,7 @@ import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.preprocessor.Information;
 import org.coreasm.compiler.components.preprocessor.Preprocessor;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.FunctionRuleTermNode;
@@ -24,7 +24,7 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		// TODO parameter might also be a rule call - how to fix this?
 		MacroCallRuleNode mcrn = (MacroCallRuleNode) node;
 		String name = mcrn.getFunctionRuleElement().getFirst()
@@ -81,7 +81,7 @@ public class KernelMacroCallRule implements CompilerCodeHandler {
 			if (inf.getInformation(name).getChildren().size() != params
 					.getArguments().size()) {
 				engine.addError("wrong number of parameters in rulecall to rule " + name);
-				throw new CompilerException(
+				throw new CompilationException(
 						"wrong number of parameters for Rulecall to Rule "
 								+ name);
 			}

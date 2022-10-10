@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.letrule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.letrule.LetRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -39,7 +39,7 @@ public class CompilerLetRulePlugin extends CompilerCodePlugin implements Compile
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new LetRuleHandler(), CodeType.U, "Rule", "LetRule", null);
 	}
 

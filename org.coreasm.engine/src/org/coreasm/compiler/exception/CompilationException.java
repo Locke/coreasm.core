@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class CompilerException extends Exception {
+public class CompilationException extends Exception {
 	private static final long serialVersionUID = -3225927157444291083L;
 	private boolean evaluated;
 
@@ -13,7 +13,7 @@ public class CompilerException extends Exception {
 	 * Builds a new exception with the given child
 	 * @param e A child exception
 	 */
-	public CompilerException(Exception e){
+	public CompilationException(Exception e){
 		super(e);
 	}
 
@@ -21,7 +21,7 @@ public class CompilerException extends Exception {
 	 * Builds a new exception with the given error message
 	 * @param s The error message
 	 */
-	public CompilerException(String s){
+	public CompilationException(String s){
 		super(s);
 	}
 
@@ -30,7 +30,7 @@ public class CompilerException extends Exception {
 	 * @param e The child exception
 	 * @param evaluated Signals, whether the exception was already handled
 	 */
-	public CompilerException(Exception e, boolean evaluated){
+	public CompilationException(Exception e, boolean evaluated){
 		super(e);
 		this.evaluated = evaluated;
 	}

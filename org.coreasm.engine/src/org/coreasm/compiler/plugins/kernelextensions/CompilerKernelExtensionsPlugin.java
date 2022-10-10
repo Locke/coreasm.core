@@ -2,7 +2,7 @@ package org.coreasm.compiler.plugins.kernelextensions;
 
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.kernelextensions.code.ucode.CompilerExtendedFunctionRuleTermHandler;
@@ -38,7 +38,7 @@ public class CompilerKernelExtensionsPlugin extends CompilerCodePlugin implement
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		//TODO: Write missing code handlers for the kernel extensions plugin
 		register(new CompilerExtendedFunctionRuleTermHandler(), CodeType.R, null, "ExtendedFunctionRuleTermNode", null);
 

@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.plugins.chooserule.ChooseRuleNode;
@@ -20,9 +20,9 @@ public class ChooseRuleHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		try {
-			if(!(node instanceof ChooseRuleNode)) throw new CompilerException("wrong node type in compilation for chooserule");
+			if(!(node instanceof ChooseRuleNode)) throw new CompilationException("wrong node type in compilation for chooserule");
 			ChooseRuleNode chooseRule = (ChooseRuleNode) node;
 
 			Map<String, ASTNode> vars = chooseRule.getVariableMap();
@@ -135,7 +135,7 @@ public class ChooseRuleHandler implements CompilerCodeHandler {
 			result.appendLine("//--------------end choose\n");
 			result.appendLine("}\n");
 		} catch (Exception e) {
-			throw new CompilerException("invalid code generated");
+			throw new CompilationException("invalid code generated");
 		}
 	}
 

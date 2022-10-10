@@ -6,7 +6,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ import org.coreasm.compiler.components.pluginloader.PluginLoader;
 import org.coreasm.compiler.components.preprocessor.Information;
 import org.coreasm.compiler.components.preprocessor.Preprocessor;
 import org.coreasm.compiler.components.variablemanager.VarManager;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.DirectoryNotEmptyException;
 import org.coreasm.compiler.exception.EmptyContextStackException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
@@ -157,9 +156,9 @@ public class CoreASMCompiler implements CompilerEngine {
 	/**
 	 * Starts the compilation process for the CoreASM specification
 	 * provided by the options Object.
-	 * @throws CompilerException If an error occured during the compilation process
+	 * @throws CompilationException If an error occured during the compilation process
 	 */
-	public void compile() throws CompilerException{
+	public void compile() throws CompilationException {
 		try{
 			getLogger().debug(CoreASMCompiler.class, "starting compiler");
 
@@ -191,7 +190,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			getLogger().debug(CoreASMCompiler.class, "compiling java sources");
 			compileSources();
 		}
-		catch(CompilerException ce){
+		catch(CompilationException ce){
 			throw ce;
 		}
 		catch(Exception e){
@@ -266,7 +265,7 @@ public class CoreASMCompiler implements CompilerEngine {
 	}
 
 	@Override
-	public CodeFragment tryCompile(ASTNode node, CodeType type) throws CompilerException{
+	public CodeFragment tryCompile(ASTNode node, CodeType type) throws CompilationException {
 		this.tryCompiling = true;
 		CodeFragment result = null;
 		try{
@@ -279,7 +278,7 @@ public class CoreASMCompiler implements CompilerEngine {
 	}
 
 	@Override
-	public CodeFragment compile(ASTNode node, CodeType type) throws CompilerException {
+	public CodeFragment compile(ASTNode node, CodeType type) throws CompilationException {
 		getLogger().debug(CoreASMCompiler.class, type + " requested for node(" + node.getGrammarRule() + ", " + node.getPluginName() + ")");
 		CompilerPlugin cp = pluginLoader.getPlugin(node.getPluginName());
 
@@ -306,7 +305,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			}
 		}
 
-		if(cp == null) throw new CompilerException("no plugin available - perhaps an unregistered operator?");
+		if(cp == null) throw new CompilationException("no plugin available - perhaps an unregistered operator?");
 
 		//compile code
 		if(cp instanceof CompilerCodePlugin){
@@ -316,17 +315,17 @@ public class CoreASMCompiler implements CompilerEngine {
 			try{
 				coderes = resp.compile(type, node);
 			}
-			catch(CompilerException e){
+			catch(CompilationException e){
 				//try to build information about the node
 				if(!e.isEvaluated()){
 					this.addError(CompilationErrorHelper.makeErrorMessage(node, (ControlAPI) coreasm, e.getMessage(), cp.getClass().getName()));
-					throw new CompilerException(e, true);
+					throw new CompilationException(e, true);
 				}
 				throw e;
 			}
 			catch(Exception e){
 				this.addError(CompilationErrorHelper.makeErrorMessage(node, (ControlAPI) coreasm, e.getMessage(), cp.getClass().getName()));
-				throw new CompilerException(e, true);
+				throw new CompilationException(e, true);
 			}
 
 
@@ -351,11 +350,11 @@ public class CoreASMCompiler implements CompilerEngine {
 		else{
 			//not compilable
 			this.addError("plugin " + cp.getName() + " does not register any code handlers");
-			throw new CompilerException("plugin " + cp.getName()  + " does not register any code handlers");
+			throw new CompilationException("plugin " + cp.getName()  + " does not register any code handlers");
 		}
 	}
 
-	private CodeFragment handleOperatorCall(ASTNode node) throws CompilerException{
+	private CodeFragment handleOperatorCall(ASTNode node) throws CompilationException {
 		if(node.getGrammarClass().equals("BinaryOperator")){
 			//first, check if the optimization for values has a result for us
 			Information inf = preprocessor.getNodeInformation(node).get("value");
@@ -417,7 +416,7 @@ public class CoreASMCompiler implements CompilerEngine {
 
 	//----------------------start of helper functions for the actual compilation process------------------------
 
-	private ASTNode loadSpecification() throws CompilerException{
+	private ASTNode loadSpecification() throws CompilationException {
 		lastTime = System.nanoTime();
 
 		//create an engine and parse the specification
@@ -456,7 +455,7 @@ public class CoreASMCompiler implements CompilerEngine {
 				devnull.close();
 			}
 
-			throw new CompilerException(msg);
+			throw new CompilationException(msg);
 		}
 
 		cae.loadSpecification(options.SpecificationName.getAbsolutePath());
@@ -466,7 +465,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			cae.terminate();
 			while(cae.isBusy()){};
 			this.addError("CoreASM Parser could not parse the specification, check your syntax");
-			throw new CompilerException("could not load specification");
+			throw new CompilationException("could not load specification");
 		}
 		cae.terminate();
 
@@ -490,7 +489,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		catch(NotCompilableException nce){
 			//nce.printStackTrace();
 			//System.out.println("error: " + nce.getMessage());
-			throw new CompilerException(nce);
+			throw new CompilationException(nce);
 		}
 		catch(Exception ex){
 			System.out.println("exception: " + ex.getMessage());
@@ -501,7 +500,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		return (ASTNode) cae.getSpec().getRootNode();
 	}
 
-	private void preprocessSpecification(ASTNode root) throws CompilerException{
+	private void preprocessSpecification(ASTNode root) throws CompilationException {
 		try{
 			preprocessor.loadPlugins(pluginLoader.getPluginByType(CompilerPreprocessorPlugin.class));
 			preprocessor.preprocessSpecification(root);
@@ -509,16 +508,16 @@ public class CoreASMCompiler implements CompilerEngine {
 		catch(Exception e){
 			//e.printStackTrace();
 			addError("preprocessor had errors: " + e.getMessage());
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 	}
 
-	private void applyFirstPlugins() throws CompilerException {
+	private void applyFirstPlugins() throws CompilationException {
 		//path plugin
 		List<CompilerPlugin> pathplugins = pluginLoader.getPluginByType(CompilerPathPlugin.class);
 		if(pathplugins.size() > 1){
 			this.addError("Only one path configurator can be active");
-			throw new CompilerException("Only one path configurator can be active");
+			throw new CompilationException("Only one path configurator can be active");
 		}
 		else if(!pathplugins.isEmpty()){
 			this.paths = ((CompilerPathPlugin)pathplugins.get(0)).getPathConfig();
@@ -585,7 +584,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		addTiming("Code Handlers");
 	}
 
-	private void applyPlugins() throws CompilerException{
+	private void applyPlugins() throws CompilationException {
 		//init Plugins
 		lastTime = System.nanoTime();
 		mainFile.processInitCodePlugins(pluginLoader.getPluginByType(CompilerInitCodePlugin.class));
@@ -605,7 +604,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		addTiming("Vocabulary Extender Plugins");
 	}
 
-	private void compileSpecification(ASTNode root) throws CompilerException{
+	private void compileSpecification(ASTNode root) throws CompilationException {
 		lastTime = System.nanoTime();
 		getLogger().debug(CoreASMCompiler.class, "creating temporary directory");
 		File tempDir = options.tempDirectory;
@@ -615,7 +614,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			if(tempDir.list().length > 0 && !options.removeExistingFiles){
 				getLogger().error(CoreASMCompiler.class, "temp directory is not empty");
 				this.addError("temporary directory is not empty. Use -removeExistingFiles true to purge the temporary directory before the run");
-				throw new CompilerException(new DirectoryNotEmptyException(""));
+				throw new CompilationException(new DirectoryNotEmptyException(""));
 			}
 			else if(tempDir.list().length > 0){
 				getLogger().debug(CoreASMCompiler.class, "temp directory is not empty, purging existing files");
@@ -639,13 +638,13 @@ public class CoreASMCompiler implements CompilerEngine {
 			varManager.endContext();
 		} catch (EmptyContextStackException e1) {
 			this.addError("final variable context already ended - check plugin code");
-			throw new CompilerException(e1);
+			throw new CompilationException(e1);
 		}
 		cTime = System.nanoTime();
 		addTiming("Compilation");
 	}
 
-	private void compileSources() throws CompilerException{
+	private void compileSources() throws CompilationException {
 		getLogger().debug(CoreASMCompiler.class, "code generation complete, dumping source files to " + options.tempDirectory);
 
 		lastTime = System.nanoTime();
@@ -662,13 +661,13 @@ public class CoreASMCompiler implements CompilerEngine {
 			if(fileWriter == null) fileWriter = tmpWriter;
 			else if(fileWriter != null && fileWriter != null) {
 				addError("Only one file writer can be active at a time");
-				throw new CompilerException("Only one file writer can be active at a time");
+				throw new CompilationException("Only one file writer can be active at a time");
 			}
 
 			if(tmpPacker == null) filePacker = tmpPacker;
 			else if(tmpPacker != null && filePacker != null) {
 				addError("Only one file packer can be active at a time");
-				throw new CompilerException("Only one file packer can be active at a time");
+				throw new CompilationException("Only one file packer can be active at a time");
 			}
 		}
 
@@ -713,14 +712,14 @@ public class CoreASMCompiler implements CompilerEngine {
 		}
 	}
 
-	private void buildMain() throws CompilerException{
+	private void buildMain() throws CompilationException {
 		try {
 			classLibrary.addEntry(mainFile);
 
 			//find main entry point from plugins
 			LibraryEntry mc = null;
 			List<CompilerPlugin> providers = pluginLoader.getPluginByType(CompilerMainClassProvider.class);
-			if(providers.size() > 1) throw new CompilerException("cannot have more than one program entry point");
+			if(providers.size() > 1) throw new CompilationException("cannot have more than one program entry point");
 			else if(providers.size() < 1) mc = new MainClass(this);
 			else mc = ((CompilerMainClassProvider)providers.get(0)).getMainClass();
 
@@ -728,7 +727,7 @@ public class CoreASMCompiler implements CompilerEngine {
 
 		} catch (EntryAlreadyExistsException e) {
 			this.addError("Could not add main file to library, the entry already exists");
-			throw new CompilerException(e);
+			throw new CompilationException(e);
 		}
 	}
 

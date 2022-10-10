@@ -5,7 +5,7 @@ import java.util.List;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.FunctionRuleTermNode;
@@ -18,7 +18,7 @@ import org.coreasm.engine.interpreter.FunctionRuleTermNode;
 public class KernelFunctionRuleTermHandler implements CompilerCodeHandler {
 
 	@Override
-	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine) throws CompilerException{
+	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine) throws CompilationException {
 		FunctionRuleTermNode frtn = (FunctionRuleTermNode) node;
 
 		//TODO: location might also be the name of a ruleparam, which could break stuff

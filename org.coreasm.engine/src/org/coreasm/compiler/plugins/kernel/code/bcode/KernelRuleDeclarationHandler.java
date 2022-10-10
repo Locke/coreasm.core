@@ -7,7 +7,7 @@ import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.classlibrary.RuleClassFile;
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.compiler.plugins.kernel.CompilerKernelPlugin;
 import org.coreasm.engine.interpreter.ASTNode;
@@ -24,7 +24,7 @@ public class KernelRuleDeclarationHandler implements CompilerCodeHandler {
 
 	@Override
 	public void compile(CodeFragment result, ASTNode node, CompilerEngine engine)
-			throws CompilerException {
+			throws CompilationException {
 		try{
 			engine.getLogger().debug(CompilerKernelPlugin.class, "creating a rule for node");
 
@@ -57,12 +57,12 @@ public class KernelRuleDeclarationHandler implements CompilerCodeHandler {
 			if(ruleName.equals("CloneIteratively") && tmp) throw new Exception();
 			else if(ruleName.equals("CloneIteratively")) tmp = true;*/
 		}
-		catch(CompilerException e) {
+		catch(CompilationException e) {
 			throw e;
 		}
 		catch(Exception e){
 			//e.printStackTrace();
-			throw new CompilerException("error creating rule for node");
+			throw new CompilationException("error creating rule for node");
 		}
 	}
 

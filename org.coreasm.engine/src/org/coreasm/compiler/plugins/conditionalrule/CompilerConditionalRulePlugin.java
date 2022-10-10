@@ -1,6 +1,6 @@
 package org.coreasm.compiler.plugins.conditionalrule;
 
-import org.coreasm.compiler.exception.CompilerException;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.conditionalrule.ConditionalRulePlugin;
 import org.coreasm.compiler.CodeType;
@@ -40,7 +40,7 @@ public class CompilerConditionalRulePlugin extends CompilerCodePlugin implements
 	}
 
 	@Override
-	public void registerCodeHandlers() throws CompilerException {
+	public void registerCodeHandlers() throws CompilationException {
 		register(new ConditionalRuleHandler(), CodeType.U, "Rule", "ConditionalRule", null);
 		register(new ConditionalTermHandler(), CodeType.R, "Expression", "ConditionalTerm", null);
 	}
