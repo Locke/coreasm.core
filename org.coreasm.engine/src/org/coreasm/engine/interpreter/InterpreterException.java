@@ -41,14 +41,14 @@ public class InterpreterException extends EngineException {
 	 * @param message
 	 * @param cause
 	 */
-	public InterpreterException(String message, Throwable cause) {
+	public InterpreterException(String message, Exception cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public InterpreterException(Throwable cause) {
+	public InterpreterException(Exception cause) {
 		super(cause.getMessage(), cause);
 	}
 

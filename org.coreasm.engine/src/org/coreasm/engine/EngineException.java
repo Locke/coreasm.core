@@ -41,14 +41,14 @@ public class EngineException extends Exception {
 	/**
 	* @see Exception#Exception(java.lang.String, java.lang.Throwable)
 	*/
-	public EngineException(String message, Throwable cause) {
+	public EngineException(String message, Exception cause) {
 		super(message, cause);
 	}
 
 	/**
 	* @see Exception#Exception(java.lang.Throwable)
 	*/
-	public EngineException(Throwable cause) {
+	public EngineException(Exception cause) {
 		super(cause.getMessage(), cause);
 	}
 }

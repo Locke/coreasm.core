@@ -31,11 +31,11 @@ public class InvalidLocationException extends EngineException {
 		super(message);
 	}
 
-	public InvalidLocationException(String message, Throwable cause) {
+	public InvalidLocationException(String message, Exception cause) {
 		super(message, cause);
 	}
 
-	public InvalidLocationException(Throwable cause) {
+	public InvalidLocationException(Exception cause) {
 		super(cause);
 	}
 

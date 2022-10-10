@@ -32,11 +32,11 @@ public class ParserError extends RuntimeException {
 		super(message);
 	}
 
-	public ParserError(Throwable cause) {
+	public ParserError(Exception cause) {
 		super(cause.getMessage(), cause);
 	}
 
-	public ParserError(String message, Throwable cause) {
+	public ParserError(String message, Exception cause) {
 		super(message, cause);
 	}
 

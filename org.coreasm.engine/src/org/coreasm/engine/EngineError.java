@@ -36,14 +36,14 @@ public class EngineError extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public EngineError(String message, Throwable cause) {
+	public EngineError(String message, Exception cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public EngineError(Throwable cause) {
+	public EngineError(Exception cause) {
 		super(cause);
 	}
 

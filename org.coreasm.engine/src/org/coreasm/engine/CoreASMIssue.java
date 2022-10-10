@@ -32,10 +32,11 @@ import org.coreasm.engine.parser.ParserException;
 public class CoreASMIssue extends RuntimeException {
 
 	// v1 -> v2: extends Error -> extends RuntimeException
-	private static final long serialVersionUID = 2L;
+	// v2 -> v3: Throwable this.cause -> Exception this.cause
+	private static final long serialVersionUID = 3L;
 
 	public final String message;
-	public final Throwable cause;
+	public final Exception cause;
 	public final CharacterPosition pos;
 	public final Node node;
 	public final Stack<CallStackElement> callStack;
@@ -44,7 +45,7 @@ public class CoreASMIssue extends RuntimeException {
 	protected Specification spec = null;
 
 	@SuppressWarnings("unchecked")
-	public CoreASMIssue(String msg, Throwable cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
+	public CoreASMIssue(String msg, Exception cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
 		this.message = msg;
 		this.cause = cause;
 		this.pos = pos;
@@ -59,7 +60,7 @@ public class CoreASMIssue extends RuntimeException {
 		this(msg, null, null, stack, node);
 	}
 
-	public CoreASMIssue(Throwable cause, Stack<CallStackElement> stack, Node node) {
+	public CoreASMIssue(Exception cause, Stack<CallStackElement> stack, Node node) {
 		this(null, cause, null, stack, node);
 	}
 
@@ -126,7 +127,7 @@ public class CoreASMIssue extends RuntimeException {
 
 
 	@Override
-	public Throwable getCause() {
+	public synchronized Throwable getCause() {
 		return this.cause;
 	}
 
