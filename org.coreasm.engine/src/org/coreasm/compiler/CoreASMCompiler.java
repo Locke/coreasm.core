@@ -468,6 +468,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			throw new CompilationException("could not load specification");
 		}
 		cae.enqueueTerminate();
+		// FIXME: why not again cae.waitWhileBusy(); ?
 
 
 		if(getOptions().hideCoreASMOutput){
