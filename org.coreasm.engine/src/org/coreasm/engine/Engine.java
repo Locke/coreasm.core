@@ -1238,7 +1238,7 @@ public class Engine implements ControlAPI {
 
 	/**
 	 * Sets a customized class loader for the engine
-	 * (used in loading plugins. If this value is set
+	 * (used in loading plugins). If this value is set
 	 * to <code>null</code>, the engine will use the
 	 * default class loader.
 	 */
@@ -1329,7 +1329,7 @@ public class Engine implements ControlAPI {
 
 /**
  * Instances of this class represent various engine commands send to CoreASM
- * engine by its environment. This class is only instanciated internally by the
+ * engine by its environment. This class is only instantiated internally by the
  * engine for its own records.
  *
  * @author Roozbeh Farahbod

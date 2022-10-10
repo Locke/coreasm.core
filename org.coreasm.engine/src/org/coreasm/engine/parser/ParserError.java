@@ -15,7 +15,7 @@ package org.coreasm.engine.parser;
 
 /**
  * This error is used to report errors during the parsing, specially
- * where an exception cannot be eaily thrown.
+ * where an exception cannot be easily thrown.
  *
  * @author  Roozbeh Farahbod
  *

@@ -38,7 +38,7 @@ public class CoreASMWarning extends CoreASMIssue {
 	 *
 	 * @param src the module generating this warning
 	 * @param msg the warning msg
-	 * @param cause the throwable that casused this warning
+	 * @param cause the throwable that caused this warning
 	 * @param pos position of the cause of this warning in the spec
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
@@ -66,7 +66,7 @@ public class CoreASMWarning extends CoreASMIssue {
 	 * Creates a new CoreASM Warning.
 	 *
 	 * @param src the module generating this warning
-	 * @param cause the throwable that casused this warning
+	 * @param cause the throwable that caused this warning
 	 * @param stack rule call stack
 	 * @param node the parse-tree node that caused this warning
 	 */
@@ -103,7 +103,7 @@ public class CoreASMWarning extends CoreASMIssue {
 	 * Creates a new CoreASM Warning.
 	 *
 	 * @param src the module generating this warning
-	 * @param cause the throwable that casused this warning
+	 * @param cause the throwable that caused this warning
 	 */
 	public CoreASMWarning(String src, ParserException cause) {
 		super(cause);
