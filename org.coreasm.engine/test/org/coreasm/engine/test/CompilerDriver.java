@@ -121,7 +121,7 @@ class StreamGobbler implements Runnable{
 	public StringBuilder output;
 	//public List<String> lines;
 	private InputStream stream;
-	private boolean quit;
+	private volatile boolean quit;
 
 	public StreamGobbler(InputStream in){
 		//lines = new ArrayList<String>();
