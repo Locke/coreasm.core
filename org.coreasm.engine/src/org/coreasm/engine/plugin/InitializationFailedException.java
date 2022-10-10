@@ -13,13 +13,15 @@
 
 package org.coreasm.engine.plugin;
 
+import org.coreasm.engine.EngineException;
+
 /**
  * Exception thrown if a plugin initialization fails.
  *
  * @author  Roozbeh Farahbod
  *
  */
-public class InitializationFailedException extends Exception {
+public class InitializationFailedException extends EngineException {
 
 	private static final long serialVersionUID = 1L;
 
