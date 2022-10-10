@@ -1,10 +1,6 @@
 package org.coreasm.compiler.plugins.kernel.include;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.List;
+import java.util.*;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.scheduler.SchedulingPolicy;
@@ -99,7 +95,7 @@ public class DefaultSchedulingPolicy implements SchedulingPolicy {
 		@Override
 		public Set<Element> next() {
 			if (!hasNext())
-				throw new Error("There is no possible combination left.");
+				throw new NoSuchElementException("There is no possible combination left.");
 
 			if (list.size() == 1) {
 				return new HashSet<Element>(list);
