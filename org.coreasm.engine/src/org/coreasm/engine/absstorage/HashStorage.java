@@ -665,9 +665,7 @@ public class HashStorage implements AbstractStorage {
 		}
 
 		public Map<String,E> getTableClone() {
-			Map<String,E> result = new HashMap<String,E>();
-			result.putAll(table);
-			return result;
+			return Map.copyOf(table);
 		}
 
 		public boolean containsName(String name) {
