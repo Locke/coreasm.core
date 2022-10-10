@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class CompilationException extends Exception {
+public class CompilationException extends CoreASMCompilerException {
 	private static final long serialVersionUID = -3225927157444291083L;
 	private boolean evaluated;
 

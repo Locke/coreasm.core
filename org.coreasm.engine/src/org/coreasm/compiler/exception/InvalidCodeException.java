@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class InvalidCodeException extends Exception {
+public class InvalidCodeException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 }

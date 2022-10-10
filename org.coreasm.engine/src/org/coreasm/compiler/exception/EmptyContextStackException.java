@@ -6,7 +6,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class EmptyContextStackException extends Exception {
+public class EmptyContextStackException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1513069534185329843L;
 
 	/**

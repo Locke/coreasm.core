@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class IncludeException extends Exception {
+public class IncludeException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 6239979635723045111L;
 	/**
 	 * Builds a new exception object with the given child exception

@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class LibraryEntryException extends Exception {
+public class LibraryEntryException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 	/**

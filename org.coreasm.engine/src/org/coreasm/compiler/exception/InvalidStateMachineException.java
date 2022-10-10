@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class InvalidStateMachineException extends Exception {
+public class InvalidStateMachineException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 
 	/**

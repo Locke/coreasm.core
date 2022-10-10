@@ -5,7 +5,7 @@ package org.coreasm.compiler.exception;
  * @author Markus Brenner
  *
  */
-public class EntryAlreadyExistsException extends Exception {
+public class EntryAlreadyExistsException extends CoreASMCompilerException {
 	private static final long serialVersionUID = 1L;
 	private String entryName;
 	/**
