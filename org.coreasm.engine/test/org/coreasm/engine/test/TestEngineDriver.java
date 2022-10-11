@@ -57,7 +57,7 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 			engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
 		}
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
-		engine.initialize();
+		engine.enqueueInitialize();
 		engine.waitWhileBusy();
 	}
 
@@ -105,11 +105,11 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 
 	private void dolaunch(String abspathname) {
 		if (engine.getEngineMode() == EngineMode.emError) {
-			engine.recover();
+			engine.enqueueRecover();
 			engine.waitWhileBusy();
 		}
 
-		engine.loadSpecification(abspathname);
+		engine.enqueueLoadSpecification(abspathname);
 		engine.waitWhileBusy();
 	}
 
@@ -133,7 +133,7 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 
 				//execute a step
 				engine.waitWhileBusy();
-				engine.step();
+				engine.enqueueStep();
 				step++;
 				engine.waitWhileBusy();
 
@@ -174,7 +174,7 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 			if (exception != null)
 				System.err.println("[!] Run is terminated with exception " + exception);
 
-			this.engine.terminate();
+			this.engine.enqueueTerminate();
 			this.engine.hardInterrupt();
 
 			engine.waitWhileBusy();
@@ -235,7 +235,7 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 		showErrorDialog("CoreASM Engine Error", message);
 
 		lastError = null;
-		engine.recover();
+		engine.enqueueRecover();
 		engine.waitWhileBusy();
 	}
 

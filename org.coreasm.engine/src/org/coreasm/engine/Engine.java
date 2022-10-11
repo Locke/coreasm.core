@@ -226,17 +226,17 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public void initialize() {
+	public void enqueueInitialize() {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecInit, null));
 	}
 
 	@Override
-	public void terminate() {
+	public void enqueueTerminate() {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecTerminate, null));
 	}
 
 	@Override
-	public void recover() {
+	public void enqueueRecover() {
 		if (getEngineMode() == EngineMode.emError)
 			addCommand(new EngineCommand(EngineCommand.CmdType.ecRecover, null));
 		else
@@ -244,66 +244,66 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public void loadSpecification(String specFileName) {
+	public void enqueueLoadSpecification(String specFileName) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec, specFileName));
 	}
 
 	@Override
-	public void loadSpecification(Reader src) {
-		loadSpecification("CoreASM Specification", src);
+	public void enqueueLoadSpecification(Reader src) {
+		enqueueLoadSpecification("CoreASM Specification", src);
 	}
 
 	@Override
-	public void loadSpecification(String name, Reader src) {
+	public void enqueueLoadSpecification(String name, Reader src) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec, new NamedStringReader(name, src)));
 	}
 
 	@Override
-	public void parseSpecification(String specFileName) {
+	public void enqueueParseSpecification(String specFileName) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec, specFileName));
 	}
 
 	@Override
-	public void parseSpecification(Reader src) {
-		parseSpecification("CoreASM Specification", src);
+	public void enqueueParseSpecification(Reader src) {
+		enqueueParseSpecification("CoreASM Specification", src);
 	}
 
 	@Override
-	public void parseSpecification(String name, Reader src) {
+	public void enqueueParseSpecification(String name, Reader src) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec, new NamedStringReader(name, src)));
 	}
 
 	@Deprecated
 	@Override
-	public void parseSpecificationHeader(String specFileName) {
-		parseSpecificationHeader(specFileName, true);
+	public void enqueueParseSpecificationHeader(String specFileName) {
+		enqueueParseSpecificationHeader(specFileName, true);
 	}
 
 	@Deprecated
 	@Override
-	public void parseSpecificationHeader(Reader src) {
-		parseSpecificationHeader("CoreASM Specification", src, true);
+	public void enqueueParseSpecificationHeader(Reader src) {
+		enqueueParseSpecificationHeader("CoreASM Specification", src, true);
 	}
 
 	@Deprecated
 	@Override
-	public void parseSpecificationHeader(String name, Reader src) {
-		parseSpecificationHeader(name, src, true);
+	public void enqueueParseSpecificationHeader(String name, Reader src) {
+		enqueueParseSpecificationHeader(name, src, true);
 	}
 
 	@Override
-	public void parseSpecificationHeader(String specFileName, boolean loadPlugins) {
+	public void enqueueParseSpecificationHeader(String specFileName, boolean loadPlugins) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseHeader,
 				new ParseCommandData(loadPlugins, specFileName)));
 	}
 
 	@Override
-	public void parseSpecificationHeader(Reader src, boolean loadPlugins) {
-		parseSpecificationHeader("CoreASM Specification", src, loadPlugins);
+	public void enqueueParseSpecificationHeader(Reader src, boolean loadPlugins) {
+		enqueueParseSpecificationHeader("CoreASM Specification", src, loadPlugins);
 	}
 
 	@Override
-	public void parseSpecificationHeader(String name, Reader src, boolean loadPlugins) {
+	public void enqueueParseSpecificationHeader(String name, Reader src, boolean loadPlugins) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseHeader,
 				new ParseCommandData(loadPlugins, new NamedStringReader(name, src))));
 	}
@@ -459,12 +459,12 @@ public class Engine implements ControlAPI {
 	}
 
 	@Override
-	public void step() {
+	public void enqueueStep() {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecStep, null));
 	}
 
 	@Override
-	public void run(int i) {
+	public void enqueueRun(int i) {
 		addCommand(new EngineCommand(EngineCommand.CmdType.ecRun, i));
 	}
 

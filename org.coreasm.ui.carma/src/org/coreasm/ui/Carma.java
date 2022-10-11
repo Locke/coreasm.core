@@ -346,7 +346,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 		System.err.println("* Carma * : " + msg);
 		printWarnings(engine);
 		if (engine != null) {
-			engine.terminate();
+			engine.enqueueTerminate();
 			engine.waitWhileBusy();
 		}
 		System.exit(1);
@@ -390,7 +390,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			tempEngine.setProperty(EngineProperties.PRINT_STACK_TRACE, EngineProperties.YES);
 		if (printProcessorStats)
 			tempEngine.setProperty(EngineProperties.PRINT_PROCESSOR_STATS_PROPERTY, EngineProperties.YES);
-		tempEngine.initialize();
+		tempEngine.enqueueInitialize();
 		tempEngine.waitWhileBusy();
 
 		synchronized (this) {
@@ -411,7 +411,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			for (String pinfo: sortedSet)
 				System.out.println(pinfo);
 
-			engine.terminate();
+			engine.enqueueTerminate();
 			engine.waitWhileBusy();
 			return;
 		}
@@ -422,7 +422,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			if (engine.getEngineMode() == EngineMode.emError)
 				error(engine);
 
-			engine.parseSpecificationHeader(fileName, true);
+			engine.enqueueParseSpecificationHeader(fileName, true);
 			engine.waitWhileBusy();
 			if (engine.getEngineMode() == EngineMode.emError)
 				error(engine);
@@ -448,13 +448,13 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 
 			logln(output.toString());
 
-			engine.terminate();
+			engine.enqueueTerminate();
 			engine.waitWhileBusy();
 			return;
 		}
 
 
-		engine.loadSpecification(fileName);
+		engine.enqueueLoadSpecification(fileName);
 
 		logln("Loading the specification.");
 		engine.waitWhileBusy();
@@ -531,7 +531,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				System.err.println("  - Error: " + e.getMessage());
 			}
 			if (steps == -1)  {
-				engine.terminate();
+				engine.enqueueTerminate();
 				engine.waitWhileBusy();
 				return;
 			}
@@ -574,7 +574,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 				lastUpdateSet = new UpdateMultiset();
 			else
 				lastUpdateSet = new UpdateMultiset(engine.getUpdateSet(0));
-			engine.step();
+			engine.enqueueStep();
 			engine.waitWhileBusy();
 
 			if (engine.getEngineMode() == EngineMode.emError)
@@ -615,7 +615,7 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 			logln("Final state is:\n" + engine.getState());
 		}
 
-		engine.terminate();
+		engine.enqueueTerminate();
 		engine.waitWhileBusy();
 		logln("Execution concluded.");
 

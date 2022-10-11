@@ -37,7 +37,7 @@ public class CompilerDriver {
 			pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
 					+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
 		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
-		engine.initialize();
+		engine.enqueueInitialize();
 		engine.waitWhileBusy();
 		//Create compiler options, set the maximum step count and activate necessary output
 		CompilerOptions options = new CompilerOptions();
