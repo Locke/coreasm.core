@@ -473,6 +473,7 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void hardInterrupt() {
+		// TODO: from the JavaDoc, it sound like there would be a proper state like emInterrupted. But there is not - maybe there should be?
 		engineThread.interrupt();
 	}
 
@@ -1249,6 +1250,7 @@ public class Engine implements ControlAPI {
 				break;
 
 			case ecRun:
+				// FIXME: JavaDoc of enqueueRun says, that i == 0 => run until the end. How is that reflected here? What is the next engine mode? Just increasing rcc works only for a given i (loop via injected ecStep)!
 				if (cmd.metaData instanceof Integer) {
 					int i = (Integer) cmd.metaData;
 					if (i > 0) {
