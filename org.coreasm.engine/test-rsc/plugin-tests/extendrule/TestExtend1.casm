@@ -6,7 +6,7 @@ init Start
 
 /*
  * @minsteps 1
- * @maxsteps 8
+ * @maxsteps 16
  *
  * @require "Agent added by extending:\n"
  * @require "Agent added with Agent := true:\n"
