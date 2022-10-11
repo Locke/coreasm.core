@@ -437,7 +437,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		}
 		else{
 			cae = (Engine)CoreASMEngineFactory.createEngine();
-			cae.initialize();
+			cae.enqueueInitialize();
 		}
 
 		if(!options.SpecificationName.exists()){
@@ -446,7 +446,7 @@ public class CoreASMCompiler implements CompilerEngine {
 			getLogger().error(this.getClass(), msg);
 
 			if(cae != null){
-				cae.terminate();
+				cae.enqueueTerminate();
 				cae.waitWhileBusy();
 			}
 
@@ -458,16 +458,16 @@ public class CoreASMCompiler implements CompilerEngine {
 			throw new CompilationException(msg);
 		}
 
-		cae.loadSpecification(options.SpecificationName.getAbsolutePath());
+		cae.enqueueLoadSpecification(options.SpecificationName.getAbsolutePath());
 		//wait until parsing has finished
 		cae.waitWhileBusy();
 		if(cae.hasErrorOccurred()){
-			cae.terminate();
-			while(cae.isBusy()){};
+			cae.enqueueTerminate();
+			cae.waitWhileBusy();
 			this.addError("CoreASM Parser could not parse the specification, check your syntax");
 			throw new CompilationException("could not load specification");
 		}
-		cae.terminate();
+		cae.enqueueTerminate();
 
 
 		if(getOptions().hideCoreASMOutput){

@@ -3,7 +3,6 @@ package org.coreasm.compiler.components.logging;
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.CoreASMEngine;
 import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.CharacterPosition;
 
 /**

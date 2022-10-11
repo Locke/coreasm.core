@@ -31,11 +31,11 @@ derived safeToOpen =
 init InitRule
 
 rule InitRule = par
-	dmin := 5000
-	dmax := 10000
-	dopen := 2000
-	dclose := 2000
-	waitTime := 3000
+	dmin := 500
+	dmax := 1000
+	dopen := 200
+	dclose := 200
+	waitTime := 300
 	gateState := opened
 	startTime := now
 	forall t in Track do
@@ -111,7 +111,7 @@ rule EnvironmentProgram =
 			if trackStatus(t) = coming then
 				if passingTime(t) < now then par
 					trackStatus(t) := crossing
-					passingTime(t) := now + 3000
+					passingTime(t) := now + 300
 				endpar
 
 			if trackStatus(t) = crossing then

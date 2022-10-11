@@ -37,7 +37,7 @@ public class CompilerDriver {
 			pluginFolders += EngineProperties.PLUGIN_FOLDERS_DELIM
 					+ System.getProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY);
 		engine.setProperty(EngineProperties.PLUGIN_FOLDERS_PROPERTY, pluginFolders);
-		engine.initialize();
+		engine.enqueueInitialize();
 		engine.waitWhileBusy();
 		//Create compiler options, set the maximum step count and activate necessary output
 		CompilerOptions options = new CompilerOptions();
@@ -121,7 +121,7 @@ class StreamGobbler implements Runnable{
 	public StringBuilder output;
 	//public List<String> lines;
 	private InputStream stream;
-	private boolean quit;
+	private volatile boolean quit;
 
 	public StreamGobbler(InputStream in){
 		//lines = new ArrayList<String>();
@@ -131,23 +131,22 @@ class StreamGobbler implements Runnable{
 	}
 
 	@Override
-	public void run(){
-		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-			String line = null;
+	public void run() {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
+			boolean initialLine = true;
 
-			while(true){
-				if(quit) break;
-				line = br.readLine();
-				if(line == null) continue;
-				if(output.length() == 0)
+			while (!quit) {
+				String line = br.readLine();
+				if (line == null) continue;
+				if (initialLine) {
+					initialLine = false;
 					output.append(line);
-				else
+				}
+				else {
 					output.append("\n").append(line);
+				}
 			}
-			br.close();
-		}
-		catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

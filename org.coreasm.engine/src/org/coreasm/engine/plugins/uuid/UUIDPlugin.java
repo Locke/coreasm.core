@@ -20,7 +20,6 @@ import org.coreasm.engine.absstorage.RuleElement;
 import org.coreasm.engine.absstorage.UniverseElement;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
-import org.coreasm.engine.plugins.string.StringBackgroundElement;
 
 import java.util.*;
 

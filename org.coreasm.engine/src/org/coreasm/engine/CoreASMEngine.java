@@ -18,7 +18,6 @@ import org.coreasm.engine.absstorage.InvalidLocationException;
 import org.coreasm.engine.absstorage.Update;
 import org.coreasm.engine.absstorage.State;
 import org.coreasm.engine.absstorage.UpdateMultiset;
-import org.coreasm.engine.Specification;
 import org.coreasm.engine.plugin.PluginServiceInterface;
 import org.coreasm.engine.scheduler.Scheduler;
 
@@ -81,20 +80,20 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	/**
 	 * Initializes the engine.
 	 */
-	public void initialize();
+	public void enqueueInitialize();
 
 	/**
 	 * Terminates the execution of the engine.
 	 * The engine finishes its current task before termination.
 	 *
 	 */
-	public void terminate();
+	public void enqueueTerminate();
 
 	/**
 	 * Recovers from an error (if the engine is in error mode).
 	 *
 	 */
-	public void recover();
+	public void enqueueRecover();
 
 	/**
 	 * Loads a new specification into the engine for execution.
@@ -104,7 +103,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 *
 	 * @param specFileName the specification file name
 	 */
-	public void loadSpecification(String specFileName);
+	public void enqueueLoadSpecification(String specFileName);
 
 	/**
 	 * Loads a new specification into the engine for execution.
@@ -114,7 +113,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 *
 	 * @param src a reader which provide the spec
 	 */
-	public void loadSpecification(Reader src);
+	public void enqueueLoadSpecification(Reader src);
 
 	/**
 	 * Loads a new specification into the engine for execution.
@@ -125,7 +124,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * @param name name of the specification
 	 * @param src a reader which provide the spec
 	 */
-	public void loadSpecification(String name, Reader src);
+	public void enqueueLoadSpecification(String name, Reader src);
 
 	/**
 	 * Parses a new specification.
@@ -134,11 +133,11 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 *
 	 * <b>Note:</b> This method will not prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String)}.
 	 *
 	 * @param specFileName the specification file name
 	 */
-	public void parseSpecification(String specFileName);
+	public void enqueueParseSpecification(String specFileName);
 
 	/**
 	 * Parses a new specification.
@@ -147,11 +146,11 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 *
 	 * <b>Note:</b> This method will not prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(Reader)}.
 	 *
 	 * @param src a reader which provide the spec
 	 */
-	public void parseSpecification(Reader src);
+	public void enqueueParseSpecification(Reader src);
 
 	/**
 	 * Parses a new specification.
@@ -160,12 +159,12 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 *
 	 * <b>Note:</b> This method will not prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String, Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String, Reader)}.
 	 *
 	 * @param name name of the specification
 	 * @param src a reader which provide the spec
 	 */
-	public void parseSpecification(String name, Reader src);
+	public void enqueueParseSpecification(String name, Reader src);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -175,13 +174,13 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String)}.
 	 *
 	 * @param specFileName the specification file name
-	 * @deprecated This method is deprecated. Please use {@link #parseSpecificationHeader(String, boolean)} instead.
+	 * @deprecated This method is deprecated. Please use {@link #enqueueParseSpecificationHeader(String, boolean)} instead.
 	 */
 	@Deprecated
-	public void parseSpecificationHeader(String specFileName);
+	public void enqueueParseSpecificationHeader(String specFileName);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -191,12 +190,12 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String)}.
 	 *
 	 * @param specFileName the specification file name
 	 * @param loadPlugins if true, this method will load and initialize the plugins as well.
 	 */
-	public void parseSpecificationHeader(String specFileName, boolean loadPlugins);
+	public void enqueueParseSpecificationHeader(String specFileName, boolean loadPlugins);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -206,13 +205,13 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(Reader)}.
 	 *
 	 * @param src a reader which provide the spec
-	 * @deprecated This method is deprecated. Please use {@link #parseSpecificationHeader(Reader, boolean)} instead.
+	 * @deprecated This method is deprecated. Please use {@link #enqueueParseSpecificationHeader(Reader, boolean)} instead.
 	 */
 	@Deprecated
-	public void parseSpecificationHeader(Reader src);
+	public void enqueueParseSpecificationHeader(Reader src);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -222,12 +221,12 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(Reader)}.
 	 *
 	 * @param src a reader which provide the spec
 	 * @param loadPlugins if true, this method will load and initialize the plugins as well.
 	 */
-	public void parseSpecificationHeader(Reader src, boolean loadPlugins);
+	public void enqueueParseSpecificationHeader(Reader src, boolean loadPlugins);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -237,14 +236,14 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String, Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String, Reader)}.
 	 *
 	 * @param name name of the specification
 	 * @param src a reader which provide the spec
 	 * @deprecated
 	 */
 	@Deprecated
-	public void parseSpecificationHeader(String name, Reader src);
+	public void enqueueParseSpecificationHeader(String name, Reader src);
 
 	/**
 	 * Parses the header section of a new specification.
@@ -254,13 +253,13 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <b>Note:</b> This method will not parse the specification nor
 	 * 				prepare the engine for execution
 	 * 				of the specification. To load a specification for
-	 * 				execution, use {@link #loadSpecification(String, Reader)}.
+	 * 				execution, use {@link #enqueueLoadSpecification(String, Reader)}.
 	 *
 	 * @param name name of the specification
 	 * @param src a reader which provide the spec
 	 * @param loadPlugins if true, this method will load and initialize the plugins as well.
 	 */
-	public void parseSpecificationHeader(String name, Reader src, boolean loadPlugins);
+	public void enqueueParseSpecificationHeader(String name, Reader src, boolean loadPlugins);
 
 	/**
 	 * Returns the last specification loaded into the engine.
@@ -415,7 +414,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * If the engine is not running (not computing a step), this method does nothing.
 	 *
 	 * @see #hardInterrupt()
-	 * @see #run(int)
+	 * @see #enqueueRun(int)
 	 */
 	public void softInterrupt();
 
@@ -425,7 +424,7 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <code>getUpdateSet</code>, and <code>getEngineMode</code> may be changed.
 	 *
 	 */
-	public void step();
+	public void enqueueStep();
 
 	/**
 	 * Performs a specified number of computation steps. For i equal to zero, the
@@ -434,9 +433,9 @@ public interface CoreASMEngine extends VersionInfoProvider {
 	 * <code>getUpdateSet</code>, and <code>getEngineMode</code> may be changed.
 	 *
 	 * @param i the requested number of steps.
-	 * @see #step()
+	 * @see #enqueueStep()
 	 */
-	public void run(int i);
+	public void enqueueRun(int i);
 
 	/**
 	 * Adds the specified observer to receive engine events.

@@ -14,7 +14,6 @@ package org.coreasm.engine.parser;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  *	This class represents a operator and its contributor(s) (if any). The object

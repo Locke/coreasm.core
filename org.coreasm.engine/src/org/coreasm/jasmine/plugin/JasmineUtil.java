@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.plugins.collection.AbstractListElement;

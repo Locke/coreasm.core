@@ -14,8 +14,6 @@
 
 package org.coreasm.engine.scheduler;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
 import org.coreasm.engine.ControlAPI;
