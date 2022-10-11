@@ -242,6 +242,8 @@ public class Engine implements ControlAPI {
 		if (getEngineMode() == EngineMode.emError)
 			addCommand(new EngineCommand(EngineCommand.CmdType.ecRecover,
 					null));
+		else
+			logger.warn("not in error mode - nothing to recover from");
 	}
 
 	@Override
