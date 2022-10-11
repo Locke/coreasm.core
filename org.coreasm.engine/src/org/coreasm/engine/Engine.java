@@ -227,29 +227,25 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void initialize() {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecInit,
-				null));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecInit, null));
 	}
 
 	@Override
 	public void terminate() {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecTerminate,
-				null));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecTerminate, null));
 	}
 
 	@Override
 	public void recover() {
 		if (getEngineMode() == EngineMode.emError)
-			addCommand(new EngineCommand(EngineCommand.CmdType.ecRecover,
-					null));
+			addCommand(new EngineCommand(EngineCommand.CmdType.ecRecover, null));
 		else
 			logger.warn("not in error mode - nothing to recover from");
 	}
 
 	@Override
 	public void loadSpecification(String specFileName) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec,
-				specFileName));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec, specFileName));
 	}
 
 	@Override
@@ -259,14 +255,12 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void loadSpecification(String name, Reader src) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec,
-				new NamedStringReader(name, src)));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecLoadSpec, new NamedStringReader(name, src)));
 	}
 
 	@Override
 	public void parseSpecification(String specFileName) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec,
-				specFileName));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec, specFileName));
 	}
 
 	@Override
@@ -276,8 +270,7 @@ public class Engine implements ControlAPI {
 
 	@Override
 	public void parseSpecification(String name, Reader src) {
-		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec,
-				new NamedStringReader(name, src)));
+		addCommand(new EngineCommand(EngineCommand.CmdType.ecOnlyParseSpec, new NamedStringReader(name, src)));
 	}
 
 	@Deprecated
