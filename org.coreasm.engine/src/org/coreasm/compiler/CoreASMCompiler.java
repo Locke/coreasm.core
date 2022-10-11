@@ -463,7 +463,7 @@ public class CoreASMCompiler implements CompilerEngine {
 		cae.waitWhileBusy();
 		if(cae.hasErrorOccurred()){
 			cae.terminate();
-			while(cae.isBusy()){};
+			cae.waitWhileBusy();
 			this.addError("CoreASM Parser could not parse the specification, check your syntax");
 			throw new CompilationException("could not load specification");
 		}
