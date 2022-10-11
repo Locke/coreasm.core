@@ -134,11 +134,10 @@ class StreamGobbler implements Runnable{
 	public void run(){
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-			String line = null;
 
 			while(true){
 				if(quit) break;
-				line = br.readLine();
+				String line = br.readLine();
 				if(line == null) continue;
 				if(output.length() == 0)
 					output.append(line);
