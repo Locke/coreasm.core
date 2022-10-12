@@ -82,7 +82,7 @@ public class PlotterPlugin extends Plugin implements
 	protected Map<String, GrammarRule> parsers = null;
 	protected Set<String> dependencyNames = null;
 
-	private final String[] keywords = {"plot", "in"};
+	private final String[] keywords = {PLOT_KEYWORD, "in"};
 	private final String[] operators = {};
 
 	private HashMap<EngineMode, Integer> targetModes;
@@ -148,7 +148,7 @@ public class PlotterPlugin extends Plugin implements
 
 			Parser<Node> plotParser = Parsers.array(
 					new Parser[] {
-					pTools.getKeywParser("plot", PLUGIN_NAME),
+					pTools.getKeywParser(PLOT_KEYWORD, PLUGIN_NAME),
 					termParser,
 					pTools.seq(
 							pTools.getKeywParser("in", PLUGIN_NAME),
@@ -166,7 +166,7 @@ public class PlotterPlugin extends Plugin implements
 					});
 			parsers.put("Rule",
 					new GrammarRule("PlotRule",
-							"'plot' Term ('in' Term)?", plotParser, PLUGIN_NAME));
+							"'" + PLOT_KEYWORD + "' Term ('in' Term)?", plotParser, PLUGIN_NAME));
 		}
 
 		return parsers;
