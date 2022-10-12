@@ -127,20 +127,12 @@ public class TestAllCasm {
 
 				//test if no error has occurred and maybe output error message
 				if (!errContent.isEmpty()) {
-					String failMessage = "an error occurred!"
-							+ "\nerror output:\n"
-							+ errContent
-							+ "\nactual output:\n" + outContent;
-					return TestReport.failure(testFile, failMessage, steps);
+					return TestReport.failureErrorOutput(testFile, steps, outContent, errContent);
 				}
 				//check if no refused output is contained
 				for (String refusedOutput : refusedOutputList) {
 					if (outContent.contains(refusedOutput)) {
-						String failMessage = "refused output found!"
-								+ "\nrefused output:\n"
-								+ refusedOutput
-								+ "\nactual output:\n" + outContent;
-						return TestReport.failure(testFile, failMessage, steps);
+						return TestReport.failureRefusedOutput(testFile, steps, outContent, refusedOutput);
 					}
 				}
 				for (String requiredOutput : new LinkedList<String>(requiredOutputList)) {
@@ -154,11 +146,8 @@ public class TestAllCasm {
 			// check if no required output is missing after all steps
 			if (!requiredOutputList.isEmpty()) {
 				String outContent = outStream.toString();
-				String failMessage = "missing required output!"
-						+ "\nmissing output:\n"
-						+ requiredOutputList.get(0)
-						+ "\nactual output:\n" + outContent;
-				return TestReport.failure(testFile, failMessage, steps - 1);
+				String missingOutput = requiredOutputList.get(0);
+				return TestReport.failureMissingOutput(testFile, steps - 1, outContent, missingOutput);
 			}
 		}
 		catch (Exception e) {

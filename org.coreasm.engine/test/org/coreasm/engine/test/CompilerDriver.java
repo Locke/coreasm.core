@@ -87,11 +87,7 @@ public class CompilerDriver {
 
 		//check for errors
 		if (!errContent.equals("")) {
-			String failMessage = "an error occurred!"
-					+ "\nerror output:\n"
-					+ errContent
-					+ "\nactual output:\n" + outContent;
-			return TestReport.failure(testFile, failMessage);
+			return TestReport.failureErrorOutput(testFile, outContent, errContent);
 		}
 		if(procResult != 0){
 			String failMessage = "process terminated with non-zero exit code: " + procResult;
@@ -102,21 +98,13 @@ public class CompilerDriver {
 
 		for (String l : refusedOutputList) {
 			if (outContent.contains(l)) {
-				String failMessage = "refused output found!"
-						+ "\nrefused output:\n"
-						+ l
-						+ "\nactual output:\n" + outContent;
-				return TestReport.failure(testFile, failMessage);
+				return TestReport.failureRefusedOutput(testFile, outContent, l);
 			}
 		}
 
 		for (String l : requiredOutputList) {
 			if (!outContent.contains(l)) {
-				String failMessage = "missing required output!"
-						+ "\nmissing output:\n"
-						+ l
-						+ "\nactual output:\n" + outContent;
-				return TestReport.failure(testFile, failMessage);
+				return TestReport.failureMissingOutput(testFile, outContent, l);
 			}
 		}
 

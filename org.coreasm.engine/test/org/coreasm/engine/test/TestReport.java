@@ -11,6 +11,8 @@ public class TestReport {
 	private final int steps;
 	private final boolean successful;
 
+	private static final String NL = System.lineSeparator();
+
 	public TestReport(File file, String message, int steps, boolean successful) {
 		this.file = file;
 		this.message = message;
@@ -77,6 +79,48 @@ public class TestReport {
 	}
 
 	public static TestReport failure(File file, String message, int steps) {
+		return new TestReport(file, message, steps, false);
+	}
+
+	public static TestReport failureErrorOutput(File file, String outContent, String errContent) {
+		return TestReport.failureErrorOutput(file, -1, outContent, errContent);
+	}
+
+	public static TestReport failureErrorOutput(File file, int steps, String outContent, String errContent) {
+		String message =
+				"an error occurred!" + NL +
+				"error output:" + NL +
+				errContent +
+				"actual output:" + NL +
+				outContent;
+		return new TestReport(file, message, steps, false);
+	}
+
+	public static TestReport failureRefusedOutput(File file, String outContent, String refusedOutput) {
+		return TestReport.failureRefusedOutput(file, -1, outContent, refusedOutput);
+	}
+
+	public static TestReport failureRefusedOutput(File file, int steps, String outContent, String refusedOutput) {
+		String message =
+				"refused output found!" + NL +
+				"refused output:" + NL +
+				refusedOutput + NL +
+				"actual output:" + NL +
+				outContent;
+		return new TestReport(file, message, steps, false);
+	}
+
+	public static TestReport failureMissingOutput(File file, String outContent, String missingOutput) {
+		return TestReport.failureMissingOutput(file, -1, outContent, missingOutput);
+	}
+
+	public static TestReport failureMissingOutput(File file, int steps, String outContent, String missingOutput) {
+		String message =
+				"missing required output!" + NL +
+				"missing output:" + NL +
+				missingOutput + NL +
+				"actual output:" + NL +
+				outContent;
 		return new TestReport(file, message, steps, false);
 	}
 
