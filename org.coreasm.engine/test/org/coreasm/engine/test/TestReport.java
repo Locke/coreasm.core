@@ -25,7 +25,7 @@ public class TestReport {
 		this.successful = successful;
 		this.steps = steps;
 		if (!TestReport.reports.isEmpty()
-				&& TestReport.getLast().getFile() == this.file)
+				&& TestReport.reports.getLast().getFile() == this.file)
 			TestAllCasm.origOutput
 					.println("Last report has been for the same file. Check if your test produces a unique result.");
 		reports.add(this);
@@ -54,13 +54,6 @@ public class TestReport {
 
 	public boolean isSuccessful() {
 		return this.successful;
-	}
-
-	public static TestReport getLast() {
-		if (reports.isEmpty())
-			return null;
-		else
-			return reports.getLast();
 	}
 
 	public String getMessage() {
