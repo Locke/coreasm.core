@@ -14,6 +14,12 @@ import org.coreasm.util.Tools;
 
 public class TestUtils {
 
+	protected static final boolean failFast;
+
+	static {
+		failFast = Boolean.getBoolean("TestUtils.failFast");
+	}
+
 	public static List<String> getFilteredOutput(File file, String filter) {
 		List<String> filteredOutputList = new LinkedList<String>();
 		Pattern pattern = Pattern.compile(filter + ".*");

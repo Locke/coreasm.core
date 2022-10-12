@@ -42,14 +42,16 @@ jobs:
     if: ${{ needs.pre_job.outputs.should_skip != 'true' && !contains(github.event.head_commit.message, 'NOCI') }}
 
     strategy:
-      fail-fast: false
+      fail-fast: false # don't stop other OS/JDK
       matrix:
         os: ['ubuntu-latest', 'windows-latest']
         jdk: ['11', '17']
+        failFast: [true] # no need to test all files of a plugin on error
         include:
           - os: 'ubuntu-latest'
             jdk: '11'
             coverage: true
+            failFast: false
           - os: 'macos-latest'
             jdk: '17'
 
@@ -71,10 +73,10 @@ jobs:
       run: mvn -B compile --file pom.xml
     - name: Test with coverage
       if: ${{ matrix.coverage }}
-      run: mvn -B test --file pom.xml -P coverage
+      run: mvn -B test "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml -P coverage
     - name: Upload coverage
       if: ${{ matrix.coverage }}
       run: bash <(curl -s https://codecov.io/bash)
     - name: Test without coverage
       if: ${{ !matrix.coverage }}
-      run: mvn -B test --file pom.xml
+      run: mvn -B test "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml

@@ -70,9 +70,11 @@ public class TestAllCCasm {
 		//perform test for all test files, output result, and modify test result if test has failed
 		for (File testFile : testFiles) {
 			TestReport t = CompilerDriver.runSpecification(testFile);
-			if (!t.successful())
-				successful = false;
 			t.print(origOutput, origError);
+			if (!t.successful()) {
+				successful = false;
+				if (TestUtils.failFast) break;
+			}
 		}
 		//report overall test result
 		//test failed if at least one test has failed
