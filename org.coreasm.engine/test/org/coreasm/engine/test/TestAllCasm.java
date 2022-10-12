@@ -83,7 +83,7 @@ public class TestAllCasm {
 		for (File testFile : testFiles) {
 			TestReport t = runSpecification(testFile);
 			t.print(origOutput, origError);
-			if (!t.successful()) {
+			if (!t.isSuccessful()) {
 				successful = false;
 				if (TestUtils.failFast) break;
 			}

@@ -52,7 +52,7 @@ public class TestReport {
 		}
 	}
 
-	public boolean successful() {
+	public boolean isSuccessful() {
 		return this.successful;
 	}
 
