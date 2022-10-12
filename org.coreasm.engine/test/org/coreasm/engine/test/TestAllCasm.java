@@ -137,10 +137,14 @@ public class TestAllCasm {
 				}
 
 				// check if no refused output is contained
+				List<String> occurredRefusedOutputs = new LinkedList<>();
 				for (String refusedOutput : refusedOutputs) {
 					if (outContent.contains(refusedOutput)) {
-						return TestReport.failureRefusedOutput(testFile, steps, outContent, refusedOutput);
+						occurredRefusedOutputs.add(refusedOutput);
 					}
+				}
+				if (!occurredRefusedOutputs.isEmpty()) {
+					return TestReport.failureRefusedOutput(testFile, steps, outContent, occurredRefusedOutputs);
 				}
 
 				// reduce remaining required output
@@ -152,8 +156,7 @@ public class TestAllCasm {
 			// check if no required output is missing after all steps
 			if (!remainingRequiredOutputs.isEmpty()) {
 				String outContent = outStream.toString();
-				String missingOutput = remainingRequiredOutputs.get(0);
-				return TestReport.failureMissingOutput(testFile, steps - 1, outContent, missingOutput);
+				return TestReport.failureMissingOutput(testFile, steps - 1, outContent, remainingRequiredOutputs);
 			}
 		}
 		catch (Exception e) {

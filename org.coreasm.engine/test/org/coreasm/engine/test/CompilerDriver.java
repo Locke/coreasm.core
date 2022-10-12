@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.coreasm.compiler.CompilerOptions;
@@ -100,16 +101,24 @@ public class CompilerDriver {
 
 		// check output lines
 
+		List<String> occurredRefusedOutputs = new LinkedList<>();
 		for (String l : refusedOutputs) {
 			if (outContent.contains(l)) {
-				return TestReport.failureRefusedOutput(testFile, outContent, l);
+				occurredRefusedOutputs.add(l);
 			}
 		}
+		if (!occurredRefusedOutputs.isEmpty()) {
+			return TestReport.failureRefusedOutput(testFile, outContent, occurredRefusedOutputs);
+		}
 
+		List<String> remainingRequiredOutputs = new LinkedList<>();
 		for (String l : requiredOutputs) {
 			if (!outContent.contains(l)) {
-				return TestReport.failureMissingOutput(testFile, outContent, l);
+				remainingRequiredOutputs.add(l);
 			}
+		}
+		if (!remainingRequiredOutputs.isEmpty()) {
+			return TestReport.failureMissingOutput(testFile, outContent, remainingRequiredOutputs);
 		}
 
 		return TestReport.success(testFile);

@@ -3,6 +3,7 @@ package org.coreasm.engine.test;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.LinkedList;
+import java.util.List;
 
 public class TestReport {
 	private static final LinkedList<TestReport> reports = new LinkedList<>();
@@ -100,16 +101,26 @@ public class TestReport {
 		return new TestReport(file, message, steps, false);
 	}
 
-	public static TestReport failureRefusedOutput(File file, String outContent, String refusedOutput) {
-		return TestReport.failureRefusedOutput(file, -1, outContent, refusedOutput);
+	public static TestReport failureRefusedOutput(File file, String outContent, List<String> occurredRefusedOutputs) {
+		return TestReport.failureRefusedOutput(file, -1, outContent, occurredRefusedOutputs);
 	}
 
-	public static TestReport failureRefusedOutput(File file, int steps, String outContent, String refusedOutput) {
+	public static TestReport failureRefusedOutput(File file, int steps, String outContent, List<String> occurredRefusedOutputs) {
+		int size = occurredRefusedOutputs.size();
+		String summary;
+		if (size == 1) {
+			summary = "refused output:";
+		}
+		else {
+			summary = size + " refused outputs:";
+		}
+		String refusedOutputs = String.join(NL + "----" + NL, occurredRefusedOutputs);
+
 		String message =
 				"refused output found!" + NL +
-				"refused output:" + NL +
+				summary + NL +
 				"----" + NL +
-				refusedOutput + NL +
+				refusedOutputs + NL +
 				"----" + NL +
 				"actual output:" + NL +
 				"----" + NL +
@@ -118,16 +129,26 @@ public class TestReport {
 		return new TestReport(file, message, steps, false);
 	}
 
-	public static TestReport failureMissingOutput(File file, String outContent, String missingOutput) {
-		return TestReport.failureMissingOutput(file, -1, outContent, missingOutput);
+	public static TestReport failureMissingOutput(File file, String outContent, List<String> remainingRequiredOutputs) {
+		return TestReport.failureMissingOutput(file, -1, outContent, remainingRequiredOutputs);
 	}
 
-	public static TestReport failureMissingOutput(File file, int steps, String outContent, String missingOutput) {
+	public static TestReport failureMissingOutput(File file, int steps, String outContent, List<String> remainingRequiredOutputs) {
+		int size = remainingRequiredOutputs.size();
+		String summary;
+		if (size == 1) {
+			summary = "missing output:";
+		}
+		else {
+			summary = size + " missing outputs:";
+		}
+		String missingOutputs = String.join(NL + "----" + NL, remainingRequiredOutputs);
+
 		String message =
 				"missing required output!" + NL +
-				"missing output:" + NL +
+				summary + NL +
 				"----" + NL +
-				missingOutput + NL +
+				missingOutputs + NL +
 				"----" + NL +
 				"actual output:" + NL +
 				"----" + NL +
