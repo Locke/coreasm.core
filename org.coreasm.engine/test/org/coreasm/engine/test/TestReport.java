@@ -2,10 +2,10 @@ package org.coreasm.engine.test;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TestReport {
-	private static final ArrayList<TestReport> reports = new ArrayList<>();
+	private static final LinkedList<TestReport> reports = new LinkedList<>();
 	private final File file;
 	private final String message;
 	private final int steps;
@@ -60,7 +60,7 @@ public class TestReport {
 		if (reports.isEmpty())
 			return null;
 		else
-			return reports.get(reports.size() - 1);
+			return reports.getLast();
 	}
 
 	public String getMessage() {
