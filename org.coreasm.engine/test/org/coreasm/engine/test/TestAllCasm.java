@@ -202,10 +202,13 @@ public class TestAllCasm {
 				return new TestReport(
 						testFile, "engine is stopped!", steps, false);
 
-			td.setOutputStream(new PrintStream(outContent));
+			PrintStream ps = new PrintStream(outContent, false);
+			td.setOutputStream(ps);
 			for (steps = minSteps; steps <= maxSteps; steps++) {
 				td.executeSteps(minSteps);
 				minSteps = 1;
+				ps.flush();
+
 				//test if no error has occurred and maybe output error message
 				if (!errContent.toString().isEmpty()) {
 					failMessage = "An error occurred in " + testFile.getName() + ":" + errContent;
