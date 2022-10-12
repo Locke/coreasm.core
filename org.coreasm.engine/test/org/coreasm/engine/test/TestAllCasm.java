@@ -97,7 +97,7 @@ public class TestAllCasm {
 	}
 
 	public TestReport runSpecification(File testFile) {
-
+		// extract parameters and expected results from the testcase
 		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
 		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
 		int minSteps = TestUtils.getParameter(testFile, "minsteps");

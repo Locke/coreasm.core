@@ -16,8 +16,8 @@ import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.Tools;
 
 public class CompilerDriver {
-	public static TestReport runSpecification(File testFile){
-		//extract parameters and expected results from the testcase
+	public static TestReport runSpecification(File testFile) {
+		// extract parameters and expected results from the testcase
 		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
 		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
 		int minSteps = TestUtils.getParameter(testFile, "minsteps");
