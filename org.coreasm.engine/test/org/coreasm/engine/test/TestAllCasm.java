@@ -45,9 +45,9 @@ public class TestAllCasm {
 		}
 	}
 
-	private final ByteArrayOutputStream logContent = new ByteArrayOutputStream();
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream logStream = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream errStream = new ByteArrayOutputStream();
 	final static PrintStream origOutput = System.out;
 	final static PrintStream origError = System.err;
 
@@ -61,8 +61,8 @@ public class TestAllCasm {
 
 	@Before
 	public void setUpStreams() {
-		System.setOut(new PrintStream(logContent));
-		System.setErr(new PrintStream(errContent));
+		System.setOut(new PrintStream(logStream));
+		System.setErr(new PrintStream(errStream));
 	}
 
 	@After
@@ -108,51 +108,56 @@ public class TestAllCasm {
 		TestEngineDriver td = null;
 		int steps = 0;
 		try {
-			outContent.reset();
-			errContent.reset();
+			outStream.reset();
+			errStream.reset();
 			td = TestEngineDriver.newLaunch(testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins", properties);
 			if (TestEngineDriver.TestEngineDriverStatus.stopped.equals(td.getStatus()))
 				return new TestReport(
 						testFile, "engine is stopped!", steps, false);
 
-			PrintStream ps = new PrintStream(outContent, false);
+			PrintStream ps = new PrintStream(outStream, false);
 			td.setOutputStream(ps);
 			for (steps = minSteps; steps <= maxSteps; steps++) {
 				td.executeSteps(minSteps);
 				minSteps = 1;
 				ps.flush();
 
+				String outContent = outStream.toString();
+				String errContent = errStream.toString();
+
 				//test if no error has occurred and maybe output error message
-				if (!errContent.toString().isEmpty()) {
+				if (!errContent.isEmpty()) {
 					String failMessage = "an error occurred!"
 							+ "\nerror output:\n"
 							+ errContent
-							+ "\nactual output:\n" + outContent.toString();
+							+ "\nactual output:\n" + outContent;
 					return new TestReport(testFile, failMessage, steps, false);
 				}
 				//check if no refused output is contained
 				for (String refusedOutput : refusedOutputList) {
-					if (outContent.toString().contains(refusedOutput)) {
+					if (outContent.contains(refusedOutput)) {
 						String failMessage = "refused output found!"
 								+ "\nrefused output:\n"
 								+ refusedOutput
-								+ "\nactual output:\n" + outContent.toString();
+								+ "\nactual output:\n" + outContent;
 						return new TestReport(testFile, failMessage, steps, false);
 					}
 				}
 				for (String requiredOutput : new LinkedList<String>(requiredOutputList)) {
-					if (outContent.toString().contains(requiredOutput))
+					if (outContent.contains(requiredOutput))
 						requiredOutputList.remove(requiredOutput);
 				}
 				if (requiredOutputList.isEmpty())
 					break;
 			}
-			//check if no required output is missing
+
+			// check if no required output is missing after all steps
 			if (!requiredOutputList.isEmpty()) {
+				String outContent = outStream.toString();
 				String failMessage = "missing required output!"
 						+ "\nmissing output:\n"
 						+ requiredOutputList.get(0)
-						+ "\nactual output:\n" + outContent.toString();
+						+ "\nactual output:\n" + outContent;
 				return new TestReport(testFile, failMessage, steps - 1, false);
 			}
 		}
