@@ -241,14 +241,22 @@ public class TestAllCasm {
 			e.printStackTrace(origOutput);
 		}
 		finally {
-			td.stop();
+			if (td != null) {
+				td.stop();
+			}
 		}
-		if (td.isRunning()) {
+
+		if (td == null) {
+			failMessage = "Unable to launch TestEngineDriver for " + testFile.getName();
+			return new TestReport(testFile, failMessage, steps, false);
+		}
+		else if (td.isRunning()) {
 			failMessage = testFile.getName() + " has a running instance but is stopped!";
 			return new TestReport(testFile, failMessage, steps, false);
 		}
-		else if (steps <= maxSteps /* only if successful */)
+		else if (steps <= maxSteps /* only if successful */) {
 			return new TestReport(testFile, steps);
+		}
 		else {
 			failMessage = "No test result for test class " + TestAllCasm.class.getSimpleName();
 			return new TestReport(testFile, failMessage, steps, false);
