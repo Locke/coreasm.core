@@ -76,7 +76,7 @@ public class TestAllCasm {
 		boolean successful = true;
 		//check if there are files for testing for this class
 		if (testFiles.isEmpty()) {
-			TestReport t = new TestReport(null, "no test file found!", -1, false);
+			TestReport t = TestReport.failure("no test file found!");
 			t.print(origOutput, origError);
 			successful = false;
 		}
@@ -113,8 +113,7 @@ public class TestAllCasm {
 			errStream.reset();
 			td = TestEngineDriver.newLaunch(testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins", properties);
 			if (TestEngineDriver.TestEngineDriverStatus.stopped.equals(td.getStatus()))
-				return new TestReport(
-						testFile, "engine is stopped!", steps, false);
+				return TestReport.failure(testFile, "engine is stopped!", steps);
 
 			PrintStream ps = new PrintStream(outStream, false);
 			td.setOutputStream(ps);
@@ -132,7 +131,7 @@ public class TestAllCasm {
 							+ "\nerror output:\n"
 							+ errContent
 							+ "\nactual output:\n" + outContent;
-					return new TestReport(testFile, failMessage, steps, false);
+					return TestReport.failure(testFile, failMessage, steps);
 				}
 				//check if no refused output is contained
 				for (String refusedOutput : refusedOutputList) {
@@ -141,7 +140,7 @@ public class TestAllCasm {
 								+ "\nrefused output:\n"
 								+ refusedOutput
 								+ "\nactual output:\n" + outContent;
-						return new TestReport(testFile, failMessage, steps, false);
+						return TestReport.failure(testFile, failMessage, steps);
 					}
 				}
 				for (String requiredOutput : new LinkedList<String>(requiredOutputList)) {
@@ -159,7 +158,7 @@ public class TestAllCasm {
 						+ "\nmissing output:\n"
 						+ requiredOutputList.get(0)
 						+ "\nactual output:\n" + outContent;
-				return new TestReport(testFile, failMessage, steps - 1, false);
+				return TestReport.failure(testFile, failMessage, steps - 1);
 			}
 		}
 		catch (Exception e) {
@@ -173,18 +172,18 @@ public class TestAllCasm {
 
 		if (td == null) {
 			String failMessage = "Unable to launch TestEngineDriver";
-			return new TestReport(testFile, failMessage, steps, false);
+			return TestReport.failure(testFile, failMessage, steps);
 		}
 		else if (td.isRunning()) {
 			String failMessage = "has a running instance but is stopped!";
-			return new TestReport(testFile, failMessage, steps, false);
+			return TestReport.failure(testFile, failMessage, steps);
 		}
 		else if (steps <= maxSteps /* only if successful */) {
-			return new TestReport(testFile, steps);
+			return TestReport.success(testFile, steps);
 		}
 		else {
 			String failMessage = "no test result!";
-			return new TestReport(testFile, failMessage, steps, false);
+			return TestReport.failure(testFile, failMessage, steps);
 		}
 	}
 

@@ -63,7 +63,7 @@ public class TestAllCCasm {
 		boolean successful = true;
 		//check if there are files for testing for this class
 		if (testFiles.isEmpty()) {
-			TestReport t = new TestReport(null, "no test file found!", -1, false);
+			TestReport t = TestReport.failure("no test file found!");
 			t.print(origOutput, origError);
 			successful = false;
 		}

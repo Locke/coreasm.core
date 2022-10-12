@@ -54,7 +54,7 @@ public class CompilerDriver {
 			compiler.compile();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "compilation failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testFile, "compilation failed: " + e.getMessage());
 		}
 
 		//file should now be compiled. Launch it as a separate process; requires a java executable on the PATH
@@ -63,7 +63,7 @@ public class CompilerDriver {
 			proc = Runtime.getRuntime().exec("java -jar compiledTest.jar");
 
 		} catch (IOException e) {
-			return new TestReport(testFile, "running failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testFile, "running failed: " + e.getMessage());
 		}
 
 		StreamGobbler stdOutGobbler = new StreamGobbler(proc.getInputStream());
@@ -77,7 +77,7 @@ public class CompilerDriver {
 			procResult = proc.waitFor();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "waiting for process failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testFile, "waiting for process failed: " + e.getMessage());
 		}
 		stdOutGobbler.stopThread();
 		stdErrGobbler.stopThread();
@@ -91,11 +91,11 @@ public class CompilerDriver {
 					+ "\nerror output:\n"
 					+ errContent
 					+ "\nactual output:\n" + outContent;
-			return new TestReport(testFile, failMessage, -1, false);
+			return TestReport.failure(testFile, failMessage);
 		}
 		if(procResult != 0){
 			String failMessage = "process terminated with non-zero exit code: " + procResult;
-			return new TestReport(testFile, failMessage, -1, false);
+			return TestReport.failure(testFile, failMessage);
 		}
 
 		// check output lines
@@ -106,7 +106,7 @@ public class CompilerDriver {
 						+ "\nrefused output:\n"
 						+ l
 						+ "\nactual output:\n" + outContent;
-				return new TestReport(testFile, failMessage, -1, false);
+				return TestReport.failure(testFile, failMessage);
 			}
 		}
 
@@ -116,11 +116,11 @@ public class CompilerDriver {
 						+ "\nmissing output:\n"
 						+ l
 						+ "\nactual output:\n" + outContent;
-				return new TestReport(testFile, failMessage, -1, false);
+				return TestReport.failure(testFile, failMessage);
 			}
 		}
 
-		return new TestReport(testFile, "Success", -1, true);
+		return TestReport.success(testFile);
 	}
 }
 

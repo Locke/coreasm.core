@@ -11,14 +11,6 @@ public class TestReport {
 	private final int steps;
 	private final boolean successful;
 
-	public TestReport(File file, int steps) {
-		this(file, "", steps);
-	}
-
-	public TestReport(File file, String message, int steps) {
-		this(file, message, steps, true);
-	}
-
 	public TestReport(File file, String message, int steps, boolean successful) {
 		this.file = file;
 		this.message = message;
@@ -67,4 +59,25 @@ public class TestReport {
 	public String getMessage() {
 		return this.message;
 	}
+
+	public static TestReport success(File file) {
+		return new TestReport(file, "", -1, true);
+	}
+
+	public static TestReport success(File file, int steps) {
+		return new TestReport(file, "", steps, true);
+	}
+
+	public static TestReport failure(String message) {
+		return new TestReport(null, message, -1, false);
+	}
+
+	public static TestReport failure(File file, String message) {
+		return new TestReport(file, message, -1, false);
+	}
+
+	public static TestReport failure(File file, String message, int steps) {
+		return new TestReport(file, message, steps, false);
+	}
+
 }
