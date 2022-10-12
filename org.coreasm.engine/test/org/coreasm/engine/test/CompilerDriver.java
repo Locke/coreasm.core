@@ -100,7 +100,7 @@ public class CompilerDriver {
 						+ "\nmissing output:\n"
 						+ l
 						+ "\nactual output:\n" + out;
-				return new TestReport(testFile, failMessage, -1 - 1, false);
+				return new TestReport(testFile, failMessage, -1, false);
 			}
 		}
 		for(String l : refusedOutputList){
