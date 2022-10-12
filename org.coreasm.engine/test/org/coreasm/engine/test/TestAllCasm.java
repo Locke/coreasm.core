@@ -106,7 +106,6 @@ public class TestAllCasm {
 		if (maxSteps < minSteps)
 			maxSteps = minSteps;
 		TestEngineDriver td = null;
-		String failMessage = "";
 		int steps = 0;
 		try {
 			outContent.reset();
@@ -125,13 +124,16 @@ public class TestAllCasm {
 
 				//test if no error has occurred and maybe output error message
 				if (!errContent.toString().isEmpty()) {
-					failMessage = "An error occurred in " + testFile.getName() + ":" + errContent;
+					String failMessage = "an error occurred!"
+							+ "\nerror output:\n"
+							+ errContent
+							+ "\nactual output:\n" + outContent.toString();
 					return new TestReport(testFile, failMessage, steps, false);
 				}
 				//check if no refused output is contained
 				for (String refusedOutput : refusedOutputList) {
 					if (outContent.toString().contains(refusedOutput)) {
-						failMessage = "refused output found in test file: " + testFile.getName()
+						String failMessage = "refused output found!"
 								+ "\nrefused output:\n"
 								+ refusedOutput
 								+ "\nactual output:\n" + outContent.toString();
@@ -147,7 +149,7 @@ public class TestAllCasm {
 			}
 			//check if no required output is missing
 			if (!requiredOutputList.isEmpty()) {
-				failMessage = "missing required output for test file: " + testFile.getName()
+				String failMessage = "missing required output!"
 						+ "\nmissing output:\n"
 						+ requiredOutputList.get(0)
 						+ "\nactual output:\n" + outContent.toString();
@@ -164,18 +166,18 @@ public class TestAllCasm {
 		}
 
 		if (td == null) {
-			failMessage = "Unable to launch TestEngineDriver for " + testFile.getName();
+			String failMessage = "Unable to launch TestEngineDriver";
 			return new TestReport(testFile, failMessage, steps, false);
 		}
 		else if (td.isRunning()) {
-			failMessage = testFile.getName() + " has a running instance but is stopped!";
+			String failMessage = "has a running instance but is stopped!";
 			return new TestReport(testFile, failMessage, steps, false);
 		}
 		else if (steps <= maxSteps /* only if successful */) {
 			return new TestReport(testFile, steps);
 		}
 		else {
-			failMessage = "No test result for test class " + TestAllCasm.class.getSimpleName();
+			String failMessage = "no test result!";
 			return new TestReport(testFile, failMessage, steps, false);
 		}
 	}

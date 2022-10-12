@@ -54,7 +54,7 @@ public class CompilerDriver {
 			compiler.compile();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "Compilation failed: " + e.getMessage(), -1, false);
+			return new TestReport(testFile, "compilation failed: " + e.getMessage(), -1, false);
 		}
 
 		//file should now be compiled. Launch it as a separate process; requires a java executable on the PATH
@@ -63,7 +63,7 @@ public class CompilerDriver {
 			proc = Runtime.getRuntime().exec("java -jar compiledTest.jar");
 
 		} catch (IOException e) {
-			return new TestReport(testFile, "Running failed: " + e.getMessage(), -1, false);
+			return new TestReport(testFile, "running failed: " + e.getMessage(), -1, false);
 		}
 
 		StreamGobbler in = new StreamGobbler(proc.getInputStream());
@@ -77,18 +77,21 @@ public class CompilerDriver {
 			procResult = proc.waitFor();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "Waiting for process failed: " + e.getMessage(), -1, false);
+			return new TestReport(testFile, "waiting for process failed: " + e.getMessage(), -1, false);
 		}
 		in.stopThread();
 		err.stopThread();
 
 		//check for errors
 		if (!err.output.toString().equals("")) {
-			String failMessage = "An error occurred in " + testFile.getName() + ":" + err.output.toString();
+			String failMessage = "an error occurred!"
+					+ "\nerror output:\n"
+					+ err.output.toString()
+					+ "\nactual output:\n" + in.output.toString();
 			return new TestReport(testFile, failMessage, -1, false);
 		}
 		if(procResult != 0){
-			String failMessage = "Process terminated with exit code != 0";
+			String failMessage = "process terminated with non-zero exit code: " + procResult;
 			return new TestReport(testFile, failMessage, -1, false);
 		}
 
@@ -97,7 +100,7 @@ public class CompilerDriver {
 
 		for (String l : refusedOutputList) {
 			if (out.contains(l)) {
-				String failMessage = "refused output found in test file: " + testFile.getName()
+				String failMessage = "refused output found!"
 						+ "\nrefused output:\n"
 						+ l
 						+ "\nactual output:\n" + out;
@@ -107,7 +110,7 @@ public class CompilerDriver {
 
 		for (String l : requiredOutputList) {
 			if (!out.contains(l)) {
-				String failMessage = "missing required output for test file: " + testFile.getName()
+				String failMessage = "missing required output!"
 						+ "\nmissing output:\n"
 						+ l
 						+ "\nactual output:\n" + out;
