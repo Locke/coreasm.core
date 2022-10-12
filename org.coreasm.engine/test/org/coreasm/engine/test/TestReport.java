@@ -35,15 +35,23 @@ public class TestReport {
 		return this.file;
 	}
 
+	public String formatted() {
+		String fileFormatted    = this.file == null       ? "" : (" of " + this.file.getName());
+		String statusFormatted  = this.successful         ? " successful" : " failed";
+		String stepsFormatted   = steps == -1             ? "" : (" after " + steps + (steps == 1 ? " step" : " steps"));
+		String messageFormatted = this.message.isEmpty()  ? "" : (": " + this.message);
+
+		return "Test" + fileFormatted + statusFormatted + stepsFormatted + messageFormatted;
+	}
+
 	public void print(PrintStream out, PrintStream err) {
+		String msg = this.formatted();
 		if (this.successful) {
-			String success = "Test of " + this.file.getName() + " successful after " + steps
-					+ (steps == 1 ? " step" : " steps");
-			out.println(this.message.isEmpty() ? success : success + "; " + this.message);
+			out.println(msg);
 		}
-		else
-			err.println("An error occurred after " + steps + " steps in " + this.file.getName() + ": "
-					+ this.message);
+		else {
+			err.println(msg);
+		}
 	}
 
 	public void printTestReports(PrintStream out, PrintStream err) {
