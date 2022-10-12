@@ -66,12 +66,12 @@ public class CompilerDriver {
 			return new TestReport(testFile, "running failed: " + e.getMessage(), -1, false);
 		}
 
-		StreamGobbler in = new StreamGobbler(proc.getInputStream());
-		StreamGobbler err = new StreamGobbler(proc.getErrorStream());
-		Thread g1 = new Thread(in);
-		Thread g2 = new Thread(err);
-		g1.start();
-		g2.start();
+		StreamGobbler stdOutGobbler = new StreamGobbler(proc.getInputStream());
+		StreamGobbler stdErrGobbler = new StreamGobbler(proc.getErrorStream());
+		Thread stdOutGobblerThread = new Thread(stdOutGobbler);
+		Thread stdErrGobblerThread = new Thread(stdErrGobbler);
+		stdOutGobblerThread.start();
+		stdErrGobblerThread.start();
 		int procResult = 0;
 		try{
 			procResult = proc.waitFor();
@@ -79,15 +79,18 @@ public class CompilerDriver {
 		catch(Exception e){
 			return new TestReport(testFile, "waiting for process failed: " + e.getMessage(), -1, false);
 		}
-		in.stopThread();
-		err.stopThread();
+		stdOutGobbler.stopThread();
+		stdErrGobbler.stopThread();
+
+		String outContent = stdOutGobbler.output.toString();
+		String errContent = stdErrGobbler.output.toString();
 
 		//check for errors
-		if (!err.output.toString().equals("")) {
+		if (!errContent.equals("")) {
 			String failMessage = "an error occurred!"
 					+ "\nerror output:\n"
-					+ err.output.toString()
-					+ "\nactual output:\n" + in.output.toString();
+					+ errContent
+					+ "\nactual output:\n" + outContent;
 			return new TestReport(testFile, failMessage, -1, false);
 		}
 		if(procResult != 0){
@@ -96,24 +99,23 @@ public class CompilerDriver {
 		}
 
 		// check output lines
-		String out = in.output.toString();
 
 		for (String l : refusedOutputList) {
-			if (out.contains(l)) {
+			if (outContent.contains(l)) {
 				String failMessage = "refused output found!"
 						+ "\nrefused output:\n"
 						+ l
-						+ "\nactual output:\n" + out;
+						+ "\nactual output:\n" + outContent;
 				return new TestReport(testFile, failMessage, -1, false);
 			}
 		}
 
 		for (String l : requiredOutputList) {
-			if (!out.contains(l)) {
+			if (!outContent.contains(l)) {
 				String failMessage = "missing required output!"
 						+ "\nmissing output:\n"
 						+ l
-						+ "\nactual output:\n" + out;
+						+ "\nactual output:\n" + outContent;
 				return new TestReport(testFile, failMessage, -1, false);
 			}
 		}
