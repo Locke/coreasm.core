@@ -106,6 +106,11 @@ public class TestAllCasm {
 		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
 		if (maxSteps < minSteps)
 			maxSteps = minSteps;
+
+		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
+	}
+
+	private TestReport runSpecification(File testFile, List<String> requiredOutputList, List<String> refusedOutputList, int minSteps, int maxSteps) {
 		TestEngineDriver td = null;
 		int steps = 0;
 		try {

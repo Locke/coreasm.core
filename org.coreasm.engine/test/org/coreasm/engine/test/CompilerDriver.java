@@ -29,6 +29,10 @@ public class CompilerDriver {
 		if (maxSteps < minSteps)
 			maxSteps = minSteps;
 
+		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
+	}
+
+	private static TestReport runSpecification(File testFile, List<String> requiredOutputList, List<String> refusedOutputList, int minSteps, int maxSteps) {
 		//create a CoreASM engine
 		CoreASMEngine engine = CoreASMEngineFactory.createEngine();
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
