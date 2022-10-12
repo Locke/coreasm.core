@@ -5,11 +5,11 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class TestReport {
-	private static ArrayList<TestReport> reports = new ArrayList<TestReport>();
-	private File file;
-	private String message;
-	private int steps;
-	private boolean successful;
+	private static final ArrayList<TestReport> reports = new ArrayList<>();
+	private final File file;
+	private final String message;
+	private final int steps;
+	private final boolean successful;
 
 	public TestReport(File file, int steps) {
 		this(file, "", steps);
