@@ -110,7 +110,8 @@ public class TestAllCasm {
 		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
 	}
 
-	private TestReport runSpecification(File testFile, List<String> remainingRequiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
+	private TestReport runSpecification(File testFile, List<String> requiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
+		LinkedList<String> remainingRequiredOutputs = new LinkedList<>(requiredOutputs);
 		TestEngineDriver td = null;
 		int steps = 0;
 		try {
@@ -143,10 +144,7 @@ public class TestAllCasm {
 				}
 
 				// reduce remaining required output
-				for (String requiredOutput : new LinkedList<>(remainingRequiredOutputs)) {
-					if (outContent.contains(requiredOutput))
-						remainingRequiredOutputs.remove(requiredOutput);
-				}
+				remainingRequiredOutputs.removeIf(outContent::contains);
 				if (remainingRequiredOutputs.isEmpty())
 					break;
 			}
