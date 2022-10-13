@@ -26,7 +26,7 @@ public class TestUtils {
 			|| file.getName().toLowerCase().endsWith(".coreasm"));
 
 	public static List<String> getFilteredOutput(File file, String filter) {
-		List<String> filteredOutputList = new LinkedList<String>();
+		List<String> filteredOutputList = new LinkedList<>();
 		Pattern pattern = Pattern.compile(filter + ".*");
 		try (FileReader fileReader = new FileReader(file);
 		     BufferedReader input = new BufferedReader(fileReader)) {
@@ -47,7 +47,7 @@ public class TestUtils {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return filteredOutputList;
+		return List.copyOf(filteredOutputList);
 	}
 
 	public static int getParameter(File file, String name) {
