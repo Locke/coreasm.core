@@ -110,7 +110,7 @@ public class TestAllCasm {
 		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
 	}
 
-	private TestReport runSpecification(File testFile, List<String> requiredOutputList, List<String> refusedOutputList, int minSteps, int maxSteps) {
+	private TestReport runSpecification(File testFile, List<String> remainingRequiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
 		TestEngineDriver td = null;
 		int steps = 0;
 		try {
@@ -130,28 +130,31 @@ public class TestAllCasm {
 				String outContent = outStream.toString();
 				String errContent = errStream.toString();
 
-				//test if no error has occurred and maybe output error message
+				// test if no error has occurred and maybe output error message
 				if (!errContent.isEmpty()) {
 					return TestReport.failureErrorOutput(testFile, steps, outContent, errContent);
 				}
-				//check if no refused output is contained
-				for (String refusedOutput : refusedOutputList) {
+
+				// check if no refused output is contained
+				for (String refusedOutput : refusedOutputs) {
 					if (outContent.contains(refusedOutput)) {
 						return TestReport.failureRefusedOutput(testFile, steps, outContent, refusedOutput);
 					}
 				}
-				for (String requiredOutput : new LinkedList<String>(requiredOutputList)) {
+
+				// reduce remaining required output
+				for (String requiredOutput : new LinkedList<>(remainingRequiredOutputs)) {
 					if (outContent.contains(requiredOutput))
-						requiredOutputList.remove(requiredOutput);
+						remainingRequiredOutputs.remove(requiredOutput);
 				}
-				if (requiredOutputList.isEmpty())
+				if (remainingRequiredOutputs.isEmpty())
 					break;
 			}
 
 			// check if no required output is missing after all steps
-			if (!requiredOutputList.isEmpty()) {
+			if (!remainingRequiredOutputs.isEmpty()) {
 				String outContent = outStream.toString();
-				String missingOutput = requiredOutputList.get(0);
+				String missingOutput = remainingRequiredOutputs.get(0);
 				return TestReport.failureMissingOutput(testFile, steps - 1, outContent, missingOutput);
 			}
 		}

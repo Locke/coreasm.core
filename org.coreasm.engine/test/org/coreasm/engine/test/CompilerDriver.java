@@ -32,7 +32,7 @@ public class CompilerDriver {
 		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
 	}
 
-	private static TestReport runSpecification(File testFile, List<String> requiredOutputList, List<String> refusedOutputList, int minSteps, int maxSteps) {
+	private static TestReport runSpecification(File testFile, List<String> requiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
 		//create a CoreASM engine
 		CoreASMEngine engine = CoreASMEngineFactory.createEngine();
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
@@ -100,13 +100,13 @@ public class CompilerDriver {
 
 		// check output lines
 
-		for (String l : refusedOutputList) {
+		for (String l : refusedOutputs) {
 			if (outContent.contains(l)) {
 				return TestReport.failureRefusedOutput(testFile, outContent, l);
 			}
 		}
 
-		for (String l : requiredOutputList) {
+		for (String l : requiredOutputs) {
 			if (!outContent.contains(l)) {
 				return TestReport.failureMissingOutput(testFile, outContent, l);
 			}
