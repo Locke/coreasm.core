@@ -119,14 +119,12 @@ public class CompilerDriver {
 	}
 }
 
-class StreamGobbler implements Runnable{
-	public StringBuilder output;
-	//public List<String> lines;
-	private InputStream stream;
+class StreamGobbler implements Runnable {
+	public final StringBuilder output;
+	private final InputStream stream;
 	private volatile boolean quit;
 
-	public StreamGobbler(InputStream in){
-		//lines = new ArrayList<String>();
+	public StreamGobbler(InputStream in) {
 		stream = in;
 		quit = false;
 		output = new StringBuilder();
@@ -156,4 +154,5 @@ class StreamGobbler implements Runnable{
 	public void stopThread(){
 		this.quit = true;
 	}
+
 }
