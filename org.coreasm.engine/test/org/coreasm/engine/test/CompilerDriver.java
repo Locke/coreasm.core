@@ -92,21 +92,23 @@ public class CompilerDriver {
 			return new TestReport(testFile, failMessage, -1, false);
 		}
 
-		//loop through output lines
+		// check output lines
 		String out = in.output.toString();
-		for(String l : requiredOutputList){
-			if(!out.contains(l)){
-				String failMessage = "missing required output for test file: " + testFile.getName()
-						+ "\nmissing output:\n"
+
+		for (String l : refusedOutputList) {
+			if (out.contains(l)) {
+				String failMessage = "refused output found in test file: " + testFile.getName()
+						+ "\nrefused output:\n"
 						+ l
 						+ "\nactual output:\n" + out;
 				return new TestReport(testFile, failMessage, -1, false);
 			}
 		}
-		for(String l : refusedOutputList){
-			if(out.contains(l)){
-				String failMessage = "refused output found in test file: " + testFile.getName()
-						+ "\nrefused output:\n"
+
+		for (String l : requiredOutputList) {
+			if (!out.contains(l)) {
+				String failMessage = "missing required output for test file: " + testFile.getName()
+						+ "\nmissing output:\n"
 						+ l
 						+ "\nactual output:\n" + out;
 				return new TestReport(testFile, failMessage, -1, false);
