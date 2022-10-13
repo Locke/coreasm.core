@@ -90,9 +90,13 @@ public class TestReport {
 		String message =
 				"an error occurred!" + NL +
 				"error output:" + NL +
+				"----" + NL +
 				errContent +
+				"----" + NL +
 				"actual output:" + NL +
-				outContent;
+				"----" + NL +
+				outContent +
+				"----" + NL;
 		return new TestReport(file, message, steps, false);
 	}
 
@@ -104,9 +108,13 @@ public class TestReport {
 		String message =
 				"refused output found!" + NL +
 				"refused output:" + NL +
+				"----" + NL +
 				refusedOutput + NL +
+				"----" + NL +
 				"actual output:" + NL +
-				outContent;
+				"----" + NL +
+				outContent +
+				"----" + NL;
 		return new TestReport(file, message, steps, false);
 	}
 
@@ -118,9 +126,13 @@ public class TestReport {
 		String message =
 				"missing required output!" + NL +
 				"missing output:" + NL +
+				"----" + NL +
 				missingOutput + NL +
+				"----" + NL +
 				"actual output:" + NL +
-				outContent;
+				"----" + NL +
+				outContent +
+				"----" + NL;
 		return new TestReport(file, message, steps, false);
 	}
 
