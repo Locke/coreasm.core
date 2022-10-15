@@ -51,6 +51,7 @@ jobs:
           - os: 'ubuntu-latest'
             jdk: '11'
             coverage: true
+            checkstyle: true
             failFast: false
           - os: 'macos-latest'
             jdk: '17'
@@ -77,6 +78,9 @@ jobs:
     - name: Upload coverage
       if: ${{ matrix.coverage }}
       run: bash <(curl -s https://codecov.io/bash)
+    - name: Check Java style
+      if: ${{ matrix.checkstyle }}
+      run: mvn -B checkstyle:check
     - name: Test without coverage
       if: ${{ !matrix.coverage }}
       run: mvn -B test "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml
