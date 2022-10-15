@@ -5,12 +5,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+
 import org.coreasm.engine.test.TestAllCasm;
 
 public class TestSet3_binary extends TestAllCasm {
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		URL url = TestSet3_binary.class.getClassLoader().getResource(".");
 

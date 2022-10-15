@@ -13,12 +13,14 @@
 
 package org.coreasm.engine.plugins.bag;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.plugins.bag.BagUpdateElement.BagUpdateType;
@@ -26,8 +28,6 @@ import org.coreasm.engine.plugins.number.NumberElement;
 import org.coreasm.engine.plugins.string.StringElement;
 import org.coreasm.util.HashMultiset;
 import org.coreasm.util.Multiset;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Testing the BagUpdateContainer and its composition/aggregation algorithms.
@@ -59,7 +59,7 @@ public class BagUpdateContainerTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		n1 = NumberElement.getInstance(1);
 		n5 = NumberElement.getInstance(5);
@@ -205,7 +205,7 @@ public class BagUpdateContainerTest {
 			System.out.println(composed1.aggregateUpdates(bag1));
 			System.out.println();
 		}
-		assertEquals(result1, composed1.aggregateUpdates(bag1));
+		Assertions.assertEquals(result1, composed1.aggregateUpdates(bag1));
 
 		if (output) {
 			System.out.println(bag1);
@@ -213,7 +213,7 @@ public class BagUpdateContainerTest {
 			System.out.println(composed2.aggregateUpdates(bag1));
 			System.out.println();
 		}
-		assertEquals(result2, composed2.aggregateUpdates(bag1));
+		Assertions.assertEquals(result2, composed2.aggregateUpdates(bag1));
 
 
 		if (output) {
@@ -223,7 +223,7 @@ public class BagUpdateContainerTest {
 			System.out.println(composed3.aggregateUpdates(bag2));
 			System.out.println();
 		}
-		assertEquals(result3, composed3.aggregateUpdates(bag2));
+		Assertions.assertEquals(result3, composed3.aggregateUpdates(bag2));
 
 		if (output) {
 			System.out.println(bag2);
@@ -232,7 +232,7 @@ public class BagUpdateContainerTest {
 			System.out.println(updates1.aggregateUpdates(bag2));
 			System.out.println();
 		}
-		assertEquals(result4, updates1.aggregateUpdates(bag2));
+		Assertions.assertEquals(result4, updates1.aggregateUpdates(bag2));
 
 		if (output) {
 			System.out.println(bag2);
@@ -240,7 +240,7 @@ public class BagUpdateContainerTest {
 			System.out.println(updates2.aggregateUpdates());
 			System.out.println(updates2.aggregateUpdates(bag2));
 		}
-		assertEquals(result5, updates2.aggregateUpdates(bag2));
+		Assertions.assertEquals(result5, updates2.aggregateUpdates(bag2));
 	}
 
 }

@@ -1,16 +1,17 @@
 package org.coreasm.engine.test.plugins.set;
 
-import org.coreasm.engine.test.TestAllCasm;
-import org.junit.BeforeClass;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 
+import org.junit.jupiter.api.BeforeAll;
+
+import org.coreasm.engine.test.TestAllCasm;
+
 public class TestSet4_compose extends TestAllCasm {
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		URL url = TestSet4_compose.class.getClassLoader().getResource(".");
 

@@ -13,11 +13,9 @@
 
 package org.coreasm.engine.interpreter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Roozbeh Farahbod
@@ -32,7 +30,7 @@ public class TestNode {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		youngParent = new ASTNode("Young", "Young", "Young", "Young", null);
 		oldParent1 = new ASTNode("Old1", "Old1", "Old1", "Old1", null);
@@ -51,15 +49,15 @@ public class TestNode {
 
 		size = youngParent.getNumberOfChildren();
 		youngParent.addChild(new Node("", "", null));
-		assertEquals(size+1, youngParent.getNumberOfChildren());
+		Assertions.assertEquals(size+1, youngParent.getNumberOfChildren());
 
 		size = oldParent1.getNumberOfChildren();
 		oldParent1.addChild(new Node("", "", null));
-		assertEquals(size+1, oldParent1.getNumberOfChildren());
+		Assertions.assertEquals(size+1, oldParent1.getNumberOfChildren());
 
 		size = oldParent2.getNumberOfChildren();
 		oldParent2.addChild(new Node("", "", null));
-		assertEquals(size+1, oldParent2.getNumberOfChildren());
+		Assertions.assertEquals(size+1, oldParent2.getNumberOfChildren());
 	}
 
 	/**
@@ -71,7 +69,7 @@ public class TestNode {
 		oldParent1.addChild("alpha", childNode);
 
 		Node node = oldParent1.getChildNode("alpha");
-		assertEquals(childNode, node);
+		Assertions.assertEquals(childNode, node);
 	}
 
 	/**
@@ -81,7 +79,7 @@ public class TestNode {
 	public void testAddChildAfter() {
 		Node childNode = new Node("", "", null);
 		oldParent2.addChildAfter(oldParent2.getChildNodes().get(0), "", childNode);
-		assertEquals(childNode, oldParent2.getChildNodes().get(1));
+		Assertions.assertEquals(childNode, oldParent2.getChildNodes().get(1));
 	}
 
 	/**
@@ -89,7 +87,7 @@ public class TestNode {
 	 */
 	@Test
 	public void testGetChildNodes() {
-		assertEquals(2, oldParent2.getChildNodes().size());
+		Assertions.assertEquals(2, oldParent2.getChildNodes().size());
 	}
 
 	/**
@@ -100,7 +98,7 @@ public class TestNode {
 		Node childNode = new Node("", "", null);
 		oldParent1.addChild("alpha", childNode);
 
-		assertEquals("alpha", oldParent1.getChildNodesWithNames().get(1).name);
+		Assertions.assertEquals("alpha", oldParent1.getChildNodesWithNames().get(1).name);
 	}
 
 	/**
@@ -111,7 +109,7 @@ public class TestNode {
 		oldParent1.addChild("alpha", new Node("", "", null));
 		oldParent1.addChild("alpha", new Node("", "", null));
 
-		assertEquals(2, oldParent1.getChildNodes("alpha").size());
+		Assertions.assertEquals(2, oldParent1.getChildNodes("alpha").size());
 	}
 
 	/**
@@ -122,7 +120,7 @@ public class TestNode {
 		Node childNode = new Node("", "", null);
 		oldParent1.addChild("alpha", childNode);
 
-		assertEquals(childNode, oldParent1.getChildNode("alpha"));
+		Assertions.assertEquals(childNode, oldParent1.getChildNode("alpha"));
 	}
 
 	/**
@@ -135,7 +133,7 @@ public class TestNode {
 		Node childNode2 = new Node("", "", null);
 		oldParent2.addChild("beta", childNode2);
 
-		assertEquals(childNode2, childNode1.getNextCSTNode());
+		Assertions.assertEquals(childNode2, childNode1.getNextCSTNode());
 	}
 
 	/**
@@ -143,11 +141,11 @@ public class TestNode {
 	 */
 	@Test
 	public void testGetFirstCSTNode() {
-		assertNull(youngParent.getFirstCSTNode());
+		Assertions.assertNull(youngParent.getFirstCSTNode());
 
 		Node childNode = new Node("", "", null);
 		youngParent.addChild(childNode);
-		assertEquals(childNode, youngParent.getFirstCSTNode());
+		Assertions.assertEquals(childNode, youngParent.getFirstCSTNode());
 	}
 
 	/**
@@ -155,7 +153,7 @@ public class TestNode {
 	 */
 	@Test
 	public void testGetNumberOfChildren() {
-		assertEquals(2, oldParent2.getNumberOfChildren());
+		Assertions.assertEquals(2, oldParent2.getNumberOfChildren());
 	}
 
 }

@@ -13,17 +13,17 @@
 
 package org.coreasm.engine.plugins.list;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementList;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 import org.coreasm.engine.plugins.number.NumberElement;
 import org.coreasm.engine.plugins.string.StringElement;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * @author Roozbeh Farahbod
@@ -37,7 +37,7 @@ public class FlattenListTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		lists[0] = new ListElement();
 		lists[1] = new ListElement(NumberElement.getInstance(5), new StringElement("Hello"), lists[0]);
@@ -51,12 +51,12 @@ public class FlattenListTest {
 	@Test
 	public void testGetValue() {
 		Element e = func.getValue(new ElementList(lists[2]));
-		assertTrue(e instanceof AbstractListElement);
-		assertEquals(4, ((AbstractListElement)e).size());
+		Assertions.assertTrue(e instanceof AbstractListElement);
+		Assertions.assertEquals(4, ((AbstractListElement)e).size());
 
 		e = func.getValue(new ElementList(lists[0]));
-		assertTrue(e instanceof AbstractListElement);
-		assertEquals(0, ((AbstractListElement)e).size());
+		Assertions.assertTrue(e instanceof AbstractListElement);
+		Assertions.assertEquals(0, ((AbstractListElement)e).size());
 	}
 
 	/**
@@ -65,10 +65,10 @@ public class FlattenListTest {
 	@Test
 	public void testFlattenListFunctionElement() {
 		List<? extends Element> r = func.flattenList(lists[3].getList());
-		assertEquals(4, r.size());
+		Assertions.assertEquals(4, r.size());
 		System.out.println(r);
 		r = func.flattenList(lists[0].getList());
-		assertEquals(0, r.size());
+		Assertions.assertEquals(0, r.size());
 		System.out.println(r);
 	}
 

@@ -1,12 +1,11 @@
 package org.coreasm.engine.test.plugins.modularity;
 
-import org.coreasm.engine.plugins.modularity.ModularityPlugin;
-
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import java.util.regex.Matcher;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import org.coreasm.engine.plugins.modularity.ModularityPlugin;
 
 public class TestModularityRegexTest {
 
@@ -36,7 +35,7 @@ public class TestModularityRegexTest {
 		for (String line : testLines) {
 			Matcher includeMatcher = ModularityPlugin.includePattern.matcher(line);
 
-			assertTrue(line, includeMatcher.find());
+			Assertions.assertTrue(includeMatcher.find(), line);
 		}
 	}
 }

@@ -1,15 +1,15 @@
 package org.coreasm.engine.scheduler;
 
-import static org.junit.Assert.*;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.NameElement;
-import org.junit.Before;
-import org.junit.Test;
 
 public class DefaultSchedulingPolicyTest {
 
@@ -17,7 +17,7 @@ public class DefaultSchedulingPolicyTest {
 	private Set<Element> set1;
 	private Set<Element> emptyset;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		policy = new DefaultSchedulingPolicy();
 		set1 = new HashSet<Element>();
@@ -39,7 +39,7 @@ public class DefaultSchedulingPolicyTest {
 			t += it.next().size();
 			c++;
 		}
-		assertEquals(count, c);
-		assertEquals(total, t);
+		Assertions.assertEquals(count, c);
+		Assertions.assertEquals(total, t);
 	}
 }

@@ -1,16 +1,17 @@
 package org.coreasm.engine.test.plugins.graph;
 
-import org.coreasm.engine.test.TestAllCasm;
-import org.junit.BeforeClass;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 
+import org.junit.jupiter.api.BeforeAll;
+
+import org.coreasm.engine.test.TestAllCasm;
+
 public class TestGraph6_findCyclesWithVertex extends TestAllCasm {
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		URL url = TestGraph6_findCyclesWithVertex.class.getClassLoader().getResource(".");
 

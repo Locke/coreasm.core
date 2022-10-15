@@ -8,11 +8,11 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.coreasm.engine.CoreASMEngine;
 import org.coreasm.engine.Engine;
@@ -31,7 +31,7 @@ public class TestEngineStates {
 		properties = props;
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
 		URL url = TestEngineStates.class.getClassLoader().getResource("./engine_states");
@@ -52,13 +52,13 @@ public class TestEngineStates {
 	final static PrintStream origOutput = System.out;
 	final static PrintStream origError = System.err;
 
-	@Before
+	@BeforeEach
 	public void setUpStreams() {
 		System.setOut(new PrintStream(logStream));
 		System.setErr(new PrintStream(errStream));
 	}
 
-	@After
+	@AfterEach
 	public void cleanUpStreams() {
 		System.setOut(origOutput);
 		System.setErr(origError);
@@ -85,7 +85,7 @@ public class TestEngineStates {
 		//report overall test result
 		//test failed if at least one test has failed
 		if (!successful)
-			Assert.fail("Test failed for class: " + TestEngineStates.class.getSimpleName());
+			Assertions.fail("Test failed for class: " + TestEngineStates.class.getSimpleName());
 
 	}
 

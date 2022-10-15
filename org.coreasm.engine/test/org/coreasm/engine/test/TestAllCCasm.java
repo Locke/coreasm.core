@@ -8,11 +8,11 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the CoreASM compiler
@@ -29,7 +29,7 @@ public class TestAllCCasm {
 	//list of test cases
 	protected static List<File> testFiles = null;
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
 		URL url = TestAllCasm.class.getClassLoader().getResource("./without_test_class");
@@ -44,14 +44,14 @@ public class TestAllCCasm {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void setUpStreams() {
 		//redirect output
 		System.setOut(new PrintStream(logContent));
 		System.setErr(new PrintStream(errContent));
 	}
 
-	@After
+	@AfterEach
 	public void cleanUpStreams() {
 		//reset in and output to defaults
 		System.setOut(origOutput);
@@ -79,7 +79,7 @@ public class TestAllCCasm {
 		//report overall test result
 		//test failed if at least one test has failed
 		if (!successful)
-			Assert.fail("Test failed for class: " + TestAllCCasm.class.getSimpleName());
+			Assertions.fail("Test failed for class: " + TestAllCCasm.class.getSimpleName());
 	}
 
 	protected static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {

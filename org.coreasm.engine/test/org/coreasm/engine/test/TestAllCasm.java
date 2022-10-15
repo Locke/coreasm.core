@@ -8,15 +8,15 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.coreasm.engine.Engine;
 import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.Tools;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class TestAllCasm {
 
@@ -30,7 +30,7 @@ public class TestAllCasm {
 		properties = props;
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
 		URL url = TestAllCasm.class.getClassLoader().getResource("./without_test_class");
@@ -59,13 +59,13 @@ public class TestAllCasm {
 		TestUtils.addTestFiles(testFiles, file);
 	}
 
-	@Before
+	@BeforeEach
 	public void setUpStreams() {
 		System.setOut(new PrintStream(logStream));
 		System.setErr(new PrintStream(errStream));
 	}
 
-	@After
+	@AfterEach
 	public void cleanUpStreams() {
 		System.setOut(origOutput);
 		System.setErr(origError);
@@ -92,7 +92,7 @@ public class TestAllCasm {
 		//report overall test result
 		//test failed if at least one test has failed
 		if (!successful)
-			Assert.fail("Test failed for class: " + TestAllCasm.class.getSimpleName());
+			Assertions.fail("Test failed for class: " + TestAllCasm.class.getSimpleName());
 
 	}
 
