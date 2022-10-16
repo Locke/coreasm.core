@@ -2,7 +2,6 @@ package org.coreasm.engine.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -83,22 +82,7 @@ public class TestAllCCasm {
 	}
 
 	protected static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		if (!testFiles.isEmpty())
-			return;
-		if (file != null && file.isDirectory())
-			for (File child : file.listFiles(new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
-					return (file.isDirectory()
-							|| file.getName().toLowerCase().endsWith(".casm")
-							|| file.getName().toLowerCase().endsWith(".coreasm"));
-				}
-			})) {
-				getTestFile(testFiles, child, clazz);
-			}
-		else if (file != null
-				&& file.getName().toLowerCase().matches(clazz.getSimpleName().replace("Compiler", "").toLowerCase() + "(.casm|.coreasm)"))
-			testFiles.add(file);
+		TestUtils.getCompilerTestFile(testFiles, file, clazz);
 	}
+
 }
