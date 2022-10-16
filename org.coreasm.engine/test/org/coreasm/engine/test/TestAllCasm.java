@@ -1,19 +1,13 @@
 package org.coreasm.engine.test;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.coreasm.engine.Engine;
 import org.coreasm.engine.EngineProperties;
@@ -57,58 +51,6 @@ public class TestAllCasm {
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 	final static PrintStream origOutput = System.out;
 	final static PrintStream origError = System.err;
-
-	public static List<String> getFilteredOutput(File file, String filter) {
-		List<String> filteredOutputList = new LinkedList<String>();
-		BufferedReader input = null;
-		Pattern pattern = Pattern.compile(filter + ".*");
-		try {
-			input = new BufferedReader(new FileReader(file));
-			String line; //not declared within while loop
-			while ((line = input.readLine()) != null) {
-				Matcher matcher = pattern.matcher(line);
-				if (matcher.find()) {
-					int first = line.indexOf("\"", matcher.start()) + 1;
-					int last = line.indexOf("\"", first);
-					if (last > first)
-						filteredOutputList.add(Tools.convertFromEscapeSequence(line.substring(first, last)));
-				}
-			}
-			input.close();
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return filteredOutputList;
-	}
-
-	public static int getParameter(File file, String name) {
-		int value = -1;
-		BufferedReader input = null;
-		Pattern pattern = Pattern.compile("@" + name + "\\s*(\\d+)");
-		try {
-			input = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = input.readLine()) != null) {
-				Matcher matcher = pattern.matcher(line);
-				if (matcher.find()) {
-					value = Integer.parseInt(matcher.group(1));
-					break;
-				}
-			}
-			input.close();
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return value;
-	}
 
 	protected static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
 		if (!testFiles.isEmpty())
@@ -183,12 +125,12 @@ public class TestAllCasm {
 
 	public TestReport runSpecification(File testFile) {
 
-		List<String> requiredOutputList = getFilteredOutput(testFile, "@require");
-		List<String> refusedOutputList = getFilteredOutput(testFile, "@refuse");
-		int minSteps = getParameter(testFile, "minsteps");
+		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
+		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
+		int minSteps = TestUtils.getParameter(testFile, "minsteps");
 		if (minSteps <= 0)
 			minSteps = 1;
-		int maxSteps = getParameter(testFile, "maxsteps");
+		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
 		if (maxSteps < minSteps)
 			maxSteps = minSteps;
 		TestEngineDriver td = null;

@@ -18,13 +18,13 @@ import org.coreasm.util.Tools;
 public class CompilerDriver {
 	public static TestReport runSpecification(File testFile){
 		//extract parameters and expected results from the testcase
-		List<String> requiredOutputList = TestAllCasm.getFilteredOutput(testFile, "@require");
-		List<String> refusedOutputList = TestAllCasm.getFilteredOutput(testFile, "@refuse");
-		int minSteps = TestAllCasm.getParameter(testFile, "minsteps");
+		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
+		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
+		int minSteps = TestUtils.getParameter(testFile, "minsteps");
 		System.out.println("minsteps: " + minSteps);
 		if (minSteps <= 0)
 			minSteps = 1;
-		int maxSteps = TestAllCasm.getParameter(testFile, "maxsteps");
+		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
 		System.out.println("maxsteps: " + maxSteps);
 		if (maxSteps < minSteps)
 			maxSteps = minSteps;
