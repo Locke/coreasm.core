@@ -16,7 +16,7 @@ public class TestGraph7_subgraph extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph7_subgraph.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph7_subgraph.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

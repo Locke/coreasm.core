@@ -16,7 +16,7 @@ public class TestPredicateLogic1_binaryOperations extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic1_binaryOperations.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic1_binaryOperations.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

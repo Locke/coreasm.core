@@ -16,7 +16,7 @@ public class TestList17_shift extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList17_shift.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList17_shift.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

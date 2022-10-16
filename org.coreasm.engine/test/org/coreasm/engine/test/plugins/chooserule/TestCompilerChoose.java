@@ -16,7 +16,7 @@ public class TestCompilerChoose extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestChoose.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestChoose.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

@@ -16,7 +16,7 @@ public class TestTurboASM7_while extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM7_while.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM7_while.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

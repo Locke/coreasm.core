@@ -16,7 +16,7 @@ public class TestCompilerList7_nth extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList7_nth.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList7_nth.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

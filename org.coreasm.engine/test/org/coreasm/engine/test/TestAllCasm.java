@@ -38,7 +38,7 @@ public class TestAllCasm {
 		try {
 			testFiles = new LinkedList<File>();
 			//recursively search for specifications
-			getTestFiles(testFiles, new File(url.toURI()));
+			addTestFiles(testFiles, new File(url.toURI()));
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -51,12 +51,12 @@ public class TestAllCasm {
 	final static PrintStream origOutput = System.out;
 	final static PrintStream origError = System.err;
 
-	protected static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		TestUtils.getTestFile(testFiles, file, clazz);
+	protected static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
+		TestUtils.addTestFile(testFiles, file, clazz);
 	}
 
-	static void getTestFiles(List<File> testFiles, File file) {
-		TestUtils.getTestFiles(testFiles, file);
+	static void addTestFiles(List<File> testFiles, File file) {
+		TestUtils.addTestFiles(testFiles, file);
 	}
 
 	@Before

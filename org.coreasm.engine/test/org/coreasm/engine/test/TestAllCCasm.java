@@ -37,7 +37,7 @@ public class TestAllCCasm {
 		try {
 			testFiles = new LinkedList<File>();
 			//recursively search for specifications
-			TestAllCasm.getTestFiles(testFiles, new File(url.toURI()));
+			TestAllCasm.addTestFiles(testFiles, new File(url.toURI()));
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -81,8 +81,8 @@ public class TestAllCCasm {
 			Assert.fail("Test failed for class: " + TestAllCCasm.class.getSimpleName());
 	}
 
-	protected static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		TestUtils.getCompilerTestFile(testFiles, file, clazz);
+	protected static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
+		TestUtils.addCompilerTestFile(testFiles, file, clazz);
 	}
 
 }

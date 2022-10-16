@@ -69,7 +69,7 @@ public class TestUtils {
 		return value;
 	}
 
-	public static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
+	public static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
 		if (!testFiles.isEmpty())
 			return;
 		if (file != null && file.isDirectory())
@@ -82,14 +82,14 @@ public class TestUtils {
 							|| file.getName().toLowerCase().endsWith(".coreasm"));
 				}
 			})) {
-				getTestFile(testFiles, child, clazz);
+				addTestFile(testFiles, child, clazz);
 			}
 		else if (file != null
 				&& file.getName().toLowerCase().matches(clazz.getSimpleName().toLowerCase() + "(.casm|.coreasm)"))
 			testFiles.add(file);
 	}
 
-	public static void getCompilerTestFile(List<File> testFiles, File file, Class<?> clazz) {
+	public static void addCompilerTestFile(List<File> testFiles, File file, Class<?> clazz) {
 		if (!testFiles.isEmpty())
 			return;
 		if (file != null && file.isDirectory())
@@ -102,14 +102,14 @@ public class TestUtils {
 							|| file.getName().toLowerCase().endsWith(".coreasm"));
 				}
 			})) {
-				getCompilerTestFile(testFiles, child, clazz);
+				addCompilerTestFile(testFiles, child, clazz);
 			}
 		else if (file != null
 				&& file.getName().toLowerCase().matches(clazz.getSimpleName().replace("Compiler", "").toLowerCase() + "(.casm|.coreasm)"))
 			testFiles.add(file);
 	}
 
-	public static void getTestFiles(List<File> testFiles, File file) {
+	public static void addTestFiles(List<File> testFiles, File file) {
 		if (file != null && file.isDirectory())
 			for (File child : file.listFiles(new FileFilter() {
 
@@ -120,7 +120,7 @@ public class TestUtils {
 							|| file.getName().toLowerCase().endsWith(".coreasm"));
 				}
 			})) {
-				getTestFiles(testFiles, child);
+				addTestFiles(testFiles, child);
 			}
 		else if (file != null)
 			testFiles.add(file);

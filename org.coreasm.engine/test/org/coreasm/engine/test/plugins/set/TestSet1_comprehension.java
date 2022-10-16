@@ -16,7 +16,7 @@ public class TestSet1_comprehension extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet1_comprehension.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet1_comprehension.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

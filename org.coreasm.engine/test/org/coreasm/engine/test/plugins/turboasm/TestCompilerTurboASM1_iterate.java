@@ -16,7 +16,7 @@ public class TestCompilerTurboASM1_iterate extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM1_iterate.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM1_iterate.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

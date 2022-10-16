@@ -16,7 +16,7 @@ public class TestCompilerList15_replicate extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList15_replicate.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList15_replicate.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

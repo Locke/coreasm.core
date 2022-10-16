@@ -16,7 +16,7 @@ public class TestList14_zipwith extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList14_zipwith.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList14_zipwith.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

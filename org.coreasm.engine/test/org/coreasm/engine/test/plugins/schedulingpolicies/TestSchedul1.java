@@ -16,7 +16,7 @@ public class TestSchedul1 extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSchedul1.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSchedul1.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

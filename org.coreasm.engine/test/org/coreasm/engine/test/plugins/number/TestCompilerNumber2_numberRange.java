@@ -16,7 +16,7 @@ public class TestCompilerNumber2_numberRange extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestNumber2_numberRange.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestNumber2_numberRange.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

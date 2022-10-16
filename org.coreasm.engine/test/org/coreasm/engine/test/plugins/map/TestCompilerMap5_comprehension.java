@@ -16,7 +16,7 @@ public class TestCompilerMap5_comprehension extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap5_comprehension.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap5_comprehension.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

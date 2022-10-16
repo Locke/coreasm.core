@@ -16,7 +16,7 @@ public class TestCompilerList1_concatenation extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList1_concatenation.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList1_concatenation.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

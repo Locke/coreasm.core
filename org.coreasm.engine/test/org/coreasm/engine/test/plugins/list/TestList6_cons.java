@@ -16,7 +16,7 @@ public class TestList6_cons extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList6_cons.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList6_cons.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

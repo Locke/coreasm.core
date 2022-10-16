@@ -16,7 +16,7 @@ public class TestList3_flattenList extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList3_flattenList.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList3_flattenList.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

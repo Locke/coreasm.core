@@ -16,7 +16,7 @@ public class TestCompilerString3_matches extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestString3_matches.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestString3_matches.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

@@ -16,7 +16,7 @@ public class TestGraph2_dijkstra extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph2_dijkstra.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph2_dijkstra.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

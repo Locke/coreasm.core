@@ -16,7 +16,7 @@ public class TestCompilerGraph3_connectedSet extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph3_connectedSet.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph3_connectedSet.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

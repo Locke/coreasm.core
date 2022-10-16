@@ -16,7 +16,7 @@ public class TestCompilerGraph8_asUndirectedGraph extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph8_asUndirectedGraph.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph8_asUndirectedGraph.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

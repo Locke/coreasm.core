@@ -16,7 +16,7 @@ public class TestGraph8_asUndirectedGraph extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph8_asUndirectedGraph.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph8_asUndirectedGraph.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

@@ -16,7 +16,7 @@ public class TestCompilerPredicateLogic2_ExistsIn extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic2_ExistsIn.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic2_ExistsIn.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

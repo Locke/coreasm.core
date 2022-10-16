@@ -16,7 +16,7 @@ public class TestCompilerList10_drop extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList10_drop.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList10_drop.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

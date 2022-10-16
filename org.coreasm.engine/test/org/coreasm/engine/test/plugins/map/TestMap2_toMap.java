@@ -16,7 +16,7 @@ public class TestMap2_toMap extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap2_toMap.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap2_toMap.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
