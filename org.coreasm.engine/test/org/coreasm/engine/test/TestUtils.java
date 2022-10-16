@@ -21,6 +21,10 @@ public class TestUtils {
 		failFast = Boolean.getBoolean("TestUtils.failFast");
 	}
 
+	private static final FileFilter directoryOrCoreasmFileFilter = file -> (file.isDirectory()
+			|| file.getName().toLowerCase().endsWith(".casm")
+			|| file.getName().toLowerCase().endsWith(".coreasm"));
+
 	public static List<String> getFilteredOutput(File file, String filter) {
 		List<String> filteredOutputList = new LinkedList<String>();
 		Pattern pattern = Pattern.compile(filter + ".*");
@@ -70,56 +74,28 @@ public class TestUtils {
 	}
 
 	public static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		if (!testFiles.isEmpty())
-			return;
-		if (file != null && file.isDirectory())
-			for (File child : file.listFiles(new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
-					return (file.isDirectory()
-							|| file.getName().toLowerCase().endsWith(".casm")
-							|| file.getName().toLowerCase().endsWith(".coreasm"));
-				}
-			})) {
-				addTestFile(testFiles, child, clazz);
-			}
-		else if (file != null
-				&& file.getName().toLowerCase().matches(clazz.getSimpleName().toLowerCase() + "(.casm|.coreasm)"))
-			testFiles.add(file);
+		addNamedFile(testFiles, file, clazz.getSimpleName().toLowerCase() + "(.casm|.coreasm)");
 	}
 
 	public static void addCompilerTestFile(List<File> testFiles, File file, Class<?> clazz) {
+		addNamedFile(testFiles, file, clazz.getSimpleName().replace("Compiler", "").toLowerCase() + "(.casm|.coreasm)");
+	}
+
+	private static void addNamedFile(List<File> testFiles, File file, String lowercaseRegex) {
 		if (!testFiles.isEmpty())
 			return;
 		if (file != null && file.isDirectory())
-			for (File child : file.listFiles(new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
-					return (file.isDirectory()
-							|| file.getName().toLowerCase().endsWith(".casm")
-							|| file.getName().toLowerCase().endsWith(".coreasm"));
-				}
-			})) {
-				addCompilerTestFile(testFiles, child, clazz);
+			for (File child : file.listFiles(directoryOrCoreasmFileFilter)) {
+				addNamedFile(testFiles, child, lowercaseRegex);
 			}
 		else if (file != null
-				&& file.getName().toLowerCase().matches(clazz.getSimpleName().replace("Compiler", "").toLowerCase() + "(.casm|.coreasm)"))
+				&& file.getName().toLowerCase().matches(lowercaseRegex))
 			testFiles.add(file);
 	}
 
 	public static void addTestFiles(List<File> testFiles, File file) {
 		if (file != null && file.isDirectory())
-			for (File child : file.listFiles(new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
-					return (file.isDirectory()
-							|| file.getName().toLowerCase().endsWith(".casm")
-							|| file.getName().toLowerCase().endsWith(".coreasm"));
-				}
-			})) {
+			for (File child : file.listFiles(directoryOrCoreasmFileFilter)) {
 				addTestFiles(testFiles, child);
 			}
 		else if (file != null)
