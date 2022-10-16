@@ -16,10 +16,9 @@ public class TestUtils {
 
 	public static List<String> getFilteredOutput(File file, String filter) {
 		List<String> filteredOutputList = new LinkedList<String>();
-		BufferedReader input = null;
 		Pattern pattern = Pattern.compile(filter + ".*");
-		try {
-			input = new BufferedReader(new FileReader(file));
+		try (FileReader fileReader = new FileReader(file);
+		     BufferedReader input = new BufferedReader(fileReader)) {
 			String line; //not declared within while loop
 			while ((line = input.readLine()) != null) {
 				Matcher matcher = pattern.matcher(line);
@@ -30,7 +29,6 @@ public class TestUtils {
 						filteredOutputList.add(Tools.convertFromEscapeSequence(line.substring(first, last)));
 				}
 			}
-			input.close();
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -43,10 +41,9 @@ public class TestUtils {
 
 	public static int getParameter(File file, String name) {
 		int value = -1;
-		BufferedReader input = null;
 		Pattern pattern = Pattern.compile("@" + name + "\\s*(\\d+)");
-		try {
-			input = new BufferedReader(new FileReader(file));
+		try (FileReader fileReader = new FileReader(file);
+		     BufferedReader input = new BufferedReader(fileReader)) {
 			String line;
 			while ((line = input.readLine()) != null) {
 				Matcher matcher = pattern.matcher(line);
@@ -55,7 +52,6 @@ public class TestUtils {
 					break;
 				}
 			}
-			input.close();
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
