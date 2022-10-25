@@ -34,10 +34,11 @@ public class TestReport {
 	public String formatted() {
 		String fileFormatted    = this.testCase == null   ? "" : (" of " + this.testCase.testFile.getName());
 		String statusFormatted  = this.successful         ? " successful" : " failed";
-		String stepsFormatted   = steps == -1             ? "" : (" after " + steps + (steps == 1 ? " step" : " steps"));
+		String stepsFormatted1  = steps == -1             ? "" : (" after " + steps + (steps == 1 ? " step" : " steps"));
+		String stepsFormatted2  = this.testCase == null   ? "" : (" (minSteps: " + this.testCase.minSteps + "; maxSteps: " + this.testCase.maxSteps + ")");
 		String messageFormatted = this.message.isEmpty()  ? "" : (": " + this.message);
 
-		return "Test" + fileFormatted + statusFormatted + stepsFormatted + messageFormatted;
+		return "Test" + fileFormatted + statusFormatted + stepsFormatted1 + stepsFormatted2 + messageFormatted;
 	}
 
 	public void print(PrintStream out, PrintStream err) {
