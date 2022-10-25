@@ -19,11 +19,12 @@ public class TestReport {
 		this.message = message;
 		this.successful = successful;
 		this.steps = steps;
-		if (!TestReport.reports.isEmpty()
-				&& TestReport.reports.getLast().getFile() == this.file)
+		if (file != null
+				&& !TestReport.reports.isEmpty()
+				&&  TestReport.reports.getLast().getFile() == this.file)
 			TestAllCasm.origOutput
 					.println("Last report has been for the same file. Check if your test produces a unique result.");
-		reports.add(this);
+		TestReport.reports.add(this);
 	}
 
 	private File getFile() {
