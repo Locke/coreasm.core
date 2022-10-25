@@ -7,32 +7,32 @@ import java.util.List;
 
 public class TestReport {
 	private static final LinkedList<TestReport> reports = new LinkedList<>();
-	private final File file;
+	private final TestCase testCase;
 	private final String message;
 	private final int steps;
 	private final boolean successful;
 
 	private static final String NL = System.lineSeparator();
 
-	public TestReport(File file, String message, int steps, boolean successful) {
-		this.file = file;
+	public TestReport(TestCase testCase, String message, int steps, boolean successful) {
+		this.testCase = testCase;
 		this.message = message;
 		this.successful = successful;
 		this.steps = steps;
-		if (file != null
+		if (testCase != null
 				&& !TestReport.reports.isEmpty()
-				&&  TestReport.reports.getLast().getFile() == this.file)
+				&&  TestReport.reports.getLast().getFile() == this.testCase.testFile)
 			TestAllCasm.origOutput
 					.println("Last report has been for the same file. Check if your test produces a unique result.");
 		TestReport.reports.add(this);
 	}
 
 	private File getFile() {
-		return this.file;
+		return this.testCase == null ? null : this.testCase.testFile;
 	}
 
 	public String formatted() {
-		String fileFormatted    = this.file == null       ? "" : (" of " + this.file.getName());
+		String fileFormatted    = this.testCase == null   ? "" : (" of " + this.testCase.testFile.getName());
 		String statusFormatted  = this.successful         ? " successful" : " failed";
 		String stepsFormatted   = steps == -1             ? "" : (" after " + steps + (steps == 1 ? " step" : " steps"));
 		String messageFormatted = this.message.isEmpty()  ? "" : (": " + this.message);
@@ -64,31 +64,31 @@ public class TestReport {
 		return this.message;
 	}
 
-	public static TestReport success(File file) {
-		return new TestReport(file, "", -1, true);
+	public static TestReport success(TestCase testCase) {
+		return new TestReport(testCase, "", -1, true);
 	}
 
-	public static TestReport success(File file, int steps) {
-		return new TestReport(file, "", steps, true);
+	public static TestReport success(TestCase testCase, int steps) {
+		return new TestReport(testCase, "", steps, true);
 	}
 
 	public static TestReport failure(String message) {
 		return new TestReport(null, message, -1, false);
 	}
 
-	public static TestReport failure(File file, String message) {
-		return new TestReport(file, message, -1, false);
+	public static TestReport failure(TestCase testCase, String message) {
+		return new TestReport(testCase, message, -1, false);
 	}
 
-	public static TestReport failure(File file, String message, int steps) {
-		return new TestReport(file, message, steps, false);
+	public static TestReport failure(TestCase testCase, String message, int steps) {
+		return new TestReport(testCase, message, steps, false);
 	}
 
-	public static TestReport failureErrorOutput(File file, String outContent, String errContent) {
-		return TestReport.failureErrorOutput(file, -1, outContent, errContent);
+	public static TestReport failureErrorOutput(TestCase testCase, String outContent, String errContent) {
+		return TestReport.failureErrorOutput(testCase, -1, outContent, errContent);
 	}
 
-	public static TestReport failureErrorOutput(File file, int steps, String outContent, String errContent) {
+	public static TestReport failureErrorOutput(TestCase testCase, int steps, String outContent, String errContent) {
 		String message =
 				"an error occurred!" + NL +
 				"error output:" + NL +
@@ -99,14 +99,14 @@ public class TestReport {
 				"----" + NL +
 				outContent +
 				"----" + NL;
-		return new TestReport(file, message, steps, false);
+		return new TestReport(testCase, message, steps, false);
 	}
 
-	public static TestReport failureRefusedOutput(File file, String outContent, List<String> occurredRefusedOutputs) {
-		return TestReport.failureRefusedOutput(file, -1, outContent, occurredRefusedOutputs);
+	public static TestReport failureRefusedOutput(TestCase testCase, String outContent, List<String> occurredRefusedOutputs) {
+		return TestReport.failureRefusedOutput(testCase, -1, outContent, occurredRefusedOutputs);
 	}
 
-	public static TestReport failureRefusedOutput(File file, int steps, String outContent, List<String> occurredRefusedOutputs) {
+	public static TestReport failureRefusedOutput(TestCase testCase, int steps, String outContent, List<String> occurredRefusedOutputs) {
 		int size = occurredRefusedOutputs.size();
 		String summary;
 		if (size == 1) {
@@ -127,14 +127,14 @@ public class TestReport {
 				"----" + NL +
 				outContent +
 				"----" + NL;
-		return new TestReport(file, message, steps, false);
+		return new TestReport(testCase, message, steps, false);
 	}
 
-	public static TestReport failureMissingOutput(File file, String outContent, List<String> remainingRequiredOutputs) {
-		return TestReport.failureMissingOutput(file, -1, outContent, remainingRequiredOutputs);
+	public static TestReport failureMissingOutput(TestCase testCase, String outContent, List<String> remainingRequiredOutputs) {
+		return TestReport.failureMissingOutput(testCase, -1, outContent, remainingRequiredOutputs);
 	}
 
-	public static TestReport failureMissingOutput(File file, int steps, String outContent, List<String> remainingRequiredOutputs) {
+	public static TestReport failureMissingOutput(TestCase testCase, int steps, String outContent, List<String> remainingRequiredOutputs) {
 		int size = remainingRequiredOutputs.size();
 		String summary;
 		if (size == 1) {
@@ -155,7 +155,7 @@ public class TestReport {
 				"----" + NL +
 				outContent +
 				"----" + NL;
-		return new TestReport(file, message, steps, false);
+		return new TestReport(testCase, message, steps, false);
 	}
 
 }

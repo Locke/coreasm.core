@@ -73,6 +73,20 @@ public class TestUtils {
 		return value;
 	}
 
+	public static TestCase parseTestCase(File testFile) {
+		// extract parameters and expected results from the testcase
+		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
+		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
+		int minSteps = TestUtils.getParameter(testFile, "minsteps");
+		if (minSteps <= 0)
+			minSteps = 1;
+		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
+		if (maxSteps < minSteps)
+			maxSteps = minSteps;
+
+		return new TestCase(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
+	}
+
 	public static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
 		addNamedFile(testFiles, file, clazz.getSimpleName().toLowerCase() + "(.casm|.coreasm)");
 	}

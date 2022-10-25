@@ -97,33 +97,25 @@ public class TestAllCasm {
 	}
 
 	public TestReport runSpecification(File testFile) {
-		// extract parameters and expected results from the testcase
-		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
-		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
-		int minSteps = TestUtils.getParameter(testFile, "minsteps");
-		if (minSteps <= 0)
-			minSteps = 1;
-		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
-		if (maxSteps < minSteps)
-			maxSteps = minSteps;
-
-		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
+		TestCase testCase = TestUtils.parseTestCase(testFile);
+		return runSpecification(testCase);
 	}
 
-	private TestReport runSpecification(File testFile, List<String> requiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
-		LinkedList<String> remainingRequiredOutputs = new LinkedList<>(requiredOutputs);
+	private TestReport runSpecification(TestCase testCase) {
+		LinkedList<String> remainingRequiredOutputs = new LinkedList<>(testCase.requiredOutputs);
 		TestEngineDriver td = null;
 		int steps = 0;
 		try {
 			outStream.reset();
 			errStream.reset();
-			td = TestEngineDriver.newLaunch(testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins", properties);
+			td = TestEngineDriver.newLaunch(testCase.testFile.getAbsolutePath(), Tools.getRootFolder(Engine.class)+"/plugins", properties);
 			if (TestEngineDriver.TestEngineDriverStatus.stopped.equals(td.getStatus()))
-				return TestReport.failure(testFile, "engine is stopped!", steps);
+				return TestReport.failure(testCase, "engine is stopped!", steps);
 
 			PrintStream ps = new PrintStream(outStream, false);
 			td.setOutputStream(ps);
-			for (steps = minSteps; steps <= maxSteps; steps++) {
+			int minSteps = testCase.minSteps;
+			for (steps = testCase.minSteps; steps <= testCase.maxSteps; steps++) {
 				td.executeSteps(minSteps);
 				minSteps = 1;
 				ps.flush();
@@ -133,18 +125,18 @@ public class TestAllCasm {
 
 				// test if no error has occurred and maybe output error message
 				if (!errContent.isEmpty()) {
-					return TestReport.failureErrorOutput(testFile, steps, outContent, errContent);
+					return TestReport.failureErrorOutput(testCase, steps, outContent, errContent);
 				}
 
 				// check if no refused output is contained
 				List<String> occurredRefusedOutputs = new LinkedList<>();
-				for (String refusedOutput : refusedOutputs) {
+				for (String refusedOutput : testCase.refusedOutputs) {
 					if (outContent.contains(refusedOutput)) {
 						occurredRefusedOutputs.add(refusedOutput);
 					}
 				}
 				if (!occurredRefusedOutputs.isEmpty()) {
-					return TestReport.failureRefusedOutput(testFile, steps, outContent, occurredRefusedOutputs);
+					return TestReport.failureRefusedOutput(testCase, steps, outContent, occurredRefusedOutputs);
 				}
 
 				// reduce remaining required output
@@ -156,7 +148,7 @@ public class TestAllCasm {
 			// check if no required output is missing after all steps
 			if (!remainingRequiredOutputs.isEmpty()) {
 				String outContent = outStream.toString();
-				return TestReport.failureMissingOutput(testFile, steps - 1, outContent, remainingRequiredOutputs);
+				return TestReport.failureMissingOutput(testCase, steps - 1, outContent, remainingRequiredOutputs);
 			}
 		}
 		catch (Exception e) {
@@ -170,18 +162,18 @@ public class TestAllCasm {
 
 		if (td == null) {
 			String failMessage = "Unable to launch TestEngineDriver";
-			return TestReport.failure(testFile, failMessage, steps);
+			return TestReport.failure(testCase, failMessage, steps);
 		}
 		else if (td.isRunning()) {
 			String failMessage = "has a running instance but is stopped!";
-			return TestReport.failure(testFile, failMessage, steps);
+			return TestReport.failure(testCase, failMessage, steps);
 		}
-		else if (steps <= maxSteps /* only if successful */) {
-			return TestReport.success(testFile, steps);
+		else if (steps <= testCase.maxSteps /* only if successful */) {
+			return TestReport.success(testCase, steps);
 		}
 		else {
 			String failMessage = "no test result!";
-			return TestReport.failure(testFile, failMessage, steps);
+			return TestReport.failure(testCase, failMessage, steps);
 		}
 	}
 

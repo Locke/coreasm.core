@@ -17,23 +17,13 @@ import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.Tools;
 
 public class CompilerDriver {
-	public static TestReport runSpecification(File testFile) {
-		// extract parameters and expected results from the testcase
-		List<String> requiredOutputList = TestUtils.getFilteredOutput(testFile, "@require");
-		List<String> refusedOutputList = TestUtils.getFilteredOutput(testFile, "@refuse");
-		int minSteps = TestUtils.getParameter(testFile, "minsteps");
-		System.out.println("minsteps: " + minSteps);
-		if (minSteps <= 0)
-			minSteps = 1;
-		int maxSteps = TestUtils.getParameter(testFile, "maxsteps");
-		System.out.println("maxsteps: " + maxSteps);
-		if (maxSteps < minSteps)
-			maxSteps = minSteps;
 
-		return runSpecification(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
+	public static TestReport runSpecification(File testFile) {
+		TestCase testCase = TestUtils.parseTestCase(testFile);
+		return runSpecification(testCase);
 	}
 
-	private static TestReport runSpecification(File testFile, List<String> requiredOutputs, List<String> refusedOutputs, int minSteps, int maxSteps) {
+	private static TestReport runSpecification(TestCase testCase) {
 		//create a CoreASM engine
 		CoreASMEngine engine = CoreASMEngineFactory.createEngine();
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
@@ -50,8 +40,8 @@ public class CompilerDriver {
 		options.enginePath = new File(Tools.getRootFolder(Engine.class)+"/../org.coreasm.engine-1.7.3-SNAPSHOT.jar");
 		options.outputFile = new File("compiledTest.jar");
 		options.removeExistingFiles = true;
-		options.SpecificationName = testFile;
-		options.terminateOnStepCount = maxSteps + 1;
+		options.SpecificationName = testCase.testFile;
+		options.terminateOnStepCount = testCase.maxSteps + 1;
 		System.out.println(options.terminateOnStepCount);
 		//Create a compiler using the CoreASM engine
 		CoreASMCompiler compiler = new CoreASMCompiler(options, engine);
@@ -59,7 +49,7 @@ public class CompilerDriver {
 			compiler.compile();
 		}
 		catch(Exception e){
-			return TestReport.failure(testFile, "compilation failed: " + e.getMessage());
+			return TestReport.failure(testCase, "compilation failed: " + e.getMessage());
 		}
 
 		//file should now be compiled. Launch it as a separate process; requires a java executable on the PATH
@@ -68,7 +58,7 @@ public class CompilerDriver {
 			proc = Runtime.getRuntime().exec("java -jar compiledTest.jar");
 
 		} catch (IOException e) {
-			return TestReport.failure(testFile, "running failed: " + e.getMessage());
+			return TestReport.failure(testCase, "running failed: " + e.getMessage());
 		}
 
 		StreamGobbler stdOutGobbler = new StreamGobbler(proc.getInputStream());
@@ -82,7 +72,7 @@ public class CompilerDriver {
 			procResult = proc.waitFor();
 		}
 		catch(Exception e){
-			return TestReport.failure(testFile, "waiting for process failed: " + e.getMessage());
+			return TestReport.failure(testCase, "waiting for process failed: " + e.getMessage());
 		}
 		stdOutGobbler.stopThread();
 		stdErrGobbler.stopThread();
@@ -92,36 +82,36 @@ public class CompilerDriver {
 
 		//check for errors
 		if (!errContent.equals("")) {
-			return TestReport.failureErrorOutput(testFile, outContent, errContent);
+			return TestReport.failureErrorOutput(testCase, outContent, errContent);
 		}
 		if(procResult != 0){
 			String failMessage = "process terminated with non-zero exit code: " + procResult;
-			return TestReport.failure(testFile, failMessage);
+			return TestReport.failure(testCase, failMessage);
 		}
 
 		// check output lines
 
 		List<String> occurredRefusedOutputs = new LinkedList<>();
-		for (String l : refusedOutputs) {
+		for (String l : testCase.refusedOutputs) {
 			if (outContent.contains(l)) {
 				occurredRefusedOutputs.add(l);
 			}
 		}
 		if (!occurredRefusedOutputs.isEmpty()) {
-			return TestReport.failureRefusedOutput(testFile, outContent, occurredRefusedOutputs);
+			return TestReport.failureRefusedOutput(testCase, outContent, occurredRefusedOutputs);
 		}
 
 		List<String> remainingRequiredOutputs = new LinkedList<>();
-		for (String l : requiredOutputs) {
+		for (String l : testCase.requiredOutputs) {
 			if (!outContent.contains(l)) {
 				remainingRequiredOutputs.add(l);
 			}
 		}
 		if (!remainingRequiredOutputs.isEmpty()) {
-			return TestReport.failureMissingOutput(testFile, outContent, remainingRequiredOutputs);
+			return TestReport.failureMissingOutput(testCase, outContent, remainingRequiredOutputs);
 		}
 
-		return TestReport.success(testFile);
+		return TestReport.success(testCase);
 	}
 }
 
