@@ -87,6 +87,39 @@ public class TestUtils {
 		return new TestCase(testFile, requiredOutputList, refusedOutputList, minSteps, maxSteps);
 	}
 
+	public static DetailedTestCase parseDetailedTestCase(File testFile) {
+		TestCase base = parseTestCase(testFile);
+
+		List<DetailedTestCase.TestCaseStep> testCaseSteps = getDetailedSteps(testFile);
+
+		return new DetailedTestCase(base, testCaseSteps);
+	}
+
+	public static List<DetailedTestCase.TestCaseStep> getDetailedSteps(File file) {
+		List<DetailedTestCase.TestCaseStep> detailedSteps = new LinkedList<>();
+		Pattern pattern = Pattern.compile("@(do|check).*");
+		try (FileReader fileReader = new FileReader(file);
+			 BufferedReader input = new BufferedReader(fileReader)) {
+			String line; //not declared within while loop
+			while ((line = input.readLine()) != null) {
+				Matcher matcher = pattern.matcher(line);
+				if (matcher.find()) {
+					String cleanLine = line.substring(matcher.start()); // remove beginning comment sequence and whitespaces
+					DetailedTestCase.TestCaseStep detailedStep = DetailedTestCase.TestCaseStep.parse(cleanLine);
+					detailedSteps.add(detailedStep);
+				}
+			}
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return List.copyOf(detailedSteps);
+	}
+
 	public static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
 		addNamedFile(testFiles, file, clazz.getSimpleName().toLowerCase() + "(.casm|.coreasm)");
 	}
