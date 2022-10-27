@@ -1,0 +1,44 @@
+// initialize
+// @check engineStatus emIdle
+// @do waitWhileBusy
+// @check engineStatus emIdle
+
+// softInterrupt: should only clear queue, not send an actual interrupt. Nothing should happen.
+// @do softInterrupt
+// @do sleep1s
+// @check engineStatus emIdle
+
+// hardInterrupt: send first interrupt. This should interrupt `commandQueue.take()` in `Engine.processNextCommand()`.
+// @do hardInterrupt
+// @do sleep1s
+
+// hardInterrupt: send second interrupt.
+// If first interruption was unhandled, then this should interrupt `commandQueue.take()` in `case emError`.
+// Otherwise, it will just do the same as the first interrupt.
+// @do hardInterrupt
+// @do sleep1s
+
+// hardInterrupt: send third interrupt. Just to be sure.
+// @do hardInterrupt
+// @do sleep1s
+// @check engineStatus emIdle
+
+// NOTE: no step
+
+// @refuse "STEP 0: lastStep = undef"
+
+CoreASM SingleStep
+
+use StandardPlugins
+use Time
+use Number
+use String
+
+function lastStep : -> NUMBER
+
+init initRule
+
+rule initRule = {
+	lastStep := stepcount
+	print "STEP " + stepcount + ": lastStep = " + lastStep
+}

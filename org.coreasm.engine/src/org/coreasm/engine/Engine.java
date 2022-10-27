@@ -793,15 +793,17 @@ public class Engine implements ControlAPI {
 		public void run() {
 			try {
 				while (!terminating) {
-					assert engineBusy;
+					assert engineBusy || (lastError != null);
 
 					try {
 						EngineMode engineMode = getEngineMode();
 
 						// if an error is occurred and the engine is not
 						// in error mode, go to the error mode
-						if (lastError != null
-								&& engineMode != EngineMode.emError) {
+						if (lastError != null && engineMode != EngineMode.emError) {
+							// NOTE: isBusyLock is only needed when switching to false (in order to signal isNotBusy),
+							// but not when switching to true, like here. Locking here might even be harmful.
+							engineBusy = true;
 							next(EngineMode.emError);
 						}
 
@@ -994,10 +996,18 @@ public class Engine implements ControlAPI {
 									isBusyLock.unlock();
 								}
 
-								EngineCommand cmd = commandQueue.take();
-								assert engineBusy;
+								EngineCommand cmd = null;
+								try {
+									cmd = commandQueue.take();
+									assert engineBusy;
+								}
+								catch (InterruptedException ex) {
+									logger.warn("Engine is in error state and needs to be terminated or reset. Interrupted while waiting for TERMINATE or RECOVER command. Going to wait again.");
+								}
 
-								if (cmd.type == EngineCommand.CmdType.ecTerminate) {
+								if (cmd == null) {
+									// can only happen via InterruptedException, repeat the loop
+								} else if (cmd.type == EngineCommand.CmdType.ecTerminate) {
 									next(EngineMode.emTerminating);
 									lastError = null;
 									logger.debug("Engine terminated by user command.");
@@ -1021,17 +1031,15 @@ public class Engine implements ControlAPI {
 
 						}
 					} catch (CoreASMError ce) {
-						error(ce);
 						logger.error("Error occurred: {}", ce.showError());
+						error(ce);
 					} catch (Exception e) {
+						logger.error("Exception occurred. ", e);
+
 						if (e instanceof ParserException)
 							error(new CoreASMError((ParserException)e));
 						else
 							error(e);
-						logger.error("Exception occurred. ", e);
-						// StackTraceElement[] trace = e.getStackTrace();
-						// for (StackTraceElement ste: trace)
-						//   logger.error( ste.toString());
 					}
 				}
 
@@ -1111,8 +1119,8 @@ public class Engine implements ControlAPI {
 		 *
 		 * @see #next(EngineMode)
 		 */
-		private void processNextCommand() throws EngineException, InterruptedException {
-			EngineCommand cmd;
+		private void processNextCommand() throws EngineException {
+			EngineCommand cmd = null;
 			int rrc = remainingRunCount.getAndDecrement();
 
 			if (rrc > 0)
@@ -1131,12 +1139,18 @@ public class Engine implements ControlAPI {
 				finally {
 					isBusyLock.unlock();
 				}
-
-				// blocking wait for the next command
-				cmd = commandQueue.take();
 			}
 
-			assert engineBusy;
+			while (cmd == null) {
+				try {
+					// blocking wait for the next command
+					cmd = commandQueue.take();
+					assert engineBusy;
+				}
+				catch (InterruptedException ex) {
+					logger.warn("Engine got interrupted while waiting for the next command. Going to wait again.");
+				}
+			}
 
 			lastCommand = cmd;
 

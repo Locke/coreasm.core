@@ -9,7 +9,7 @@ import org.coreasm.engine.CoreASMEngine;
 public class DetailedTestCase extends TestCase {
 
 	public enum TestCaseStepDoType {
-		waitWhileBusy, enqueueStep
+		waitWhileBusy, enqueueStep, softInterrupt, hardInterrupt, sleep1s
 	}
 
 	public enum TestCaseStepCheckType {
