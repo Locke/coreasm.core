@@ -16,7 +16,7 @@ public class TestCompilerMap4_remove extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap4_remove.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestMap4_remove.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

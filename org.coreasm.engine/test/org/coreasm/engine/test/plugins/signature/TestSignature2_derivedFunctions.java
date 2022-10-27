@@ -16,7 +16,7 @@ public class TestSignature2_derivedFunctions extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSignature2_derivedFunctions.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSignature2_derivedFunctions.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

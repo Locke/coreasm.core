@@ -16,7 +16,7 @@ public class TestGraph5_hasCycle extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph5_hasCycle.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph5_hasCycle.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

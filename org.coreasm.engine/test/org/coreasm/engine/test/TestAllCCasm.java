@@ -2,7 +2,6 @@ package org.coreasm.engine.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,7 +37,7 @@ public class TestAllCCasm {
 		try {
 			testFiles = new LinkedList<File>();
 			//recursively search for specifications
-			TestAllCasm.getTestFiles(testFiles, new File(url.toURI()));
+			TestAllCasm.addTestFiles(testFiles, new File(url.toURI()));
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -64,15 +63,18 @@ public class TestAllCCasm {
 		boolean successful = true;
 		//check if there are files for testing for this class
 		if (testFiles.isEmpty()) {
-			TestReport t = new TestReport(null, "no test file found!", -1, false);
+			TestReport t = TestReport.failure("no test file found!");
+			t.print(origOutput, origError);
 			successful = false;
 		}
 		//perform test for all test files, output result, and modify test result if test has failed
 		for (File testFile : testFiles) {
 			TestReport t = CompilerDriver.runSpecification(testFile);
-			if (!t.successful())
-				successful = false;
 			t.print(origOutput, origError);
+			if (!t.isSuccessful()) {
+				successful = false;
+				if (TestUtils.failFast) break;
+			}
 		}
 		//report overall test result
 		//test failed if at least one test has failed
@@ -80,23 +82,8 @@ public class TestAllCCasm {
 			Assert.fail("Test failed for class: " + TestAllCCasm.class.getSimpleName());
 	}
 
-	protected static void getTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		if (!testFiles.isEmpty())
-			return;
-		if (file != null && file.isDirectory())
-			for (File child : file.listFiles(new FileFilter() {
-
-				@Override
-				public boolean accept(File file) {
-					return (file.isDirectory()
-							|| file.getName().toLowerCase().endsWith(".casm")
-							|| file.getName().toLowerCase().endsWith(".coreasm"));
-				}
-			})) {
-				getTestFile(testFiles, child, clazz);
-			}
-		else if (file != null
-				&& file.getName().toLowerCase().matches(clazz.getSimpleName().replace("Compiler", "").toLowerCase() + "(.casm|.coreasm)"))
-			testFiles.add(file);
+	protected static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
+		TestUtils.addCompilerTestFile(testFiles, file, clazz);
 	}
+
 }

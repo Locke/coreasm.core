@@ -16,7 +16,7 @@ public class TestCompilerTurboASM5_local extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM5_local.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM5_local.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

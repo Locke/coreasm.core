@@ -16,7 +16,7 @@ public class TestAggregation extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestAggregation.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestAggregation.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

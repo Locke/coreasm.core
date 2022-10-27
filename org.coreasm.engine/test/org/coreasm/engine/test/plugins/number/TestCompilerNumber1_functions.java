@@ -16,7 +16,7 @@ public class TestCompilerNumber1_functions extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestNumber1_functions.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestNumber1_functions.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

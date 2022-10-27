@@ -16,7 +16,7 @@ public class TestPredicateLogic3_forallHold extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic3_forallHold.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic3_forallHold.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

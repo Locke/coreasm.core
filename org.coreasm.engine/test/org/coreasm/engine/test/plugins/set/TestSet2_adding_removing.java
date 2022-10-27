@@ -16,7 +16,7 @@ public class TestSet2_adding_removing extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet2_adding_removing.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet2_adding_removing.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

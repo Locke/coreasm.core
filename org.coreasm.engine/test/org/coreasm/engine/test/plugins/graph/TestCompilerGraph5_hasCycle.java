@@ -16,7 +16,7 @@ public class TestCompilerGraph5_hasCycle extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph5_hasCycle.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph5_hasCycle.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

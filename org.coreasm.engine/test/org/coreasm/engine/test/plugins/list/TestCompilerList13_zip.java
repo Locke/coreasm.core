@@ -16,7 +16,7 @@ public class TestCompilerList13_zip extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList13_zip.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList13_zip.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

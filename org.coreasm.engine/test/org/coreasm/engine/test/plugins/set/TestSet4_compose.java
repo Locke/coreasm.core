@@ -16,7 +16,7 @@ public class TestSet4_compose extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet4_compose.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet4_compose.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

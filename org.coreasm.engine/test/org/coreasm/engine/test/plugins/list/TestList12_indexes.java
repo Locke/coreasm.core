@@ -16,7 +16,7 @@ public class TestList12_indexes extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList12_indexes.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList12_indexes.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

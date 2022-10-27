@@ -16,7 +16,7 @@ public class TestCompilerKernel1 extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestKernel1.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestKernel1.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

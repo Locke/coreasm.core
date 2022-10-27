@@ -1,0 +1,38 @@
+// initialize
+// @check engineStatus emIdle
+// @do waitWhileBusy
+// @check engineStatus emIdle
+
+// STEP 0
+// @do enqueueStep
+// @do waitWhileBusy
+// @check engineStatus emIdle
+
+// STEP 1
+// @do enqueueStep
+// @do waitWhileBusy
+// @check engineStatus emIdle
+
+// NOTE: no step 2
+
+// @require "STEP 0: lastStep = undef"
+// @require "STEP 1: lastStep = 0"
+// @refuse  "STEP 2: lastStep = 1"
+
+// @maxsteps 10
+
+CoreASM SingleStep
+
+use StandardPlugins
+use Time
+use Number
+use String
+
+function lastStep : -> NUMBER
+
+init initRule
+
+rule initRule = {
+	lastStep := stepcount
+	print "STEP " + stepcount + ": lastStep = " + lastStep
+}

@@ -16,7 +16,7 @@ public class TestTurboASM6_loc extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM6_loc.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM6_loc.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

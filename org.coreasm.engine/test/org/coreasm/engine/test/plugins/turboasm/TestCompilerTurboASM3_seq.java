@@ -16,7 +16,7 @@ public class TestCompilerTurboASM3_seq extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM3_seq.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM3_seq.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

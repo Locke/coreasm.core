@@ -16,7 +16,7 @@ public class TestCompilerTurboASM2_seqblock extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM2_seqblock.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM2_seqblock.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

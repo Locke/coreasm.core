@@ -16,7 +16,7 @@ public class TestTurboASM3_seq extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM3_seq.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTurboASM3_seq.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

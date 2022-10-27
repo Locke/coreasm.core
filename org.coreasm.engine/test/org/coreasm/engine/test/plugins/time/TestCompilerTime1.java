@@ -16,7 +16,7 @@ public class TestCompilerTime1 extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTime1.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestTime1.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

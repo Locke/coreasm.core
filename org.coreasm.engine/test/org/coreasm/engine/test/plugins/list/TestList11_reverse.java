@@ -16,7 +16,7 @@ public class TestList11_reverse extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList11_reverse.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList11_reverse.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

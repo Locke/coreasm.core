@@ -16,7 +16,7 @@ public class TestCompilerGraph6_findCyclesWithVertex extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph6_findCyclesWithVertex.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph6_findCyclesWithVertex.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

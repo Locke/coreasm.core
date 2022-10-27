@@ -16,7 +16,7 @@ public class TestCompilerSet3_binary extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet3_binary.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestSet3_binary.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

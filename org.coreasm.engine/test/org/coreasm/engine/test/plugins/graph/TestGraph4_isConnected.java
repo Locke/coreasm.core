@@ -16,7 +16,7 @@ public class TestGraph4_isConnected extends TestAllCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph4_isConnected.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestGraph4_isConnected.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

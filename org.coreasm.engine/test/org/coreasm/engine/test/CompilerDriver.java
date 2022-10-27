@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.coreasm.compiler.CompilerOptions;
@@ -16,19 +17,13 @@ import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.Tools;
 
 public class CompilerDriver {
-	public static TestReport runSpecification(File testFile){
-		//extract parameters and expected results from the testcase
-		List<String> requiredOutputList = TestAllCasm.getFilteredOutput(testFile, "@require");
-		List<String> refusedOutputList = TestAllCasm.getFilteredOutput(testFile, "@refuse");
-		int minSteps = TestAllCasm.getParameter(testFile, "minsteps");
-		System.out.println("minsteps: " + minSteps);
-		if (minSteps <= 0)
-			minSteps = 1;
-		int maxSteps = TestAllCasm.getParameter(testFile, "maxsteps");
-		System.out.println("maxsteps: " + maxSteps);
-		if (maxSteps < minSteps)
-			maxSteps = minSteps;
 
+	public static TestReport runSpecification(File testFile) {
+		TestCase testCase = TestUtils.parseTestCase(testFile);
+		return runSpecification(testCase);
+	}
+
+	private static TestReport runSpecification(TestCase testCase) {
 		//create a CoreASM engine
 		CoreASMEngine engine = CoreASMEngineFactory.createEngine();
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
@@ -45,8 +40,8 @@ public class CompilerDriver {
 		options.enginePath = new File(Tools.getRootFolder(Engine.class)+"/../org.coreasm.engine-1.7.3-SNAPSHOT.jar");
 		options.outputFile = new File("compiledTest.jar");
 		options.removeExistingFiles = true;
-		options.SpecificationName = testFile;
-		options.terminateOnStepCount = maxSteps + 1;
+		options.SpecificationName = testCase.testFile;
+		options.terminateOnStepCount = testCase.maxSteps + 1;
 		System.out.println(options.terminateOnStepCount);
 		//Create a compiler using the CoreASM engine
 		CoreASMCompiler compiler = new CoreASMCompiler(options, engine);
@@ -54,7 +49,7 @@ public class CompilerDriver {
 			compiler.compile();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "Compilation failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testCase, "compilation failed: " + e.getMessage());
 		}
 
 		//file should now be compiled. Launch it as a separate process; requires a java executable on the PATH
@@ -63,68 +58,69 @@ public class CompilerDriver {
 			proc = Runtime.getRuntime().exec("java -jar compiledTest.jar");
 
 		} catch (IOException e) {
-			return new TestReport(testFile, "Running failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testCase, "running failed: " + e.getMessage());
 		}
 
-		StreamGobbler in = new StreamGobbler(proc.getInputStream());
-		StreamGobbler err = new StreamGobbler(proc.getErrorStream());
-		Thread g1 = new Thread(in);
-		Thread g2 = new Thread(err);
-		g1.start();
-		g2.start();
+		StreamGobbler stdOutGobbler = new StreamGobbler(proc.getInputStream());
+		StreamGobbler stdErrGobbler = new StreamGobbler(proc.getErrorStream());
+		Thread stdOutGobblerThread = new Thread(stdOutGobbler);
+		Thread stdErrGobblerThread = new Thread(stdErrGobbler);
+		stdOutGobblerThread.start();
+		stdErrGobblerThread.start();
 		int procResult = 0;
 		try{
 			procResult = proc.waitFor();
 		}
 		catch(Exception e){
-			return new TestReport(testFile, "Waiting for process failed: " + e.getMessage(), -1, false);
+			return TestReport.failure(testCase, "waiting for process failed: " + e.getMessage());
 		}
-		in.stopThread();
-		err.stopThread();
+		stdOutGobbler.stopThread();
+		stdErrGobbler.stopThread();
+
+		String outContent = stdOutGobbler.output.toString();
+		String errContent = stdErrGobbler.output.toString();
 
 		//check for errors
-		if (!err.output.toString().equals("")) {
-			String failMessage = "An error occurred in " + testFile.getName() + ":" + err.output.toString();
-			return new TestReport(testFile, failMessage, -1, false);
+		if (!errContent.equals("")) {
+			return TestReport.failureErrorOutput(testCase, outContent, errContent);
 		}
 		if(procResult != 0){
-			String failMessage = "Process terminated with exit code != 0";
-			return new TestReport(testFile, failMessage, -1, false);
+			String failMessage = "process terminated with non-zero exit code: " + procResult;
+			return TestReport.failure(testCase, failMessage);
 		}
 
-		//loop through output lines
-		String out = in.output.toString();
-		for(String l : requiredOutputList){
-			if(!out.contains(l)){
-				String failMessage = "missing required output for test file: " + testFile.getName()
-						+ "\nmissing output:\n"
-						+ l
-						+ "\nactual output:\n" + out;
-				return new TestReport(testFile, failMessage, -1 - 1, false);
+		// check output lines
+
+		List<String> occurredRefusedOutputs = new LinkedList<>();
+		for (String l : testCase.refusedOutputs) {
+			if (outContent.contains(l)) {
+				occurredRefusedOutputs.add(l);
 			}
 		}
-		for(String l : refusedOutputList){
-			if(out.contains(l)){
-				String failMessage = "refused output found in test file: " + testFile.getName()
-						+ "\nrefused output:\n"
-						+ l
-						+ "\nactual output:\n" + out;
-				return new TestReport(testFile, failMessage, -1, false);
-			}
+		if (!occurredRefusedOutputs.isEmpty()) {
+			return TestReport.failureRefusedOutput(testCase, outContent, occurredRefusedOutputs);
 		}
 
-		return new TestReport(testFile, "Success", -1, true);
+		List<String> remainingRequiredOutputs = new LinkedList<>();
+		for (String l : testCase.requiredOutputs) {
+			if (!outContent.contains(l)) {
+				remainingRequiredOutputs.add(l);
+			}
+		}
+		if (!remainingRequiredOutputs.isEmpty()) {
+			return TestReport.failureMissingOutput(testCase, outContent, remainingRequiredOutputs);
+		}
+
+		return TestReport.success(testCase);
 	}
 }
 
-class StreamGobbler implements Runnable{
-	public StringBuilder output;
-	//public List<String> lines;
-	private InputStream stream;
+class StreamGobbler implements Runnable {
+	public final StringBuilder output;
+	private final InputStream stream;
 	private volatile boolean quit;
 
-	public StreamGobbler(InputStream in){
-		//lines = new ArrayList<String>();
+	public StreamGobbler(InputStream in) {
 		stream = in;
 		quit = false;
 		output = new StringBuilder();
@@ -154,4 +150,5 @@ class StreamGobbler implements Runnable{
 	public void stopThread(){
 		this.quit = true;
 	}
+
 }

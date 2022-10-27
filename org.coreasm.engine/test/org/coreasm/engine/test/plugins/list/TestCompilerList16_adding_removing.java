@@ -16,7 +16,7 @@ public class TestCompilerList16_adding_removing extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList16_adding_removing.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestList16_adding_removing.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

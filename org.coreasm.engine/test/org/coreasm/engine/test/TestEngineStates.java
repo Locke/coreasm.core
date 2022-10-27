@@ -8,17 +8,18 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.coreasm.engine.Engine;
-import org.coreasm.engine.EngineProperties;
-import org.coreasm.util.Tools;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestAllCasm {
+import org.coreasm.engine.CoreASMEngine;
+import org.coreasm.engine.Engine;
+import org.coreasm.engine.EngineProperties;
+import org.coreasm.util.Tools;
+
+public class TestEngineStates {
 
 	protected static List<File> testFiles = null;
 
@@ -33,12 +34,12 @@ public class TestAllCasm {
 	@BeforeClass
 	public static void onlyOnce() {
 		//setup the test by finding the test specifications
-		URL url = TestAllCasm.class.getClassLoader().getResource("./without_test_class");
+		URL url = TestEngineStates.class.getClassLoader().getResource("./engine_states");
 
 		try {
-			testFiles = new LinkedList<File>();
+			testFiles = new LinkedList<>();
 			//recursively search for specifications
-			addTestFiles(testFiles, new File(url.toURI()));
+			TestUtils.addTestFiles(testFiles, new File(url.toURI()));
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -50,14 +51,6 @@ public class TestAllCasm {
 	private final ByteArrayOutputStream errStream = new ByteArrayOutputStream();
 	final static PrintStream origOutput = System.out;
 	final static PrintStream origError = System.err;
-
-	protected static void addTestFile(List<File> testFiles, File file, Class<?> clazz) {
-		TestUtils.addTestFile(testFiles, file, clazz);
-	}
-
-	static void addTestFiles(List<File> testFiles, File file) {
-		TestUtils.addTestFiles(testFiles, file);
-	}
 
 	@Before
 	public void setUpStreams() {
@@ -92,16 +85,16 @@ public class TestAllCasm {
 		//report overall test result
 		//test failed if at least one test has failed
 		if (!successful)
-			Assert.fail("Test failed for class: " + TestAllCasm.class.getSimpleName());
+			Assert.fail("Test failed for class: " + TestEngineStates.class.getSimpleName());
 
 	}
 
 	public TestReport runSpecification(File testFile) {
-		TestCase testCase = TestUtils.parseTestCase(testFile);
+		DetailedTestCase testCase = TestUtils.parseDetailedTestCase(testFile);
 		return runSpecification(testCase);
 	}
 
-	private TestReport runSpecification(TestCase testCase) {
+	private TestReport runSpecification(DetailedTestCase testCase) {
 		LinkedList<String> remainingRequiredOutputs = new LinkedList<>(testCase.requiredOutputs);
 		TestEngineDriver td = null;
 		int steps = 0;
@@ -114,12 +107,41 @@ public class TestAllCasm {
 
 			PrintStream ps = new PrintStream(outStream, false);
 			td.setOutputStream(ps);
-			int minSteps = testCase.minSteps;
-			for (steps = testCase.minSteps; steps <= testCase.maxSteps; steps++) {
-				td.executeSteps(minSteps);
-				minSteps = 1;
-				ps.flush();
+			for (DetailedTestCase.TestCaseStep testCaseStep : testCase.testCaseSteps) {
 
+				if (testCaseStep instanceof DetailedTestCase.TestCaseStepDo) {
+					DetailedTestCase.TestCaseStepDo doStep = (DetailedTestCase.TestCaseStepDo) testCaseStep;
+
+					switch (doStep.type) {
+						case waitWhileBusy:
+							td.engine.waitWhileBusy();
+							break;
+						case enqueueStep:
+							steps++;
+							td.engine.enqueueStep();
+							break;
+					}
+				}
+				else if (testCaseStep instanceof DetailedTestCase.TestCaseStepCheck) {
+					DetailedTestCase.TestCaseStepCheck checkStep = (DetailedTestCase.TestCaseStepCheck) testCaseStep;
+
+					switch (checkStep.type) {
+						case engineStatus:
+							CoreASMEngine.EngineMode left = td.engine.getEngineMode();
+							if (left == checkStep.right) {
+								// OK
+							}
+							else {
+								return TestReport.failure(testCase, "Expected EngineMode '" + checkStep.right + "' but EngineMode is '" + left + "'!", steps);
+							}
+							break;
+					}
+				}
+				else {
+					throw new IllegalArgumentException("Unknown TestCaseStep: " + testCaseStep);
+				}
+
+				ps.flush();
 				String outContent = outStream.toString();
 				String errContent = errStream.toString();
 
@@ -141,8 +163,10 @@ public class TestAllCasm {
 
 				// reduce remaining required output
 				remainingRequiredOutputs.removeIf(outContent::contains);
-				if (remainingRequiredOutputs.isEmpty())
-					break;
+				if (remainingRequiredOutputs.isEmpty()) {
+					// NOTE: continuing to complete testCaseSteps
+					// break;
+				}
 			}
 
 			// check if no required output is missing after all steps

@@ -16,7 +16,7 @@ public class TestCompilerConditionalTerm extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestConditionalTerm.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestConditionalTerm.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();

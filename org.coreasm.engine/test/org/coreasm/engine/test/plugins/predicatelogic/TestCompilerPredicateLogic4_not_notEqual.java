@@ -16,7 +16,7 @@ public class TestCompilerPredicateLogic4_not_notEqual extends TestAllCCasm {
 
 		try {
 			testFiles = new LinkedList<File>();
-			getTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic4_not_notEqual.class);
+			addTestFile(testFiles, new File(url.toURI()).getParentFile(), TestPredicateLogic4_not_notEqual.class);
 		}
 		catch (URISyntaxException e) {
 			e.printStackTrace();
