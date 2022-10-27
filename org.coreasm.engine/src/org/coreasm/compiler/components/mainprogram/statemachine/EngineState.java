@@ -1,8 +1,7 @@
 package org.coreasm.compiler.components.mainprogram.statemachine;
 
-import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.components.mainprogram.statemachine.EngineState;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.codefragment.CodeFragment;
 
 /**
  * A state of the state machine.

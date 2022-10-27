@@ -21,6 +21,9 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.collection.CompilerCollectionPlugin;
 import org.coreasm.engine.CoreASMError;
@@ -41,8 +44,6 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The base plugin of all the collection plugins

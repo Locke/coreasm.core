@@ -17,8 +17,8 @@ package org.coreasm.engine.plugin;
 import java.util.Map;
 
 import org.coreasm.engine.ControlAPI;
-import org.coreasm.engine.EngineException;
 import org.coreasm.engine.CoreASMEngine.EngineMode;
+import org.coreasm.engine.EngineException;
 
 /**
  *	Interface for plugins that extend the engine's life-cycle.

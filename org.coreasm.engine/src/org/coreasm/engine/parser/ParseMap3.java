@@ -13,10 +13,10 @@
 
 package org.coreasm.engine.parser;
 
+import org.jparsec.functors.Map3;
+
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.plugin.Plugin;
-
-import org.jparsec.functors.Map3;
 
 /**
  * Specialized version of {@link Map3} that gets a plug-in name as well.

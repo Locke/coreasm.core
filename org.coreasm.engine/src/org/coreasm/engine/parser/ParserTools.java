@@ -1,6 +1,10 @@
 package org.coreasm.engine.parser;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.jparsec.Parser;
@@ -9,6 +13,7 @@ import org.jparsec.Scanners;
 import org.jparsec.Terminals;
 import org.jparsec.Token;
 import org.jparsec.Tokens.Fragment;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
 import org.coreasm.engine.interpreter.ASTNode;

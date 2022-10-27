@@ -1,9 +1,9 @@
 package org.coreasm.engine.parser;
 
+import java.util.function.BiFunction;
+
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.plugin.Plugin;
-
-import java.util.function.BiFunction;
 
 /**
  * Specialized version that gets a plug-in name as well.

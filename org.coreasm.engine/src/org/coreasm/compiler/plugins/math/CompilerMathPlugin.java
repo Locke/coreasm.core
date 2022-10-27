@@ -15,12 +15,12 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
-import org.coreasm.compiler.plugins.math.code.rcode.RandomValueHandler;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.math.MathPlugin;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
+import org.coreasm.compiler.plugins.math.code.rcode.RandomValueHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.math.MathPlugin;
 
 /**
  * Provides additional mathematical functions

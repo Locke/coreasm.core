@@ -14,10 +14,11 @@
 package org.coreasm.compiler.plugins.collection.include;
 
 import CompilerRuntime.CoreASMCException;
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.Location;
 import CompilerRuntime.Rule;
 import CompilerRuntime.UpdateList;
+
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.Location;
 
 /**
  * The interface for all modifiable collections.

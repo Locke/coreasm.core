@@ -22,8 +22,20 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.jgraph.layout.JGraphFacade;
+import com.jgraph.layout.JGraphLayout;
+import com.jgraph.layout.graph.JGraphSimpleLayout;
+
+import org.jgraph.JGraph;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
+import org.jgrapht.ListenableGraph;
+import org.jgrapht.ext.JGraphModelAdapter;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+
 import org.coreasm.engine.CoreASMEngine;
 import org.coreasm.engine.CoreASMEngine.EngineMode;
 import org.coreasm.engine.EngineException;
@@ -53,17 +65,6 @@ import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.engine.plugins.set.SetBackgroundElement;
 import org.coreasm.engine.plugins.set.SetElement;
 import org.coreasm.util.Logger;
-import org.jgraph.JGraph;
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.Graph;
-import org.jgrapht.ListenableGraph;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.ListenableDirectedGraph;
-
-import com.jgraph.layout.JGraphFacade;
-import com.jgraph.layout.JGraphLayout;
-import com.jgraph.layout.graph.JGraphSimpleLayout;
 
 /**
  * A plugin to provide the Graph background.

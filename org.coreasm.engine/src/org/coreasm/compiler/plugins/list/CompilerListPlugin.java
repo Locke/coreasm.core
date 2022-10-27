@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.coreasm.compiler.CodeType;
+import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.components.classlibrary.ClassLibrary;
 import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
@@ -14,6 +16,11 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
+import org.coreasm.compiler.interfaces.CompilerCodePlugin;
+import org.coreasm.compiler.interfaces.CompilerMakroProvider;
+import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
+import org.coreasm.compiler.interfaces.CompilerPlugin;
+import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 import org.coreasm.compiler.plugins.list.code.rcode.ListCompHandler;
 import org.coreasm.compiler.plugins.list.code.rcode.ListTermHandler;
 import org.coreasm.compiler.plugins.list.code.ucode.ShiftRuleHandler;
@@ -33,13 +40,6 @@ import org.coreasm.engine.plugins.list.TakeFunctionElement;
 import org.coreasm.engine.plugins.list.ToListFunctionElement;
 import org.coreasm.engine.plugins.list.ZipFunctionElement;
 import org.coreasm.engine.plugins.list.ZipWithFunctionElement;
-import org.coreasm.compiler.CodeType;
-import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.interfaces.CompilerCodePlugin;
-import org.coreasm.compiler.interfaces.CompilerMakroProvider;
-import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
-import org.coreasm.compiler.interfaces.CompilerPlugin;
-import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 
 /**
  * Provides lists.

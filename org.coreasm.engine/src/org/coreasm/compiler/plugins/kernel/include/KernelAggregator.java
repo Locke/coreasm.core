@@ -2,13 +2,12 @@ package org.coreasm.compiler.plugins.kernel.include;
 
 import java.util.Set;
 
-
-import org.coreasm.engine.absstorage.Location;
-import org.coreasm.engine.absstorage.Update;
-
 import CompilerRuntime.AggregationHelper;
 import CompilerRuntime.PluginCompositionAPI;
 import CompilerRuntime.UpdateList;
+
+import org.coreasm.engine.absstorage.Location;
+import org.coreasm.engine.absstorage.Update;
 
 /**
  * Default kernel aggregation

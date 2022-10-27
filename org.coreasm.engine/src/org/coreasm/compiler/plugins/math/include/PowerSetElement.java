@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.coreasm.engine.plugins.set.SetElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Enumerable;
+import org.coreasm.engine.plugins.set.SetElement;
 
 /**
  * Provide the powerset of an enumerable.

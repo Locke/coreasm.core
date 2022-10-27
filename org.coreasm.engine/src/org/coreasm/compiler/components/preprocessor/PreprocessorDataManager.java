@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.coreasm.compiler.components.preprocessor.InheritRule;
-import org.coreasm.compiler.components.preprocessor.SynthesizeRule;
-import org.coreasm.compiler.components.preprocessor.Trigger;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.interfaces.CompilerPreprocessorPlugin;
 import org.coreasm.engine.interpreter.ASTNode;

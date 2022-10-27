@@ -5,15 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.Location;
-import org.coreasm.engine.absstorage.Update;
-import org.coreasm.engine.plugins.string.StringElement;
-
 import CompilerRuntime.AggregationHelper;
 import CompilerRuntime.AggregationHelper.Flag;
 import CompilerRuntime.PluginCompositionAPI;
 import CompilerRuntime.UpdateAggregator;
+
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.Location;
+import org.coreasm.engine.absstorage.Update;
+import org.coreasm.engine.plugins.string.StringElement;
 
 /**
  * Aggregates IO operation updates

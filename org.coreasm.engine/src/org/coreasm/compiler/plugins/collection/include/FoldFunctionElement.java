@@ -17,10 +17,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.ElementList;
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.ElementList;
 import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;

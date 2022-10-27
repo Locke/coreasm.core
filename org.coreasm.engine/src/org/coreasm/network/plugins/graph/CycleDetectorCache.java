@@ -14,10 +14,11 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.HashMap;
 
-import org.coreasm.engine.absstorage.Element;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.CycleDetector;
+
+import org.coreasm.engine.absstorage.Element;
 
 /**
  * A cache of cycle detectors for graphs.

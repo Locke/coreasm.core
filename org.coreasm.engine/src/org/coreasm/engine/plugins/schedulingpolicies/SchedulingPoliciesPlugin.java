@@ -14,11 +14,18 @@
 
 package org.coreasm.engine.plugins.schedulingpolicies;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.CoreASMEngine.EngineMode;
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.CoreASMIssue;
@@ -56,8 +63,6 @@ import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.SchedulerPlugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.engine.scheduler.SchedulingPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides some basic scheduling policies for running agents.

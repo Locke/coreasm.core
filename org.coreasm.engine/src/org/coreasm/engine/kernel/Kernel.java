@@ -15,11 +15,19 @@
 
 package org.coreasm.engine.kernel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.kernel.CompilerKernelPlugin;
 import org.coreasm.engine.ControlAPI;

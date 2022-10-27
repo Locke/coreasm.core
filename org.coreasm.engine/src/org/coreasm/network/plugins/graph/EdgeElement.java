@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.jgrapht.EdgeFactory;
+
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
-import org.jgrapht.EdgeFactory;
 
 /**
  * Basic Edge element.

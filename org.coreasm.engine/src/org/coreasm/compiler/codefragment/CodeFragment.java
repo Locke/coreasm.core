@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.codefragment.CodeFragmentException;
 import org.coreasm.compiler.components.variablemanager.CompilerVariable;
 import org.coreasm.compiler.components.variablemanager.VarManager;
 

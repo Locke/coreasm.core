@@ -17,13 +17,14 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineException;
 import org.coreasm.engine.EngineProperties;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PluginClassLoader {
 	private static final Logger logger = LoggerFactory.getLogger(PluginClassLoader.class);

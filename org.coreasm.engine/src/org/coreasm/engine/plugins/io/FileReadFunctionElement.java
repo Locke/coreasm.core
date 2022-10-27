@@ -4,11 +4,11 @@ package org.coreasm.engine.plugins.io;
 import java.io.IOException;
 import java.util.List;
 
+import CompilerRuntime.CoreASMError;
+
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.plugins.list.ListElement;
-
-import CompilerRuntime.CoreASMError;
 
 /**
  * Implements the <i>input</i> monitored function provided by IO Plugin.

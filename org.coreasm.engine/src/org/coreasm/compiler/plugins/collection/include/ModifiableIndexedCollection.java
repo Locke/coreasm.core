@@ -13,13 +13,13 @@
 
 package org.coreasm.compiler.plugins.collection.include;
 
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.Location;
-import org.coreasm.engine.plugins.number.NumberElement;
-
 import CompilerRuntime.CoreASMCException;
 import CompilerRuntime.Rule;
 import CompilerRuntime.UpdateList;
+
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.Location;
+import org.coreasm.engine.plugins.number.NumberElement;
 
 
 /**

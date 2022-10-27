@@ -1,9 +1,9 @@
 package org.coreasm.compiler.paths;
 
+import java.io.File;
+
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
-
-import java.io.File;
 
 /**
  * Maps {@link LibraryEntry} instances to paths and provides package definitions.

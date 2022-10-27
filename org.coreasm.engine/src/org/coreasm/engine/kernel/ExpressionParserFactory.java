@@ -18,6 +18,9 @@ import java.util.function.UnaryOperator;
 
 import org.jparsec.OperatorTable;
 import org.jparsec.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
 import org.coreasm.engine.interpreter.ASTNode;
@@ -29,8 +32,6 @@ import org.coreasm.engine.parser.ParseMap;
 import org.coreasm.engine.parser.ParserTools;
 import org.coreasm.engine.plugin.OperatorProvider;
 import org.coreasm.engine.plugin.Plugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
 import org.coreasm.engine.EngineException;
@@ -21,8 +25,6 @@ import org.coreasm.engine.parser.OperatorRule;
 import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.OperatorProvider;
 import org.coreasm.engine.plugin.Plugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PluginManager {
 	private static final Logger logger = LoggerFactory.getLogger(PluginManager.class);

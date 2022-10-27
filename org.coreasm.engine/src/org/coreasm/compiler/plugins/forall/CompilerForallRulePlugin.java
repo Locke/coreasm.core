@@ -1,13 +1,13 @@
 package org.coreasm.compiler.plugins.forall;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.forallrule.ForallRulePlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.forall.code.ucode.ForallRuleHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.forallrule.ForallRulePlugin;
 
 /**
  * Provides the forall rule

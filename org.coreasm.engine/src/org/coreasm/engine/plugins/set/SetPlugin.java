@@ -24,6 +24,9 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.set.CompilerSetPlugin;
 import org.coreasm.engine.EngineError;
@@ -60,8 +63,6 @@ import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.engine.plugins.collection.AbstractSetElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Plugin for finite set related rules, literals,

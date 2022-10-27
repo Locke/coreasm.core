@@ -13,11 +13,11 @@
 
 package org.coreasm.network.plugins.graph;
 
+import java.util.List;
+
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
-
-import java.util.List;
 
 /**
  *	A node for showgraph rules.

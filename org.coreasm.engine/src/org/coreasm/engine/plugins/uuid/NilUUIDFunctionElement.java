@@ -7,10 +7,10 @@
 
 package org.coreasm.engine.plugins.uuid;
 
+import java.util.List;
+
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
-
-import java.util.List;
 
 /**
  * Implements 'nanoTime' as a monitored function that returns the current value of the running Java Virtual Machine's

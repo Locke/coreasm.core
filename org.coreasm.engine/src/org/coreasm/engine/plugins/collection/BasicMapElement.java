@@ -14,9 +14,9 @@
 package org.coreasm.engine.plugins.collection;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.UnmodifiableFunctionException;

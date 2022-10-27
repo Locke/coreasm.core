@@ -1,13 +1,13 @@
 package org.coreasm.compiler.plugins.caserule;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.caserule.CaseRulePlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.caserule.code.ucode.CaseRuleHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.caserule.CaseRulePlugin;
 
 /**
  * Provides the case rule.

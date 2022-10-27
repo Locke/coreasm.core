@@ -7,11 +7,11 @@
 
 package org.coreasm.engine.plugins.uuid;
 
+import java.util.UUID;
+
 import org.coreasm.engine.absstorage.BackgroundElement;
 import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
-
-import java.util.UUID;
 
 /**
  *	Background of UUIDs.

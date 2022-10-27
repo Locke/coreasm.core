@@ -25,14 +25,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.coreasm.engine.EngineTools;
-import org.coreasm.engine.Specification;
-import org.coreasm.util.Tools;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.turboasm.CompilerTurboASMPlugin;
 import org.coreasm.engine.EngineError;
+import org.coreasm.engine.EngineTools;
+import org.coreasm.engine.Specification;
 import org.coreasm.engine.VersionInfo;
 import org.coreasm.engine.absstorage.AbstractStorage;
 import org.coreasm.engine.absstorage.BackgroundElement;
@@ -62,8 +64,7 @@ import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.coreasm.util.Tools;
 
 /**
  * This plugin provides the following TurboASM rules:

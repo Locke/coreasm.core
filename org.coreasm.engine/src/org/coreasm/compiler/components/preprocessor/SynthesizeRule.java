@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.compiler.components.preprocessor.Information;
-import org.coreasm.compiler.components.preprocessor.Trigger;
 
 /**
  * Synthesizes information.

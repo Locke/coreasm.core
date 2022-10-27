@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.coreasm.engine.absstorage.BackgroundElement;
+import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Enumerable;
-import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.plugins.signature.EnumerationElement;
 
 /**

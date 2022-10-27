@@ -27,6 +27,9 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.EngineError;
 import org.coreasm.engine.EngineException;
 import org.coreasm.engine.VersionInfo;
@@ -61,8 +64,6 @@ import org.coreasm.engine.plugin.OperatorProvider;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Plugin providing the Bag background.

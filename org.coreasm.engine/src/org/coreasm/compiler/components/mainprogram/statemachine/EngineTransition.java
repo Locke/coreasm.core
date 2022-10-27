@@ -1,7 +1,6 @@
 package org.coreasm.compiler.components.mainprogram.statemachine;
 
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition;
 
 /**
  * An engine transition.

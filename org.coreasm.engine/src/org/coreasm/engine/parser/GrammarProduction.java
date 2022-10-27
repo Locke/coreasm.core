@@ -20,11 +20,12 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.jparsec.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.GrammarRule.GRType;
 import org.coreasm.util.CoreASMGlobal;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

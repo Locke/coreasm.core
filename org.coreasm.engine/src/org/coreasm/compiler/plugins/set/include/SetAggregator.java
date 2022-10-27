@@ -8,22 +8,19 @@ import java.util.Set;
 
 import CompilerRuntime.AggregationHelper;
 import CompilerRuntime.AggregationHelper.Flag;
-
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.EngineError;
-import org.coreasm.engine.absstorage.Enumerable;
-import org.coreasm.engine.absstorage.InvalidLocationException;
-import org.coreasm.engine.absstorage.Location;
-
 import CompilerRuntime.PluginCompositionAPI;
 import CompilerRuntime.Rule;
 import CompilerRuntime.RuntimeProvider;
-
-import org.coreasm.engine.absstorage.Update;
-import org.coreasm.engine.plugins.set.SetElement;
-
 import CompilerRuntime.UpdateAggregator;
 import CompilerRuntime.UpdateList;
+
+import org.coreasm.engine.EngineError;
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.Enumerable;
+import org.coreasm.engine.absstorage.InvalidLocationException;
+import org.coreasm.engine.absstorage.Location;
+import org.coreasm.engine.absstorage.Update;
+import org.coreasm.engine.plugins.set.SetElement;
 
 /**
  * Aggregates updates on sets.

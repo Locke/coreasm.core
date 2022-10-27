@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementList;
 import org.coreasm.engine.absstorage.Update;
@@ -23,7 +25,6 @@ import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.ScannerInfo;
 import org.coreasm.engine.parser.Parser;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
 
 /**
  * A collection of some utility functions needed by different engine components.

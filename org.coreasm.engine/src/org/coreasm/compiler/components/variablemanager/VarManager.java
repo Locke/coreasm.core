@@ -2,12 +2,10 @@ package org.coreasm.compiler.components.variablemanager;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Stack;
 
 import org.coreasm.compiler.codefragment.CodeFragment;
-import org.coreasm.compiler.components.variablemanager.CompilerVariable;
 import org.coreasm.compiler.exception.EmptyContextStackException;
 
 /**

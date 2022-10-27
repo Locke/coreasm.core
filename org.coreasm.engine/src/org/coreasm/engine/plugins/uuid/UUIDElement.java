@@ -7,10 +7,10 @@
 
 package org.coreasm.engine.plugins.uuid;
 
-import org.coreasm.engine.absstorage.Element;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.coreasm.engine.absstorage.Element;
 
 /**
  *	This represents a UUID element;

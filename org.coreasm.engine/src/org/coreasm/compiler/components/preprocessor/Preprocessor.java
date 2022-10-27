@@ -7,11 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.components.preprocessor.Information;
-import org.coreasm.compiler.components.preprocessor.InheritRule;
-import org.coreasm.compiler.components.preprocessor.Preprocessor;
-import org.coreasm.compiler.components.preprocessor.PreprocessorDataManager;
-import org.coreasm.compiler.components.preprocessor.SynthesizeRule;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.interfaces.CompilerPreprocessorPlugin;
 import org.coreasm.engine.interpreter.ASTNode;

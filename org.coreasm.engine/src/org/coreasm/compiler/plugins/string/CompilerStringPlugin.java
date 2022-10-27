@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.coreasm.compiler.CodeType;
+import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.classlibrary.ClassLibrary;
 import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
@@ -14,6 +16,11 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
+import org.coreasm.compiler.interfaces.CompilerCodePlugin;
+import org.coreasm.compiler.interfaces.CompilerFunctionPlugin;
+import org.coreasm.compiler.interfaces.CompilerMakroProvider;
+import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
+import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 import org.coreasm.compiler.plugins.string.code.rcode.StringTermHandler;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.plugin.Plugin;
@@ -22,13 +29,6 @@ import org.coreasm.engine.plugins.string.StringMatchingFunction;
 import org.coreasm.engine.plugins.string.StringPlugin;
 import org.coreasm.engine.plugins.string.StringSubstringFunction;
 import org.coreasm.engine.plugins.string.ToStringFunctionElement;
-import org.coreasm.compiler.CodeType;
-import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.interfaces.CompilerCodePlugin;
-import org.coreasm.compiler.interfaces.CompilerFunctionPlugin;
-import org.coreasm.compiler.interfaces.CompilerMakroProvider;
-import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
-import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 
 /**
  * Provides strings to the compiler

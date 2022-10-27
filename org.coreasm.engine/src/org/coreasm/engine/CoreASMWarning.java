@@ -15,8 +15,8 @@ package org.coreasm.engine;
 
 import java.util.Stack;
 
-import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.interpreter.Interpreter.CallStackElement;
+import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.CharacterPosition;
 import org.coreasm.engine.parser.Parser;
 import org.coreasm.engine.parser.ParserException;

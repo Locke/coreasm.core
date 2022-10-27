@@ -12,6 +12,7 @@
  */
 
 package org.coreasm.engine.plugins.map;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.map.CompilerMapPlugin;
 import org.coreasm.engine.EngineException;

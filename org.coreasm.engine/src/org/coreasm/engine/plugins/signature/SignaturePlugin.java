@@ -26,6 +26,9 @@ import java.util.Set;
 
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.signature.CompilerSignaturePlugin;
 import org.coreasm.engine.CoreASMEngine.EngineMode;
@@ -66,8 +69,6 @@ import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.UndefinedIdentifierHandler;
 import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *	Plugin for function signatures and user defined universes.

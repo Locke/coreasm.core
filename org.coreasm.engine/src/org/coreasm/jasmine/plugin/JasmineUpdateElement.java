@@ -13,7 +13,11 @@
 
 package org.coreasm.jasmine.plugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Location;

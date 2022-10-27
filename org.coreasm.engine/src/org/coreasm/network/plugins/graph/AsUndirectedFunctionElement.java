@@ -14,11 +14,12 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.List;
 
+import org.jgrapht.DirectedGraph;
+
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
-import org.jgrapht.DirectedGraph;
 
 /**
  *  Returns an undirected version of the given graph.

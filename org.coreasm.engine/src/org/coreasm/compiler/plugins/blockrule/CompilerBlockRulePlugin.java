@@ -1,13 +1,13 @@
 package org.coreasm.compiler.plugins.blockrule;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.blockrule.BlockRulePlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.blockrule.code.ucode.BlockRuleHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.blockrule.BlockRulePlugin;
 
 /**
  * Provides the block rule.

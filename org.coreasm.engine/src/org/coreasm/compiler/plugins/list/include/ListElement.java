@@ -21,20 +21,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.coreasm.engine.plugins.list.ListBackgroundElement;
-import org.coreasm.engine.plugins.number.NumberElement;
+import CompilerRuntime.Rule;
+import CompilerRuntime.UpdateList;
+
+import org.coreasm.compiler.plugins.collection.include.ModifiableIndexedCollection;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementList;
 import org.coreasm.engine.absstorage.Location;
-
-import CompilerRuntime.Rule;
-
 import org.coreasm.engine.absstorage.Update;
-
-import CompilerRuntime.UpdateList;
-
 import org.coreasm.engine.plugins.collection.AbstractListElement;
-import org.coreasm.compiler.plugins.collection.include.ModifiableIndexedCollection;
+import org.coreasm.engine.plugins.list.ListBackgroundElement;
+import org.coreasm.engine.plugins.number.NumberElement;
 
 /**
  * This class implements list elements in CoreASM.

@@ -23,19 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import CompilerRuntime.Rule;
+import CompilerRuntime.UpdateList;
+
+import org.coreasm.compiler.plugins.collection.include.ModifiableCollection;
 import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Location;
-
-import CompilerRuntime.Rule;
-
 import org.coreasm.engine.absstorage.Update;
-
-import CompilerRuntime.UpdateList;
-
 import org.coreasm.engine.plugins.collection.AbstractSetElement;
 import org.coreasm.engine.plugins.set.SetBackgroundElement;
-import org.coreasm.compiler.plugins.collection.include.ModifiableCollection;
 
 /**
  *	This implements the Set Element.

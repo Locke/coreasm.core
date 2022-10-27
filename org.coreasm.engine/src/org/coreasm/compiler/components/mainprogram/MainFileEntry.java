@@ -1,7 +1,6 @@
 package org.coreasm.compiler.components.mainprogram;
 
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
-import org.coreasm.compiler.components.mainprogram.EntryType;
 
 /**
  * Wraps the information of an entry to the main file.

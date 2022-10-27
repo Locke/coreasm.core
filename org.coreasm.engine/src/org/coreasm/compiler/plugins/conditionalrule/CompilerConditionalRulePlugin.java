@@ -1,14 +1,14 @@
 package org.coreasm.compiler.plugins.conditionalrule;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.conditionalrule.ConditionalRulePlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.conditionalrule.code.rcode.ConditionalTermHandler;
 import org.coreasm.compiler.plugins.conditionalrule.code.ucode.ConditionalRuleHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.conditionalrule.ConditionalRulePlugin;
 
 /**
  * Provides the conditional rule.

@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.coreasm.engine.plugins.signature.DerivedFunctionElement;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.kernelextensions.CompilerKernelExtensionsPlugin;
 import org.coreasm.engine.EngineTools;
@@ -47,8 +49,7 @@ import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.coreasm.engine.plugins.signature.DerivedFunctionElement;
 
 /**
  * Adds functionality in handling function and rule elements

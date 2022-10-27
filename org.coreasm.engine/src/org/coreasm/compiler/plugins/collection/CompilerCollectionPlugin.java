@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.coreasm.compiler.CodeType;
+import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.components.classlibrary.ClassLibrary;
 import org.coreasm.compiler.components.classlibrary.JarIncludeHelper;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
@@ -12,16 +14,14 @@ import org.coreasm.compiler.components.mainprogram.EntryType;
 import org.coreasm.compiler.components.mainprogram.MainFileEntry;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
+import org.coreasm.compiler.interfaces.CompilerCodePlugin;
+import org.coreasm.compiler.interfaces.CompilerPlugin;
+import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 import org.coreasm.compiler.plugins.collection.code.ucode.AddToHandler;
 import org.coreasm.compiler.plugins.collection.code.ucode.RemoveFromHandler;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugins.collection.FilterFunctionElement;
 import org.coreasm.engine.plugins.collection.MapFunctionElement;
-import org.coreasm.compiler.CodeType;
-import org.coreasm.compiler.CompilerEngine;
-import org.coreasm.compiler.interfaces.CompilerCodePlugin;
-import org.coreasm.compiler.interfaces.CompilerPlugin;
-import org.coreasm.compiler.interfaces.CompilerVocabularyExtender;
 
 /**
  * Provides basic support for collections.

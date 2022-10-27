@@ -12,8 +12,17 @@
 
 package org.coreasm.engine.scheduler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineError;
@@ -32,8 +41,6 @@ import org.coreasm.engine.absstorage.UpdateMultiset;
 import org.coreasm.engine.interpreter.Interpreter;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.SchedulerPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

@@ -1,6 +1,11 @@
 package org.coreasm.compiler.plugins.kernel.include;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.scheduler.SchedulingPolicy;

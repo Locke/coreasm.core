@@ -14,6 +14,9 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.List;
 
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementBackgroundElement;
@@ -21,8 +24,6 @@ import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Signature;
 import org.coreasm.engine.plugins.list.ListBackgroundElement;
 import org.coreasm.engine.plugins.list.ListElement;
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 /**
  * Computes a shortest path on a graph using the Dijkstra algorithm.

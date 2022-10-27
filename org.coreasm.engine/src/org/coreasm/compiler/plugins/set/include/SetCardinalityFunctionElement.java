@@ -15,10 +15,9 @@ package org.coreasm.compiler.plugins.set.include;
 
 import java.util.List;
 
-import org.coreasm.engine.plugins.number.NumberElement;
-
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
+import org.coreasm.engine.plugins.number.NumberElement;
 
 /**
  *	setCardinality function element gives the cardinality of a set

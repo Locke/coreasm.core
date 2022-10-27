@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.coreasm.compiler.components.preprocessor.Information;
-
 /**
  * Represents a piece of information added in the pre-processing process.
  * Manages a tree structure, where each edge has a unique string identifying it.

@@ -27,6 +27,9 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.EngineError;
@@ -36,8 +39,6 @@ import org.coreasm.engine.plugin.Aggregator;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.VocabularyExtender;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *	This is an implementation of the <code>AbstractStorage</code> interface that

@@ -16,10 +16,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.coreasm.engine.ControlAPI;
-import org.coreasm.engine.interpreter.ASTNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.coreasm.engine.ControlAPI;
+import org.coreasm.engine.interpreter.ASTNode;
 
 /**
  *	The registry of operators and their contributors.

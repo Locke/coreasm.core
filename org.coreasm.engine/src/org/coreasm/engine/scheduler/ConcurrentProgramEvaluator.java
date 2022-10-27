@@ -16,6 +16,9 @@ package org.coreasm.engine.scheduler;
 
 import java.util.concurrent.RecursiveTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.EngineException;
 import org.coreasm.engine.absstorage.AbstractStorage;
@@ -25,8 +28,6 @@ import org.coreasm.engine.absstorage.UpdateMultiset;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
 import org.coreasm.engine.interpreter.InterpreterImp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

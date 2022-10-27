@@ -14,7 +14,9 @@
 
 package org.coreasm.engine.absstorage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *	Holds the signature of a function.

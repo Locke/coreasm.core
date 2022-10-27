@@ -13,9 +13,9 @@
 
 package org.coreasm.engine.parser;
 
-import org.coreasm.engine.plugin.Plugin;
-
 import java.util.function.Function;
+
+import org.coreasm.engine.plugin.Plugin;
 
 /**
  * Specialized version that gets a plug-in name as well.

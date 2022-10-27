@@ -12,12 +12,13 @@
  */
 package org.coreasm.network.plugins.graph;
 
-import org.coreasm.engine.absstorage.Element;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.AsUndirectedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
+
+import org.coreasm.engine.absstorage.Element;
 
 /**
  * Undirected graph elements in CoreASM state.

@@ -15,18 +15,18 @@
 
 package org.coreasm.engine;
 
+import java.util.List;
+import java.util.Set;
+
 import org.coreasm.engine.absstorage.AbstractStorage;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
 import org.coreasm.engine.interpreter.InterpreterListener;
 import org.coreasm.engine.interpreter.Node;
-import org.coreasm.engine.scheduler.Scheduler;
 import org.coreasm.engine.parser.Parser;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.engine.plugin.ServiceRegistry;
-
-import java.util.List;
-import java.util.Set;
+import org.coreasm.engine.scheduler.Scheduler;
 
 /**
  * Defines the interface of a CoreASM Engine to its both internal and external environments

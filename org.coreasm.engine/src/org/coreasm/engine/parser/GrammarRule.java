@@ -13,9 +13,9 @@
 
 package org.coreasm.engine.parser;
 
-import org.coreasm.engine.interpreter.Node;
-
 import org.jparsec.Parser;
+
+import org.coreasm.engine.interpreter.Node;
 
 /**
  * A structure to hold a grammar rule, and a {@link org.jparsec.Parser} instance

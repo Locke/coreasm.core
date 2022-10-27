@@ -2,6 +2,7 @@ package org.coreasm.compiler.plugins.kernel.code.bcode;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;

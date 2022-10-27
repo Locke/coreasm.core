@@ -1,8 +1,8 @@
 package CompilerRuntime;
 
 import org.coreasm.engine.absstorage.BackgroundElement;
-import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.BooleanElement;
+import org.coreasm.engine.absstorage.Element;
 
 public class RuleBackgroundElement extends BackgroundElement {
 	public static final String RULE_BACKGROUND_NAME = "RULE";

@@ -3,15 +3,15 @@ package org.coreasm.compiler.plugins.predicatelogic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.predicatelogic.PredicateLogicPlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerOperatorPlugin;
 import org.coreasm.compiler.plugins.predicatelogic.code.rcode.ExistsExpHandler;
 import org.coreasm.compiler.plugins.predicatelogic.code.rcode.ForallExpHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.predicatelogic.PredicateLogicPlugin;
 
 /**
  * Provides additional operations on booleans

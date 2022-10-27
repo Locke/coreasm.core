@@ -37,6 +37,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import org.coreasm.engine.CoreASMEngine;
 import org.coreasm.engine.CoreASMEngine.EngineMode;
 import org.coreasm.engine.Specification;
@@ -49,9 +53,6 @@ import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Logger;
 import org.coreasm.util.Tools;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 
 /**

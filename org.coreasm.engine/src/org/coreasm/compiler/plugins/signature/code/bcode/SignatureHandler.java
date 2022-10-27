@@ -9,11 +9,11 @@ import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodeHandler;
 import org.coreasm.compiler.plugins.signature.CompilerSignaturePlugin;
+import org.coreasm.compiler.plugins.signature.CompilerSignaturePlugin.SignatureEntryType;
 import org.coreasm.compiler.plugins.signature.DerivedFunctionEntry;
 import org.coreasm.compiler.plugins.signature.EnumBackgroundEntry;
 import org.coreasm.compiler.plugins.signature.FunctionEntry;
 import org.coreasm.compiler.plugins.signature.UniverseEntry;
-import org.coreasm.compiler.plugins.signature.CompilerSignaturePlugin.SignatureEntryType;
 import org.coreasm.engine.interpreter.ASTNode;
 
 /**

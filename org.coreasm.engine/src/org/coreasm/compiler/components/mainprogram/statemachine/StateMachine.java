@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.codefragment.CodeFragment;
 import org.coreasm.compiler.components.classlibrary.EnumFile;
 import org.coreasm.compiler.components.classlibrary.LibraryEntryType;
-import org.coreasm.compiler.components.mainprogram.statemachine.EngineState;
-import org.coreasm.compiler.components.mainprogram.statemachine.EngineTransition;
 import org.coreasm.compiler.exception.ElementAlreadyExistsException;
 import org.coreasm.compiler.exception.EntryAlreadyExistsException;
 import org.coreasm.compiler.exception.InvalidCodeException;
 import org.coreasm.compiler.exception.InvalidStateMachineException;
-import org.coreasm.compiler.CompilerEngine;
 
 /**
  * Represents the core state machine of the main class.

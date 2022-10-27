@@ -16,30 +16,26 @@ package org.coreasm.compiler.plugins.map.include;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
 import java.util.Map.Entry;
-
-import org.coreasm.engine.plugins.collection.AbstractListElement;
-import org.coreasm.engine.plugins.collection.AbstractMapElement;
-import org.coreasm.compiler.plugins.collection.include.ModifiableCollection;
-import org.coreasm.engine.plugins.list.ListElement;
-import org.coreasm.engine.plugins.map.MapBackgroundElement;
+import java.util.Set;
 
 import CompilerRuntime.CoreASMCException;
+import CompilerRuntime.Rule;
+import CompilerRuntime.UpdateList;
 
+import org.coreasm.compiler.plugins.collection.include.ModifiableCollection;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.absstorage.Location;
-
-import CompilerRuntime.Rule;
-
 import org.coreasm.engine.absstorage.Update;
-
-import CompilerRuntime.UpdateList;
+import org.coreasm.engine.plugins.collection.AbstractListElement;
+import org.coreasm.engine.plugins.collection.AbstractMapElement;
+import org.coreasm.engine.plugins.list.ListElement;
+import org.coreasm.engine.plugins.map.MapBackgroundElement;
 
 /**
  * Map elements

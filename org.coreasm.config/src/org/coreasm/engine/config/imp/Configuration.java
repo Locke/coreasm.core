@@ -18,15 +18,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.coreasm.engine.config.ConfigurationException;
-import org.coreasm.engine.config.IConfiguration;
-import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.coreasm.engine.config.ConfigurationException;
+import org.coreasm.engine.config.IConfiguration;
+import org.coreasm.util.Tools;
 
 /**
  * The default implementation of a configuration component for CoreASM.

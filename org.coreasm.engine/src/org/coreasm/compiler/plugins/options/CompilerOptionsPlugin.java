@@ -2,14 +2,14 @@ package org.coreasm.compiler.plugins.options;
 
 import java.util.Map;
 
-import org.coreasm.compiler.exception.CompilationException;
-import org.coreasm.engine.plugin.Plugin;
-import org.coreasm.engine.plugins.options.OptionsPlugin;
 import org.coreasm.compiler.CodeType;
 import org.coreasm.compiler.CompilerEngine;
+import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.interfaces.CompilerCodePlugin;
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.options.code.bcode.PropertyHandler;
+import org.coreasm.engine.plugin.Plugin;
+import org.coreasm.engine.plugins.options.OptionsPlugin;
 
 /**
  * Provides functionality to declare options in the specification header

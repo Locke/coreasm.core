@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
 import org.jparsec.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.coreasm.compiler.interfaces.CompilerPlugin;
 import org.coreasm.compiler.plugins.modularity.CompilerModularityPlugin;
 import org.coreasm.engine.CoreASMEngine.EngineMode;
@@ -44,8 +47,6 @@ import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
 import org.coreasm.util.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides some basic modularity features to CoreASM.
