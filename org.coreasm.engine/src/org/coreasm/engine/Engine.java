@@ -801,15 +801,17 @@ public class Engine implements ControlAPI {
 		public void run() {
 			try {
 				while (!terminating) {
-					assert engineBusy;
+					assert engineBusy || (lastError != null);
 
 					try {
 						EngineMode engineMode = getEngineMode();
 
 						// if an error is occurred and the engine is not
 						// in error mode, go to the error mode
-						if (lastError != null
-								&& engineMode != EngineMode.emError) {
+						if (lastError != null && engineMode != EngineMode.emError) {
+							// NOTE: isBusyLock is only needed when switching to false (in order to signal isNotBusy),
+							// but not when switching to true, like here. Locking here might even be harmful.
+							engineBusy = true;
 							next(EngineMode.emError);
 						}
 
