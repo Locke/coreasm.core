@@ -120,6 +120,15 @@ public class TestEngineStates {
 							steps++;
 							td.engine.enqueueStep();
 							break;
+						case softInterrupt:
+							td.engine.softInterrupt();
+							break;
+						case hardInterrupt:
+							td.engine.hardInterrupt();
+							break;
+						case sleep1s:
+							Thread.sleep(1000);
+							break;
 					}
 				}
 				else if (testCaseStep instanceof DetailedTestCase.TestCaseStepCheck) {
