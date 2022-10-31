@@ -177,6 +177,7 @@ public class TestEngineDriver implements EngineStepObserver, EngineErrorObserver
 			this.engine.enqueueTerminate();
 			this.engine.hardInterrupt();
 
+			// TODO: engine.engineThread.join(); instead?
 			engine.waitWhileBusy();
 
 			status = TestEngineDriverStatus.stopped;
