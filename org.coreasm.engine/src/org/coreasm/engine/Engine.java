@@ -1063,7 +1063,8 @@ public class Engine implements ControlAPI {
 					p.terminate();
 
 			} catch (Error e) {
-				e.printStackTrace();
+				// "Errors are serious problems that a reasonable application should not try to catch"
+				throw e;
 			}
 			finally {
 				isBusyLock.lock();
