@@ -36,7 +36,7 @@ public class CoreASMIssue extends RuntimeException {
 	private static final long serialVersionUID = 3L;
 
 	public final String message;
-	public final Exception cause;
+	public final Throwable cause;
 	public final CharacterPosition pos;
 	public final Node node;
 	public final Stack<CallStackElement> callStack;
@@ -45,7 +45,7 @@ public class CoreASMIssue extends RuntimeException {
 	protected Specification spec = null;
 
 	@SuppressWarnings("unchecked")
-	public CoreASMIssue(String msg, Exception cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
+	public CoreASMIssue(String msg, Throwable cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
 		this.message = msg;
 		this.cause = cause;
 		this.pos = pos;

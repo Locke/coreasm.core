@@ -35,7 +35,7 @@ public class CoreASMError extends CoreASMIssue {
 	// v2 -> v3: Throwable CoreASMIssue.cause -> Exception CoreASMIssue.cause
 	private static final long serialVersionUID = 3L;
 
-	public CoreASMError(String msg, Exception cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
+	public CoreASMError(String msg, Throwable cause, CharacterPosition pos, Stack<CallStackElement> stack, Node node) {
 		super(msg, cause, pos, stack, node);
 	}
 
@@ -43,7 +43,7 @@ public class CoreASMError extends CoreASMIssue {
 		this(msg, null, null, stack, node);
 	}
 
-	public CoreASMError(Exception cause, Stack<CallStackElement> stack, Node node) {
+	public CoreASMError(Throwable cause, Stack<CallStackElement> stack, Node node) {
 		this(null, cause, null, stack, node);
 	}
 
