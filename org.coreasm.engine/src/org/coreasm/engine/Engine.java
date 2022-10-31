@@ -1064,6 +1064,15 @@ public class Engine implements ControlAPI {
 
 			} catch (Error e) {
 				// "Errors are serious problems that a reasonable application should not try to catch"
+				// TODO: discuss, if the Error should be re-thrown as soon as possible (as implemented now),
+				//       or if observers should be notified (via `next` and `error`).
+
+				engineMode = EngineMode.emTerminated;
+
+				if (lastError == null) {
+					lastError = new CoreASMError(e, null, null);
+				}
+
 				throw e;
 			}
 			finally {
