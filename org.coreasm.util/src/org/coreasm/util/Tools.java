@@ -268,6 +268,8 @@ public class Tools {
 		if (eol == null) {
 			eol = System.getProperty("line.separator");
 			if (eol == null)
+				eol = System.lineSeparator();
+			if (eol == null)
 				eol = "\n";
 		}
 		return eol;
