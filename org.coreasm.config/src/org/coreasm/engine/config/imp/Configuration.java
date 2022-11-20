@@ -39,10 +39,10 @@ public class Configuration implements IConfiguration {
 	private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
 
 	/** Holds the default configuration values. */
-	private Map<String, Object> defaultValues = new HashMap<String, Object>();
+	private Map<String, Object> defaultValues = new HashMap<>();
 
 	/** Holds the configured values. */
-	private Map<String, Object> properties = new HashMap<String, Object>();
+	private Map<String, Object> properties = new HashMap<>();
 
 	/*
 	 * Preventing the instantiation of the class by other classes.
@@ -53,7 +53,8 @@ public class Configuration implements IConfiguration {
 					(mainClass == null ? "" : " with main class "
 					+ mainClass.getName() + ""));
 			setDefaultValues(mainClass);
-		} catch (ConfigurationException e) {
+		}
+		catch (ConfigurationException e) {
 			throw new RuntimeException(e);
 		}
 	};
@@ -80,13 +81,15 @@ public class Configuration implements IConfiguration {
 		try {
 			in = Tools.findConfigFileAsInputStream(classLoader,
 					getAppRootDirectory(), DEFAULT_CONFIG_FOLDER_NAME, fileName);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			logger.warn("Exception caught: {}", e);
 		}
 
 		if (in == null) {
 			logger.warn("Cannot load configuration file '{}'.", fileName);
-		} else {
+		}
+		else {
 			loadConfigFromStream(dest, in);
 			applyConfiguration();
 		}
@@ -110,13 +113,16 @@ public class Configuration implements IConfiguration {
 		Properties prop = new Properties();
 		try {
 			prop.load(stream);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new ConfigurationException("Could not load configuration. (Reason: " + e.getMessage() + ")", e);
 		}
+
 		for (Entry<Object, Object> entry : prop.entrySet()) {
 			if (dest == properties) {
 				setProperty((String) entry.getKey(), entry.getValue());
-			} else {
+			}
+			else {
 				dest.put((String) entry.getKey(), entry.getValue());
 			}
 		}
@@ -144,7 +150,8 @@ public class Configuration implements IConfiguration {
 		final Object value = getProperty(key);
 		if (value != null) {
 			return value.toString().trim();
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -154,11 +161,11 @@ public class Configuration implements IConfiguration {
 		final String value = getPropertyAsStr(key);
 		if (value == null) {
 			return defaultValue;
-		} else {
+		}
+		else {
 			return "true".equalsIgnoreCase(value.trim())
 					|| "yes".equalsIgnoreCase(value.trim());
 		}
-
 	}
 
 	@Override
@@ -166,7 +173,8 @@ public class Configuration implements IConfiguration {
 		final String value = getPropertyAsStr(key);
 		if (value == null) {
 			return defaultValue;
-		} else {
+		}
+		else {
 			return Long.parseLong(value.trim());
 		}
 	}
@@ -176,7 +184,8 @@ public class Configuration implements IConfiguration {
 		final String value = getPropertyAsStr(key);
 		if (value == null) {
 			return defaultValue;
-		} else {
+		}
+		else {
 			return Integer.parseInt(value.trim());
 		}
 	}
@@ -254,11 +263,13 @@ public class Configuration implements IConfiguration {
 						.doConfigure(Tools.findConfigFileAsInputStream(
 								ClassLoader.getSystemClassLoader(), getAppRootDirectory(),
 								null, fileName));
-			} catch (JoranException je) {
+			}
+			catch (JoranException je) {
 				logger.warn(
 						"Failed loading the logback configuration file. Using default configuration. Error message: {}",
 						je.getMessage());
-			} catch (FileNotFoundException e) {
+			}
+			catch (FileNotFoundException e) {
 				logger.warn(
 						"Failed loading the logback configuration file. Configuration file cannot be opened. ('{}')",
 						fileName);
@@ -290,7 +301,8 @@ public class Configuration implements IConfiguration {
 	private void copyConfigItem(Entry<String, Object> e, Properties destination) {
 		if (e.getValue() instanceof Number || e.getValue() instanceof Boolean || e.getValue() instanceof String) {
 			destination.setProperty(e.getKey(), e.getValue().toString());
-		} else {
+		}
+		else {
 			logger.debug("Skipping configuration item '{}'.", e.getKey());
 		}
 
