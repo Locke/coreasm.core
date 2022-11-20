@@ -75,7 +75,7 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 					line = reader.readLine();
 				}
 			}
-			catch (Throwable e) {
+			catch (Exception e) {
 				MessageDialog.openError(
 						window.getShell(),
 						"CoreASM Plug-in",
