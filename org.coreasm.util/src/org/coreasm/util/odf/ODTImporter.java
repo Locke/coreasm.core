@@ -58,13 +58,17 @@ public class ODTImporter {
 		for (String s : args) {
 			try {
 				buffer = null; // so we can tell whether importODT() worked or there was an exception
-				buffer = importODT(s);
+				buffer = importODTInner(s);
 			}
 			catch (FileNotFoundException e) {
 				System.err.println("Could not find file '"+s+"' -- file ignored.");
 			}
 			catch (IOException e) {
 				System.err.println("General I/O error in '"+s+"' -- file ignored. Details follow:");
+				e.printStackTrace();
+			}
+			catch (ParserConfigurationException | SAXException e) {
+				System.err.println("Parsing error in '"+s+"' -- file ignored. Details follow:");
 				e.printStackTrace();
 			}
 
@@ -90,10 +94,24 @@ public class ODTImporter {
 	 *
 	 * @param fileName name of an OpenOffice (ODF/.odt) file to read
 	 * @return a string representation of the full CoreASM specification extracted from the ODF file
-	 * @throws FileNotFoundException
-	 * @throws IOException
 	 */
-	public static String importODT(String fileName) throws FileNotFoundException, IOException {
+	public static String importODT(String fileName) throws IOException {
+		try {
+			return importODTInner(fileName);
+		}
+		catch (ParserConfigurationException | SAXException e) {
+			throw new IOException("unable to parse ODT file", e);
+		}
+	}
+
+	/**
+	 * Extracts CoreASM specification from an ODT file. The specification in the file
+	 * should be in the "CoreASM Code" style.
+	 *
+	 * @param fileName name of an OpenOffice (ODF/.odt) file to read
+	 * @return a string representation of the full CoreASM specification extracted from the ODF file
+	 */
+	private static String importODTInner(String fileName) throws IOException, ParserConfigurationException, SAXException {
 		StringBuffer buffer = new StringBuffer(16*1024);
 		ZipInputStream zis = new ZipInputStream(new FileInputStream(fileName));
 		ZipEntry ze;
@@ -106,7 +124,7 @@ public class ODTImporter {
 		return buffer.toString().replace('\u201c', '"').replace('\u201d','"');
 	}
 
-	private static void process(InputStream is, StringBuffer buffer) throws IOException {
+	private static void process(InputStream is, StringBuffer buffer) throws IOException, ParserConfigurationException, SAXException {
 		boolean inBlock = true;
 		Document doc = parseXml(is);
 
@@ -184,14 +202,8 @@ public class ODTImporter {
 		}
 	}
 
-	private static Document parseXml(InputStream is) {
-		try {
-			DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			return parser.parse(new InputSource(is));
-		}
-		catch (SAXException se) { se.printStackTrace(); }
-		catch (IOException ioe) { ioe.printStackTrace(); }
-		catch (ParserConfigurationException pce) { pce.printStackTrace(); }
-		return null;
+	private static Document parseXml(InputStream is) throws IOException, ParserConfigurationException, SAXException {
+		DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		return parser.parse(new InputSource(is));
 	}
 }
