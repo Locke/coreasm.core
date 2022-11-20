@@ -54,7 +54,8 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 *
 	 * @see AbstractMultiset#AbstractMultiset()
 	 */
-	public AbstractMultiset(E ... elements){
+	@SafeVarargs
+	public AbstractMultiset(E... elements) {
 		this();
 		Collections.addAll(this, elements);
 	}
@@ -275,8 +276,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 
 	private class Itr implements Iterator<E> {
 
-		//Iterator<E> baseItr = null;
-		Iterator<Entry<E, Integer>> baseItr = null;
+		final Iterator<Entry<E, Integer>> baseItr;
 		E currentElement = null;
 		E lastElementFetched = null;
 		int currentElementRemains = 0;

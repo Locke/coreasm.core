@@ -383,7 +383,7 @@ public class Tools {
 		final String classFile = mainClass.getName().replaceAll("\\.", "/") + ".class";
 		final URL classURL = ClassLoader.getSystemResource(classFile);
 
-		String fullPath = "";
+		String fullPath;
 		String sampleClassFile = "/org/coreasm/util/Tools.class";
 		if (classURL == null) {
 			Tools tempObject = new Tools();
