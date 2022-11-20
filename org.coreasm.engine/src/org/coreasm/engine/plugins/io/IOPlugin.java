@@ -146,12 +146,13 @@ public class IOPlugin extends Plugin implements
 		LinkedList<StringElement> lines = new LinkedList<StringElement>();
 
 		//Construct BufferedReader from InputStreamReader
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-		String line;
-		while ((line = br.readLine()) != null) {
-			lines.add(new StringElement(line));
+		try (InputStreamReader isr = new InputStreamReader(fis);
+			 BufferedReader br = new BufferedReader(isr)) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				lines.add(new StringElement(line));
+			}
 		}
-		br.close();
 
 		LinkedList<StringElement> linesInTextOrder = new LinkedList<StringElement>();
 		while (!lines.isEmpty()) {
@@ -443,23 +444,12 @@ public class IOPlugin extends Plugin implements
 					if (!new File(fileName).isAbsolute())
 						path2spec = capi.getSpec().getFileDir();
 					String outputFile = Tools.concatFileName(path2spec, fileName);
-					FileWriter fw = null;
-					try {
-						fw = new FileWriter(outputFile, APPEND_ACTION.equals(u.action));
+					try (FileWriter fw = new FileWriter(outputFile, APPEND_ACTION.equals(u.action))) {
 						for (Element line : lines)
-							fw.append(line + System.lineSeparator());
+							fw.append(String.valueOf(line)).append(System.lineSeparator());
 					}
 					catch (IOException e) {
 						throw new CoreASMError("File " + outputFile + " could not be created.");
-					}
-					finally {
-						if (fw != null)
-							try {
-								fw.close();
-							}
-						catch (IOException e) {
-								e.printStackTrace();
-						}
 					}
 				}
 			}

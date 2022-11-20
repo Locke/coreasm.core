@@ -62,26 +62,26 @@ public class JarLoader {
 	 * @throws EngineException
 	 *             if the plugin does not have an identification file
 	 */
-	private static String getJarPluginClassName(InputStream inputStream) throws IOException,
-			EngineException {
-		JarInputStream stream = new JarInputStream(inputStream);
-		JarEntry jEntry;
-		boolean found = false;
-		do {
-			jEntry = stream.getNextJarEntry();
-			if (jEntry != null)
-				if (jEntry.getName().equals("CoreASMPlugin.id")) {
-					found = true;
-					break;
-				}
-		} while (jEntry != null);
-		String pluginClassName = null;
-		if (found)
-			pluginClassName = LoadingTools.getPluginClassName(stream);
-		stream.close();
-		if (pluginClassName == null)
-			throw new EngineException("Invalid Plugin package (" + inputStream
-					+ "). Cannot find the identification file.");
-		return pluginClassName;
+	private static String getJarPluginClassName(InputStream inputStream) throws IOException, EngineException {
+		try (JarInputStream stream = new JarInputStream(inputStream)) {
+			JarEntry jEntry;
+			boolean found = false;
+			do {
+				jEntry = stream.getNextJarEntry();
+				if (jEntry != null)
+					if (jEntry.getName().equals("CoreASMPlugin.id")) {
+						found = true;
+						break;
+					}
+			} while (jEntry != null);
+
+			String pluginClassName = null;
+			if (found)
+				pluginClassName = LoadingTools.getPluginClassName(stream);
+			if (pluginClassName == null)
+				throw new EngineException("Invalid Plugin package (" + inputStream
+						+ "). Cannot find the identification file.");
+			return pluginClassName;
+		}
 	}
 }
