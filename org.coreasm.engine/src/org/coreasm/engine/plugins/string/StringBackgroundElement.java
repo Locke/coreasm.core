@@ -63,7 +63,7 @@ public class StringBackgroundElement extends BackgroundElement {
 
 	/**
 	 * Returns a <code>TRUE</code> boolean for
-	 * String Elements. Otherwise <code>FALSE<code> is returned.
+	 * String Elements. Otherwise <code>FALSE</code> is returned.
 	 *
 	 * @see org.coreasm.engine.absstorage.AbstractUniverse#getValue(Element)
 	 * @see BooleanElement

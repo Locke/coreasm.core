@@ -41,7 +41,7 @@ public class SetBackgroundElement extends BackgroundElement {
 	/**
 	 * Returns a new set element with no set members.
 	 *
-	 * @return <code>Element<code> which is actually an empty set in the simulated machine.
+	 * @return <code>Element</code> which is actually an empty set in the simulated machine.
 	 *
 	 * @see org.coreasm.engine.absstorage.BackgroundElement#getNewValue()
 	 */
@@ -52,7 +52,7 @@ public class SetBackgroundElement extends BackgroundElement {
 
 	/**
 	 * Returns a <code>TRUE</code> boolean for
-	 * Set Elements. Otherwise <code>FALSE<code> is returned.
+	 * Set Elements. Otherwise <code>FALSE</code> is returned.
 	 *
 	 * @see org.coreasm.engine.absstorage.AbstractUniverse#getValue(Element)
 	 * @see BooleanElement

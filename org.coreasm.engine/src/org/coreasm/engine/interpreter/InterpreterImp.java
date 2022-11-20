@@ -806,7 +806,7 @@ public class InterpreterImp implements Interpreter {
 	}
 
 	/**
-	 * Return <code>true<code> if there is no rule or function in the
+	 * Return <code>true</code> if there is no rule or function in the
 	 * state with the given token as its name.
 	 *
 	 * NOTE: The implementation of this method is based on

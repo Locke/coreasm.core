@@ -195,7 +195,7 @@ public interface AbstractStorage extends State {
 	public boolean isUniverseName(String token);
 
 	/**
-	 * Return <code>true<code> if the given name is the name
+	 * Return <code>true</code> if the given name is the name
 	 * of a rule in the state.
 	 */
 	public boolean isRuleName(String token);

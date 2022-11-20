@@ -48,7 +48,7 @@ public class AddToRuleNode extends ASTNode {
 	}
 
 	/**
-	 * Returns an unevaluated term node if any. If none exists, <code>null<code> is returned
+	 * Returns an unevaluated term node if any. If none exists, <code>null</code> is returned
 	 *
 	 * @return <code>Node</code> representing a term node that has not been evaluated. If no such child exists, null is returned.
 	 */

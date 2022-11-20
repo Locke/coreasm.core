@@ -42,7 +42,7 @@ public class BagBackgroundElement extends BackgroundElement {
 	/**
 	 * Returns a new Bag element with no members.
 	 *
-	 * @return <code>Element<code> which is actually an empty bag in the simulated machine.
+	 * @return <code>Element</code> which is actually an empty bag in the simulated machine.
 	 *
 	 * @see org.coreasm.engine.absstorage.BackgroundElement#getNewValue()
 	 */
@@ -53,7 +53,7 @@ public class BagBackgroundElement extends BackgroundElement {
 
 	/**
 	 * Returns a <code>TRUE</code> boolean for
-	 * Bag Elements. Otherwise <code>FALSE<code> is returned.
+	 * Bag Elements. Otherwise <code>FALSE</code> is returned.
 	 *
 	 * @see org.coreasm.engine.absstorage.AbstractUniverse#getValue(Element)
 	 * @see BooleanElement

@@ -47,7 +47,7 @@ import org.coreasm.engine.plugin.Plugin;
  * The plugin provides the following syntax to the Header section of
  * CoreASM specifications:
  * <p>
- * <code><b>option</b></code> property </code> <code> value </code>
+ * <code><b>option</b> property value</code>
  * <p>
  * value of the property ends by the end of the line
  *

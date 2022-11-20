@@ -47,11 +47,11 @@ import org.coreasm.util.Tools;
 /**
  * A plugin to maintain logging information for debugging purposes. It adds the following rule construct to the CoreASM language:
  * <p>
- * <code>'debuginfo'</b> ID TERM</code>
+ * <code><b>debuginfo</b> ID TERM</code>
  * <p>
  * which, upon evaluation, adds the string representation of the given term to the logging channel identified by
  * given ID.
- *
+ * <p>
  * The set of active channels are to be defined as a space-separated list of channel ids, set as the value
  * of the <code>DebugInfo.activeChannels</code> engine property. (see {@link DebugInfoPlugin#ACTIVE_CHANNELS_PROPERTY})
  *

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class implements of {@link FunctionElement} with <code>HashMap<code> and
+ * This class implements of {@link FunctionElement} with <code>HashMap</code> and
  * provides the basic function structure of an ASM state.
  *
  *  @author  Roozbeh Farahbod

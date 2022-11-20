@@ -49,7 +49,7 @@ public class SetEnumerateNode extends ASTNode {
 	}
 
 	/**
-	 * Returns an unevaluated child node if any. If none exists, <code>null<code> is returned
+	 * Returns an unevaluated child node if any. If none exists, <code>null</code> is returned
 	 *
 	 * @return N<code>ASTNode</code> representing a child node that has not been evaluated. If no such child exists, null is returned.
 	 */

@@ -74,7 +74,7 @@ public class NumberBackgroundElement extends BackgroundElement {
 
 	/**
 	 * Returns a <code>TRUE</code> boolean for
-	 * Number Elements. Otherwise <code>FALSE<code> is returned.
+	 * Number Elements. Otherwise <code>FALSE</code> is returned.
 	 *
 	 * @see org.coreasm.engine.absstorage.AbstractUniverse#getValue(Element)
 	 * @see BooleanElement

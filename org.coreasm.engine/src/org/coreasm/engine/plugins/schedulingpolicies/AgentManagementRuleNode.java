@@ -17,7 +17,7 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
 /**
- * A node for <code>'suspend' Term<code> nodes.
+ * A node for <code><b>suspend</b> Term</code> nodes.
  *
  * @author  Roozbeh Farahbod
  */

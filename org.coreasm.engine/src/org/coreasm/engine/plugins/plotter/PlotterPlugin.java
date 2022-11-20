@@ -220,13 +220,14 @@ public class PlotterPlugin extends Plugin implements
 			result = result.substring(1);
 		return new StringElement(result);
 	}
+
 	/**
 	 * Is called by the engine whenever the engine mode is changed
 	 * from <code>source</code> to <code>target</code>.
 	 * This plug-in steps in before two modes:
 	 * <ol>
 	 * <li><i>emStepSucceeded</i>: to read the list of functions
-	 * to be plotted and plot them after every step</li
+	 * to be plotted and plot them after every step</li>
 	 * <li><i>emTerminating</i>: to send a kill signal to all
 	 * plot windows before the engine terminates</li>
 	 * </ol>

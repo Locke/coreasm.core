@@ -17,7 +17,7 @@ import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.ScannerInfo;
 
 /**
- * A node for <code>'resume' Term<code> nodes.
+ * A node for <code><b>resume</b> Term</code> nodes.
  *
  * @author  Roozbeh Farahbod
  */

@@ -56,7 +56,7 @@ public class UUIDBackgroundElement extends BackgroundElement {
 
 	/**
 	 * Returns a <code>TRUE</code> boolean for
-	 * UUID Elements. Otherwise <code>FALSE<code> is returned.
+	 * UUID Elements. Otherwise <code>FALSE</code> is returned.
 	 *
 	 * @see org.coreasm.engine.absstorage.AbstractUniverse#getValue(Element)
 	 * @see BooleanElement

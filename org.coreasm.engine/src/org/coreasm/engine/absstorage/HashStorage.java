@@ -555,7 +555,7 @@ public class HashStorage implements AbstractStorage {
 	}
 
 	/**
-	 * Return <code>true<code> if the given name is the name
+	 * Return <code>true</code> if the given name is the name
 	 * of a rule in the state.
 	 */
 	@Override
