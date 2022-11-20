@@ -59,12 +59,15 @@ public class ODTImporter {
 			try {
 				buffer = null; // so we can tell whether importODT() worked or there was an exception
 				buffer = importODT(s);
-			} catch (FileNotFoundException e) {
+			}
+			catch (FileNotFoundException e) {
 				System.err.println("Could not find file '"+s+"' -- file ignored.");
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				System.err.println("General I/O error in '"+s+"' -- file ignored. Details follow:");
 				e.printStackTrace();
 			}
+
 			if (buffer != null) {
 				// Ok, everything went well. Save the file and go to the next one
 				PrintWriter out;
