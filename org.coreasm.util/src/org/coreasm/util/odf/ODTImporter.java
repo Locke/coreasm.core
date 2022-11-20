@@ -52,34 +52,32 @@ public class ODTImporter {
 	// saving the results in files with the same base name, but ".odt" substituted by ".coreasm" (if the
 	// extension is not .odt, the .coreasm is simply added to the name).
 
-	public static void main(String[] args)
-	{
-		String buffer = null;
+	public static void main(String[] args) {
 		for (String s : args) {
+			String buffer = null;
 			try {
-				buffer = null; // so we can tell whether importODT() worked or there was an exception
 				buffer = importODTInner(s);
 			}
 			catch (FileNotFoundException e) {
-				System.err.println("Could not find file '"+s+"' -- file ignored.");
+				System.err.println("Could not find file '" + s + "' -- file ignored.");
 			}
 			catch (IOException e) {
-				System.err.println("General I/O error in '"+s+"' -- file ignored. Details follow:");
+				System.err.println("General I/O error in '" + s + "' -- file ignored. Details follow:");
 				e.printStackTrace();
 			}
 			catch (ParserConfigurationException | SAXException e) {
-				System.err.println("Parsing error in '"+s+"' -- file ignored. Details follow:");
+				System.err.println("Parsing error in '" + s + "' -- file ignored. Details follow:");
 				e.printStackTrace();
 			}
 
 			if (buffer != null) {
 				// Ok, everything went well. Save the file and go to the next one
-				String outfile=s.replaceAll("\\.odt$", "")+".coreasm";
+				String outfile = s.replaceAll("\\.odt$", "") + ".coreasm";
 				try (PrintWriter out = new PrintWriter(outfile)) {
 					out.println(buffer);
 				}
 				catch (FileNotFoundException e) {
-					System.err.println("General I/O error in '"+s+"' -- could not write output file. Details follow:");
+					System.err.println("General I/O error in '" + s + "' -- could not write output file. Details follow:");
 					e.printStackTrace();
 				}
 			}
@@ -132,20 +130,21 @@ public class ODTImporter {
 		Document doc = parseXml(is);
 
 		// Process new style information
-		Set<String> coreasmStyles = new HashSet<String>();
+		Set<String> coreasmStyles = new HashSet<>();
 		NodeList styleDefs = doc.getElementsByTagName(STYLE_DEF_NODE_NAME);
 		if (styleDefs != null) {
-			for (int i = 0; i < styleDefs.getLength(); i++){
-				Element def = (Element)styleDefs.item(i);
-				if (STYLE_ATTR_VALUE.equals(def.getAttribute(STYLE_PARENT_ATTR_NAME)))
+			for (int i = 0; i < styleDefs.getLength(); i++) {
+				Element def = (Element) styleDefs.item(i);
+				if (STYLE_ATTR_VALUE.equals(def.getAttribute(STYLE_PARENT_ATTR_NAME))) {
 					coreasmStyles.add(def.getAttribute(STYLE_DEF_NAME_ATTR));
+				}
 			}
 		}
 
 		NodeList paragraphs = doc.getElementsByTagName(PAR_NODE_NAME);
 		if (paragraphs != null) {
 			for (int i = 0; i < paragraphs.getLength(); i++) {
-				Element par = (Element)paragraphs.item(i);
+				Element par = (Element) paragraphs.item(i);
 				final String styleName = par.getAttribute(STYLE_ATTR_NAME);
 				if (styleName.equals(STYLE_ATTR_VALUE)
 						|| coreasmStyles.contains(styleName)) {
@@ -156,8 +155,10 @@ public class ODTImporter {
 					// recurse into children
 					handleChildren(par.getChildNodes(), buffer);
 					buffer.append("\n");
-				} else
+				}
+				else {
 					inBlock = false;
+				}
 			}
 
 		}
@@ -180,7 +181,7 @@ public class ODTImporter {
 			 * --   c) if element is a (foot)note, do not recurse
 			 */
 			if (n2 instanceof Element) {
-				String tagName = ((Element)n2).getTagName();
+				String tagName = ((Element) n2).getTagName();
 				if (LINEBREAK_NODE_NAME.equals(tagName)) {
 					buffer.append("\n");
 				}
