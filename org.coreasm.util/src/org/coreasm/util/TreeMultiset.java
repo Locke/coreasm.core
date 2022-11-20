@@ -23,7 +23,8 @@ import java.util.TreeSet;
  *
  * @author  Roozbeh Farahbod
  *
- * @see org.coreasm.util.AbstractMultiset
+ * @param <E> the type of elements in this multiset
+ *
  * @see java.util.TreeMap
  */
 public class TreeMultiset<E> extends AbstractMultiset<E> {

@@ -22,8 +22,9 @@ import java.util.Set;
 /**
  * Implementation of {@link AbstractMultiset} using {@link HashMap}.
  *
- * @author  Roozbeh Farahbod
+ * @author Roozbeh Farahbod
  *
+ * @param <E> the type of elements in this multiset
  */
 public class HashMultiset<E> extends AbstractMultiset<E> {
 

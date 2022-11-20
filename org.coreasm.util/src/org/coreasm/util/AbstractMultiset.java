@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Abstract implementation of <code>Multiset</code> with <code>Map</code>s.
  *
- *  @author  Roozbeh Farahbod
+ * @author Roozbeh Farahbod
  *
- *  @see org.coreasm.util.Multiset
+ * @param <E> the type of elements in this multiset
  */
 public abstract class AbstractMultiset<E> implements Multiset<E> {
 

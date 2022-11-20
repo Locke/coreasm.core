@@ -19,8 +19,9 @@ import java.util.Set;
 /**
  * Interface to multisets or bags.
  *
- *  @author  Roozbeh Farahbod
+ * @author Roozbeh Farahbod
  *
+ * @param <E> the type of elements in this multiset
  */
 public interface Multiset<E> extends Collection<E> {
 
