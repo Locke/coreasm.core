@@ -41,6 +41,7 @@ public class HashMultiset<E> extends AbstractMultiset<E> {
 	 *
 	 * @see AbstractMultiset#AbstractMultiset(Object[])
 	 */
+	@SafeVarargs
 	public HashMultiset(E... elements) {
 		super(elements);
 	}

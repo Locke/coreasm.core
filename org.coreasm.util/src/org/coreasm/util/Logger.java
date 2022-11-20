@@ -19,9 +19,6 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-//import java.rmi.server.LogStream;
-
-
 /**
  *	Provides a mechanism for logging errors, warnings, and debugging info.
  *
@@ -90,13 +87,15 @@ public class Logger {
 	public synchronized void log(int level, String msg) {
 		if (verbosityLevel >= level && visibleLoggers.contains(this)) {
 			StringBuilder str = new StringBuilder();
-			if (threadNameStamp)
-				str.append(Thread.currentThread().getName() + " ");
-			str.append("[" + name + "] ");
-			if (timeStamp)
-				str.append("@ " + getCurrentTime() + " ");
-				//str.append((new Date()).toString() + ": ");
-			str.append("* " + msg);
+			if (threadNameStamp) {
+				str.append(Thread.currentThread().getName()).append(" ");
+			}
+			str.append("[").append(name).append("] ");
+			if (timeStamp) {
+				str.append("@ ").append(getCurrentTime()).append(" ");
+				//str.append((new Date()).toString()).append(": ");
+			}
+			str.append("* ").append(msg);
 			stream.println(str.toString());
 		}
 	}

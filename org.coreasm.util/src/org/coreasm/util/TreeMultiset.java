@@ -44,7 +44,8 @@ public class TreeMultiset<E> extends AbstractMultiset<E> {
 	 *
 	 * @see AbstractMultiset#AbstractMultiset(Object[])
 	 */
-	public TreeMultiset(E ... elements) {
+	@SafeVarargs
+	public TreeMultiset(E... elements) {
 		super(elements);
 	}
 
