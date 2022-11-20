@@ -114,14 +114,12 @@ public class ASMNewWizard extends Wizard implements INewWizard {
 		}
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
-		try {
-			InputStream stream = openContentStream(fileName);
+		try (InputStream stream = openContentStream(fileName)) {
 			if (file.exists()) {
 				file.setContents(stream, true, true, monitor);
 			} else {
 				file.create(stream, true, monitor);
 			}
-			stream.close();
 		} catch (IOException e) {
 		}
 		monitor.worked(1);

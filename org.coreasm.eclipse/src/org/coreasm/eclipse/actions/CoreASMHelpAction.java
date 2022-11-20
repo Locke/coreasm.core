@@ -67,14 +67,13 @@ public class CoreASMHelpAction implements IWorkbenchWindowActionDelegate {
 			Text t = new Text(c, SWT.MULTI|SWT.WRAP|SWT.READ_ONLY);
 			StringBuffer text = new StringBuffer();
 
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(root+"data/CoreASMHelp.dat"));
+			try (FileReader fr = new FileReader(root + "data/CoreASMHelp.dat");
+				 BufferedReader reader = new BufferedReader(fr)) {
 				String line = reader.readLine();
-				while (line!=null) {
-					text.append(line + Tools.getEOL());
+				while (line != null) {
+					text.append(line).append(Tools.getEOL());
 					line = reader.readLine();
 				}
-				reader.close();
 			}
 			catch (Throwable e) {
 				MessageDialog.openError(
