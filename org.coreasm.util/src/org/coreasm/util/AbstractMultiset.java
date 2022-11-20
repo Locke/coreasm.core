@@ -34,7 +34,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	protected static final Logger logger = LoggerFactory.getLogger(AbstractMultiset.class);
 
 	/** main data structure */
-	protected Map<E,Integer> map;
+	protected Map<E, Integer> map;
 
 	/**
 	 * Creates a new abstract multiset. This constructor
@@ -78,10 +78,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@Override
 	public int multiplicity(Object element) {
 		Integer i = map.get(element);
-		if (i != null)
+		if (i != null) {
 			return i;
-		else
+		}
+		else {
 			return 0;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -90,8 +92,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@Override
 	public int size() {
 		int i = 0;
-		for (Integer i_s: map.values())
+		for (Integer i_s: map.values()) {
 			i += i_s;
+		}
 		return i;
 	}
 
@@ -142,13 +145,13 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		int size = this.size();
-		if (a.length < size)
-			a = (T[])java.lang.reflect.Array.newInstance(
-					a.getClass().getComponentType(), size);
+		if (a.length < size) {
+			a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+		}
 		int i = 0;
 		for (E e: map.keySet()) {
 			for (int j = 0; j < map.get(e); j++) {
-				a[i] = (T)e;
+				a[i] = (T) e;
 				i++;
 			}
 		}
@@ -176,10 +179,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 			map.remove(o);
 			return false;
 		}
-		if (m > 1)
-			map.put((E)o, m - 1);
-		if (m == 1)
+		else if (m == 1) {
 			map.remove(o);
+		}
+		else if (m > 1) {
+			map.put((E) o, m - 1);
+		}
 		return true;
 	}
 
@@ -197,8 +202,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@Override
 	public boolean addAll(Collection<? extends E> c) {
 		int size = this.size();
-		for (E e: c)
+		for (E e: c) {
 			this.add(e);
+		}
 		return size != this.size();
 	}
 
@@ -208,8 +214,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		int size = this.size();
-		for (Object o: c)
+		for (Object o: c) {
 			this.remove(o);
+		}
 		return size != this.size();
 	}
 
@@ -220,11 +227,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	public boolean retainAll(Collection<?> c) {
 		logger.warn("AbstractMultiset.retainAll(c) is not tested.");
 		boolean pass = false;  // is this multiset object changed?
-		for (E e: map.keySet())
+		for (E e: map.keySet()) {
 			if (!c.contains(e)) {
 				pass = true;
 				map.remove(e);
 			}
+		}
 		return pass;
 	}
 
@@ -247,10 +255,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		StringBuilder str = new StringBuilder();
 
 		str.append("{| ");
-		for (E e: this)
+		for (E e: this) {
 			str.append(e.toString()).append(", ");
-		if (!isEmpty())
+		}
+		if (!isEmpty()) {
 			str.replace(str.length() - 2, str.length() - 1, "");
+		}
 		str.append("|}");
 
 		return str.toString();
@@ -261,7 +271,7 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 	 * is used by the constructor of this class to create the map,
 	 * which is the main data structure of this class.
 	 */
-	protected abstract Map<E,Integer> createMap();
+	protected abstract Map<E, Integer> createMap();
 
 	private class Itr implements Iterator<E> {
 
@@ -284,10 +294,12 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		@Override
 		public boolean hasNext() {
 			// If there are more of the current element left, return true
-			if (currentElementRemains > 0)
+			if (currentElementRemains > 0) {
 				return true;
-			else
+			}
+			else {
 				return baseItr.hasNext();
+			}
 		}
 
 		/**
@@ -295,8 +307,9 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 		 */
 		@Override
 		public E next() {
-			if (!this.hasNext())
+			if (!this.hasNext()) {
 				throw new java.util.NoSuchElementException("next() has no more element.");
+			}
 
 			// if this is the first call to next(),
 			// or the last element is passed over, fetch a new element
@@ -304,9 +317,11 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 				Entry<E, Integer> entry = baseItr.next();
 				currentElement = entry.getKey();
 				currentElementRemains = entry.getValue() - 1;
-			} else
+			}
+			else {
 				// otherwise, reduce the remain count of the current element
 				currentElementRemains--;
+			}
 
 			lastElementFetched = currentElement;
 			return currentElement;
@@ -320,8 +335,10 @@ public abstract class AbstractMultiset<E> implements Multiset<E> {
 			if (lastElementFetched != null) {
 				map.remove(lastElementFetched);
 				lastElementFetched = null;
-			} else
+			}
+			else {
 				throw new IllegalStateException("Call next() prior to call remove().");
+			}
 		}
 
 	}
