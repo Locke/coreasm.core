@@ -10,6 +10,7 @@ import org.coreasm.compiler.CompilerEngine;
 import org.coreasm.compiler.components.classlibrary.LibraryEntry;
 import org.coreasm.compiler.exception.CompilationException;
 import org.coreasm.compiler.paths.CompilerPathConfig;
+import org.coreasm.util.Tools;
 
 /**
  * Default compiler backend.
@@ -51,6 +52,7 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 				entry.open(entryName);
 				String s;
 				while ((s = entry.readLine()) != null) {
+					// FIXME: Tools.getEOL() ?
 					bw.write(s + "\n");
 				}
 				bw.close();
