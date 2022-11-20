@@ -663,9 +663,9 @@ public class Carma implements EngineStepObserver, EngineErrorObserver, VersionIn
 	}
 
 	private void writeToFile(String fileName, String content) throws IOException {
-		try (Writer writer = new FileWriter(fileName)) {
-			writer.write(content);
-		}
+		Writer writer = new FileWriter(fileName);
+		writer.write(content);
+		writer.close();
 	}
 
 	@Override
