@@ -74,13 +74,11 @@ public class ODTImporter {
 
 			if (buffer != null) {
 				// Ok, everything went well. Save the file and go to the next one
-				PrintWriter out;
 				String outfile=s.replaceAll("\\.odt$", "")+".coreasm";
-				try {
-					out = new PrintWriter(outfile);
+				try (PrintWriter out = new PrintWriter(outfile)) {
 					out.println(buffer);
-					out.close();
-				} catch (FileNotFoundException e) {
+				}
+				catch (FileNotFoundException e) {
 					System.err.println("General I/O error in '"+s+"' -- could not write output file. Details follow:");
 					e.printStackTrace();
 				}
@@ -112,16 +110,21 @@ public class ODTImporter {
 	 * @return a string representation of the full CoreASM specification extracted from the ODF file
 	 */
 	private static String importODTInner(String fileName) throws IOException, ParserConfigurationException, SAXException {
-		StringBuffer buffer = new StringBuffer(16*1024);
-		ZipInputStream zis = new ZipInputStream(new FileInputStream(fileName));
-		ZipEntry ze;
-		do {
-			ze = zis.getNextEntry();
-		} while (ze != null && !ze.getName().equalsIgnoreCase(CONTENTSENTRYNAME));
-		if (ze != null) {
-			process(zis,buffer);
+		try (FileInputStream fis = new FileInputStream(fileName);
+			 ZipInputStream  zis = new ZipInputStream(fis)) {
+			ZipEntry ze;
+
+			do {
+				ze = zis.getNextEntry();
+			} while (ze != null && !ze.getName().equalsIgnoreCase(CONTENTSENTRYNAME));
+
+			StringBuffer buffer = new StringBuffer(16 * 1024);
+			if (ze != null) {
+				process(zis, buffer);
+			}
+
+			return buffer.toString().replace('\u201c', '"').replace('\u201d', '"');
 		}
-		return buffer.toString().replace('\u201c', '"').replace('\u201d','"');
 	}
 
 	private static void process(InputStream is, StringBuffer buffer) throws IOException, ParserConfigurationException, SAXException {
