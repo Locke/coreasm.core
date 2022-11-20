@@ -16,5 +16,30 @@
 		<module name="RedundantImport" />
 		<module name="UnusedImports" />
 		<module name="ArrayTypeStyle"/>
+		<module name="NoWhitespaceBefore">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="WhitespaceAfter">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="WhitespaceAround">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="EmptyCatchBlock">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="LeftCurly">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="NeedBraces">
+			<property name="severity" value="info"/>
+		</module>
+		<module name="RightCurly">
+			<property name="option" value="alone_or_singleline"/>
+			<property name="severity" value="info"/>
+		</module>
+		<module name="InnerAssignment">
+			<property name="severity" value="info"/>
+		</module>
 	</module>
 </module>
