@@ -8,13 +8,13 @@ import java.util.Map;
  * @author Marcel Dausend
  *
  */
-public class InformationObject implements Serializable{
+public class InformationObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/** verbosity levels which are equal the verbosity levels
 	 * use within the current carma implementation */
-	public static enum VerbosityLevel {OFF, ERROR, WARNING, INFO, DEBUG, COMMUNICATION}
+	public static enum VerbosityLevel { OFF, ERROR, WARNING, INFO, DEBUG, COMMUNICATION }
 
 	/** source of the information object */
 	private final AbstractDispatcher sender;
@@ -48,7 +48,7 @@ public class InformationObject implements Serializable{
 	}
 
 	public InformationObject(AbstractDispatcher sender, String message) {
-		this(sender, message, (ResponseHandler)null);
+		this(sender, message, (ResponseHandler) null);
 	}
 
 	public InformationObject(AbstractDispatcher sender, String message, ResponseHandler responseHandler) {
@@ -82,30 +82,47 @@ public class InformationObject implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
+
 		InformationObject other = (InformationObject) obj;
 		if (data == null) {
-			if (other.data != null)
+			if (other.data != null) {
 				return false;
-		} else if (!data.equals(other.data))
+			}
+		}
+		else if (!data.equals(other.data)) {
 			return false;
+		}
+
 		if (message == null) {
-			if (other.message != null)
+			if (other.message != null) {
 				return false;
-		} else if (!message.equals(other.message))
+			}
+		}
+		else if (!message.equals(other.message)) {
 			return false;
+		}
+
 		if (sender == null) {
-			if (other.sender != null)
+			if (other.sender != null) {
 				return false;
-		} else if (!sender.equals(other.sender))
+			}
+		}
+		else if (!sender.equals(other.sender)) {
 			return false;
-		if (verbosity != other.verbosity)
+		}
+
+		if (verbosity != other.verbosity) {
 			return false;
+		}
 		return true;
 	}
 }
