@@ -69,12 +69,17 @@ public class Tools {
 	public static String lFormat(long v, int d) {
 		int initL;
 
-		if (v == 0)
+		if (v == 0) {
 			initL = 1;
-		else
-			initL = 1 + (int)Math.floor(Math.log(v) / Math.log(10));
-		if (initL >= d)
+		}
+		else {
+			initL = 1 + (int) Math.floor(Math.log(v) / Math.log(10));
+		}
+
+		if (initL >= d) {
 			return String.valueOf(v);
+		}
+
 		char[] zeros = new char[d - initL];
 		Arrays.fill(zeros, '0');
 		return new String(zeros) + String.valueOf(v);
@@ -90,8 +95,9 @@ public class Tools {
 
 		str.toUpperCase().getChars(0, str.length(), chars, 0);
 		for (char aChar : chars) {
-			if (alphabets.indexOf(aChar) < 0)
+			if (alphabets.indexOf(aChar) < 0) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -112,7 +118,7 @@ public class Tools {
 	 */
 	public static String getIth(int i) {
 		String result;
-		switch(i % 10) {
+		switch (i % 10) {
 		case 1:
 			result = "st";
 			break;
@@ -138,7 +144,7 @@ public class Tools {
 	 */
 	public static String convertToEscapeSqeuence(String string) {
 		char[] chars = new char[string.length()];
-		char[] result = new char[string.length()*2];
+		char[] result = new char[string.length() * 2];
 		string.getChars(0, string.length(), chars, 0);
 		int srcIndex = 0;
 		int resIndex = 0;
@@ -146,27 +152,27 @@ public class Tools {
 			switch (chars[srcIndex]) {
 			case '\\':
 				result[resIndex] = '\\';
-				result[resIndex+1] = '\\';
+				result[resIndex + 1] = '\\';
 				resIndex++;
 				break;
 			case '\r':
 				result[resIndex] = '\\';
-				result[resIndex+1] = 'r';
+				result[resIndex + 1] = 'r';
 				resIndex++;
 				break;
 			case '\t':
 				result[resIndex] = '\\';
-				result[resIndex+1] = 't';
+				result[resIndex + 1] = 't';
 				resIndex++;
 				break;
 			case '\n':
 				result[resIndex] = '\\';
-				result[resIndex+1] = 'n';
+				result[resIndex + 1] = 'n';
 				resIndex++;
 				break;
 			case '\"':
 				result[resIndex] = '\\';
-				result[resIndex+1] = '"';
+				result[resIndex + 1] = '"';
 				resIndex++;
 				break;
 			default:
@@ -219,8 +225,10 @@ public class Tools {
 					srcIndex--;
 				}
 				srcIndex++;
-			} else
+			}
+			else {
 				result[resIndex] = chars[srcIndex];
+			}
 			srcIndex++;
 			resIndex++;
 		}
@@ -241,8 +249,9 @@ public class Tools {
 	 * returns <code>value</code>.
 	 */
 	public static String sizeLimit(String value, int limit) {
-		if (value.length() <= limit)
+		if (value.length() <= limit) {
 			return value;
+		}
 		else {
 			int d = limit - 3;
 			String result = value.substring(0, d / 2) + "...";
@@ -267,10 +276,12 @@ public class Tools {
 	public static String getEOL() {
 		if (eol == null) {
 			eol = System.getProperty("line.separator");
-			if (eol == null)
+			if (eol == null) {
 				eol = System.lineSeparator();
-			if (eol == null)
+			}
+			if (eol == null) {
 				eol = "\n";
+			}
 		}
 		return eol;
 	}
@@ -280,8 +291,9 @@ public class Tools {
 	 * the string which is enclosed in the double quotes.
 	 */
 	public static String trimDoubleQuotes(String str) {
-		if (str.endsWith("\"") && str.startsWith("\"") && str.length() > 2)
+		if (str.endsWith("\"") && str.startsWith("\"") && str.length() > 2) {
 			str = str.substring(1, str.length() - 1);
+		}
 		return str;
 	}
 
@@ -291,8 +303,9 @@ public class Tools {
 	 * the string which is enclosed in the double quotes.
 	 */
 	public static String trimAllDoubleQuotes(String str) {
-		while (str.endsWith("\"") && str.startsWith("\"") && str.length() > 2)
+		while (str.endsWith("\"") && str.startsWith("\"") && str.length() > 2) {
 			str = str.substring(1, str.length() - 1);
+		}
 		return str;
 	}
 
@@ -305,10 +318,11 @@ public class Tools {
 	 * @return an {@link ArrayList} of {@link String} values
 	 */
 	public static List<String> tokenize(String input, String delim) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		StringTokenizer tokenizer = new StringTokenizer(input, delim);
-		while (tokenizer.hasMoreTokens())
+		while (tokenizer.hasMoreTokens()) {
 			result.add(tokenizer.nextToken(delim));
+		}
 		return result;
 	}
 
@@ -322,11 +336,14 @@ public class Tools {
 	 * @return the index of the found node
 	 */
 	public static <T> int find(T object, T[] list) {
-		if (list.length < 1)
+		if (list.length < 1) {
 			return -1;
-		for (int i=0; i < list.length; i++)
-			if (object.equals(list[i]))
+		}
+		for (int i = 0; i < list.length; i++) {
+			if (object.equals(list[i])) {
 				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -357,8 +374,9 @@ public class Tools {
 	 * Detects and returns the root folder of the running application.
 	 */
 	public static String getRootFolder(Class<?> mainClass) {
-		if (mainClass == null)
+		if (mainClass == null) {
 			mainClass = Tools.class;
+		}
 
 		final String baseErrorMsg = "Cannot locate root folder.";
 
@@ -374,7 +392,8 @@ public class Tools {
 			File file = new File(".");
 			logger.warn("Root folder is assumed to be {}.", file.getAbsolutePath());
 			return ".";
-		} else {
+		}
+		else {
 			fullPath = classURL.toString();
 		}
 
@@ -403,8 +422,9 @@ public class Tools {
 
 		// remove the final 'bin'
 		final int binIndex = fullPath.indexOf(File.separator + "bin");
-		if (binIndex == fullPath.length() - 4)
+		if (binIndex == fullPath.length() - 4) {
 			fullPath = fullPath.substring(0, binIndex);
+		}
 
 		logger.debug("Root folder is detected at {}.", fullPath);
 
@@ -584,7 +604,8 @@ public class Tools {
 
 		if (inStream != null) {
 			return inStream;
-		} else {
+		}
+		else {
 			throw new FileNotFoundException();
 		}
 	}
