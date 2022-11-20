@@ -157,10 +157,12 @@ public class ObserverPlugin extends Plugin implements ExtensionPointPlugin {
 	@Override
 	public void terminate() {
 		setFileName();
-		try (FileOutputStream stream = new FileOutputStream(outputFileName)) {
+		try {
+			FileOutputStream stream = new FileOutputStream(outputFileName);
 			DOMSource source = new DOMSource(output);
 			StreamResult result = new StreamResult(stream);
 			transformer.transform(source, result);
+			stream.close();
 		} catch (FileNotFoundException e1) {
 			Logger.log(Logger.ERROR, Logger.plugins, "Cannot create the XML file.");
 			Logger.log(Logger.ERROR, Logger.plugins, e1.getMessage());
