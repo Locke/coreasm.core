@@ -365,10 +365,16 @@ public class Specification {
 
 		if (fname.toLowerCase().endsWith(".odt")) {
 			String coreasmSpec = ODTImporter.importODT(fname) + Tools.getEOL();
-			StringReader reader = new StringReader(coreasmSpec);
-			return loadSpec(reader, fname);
-		} else
-			return loadSpec(new InputStreamReader(getInputStream(file)), fname);
+			try (StringReader reader = new StringReader(coreasmSpec)) {
+				return loadSpec(reader, fname);
+			}
+		}
+		else {
+			try (InputStream is = getInputStream(file);
+				 InputStreamReader isr = new InputStreamReader(is)) {
+				return loadSpec(isr, fname);
+			}
+		}
 	}
 
 	/**
@@ -383,27 +389,21 @@ public class Specification {
 	 * @throws FileNotFoundException when the spec file cannot be found
 	 */
 	public static ArrayList<SpecLine> loadSpec(Reader reader, String fileName) throws IOException {
-		// buffered reader to be used to read spec file;
-		BufferedReader specFileReader;
+		try (BufferedReader specFileReader = new BufferedReader(reader)) {
+			// Create new list
+			ArrayList<SpecLine> specText = new ArrayList<>();
 
-		// open specification stream/reader;
-		specFileReader = new BufferedReader(reader);
+			// while not at end of file, read a line and
+			String line;
+			int c = 1;
+			while ((line = specFileReader.readLine()) != null) {
+				// add line to vector
+				specText.add(new SpecLine(line, fileName, c));
+				c++;
+			}
 
-		// Create new list
-		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
-
-		// while not at end of file, read a line and
-		String line;
-		int c = 1;
-		while ((line = specFileReader.readLine()) != null) {
-			// add line to vector
-			specText.add(new SpecLine(line, fileName, c));
-			c++;
+			return specText;
 		}
-		// close the specification stream/reader
-		specFileReader.close();
-
-		return specText;
 	}
 
 
@@ -411,60 +411,35 @@ public class Specification {
 	 * Extracts lines of text
 	 */
 	private ArrayList<SpecLine> loadLines(String text, String fileName) throws IOException {
-		// buffered reader to be used to read spec file;
-		BufferedReader specFileReader;
+		try (StringReader sr = new StringReader(text);
+			 BufferedReader specFileReader = new BufferedReader(sr)) {
+			// Create new list
+			ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
 
-		// open specification stream/reader;
-		specFileReader = new BufferedReader(new StringReader(text));
+			// while not at end of file, read a line and
+			String line;
+			int c = 1;
+			while ((line = specFileReader.readLine()) != null) {
+				// add line to vector
+				specText.add(new SpecLine(line, fileName, c));
+				c++;
+			}
 
-		// Create new list
-		ArrayList<SpecLine> specText = new ArrayList<SpecLine>();
-
-		// while not at end of file, read a line and
-		String line;
-		int c = 1;
-		while ((line = specFileReader.readLine()) != null) {
-			// add line to vector
-			specText.add(new SpecLine(line, fileName, c));
-			c++;
+			return specText;
 		}
-		// close the specification stream/reader
-		closeSpec(specFileReader);
-
-		return specText;
 	}
 
 	/**
 	 * Loads the specification file to an input stream.
 	 *
 	 * @param file specification file
-	 * @throws FileNotFoundException
 	 */
-	private static InputStream getInputStream(File file) throws FileNotFoundException
-	{
-		InputStream result;
-		try	{
-			result = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE);
-		} catch (FileNotFoundException e) {
-			logger.error("CoreASM specification file \"" + file.getAbsolutePath() + "\" cannot be found.");
-			throw e;
+	private static InputStream getInputStream(File file) throws IOException {
+		try	(FileInputStream fis = new FileInputStream(file)) {
+			return new BufferedInputStream(fis, BUFFER_SIZE);
 		}
-		return result;
-	}
-
-	/**
-	 * Close file for specification given reader to close.
-	 *
-	 * @param specFileReader a <code>BufferedReader</code> for the spec file stream, which we would like to close
-	 *
-	 * @throws IOException while specfile cannot be closed.
-	 */
-	private void closeSpec(BufferedReader specFileReader) throws IOException
-	{
-		try	{
-			specFileReader.close();
-		} catch (IOException e){
-			logger.error("CoreASM specification could not be closed.");
+		catch (IOException e) {
+			logger.error("CoreASM specification file \"" + file.getAbsolutePath() + "\" cannot be opened.");
 			throw e;
 		}
 	}
