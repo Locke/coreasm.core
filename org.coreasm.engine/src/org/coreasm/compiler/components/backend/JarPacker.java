@@ -32,19 +32,28 @@ public class JarPacker {
 	 * @throws CompilationException If the jar archive could not be packed
 	 */
 	public static void packJar(CompilerOptions options, CompilerEngine engine) throws CompilationException {
-		Manifest manifest = new Manifest();
-		manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
-		manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, "Main");
-		try (FileOutputStream fos = new FileOutputStream(options.outputFile);
-			 JarOutputStream target = new JarOutputStream(fos, manifest)) {
+		JarOutputStream target = null;
+		try{
+			Manifest manifest = new Manifest();
+			manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
+			manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, "Main");
+			target = new JarOutputStream(new FileOutputStream(options.outputFile), manifest);
 			File root = options.tempDirectory;
-			for (File f : root.listFiles()) {
+			for(File f : root.listFiles()){
 				addFile(f, target, options);
 			}
 		}
 		catch(Exception e){
 			engine.addError("Could not pack jar: " + e.getMessage());
 			throw new CompilationException(e);
+		}
+		finally{
+			if(target != null)
+				try {
+					target.close();
+				} catch (IOException e) {
+					engine.getLogger().error(JarPacker.class, "Could not close jar stream");
+				}
 		}
 	}
 
@@ -55,38 +64,41 @@ public class JarPacker {
 	 * @param options Options to the compilation process
 	 * @throws IOException If an io error occurs
 	 */
-	private static void addFile(File source, JarOutputStream target, CompilerOptions options) throws IOException {
-		if (source.isDirectory()) {
-			String name = source.getPath().replace(options.tempDirectory + "\\", "").replace("\\", "/");
-			if (!name.isEmpty()){
-				if (!name.endsWith("/")) name += "/";
-				JarEntry entry = new JarEntry(name);
+	private static void addFile(File source, JarOutputStream target, CompilerOptions options) throws IOException{
+		BufferedInputStream in = null;
+		try{
+			if (source.isDirectory()){
+				String name = source.getPath().replace(options.tempDirectory + "\\", "").replace("\\", "/");
+				if (!name.isEmpty()){
+					if (!name.endsWith("/")) name += "/";
+					JarEntry entry = new JarEntry(name);
+					entry.setTime(source.lastModified());
+					target.putNextEntry(entry);
+					target.closeEntry();
+				}
+
+				for (File nestedFile: source.listFiles()){
+					addFile(nestedFile, target, options);
+				}
+			}
+			else if(!source.getName().endsWith(".java")){
+				JarEntry entry = new JarEntry(source.getPath().replace(options.tempDirectory + "\\", "").replace("\\", "/"));
 				entry.setTime(source.lastModified());
 				target.putNextEntry(entry);
-				target.closeEntry();
-			}
+				in = new BufferedInputStream(new FileInputStream(source));
 
-			for (File nestedFile: source.listFiles()){
-				addFile(nestedFile, target, options);
-			}
-		}
-		else if(!source.getName().endsWith(".java")){
-			JarEntry entry = new JarEntry(source.getPath().replace(options.tempDirectory + "\\", "").replace("\\", "/"));
-			entry.setTime(source.lastModified());
-			target.putNextEntry(entry);
-
-			try (FileInputStream fis = new FileInputStream(source);
-				 BufferedInputStream in = new BufferedInputStream(fis)){
 				byte[] buffer = new byte[1024];
-				while (true) {
+				while (true){
 					int count = in.read(buffer);
 					if (count == -1) break;
 
 					target.write(buffer, 0, count);
 				}
+				target.closeEntry();
 			}
-
-			target.closeEntry();
+		}
+		finally{
+			if (in != null) in.close();
 		}
 	}
 }

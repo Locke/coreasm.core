@@ -41,21 +41,22 @@ public class KernelBackend implements CompilerFileWriter, CompilerPacker {
 		CompilerPathConfig path = engine.getPath();
 
 		for (LibraryEntry entry : entries) {
-			String entryName = path.getEntryName(entry);
-			File f = new File(engine.getOptions().tempDirectory.getAbsolutePath(), path.getEntryPath(entry));
-			//make parent directory
-			f.getParentFile().mkdirs();
-			try (FileWriter fw = new FileWriter(f);
-				 BufferedWriter bw = new BufferedWriter(fw)) {
+			File f = null;
+			try {
+				String entryName = path.getEntryName(entry);
+				f = new File(engine.getOptions().tempDirectory.getAbsolutePath(), path.getEntryPath(entry));
+				//make parent directory
+				f.getParentFile().mkdirs();
+				BufferedWriter bw = new BufferedWriter(new FileWriter(f));
 				entry.open(entryName);
 				String s;
 				while ((s = entry.readLine()) != null) {
 					bw.write(s + "\n");
 				}
+				bw.close();
 				entry.close();
 				result.add(f);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				String msg = "error writing entry '" + f + "': '" + e.getMessage() + "'" + engine.getOptions().enginePath.getAbsolutePath();
 				engine.addError(msg);
 				throw new CompilationException(msg);
