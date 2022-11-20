@@ -70,8 +70,8 @@ public class TreeMultiset<E> extends AbstractMultiset<E> {
 	 * @see org.coreasm.util.AbstractMultiset#createMap()
 	 */
 	@Override
-	protected Map<E,Integer> createMap() {
-		return new TreeMap<E,Integer>();
+	protected Map<E, Integer> createMap() {
+		return new TreeMap<>();
 	}
 
 }
