@@ -27,7 +27,7 @@ abstract class AbstractDispatcher {
 	private LinkedList<DispatcherContext> newActions;
 	private DistributionMode distributionMode;
 
-	private static HashMap<String, InformationObserver> observers = new HashMap<String, InformationObserver>();
+	private static HashMap<String, InformationObserver> observers = new HashMap<>();
 
 	/**
 	 * creates an Dispatcher with <code>DistributionMode.AUTOCOMMIT</code>
@@ -38,7 +38,7 @@ abstract class AbstractDispatcher {
 
 	public AbstractDispatcher(String id, DistributionMode mode) {
 		this.id = id;
-		newActions = new LinkedList<DispatcherContext>();
+		newActions = new LinkedList<>();
 		distributionMode = mode;
 	}
 
@@ -50,8 +50,9 @@ abstract class AbstractDispatcher {
 	 * \todo introduce priorities
 	 */
 	protected static void addSuperObserver(InformationObserver iStorageAndDispatchObserver) {
-		if (! observers.containsKey(iStorageAndDispatchObserver.getClass().getCanonicalName()))
+		if (!observers.containsKey(iStorageAndDispatchObserver.getClass().getCanonicalName())) {
 			observers.put(iStorageAndDispatchObserver.getClass().getCanonicalName(), iStorageAndDispatchObserver);
+		}
 	}
 
 	/**
@@ -102,7 +103,8 @@ abstract class AbstractDispatcher {
 		this.newActions.add(newInfoDispObject);
 		if (this.getDistributionMode().equals(DistributionMode.AUTOCOMMIT)) {
 			this.notifyObservers();
-		} else if (this.getDistributionMode().equals(DistributionMode.COMMIT)) {
+		}
+		else if (this.getDistributionMode().equals(DistributionMode.COMMIT)) {
 			//wait for call of the commit method;
 		}
 	}
@@ -114,14 +116,16 @@ abstract class AbstractDispatcher {
 		newActions.add(newInfoDispObject);
 		if (this.getDistributionMode().equals(DistributionMode.AUTOCOMMIT)) {
 			notifyObservers();
-		} else if (this.getDistributionMode().equals(DistributionMode.COMMIT)) {
+		}
+		else if (this.getDistributionMode().equals(DistributionMode.COMMIT)) {
 			//already added to added into new actions
 		}
 	}
 
 	public synchronized void commit() {
-		if (this.getDistributionMode().equals(DistributionMode.COMMIT))
+		if (this.getDistributionMode().equals(DistributionMode.COMMIT)) {
 			this.notifyObservers();
+		}
 	}
 
 	public synchronized void setDistributionMode(DistributionMode distMode) {
@@ -149,10 +153,12 @@ abstract class AbstractDispatcher {
 					try {
 						if (dispInfo.getAction().equals(Action.CREATION)) {
 							obs.informationCreated(dispInfo.getInformation());
-						} else if (dispInfo.getAction().equals(Action.CLEAR)) {
+						}
+						else if (dispInfo.getAction().equals(Action.CLEAR)) {
 							obs.clearInformation(dispInfo.getInformation());
 						}
-					} catch (Throwable t) {
+					}
+					catch (Throwable t) {
 						t.printStackTrace();
 					}
 				}

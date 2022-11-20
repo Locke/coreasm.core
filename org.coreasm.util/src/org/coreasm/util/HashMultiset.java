@@ -60,7 +60,7 @@ public class HashMultiset<E> extends AbstractMultiset<E> {
 	 */
 	@Override
 	protected Map<E, Integer> createMap() {
-		return new HashMap<E,Integer>();
+		return new HashMap<>();
 	}
 
 	/* (non-Javadoc)

@@ -416,7 +416,7 @@ public class Tools {
 		fullPath = fullPath.replace('/', File.separatorChar);
 
 		// remove leading backslash
-		if (fullPath.startsWith("\\")){
+		if (fullPath.startsWith("\\")) {
 			fullPath = fullPath.substring(1);
 		}
 

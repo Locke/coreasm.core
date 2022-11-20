@@ -107,10 +107,12 @@ public class Logger {
 	 * @param visible if <code>true</code>, turns this logger visible.
 	 */
 	public synchronized void setVisible(boolean visible) {
-		if (visible)
+		if (visible) {
 			visibleLoggers.add(this);
-		else
+		}
+		else {
 			visibleLoggers.remove(this);
+		}
 	}
 
 	/**
