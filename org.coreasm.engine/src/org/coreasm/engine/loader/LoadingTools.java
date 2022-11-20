@@ -21,8 +21,9 @@ public class LoadingTools {
 	 *             in case of any IO error
 	 */
 	public static String getPluginClassName(InputStream stream) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		String name = reader.readLine();
-		return name;
+		try (InputStreamReader is = new InputStreamReader(stream);
+			 BufferedReader reader = new BufferedReader(is)) {
+			return reader.readLine();
+		}
 	}
 }
