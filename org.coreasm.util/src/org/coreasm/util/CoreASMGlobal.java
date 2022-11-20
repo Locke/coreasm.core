@@ -76,10 +76,12 @@ public class CoreASMGlobal {
 			try {
 				FileInputStream stream = new FileInputStream(rootFolder + CONFIG_FOLDER + "/" + KERNEL_CONF_FILE_NAME);
 				globalProperties.load(stream);
-			} catch (FileNotFoundException e) {
+			}
+			catch (FileNotFoundException e) {
 				logger.warn("Kernel configuration file not found. Saving defaults.");
 				saveGeneralProperties();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				logger.error("Cannot load kernel configuration file (" + e.getMessage() + ").");
 			}
 		}
@@ -92,8 +94,10 @@ public class CoreASMGlobal {
 	 * @return value of the property
 	 */
 	public synchronized static String getProperty(String key) {
-		if (globalProperties == null)
+		if (globalProperties == null) {
 			getProperties();
+		}
+
 		return globalProperties.getProperty(key);
 	}
 
@@ -104,8 +108,10 @@ public class CoreASMGlobal {
 	 * @param value value of the property
 	 */
 	public synchronized static void setProperty(String key, String value) {
-		if (globalProperties == null)
+		if (globalProperties == null) {
 			getProperties();
+		}
+
 		globalProperties.setProperty(key, value);
 	}
 
@@ -121,12 +127,10 @@ public class CoreASMGlobal {
 		ROOT_FOLDER = tempObject.getClass().getResource(sampleClassFile).toString();
 
 		// Mashaal 2005-12-21: to ensure that path with spaces is NOT url encoded
-		try
-		{
+		try {
 			ROOT_FOLDER = URLDecoder.decode(ROOT_FOLDER,"UTF-8");
 		}
-		catch (UnsupportedEncodingException e)
-		{
+		catch (UnsupportedEncodingException e) {
 			logger.error("UTF-8 Encoding not supported");
 		}
 
@@ -170,12 +174,14 @@ public class CoreASMGlobal {
 					return;
 				}
 			}
-			FileOutputStream stream = new FileOutputStream(Tools.getRootFolder() + CONFIG_FOLDER + "/" + KERNEL_CONF_FILE_NAME);
-			globalProperties.store(stream, "CoreASM Kernel Properties");
-			stream.close();
-		} catch (FileNotFoundException e) {
+			try (FileOutputStream stream = new FileOutputStream(Tools.getRootFolder() + CONFIG_FOLDER + "/" + KERNEL_CONF_FILE_NAME)) {
+				globalProperties.store(stream, "CoreASM Kernel Properties");
+			}
+		}
+		catch (FileNotFoundException e) {
 			logger.error("Cannot create kernel config file.");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.error("Cannot write to kernel config file.");
 		}
 	}
