@@ -48,8 +48,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>carma</finalName>
+							<appendAssemblyId>true</appendAssemblyId>
 							<archive>
 								<manifest>
 									<mainClass>org.coreasm.ui.Carma</mainClass>
