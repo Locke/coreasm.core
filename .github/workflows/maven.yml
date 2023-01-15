@@ -47,6 +47,7 @@ jobs:
         os: ['ubuntu-latest', 'windows-latest']
         jdk: ['11', '17']
         failFast: [true] # no need to test all files of a plugin on error
+        experimental: [false]
         exclude:
           - os: 'ubuntu-latest'
             jdk: '11'
@@ -56,9 +57,16 @@ jobs:
             coverage: true
             checkstyle: true
             failFast: false
+            experimental: false
+          - os: 'ubuntu-latest'
+            jdk: '19'
+            failFast: false
+            experimental: true
           - os: 'macos-latest'
             jdk: '17'
+            experimental: true
 
+    continue-on-error: ${{ matrix.experimental }}
     runs-on: ${{ matrix.os }}
     env:
       JDK_VERSION: ${{ matrix.jdk }}
