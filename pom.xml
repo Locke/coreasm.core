@@ -341,6 +341,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<pomDependencies>consider</pomDependencies>
 						<environments>
 							<environment>
 								<os>linux</os>
@@ -381,6 +382,7 @@
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-maven-plugin</artifactId>
 					<version>${tycho-version}</version>
+					<extensions>true</extensions>
 				</plugin>
 
 				<plugin>
