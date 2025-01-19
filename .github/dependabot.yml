@@ -10,6 +10,17 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    groups:
+      logging:
+        patterns:
+          - "ch.qos.logback:*"
+          - "org.slf4j:*"
+      maven-plugins:
+        patterns:
+          - "org.apache.maven.plugins:*"
+          - "org.sonatype.plugins:*"
+          - "*-maven-plugin"
+          - "com.puppycrawl.tools:checkstyle"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
