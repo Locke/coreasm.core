@@ -8,14 +8,14 @@
 	<name>CoreASM Eclipse Parent Project</name>
 	<version>1.1.1-SNAPSHOT</version>
 
-	<packaging>pom</packaging>
-
 	<parent>
 		<artifactId>org.coreasm.parent</artifactId>
 		<groupId>org.coreasm</groupId>
 		<version>1.7.3-SNAPSHOT</version>
 		<relativePath>../org.coreasm.parent</relativePath>
 	</parent>
+
+	<packaging>pom</packaging>
 
 	<modules>
 		<module>../org.coreasm.eclipse</module>
