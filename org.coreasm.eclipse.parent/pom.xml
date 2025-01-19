@@ -21,14 +21,6 @@
 		<module>../org.coreasm.eclipse.repository</module>
 	</modules>
 
-	<properties>
-		<tycho-version>0.20.0</tycho-version>
-		<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
-		<juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url>
-		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
-		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
-	</properties>
-
 	<build>
 		<plugins>
 
@@ -40,7 +32,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
 				<extensions>true</extensions>
 			</plugin>
 
@@ -55,7 +46,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.5.1</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -138,7 +128,6 @@
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.3,)</versionRange>
 										<goals>
 											<goal>copy-dependencies</goal>
 										</goals>

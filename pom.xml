@@ -33,6 +33,17 @@
 		<revision>1.7.3-locke-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>false</skipTests>
+
+		<!-- START: eclipse modules -->
+
+		<tycho-version>0.20.0</tycho-version>
+
+		<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+		<juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url>
+		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
+		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
+
+		<!-- END: eclipse modules -->
 	</properties>
 
 	<licenses>
@@ -295,6 +306,19 @@
 						<configLocation>checkstyle.xml</configLocation>
 					</configuration>
 				</plugin>
+
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-maven-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-versions-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+
 
 			</plugins>
 		</pluginManagement>
