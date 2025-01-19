@@ -230,7 +230,7 @@ public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 						.getString(PreferenceConstants.ROOT_FOLDER));
 				CoreASMEngine engine = CoreASMEngineFactory.createCoreASMEngine();
 				engine.setClassLoader(this.getClass().getClassLoader());
-				engine.initialize();
+				engine.enqueueInitialize();
 				engine.waitWhileBusy();
 
 				plugins = new HashMap<String, String>();
@@ -244,7 +244,7 @@ public class CoreASMAboutAction implements IWorkbenchWindowActionDelegate {
 					}
 					plugins = new TreeMap<String, String>(pluginList);
 				}
-				engine.terminate();
+				engine.enqueueTerminate();
 			}
 			shell = createShell(display);
 			shell.open();

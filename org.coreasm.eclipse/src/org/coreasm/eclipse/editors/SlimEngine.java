@@ -240,7 +240,7 @@ public class SlimEngine implements ControlAPI {
 
 		// load all plugins
 		getSpec(strSpec.toString(), true, (Engine) fullEngine);
-		fullEngine.terminate();
+		fullEngine.enqueueTerminate();
 	}
 
 	// COPIED FROM EngineDriver
@@ -248,13 +248,13 @@ public class SlimEngine implements ControlAPI {
 	{
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError) {
-			engine.recover();
+			engine.enqueueRecover();
 			return null;
 		}
-		engine.parseSpecificationHeader(new StringReader(text), loadPlugins);
+		engine.enqueueParseSpecificationHeader(new StringReader(text), loadPlugins);
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError) {
-			engine.recover();
+			engine.enqueueRecover();
 			return null;
 		} else
 			return engine.getSpec();
@@ -371,92 +371,92 @@ public class SlimEngine implements ControlAPI {
 	// ====================================================
 
 	@Override
-	public void initialize() {
+	public void enqueueInitialize() {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void terminate() {
+	public void enqueueTerminate() {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void recover() {
+	public void enqueueRecover() {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void loadSpecification(String specFileName) {
+	public void enqueueLoadSpecification(String specFileName) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void loadSpecification(Reader src) {
+	public void enqueueLoadSpecification(Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void loadSpecification(String name, Reader src) {
+	public void enqueueLoadSpecification(String name, Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecification(String specFileName) {
+	public void enqueueParseSpecification(String specFileName) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecification(Reader src) {
+	public void enqueueParseSpecification(Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecification(String name, Reader src) {
+	public void enqueueParseSpecification(String name, Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(String specFileName) {
+	public void enqueueParseSpecificationHeader(String specFileName) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(String specFileName,
+	public void enqueueParseSpecificationHeader(String specFileName,
 			boolean loadPlugins) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(Reader src) {
+	public void enqueueParseSpecificationHeader(Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(Reader src, boolean loadPlugins) {
+	public void enqueueParseSpecificationHeader(Reader src, boolean loadPlugins) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(String name, Reader src) {
+	public void enqueueParseSpecificationHeader(String name, Reader src) {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void parseSpecificationHeader(String name, Reader src,
+	public void enqueueParseSpecificationHeader(String name, Reader src,
 			boolean loadPlugins) {
 		throw new UnsupportedOperationException();
 
@@ -558,13 +558,13 @@ public class SlimEngine implements ControlAPI {
 	}
 
 	@Override
-	public void step() {
+	public void enqueueStep() {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void run(int i) {
+	public void enqueueRun(int i) {
 		throw new UnsupportedOperationException();
 
 	}

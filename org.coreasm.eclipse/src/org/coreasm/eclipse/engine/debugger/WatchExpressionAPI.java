@@ -117,66 +117,66 @@ public class WatchExpressionAPI implements ControlAPI {
 	}
 
 	@Override
-	public void initialize() {
+	public void enqueueInitialize() {
 	}
 
 	@Override
-	public void terminate() {
+	public void enqueueTerminate() {
 	}
 
 	@Override
-	public void recover() {
+	public void enqueueRecover() {
 	}
 
 	@Override
-	public void loadSpecification(String specFileName) {
+	public void enqueueLoadSpecification(String specFileName) {
 	}
 
 	@Override
-	public void loadSpecification(Reader src) {
+	public void enqueueLoadSpecification(Reader src) {
 	}
 
 	@Override
-	public void loadSpecification(String name, Reader src) {
+	public void enqueueLoadSpecification(String name, Reader src) {
 	}
 
 	@Override
-	public void parseSpecification(String specFileName) {
+	public void enqueueParseSpecification(String specFileName) {
 	}
 
 	@Override
-	public void parseSpecification(Reader src) {
+	public void enqueueParseSpecification(Reader src) {
 	}
 
 	@Override
-	public void parseSpecification(String name, Reader src) {
-	}
-
-	@Override
-	@Deprecated
-	public void parseSpecificationHeader(String specFileName) {
-	}
-
-	@Override
-	public void parseSpecificationHeader(String specFileName, boolean loadPlugins) {
+	public void enqueueParseSpecification(String name, Reader src) {
 	}
 
 	@Override
 	@Deprecated
-	public void parseSpecificationHeader(Reader src) {
+	public void enqueueParseSpecificationHeader(String specFileName) {
 	}
 
 	@Override
-	public void parseSpecificationHeader(Reader src, boolean loadPlugins) {
+	public void enqueueParseSpecificationHeader(String specFileName, boolean loadPlugins) {
 	}
 
 	@Override
 	@Deprecated
-	public void parseSpecificationHeader(String name, Reader src) {
+	public void enqueueParseSpecificationHeader(Reader src) {
 	}
 
 	@Override
-	public void parseSpecificationHeader(String name, Reader src, boolean loadPlugins) {
+	public void enqueueParseSpecificationHeader(Reader src, boolean loadPlugins) {
+	}
+
+	@Override
+	@Deprecated
+	public void enqueueParseSpecificationHeader(String name, Reader src) {
+	}
+
+	@Override
+	public void enqueueParseSpecificationHeader(String name, Reader src, boolean loadPlugins) {
 	}
 
 	@Override
@@ -266,11 +266,11 @@ public class WatchExpressionAPI implements ControlAPI {
 	}
 
 	@Override
-	public void step() {
+	public void enqueueStep() {
 	}
 
 	@Override
-	public void run(int i) {
+	public void enqueueRun(int i) {
 	}
 
 	@Override

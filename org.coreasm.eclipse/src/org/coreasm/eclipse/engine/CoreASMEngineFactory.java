@@ -28,7 +28,7 @@ public class CoreASMEngineFactory {
 		engine = org.coreasm.engine.CoreASMEngineFactory.createEngine();
 		setEngineProperties(engine);
 		engine.setClassLoader(CoreASMEngineFactory.class.getClassLoader());
-		engine.initialize();
+		engine.enqueueInitialize();
 		engine.waitWhileBusy();
 		return engine;
 	}

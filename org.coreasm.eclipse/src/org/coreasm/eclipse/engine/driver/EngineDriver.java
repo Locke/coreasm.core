@@ -257,10 +257,10 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 			setInputOutputPhase1();
 
 			if (engine.getEngineMode() == EngineMode.emError) {
-				engine.recover();
+				engine.enqueueRecover();
 				engine.waitWhileBusy();
 			}
-			engine.loadSpecification(abspathname);
+			engine.enqueueLoadSpecification(abspathname);
 			engine.waitWhileBusy();
 			if (engine.getEngineMode()!=EngineMode.emIdle) {
 				handleError();
@@ -297,7 +297,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 					throw new EngineDriverException();
 				}
 
-				engine.step(); step++;
+				engine.enqueueStep(); step++;
 
 				while (!shouldStop && engine.isBusy())
 					Thread.yield();
@@ -355,7 +355,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 						stderr.println("[!] Run is terminated with exception " + exception);
 			}
 			System.setErr(systemErr);
-			engine.terminate();
+			engine.enqueueTerminate();
 
 			if (this == runningInstance)
 				updateStatus(EngineDriverStatus.stopped);
@@ -482,13 +482,13 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError) {
-			engine.recover();
+			engine.enqueueRecover();
 			return null;
 		}
-		engine.parseSpecificationHeader(new StringReader(text), loadPlugins);
+		engine.enqueueParseSpecificationHeader(new StringReader(text), loadPlugins);
 		engine.waitWhileBusy();
 		if (engine.getEngineMode() == EngineMode.emError) {
-			engine.recover();
+			engine.enqueueRecover();
 			return null;
 		} else
 			return engine.getSpec();
@@ -736,7 +736,7 @@ public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObs
 
 		lastError = null;
 		stepFailedMsg = null;
-		engine.recover();
+		engine.enqueueRecover();
 		engine.waitWhileBusy();
 	}
 
