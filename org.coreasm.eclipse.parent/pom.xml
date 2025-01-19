@@ -56,7 +56,7 @@
 						<configuration>
 							<excludeTransitive>true</excludeTransitive>
 							<excludeGroupIds>*</excludeGroupIds>
-							<includeGroupIds>org.coreasm</includeGroupIds>
+							<includeGroupIds>de.athalis.coreasm</includeGroupIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/lib/</outputDirectory>
 						</configuration>
