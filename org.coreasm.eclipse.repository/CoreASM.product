@@ -46,7 +46,7 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.platform" version="4.3.2.v20140221-1852"/>
+      <feature id="org.eclipse.platform" version="4.5.2.v20160212-1500"/>
       <feature id="org.coreasm.eclipse.feature" version="1.7.3.qualifier"/>
       <feature id="org.eclipse.help"/>
       <feature id="org.eclipse.emf.ecore"/>
@@ -57,7 +57,7 @@
       <feature id="org.eclipse.equinox.p2.user.ui"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.equinox.p2.extras.feature"/>
-      <feature id="org.eclipse.jdt" version="3.9.2.v20140221-1700"/>
+      <feature id="org.eclipse.jdt" version="3.11.2.v20160212-1500"/>
    </features>
 
    <configurations>
