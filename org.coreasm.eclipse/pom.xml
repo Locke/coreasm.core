@@ -7,14 +7,14 @@
 	<artifactId>org.coreasm.eclipse</artifactId>
 	<name>CoreASM Eclipse Plugin</name>
 
-	<packaging>eclipse-plugin</packaging>
-
 	<parent>
 		<artifactId>org.coreasm.eclipse.parent</artifactId>
 		<groupId>org.coreasm</groupId>
 		<version>1.1.1-SNAPSHOT</version>
 		<relativePath>../org.coreasm.eclipse.parent</relativePath>
 	</parent>
+
+	<packaging>eclipse-plugin</packaging>
 
 	<dependencies>
 		<dependency>
