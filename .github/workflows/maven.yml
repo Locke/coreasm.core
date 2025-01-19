@@ -82,8 +82,8 @@ jobs:
         distribution: 'temurin'
         cache:        'maven'
 
-    - name: Compile
-      run: mvn -B compile --file pom.xml
+    - name: Compile & Package
+      run: mvn -B -DskipTests=true compile package --file pom.xml
 
     - name: Test with coverage
       if: ${{ matrix.coverage }}
