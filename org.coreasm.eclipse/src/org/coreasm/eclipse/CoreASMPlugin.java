@@ -60,7 +60,7 @@ public class CoreASMPlugin extends AbstractUIPlugin {
 		Tools.setRootFolder(rootFolder);
 		File folder = new File(new File(new File(rootFolder), "target"), "lib");
 
-		System.setProperty(Tools.COREASM_ENGINE_LIB_PATH, new File(folder, "coreasm-engine.jar").getAbsolutePath());
+		System.setProperty(Tools.COREASM_ENGINE_LIB_PATH, new File(folder, "coreasm-engine-jar-with-dependencies.jar").getAbsolutePath());
 	}
 
 	// TODO clean up the following two methods

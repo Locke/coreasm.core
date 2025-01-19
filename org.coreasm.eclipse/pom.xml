@@ -17,10 +17,14 @@
 	<packaging>eclipse-plugin</packaging>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>de.athalis.coreasm</groupId>
 			<artifactId>coreasm-engine</artifactId>
+			<classifier>jar-with-dependencies</classifier>
+			<version>${project.parent.version}</version>
 		</dependency>
+
 	</dependencies>
 
 	<distributionManagement>
