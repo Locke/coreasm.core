@@ -36,7 +36,8 @@
 
 		<!-- START: eclipse modules -->
 
-		<tycho-version>0.20.0</tycho-version>
+		<!-- tycho 4 requires maven 3.9, but debian stable ships 3.8 -->
+		<tycho-version>3.0.5</tycho-version>
 
 		<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
 		<juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url>
