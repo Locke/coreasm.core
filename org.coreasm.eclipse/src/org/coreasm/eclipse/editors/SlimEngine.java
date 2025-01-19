@@ -287,7 +287,7 @@ public class SlimEngine implements ControlAPI {
 	}
 
 	@Override
-	public void warning(String src, Throwable e) {
+	public void warning(String src, Exception e) {
 		warning(src, e, null, null);
 	}
 
@@ -303,7 +303,7 @@ public class SlimEngine implements ControlAPI {
 	}
 
 	@Override
-	public void warning(String src, Throwable e, Node node,
+	public void warning(String src, Exception e, Node node,
 			Interpreter interpreter) {
 		CoreASMWarning warning;
 		if (interpreter != null)
@@ -325,7 +325,7 @@ public class SlimEngine implements ControlAPI {
 	}
 
 	@Override
-	public void error(Throwable e) {
+	public void error(Exception e) {
 		error(e, null, null);
 	}
 
@@ -340,7 +340,7 @@ public class SlimEngine implements ControlAPI {
 	}
 
 	@Override
-	public void error(Throwable e, Node errorNode, Interpreter interpreter) {
+	public void error(Exception e, Node errorNode, Interpreter interpreter) {
 		CoreASMError error;
 		if (interpreter != null)
 			error = new CoreASMError(e, interpreter.getCurrentCallStack(), errorNode);
