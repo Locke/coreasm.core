@@ -4,15 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>org.coreasm.eclipse.parent</artifactId>
+	<artifactId>coreasm-eclipse-parent</artifactId>
 	<name>CoreASM Eclipse Parent Project</name>
-	<version>1.1.1-SNAPSHOT</version>
 
 	<parent>
-		<artifactId>org.coreasm.parent</artifactId>
-		<groupId>org.coreasm</groupId>
-		<version>1.7.3-SNAPSHOT</version>
-		<relativePath>../org.coreasm.parent</relativePath>
+		<groupId>de.athalis.coreasm</groupId>
+		<artifactId>coreasm-parent</artifactId>
+		<version>${revision}</version>
 	</parent>
 
 	<packaging>pom</packaging>
