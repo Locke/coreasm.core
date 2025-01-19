@@ -148,7 +148,7 @@
 	<repositories>
 		<repository>
 			<id>eclipse version</id>
-			<url>${kepler-repo.url}</url>
+			<url>${eclipse-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
