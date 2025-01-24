@@ -81,17 +81,20 @@ jobs:
         java-version: ${{ matrix.jdk }}
         distribution: 'temurin'
         cache:        'maven'
+
     - name: Compile
       run: mvn -B compile --file pom.xml
+
     - name: Test with coverage
       if: ${{ matrix.coverage }}
-      run: mvn -B test "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml -P coverage
+      run: mvn -B verify "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml -P coverage
     - name: Upload coverage
       if: ${{ matrix.coverage }}
       run: bash <(curl -s https://codecov.io/bash)
     - name: Check Java style
       if: ${{ matrix.checkstyle }}
       run: mvn -B checkstyle:check
+
     - name: Test without coverage
       if: ${{ !matrix.coverage }}
-      run: mvn -B test "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml
+      run: mvn -B verify "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml
