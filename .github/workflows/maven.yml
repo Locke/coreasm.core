@@ -45,25 +45,25 @@ jobs:
       fail-fast: false # don't stop other OS/JDK
       matrix:
         os: ['ubuntu-latest', 'windows-latest']
-        jdk: ['11', '17']
+        jdk: ['17', '21']
         failFast: [true] # no need to test all files of a plugin on error
         experimental: [false]
         exclude:
           - os: 'ubuntu-latest'
-            jdk: '11'
+            jdk: '17'
         include:
           - os: 'ubuntu-latest'
-            jdk: '11'
+            jdk: '17'
             coverage: true
             checkstyle: true
             failFast: false
             experimental: false
           - os: 'ubuntu-latest'
-            jdk: '19'
+            jdk: '23'
             failFast: false
             experimental: true
           - os: 'macos-latest'
-            jdk: '17'
+            jdk: '21'
             experimental: true
 
     continue-on-error: ${{ matrix.experimental }}
