@@ -26,6 +26,16 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IOConsole;
+import org.eclipse.ui.console.IOConsoleOutputStream;
+
 import org.coreasm.eclipse.CoreASMPlugin;
 import org.coreasm.eclipse.editors.ASMEditor;
 import org.coreasm.eclipse.engine.CoreASMEngineFactory;
@@ -54,15 +64,6 @@ import org.coreasm.engine.plugins.io.IOPlugin.IOPluginPSI;
 import org.coreasm.engine.plugins.io.InputProvider;
 import org.coreasm.util.CoreASMGlobal;
 import org.coreasm.util.Logger;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IOConsole;
-import org.eclipse.ui.console.IOConsoleOutputStream;
 
 
 public class EngineDriver implements Runnable, EngineModeObserver, EngineStepObserver, EngineErrorObserver, EngineWarningObserver {

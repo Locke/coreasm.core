@@ -1,10 +1,5 @@
 package org.coreasm.eclipse.debug.ui;
 
-import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
-import org.coreasm.eclipse.debug.core.model.ASMMethodBreakpoint;
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
-import org.coreasm.eclipse.debug.core.model.ASMThread;
-import org.coreasm.eclipse.debug.core.model.ASMWatchpoint;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
@@ -15,6 +10,12 @@ import org.eclipse.debug.ui.IValueDetailListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+
+import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
+import org.coreasm.eclipse.debug.core.model.ASMMethodBreakpoint;
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
+import org.coreasm.eclipse.debug.core.model.ASMThread;
+import org.coreasm.eclipse.debug.core.model.ASMWatchpoint;
 
 /**
  * This class provides the text presentation for the elements of the debug model

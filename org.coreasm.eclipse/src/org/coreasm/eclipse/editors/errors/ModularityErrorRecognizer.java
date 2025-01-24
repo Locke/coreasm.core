@@ -8,10 +8,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.FileManager;
-import org.coreasm.eclipse.util.IconManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -23,6 +19,11 @@ import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.ui.texteditor.MarkerUtilities;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.FileManager;
+import org.coreasm.eclipse.util.IconManager;
 
 /**
  * Checks an ASMDocument for the correct usage of "include" statements.

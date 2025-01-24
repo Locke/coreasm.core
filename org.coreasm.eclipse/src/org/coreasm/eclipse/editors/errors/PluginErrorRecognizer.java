@@ -10,6 +10,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.contentassist.CompletionProposal;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+
 import org.coreasm.eclipse.editors.ASMDocument;
 import org.coreasm.eclipse.editors.ASMParser;
 import org.coreasm.eclipse.editors.SlimEngine;
@@ -17,9 +21,6 @@ import org.coreasm.eclipse.util.IconManager;
 import org.coreasm.engine.VersionInfo;
 import org.coreasm.engine.plugin.PackagePlugin;
 import org.coreasm.engine.plugin.Plugin;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.contentassist.CompletionProposal;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 /**
  * This ErrorRecognizer searches an ASM document for plugin errors.

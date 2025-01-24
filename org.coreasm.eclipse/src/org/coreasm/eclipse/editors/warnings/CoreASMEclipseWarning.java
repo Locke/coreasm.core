@@ -1,8 +1,9 @@
 package org.coreasm.eclipse.editors.warnings;
 
+import org.eclipse.jface.text.IDocument;
+
 import org.coreasm.eclipse.editors.ASMDocument;
 import org.coreasm.engine.CoreASMWarning;
-import org.eclipse.jface.text.IDocument;
 
 /**
  * This class represents warnings from CoreASM.

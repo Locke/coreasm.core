@@ -1,6 +1,5 @@
 package org.coreasm.eclipse.preferences;
 
-import org.coreasm.eclipse.CoreASMPlugin;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
@@ -8,6 +7,8 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import org.coreasm.eclipse.CoreASMPlugin;
 
 
 /**

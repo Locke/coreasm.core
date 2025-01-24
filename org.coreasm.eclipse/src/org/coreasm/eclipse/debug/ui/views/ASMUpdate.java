@@ -3,15 +3,16 @@ package org.coreasm.eclipse.debug.ui.views;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.debug.core.model.ILineBreakpoint;
+
 import org.coreasm.eclipse.debug.core.model.ASMWatchpoint;
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.Location;
 import org.coreasm.engine.absstorage.Update;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.model.IBreakpoint;
-import org.eclipse.debug.core.model.ILineBreakpoint;
 
 /**
  * Wrapper class for ASM Updates. Extends ASMUpdateViewElement for easier integration into the ASM Update View

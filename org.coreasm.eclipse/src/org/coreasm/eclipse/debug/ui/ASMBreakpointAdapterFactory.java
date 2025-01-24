@@ -1,9 +1,10 @@
 package org.coreasm.eclipse.debug.ui;
 
-import org.coreasm.eclipse.editors.ASMEditor;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
+
+import org.coreasm.eclipse.editors.ASMEditor;
 
 /**
  * Creates a toggle breakpoint adapter

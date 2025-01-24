@@ -3,12 +3,13 @@
  */
 package org.coreasm.eclipse.engine;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+
 import org.coreasm.eclipse.CoreASMPlugin;
 import org.coreasm.eclipse.preferences.PreferenceConstants;
 import org.coreasm.engine.CoreASMEngine;
 import org.coreasm.engine.EngineProperties;
 import org.coreasm.util.CoreASMGlobal;
-import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * A CoreASM Engine Factory for the Eclipse plugin.

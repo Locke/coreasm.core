@@ -2,11 +2,6 @@ package org.coreasm.eclipse.debug.ui;
 
 import java.util.ArrayList;
 
-import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
-import org.coreasm.eclipse.debug.core.model.ASMThread;
-import org.coreasm.eclipse.debug.core.model.ASMValue;
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -19,6 +14,12 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.debug.core.model.IWatchExpressionDelegate;
 import org.eclipse.debug.core.model.IWatchExpressionListener;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
+
+import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
+import org.coreasm.eclipse.debug.core.model.ASMThread;
+import org.coreasm.eclipse.debug.core.model.ASMValue;
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
 
 public class WatchExpressionDelegate implements IWatchExpressionDelegate {
 

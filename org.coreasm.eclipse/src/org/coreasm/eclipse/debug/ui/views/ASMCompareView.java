@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.coreasm.eclipse.CoreASMPlugin;
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.debug.ui.DebugUITools;
@@ -31,6 +29,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.part.ViewPart;
+
+import org.coreasm.eclipse.CoreASMPlugin;
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
 
 /**
  * Implementation of the ASM Compare View

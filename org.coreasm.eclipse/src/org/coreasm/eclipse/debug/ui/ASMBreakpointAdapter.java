@@ -3,6 +3,17 @@ package org.coreasm.eclipse.debug.ui;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.debug.core.model.ILineBreakpoint;
+import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
+import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+
 import org.coreasm.eclipse.debug.core.model.ASMLineBreakpoint;
 import org.coreasm.eclipse.debug.core.model.ASMMethodBreakpoint;
 import org.coreasm.eclipse.debug.core.model.ASMWatchpoint;
@@ -14,16 +25,6 @@ import org.coreasm.engine.plugins.signature.DerivedFunctionNode;
 import org.coreasm.engine.plugins.signature.EnumerationNode;
 import org.coreasm.engine.plugins.signature.FunctionNode;
 import org.coreasm.engine.plugins.signature.UniverseNode;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.model.IBreakpoint;
-import org.eclipse.debug.core.model.ILineBreakpoint;
-import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
-import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 
 /**
  * Adapter to support creation/deletion of breakpoints in ASM files

@@ -1,8 +1,5 @@
 package org.coreasm.eclipse.callhierarchy;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.util.Utilities;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -13,6 +10,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.PartInitException;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.util.Utilities;
 
 public class ASMCallHierarchyViewer extends TreeViewer {
 	private ASMCallHierarchyNode inputData;

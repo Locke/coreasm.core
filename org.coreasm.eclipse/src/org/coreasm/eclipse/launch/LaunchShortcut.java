@@ -3,10 +3,6 @@ package org.coreasm.eclipse.launch;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.ASMIncludeWatcher;
-import org.coreasm.eclipse.editors.ASMParser;
-import org.coreasm.eclipse.util.Utilities;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -21,6 +17,11 @@ import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
+
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.ASMIncludeWatcher;
+import org.coreasm.eclipse.editors.ASMParser;
+import org.coreasm.eclipse.util.Utilities;
 
 /**
  * This class enables launch shortcuts.

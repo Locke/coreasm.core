@@ -1,12 +1,13 @@
 package org.coreasm.eclipse.editors.outlining;
 
-import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.engine.interpreter.Node;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
+
+import org.coreasm.engine.interpreter.ASTNode;
+import org.coreasm.engine.interpreter.Node;
 
 public class ASMLabelProvider extends StyledCellLabelProvider implements ILabelProvider {
 	@Override

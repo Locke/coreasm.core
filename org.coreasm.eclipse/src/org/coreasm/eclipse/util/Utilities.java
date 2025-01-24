@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.ASMIncludeWatcher;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -25,6 +22,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.MarkerUtilities;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.ASMIncludeWatcher;
 
 /**
  *

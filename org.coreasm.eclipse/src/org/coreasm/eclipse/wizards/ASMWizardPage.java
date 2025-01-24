@@ -1,6 +1,5 @@
 package org.coreasm.eclipse.wizards;
 
-import org.coreasm.eclipse.CoreASMPlugin;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -22,6 +21,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+
+import org.coreasm.eclipse.CoreASMPlugin;
 
 
 /**

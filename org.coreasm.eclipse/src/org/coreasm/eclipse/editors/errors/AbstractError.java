@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.util.Utilities;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
+
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.util.Utilities;
 
 /**
  * Abstract class for modeling errors within CoreASM specifications. It stores

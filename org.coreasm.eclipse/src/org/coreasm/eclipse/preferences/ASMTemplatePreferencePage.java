@@ -1,8 +1,9 @@
 package org.coreasm.eclipse.preferences;
 
-import org.coreasm.eclipse.editors.contentassist.TemplateManager;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
+
+import org.coreasm.eclipse.editors.contentassist.TemplateManager;
 
 /**
  * @author Tobias

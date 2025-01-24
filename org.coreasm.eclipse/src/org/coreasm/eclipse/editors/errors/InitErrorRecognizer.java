@@ -3,14 +3,15 @@ package org.coreasm.eclipse.editors.errors;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.contentassist.CompletionProposal;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+
 import org.coreasm.eclipse.editors.ASMDocument;
 import org.coreasm.eclipse.editors.AstTools;
 import org.coreasm.eclipse.util.IconManager;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.contentassist.CompletionProposal;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 /**
  * Checks an ASMDocument for the correct usage of "init" statements.

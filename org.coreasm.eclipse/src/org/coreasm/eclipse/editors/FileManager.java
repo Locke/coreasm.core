@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.coreasm.util.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,6 +20,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+
+import org.coreasm.util.Logger;
 
 /**
  * This class provides static helper method for providing information about files

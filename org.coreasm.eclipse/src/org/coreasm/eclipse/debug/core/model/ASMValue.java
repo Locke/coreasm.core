@@ -2,10 +2,11 @@ package org.coreasm.eclipse.debug.core.model;
 
 import java.util.Arrays;
 
-import org.coreasm.engine.absstorage.Element;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+
+import org.coreasm.engine.absstorage.Element;
 
 /**
  * This class represents the value of an ASM function. It can also be used as a variable container.

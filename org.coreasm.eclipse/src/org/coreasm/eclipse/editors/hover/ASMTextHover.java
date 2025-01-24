@@ -6,20 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
-import org.coreasm.eclipse.debug.core.model.ASMStorage;
-import org.coreasm.eclipse.editors.ASMDeclarationWatcher;
-import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Declaration;
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
-import org.coreasm.engine.Specification.FunctionInfo;
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.engine.absstorage.Enumerable;
-import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.engine.interpreter.FunctionRuleTermNode;
-import org.coreasm.engine.kernel.RuleOrFuncElementNode;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.contexts.DebugContextEvent;
 import org.eclipse.debug.ui.contexts.IDebugContextListener;
@@ -67,6 +53,21 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.DefaultMarkerAnnotationAccess;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
+
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
+import org.coreasm.eclipse.debug.core.model.ASMStorage;
+import org.coreasm.eclipse.editors.ASMDeclarationWatcher;
+import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Declaration;
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
+import org.coreasm.engine.Specification.FunctionInfo;
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.engine.absstorage.Enumerable;
+import org.coreasm.engine.interpreter.ASTNode;
+import org.coreasm.engine.interpreter.FunctionRuleTermNode;
+import org.coreasm.engine.kernel.RuleOrFuncElementNode;
 
 /**
  * This annotation hover shows the description of the selected ASM annotation.

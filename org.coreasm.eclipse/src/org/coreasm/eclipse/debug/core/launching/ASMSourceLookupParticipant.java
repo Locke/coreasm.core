@@ -1,8 +1,9 @@
 package org.coreasm.eclipse.debug.core.launching;
 
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupParticipant;
+
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
 
 /**
  * Source lookup participant for ASM source files

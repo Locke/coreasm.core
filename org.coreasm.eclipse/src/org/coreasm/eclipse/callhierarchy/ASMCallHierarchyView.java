@@ -1,6 +1,5 @@
 package org.coreasm.eclipse.callhierarchy;
 
-import org.coreasm.engine.interpreter.ASTNode;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -9,6 +8,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import org.coreasm.engine.interpreter.ASTNode;
 
 public class ASMCallHierarchyView extends ViewPart {
 	public static final String ID = "org.coreasm.eclipse.views.ASMCallHierarchy";

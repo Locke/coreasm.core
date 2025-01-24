@@ -7,6 +7,8 @@ import java.util.Observer;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.jface.text.BadLocationException;
 import org.jparsec.error.ParseErrorDetails;
 import org.jparsec.error.ParserException;
 
@@ -19,8 +21,6 @@ import org.coreasm.eclipse.editors.warnings.DanglingElseWarningRecognizer;
 import org.coreasm.eclipse.editors.warnings.IWarningRecognizer;
 import org.coreasm.eclipse.editors.warnings.NumberOfArgumentsWarningRecognizer;
 import org.coreasm.eclipse.editors.warnings.UndefinedIdentifierWarningRecognizer;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.jface.text.BadLocationException;
 
 /**
  * An ErrorManager checks a CoreASM specification for errors beyond

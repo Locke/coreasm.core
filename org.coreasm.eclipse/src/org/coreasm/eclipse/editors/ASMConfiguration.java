@@ -1,10 +1,6 @@
 package org.coreasm.eclipse.editors;
 
 
-import org.coreasm.eclipse.editors.contentassist.ASMContentAssistProcessor;
-import org.coreasm.eclipse.editors.contentassist.TemplateAssistProcessor;
-import org.coreasm.eclipse.editors.hover.ASMTextHover;
-import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
@@ -21,6 +17,11 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
+
+import org.coreasm.eclipse.editors.contentassist.ASMContentAssistProcessor;
+import org.coreasm.eclipse.editors.contentassist.TemplateAssistProcessor;
+import org.coreasm.eclipse.editors.hover.ASMTextHover;
+import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
 
 /**
  * This class contains the configuration for the SourceViewer of the ASMEditor.

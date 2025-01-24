@@ -3,7 +3,6 @@ package org.coreasm.eclipse.editors.errors;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.coreasm.eclipse.util.IconManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
@@ -11,6 +10,8 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+
+import org.coreasm.eclipse.util.IconManager;
 
 /**
  * This class is an abstract implementation of QuickFixes for an error.

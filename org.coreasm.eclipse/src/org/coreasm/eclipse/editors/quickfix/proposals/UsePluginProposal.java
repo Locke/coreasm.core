@@ -3,16 +3,17 @@ package org.coreasm.eclipse.editors.quickfix.proposals;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.engine.interpreter.Node;
-import org.coreasm.engine.kernel.Kernel;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.engine.interpreter.ASTNode;
+import org.coreasm.engine.interpreter.Node;
+import org.coreasm.engine.kernel.Kernel;
 
 /**
  * Creates a use clause for the given plugin name.

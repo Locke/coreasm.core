@@ -7,12 +7,6 @@ import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.ASMParser;
-import org.coreasm.eclipse.editors.outlining.ASMOutlineTreeNode.NodeType;
-import org.coreasm.eclipse.util.Utilities;
-import org.coreasm.engine.interpreter.ASTNode;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -34,6 +28,13 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.progress.UIJob;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.ASMParser;
+import org.coreasm.eclipse.editors.outlining.ASMOutlineTreeNode.NodeType;
+import org.coreasm.eclipse.util.Utilities;
+import org.coreasm.engine.interpreter.ASTNode;
 
 public class ASMContentProvider implements ITreeContentProvider
 {

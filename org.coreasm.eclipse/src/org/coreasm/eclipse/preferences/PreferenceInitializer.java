@@ -3,11 +3,12 @@ package org.coreasm.eclipse.preferences;
 import java.io.IOException;
 import java.net.URL;
 
-import org.coreasm.eclipse.CoreASMPlugin;
-import org.coreasm.util.Tools;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import org.coreasm.eclipse.CoreASMPlugin;
+import org.coreasm.util.Tools;
 
 
 /**

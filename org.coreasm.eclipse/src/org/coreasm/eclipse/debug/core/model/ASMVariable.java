@@ -1,11 +1,12 @@
 package org.coreasm.eclipse.debug.core.model;
 
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
-import org.coreasm.engine.absstorage.BooleanBackgroundElement;
-import org.coreasm.engine.absstorage.FunctionElement;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
+import org.coreasm.engine.absstorage.BooleanBackgroundElement;
+import org.coreasm.engine.absstorage.FunctionElement;
 
 /**
  * This class represents an ASM function/variable

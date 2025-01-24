@@ -2,10 +2,11 @@ package org.coreasm.eclipse.editors.outlining;
 
 import java.net.URL;
 
-import org.coreasm.eclipse.util.OutlineContentProvider;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.osgi.framework.FrameworkUtil;
+
+import org.coreasm.eclipse.util.OutlineContentProvider;
 
 public class StandardOutlineContentProvider implements OutlineContentProvider {
 

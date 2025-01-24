@@ -1,7 +1,5 @@
 package org.coreasm.eclipse.launch;
 
-import org.coreasm.eclipse.CoreASMPlugin;
-import org.coreasm.eclipse.preferences.PreferenceConstants;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,6 +21,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
+
+import org.coreasm.eclipse.CoreASMPlugin;
+import org.coreasm.eclipse.preferences.PreferenceConstants;
 
 
 public class SourceTab extends AbstractLaunchConfigurationTab implements

@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher;
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Declaration;
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher.DerivedFunctionDeclaration;
@@ -25,8 +28,6 @@ import org.coreasm.engine.kernel.MacroCallRuleNode;
 import org.coreasm.engine.plugins.letrule.LetRuleNode;
 import org.coreasm.engine.plugins.signature.DerivedFunctionNode;
 import org.coreasm.engine.plugins.turboasm.ReturnResultNode;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 /**
  * Checks an ASMDocument for the correct usage of rule declaration.

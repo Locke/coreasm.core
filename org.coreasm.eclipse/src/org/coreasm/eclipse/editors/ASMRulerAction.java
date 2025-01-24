@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -18,6 +17,8 @@ import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
 import org.eclipse.ui.texteditor.SelectMarkerRulerAction;
+
+import org.coreasm.eclipse.editors.quickfix.ASMQuickAssistProcessor;
 
 public class ASMRulerAction extends SelectMarkerRulerAction {
 	private ITextEditor editor;

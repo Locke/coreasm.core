@@ -4,14 +4,6 @@ package org.coreasm.eclipse.debug.ui.views;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.coreasm.eclipse.CoreASMPlugin;
-import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
-import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
-import org.coreasm.eclipse.debug.util.ASMDebugUtils;
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
-import org.coreasm.engine.CoreASMError;
-import org.coreasm.engine.absstorage.Element;
-import org.coreasm.util.Tools;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.contexts.DebugContextEvent;
 import org.eclipse.debug.ui.contexts.IDebugContextListener;
@@ -36,6 +28,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import org.coreasm.eclipse.CoreASMPlugin;
+import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
+import org.coreasm.eclipse.debug.core.model.ASMStackFrame;
+import org.coreasm.eclipse.debug.util.ASMDebugUtils;
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
+import org.coreasm.engine.CoreASMError;
+import org.coreasm.engine.absstorage.Element;
+import org.coreasm.util.Tools;
 
 /**
  * Implementation of the ASM Update View

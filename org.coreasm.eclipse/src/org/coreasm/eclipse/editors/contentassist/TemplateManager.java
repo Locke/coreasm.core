@@ -2,7 +2,6 @@ package org.coreasm.eclipse.editors.contentassist;
 
 import java.io.IOException;
 
-import org.coreasm.eclipse.CoreASMPlugin;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -10,6 +9,8 @@ import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionTemplateStore;
+
+import org.coreasm.eclipse.CoreASMPlugin;
 
 /**
  * @author Tobias

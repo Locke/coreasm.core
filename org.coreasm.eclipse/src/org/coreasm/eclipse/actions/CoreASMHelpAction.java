@@ -3,9 +3,6 @@ package org.coreasm.eclipse.actions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import org.coreasm.eclipse.CoreASMPlugin;
-import org.coreasm.eclipse.preferences.PreferenceConstants;
-import org.coreasm.util.Tools;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -19,6 +16,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
+import org.coreasm.eclipse.CoreASMPlugin;
+import org.coreasm.eclipse.preferences.PreferenceConstants;
+import org.coreasm.util.Tools;
 
 
 /**

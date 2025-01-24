@@ -8,6 +8,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.debug.core.DebugEvent;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.swt.widgets.Display;
 import org.jparsec.Parser;
 import org.jparsec.error.ParserException;
 
@@ -49,15 +58,6 @@ import org.coreasm.engine.plugins.number.NumberElement;
 import org.coreasm.engine.plugins.signature.EnumerationElement;
 import org.coreasm.engine.plugins.string.StringElement;
 import org.coreasm.engine.plugins.turboasm.SeqRuleNode;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.debug.core.DebugEvent;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.model.IBreakpoint;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * This is the main class of the the debugger. It controls the engine and provides access to it's state.

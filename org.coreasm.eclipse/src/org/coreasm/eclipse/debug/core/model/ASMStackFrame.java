@@ -6,6 +6,13 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.model.IDropToFrame;
+import org.eclipse.debug.core.model.IRegisterGroup;
+import org.eclipse.debug.core.model.IStackFrame;
+import org.eclipse.debug.core.model.IThread;
+import org.eclipse.debug.core.model.IVariable;
+
 import org.coreasm.eclipse.debug.ui.views.ASMUpdate;
 import org.coreasm.eclipse.engine.debugger.EngineDebugger;
 import org.coreasm.engine.absstorage.AbstractStorage;
@@ -14,12 +21,6 @@ import org.coreasm.engine.absstorage.BooleanElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
 import org.coreasm.engine.absstorage.Location;
-import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.model.IDropToFrame;
-import org.eclipse.debug.core.model.IRegisterGroup;
-import org.eclipse.debug.core.model.IStackFrame;
-import org.eclipse.debug.core.model.IThread;
-import org.eclipse.debug.core.model.IVariable;
 
 /**
  * This class contains the variables of the current state

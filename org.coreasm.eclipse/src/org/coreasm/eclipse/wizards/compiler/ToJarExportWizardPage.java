@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.coreasm.compiler.CompilerOptions;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -17,6 +16,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import org.coreasm.compiler.CompilerOptions;
 
 public class ToJarExportWizardPage extends WizardPage {
 	private Composite container;

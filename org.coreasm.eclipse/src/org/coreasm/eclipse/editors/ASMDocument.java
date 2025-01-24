@@ -7,6 +7,12 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.BadPositionCategoryException;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.Position;
+
 import org.coreasm.eclipse.util.Utilities;
 import org.coreasm.engine.ControlAPI;
 import org.coreasm.engine.Specification;
@@ -15,11 +21,6 @@ import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.parser.CharacterPosition;
 import org.coreasm.engine.parser.Parser;
 import org.coreasm.util.Logger;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.BadPositionCategoryException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.Position;
 
 /**
  * The ASMDocument class represents a CoreASM specification as a document of an

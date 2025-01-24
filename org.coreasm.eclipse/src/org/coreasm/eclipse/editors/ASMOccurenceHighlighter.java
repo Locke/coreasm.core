@@ -5,15 +5,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-import org.coreasm.engine.interpreter.ASTNode;
-import org.coreasm.engine.kernel.UpdateRuleNode;
-import org.coreasm.engine.plugins.turboasm.ReturnResultNode;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelExtension;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+
+import org.coreasm.engine.interpreter.ASTNode;
+import org.coreasm.engine.kernel.UpdateRuleNode;
+import org.coreasm.engine.plugins.turboasm.ReturnResultNode;
 
 public class ASMOccurenceHighlighter implements IASMSelectionListener {
 	private static final String ANNOTATION_OCCURRENCE = "org.coreasm.eclipse.ui.occurrence";

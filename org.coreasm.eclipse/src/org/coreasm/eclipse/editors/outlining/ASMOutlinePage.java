@@ -3,10 +3,6 @@ package org.coreasm.eclipse.editors.outlining;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.FileManager;
-import org.coreasm.eclipse.util.IconManager;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
@@ -25,6 +21,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.FileManager;
+import org.coreasm.eclipse.util.IconManager;
 
 public class ASMOutlinePage extends ContentOutlinePage implements Observer {
 	private ASMEditor editor;

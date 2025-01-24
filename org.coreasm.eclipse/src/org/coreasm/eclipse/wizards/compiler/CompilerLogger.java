@@ -2,10 +2,11 @@ package org.coreasm.eclipse.wizards.compiler;
 
 import java.io.IOException;
 
-import org.coreasm.compiler.components.logging.LoggingHelper.Level;
-import org.coreasm.compiler.components.logging.MessageListener;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+
+import org.coreasm.compiler.components.logging.LoggingHelper.Level;
+import org.coreasm.compiler.components.logging.MessageListener;
 
 
 public class CompilerLogger implements MessageListener{

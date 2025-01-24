@@ -5,21 +5,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.coreasm.compiler.CompilerOptions;
-import org.coreasm.compiler.CoreASMCompiler;
-import org.coreasm.compiler.components.logging.LoggingHelper.Level;
-import org.coreasm.eclipse.engine.CoreASMEngineFactory;
-import org.coreasm.util.Tools;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+
+import org.coreasm.compiler.CompilerOptions;
+import org.coreasm.compiler.CoreASMCompiler;
+import org.coreasm.compiler.components.logging.LoggingHelper.Level;
+import org.coreasm.eclipse.engine.CoreASMEngineFactory;
+import org.coreasm.util.Tools;
 
 public class CompileJob extends Job {
 	private CompilerOptions options;

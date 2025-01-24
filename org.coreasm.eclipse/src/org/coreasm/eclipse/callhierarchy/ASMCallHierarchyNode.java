@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.graphics.Image;
+import org.osgi.framework.FrameworkUtil;
+
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher;
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Call;
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Declaration;
@@ -11,11 +17,6 @@ import org.coreasm.eclipse.util.IconManager;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.kernel.Kernel;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.graphics.Image;
-import org.osgi.framework.FrameworkUtil;
 
 public class ASMCallHierarchyNode {
 	private final Node ruleNode;

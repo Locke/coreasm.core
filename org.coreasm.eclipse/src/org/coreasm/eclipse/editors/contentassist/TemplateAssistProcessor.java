@@ -3,7 +3,6 @@ package org.coreasm.eclipse.editors.contentassist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coreasm.eclipse.CoreASMPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.text.BadLocationException;
@@ -19,6 +18,8 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.swt.graphics.Image;
+
+import org.coreasm.eclipse.CoreASMPlugin;
 
 /**
  * @author Tobias

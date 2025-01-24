@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
+
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher;
 import org.coreasm.eclipse.editors.ASMDeclarationWatcher.Declaration;
 import org.coreasm.eclipse.editors.ASMDocument;
@@ -24,8 +27,6 @@ import org.coreasm.engine.plugins.signature.EnumerationElement;
 import org.coreasm.engine.plugins.signature.EnumerationNode;
 import org.coreasm.engine.plugins.signature.FunctionNode;
 import org.coreasm.engine.plugins.signature.UniverseNode;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
 
 /**
  * This WarningRecognizer searches an ASM document for undefined identifiers.

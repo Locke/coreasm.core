@@ -4,13 +4,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.swt.graphics.Image;
+
 import org.coreasm.eclipse.util.IconManager;
 import org.coreasm.eclipse.util.OutlineContentProvider;
 import org.coreasm.eclipse.util.Utilities;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Node;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.swt.graphics.Image;
 
 /**
  *

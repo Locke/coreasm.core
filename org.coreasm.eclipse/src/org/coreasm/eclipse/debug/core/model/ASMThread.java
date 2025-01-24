@@ -2,12 +2,13 @@ package org.coreasm.eclipse.debug.core.model;
 
 import java.util.HashMap;
 
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
+
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
 
 /**
  * This class is needed by the eclipse debug framework. Incoming calls are redirected to the debug target.

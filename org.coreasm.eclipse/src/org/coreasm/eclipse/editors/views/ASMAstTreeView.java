@@ -3,12 +3,6 @@ package org.coreasm.eclipse.editors.views;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.coreasm.eclipse.editors.ASMDocument;
-import org.coreasm.eclipse.editors.ASMEditor;
-import org.coreasm.eclipse.editors.ui.ASMASTContentProvider;
-import org.coreasm.eclipse.editors.ui.ILinkedWithASMEditorView;
-import org.coreasm.eclipse.editors.ui.LinkWithEditorPartListener;
-import org.coreasm.engine.interpreter.Node;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,6 +18,13 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.part.ViewPart;
+
+import org.coreasm.eclipse.editors.ASMDocument;
+import org.coreasm.eclipse.editors.ASMEditor;
+import org.coreasm.eclipse.editors.ui.ASMASTContentProvider;
+import org.coreasm.eclipse.editors.ui.ILinkedWithASMEditorView;
+import org.coreasm.eclipse.editors.ui.LinkWithEditorPartListener;
+import org.coreasm.engine.interpreter.Node;
 
 public class ASMAstTreeView extends ViewPart implements ILinkedWithASMEditorView, ISelectionChangedListener, Observer {
 	public ASMAstTreeView() {

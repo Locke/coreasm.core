@@ -1,8 +1,5 @@
 package org.coreasm.eclipse.launch;
 
-import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
-import org.coreasm.eclipse.engine.debugger.EngineDebugger;
-import org.coreasm.eclipse.engine.driver.EngineDriver;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -13,6 +10,10 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+
+import org.coreasm.eclipse.debug.core.model.ASMDebugTarget;
+import org.coreasm.eclipse.engine.debugger.EngineDebugger;
+import org.coreasm.eclipse.engine.driver.EngineDriver;
 
 /**
  * A launch delegate for launching the CoreASM engine.
