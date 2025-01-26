@@ -44,8 +44,9 @@
 		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
 		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
 		<oxygen-repo.url>http://download.eclipse.org/releases/oxygen</oxygen-repo.url>
+		<photon-repo.url>http://download.eclipse.org/releases/photon</photon-repo.url>
 
-		<eclipse-repo.url>${oxygen-repo.url}</eclipse-repo.url>
+		<eclipse-repo.url>${photon-repo.url}</eclipse-repo.url>
 
 		<!-- END: eclipse modules -->
 	</properties>
