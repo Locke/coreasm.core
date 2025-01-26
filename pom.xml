@@ -45,8 +45,9 @@
 		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
 		<oxygen-repo.url>http://download.eclipse.org/releases/oxygen</oxygen-repo.url>
 		<photon-repo.url>http://download.eclipse.org/releases/photon</photon-repo.url>
+		<eclipse-2018-09-repo.url>http://download.eclipse.org/releases/2018-09</eclipse-2018-09-repo.url>
 
-		<eclipse-repo.url>${photon-repo.url}</eclipse-repo.url>
+		<eclipse-repo.url>${eclipse-2018-09-repo.url}</eclipse-repo.url>
 
 		<!-- END: eclipse modules -->
 	</properties>
