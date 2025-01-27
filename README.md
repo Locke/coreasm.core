@@ -43,13 +43,16 @@ Its history may be rewritten to pull in different features and pick commits from
 
 There are some additional major differences to upstream & changes in the "locke" branch, that are not mentioned in the above feature branches:
 
-- targets Java 11 (instead of Java 7)
+- targets Java 17 (instead of Java 7)
 - the maven layout has been changed
 - TestEngineDriver: public constructor with properties
 - robustness, performance and codestyle improvements
 - currently not supported in this fork:
   - compiler (I started working on the branch [dev-compiler](https://github.com/Locke/coreasm.core/tree/dev-compiler))
-  - eclipse modules / plugin
+  - eclipse modules / plugin (work in the branch [eclipse3](https://github.com/Locke/coreasm.core/tree/eclipse3) is nearly finished to be included again)
+    - needs additional testing
+    - needs a proper release
+    - currently targets Eclipse 2018-09 as more recent releases require additional work
 
 Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch.
 It must be considered as experimental, as it contains experiments and patches for my specific workload.
