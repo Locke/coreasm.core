@@ -258,40 +258,6 @@ public class Kernel extends Plugin
 		return exposedParsers.get(nonterminal);
 	}
 
-	/*
-	 * old code
-	 *
-	public Map<String, GrammarRule> getParsers() {
-
-		if (parsers == null) {
-			parsers = new HashMap<String, GrammarRule>();
-
-			// TODO this can be done in a nicer way
-			// Here we have to call getLexer() so that the
-			// ParserTools also gets initialized
-			getLexers();
-
-			Parser<Node> delimParser = parserTools.getDelimiterParser();
-			Parser<Node> optionalDelimParser = parserTools.getOptionalDelimiterParser();
-			Parser<Node> idParser = parserTools.getIdentifierParser();
-			// CoreASM : 'CoreASM' ID ( UseClause )* ( Header )* 'init' ID
-			Parser<Node> coreASMParser = Parsers.mapn(new Parser[] {
-					optionalDelimParser,
-					parserTools.getKeywordParser("CoreASM", this.getName()),
-					delimParser,
-					idParser,
-					delimParser,
-					},
-					new CoreASMParseMap()
-					);
-			parsers.put("CoreASM", new GrammarRule("CoreASM", "'CoreASM' ID ( UseClause )*", coreASMParser, this.getName()));
-		}
-
-		return parsers;
-
-	}
-	*/
-
 	@Override
 	public Map<String, GrammarRule> getParsers() {
 
