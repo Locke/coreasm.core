@@ -2,9 +2,9 @@
 .project
 .classpath
 .settings
-/*/bin/
-/*/target/
-/*/report/
+**/bin/
+**/target/
+**/report/
 tmp*
 .metadata
 .DS_Store
