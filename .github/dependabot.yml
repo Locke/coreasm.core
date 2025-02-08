@@ -15,9 +15,6 @@ updates:
         patterns:
           - "ch.qos.logback:*"
           - "org.slf4j:*"
-      tycho-plugins:
-        patterns:
-          - "org.eclipse.tycho:*"
       maven-plugins:
         patterns:
           - "org.apache.maven.plugins:*"
@@ -27,6 +24,9 @@ updates:
           - "org.apache.maven.scm:maven-scm-provider-gitexe"
           - "org.apache.maven.shared:maven-dependency-analyzer"
           - "com.puppycrawl.tools:checkstyle"
+    ignore:
+      - dependency-name: "org.eclipse.tycho:*"
+        versions: [ ">=4.0.0" ] # requires newer maven version than available on Debian 12 Bookworm (current stable)
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
