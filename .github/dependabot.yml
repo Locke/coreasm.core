@@ -15,6 +15,9 @@ updates:
         patterns:
           - "ch.qos.logback:*"
           - "org.slf4j:*"
+      tycho-plugins:
+        patterns:
+          - "org.eclipse.tycho:*"
       maven-plugins:
         patterns:
           - "org.apache.maven.plugins:*"
