@@ -983,16 +983,16 @@ ul{border:0; margin:0; padding:0;}
 @media all
 {
 /* ######################################################################################################
-** ### Vorbereitende Ma�nahmen | Reset ##################################################################
+** ### Vorbereitende Maßnahmen | Reset ##################################################################
 ** ######################################################################################################
 */
-	/* Hiermit werden die Randabst�nde und border aller HTML-Elemente auf Null gesetzt. Damit wird das
+	/* Hiermit werden die Randabstände und border aller HTML-Elemente auf Null gesetzt. Damit wird das
 	** Aussehen der Webseite in unterschiedlichen Browsern vereinheitlicht.
 	*/
 
 	* { margin:0; padding: 0; }
 
-	/* Das zur�cksetzen der Innen- und Au�enabst�nde verursacht zu kleine Selectboxen. Dies wird korrigiert */
+	/* Das zurücksetzen der Innen- und Außenabstände verursacht zu kleine Selectboxen. Dies wird korrigiert */
 	option {padding-left: 0.4em;}
 
 	/*
@@ -1001,14 +1001,14 @@ ul{border:0; margin:0; padding:0;}
 	*/
 
 	/* Vertikalen Scrollbalken im Netscape & Firefox erzwingen. Dies verhindert, dass zentrierte Layouts
-	** um 10 Pixel springen wenn der Seiteninhalt kleiner wird als die H�he des Browserfensters. */
+	** um 10 Pixel springen wenn der Seiteninhalt kleiner wird als die Höhe des Browserfensters. */
 	html { height: 100%; }
 	body {
 		min-height: 101%;
-	/* Beseitigung des Rundungsfehlers bei Schriftgr��en im Opera sowie Standardformatierungen */
+	/* Beseitigung des Rundungsfehlers bei Schriftgrößen im Opera sowie Standardformatierungen */
 		font-size: 100.01%;
-	/* FIX: Verhindert, dass positionierte Elemente nicht verschoben werden when die Gr��e des Browser
-			Fensters ge�ndert wird. */
+	/* FIX: Verhindert, dass positionierte Elemente nicht verschoben werden when die Größe des Browser
+			Fensters geändert wird. */
 		position: relative;
 
 	/* Vorgabe der Standardfarben und Textausrichtung*/
@@ -1017,10 +1017,10 @@ ul{border:0; margin:0; padding:0;}
 		text-align: left;
 	}
 
-	/* Standardrahmen zur�cksetzen */
+	/* Standardrahmen zurücksetzen */
 	fieldset, img { border:0; }
 
-	/* Anpassung f�r Safari Browser. font-size:100% ist f�r den Safari in Formularen zu gro� */
+	/* Anpassung für Safari Browser. font-size:100% ist für den Safari in Formularen zu groß */
 	select, input, textarea { font-size: 99%; }
 
 /* ######################################################################################################
@@ -1060,7 +1060,7 @@ ul{border:0; margin:0; padding:0;}
 		margin-right: 200px; /* Standard-Wert, falls keine anderen Vorgaben gemacht werden */
 	}
 
-	#footer { clear:both; }	/* Backup f�r IE-Clearing */
+	#footer { clear:both; }	/* Backup für IE-Clearing */
 
 	/* Der z-Index verhindert, dass im Falle des noch bestehenden IE-Bugs die Texte vor
 	** dem Spaltenhintergrund erscheinen. */
@@ -1074,7 +1074,7 @@ ul{border:0; margin:0; padding:0;}
 	#col1_content, #col2_content, #col3_content { position:relative; }
 
 /* ######################################################################################################
-** ### Markupfreie CSS-Floatclearing-L�sungen ###########################################################
+** ### Markupfreie CSS-Floatclearing-Lösungen ###########################################################
 ** ######################################################################################################
 */
 
@@ -1087,21 +1087,21 @@ ul{border:0; margin:0; padding:0;}
 		visibility: hidden;
 	}
 
-	/* Diese Angabe ben�tigt der Safari-Browser zwingend !! */
+	/* Diese Angabe benötigt der Safari-Browser zwingend !! */
 	.clearfix { display: block; }
 
 	/* Overflow-Methode zum Clearen der Float-Umgebungen */
 	.floatbox { overflow:hidden; }
 
-	/* IE-Clearing: Ben�tigt nur der Internet Explorer und �ber iehacks.css zugeschaltet */
+	/* IE-Clearing: Benötigt nur der Internet Explorer und über iehacks.css zugeschaltet */
 	#ie_clearing { display: none; }
 
 /* ######################################################################################################
 ** ### IE-Clearing bis YAML V2.4 ########################################################################
 ** ######################################################################################################
 **
-** Die CSS-Definition des IE-Clearings, welches bis YAML 2.4 verwendet wurde, ist aus Gr�nden der
-** Abw�rtskompatibilit�t des Basis-Stylesheets weiterhin enthalten.
+** Die CSS-Definition des IE-Clearings, welches bis YAML 2.4 verwendet wurde, ist aus Gründen der
+** Abwärtskompatibilität des Basis-Stylesheets weiterhin enthalten.
 */
 	/* Clearen der 3 Inhaltsspalten mittels dieses speziellen hr-Tags */
 	hr.clear_columns {
@@ -1118,7 +1118,7 @@ ul{border:0; margin:0; padding:0;}
 	}
 
 /* ######################################################################################################
-** ### Standard-Formatierungen f�r Listen & Zitate ######################################################
+** ### Standard-Formatierungen für Listen & Zitate ######################################################
 ** ######################################################################################################
 */
 
@@ -1177,7 +1177,7 @@ ul{border:0; margin:0; padding:0;}
 
 /* ######################################################################################################
 ** # "Yet Another Multicolum Layout" (c) by Dirk Jesse (http://www.yaml.de) #############################
-** # "TYPO3 Template f�r YAML" (c) by Dieter Bunkerd (http://yaml.t3net.de) #############################
+** # "TYPO3 Template für YAML" (c) by Dieter Bunkerd (http://yaml.t3net.de) #############################
 ** ######################################################################################################
 **
 **  YAML Version: 2.5
@@ -1703,7 +1703,7 @@ div.langMenu img.flag {
 }
 
 /* ################################################
-### Originalmen� angepasst##################################
+### Originalmenü angepasst##################################
 #################################################*/
 
 .mainMenu {width:100%; overflow:hidden; color:#222; margin:0; padding:0; }
@@ -2057,7 +2057,7 @@ DIV.csc-textpic-equalheight DIV.csc-textpic-imagerow { margin-bottom: 15px; disp
 
 	padding: 0;
 
-	padding: 0em 0.6em 0em 0.6em; /* Anpassung der linken und rechten Randabst��&#937;nde */
+	padding: 0em 0.6em 0em 0.6em; /* Anpassung der linken und rechten Randabstände */
 
 	font-size: 1.0em;
 
@@ -2065,9 +2065,9 @@ DIV.csc-textpic-equalheight DIV.csc-textpic-imagerow { margin-bottom: 15px; disp
 
 	list-style-type: none;
 
-	border-left: 0px #fff solid; /* R��&#937;nderver��&#937;nderung zur genauen Formatierung */
+	border-left: 0px #fff solid; /* Ränderveränderung zur genauen Formatierung */
 
-	border-right: 0px #333 solid; /* R��&#937;nderver��&#937;nderung (Farbe) zur genauen Formatierung */
+	border-right: 0px #333 solid; /* Ränderveränderung (Farbe) zur genauen Formatierung */
 
 }
 

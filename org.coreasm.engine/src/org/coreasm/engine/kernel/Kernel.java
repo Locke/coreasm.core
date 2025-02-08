@@ -303,7 +303,7 @@ public class Kernel extends Plugin
 			// TODO this can be done in a nicer way
 			// Here we have to call getLexer() so that the
 			// ParserTools also gets initialized
-			// jetzt �berfl�ssig?
+			// jetzt überflüssig?
 			 getLexers();
 
 			// Ignore-Parser
