@@ -159,7 +159,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.5.2</version>
+					<version>3.5.3</version>
 					<configuration>
 						<skipTests>${skipTests}</skipTests>
 						<reuseForks>false</reuseForks>
@@ -302,7 +302,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>10.21.3</version>
+							<version>10.22.0</version>
 						</dependency>
 					</dependencies>
 					<configuration>
