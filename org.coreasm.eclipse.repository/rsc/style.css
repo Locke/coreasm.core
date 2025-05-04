@@ -41,8 +41,8 @@
 		padding: 0px;
 		margin: 1ex 0px;
 		margin-bottom: 1.5ex;
-		border-width: 0px; 
-		border-bottom: 1px solid black; 
+		border-width: 0px;
+		border-bottom: 1px solid black;
 	}
 
 	div.tx_sevenpack-bottom_navigation {
@@ -50,7 +50,7 @@
 		padding: 1ex 0px;
 		padding-top: 0.5ex;
 		margin: 1ex 0px;
-		border-width: 0px; 
+		border-width: 0px;
 	}
 
 	div.tx_sevenpack-navi_year,
@@ -88,7 +88,7 @@
 
 	.tx_sevenpack-inline_form,
 	.tx_sevenpack-year_select_form,
-	.tx_sevenpack-author_select_form, 
+	.tx_sevenpack-author_select_form,
 	.tx_sevenpack-search_form {
 		display: inline;
 		padding: 0px;
@@ -203,8 +203,8 @@
 
 
 	div.tx_sevenpack-list_container {
-		margin: 0px; 
-		padding:0px; 
+		margin: 0px;
+		padding:0px;
 		margin-left: 12em;
 	}
 
@@ -339,7 +339,7 @@
 		margin: 0.5ex 0px;
 	}
 
-	div.tx_sevenpack-missing_data  { 
+	div.tx_sevenpack-missing_data  {
 		font-weight: bold;
 		background-color: rgb(235,0,0);
 		margin: 0px;
@@ -365,8 +365,8 @@
 		margin: 0px;
 	}
 
-	.tx_sevenpack-edit_icon, 
-	.tx_sevenpack-hide_icon, 
+	.tx_sevenpack-edit_icon,
+	.tx_sevenpack-hide_icon,
 	.tx_sevenpack-delete_icon,
 	.tx_sevenpack-new_icon {
 		border-width: 0px;
@@ -519,17 +519,17 @@ span.tx-filelist-pi1-newFile {
 		div.tx-flvplayer2-pi1 {
 		font-size:x-small;
 		}
-		
+
 		div#flvplayer2_middle {
 		text-align:center;
 		margin: 1em auto;
 		}
-		
+
 		div#flvplayer2_left {
 		text-align:center;
 		margin: 0 auto 0 0;
 		}
-		
+
 		div#flvplayer2_right {
 		text-align:center;
 		margin: 0 0 0 auto;
@@ -788,11 +788,11 @@ noscript .tx-imagecycle-pi1-images .imagecycle-caption {
 }
 
 .solr-relevance {
-	
+
 }
 
 .solr-facets {
-	
+
 }
 
 .solr-hit-title {
@@ -829,11 +829,11 @@ p.bluebox {
     padding: 6px;
 }
 
-p.redbox { 
-    color: #000; 
-    background-color: #fee; 
-    padding: 6px; 
-    margin-bottom: 1em; 
+p.redbox {
+    color: #000;
+    background-color: #fee;
+    padding: 6px;
+    margin-bottom: 1em;
 }
 
 .small {
@@ -915,7 +915,7 @@ padding:3px 4px;
 }
 
 .ldap-person-last {
-	
+
 }
 
 .ldap-title {
@@ -970,13 +970,13 @@ padding:3px 4px;
 /* ######################################################################################################
 ** # "Yet Another Multicolum Layout" (c) by Dirk Jesse (http://www.yaml.de) #############################
 ** ######################################################################################################
-** 
+**
 **  YAML Version: 2.5.2
-**  Dateiversion: 01.11.06  
+**  Dateiversion: 01.11.06
 **  Datei       : base.css
 **  Funktion    : Basis-Stylesheet
 **
-**  Don't make any changes in this file! 
+**  Don't make any changes in this file!
 **  Any changes should be placed in basemod-files in css/modifications directory.
 */
 
@@ -986,48 +986,48 @@ padding:3px 4px;
 ** ### Vorbereitende Ma�nahmen | Reset ##################################################################
 ** ######################################################################################################
 */
-	/* Hiermit werden die Randabst�nde und border aller HTML-Elemente auf Null gesetzt. Damit wird das       
-	** Aussehen der Webseite in unterschiedlichen Browsern vereinheitlicht. 
+	/* Hiermit werden die Randabst�nde und border aller HTML-Elemente auf Null gesetzt. Damit wird das
+	** Aussehen der Webseite in unterschiedlichen Browsern vereinheitlicht.
 	*/
-	
-	* { margin:0; padding: 0; } 
+
+	* { margin:0; padding: 0; }
 
 	/* Das zur�cksetzen der Innen- und Au�enabst�nde verursacht zu kleine Selectboxen. Dies wird korrigiert */
 	option {padding-left: 0.4em;}
-	
+
 	/*
 	** Die nachfolgenden Angaben entstammen dem Artikel 'Useful Code Snippets' von Mike Foskett
 	** [http://www.websemantics.co.uk/tutorials/useful_css_snippets/]
 	*/
-	
-	/* Vertikalen Scrollbalken im Netscape & Firefox erzwingen. Dies verhindert, dass zentrierte Layouts 
+
+	/* Vertikalen Scrollbalken im Netscape & Firefox erzwingen. Dies verhindert, dass zentrierte Layouts
 	** um 10 Pixel springen wenn der Seiteninhalt kleiner wird als die H�he des Browserfensters. */
-	html { height: 100%; } 
-	body { 
-		min-height: 101%;	
+	html { height: 100%; }
+	body {
+		min-height: 101%;
 	/* Beseitigung des Rundungsfehlers bei Schriftgr��en im Opera sowie Standardformatierungen */
-		font-size: 100.01%; 
-	/* FIX: Verhindert, dass positionierte Elemente nicht verschoben werden when die Gr��e des Browser 
+		font-size: 100.01%;
+	/* FIX: Verhindert, dass positionierte Elemente nicht verschoben werden when die Gr��e des Browser
 			Fensters ge�ndert wird. */
-		position: relative; 
-	
-	/* Vorgabe der Standardfarben und Textausrichtung*/     
-		color: #000;        
+		position: relative;
+
+	/* Vorgabe der Standardfarben und Textausrichtung*/
+		color: #000;
 		background: #fff;
-		text-align: left; 
-	} 
-	
+		text-align: left;
+	}
+
 	/* Standardrahmen zur�cksetzen */
 	fieldset, img { border:0; }
-	
-	/* Anpassung f�r Safari Browser. font-size:100% ist f�r den Safari in Formularen zu gro� */ 
+
+	/* Anpassung f�r Safari Browser. font-size:100% ist f�r den Safari in Formularen zu gro� */
 	select, input, textarea { font-size: 99%; }
-	
+
 /* ######################################################################################################
 ** ### DIV-Container des Basislayouts ###################################################################
 ** ######################################################################################################
 */
-	
+
 	#header { position:relative }
 
 	#topnav {
@@ -1038,31 +1038,31 @@ padding:3px 4px;
 		background: transparent;
 		text-align: right; /* Erforderlich, damit im Opera 6 wirklich rechts plaziert ! */
 	}
-	
+
 	#nav { clear:both; width: auto; }
 	#main {	clear:both; width: auto; }
-	
-	
+
+
 	#col1 {
 		float: left;
 		width: 200px; /* Standard-Wert, falls keine anderen Vorgaben gemacht werden */
 	}
-	
+
 	#col2 {
-		float:right; 
+		float:right;
 		width: 200px; /* Standard-Wert, falls keine anderen Vorgaben gemacht werden */
 	}
-	
+
 	#col3
 	{
 		width:auto;
 		margin-left: 200px; /* Standard-Wert, falls keine anderen Vorgaben gemacht werden */
 		margin-right: 200px; /* Standard-Wert, falls keine anderen Vorgaben gemacht werden */
 	}
-	
+
 	#footer { clear:both; }	/* Backup f�r IE-Clearing */
-	
-	/* Der z-Index verhindert, dass im Falle des noch bestehenden IE-Bugs die Texte vor 
+
+	/* Der z-Index verhindert, dass im Falle des noch bestehenden IE-Bugs die Texte vor
 	** dem Spaltenhintergrund erscheinen. */
 	#col1 {z-index: 3;}
 	#col2 {z-index: 5;}
@@ -1070,7 +1070,7 @@ padding:3px 4px;
 	#col1_content {z-index: 4;}
 	#col2_content {z-index: 6;}
 	#col3_content {z-index: 2;}
-	
+
 	#col1_content, #col2_content, #col3_content { position:relative; }
 
 /* ######################################################################################################
@@ -1080,19 +1080,19 @@ padding:3px 4px;
 
 	/* Clearfix-Methode zum Clearen der Float-Umgebungen */
 	 .clearfix:after {
-		content: "."; 
-		display: block; 
-		height: 0; 
-		clear: both; 
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
 		visibility: hidden;
 	}
-	
+
 	/* Diese Angabe ben�tigt der Safari-Browser zwingend !! */
-	.clearfix { display: block; } 
-	
+	.clearfix { display: block; }
+
 	/* Overflow-Methode zum Clearen der Float-Umgebungen */
 	.floatbox { overflow:hidden; }
-	
+
 	/* IE-Clearing: Ben�tigt nur der Internet Explorer und �ber iehacks.css zugeschaltet */
 	#ie_clearing { display: none; }
 
@@ -1100,19 +1100,19 @@ padding:3px 4px;
 ** ### IE-Clearing bis YAML V2.4 ########################################################################
 ** ######################################################################################################
 **
-** Die CSS-Definition des IE-Clearings, welches bis YAML 2.4 verwendet wurde, ist aus Gr�nden der 
+** Die CSS-Definition des IE-Clearings, welches bis YAML 2.4 verwendet wurde, ist aus Gr�nden der
 ** Abw�rtskompatibilit�t des Basis-Stylesheets weiterhin enthalten.
 */
 	/* Clearen der 3 Inhaltsspalten mittels dieses speziellen hr-Tags */
-	hr.clear_columns {	
-		clear: both; 
-		float: left; 
-		content: "."; 
-		display: block;  
-		height: 0; 
-		line-height: 0px; 
-		visibility: hidden; 
-		border: 0; 
+	hr.clear_columns {
+		clear: both;
+		float: left;
+		content: ".";
+		display: block;
+		height: 0;
+		line-height: 0px;
+		visibility: hidden;
+		border: 0;
 		padding: 0;
 		margin: -1.1em 0 0 0; /* erforderlich damit kein Leerraum zwischen Spalten und Footer entsteht */
 	}
@@ -1124,10 +1124,10 @@ padding:3px 4px;
 
 	ul, ol, dl { margin: 0 0 1em 1em }
 	li { margin-left: 1.5em; line-height: 1.3em; }
-	
+
 	dt { font-weight: bold; }
 	dd { margin: 0 0 1em 2em; }
-	
+
 	blockquote, cite { margin: 0 0 1em 1.5em; font-size: 0.93em; width: auto;}
 
 /* ######################################################################################################
@@ -1135,16 +1135,16 @@ padding:3px 4px;
 ** ######################################################################################################
 */
 
-	.subcolumns { 
+	.subcolumns {
 		width: 100%;
-		padding: 0 1px 0 1px; 
-		margin: 0 -1px 0 -1px; 
+		padding: 0 1px 0 1px;
+		margin: 0 -1px 0 -1px;
 		overflow:hidden;
 	}
-		
+
 	.c50l, .c25l, .c33l, .c38l, .c66l, .c75l, .c62l, .c100l {float: left; overflow: hidden;}
 	.c50r, .c25r, .c33r, .c38r, .c66r, .c75r, .c62r {float: right; overflow: hidden;}
-	
+
 	.c25l, .c25r { width: 24.999%; }
 	.c33l, .c33r { width: 33.333%; }
 	.c50l, .c50r { width: 49.999%; }
@@ -1153,11 +1153,11 @@ padding:3px 4px;
 	.c38l, .c38r { width: 38.196%; } /* Goldener Schnitt */
 	.c62l, .c62r { width: 61.803%; } /* Goldener Schnitt */
 	.c100l { width: 99.999%; }
-	
+
 	.subc  { padding: 0 0.5em 0 0.5em; overflow: hidden; }
 	.subcl { padding: 0 1em 0 0; overflow: hidden; }
 	.subcr { padding: 0 0 0 1em; overflow: hidden; }
-	
+
 
 }
 
@@ -1169,7 +1169,7 @@ padding:3px 4px;
 {
 .skip {
 	position: absolute;
-	left: -1000em; 
+	left: -1000em;
 	width: 20em;
 }
 
@@ -1179,9 +1179,9 @@ padding:3px 4px;
 ** # "Yet Another Multicolum Layout" (c) by Dirk Jesse (http://www.yaml.de) #############################
 ** # "TYPO3 Template f�r YAML" (c) by Dieter Bunkerd (http://yaml.t3net.de) #############################
 ** ######################################################################################################
-** 
+**
 **  YAML Version: 2.5
-**  Dateiversion: 18.06.06  
+**  Dateiversion: 18.06.06
 **  Datei       : typo3.css
 **  Funktion    : Formatierung der Inhalte und TYPO3-spezifische Aenderungen der content.css
 **
@@ -1202,7 +1202,7 @@ body { color: #000; font-size: 83.33%; font-family: 'Trebuchet MS', Verdana, Hel
 h1,h2,h3,h4 { font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; display:block; font-weight:bold;}
 
 h1 {}
-	
+
 h2 {}
 h3 {}
 h4 {padding:1em 0 0.5em 0;}
@@ -1219,13 +1219,13 @@ em,i { font-style:italic; }
 pre, code {	font-family: "Courier New", Courier, monospace; }
 address { font-style:normal; line-height: 1.5em; margin: 0 0 1em 0; }
 
-hr { 
+hr {
 	color: #fff;
-	background:transparent; 
-	margin: 0.5em 0 0.5em 0; 
-	padding: 0 0 0 0; 
-	border:0; 
-	border-bottom: 1px #eee solid; 
+	background:transparent;
+	margin: 0.5em 0 0.5em 0;
+	padding: 0 0 0 0;
+	border:0;
+	border-bottom: 1px #eee solid;
 }
 
 acronym, abbr {
@@ -1265,7 +1265,7 @@ a:hover {background-color: #eef; text-decoration:underline;}
 	background: transparent;
 }
 
-div.indent {padding-left:1em;} 
+div.indent {padding-left:1em;}
 /* ######################################################################################################
 ** ### Formulare & Tabellen #############################################################################
 ** ######################################################################################################
@@ -1307,16 +1307,16 @@ p.navlink { background-color: #f4f8f4; border: 1px #aca dotted; padding: 6px; ma
 p.navlink a { color: #353;}
 p.navlink a:hover { font-weight: bold; background: transparent; }
 
-blockquote { 
-	color: #222; 
-	background: #f8f8f8; 	
+blockquote {
+	color: #222;
+	background: #f8f8f8;
 	border: 1px #ddd solid;
 	border-left: 8px #ddd solid;
 	padding: 1em 1em 0 1em;
 	margin: 0 0 1em 1em;
 }
 
-/* Ungeordnete Listen ohne Listenpunkt */ 
+/* Ungeordnete Listen ohne Listenpunkt */
 /*ul.linklist { list-style-type: none; margin: 0 0 1em 0; }*/
 ul.linklist li { margin: 0 0 1em 0; }
 
@@ -1326,19 +1326,19 @@ em.mono, em.file, em.directory {
 	font-style: normal;
 }
 
-em.mono { 
+em.mono {
 	padding:0 0.3em 0 0.3em;
 	background:#f0f0f4;
 	border: 1px #ccd solid;
 }
 
-em.file { 
+em.file {
 	padding:0 0 0 14px;
 	color: #008;
 	background: transparent url(../../img/icons/file.gif) no-repeat left;
 }
 
-em.directory { 
+em.directory {
 	padding:0 0 0 15px;
 	color: #008;
 	background: transparent url(../../img/icons/dir.gif) no-repeat left;
@@ -1349,25 +1349,25 @@ p.code {
 	display:block;
 	margin: 0 0 1em 1em;
 	padding: 0.5em;
-	color: #000; 
+	color: #000;
 	background: #f0f0f4;
 	border: 1px #91acbc solid;
 	border-left: 8px #91acbc solid;
 }
 
-code.css { 
+code.css {
 	background-image: url(../../img/bg_css.gif);
         background-repeat: no-repeat;
 	background-position: top right;
 }
 
-code.xhtml { 
+code.xhtml {
 	background-image: url(../../img/bg_xhtml.gif);
 	background-repeat: no-repeat;
 	background-position: top right;
 }
 
-code.typoscript { 
+code.typoscript {
 	background-image: url(../../img/bg_ts.gif);
 	background-repeat: no-repeat;
 	background-position: top right;
@@ -1376,19 +1376,19 @@ code.typoscript {
 /* ### Tabellen ################################################################## */
 
 table.bugs { margin-bottom: 1em; margin-top: 0.5em; width:100%; }
-table.bugs th { 
-	background: #fff; color: #222; 
-	padding: 0.5em; 
-	text-align: center; 
-	border-bottom: 1px #ccd solid; 
+table.bugs th {
+	background: #fff; color: #222;
+	padding: 0.5em;
+	text-align: center;
+	border-bottom: 1px #ccd solid;
 	border-right: 1px #ccd solid;
 }
 
 table.bugs td {
-	background: #f0f0f4; color: #222; 
-	padding: 0.5em; 
-	text-align: center; 
-	border-bottom: 1px #ccd solid; 
+	background: #f0f0f4; color: #222;
+	padding: 0.5em;
+	text-align: center;
+	border-bottom: 1px #ccd solid;
 	border-right: 1px #ccd solid;
 }
 
@@ -1425,7 +1425,7 @@ a.dl_link:hover { text-decoration: none; background-color: transparent; }
 dd.csc-textpic-caption {
 	font-style: italic;
 	font-size: 0.9em;
-	background-color: #E0E7F5; 
+	background-color: #E0E7F5;
 	padding: 0;
 }
 
@@ -1449,13 +1449,13 @@ div.langMenu img.flag {
 /*******************************************
 * Styles barrierefreies Menue
 ********************************************/
-@media screen, print 
+@media screen, print
 {
 	#col1_content dfn, #col1_content .hidden {
 	position: absolute;
-	left: -1000em; 
+	left: -1000em;
 	width: 20em;
-	} 
+	}
 
 /*******************************************
 * Styles tx_dropdownsitemap
@@ -1519,11 +1519,11 @@ div.langMenu img.flag {
 
 ** ######################################################################################################
 
-** 
+**
 
 **  YAML Version: 2.5.2
 
-**  Dateiversion: 6.11.06  
+**  Dateiversion: 6.11.06
 
 **  Datei       : hmenu.css abgewandelte Kopie von shinybuttons.css
 
@@ -1555,12 +1555,12 @@ div.langMenu img.flag {
 
     width: auto;
 
-    overflow:hidden; 
+    overflow:hidden;
 
-    background: transparent; 
-    border-left: 1px #91acbc solid; 
+    background: transparent;
+    border-left: 1px #91acbc solid;
 
-    border-right: 0px #fff solid; 
+    border-right: 0px #fff solid;
 
 }
 
@@ -1577,7 +1577,7 @@ div.langMenu img.flag {
 	font-size: 1.0em;
 
 	line-height: 1em;
-	
+
 }
 
 
@@ -1596,9 +1596,9 @@ div.langMenu img.flag {
 
 	list-style-type: none;
 
-	border-left: 0px #fff solid; 
+	border-left: 0px #fff solid;
 
-	border-right: 1px #91acbc solid; 
+	border-right: 1px #91acbc solid;
 
 }
 
@@ -1626,7 +1626,7 @@ div.langMenu img.flag {
 
 	margin: 0;
 
-	padding: 0.5em 0.6em 0.5em 0.6em; 
+	padding: 0.5em 0.6em 0.5em 0.6em;
 }
 
 
@@ -1643,9 +1643,9 @@ div.langMenu img.flag {
 
 
 
-#nav_main ul li#current { 
+#nav_main ul li#current {
 
-	border-left: 0px #333 solid; 
+	border-left: 0px #333 solid;
 
 	border-right: 1px #91acbc solid;
 
@@ -1691,9 +1691,9 @@ div.langMenu img.flag {
 
 	padding:0.25em 0 0.25em 1.4em;
 	font-size:1.1em;
-	font-weight: bold; 
+	font-weight: bold;
 	margin:0 0 0.4em 0;
-	/*color: #fff; 
+	/*color: #fff;
 	background-color: #91acbc;*/
 	border-bottom: 5px #fff solid;
 }
@@ -1732,11 +1732,11 @@ div.langMenu img.flag {
 
 ** ######################################################################################################
 
-** 
+**
 
 **  YAML Version: 2.5
 
-**  Dateiversion: 18.06.06  
+**  Dateiversion: 18.06.06
 
 **  Datei       : basemod.css
 
@@ -1763,81 +1763,81 @@ div.langMenu img.flag {
 
 /* Hier kann ein umlaufender Rand um die gesamte Webseite erzeugt werden */
 
-#page{ 
-  border: 1px #c6d4de solid; 
-  border-right: 2px #c6d4de solid; 
-  border-bottom: 2px #c6d4de solid; 
-  background: #fff; 
+#page{
+  border: 1px #c6d4de solid;
+  border-right: 2px #c6d4de solid;
+  border-bottom: 2px #c6d4de solid;
+  background: #fff;
   }
 
 #page_margins {
-  border: 0px #889 solid; 
-  min-width: 60em; 
-  max-width: 85em; 
+  border: 0px #889 solid;
+  min-width: 60em;
+  max-width: 85em;
   margin:auto;}
 
 
 
 /* Formatierung des Kopfbereiches */
 
-#header { 
-  position:relative; 
-  height: 7em; 
-  color: #321; 
+#header {
+  position:relative;
+  height: 7em;
+  color: #321;
   background: #fff;
 }
 
 #header img {
-  position:absolute; 
-  top:25px; 
+  position:absolute;
+  top:25px;
   right:25px;
   }
 
 
 #header h1 {
-  position:absolute; 
-  top:2em; 
-  left:2em;  
-  padding-left:0; 
-  padding-top: 0; 
-  color:#000; 
-  text-decoration:none; 
-  font-size:108%; 
-  border:none; 
+  position:absolute;
+  top:2em;
+  left:2em;
+  padding-left:0;
+  padding-top: 0;
+  color:#000;
+  text-decoration:none;
+  font-size:108%;
+  border:none;
   font-weight:normal;
   }
-  
+
 #sonderlogo {
-  position:absolute; 
-  top:0; 
+  position:absolute;
+  top:0;
   left:0;
   }
-  
+
 .sonderlogo2 {
-  position:absolute; 
-  top:-10px; 
+  position:absolute;
+  top:-10px;
   right:300px;
   }
-  
+
 .nugi {
-  position:absolute; 
-  top:-10px; 
+  position:absolute;
+  top:-10px;
   right:25px;
   }
-  
-#sonderlogo img { 
-  position:relative; 
-  top:0px; 
-  left:0px; 
-  font-size:100%; 
-  height:100%; 
+
+#sonderlogo img {
+  position:relative;
+  top:0px;
+  left:0px;
+  font-size:100%;
+  height:100%;
   }
-  
+
 #header #nav_main {
-  position:absolute; 
-  top:4.6em; 
-  left:1.4em;  
-  margin-left:0; 
+  position:absolute;
+  top:4.6em;
+  left:1.4em;
+  margin-left:0;
   margin-top:0;
   }
 
@@ -1848,15 +1848,15 @@ div.langMenu img.flag {
 ** ################################################################################################### */
 
   .c100l .subcl {padding:0;}
-  
 
-#main { background: #fff ; padding-top: 0;} 
+
+#main { background: #fff ; padding-top: 0;}
 
 
 
 /* linke Spalte */
 
-#col1 {  width: 21em; }  
+#col1 {  width: 21em; }
 
 #col1_content { margin-left: 2em; margin-right: 1em; color: #000; background:inherit; }
 
@@ -1876,9 +1876,9 @@ div.langMenu img.flag {
 
 {
 
-    margin-left: 21em; 
+    margin-left: 21em;
 
-     margin-right: 21em; 
+     margin-right: 21em;
 
   /*border-left: none; 0px dotted #ddd;*/
 
@@ -1908,15 +1908,15 @@ div.langMenu img.flag {
 
 
 
-#teaser { 
+#teaser {
 
-  margin:0; 
+  margin:0;
 
-  padding:0; 
+  padding:0;
 
-  background: #D5D0BA; 
+  background: #D5D0BA;
 
-  color: #765; 
+  color: #765;
 
 }
 
@@ -1958,15 +1958,15 @@ div.langMenu img.flag {
 
 #thema {  clear:both; width: auto; }
 
-#thema { 
+#thema {
 
-  margin:0; 
+  margin:0;
 
-  padding:0; 
+  padding:0;
 
   /*height:50px;*/
   min-height:2em;
-  
+
 }
 
 
@@ -1993,7 +1993,7 @@ DIV.csc-textpic DIV.csc-textpic-imagewrap .csc-textpic-image { margin-bottom: 15
 ** ### Formatierung breadcrumb navigation #############################################
 ** ####################################################################################*/
 
-#breadcrumb, #breadcrumb a { 
+#breadcrumb, #breadcrumb a {
 
   color:#fff;
   text-decoration:none;
@@ -2091,9 +2091,9 @@ DIV.csc-textpic DIV.csc-textpic-imagewrap .csc-textpic-image { margin-bottom: 15
 
 
 
-#servicenav ul li#current, #rblock ul li#current { 
+#servicenav ul li#current, #rblock ul li#current {
 
-  border-left: 0px #333 solid; 
+  border-left: 0px #333 solid;
 
   border-right: 0px #333 solid;
 
@@ -2145,22 +2145,22 @@ div.lColumn h1 {
   padding: 0.3em 0 0.3em 1.5em;
   /*border-top:1px solid #bbccd8;*/
   color: #000;
-  
+
   }
 
-  
+
 
 div.lColumn h2 {
 
   font-size:1em;
-  font-weight: bold; 
-  
+  font-weight: bold;
+
   }
-  
+
 
 div.lColumn ul.linkliste {
-  border-top:1px #bbccd8 dotted; 
-  list-style-type:none;  
+  border-top:1px #bbccd8 dotted;
+  list-style-type:none;
   margin: 0 0 0 0;
   padding: 0;
   color: #666;
@@ -2175,7 +2175,7 @@ div.lColumn ul.linkliste li {
 ##########################################################*/
 
 
-  
+
 ul.linkliste li a {
   text-decoration: none;
   color: #000;
@@ -2210,17 +2210,17 @@ ul.kontakt {
 ### Footer und Footer spalten #################################################
 ##################################################################*/
 
-#footer { 
-  color:#555; 
-  background:#fff; 
-  margin: 1em; 
-  margin-right:2em; 
-  padding: 0 0 0 0; 
-  border-top: 0px #ddd dotted; 
+#footer {
+  color:#555;
+  background:#fff;
+  margin: 1em;
+  margin-right:2em;
+  padding: 0 0 0 0;
+  border-top: 0px #ddd dotted;
   }
 
 #footer div#lblock {
-  width:21em; 
+  width:21em;
   margin:0;
   float:left;
   background-color:inherit;
@@ -2243,14 +2243,14 @@ ul.kontakt {
   padding-top:0;
 }
 
-#footer div#mblock_content { 
+#footer div#mblock_content {
   margin-left: 21em;
   margin-right:19em;
   border-top:1px dotted;
   padding-top:0.4em;
   color: #666;
   }
-  
+
 #footer div#mblock_innen {
   border-left:none; border-right:none;
 }
@@ -2329,7 +2329,7 @@ div.lastChanged {float:left; margin-top:0.1em; margin-left:0;}
   padding:5px 0 5px 5px;
   line-height: 1.5em;
   border-bottom:1px dotted #ccd;
-  background-color:#e9eef1; 
+  background-color:#e9eef1;
 
 
 }
@@ -2338,7 +2338,7 @@ div.lastChanged {float:left; margin-top:0.1em; margin-left:0;}
   padding:5px 0 5px 5px;
   line-height: 1.5em;
   border-bottom:1px dotted #ccd;
-  background-color:#fff; 
+  background-color:#fff;
 
 
 }
@@ -2348,17 +2348,17 @@ div.lastChanged {float:left; margin-top:0.1em; margin-left:0;}
 .clearer {color:#e9eef1; display:none; }
 
 #col3_content .news-list-text h3, #col1_content .news-list-text h3 {
-  
+
   padding-left:0;
   font-size:12px;
   font-weight:bold;
 }
 .news-list-text h3 a {
   margin-left:0;
-  text-decoration:none; 
+  text-decoration:none;
   color:#000;
 }
-  
+
 .news-list-text h3 a:hover { background:transparent; }
 
 .news-list-item p.bodytext {
@@ -2369,7 +2369,7 @@ div.lastChanged {float:left; margin-top:0.1em; margin-left:0;}
   padding:1px;
   border:0px solid #ccd;
   background:#fff; /*#e9eef1;*/
-  
+
 }
 .news-list-morelink a { color: #3284b3;}
 .news-list-morelink a:hover { color: #666; background: transparent; }
@@ -2455,19 +2455,19 @@ input, textarea {background-color:#ffffff;}
 
 
 .li_searchbox_advanced {
-  font-size:9px; 
-  margin:0px; 
+  font-size:9px;
+  margin:0px;
   padding-left:2.7em;
 }
 
 .li_searchbox {
-  margin:0; 
+  margin:0;
   padding-left:1.7em;
 }
 
 .ul_searchbox {
-  list-style-type:none; 
-  margin:0; 
+  list-style-type:none;
+  margin:0;
   padding:0;
 }
 
@@ -2476,8 +2476,8 @@ input, textarea {background-color:#ffffff;}
 }
 
 .input_searchword {
-  height:18px; 
-  width:130px; 
+  height:18px;
+  width:130px;
   font-size:11px;
 }
 
@@ -2583,33 +2583,33 @@ div.tx-powermail-pi1 legend {
   display:none;
   }
 
-input.powermail_submit, 
+input.powermail_submit,
 input.powermail_reset {float:left;}
 
-div.tx-powermail-pi1 input, 
+div.tx-powermail-pi1 input,
 div.tx-powermail-pi1 textarea {margin-bottom:1em;}
 
 div.c66l div.tx-powermail-pi1 textarea ,
 div.c66l div.tx-powermail-pi1 input.powermail_text {width:360px;}
 
-div.tx-powermail-pi1 textarea, 
+div.tx-powermail-pi1 textarea,
 div.tx-powermail-pi1 input.powermail_text {width:480px;}
 
 .smallinputfield div input.powermail_text {width:300px;}
 div.c66l div.tx-powermail-pi1 .smallinputfield div input.powermail_text,
 div.c66l div.tx-powermail-pi1 .smallinputfield div textarea {width:200px;}
 
-div.tx-powermail-pi1 select, 
+div.tx-powermail-pi1 select,
 div.csc-mailform-field select {margin-left:1em;vertical-align:baseline;margin-bottom:1em;}
 
 div.tx-powermail-pi1 select.powermail_anmeldungschnuppervorlesungen {width:500px;}
 
-div.tx-powermail-pi1 label, 
-div.csc-mailform-field label, 
-.csc-mailform-label, 
+div.tx-powermail-pi1 label,
+div.csc-mailform-field label,
+.csc-mailform-label,
 input.csc-mailform-radio label {font-size:0.9em;color:#999;vertical-align:baseline;margin-top:1em;}
 
-div.tx-powermail-pi1 label, 
+div.tx-powermail-pi1 label,
 div.csc-mailform-field label  {
       display:block;
       float:left;
@@ -2619,17 +2619,17 @@ div.csc-mailform-field label  {
       vertical-align:top;
       width:120px;
     }
-    
+
 .tx_powermail_pi1_fieldwrap_html, .powermail_radio_inner, .powermail_check_inner {
   clear:both;
 }
-    
+
  .tx_powermail_pi1_fieldwrap_html_5883, .tx_powermail_pi1_fieldwrap_html_5888 {padding-left:10.8em;margin-bottom:1em;}
- 
+
  div.powermail_mandatory_helper {display:none;}
 
 .csc-mailform-label {
-  
+
   display:block;
 
 }
@@ -2644,16 +2644,16 @@ div.csc-mailform-field label  {
 .csc-mailform-submit {
   margin-top:1em;
 }
-    
+
 fieldset.tx-powermail-pi1_fieldset legend.tx_powermail_pi1_fieldwrap_html_radio_title {display:block;padding:1em 0;}
-    
+
 span.powermail_mandatory {
   padding-left:0.2em;
 }
 
 .tx_powermail_pi1_fieldwrap_html_radio_title {font-weight:bold;}
 
-.label {    
+.label {
   color: #999999;
     font-size: 0.9em;}
 
@@ -2818,11 +2818,11 @@ tx_sevenpack-item_odd {background-color:#fff;} /*#edece8;}*/
 tx_sevenpack-block {display: inline;}
 
 div.tx_sevenpack-list_container {
-    margin: 0px; 
-    padding:0px; 
+    margin: 0px;
+    padding:0px;
     margin-left: 1em;
   }
-  
+
 /****************************************
 **** felogin
 ****************************************/
@@ -2838,15 +2838,15 @@ div.tx_sevenpack-list_container {
 
 .tx-comments-comment-form LEGEND { font-weight:bold;}
 .tx-comments-comment-form LABEL { width: 100px; display: block; float: left; padding-top: 5px; }
-.tx-comments-comment-form INPUT, 
-.tx-comments-comment-form TEXTAREA, 
+.tx-comments-comment-form INPUT,
+.tx-comments-comment-form TEXTAREA,
 .tx-comments-comment-form IMG { margin-top: 5px; }
-.tx-comments-comment-input, 
+.tx-comments-comment-input,
 .tx-comments-comment-form TEXTAREA { width: 245px; }
 .tx-comments-comment-form BR { clear: left; }
 .tx-comments-comment-name { font-weight: normal; color:#666; }
 .tx-comments-comment-date { font-weight: normal; color:#666;}
-.tx-comments-comment-1, 
+.tx-comments-comment-1,
 .tx-comments-comment-2 { border: 0px solid #e0e0e0; margin-bottom: 3px; padding: 3px 0; }
 .tx-comments-comment-content { padding: 3px 0; text-align: justify; }
 .tx-comments-page-browser { text-align: center; margin: 15px 0; }
@@ -2896,9 +2896,9 @@ div.tx_sevenpack-list_container {
 ** # "Yet Another Multicolum Layout" (c) by Dirk Jesse (http://www.yaml.de) #############################
 ** # "YAML for TYPO3" (c) by Dieter Bunkerd (http://yaml.t3net.de) ######################################
 ** ######################################################################################################
-** 
+**
 **  YAML Version: 2.5.2
-**  Dateiversion: 6.11.06  
+**  Dateiversion: 6.11.06
 **  Datei       : basemod_2col_left_vlines.css
 **  Funktion    : Variation des Basislayouts (2-Spalten-Layout mit grafikfreien Spaltentrennern)
 **
@@ -2987,7 +2987,7 @@ div.natdiv li {list-style-type:none;margin-left:0;padding-bottom:0.6em;}
 
 
 h1.fakultaetsheader {
-  
+
   margin-top:-0.2em;
   margin-left:-0.4em;
   margin-bottom:0.3em;
@@ -3017,11 +3017,11 @@ table caption {
 }
 
 
-#col1_content h1, 
-#col3_content h1, 
+#col1_content h1,
+#col3_content h1,
 h1.bgColor  {
-  background-color:#edece8; 
-  margin-bottom:1em; 
+  background-color:#edece8;
+  margin-bottom:1em;
   margin-left:0;
   }
 
@@ -3093,7 +3093,7 @@ h1.bgColor  {
   font-size: 0.95em;
   font-weight: bold;
   margin:1.4em 0 0.3em 0;
-  
+
 }
 #col3_content h5 {
 
@@ -3115,14 +3115,14 @@ span.fakultaetsbody {
   padding:0.4em 0.7em;
 }
 
-span.mono { 
+span.mono {
   font-family: "Courier New", Courier, monospace;
   font-style: normal;
   padding:0 0.3em 0 0.3em;
   background:#f0f0f4;
   border: 1px #ccd solid;
 }
-span.file { 
+span.file {
   font-family: "Courier New", Courier, monospace;
   font-style: normal;
   padding:0 0 0 14px;
@@ -3130,7 +3130,7 @@ span.file {
   background: transparent url('../../img/icons/file.gif') no-repeat left;
 }
 
-span.directory { 
+span.directory {
   font-family: "Courier New", Courier, monospace;
   font-style: normal;
   padding:0 0 0 15px;
@@ -3159,7 +3159,7 @@ span.rss {
 
 
 span.podcast {
-  
+
   margin-left:1.5em;
   margin-top:-0.74em;
   padding-left:2.5em;
@@ -3192,58 +3192,58 @@ p.box {
 p.bluebox,
 table.bluebox {
   color:#000;
-  
+
   background-color: #e9eef1;
-  padding: 6px; 
+  padding: 6px;
   /*border: 1px #ccd solid;*/
   margin-bottom: 1em;
 }
 
-p.redbox { 
-  color:#000; 
-  background-color:#fee; 
+p.redbox {
+  color:#000;
+  background-color:#fee;
   /*border:1px #fcc solid; */
-  padding:6px; 
-  margin-bottom: 1em; 
+  padding:6px;
+  margin-bottom: 1em;
 }
 
-p.orangebox { 
-  color:#000; 
-  background-color:#fcf1e5; 
+p.orangebox {
+  color:#000;
+  background-color:#fcf1e5;
   /*border:1px #fcc solid; */
-  padding:6px; 
-  margin-bottom: 1em; 
+  padding:6px;
+  margin-bottom: 1em;
 }
 
 
-p.greybox { 
-  color:#000; 
-  background-color:#efece9; 
+p.greybox {
+  color:#000;
+  background-color:#efece9;
   /*border:1px #fcc solid; */
-  padding:6px; 
-  margin-bottom: 1em; 
+  padding:6px;
+  margin-bottom: 1em;
 }
 
 p.medbluebox {
   color:#000;
   background-color:#e5e9f2;
-  padding:6px; 
-  margin-bottom: 1em; 
+  padding:6px;
+  margin-bottom: 1em;
 }
 
-p.beigebox { 
-  color:#000; 
-  background-color:#efece9; 
+p.beigebox {
+  color:#000;
+  background-color:#efece9;
   /*border:1px #fcc solid; */
-  padding:6px; 
-  margin-bottom: 1em; 
+  padding:6px;
+  margin-bottom: 1em;
 }
 
-p.greenbox { 
-  color:#000; 
+p.greenbox {
+  color:#000;
   background-color: #dae9ce; /*#f4f8f4; */
   /*border: 1px #aca solid; */
-  padding: 6px; 
+  padding: 6px;
   margin-bottom: 1em;
 }
 
@@ -3257,7 +3257,7 @@ p.code {
   font-family: "Courier New", Courier, monospace;
   font-size: 0.8em;
   padding: 6px;
-  color: #000; 
+  color: #000;
   background: #efece9;
   /*border: 1px #fcc solid;*/
   margin-bottom:1em;
@@ -3295,20 +3295,20 @@ ul.linkliste, ul.linkliste li ul {
   list-style-type:none;
   margin:0;
   }
-  
+
 ul.linkliste li ul {
   border-top:0px #87a1b2 solid;
 }
-  
+
 ul.linkliste li {
   border-bottom:1px #87a1b2 solid;
   margin-bottom:0;
   }
-  
+
 ul.linkliste a {
   display:block;
   }
-  
+
 ul.linkliste a:hover {
   background-color: #dce5eb;
 }
@@ -3320,13 +3320,13 @@ ul.kontakt {
 ul.inlinestyle li{
   display:inline;
   list-style-type:none;
-  
+
 }
 
 table.kontakt td,
 div.vcard {
 
-  
+
   margin: 0 0 0 0;
   padding: 0 0 0.5em 0;
   color: #666;
@@ -3335,7 +3335,7 @@ div.vcard {
 
 div.vcard h2{
   color: #000;
-  
+
 
 }
 
@@ -3379,17 +3379,17 @@ div.vcard_list div.email {width:230px;}
 
 div.tx-ttaddress-pi1 {margin-bottom:1em;}
 
-.anmelden { 
-  color:#000; 
-  background-color:#fee; 
-  
-  padding:6px; 
-  margin-bottom: 1em; 
+.anmelden {
+  color:#000;
+  background-color:#fee;
+
+  padding:6px;
+  margin-bottom: 1em;
 }
 
 input.w90p, textarea.w90p {
   margin-left: 0;
-    
+
 }
 
 
@@ -3408,13 +3408,13 @@ table {
   padding:0;
   margin:0 0.1em 1em 0.1em;
   border-collapse:collapse;
-  
-  
+
+
   /* eingefuegt am 18.4.2008 zur Anpassung der Schriftgroesse in Tabellen an die normale Schriftgroesse */
   font-size:1em;
-  
+
 }
-thead {  
+thead {
   font-size: 1.1em;
   font-weight: bold;
   margin:1.4em 0 0.3em 0;
@@ -3433,7 +3433,7 @@ td, td.td-0, td.td-last, td.td-1, td.td-2, td.td-3, td.td-4, td.td-5, td.td-6, t
   padding:0.2em;
   /*border:1px dotted #c4c0b4;
   border-color:#c4cob4;*/
-  
+
 }
 
 p.alignright, .align-right {
@@ -3492,7 +3492,7 @@ div.csc-textpic a:hover {background-color: transparent;}
 			float: right;
 			text-align: right;
 			}
-			
+
 		#month-header-icons IMG, #month-header-prevnext IMG , #month-footer IMG{
 			border: 0px solid;
 			}
@@ -3501,7 +3501,7 @@ div.csc-textpic a:hover {background-color: transparent;}
 			width: 735px;
 			margin-bottom: 7px;
 			}
-			
+
 		#month-footer-header {
 			text-align: center;
 			}
@@ -3517,9 +3517,9 @@ div.csc-textpic a:hover {background-color: transparent;}
 			width: 22px;
 			font-size: 10px;
 			}
-			
+
 		.month-large {
-			border: 1px solid #A1A5A9;	
+			border: 1px solid #A1A5A9;
 			border-collapse: collapse;
 			}
 
@@ -3582,210 +3582,210 @@ div.csc-textpic a:hover {background-color: transparent;}
 			}
 
 		/* END new classes and  id's */
-		
+
 		.calborder {
 			background-color: #fff;
 			border: 1px solid #A1A5A9;
 			}
-		
+
 		.tbll {
 			background: url(../typo3conf/ext/cal/template/img/shadow_l.gif) no-repeat;
 			width: 8px
 			}
-		
+
 		.tblbot {
 			background: url(../typo3conf/ext/cal/template/img/shadow_m.gif) repeat-x;
 			width: 100%
 			}
-		
+
 		.tblr {
 			background: url(../typo3conf/ext/cal/template/img/shadow_r.gif) no-repeat;
 			width: 8px
 			}
-		
+
 		.rowOn {
 			background-color: #cfc;
 			border-top: 1px solid #fff;
 			border-left: 1px solid #fff;
 			}
-		
+
 		.rowOn2 {
 			background-color: #cfc;
 			border-top: 1px solid #fff;
 			}
-		
+
 		.rowOff {
 			background-color: #E1E8F1;
 			border-top: 1px solid #fff;
 			border-left: 1px solid #fff;
 			}
-		
+
 		.rowOff2 {
 			background-color: #E1E8F1;
 			border-top: 1px solid #fff;
 			}
-		
+
 		.rowToday {
 			background-color: #cff;
 			border-top: 1px solid #fff;
 			border-left: 1px solid #fff;
 			}
-		
+
 		.tx-cal-controller .padd {
 			/*XXXpadding: 2px;*/
 			}
-		
+
 		.eventbg_1 {
 			background-color: #557CA3;
 			padding: 2px;
 			}
-		
+
 		.eventbg_2 {
 			background-color: #53A062;
 			padding: 2px;
 			}
-		
+
 		.eventbg_3 {
 			background-color: #E84F25;
 			padding: 2px;
 			}
-		
+
 		.eventbg_4 {
 			background-color: #B257A2;
 			padding: 2px;
 			}
-		
+
 		.eventbg_5 {
 			background-color: #D42020;
 			padding: 2px;
 			}
-		
+
 		.eventbg_6 {
 			background-color: #B88F0B;
 			padding: 2px;
 			}
-		
+
 		.eventbg_7 {
 			background-color: #73738C;
 			padding: 2px;
 			}
-		
+
 		#allday a {
 			font-size: 9px;
 			color: #fff;
 			font-weight: 900;
 			text-decoration: none;
 			}
-		
+
 		#allday a:hover {
 			text-decoration: underline;
 			}
-		
+
 		.eventbg2_1 {
 			background-color: #6699CC;
 			border: 1px solid #557CA3;
 			}
-		
+
 		.eventbg2_2 {
 			background-color: #4FC464;
 			border: 1px solid #53A062;
 			}
-		
+
 		.eventbg2_3 {
 			background-color: #FF6D3B;
 			border: 1px solid #E84F25;
 			}
-		
+
 		.eventbg2_4 {
 			background-color: #EA62D4;
 			border: 1px solid #B257A2;
 			}
-		
+
 		.eventbg2_5 {
 			background-color: #FF5E56;
 			border: 1px solid #D42020;
 			}
-		
+
 		.eventbg2_6 {
 			background-color: #CCB21F;
 			border: 1px solid #B88F0B;
 			}
-		
+
 		.eventbg2_7 {
 			background-color: #9292A1;
 			border: 1px solid #73738C;
 			}
-		
+
 		.dayborder {
 			background-color: #fff;
 			border-top: 1px solid #A1A5A9;
 			}
-		
+
 		.dayborder2 {
 			background-color: #fff;
 			border-top: 1px dashed #ccc;
 			}
-		
+
 		.tx-cal-controller .title {
 			background-image: url(../typo3conf/ext/cal/template/img/time_bg.gif);
 			padding: 5px;
 			}
-		
+
 		.tx-cal-controller .title h1 {
 			font-family: Helvetica,sans-serif;
 			font-size: 18px;
 			color: #000;
 			margin: 0;
 			}
-		
+
 		.monthback {
 			background-color: #A1A5A9;
 			}
-		
+
 		.monthsmallbasic {
 			text-align: left;
 			vertical-align: top;
 			}
-		
+
 		.monthmediumbasic {
 			height: 20px;
 			width: 20px;
 			text-align: left;
 			vertical-align: top;
 			}
-		
+
 		.monthoff {
 			background-color: #F2F2F2 ! important;
 			}
-		
+
 		.monthtoday {
 			background-color: #F2F9FF ! important;
 			}
-			
+
 		.monthWeekend {
 			background-color: #FFFFEF;
 			}
-			
+
 		.monthselected {
 			border: solid 1px red !important;
 			}
-		
+
 		.montheventtop {
 			background-image: url(../typo3conf/ext/cal/template/img/side_bg.gif);
 			border-top: 1px solid #A1A5A9;
 			}
-		
+
 		.montheventline {
 			border-right: 1px dotted #A1A5A9;
 			}
-		
+
 		.medtitle {
 			background-image: url(../typo3conf/ext/cal/template/img/side_bg.gif);
 			height: 20px;
 			margin-top: 3px;
 			font-weight: 900;
 			}
-		
+
 		.yearreg {
 			background-color: #fff;
 			height: 30px;
@@ -3794,7 +3794,7 @@ div.csc-textpic a:hover {background-color: transparent;}
 			vertical-align: top;
 			font-size: 9px;
 			}
-		
+
 		.yearoff {
 			background-color: #F2F2F2;
 			height: 30px;
@@ -3803,7 +3803,7 @@ div.csc-textpic a:hover {background-color: transparent;}
 			vertical-align: top;
 			font-size: 9px;
 			}
-		
+
 		.yearon {
 			background-color: #F2F9FF;
 			height: 30px;
@@ -3812,11 +3812,11 @@ div.csc-textpic a:hover {background-color: transparent;}
 			vertical-align: top;
 			font-size: 9px;
 			}
-		
+
 		.yearmonth {
 			background-color: #ccc;
 			}
-		
+
 		.yearweek {
 			background-color: #eee;
 			width: 30px;
@@ -3825,127 +3825,127 @@ div.csc-textpic a:hover {background-color: transparent;}
 			text-align: center;
 			height: 15px;
 			}
-		
+
 		.eventborder {
 			background-image: url(../typo3conf/ext/cal/template/img/day_title.gif);
 			border: 1px #006699 solid;
 			}
-		
+
 		.dateback {
 			background-color: #eee;
 			}
-		
+
 		.weekborder {
 			border-top: 1px dashed #A1A5A9;
 			border-right: 1px solid #A1A5A9;
 			}
-		
+
 		.weekborder2 {
 			border-right: 1px solid #A1A5A9;
 			}
-		
+
 		.timeborder {
 			border-right: 2px solid #A1A5A9;
 			border-top: 1px dashed #A1A5A9;
 			background-image: url(../typo3conf/ext/cal/template/img/time_bg.gif);
 			}
-		
+
 		.timeborder2 {
 			border-right: 2px solid #A1A5A9;
 			border-top: 1px solid #A1A5A9;
 			background-image: url(../typo3conf/ext/cal/template/img/time_bg.gif);
 			}
-		
+
 		.tx-cal-controller .navback {
 			background-image: url(../typo3conf/ext/cal/template/img/time_bg.gif);
 			}
-			
+
 		.tx-cal-controller .navback img{
 			border:none;
 			}
-		
+
 		.tx-cal-controller .sideback {
 			background-image: url(../typo3conf/ext/cal/template/img/side_bg.gif);
 			}
-		
+
 		a.psf {
 			text-decoration: none;
 			}
-		
+
 		a.psf:link {
 			color: #0066FF;
 			}
-		
+
 		a.psf:visited {
 			color: #0066FF;
 			}
-		
+
 		a.psf:active {
 			color: #3366CC;
 			}
-		
+
 		a.psf:hover {
 			color: #000099;
 			text-decoration: underline;
 			}
-		
+
 		a.ps2 {
 			text-decoration: underline;
 			}
-		
+
 		a.ps2:link {
 			color: #0066FF;
 			}
-		
+
 		a.ps2:visited {
 			color: #0066FF;
 			}
-		
+
 		a.ps2:active {
 			color: #3366CC;
 			}
-		
+
 		a.ps2:hover {
 			color: #000099;
 			}
-		
+
 		a.ps3 {
 			text-decoration: none;
 			}
-		
+
 		a.ps3:link {
 			color: #000;
 			}
-		
+
 		a.ps3:visited {
 			color: #000;
 			}
-		
+
 		a.ps3:active {
 			color: #000;
 			}
-		
+
 		a.ps3:hover {
 			color: #000;
 			text-decoration: underline;
 			}
-		
+
 		a.ps {
 			text-decoration: none;
 			}
-		
+
 		a.ps:link {
 			color: #fff;
 			}
-		
+
 		a.ps:visited {
 			color: #fff;
 			}
-		
+
 		a.ps:active {
 			color: #fff;
 			}
-		
+
 		a.ps:hover {
 			color: #fff;
 			text-decoration: underline;
@@ -3956,13 +3956,13 @@ div.csc-textpic a:hover {background-color: transparent;}
 			margin-top: 1em;
 			margin-left: 1em;
 		}
-		
+
 		.V9 {
 			text-align:left ! important;
 			font-size: 9px;
 			color: #000000;
 			}
-		
+
 		.V9 ul {
 			margin-bottom: 0px;
 			padding-bottom: 0px;
@@ -3973,96 +3973,96 @@ div.csc-textpic a:hover {background-color: transparent;}
 			margin-bottom: 0px;
 			padding-bottom: 0px;
 			}
-		
+
 		.V10W {
 			font-size: 10px;
 			color: #FFFFFF;
 			text-decoration: none;
 			}
-		
+
 		.V9W {
 			font-size: 9px;
 			color: #FFFFFF;
 			text-decoration: none;
 			}
-		
+
 		.V10WB {
 			font-size: 10px;
 			color: #FFFFFF;
 			font-weight: 900;
 			}
-		
+
 		.V9G {
 			font-size: 9px;
 			color: #666666;
 			}
-		
+
 		.V10 {
 			font-size: 10px;
 			color: #000000;
 			}
-		
+
 		.V9BOLD {
 			font-size: 9px;
 			font-weight: 900;
 			}
-		
+
 		.G10 {
 			font-size: 11px;
 			color: #0066FF;
 			}
-		
+
 		.G10B {
 			font-size: 11px;
 			color: #000000;
 			}
-		
+
 		.G10BOLD {
 			font-size: 11px;
 			font-weight: 900;
 			}
-		
+
 		.G10G {
 			font-size: 11px;
 			color: #A1A5A9;
 			}
-		
+
 		.V12 {
 			font-size: 12px;
 			color: #000000;
 			}
-		
+
 		.tx-cal-controller .eventfont {
 			font-size: 11px;
 			color: #FFFFFF;
 			}
-		
+
 		.tx-cal-controller .query_style {
 			font-size: 11px;
 			width: 156px;
 			margin-bottom: 0;
 			}
-		
+
 		.tx-cal-controller .search_style {
 			font-size: 12px;
 			width: 134px;
 			margin-bottom: 0;
 			}
-		
+
 		.tx-cal-controller .login_style {
 			font-size: 11px;
 			width: 80px;
 			margin-bottom: 0;
 				}
-			
+
 		.tx-cal-controller .bold a:link {
 			font-weight: bold;
 			}
-		
+
 		.tx-cal-controller .bold a:active {
 			font-weight: bold;
 			}
-		
+
 		.tx-cal-controller .bold a:visited {
 			font-weight: bold;
 			}
@@ -4073,316 +4073,316 @@ div.csc-textpic a:hover {background-color: transparent;}
 			}
 
 		/*------------ Category style package: default (blue) - start ------------*/
-		
+
 		/*------------ Category style package: default (blue) - start ------------*/
 		/*
 		.default_categoryheader {
 			background-color:#edece8;
 			}
-		
+
 		.default_categoryheader_bullet {
-			
-			color:#91acbc;		
+
+			color:#91acbc;
 			font-size: 13px;
 			}
-		
+
 		.default_categoryheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.default_categoryheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.default_categoryheader_legend_text {
 			}
-		
+
 		.default_categoryheader_allday {
 			text-align: center;
 			}
-		
+
 		.default_categorybody {
 			background-color:#edece8;
 			border: 0px solid #557CA3;
 			padding:0.1em 0.1em 0.1em 0.1em;
 			color: #fff;
 			}
-		
+
 		.default_categorybody a:link {
 			color: #fff;
 			}
 		*/
-		/*------------ Category style package: default (blue) - end ------------*/	
-		
-		/*------------ Category style package: default (blue) - end ------------*/	
+		/*------------ Category style package: default (blue) - end ------------*/
+
+		/*------------ Category style package: default (blue) - end ------------*/
 		/*------------ Category style package: green - start ------------*/
-		
+
 		.green_catheader, .green_catheader_allday {
 			background-color: #53A062;
 			}
-		
+
 		.green_catheader_bullet {
 			color: #4FC464;
 			font-size: 13px;
 			}
-		
+
 		.green_catheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.green_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.green_catheader_bullet_text {
 			}
-		
+
 		.green_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.green_catbody {
 			background-color: #4FC464;
 			border: 1px solid #53A062;
 			color: #fff;
 			}
-		
+
 		.green_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: green - end ------------*/
 		/*------------ Category style package: orange - start ------------*/
 
 		.orange_catheader, .orange_catheader_allday {
 			background-color: #E84F25;
 			}
-		
+
 		.orange_catheader_bullet {
 			color: #FF6D3B;
 			font-size: 13px;
 			}
-		
+
 		.orange_catheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.orange_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.orange_catheader_bullet_text {
 			}
-		
+
 		.orange_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.orange_catbody {
 			background-color: #FF6D3B;
 			border: 1px solid #E84F25;
 			color: #fff;
 			}
-		
+
 		.orange_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: orange - end ------------*/
 		/*------------ Category style package: pink - start ------------*/
-		
+
 		.pink_catheader, .pink_catheader_allday {
 			background-color: #B257A2;
 			}
-		
+
 		.pink_catheader_bullet {
 			color: #EA62D4;
 			font-size: 13px;
 			}
-		
+
 		.pink_catheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.pink_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.pink_catheader_bullet_text {
 			}
-		
+
 		.pink_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.pink_catbody {
 			background-color: #EA62D4;
 			border: 1px solid #B257A2;
 			color: #fff;
 			}
-		
+
 		.pink_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: pink - end ------------*/
 		/*------------ Category style package: red - start ------------*/
 
 		.red_catheader, .red_catheader_allday {
 			background-color: #D42020;
 			}
-		
+
 		.red_catheader_bullet {
 			color: #FF5E56;
 			font-size: 13px;
 			}
-		
+
 		.red_catheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.red_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.red_catheader_bullet_text {
 			}
-		
+
 		.red_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.red_catbody {
 			background-color: #FF5E56;
 			border: 1px solid #D42020;
 			color: #fff;
 			}
-		
+
 		.red_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: red - end ------------*/
 		/*------------ Category style package: yellow - start ------------*/
 
 		.yellow_catheader, .yellow_catheader_allday {
 			background-color: #B88F0B;
 			}
-		
+
 		.yellow_catheader_bullet {
 			color: #CCB21F;
 			font-size: 13px;
 			}
-		
+
 		.yellow_catheader_text{
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.yellow_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.yellow_catheader_bullet_text {
 
 			}
-		
+
 		.yellow_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.yellow_catbody {
 			background-color: #CCB21F;
 			border: 1px solid #B88F0B;
 			color: #fff;
 			}
-		
+
 		.yellow_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: yellow - end ------------*/
 		/*------------ Category style package: grey - start ------------*/
 
 		.grey_catheader, .grey_catheader_allday {
 			background-color: #73738C;
 			}
-		
+
 		.grey_catheader_bullet {
 			color: #9292A1;
 			font-size: 13px;
 			}
-		
+
 		.grey_catheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			}
-		
+
 		.grey_catheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.grey_catheader_bullet_text {
 			}
-		
+
 		.grey_catheader_allday {
 			text-align: center;
 			}
-		
+
 		.grey_catbody {
 			background-color: #9292A1;
 			border: 1px solid #73738C;
 			color: #fff;
 			}
-		
+
 		.grey_catbody a:link {
 			color: #fff;
 			}
-		
+
 		/*------------ Category style package: grey - end ------------*/
-		
+
 		.tx-cal-controller .bold {
 			/*font-weight: bold;*/
 			}
-		
+
 		.refresh_calendar {
 			margin-right: 5px;
 			}
-		
+
 		/*  Start of moving stuff from the templat into this file */
-		
+
 		.tx-cal-controller .weekview {
 			margin: 0 auto;
 			}
-		
+
 		.tx-cal-controller .weekview .nextweek_arrow, .tx-cal-controller .weekview .previousweek_arrow {
 			width: 16px;
 			height: 20px;
 			border: 0px;
 			text-align: left;
 			}
-		
+
 		.previsousweek_arrow {
 			text-align: right;
 			}
-		
+
 		/*------------- free & busy styles ----------*/
 		.fnb_header {
 			background-color: #444444;
 			}
-		
+
 		.fnb_body {
 			background-color: #888888;
 			border: 1px solid #999999;
@@ -4393,19 +4393,19 @@ div.csc-textpic a:hover {background-color: transparent;}
 		.tx-cal-controller .even {
 			background-color: #eeeeee;
 		}
-		
-		
+
+
 		.tx-cal-controller .treelevel0 {
 		}
-		
+
 		.tx-cal-controller .treelevel1 {
 			margin-left:20px;
 		}
-		
+
 		.tx-cal-controller .treelevel2 {
 			margin-left:30px;
 		}
-	
+
 		.tx-cal-controller label {
 			display:block;
 			float:left;
@@ -4415,55 +4415,55 @@ div.csc-textpic a:hover {background-color: transparent;}
 			vertical-align:top;
 			width:120px;
 		}
-		
+
 		.tx-cal-controller fieldset div {
 			clear:left;
 		}
 		.tx-cal-controller .noborder {
 			border: none;
 		}
-		
+
 		.tx-cal-controller .search-result {
 			list-style: none;
 			margin-left: 0px;
 			padding-left: 0px;
 		}
-		
+
 		.tx-cal-controller .search-result li {
 			padding-bottom: 1em;
 		}
-		
+
 		.tx-cal-controller .search_result li .even {
 			background-color: #EEEEEE;
 		}
-		
+
 		.tx_cal_controller img .mouse_pointer {
 			cursor:pointer;
 		}
-		
+
 		#cal_general,#cal_location,#cal_organizer,#cal_freq,#cal_exception,#cal_files,#cal_notify {
 			height:210px;
 			overflow:auto;
 			padding:8px;
 		}
-		
+
 		.x-form-label-top .x-form-item label {
 			width:70px ! important;
 		}
-		
+
 		.x-form-invalid, textarea.x-form-invalid {
 			background: none ! important;
 		}
-		
+
 		#cal_event_description {
 			margin-top:10px;
 		}
-		
+
 		.admin_link {
 			width:100%;
 			text-align:center;
 		}
-		
+
 		.ics_link {
 			width:100%;
 			text-align:center;
@@ -4490,11 +4490,11 @@ div#calendar-event p.bodytext, div#calendar-event-backlink, div#calendar-event i
 div#calendar-event div dd {
 	/*display:inherit;*/
 	margin-left:-10.1em;
-	
+
 }
 
 div#calendar-event a, div#calendar-event a img, div#calendar-event dd img {
-	
+
 	margin-left:0;
 	padding:0;
 }
@@ -4502,8 +4502,8 @@ div#calendar-event a, div#calendar-event a img, div#calendar-event dd img {
 #col3_content div.tx-cal-controller {
 	margin-top:0;
 	padding:0;
-	
-	
+
+
 }
 
 
@@ -4515,7 +4515,7 @@ div.tx-cal-controller dl {
 	margin:0;
 	padding:0;
 	font-size:0.9em;
-	
+
 }
 
 div.tx-cal-controller, div.tx-cal-controller dt {
@@ -4533,7 +4533,7 @@ div.tx-cal-controller dt a {
 	padding-left:0.6em;
 	padding-bottom:0.6em;
 	}
-		
+
 .tx-cal-controller dt label {text-align:left;width:auto; padding-right:0.2em;display:inline;}
 
 
@@ -4546,7 +4546,7 @@ div.tx-cal-controller dt a {
 	padding-left:0.5em;*/
 	margin-top:1em;
 	font-size:1.1em;
-	font-weight: bold; 
+	font-weight: bold;
 	line-height:1.7em;
 	padding:0.4em;
 	padding-left:2.3em;
@@ -4555,8 +4555,8 @@ div.tx-cal-controller dt a {
 	background-position:0.5em 0.4em;
 	background-repeat: no-repeat;
 	border-bottom: 1px #c4c0b4 solid;
-	
-	
+
+
 }
 
 
@@ -4590,57 +4590,57 @@ div#calendar-event {
 
 
 /*------------ Category style package: default (blue) - start ------------*/
-		
+
 		.default_categoryheader {
 			background-color:#c4c0b4;/*#dce5eb;*/
 			padding:0.1em 0.4em 0.1em 0.4em;
 			}
-		
+
 		.default_categoryheader_bullet {
 			/*color: #557CA3;*/
-			color:#91acbc;		
+			color:#91acbc;
 			font-size: 13px;
 			}
-		
+
 		.default_categoryheader_text {
 			color: #000000;
 			font-size: 11px;
 			margin-left: 3px;
 			padding:0.1em 0.4em 0.1em 0.4em;
 			}
-		
+
 		.default_categoryheader_legend_bullet {
 			margin-left: 3px;
 			}
-		
+
 		.default_categoryheader_legend_text {
 			}
-		
+
 		.default_categoryheader_allday {
 			text-align: center;
 			}
-		
+
 		.default_categorybody {
 			background-color:#123456; /*#dce5eb;*/
 			border: 0px solid #557CA3;
 			color: #fff;
 			}
-		
+
 		.default_categorybody a:link {
 			color: #fff;
 			}
-		
-		/*------------ Category style package: default (blue) - end ------------*/	
-		
+
+		/*------------ Category style package: default (blue) - end ------------*/
+
 .V9G {}
 
 /* ######################################################################################################
 ** # "Yet Another Multicolum Layout" (c) by Dirk Jesse (http://www.yaml.de) #############################
 ** # "YAML for TYPO3" (c) by Dieter Bunkerd (http://yaml.t3net.de) ######################################
 ** ######################################################################################################
-** 
+**
 **  YAML Version: 2.5.2
-**  Dateiversion: 6.11.06  
+**  Dateiversion: 6.11.06
 **  Datei       : print_003.css
 **  Funktion    : Druck-Stylesheet - druckt die Spalte #col3
 **
@@ -4666,7 +4666,7 @@ h1,h2,h3 { page-break-after:avoid; }
 abbr[title]:after, acronym[title]:after { content: '(' attr(title) ')'; }
 
 /* Sichtbare Auszeichnung der URLs von Links */
-#col3 a[href^="http:"], #col3 a[href^="https:"], 
+#col3 a[href^="http:"], #col3 a[href^="https:"],
 #col1 p a[href^="http:"], #col1 p a[href^="https:"],
 #col2 p a[href^="http:"], #col2 p a[href^="https:"]
 {
@@ -4717,25 +4717,25 @@ div.block1, div.block2, div.block3 {display:none;}
 
 #header h1 {color: #91acbc; }
 
-#thema { 
+#thema {
 	background-color: #91acbc;
 	background-image: url(../../img/layout/balkenhg_uni.gif);
 	background-repeat: repeat;
-	color: #000; 
+	color: #000;
 }
 
 #col1_content h3, .mainMenu h1 {
-	
-	color: #fff; 
+
+	color: #fff;
 	background-color: #91acbc;
 	border-bottom: 5px #fff solid;
 }
 
-#col1_content h3 a:link, 
+#col1_content h3 a:link,
 .mainMenu h1 a:link {color:#fff; background-color: #91acbc;text-decoration:none;}
-#col1_content h3 a:hover, 
+#col1_content h3 a:hover,
 .mainMenu h1 a:hover {color:#fff; background-color: #91acbc;text-decoration:none;}
-#col1_content h3 a:visited, 
+#col1_content h3 a:visited,
 .mainMenu h1 a:visited {color:#fff; background-color: #91acbc; text-decoration:none;}
 
 
@@ -4759,21 +4759,21 @@ div.block1, div.block2, div.block3 {display:none;}
 .mainMenu ul li ul li ul {border-top: 0px #bbccd8 solid; border-bottom: 0px #bbccd8 solid;}
 
 
-.mainMenu ul li a, 
+.mainMenu ul li a,
 .mainMenu ul li#subcurrent ul li a,
 .mainMenu ul li ul li a,
 .mainMenu ul li ul li#subcurrent ul li a{background-color:#fff; color: #000; border-bottom: 1px #bbccd8 solid; }
 
 .mainMenu ul li ul li ul li a,
-.mainMenu ul li ul li ul li#subcurrent ul li a, 
+.mainMenu ul li ul li ul li#subcurrent ul li a,
 .mainMenu ul li ul li ul li ul li a,
 .mainMenu ul li u li ul li ul li#subcurrent ul li a {background-color:#fff; color: #000; border-bottom: 1px #bbccd8 solid;}
 
-.mainMenu ul li a:hover, 
+.mainMenu ul li a:hover,
 .mainMenu ul li ul li a:hover,
-.mainMenu ul li#subcurrent ul li a:Hover, 
+.mainMenu ul li#subcurrent ul li a:Hover,
 .mainMenu ul li ul li ul li a:hover,
-.mainMenu ul li ul li#subcurrent ul li a:hover, 
+.mainMenu ul li ul li#subcurrent ul li a:hover,
 .mainMenu ul li ul li ul li ul li a:hover,
 .mainMenu ul li ul li ul li#subcurrent ul li a:hover {background-color:#dce5eb; color:#000;}
 
@@ -4795,14 +4795,14 @@ ul.linkliste {
 
 	}
 
-	
+
 
 ul.linkliste li {
 
 	border-bottom:1px #87a1b2 dotted;
 
 	}
-	
+
 
 ul.linkliste li a:hover { background-color:#dce5eb; }
 
@@ -4812,11 +4812,11 @@ ul.linkliste li a:hover { background-color:#dce5eb; }
 
 #header h1 {color: #91acbc; }
 
-#thema { 
+#thema {
 	background: #b10135;
 	background-image: url(../../img/layout/balkenhg_ing.gif);
 	background-repeat: repeat;
-	color: #000; 
+	color: #000;
 }
 
 ul.linkliste {
@@ -4827,7 +4827,7 @@ ul.linkliste {
 
 	}
 
-	
+
 
 ul.linkliste li {
 
@@ -4843,8 +4843,8 @@ ul.linkliste li {
 */
 
 #col1_content h3, .mainMenu h1 {
-	
-	color: #fff; 
+
+	color: #fff;
 	background-color: #b10135;
 	border-bottom: 5px #fff solid;
 }
@@ -4872,15 +4872,15 @@ ul.linkliste li {
 .mainMenu ul li ul li#subcurrent ul li a {background-color:#fff; color: #000; border-bottom: 1px #cf7473 solid;}
 
 .mainMenu ul li ul li ul li a,
-.mainMenu ul li ul li ul li#subcurrent ul li a, 
+.mainMenu ul li ul li ul li#subcurrent ul li a,
 .mainMenu ul li ul li ul li ul li a,
 .mainMenu ul li ul li ul li ul li#subcurrent ul li a {background-color:#fff; color: #000; border-bottom: 1px #cf7473 solid;}
 
 .mainMenu ul li a:hover,
-.mainMenu ul li#subcurrent ul li a:hover, 
+.mainMenu ul li#subcurrent ul li a:hover,
 .mainMenu ul li ul li a:hover,
-.mainMenu ul li ul li#subcurrent ul li a:hover, 
-.mainMenu ul li ul li ul li a:hover, 
+.mainMenu ul li ul li#subcurrent ul li a:hover,
+.mainMenu ul li ul li ul li a:hover,
 .mainMenu ul li ul li ul li ul li a:hover,
 .mainMenu ul li ul li ul li#subcurrent ul li a:hover {background-color:#f7e8e5; color:#000;}
 
@@ -4917,19 +4917,19 @@ h1.fakultaetsheader {
 
 /* Component containers
 ----------------------------------*/
-#widget-docs.ui-widget, 
+#widget-docs.ui-widget,
 #demo-dialog.ui-widget { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: 1em; }
 
-#widget-docs.ui-widget input, 
-#widget-docs.ui-widget select, 
-#widget-docs.ui-widget textarea, 
+#widget-docs.ui-widget input,
+#widget-docs.ui-widget select,
+#widget-docs.ui-widget textarea,
 #widget-docs.ui-widget button,
-#demo-dialog.ui-widget input, 
-#demo-dialog.ui-widget select, 
-#demo-dialog.ui-widget textarea, 
+#demo-dialog.ui-widget input,
+#demo-dialog.ui-widget select,
+#demo-dialog.ui-widget textarea,
 #demo-dialog.ui-widget button { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: 1em; }
 
-#widget-docs .ui-widget-header, 
+#widget-docs .ui-widget-header,
 #demo-dialog .ui-widget-header { border: 1px solid #ffffff; background: #464646 url(images/464646_40x100_textures_01_flat_100.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
 
 #widget-docs .ui-widget-header a,
@@ -4944,29 +4944,29 @@ h1.fakultaetsheader {
 
 /* Interaction states
 ----------------------------------*/
-#widget-docs .ui-state-default, 
+#widget-docs .ui-state-default,
 #widget-docs .ui-widget-content .ui-state-default,
-#demo-dialog .ui-state-default, 
+#demo-dialog .ui-state-default,
 #demo-dialog .ui-widget-content .ui-state-default { border: 1px solid #666666; background: #555555 url(images/555555_40x100_textures_03_highlight_soft_75.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; outline: none; }
 
-#widget-docs .ui-state-default a, 
+#widget-docs .ui-state-default a,
 #demo-dialog .ui-state-default a { color: #ffffff; text-decoration: none; outline: none; }
 
-#widget-docs .ui-state-hover, 
-#widget-docs .ui-widget-content .ui-state-hover, 
-#widget-docs .ui-state-focus, 
+#widget-docs .ui-state-hover,
+#widget-docs .ui-widget-content .ui-state-hover,
+#widget-docs .ui-state-focus,
 #widget-docs .ui-widget-content .ui-state-focus,
-#demo-dialog .ui-state-hover, 
-#demo-dialog .ui-widget-content .ui-state-hover, 
-#demo-dialog .ui-state-focus, 
+#demo-dialog .ui-state-hover,
+#demo-dialog .ui-widget-content .ui-state-hover,
+#demo-dialog .ui-state-focus,
 #demo-dialog .ui-widget-content .ui-state-focus { border: 1px solid #666666; background: #444444 url(images/444444_40x100_textures_03_highlight_soft_60.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; outline: none; }
 
 #widget-docs .ui-state-hover a,
 #demo-dialog .ui-state-hover a { color: #ffffff; text-decoration: none; outline: none; }
 
-#widget-docs .ui-state-active, 
+#widget-docs .ui-state-active,
 #widget-docs .ui-widget-content .ui-state-active,
-#demo-dialog .ui-state-active, 
+#demo-dialog .ui-state-active,
 #demo-dialog .ui-widget-content .ui-state-active { border: 1px solid #666666; background: #ffffff url(images/ffffff_40x100_textures_01_flat_65.png) 50% 50% repeat-x; font-weight: normal; color: #F6921E; outline: none; }
 
 #widget-docs .ui-state-active a,
@@ -4975,34 +4975,34 @@ h1.fakultaetsheader {
 
 /* Interaction Cues
 ----------------------------------*/
-#widget-docs .ui-state-highlight, 
+#widget-docs .ui-state-highlight,
 #widget-docs .ui-widget-content .ui-state-highlight,
-#demo-dialog .ui-state-highlight, 
+#demo-dialog .ui-state-highlight,
 #demo-dialog .ui-widget-content .ui-state-highlight {border: 1px solid #fcefa1; background: #fbf9ee url(images/fbf9ee_40x100_textures_02_glass_55.png) 50% 50% repeat-x; color: #363636; }
 
-#widget-docs .ui-state-error, 
-#widget-docs .ui-widget-content .ui-state-error, 
-#demo-dialog .ui-state-error, 
+#widget-docs .ui-state-error,
+#widget-docs .ui-widget-content .ui-state-error,
+#demo-dialog .ui-state-error,
 #demo-dialog .ui-widget-content .ui-state-error {border: 1px solid #cd0a0a; background: #fef1ec url(images/fef1ec_40x100_textures_05_inset_soft_95.png) 50% bottom repeat-x; color: #cd0a0a; }
 
-#widget-docs .ui-state-error-text, 
+#widget-docs .ui-state-error-text,
 #widget-docs .ui-widget-content .ui-state-error-text,
-#demo-dialog .ui-state-error-text, 
+#demo-dialog .ui-state-error-text,
 #demo-dialog .ui-widget-content .ui-state-error-text { color: #cd0a0a; }
 
-#widget-docs .ui-state-disabled, 
+#widget-docs .ui-state-disabled,
 #widget-docs .ui-widget-content .ui-state-disabled,
-#demo-dialog .ui-state-disabled, 
+#demo-dialog .ui-state-disabled,
 #demo-dialog .ui-widget-content .ui-state-disabled { opacity: .35; filter:Alpha(Opacity=35); background-image: none; }
 
-#widget-docs .ui-priority-primary, 
+#widget-docs .ui-priority-primary,
 #widget-docs .ui-widget-content .ui-priority-primary,
-#demo-dialog .ui-priority-primary, 
+#demo-dialog .ui-priority-primary,
 #demo-dialog .ui-widget-content .ui-priority-primary { font-weight: bold; }
 
-#widget-docs .ui-priority-secondary, 
+#widget-docs .ui-priority-secondary,
 #widget-docs .ui-widget-content .ui-priority-secondary,
-#demo-dialog .ui-priority-secondary, 
+#demo-dialog .ui-priority-secondary,
 #demo-dialog .ui-widget-content .ui-priority-secondary { opacity: .7; filter:Alpha(Opacity=70); font-weight: normal; }
 
 
@@ -5010,11 +5010,11 @@ h1.fakultaetsheader {
 ----------------------------------*/
 
 /* states and images */
-#demo-frame-wrapper .ui-icon, 
+#demo-frame-wrapper .ui-icon,
 #widget-docs .ui-icon,
 #demo-dialog .ui-icon { width: 16px; height: 16px; background-image: url(images/222222_256x240_icons_icons.png); }
 
-#widget-docs .ui-widget-content .ui-icon, 
+#widget-docs .ui-widget-content .ui-icon,
 #demo-dialog .ui-widget-content .ui-icon {background-image: url(images/222222_256x240_icons_icons.png); }
 
 #widget-docs .ui-widget-header .ui-icon {background-image: url(images/222222_256x240_icons_icons.png); }
@@ -5023,12 +5023,12 @@ h1.fakultaetsheader {
 #widget-docs .ui-state-default .ui-icon,
 #demo-dialog .ui-state-default .ui-icon { background-image: url(images/888888_256x240_icons_icons.png); }
 
-#widget-docs .ui-state-hover .ui-icon, 
+#widget-docs .ui-state-hover .ui-icon,
 #widget-docs .ui-state-focus .ui-icon,
-#demo-dialog .ui-state-hover .ui-icon, 
+#demo-dialog .ui-state-hover .ui-icon,
 #demo-dialog .ui-state-focus .ui-icon {background-image: url(images/454545_256x240_icons_icons.png); }
 
-#demo-dialog .ui-widget-header .ui-state-hover .ui-icon, 
+#demo-dialog .ui-widget-header .ui-state-hover .ui-icon,
 #demo-dialog .ui-widget-header .ui-state-focus .ui-icon {background-image: url(images/ui-icons_aaaaaa_256x240.png); }
 
 #widget-docs .ui-state-active .ui-icon,
@@ -5037,9 +5037,9 @@ h1.fakultaetsheader {
 #widget-docs .ui-state-highlight .ui-icon,
 #demo-dialog .ui-state-highlight .ui-icon {background-image: url(images/2e83ff_256x240_icons_icons.png); }
 
-#widget-docs .ui-state-error .ui-icon, 
+#widget-docs .ui-state-error .ui-icon,
 #widget-docs .ui-state-error-text .ui-icon,
-#demo-dialog .ui-state-error .ui-icon, 
+#demo-dialog .ui-state-error .ui-icon,
 #demo-dialog .ui-state-error-text .ui-icon {background-image: url(images/cd0a0a_256x240_icons_icons.png); }
 
 
@@ -5127,7 +5127,7 @@ h1.fakultaetsheader {
 .ui-accordion .ui-accordion-content { padding: 1em 2.2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; zoom: 1; }
 .ui-accordion .ui-accordion-content-active { display: block; }
 
-.ui-autocomplete { position: absolute; cursor: default; }	
+.ui-autocomplete { position: absolute; cursor: default; }
 
 /* workarounds */
 * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
@@ -5175,8 +5175,8 @@ h1.fakultaetsheader {
 .ui-button { display: inline-block; position: relative; padding: 0; margin-right: .1em; text-decoration: none !important; cursor: pointer; text-align: center; zoom: 1; overflow: visible; } /* the overflow property removes extra width in IE */
 .ui-button-icon-only { width: 2.2em; } /* to make room for the icon, a width needs to be set here */
 button.ui-button-icon-only { width: 2.4em; } /* button elements seem to need a little more width */
-.ui-button-icons-only { width: 3.4em; } 
-button.ui-button-icons-only { width: 3.7em; } 
+.ui-button-icons-only { width: 3.4em; }
+button.ui-button-icons-only { width: 3.7em; }
 
 /*button text element */
 .ui-button .ui-button-text { display: block; line-height: 1.4;  }
@@ -5214,7 +5214,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; }
 .ui-datepicker .ui-datepicker-title select { font-size:1em; margin:1px 0; }
 .ui-datepicker select.ui-datepicker-month-year {width: 100%;}
-.ui-datepicker select.ui-datepicker-month, 
+.ui-datepicker select.ui-datepicker-month,
 .ui-datepicker select.ui-datepicker-year { width: 49%;}
 .ui-datepicker table {width: 100%; font-size: .9em; border-collapse: collapse; margin:0 0 .4em; }
 .ui-datepicker th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0;  }
@@ -5263,7 +5263,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 }
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
 .ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative;  }
-.ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; } 
+.ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
 .ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
