@@ -86,7 +86,6 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	public static final String CREATE_GRAPH_FUNC_NAME = "createGraph";
 	public static final String NEW_EDGE_TERM_NAME = "NewEdgeTerm";
 	public static final String ADD_VERTEX_GR_NAME = "AddGraphVertexRule";
-	public static final String ADD_EDGE_GR_NAME = "AddGraphEdgeRule";
 	public static final String SHOW_GRAPH_RULE_NAME = "ShowGraphRule";
 
 	public static final String SHOW_GRAPH_KW_NAME = "showgraph";
@@ -291,12 +290,9 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 			KernelServices kernel = (KernelServices)capi.getPlugin("Kernel").getPluginInterface();
 
-			//Parser<Node> ruleParser = kernel.getRuleParser();
 			Parser<Node> termParser = kernel.getTermParser();
-			//Parser<Node> guardParser = kernel.getGuardParser();
 
 			ParserTools pTools = ParserTools.getInstance(capi);
-			//Parser<Node> idParser = pTools.getIdParser();
 
 			// NewEdgeTerm : 'newedge' Term
 			Parser<Node> newEdgeParser = Parsers.array(
