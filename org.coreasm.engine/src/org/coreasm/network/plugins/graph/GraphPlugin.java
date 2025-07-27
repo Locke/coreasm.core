@@ -162,7 +162,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 				}
 
 				@Override
-				public String getResultBackgroun() {
+				public String getResultBackground() {
 					return SetBackgroundElement.SET_BACKGROUND_NAME;
 				}
 			});
@@ -176,7 +176,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 				}
 
 				@Override
-				public String getResultBackgroun() {
+				public String getResultBackground() {
 					return SetBackgroundElement.SET_BACKGROUND_NAME;
 				}
 			});
@@ -190,7 +190,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 				}
 
 				@Override
-				public String getResultBackgroun() {
+				public String getResultBackground() {
 					return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
 				}
 			});
@@ -204,7 +204,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 				}
 
 				@Override
-				public String getResultBackgroun() {
+				public String getResultBackground() {
 					return ElementBackgroundElement.ELEMENT_BACKGROUND_NAME;
 				}
 			});
