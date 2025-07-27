@@ -533,12 +533,6 @@
 			<!-- engine dependencies -->
 
 			<dependency>
-				<groupId>jgraph</groupId>
-				<artifactId>jgraph</artifactId>
-				<version>5.13.0.0</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.jgrapht</groupId>
 				<artifactId>jgrapht-core</artifactId>
 				<version>1.1.0</version>

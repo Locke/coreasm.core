@@ -12,43 +12,23 @@
  */
 package org.coreasm.network.plugins.graph;
 
-import java.awt.Dimension;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import com.jgraph.layout.JGraphFacade;
-import com.jgraph.layout.JGraphLayout;
-import com.jgraph.layout.graph.JGraphSimpleLayout;
-
-import org.jgraph.JGraph;
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.Graph;
-import org.jgrapht.ListenableGraph;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
 
-import org.coreasm.engine.CoreASMEngine;
-import org.coreasm.engine.CoreASMEngine.EngineMode;
-import org.coreasm.engine.EngineException;
 import org.coreasm.engine.VersionInfo;
 import org.coreasm.engine.absstorage.BackgroundElement;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementBackgroundElement;
 import org.coreasm.engine.absstorage.Enumerable;
 import org.coreasm.engine.absstorage.FunctionElement;
-import org.coreasm.engine.absstorage.Location;
 import org.coreasm.engine.absstorage.RuleElement;
 import org.coreasm.engine.absstorage.UniverseElement;
-import org.coreasm.engine.absstorage.UpdateMultiset;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
 import org.coreasm.engine.interpreter.InterpreterException;
@@ -56,7 +36,6 @@ import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.kernel.KernelServices;
 import org.coreasm.engine.parser.GrammarRule;
 import org.coreasm.engine.parser.ParserTools;
-import org.coreasm.engine.plugin.ExtensionPointPlugin;
 import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
@@ -72,7 +51,7 @@ import org.coreasm.util.Logger;
  * @author Roozbeh Farahbod
  *
  */
-public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlugin, InterpreterPlugin, ExtensionPointPlugin {
+public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlugin, InterpreterPlugin {
 
 	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 1, 1, "alpha");
 
@@ -86,13 +65,11 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	public static final String CREATE_GRAPH_FUNC_NAME = "createGraph";
 	public static final String NEW_EDGE_TERM_NAME = "NewEdgeTerm";
 	public static final String ADD_VERTEX_GR_NAME = "AddGraphVertexRule";
-	public static final String SHOW_GRAPH_RULE_NAME = "ShowGraphRule";
 
-	public static final String SHOW_GRAPH_KW_NAME = "showgraph";
 	public static final String NEW_EDGE_KW_NAME = "newedge";
 
 
-	private final String[] keywords = {NEW_EDGE_KW_NAME, SHOW_GRAPH_KW_NAME, "at"};
+	private final String[] keywords = {NEW_EDGE_KW_NAME};
 	private final String[] operators = {};
 
 	private Map<String, FunctionElement> functions = null;
@@ -100,9 +77,6 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	private Map<String, GrammarRule> parsers;
 
 	private HashSet<String> dependencies;
-	private HashMap<Location, VizData> graphViewers;
-
-	private Map<EngineMode, Integer> targetModes = null;
 
 	@Override
 	public Set<String> getDependencyNames() {
@@ -119,7 +93,6 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 	@Override
 	public void initialize() throws InitializationFailedException {
-		graphViewers = new HashMap<Location, VizData>();
 	}
 
 	@Override
@@ -310,26 +283,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 
 					});
 
-			// ShowGraphRule : 'showgraph' Term
-			Parser<Node> showGraphParser = Parsers.array(
-					new Parser[] {
-					pTools.getKeywParser(SHOW_GRAPH_KW_NAME, PLUGIN_NAME),
-					pTools.getKeywParser("at", PLUGIN_NAME).optional(null),
-					termParser}).map(
-					new ParserTools.ArrayParseMap(PLUGIN_NAME) {
-
-						@Override
-						public Node apply(Object[] nodes) {
-							ShowGraphNode node = new ShowGraphNode(((Node)nodes[0]).getScannerInfo());
-							addChildren(node, nodes);
-							return node;
-						}
-
-					});
-
 			parsers.put("BasicTerm", new GrammarRule(NEW_EDGE_TERM_NAME, "'" + NEW_EDGE_KW_NAME + "' Term", newEdgeParser, PLUGIN_NAME));
-
-			parsers.put("Rule", new GrammarRule(SHOW_GRAPH_RULE_NAME, "'" + SHOW_GRAPH_KW_NAME + "' Term", showGraphParser, PLUGIN_NAME));
 
 		}
 
@@ -361,149 +315,6 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			Logger.log(Logger.ERROR, Logger.plugins, msg);
 		}
 
-		// showgraph
-		if (pos instanceof ShowGraphNode) {
-			ShowGraphNode sgn = (ShowGraphNode)pos;
-			if (!sgn.getGraphNode().isEvaluated())
-				return sgn.getGraphNode();
-
-			Element g = sgn.getGraphNode().getValue();
-			if (g != null && g instanceof GraphElement) {
-				if (sgn.isLocationValue()) {
-					Location loc = sgn.getGraphNode().getLocation();
-					if (loc == null) {
-						String msg = "'" + SHOW_GRAPH_KW_NAME + " at' requires a location.";
-						capi.error(msg, pos, interpreter);
-						Logger.log(Logger.ERROR, Logger.plugins, msg);
-						return pos;
-					} else
-						showGraph((GraphElement)g, true, loc);
-				} else
-					showGraph((GraphElement)g, false, null);
-				pos.setNode(null, new UpdateMultiset(), null);
-				return pos;
-			}
-
-			// if we are here, the term did not evaluate to a graph element
-			String msg = "'" + SHOW_GRAPH_KW_NAME + "' must be followed by a graph value.";
-			capi.error(msg, pos, interpreter);
-			Logger.log(Logger.ERROR, Logger.plugins, msg);
-		}
-
 		return pos;
-	}
-
-	protected void showGraph(GraphElement ge, boolean persistent, Location loc) {
-		JGraph jgraph = createJGraph(ge);
-
-		JPanel panel = new JPanel();
-		panel.add(jgraph);
-
-		JFrame frame = new JFrame("Graph Viewer");
-		frame.getContentPane().add( panel );
-		frame.setSize( new Dimension(800, 600));
-		frame.setVisible(true);
-
-		if (persistent)
-			graphViewers.put(loc, new VizData(frame, panel, jgraph, ge));
-	}
-
-	/**
-	 * Creates a JGraph component based on the given graph element.
-	 *
-	 * @param ge an instance of {@link GraphElement}
-	 * @return a {@link JGraph} view of <code>ge</code>
-	 */
-	public JGraph createJGraph(GraphElement ge) {
-		Graph<Element, Element> g = ge.getGraph();
-		DirectedGraph<Element, Element> dg = new DefaultDirectedGraph<Element, Element>(EdgeElement.class);
-
-		for (Element v: g.vertexSet())
-			dg.addVertex(v);
-		for (Element e: g.edgeSet())
-			dg.addEdge(((EdgeElement)e).source, ((EdgeElement)e).target, e);
-
-		ListenableGraph<Element, Element> lg = new ListenableDirectedGraph<Element, Element>(dg);
-
-		// create a visualization using JGraph, via an adapter
-		JGraphModelAdapter<Element, Element> m_jgAdapter = new JGraphModelAdapter<Element, Element>(lg);
-
-		JGraph jgraph = new JGraph( m_jgAdapter );
-		jgraph.validate();
-
-		JGraphFacade facade = new JGraphFacade(jgraph); // Pass the facade the JGraph instance
-		facade.setDirected(ge.isDirected());
-
-		//JGraphLayout layout = new JGraphFastOrganicLayout(); // Create an instance of the appropriate layout
-		JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);
-
-		layout.run(facade); // Run the layout on the facade. Note that layouts do not implement the Runnable interface, to avoid confusion
-		Map<?,?> nested = facade.createNestedMap(true, true); // Obtain a map of the resulting attribute changes from the facade
-
-		jgraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
-
-		return jgraph;
-	}
-
-	@Override
-	public void fireOnModeTransition(EngineMode source, EngineMode target)
-			throws EngineException {
-		if (target.equals(CoreASMEngine.EngineMode.emStepSucceeded)) {
-
-			// update all the views that are monitoring a graph location
-			for (Location loc: graphViewers.keySet()) {
-				Element newValue = capi.getStorage().getValue(loc);
-				VizData data = graphViewers.get(loc);
-				// if the new value is changed and it is not null
-				if (newValue != null && !newValue.equals(data.value)) {
-
-					// if the new value is a graph
-					if (newValue instanceof GraphElement) {
-						data.value = newValue;
-						data.panel.setEnabled(true);
-						data.panel.removeAll();
-						data.panel.add(createJGraph((GraphElement)data.value));
-						data.frame.getContentPane().invalidate();
-						data.frame.getContentPane().repaint();
-						data.frame.setVisible(true);
-					} else {
-						data.panel.setEnabled(false);
-						data.value = newValue;
-					}
-					graphViewers.put(loc, data);
-				}
-			}
-		}
-	}
-
-	@Override
-	public Map<EngineMode, Integer> getSourceModes() {
-		return Collections.emptyMap();
-	}
-
-	@Override
-	public Map<EngineMode, Integer> getTargetModes() {
-		if (targetModes  == null) {
-			targetModes = new HashMap<EngineMode, Integer>();
-			targetModes.put(CoreASMEngine.EngineMode.emStepSucceeded, ExtensionPointPlugin.DEFAULT_PRIORITY);
-		}
-		return targetModes;
-	}
-
-	/**
-	 * A structure to hold viewer data
-	 */
-	protected static class VizData {
-		JPanel panel;
-		JFrame frame;
-		JGraph graph;
-		Element value;
-
-		public VizData(JFrame frame, JPanel panel, JGraph graph, Element value) {
-			this.panel = panel;
-			this.graph = graph;
-			this.value = value;
-			this.frame = frame;
-		}
 	}
 }
