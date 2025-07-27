@@ -12,10 +12,7 @@
  */
 package org.coreasm.network.plugins.graph;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.graph.AsUndirectedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 import org.coreasm.engine.absstorage.Element;
@@ -28,7 +25,7 @@ import org.coreasm.engine.absstorage.Element;
  */
 public class DirectedGraphElement extends GraphElement {
 
-	protected final DirectedGraph<Element, Element> graph;
+	protected final Graph<Element, Element> graph;
 
 	/**
 	 * Creates a new directed graph.
@@ -42,7 +39,7 @@ public class DirectedGraphElement extends GraphElement {
 	/**
 	 * Creates a new graph element based on the given graph.
 	 */
-	protected DirectedGraphElement(DirectedGraph<Element, Element> graph) {
+	protected DirectedGraphElement(Graph<Element, Element> graph) {
 		this.graph = graph;
 	}
 
@@ -52,13 +49,7 @@ public class DirectedGraphElement extends GraphElement {
 	}
 
 	@Override
-	public DirectedGraph<Element, Element> getDirectedGraph() {
-		return graph;
+	public boolean isDirected() {
+		return true;
 	}
-
-	@Override
-	public UndirectedGraph<Element, Element> getUndirectedGraph() {
-		return new AsUndirectedGraph<Element, Element>(graph);
-	}
-
 }
