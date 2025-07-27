@@ -31,12 +31,10 @@ import org.coreasm.engine.absstorage.RuleElement;
 import org.coreasm.engine.absstorage.UniverseElement;
 import org.coreasm.engine.interpreter.ASTNode;
 import org.coreasm.engine.interpreter.Interpreter;
-import org.coreasm.engine.interpreter.InterpreterException;
 import org.coreasm.engine.interpreter.Node;
 import org.coreasm.engine.kernel.KernelServices;
 import org.coreasm.engine.parser.GrammarRule;
 import org.coreasm.engine.parser.ParserTools;
-import org.coreasm.engine.plugin.InitializationFailedException;
 import org.coreasm.engine.plugin.InterpreterPlugin;
 import org.coreasm.engine.plugin.ParserPlugin;
 import org.coreasm.engine.plugin.Plugin;
@@ -92,7 +90,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	public GraphPlugin() {}
 
 	@Override
-	public void initialize() throws InitializationFailedException {
+	public void initialize() {
 	}
 
 	@Override
@@ -291,8 +289,7 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 	}
 
 	@Override
-	public ASTNode interpret(Interpreter interpreter, ASTNode pos)
-			throws InterpreterException {
+	public ASTNode interpret(Interpreter interpreter, ASTNode pos) {
 
 		// newedge
 		if (pos instanceof NewEdgeNode) {
