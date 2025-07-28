@@ -15,7 +15,7 @@ package org.coreasm.network.plugins.graph;
 import java.util.HashMap;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 
 import org.coreasm.engine.absstorage.Element;
 
