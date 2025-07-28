@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
 
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.ElementBackgroundElement;
@@ -101,7 +100,7 @@ public class ToGraphFunctionElement extends FunctionElement {
 			}
 		}
 		if (pass) {
-			Graph<Element, Element> g = new DefaultDirectedGraph<>(new EdgeElement.DefaultEdgeFactory());
+			Graph<Element, Element> g = GraphPlugin.createDefaultGraph();
 			for (Element v: vset)
 				g.addVertex(v);
 			for (EdgeElement e: edges)

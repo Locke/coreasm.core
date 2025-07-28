@@ -13,7 +13,6 @@
 package org.coreasm.network.plugins.graph;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
 
 import org.coreasm.engine.absstorage.Element;
 
@@ -28,19 +27,17 @@ public class DirectedGraphElement extends GraphElement {
 	protected final Graph<Element, Element> graph;
 
 	/**
-	 * Creates a new directed graph.
-	 *
-	 * @see DefaultDirectedGraph
-	 */
-	public DirectedGraphElement() {
-		graph = new DefaultDirectedGraph<Element, Element>(new EdgeElement.DefaultEdgeFactory());
-	}
-
-	/**
 	 * Creates a new graph element based on the given graph.
 	 */
 	protected DirectedGraphElement(Graph<Element, Element> graph) {
 		this.graph = graph;
+	}
+
+	/**
+	 * Creates a new directed graph.
+	 */
+	public DirectedGraphElement() {
+		this(GraphPlugin.createDefaultGraph());
 	}
 
 	@Override

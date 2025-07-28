@@ -14,7 +14,6 @@ package org.coreasm.network.plugins.graph;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.AsUndirectedGraph;
-import org.jgrapht.graph.DefaultDirectedGraph;
 
 import org.coreasm.engine.absstorage.Element;
 
@@ -39,12 +38,9 @@ public class UndirectedGraphElement extends GraphElement {
 
 	/**
 	 * Creates a new undirected graph.
-	 *
-	 * @see DefaultDirectedGraph
-	 * @see AsUndirectedGraph
 	 */
 	public UndirectedGraphElement() {
-		this(new DefaultDirectedGraph<Element, Element>(new EdgeElement.DefaultEdgeFactory()));
+		this(GraphPlugin.createDefaultGraph());
 	}
 
 	/**

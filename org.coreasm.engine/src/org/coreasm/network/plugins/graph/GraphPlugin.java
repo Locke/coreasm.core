@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jparsec.Parser;
 import org.jparsec.Parsers;
 
@@ -85,6 +87,10 @@ public class GraphPlugin extends Plugin implements VocabularyExtender, ParserPlu
 			dependencies.add("CollectionPlugin");
 		}
 		return dependencies;
+	}
+
+	public static Graph<Element, Element> createDefaultGraph() {
+		return new DefaultDirectedGraph<>(() -> Element.UNDEF, () -> new EdgeElement(Element.UNDEF, Element.UNDEF), false);
 	}
 
 	public GraphPlugin() {}

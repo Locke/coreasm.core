@@ -24,19 +24,7 @@ import org.coreasm.engine.absstorage.Element;
  */
 public abstract class GraphElement extends Element {
 
-	/**
-	 * Creates a default graph element.
-	 *
-	 * @see GraphElement#createDirectedGraph()
-	 */
 	public static GraphElement createNewInstance() {
-		return createDirectedGraph();
-	}
-
-	/**
-	 * Creates a directed graph.
-	 */
-	public static GraphElement createDirectedGraph() {
 		return new DirectedGraphElement();
 	}
 
