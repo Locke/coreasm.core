@@ -15,7 +15,7 @@ package org.coreasm.network.plugins.graph;
 import java.util.List;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.CycleDetector;
+import org.jgrapht.alg.cycle.CycleDetector;
 
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.BooleanBackgroundElement;

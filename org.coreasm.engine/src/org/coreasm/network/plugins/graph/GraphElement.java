@@ -12,9 +12,7 @@
  */
 package org.coreasm.network.plugins.graph;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
 
 import org.coreasm.engine.absstorage.Element;
 
@@ -26,19 +24,7 @@ import org.coreasm.engine.absstorage.Element;
  */
 public abstract class GraphElement extends Element {
 
-	/**
-	 * Creates a default graph element.
-	 *
-	 * @see GraphElement#createDirectedGraph()
-	 */
 	public static GraphElement createNewInstance() {
-		return createDirectedGraph();
-	}
-
-	/**
-	 * Creates a directed graph.
-	 */
-	public static GraphElement createDirectedGraph() {
 		return new DirectedGraphElement();
 	}
 
@@ -50,7 +36,8 @@ public abstract class GraphElement extends Element {
 	@Override
 	public boolean equals(Object anElement) {
 		if (anElement instanceof GraphElement) {
-			return ((GraphElement)anElement).getGraph().equals(getGraph());
+			GraphElement other = (GraphElement) anElement;
+			return (this.isDirected() == other.isDirected()) && this.getGraph().equals(other.getGraph());
 		} else
 			return false;
 	}
@@ -77,19 +64,7 @@ public abstract class GraphElement extends Element {
 	public abstract Graph<Element, Element> getGraph();
 
 	/**
-	 * @return a directed graph view of this graph element.
-	 */
-	public abstract DirectedGraph<Element, Element> getDirectedGraph();
-
-	/**
-	 * @return an undirected graph view of this graph element
-	 */
-	public abstract UndirectedGraph<Element, Element> getUndirectedGraph();
-
-	/**
 	 * @return <code>true</code> if this is a directed graph.
 	 */
-	public boolean isDirected() {
-		return (getGraph() instanceof DirectedGraph);
-	}
+	public abstract boolean isDirected();
 }

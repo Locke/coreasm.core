@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.CycleDetector;
+import org.jgrapht.alg.cycle.CycleDetector;
 
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.Element;

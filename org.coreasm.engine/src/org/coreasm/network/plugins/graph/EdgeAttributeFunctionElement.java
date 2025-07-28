@@ -41,13 +41,13 @@ public abstract class EdgeAttributeFunctionElement extends FunctionElement {
 
 	@Override
 	public Signature getSignature() {
-		return new Signature(EdgeBackgroundElement.BACKGROUND_NAME, getResultBackgroun());
+		return new Signature(EdgeBackgroundElement.BACKGROUND_NAME, getResultBackground());
 	}
 
 	/**
 	 * @return the background name of the range of this function
 	 */
-	public abstract String getResultBackgroun();
+	public abstract String getResultBackground();
 
 	/**
 	 * @param ge an instance of {@link EdgeElement}

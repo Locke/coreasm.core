@@ -14,9 +14,8 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.HashMap;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
-import org.jgrapht.alg.CycleDetector;
+import org.jgrapht.alg.cycle.CycleDetector;
 
 import org.coreasm.engine.absstorage.Element;
 
@@ -28,23 +27,15 @@ import org.coreasm.engine.absstorage.Element;
  */
 public class CycleDetectorCache {
 
-	HashMap<Graph<Element,Element>, CycleDetector<Element,Element>> detectorCache =
-		new HashMap<Graph<Element,Element>, CycleDetector<Element,Element>>();
+	private final HashMap<Graph<Element,Element>, CycleDetector<Element,Element>> detectorCache = new HashMap<>();
 
 	/**
 	 * Returns a cycle detector for the given graph g, assuming that g does not change.
-	 * Currently works only on directed graphs.
 	 *
 	 * @param g an instance of {@link Graph}
 	 */
 	public CycleDetector<Element, Element> getCycleDetector(Graph<Element, Element> g) {
-		CycleDetector<Element, Element> detector = detectorCache.get(g);
-		if (detector == null) {
-			if (g instanceof DirectedGraph)
-				detector = new CycleDetector<Element, Element>((DirectedGraph<Element, Element>)g);
-			detectorCache.put(g, detector);
-		}
-		return detector;
+		return detectorCache.computeIfAbsent(g, CycleDetector::new);
 	}
 
 }

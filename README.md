@@ -53,6 +53,8 @@ There are some additional major differences to upstream & changes in the "locke"
     - needs additional testing
     - needs a proper release
     - currently targets Eclipse 2018-09 as more recent releases require additional work
+- removed in this fork:
+  - in GraphPlugin, removed `showgraph`, as it depends on no longer supported JGraph 5.
 
 Development of experimental features happens in the [dev](https://github.com/Locke/coreasm.core/tree/dev) branch, which is based on the `locke` branch.
 It must be considered as experimental, as it contains experiments and patches for my specific workload.

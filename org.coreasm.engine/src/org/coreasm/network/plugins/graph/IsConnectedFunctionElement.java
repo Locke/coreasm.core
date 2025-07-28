@@ -15,7 +15,7 @@ package org.coreasm.network.plugins.graph;
 import java.util.List;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.BooleanBackgroundElement;
@@ -63,7 +63,7 @@ public class IsConnectedFunctionElement extends FunctionElement {
 		ConnectivityInspector<Element, Element> inspector = inspectorCache.getInspector(g);
 
 		if (inspector != null)
-			return BooleanElement.valueOf(inspector.isGraphConnected());
+			return BooleanElement.valueOf(inspector.isConnected());
 
 		return Element.UNDEF;
 	}

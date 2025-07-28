@@ -17,8 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.graph.DirectedSubgraph;
+import org.jgrapht.graph.AsSubgraph;
 
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.Element;
@@ -64,8 +63,7 @@ public class SubGraphFunctionElement extends FunctionElement {
 		Set<Element> vset = new HashSet<Element>(vs);
 
 		if (ge.isDirected()) {
-			return new DirectedGraphElement(new DirectedSubgraph<Element, Element>(
-					(DirectedGraph<Element, Element>)ge.getGraph(), vset, null));
+			return new DirectedGraphElement(new AsSubgraph<>(ge.getGraph(), vset, null));
 		} else
 			Logger.log(Logger.WARNING, Logger.plugins, "subgraph is not supported on undirected graphs.");
 

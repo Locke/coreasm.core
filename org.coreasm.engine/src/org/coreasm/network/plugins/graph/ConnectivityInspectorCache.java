@@ -14,10 +14,8 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.HashMap;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 
 import org.coreasm.engine.absstorage.Element;
 
@@ -29,8 +27,7 @@ import org.coreasm.engine.absstorage.Element;
  */
 public class ConnectivityInspectorCache {
 
-	HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>> inspectorCache =
-		new HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>>();
+	private final HashMap<Graph<Element,Element>, ConnectivityInspector<Element,Element>> inspectorCache = new HashMap<>();
 
 	/**
 	 * Returns a connectivity inspector for the given graph g, assuming that g does not change.
@@ -38,16 +35,7 @@ public class ConnectivityInspectorCache {
 	 * @param g an instance of {@link Graph}
 	 */
 	public ConnectivityInspector<Element, Element> getInspector(Graph<Element, Element> g) {
-		ConnectivityInspector<Element, Element> inspector = inspectorCache.get(g);
-		if (inspector == null) {
-			if (g instanceof UndirectedGraph)
-				inspector = new ConnectivityInspector<Element, Element>((UndirectedGraph<Element, Element>)g);
-			else
-				if (g instanceof DirectedGraph)
-					inspector = new ConnectivityInspector<Element, Element>((DirectedGraph<Element, Element>)g);
-			inspectorCache.put(g, inspector);
-		}
-		return inspector;
+		return inspectorCache.computeIfAbsent(g, ConnectivityInspector::new);
 	}
 
 }

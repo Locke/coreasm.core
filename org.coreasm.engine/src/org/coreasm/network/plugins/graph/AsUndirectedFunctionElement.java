@@ -14,8 +14,6 @@ package org.coreasm.network.plugins.graph;
 
 import java.util.List;
 
-import org.jgrapht.DirectedGraph;
-
 import org.coreasm.engine.CoreASMError;
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.absstorage.FunctionElement;
@@ -55,12 +53,10 @@ public class AsUndirectedFunctionElement extends FunctionElement {
 			throw new CoreASMError("Illegal arguments for " + FUNCTION_NAME + ".");
 
 		GraphElement ge = (GraphElement)args.get(0);
-		if (ge instanceof DirectedGraphElement)
-			return new UndirectedGraphElement((DirectedGraph<Element, Element>)ge.getGraph());
-		if (ge instanceof UndirectedGraphElement)
+		if (ge.isDirected())
+			return new UndirectedGraphElement(ge.getGraph());
+		else
 			return ge;
-
-		return Element.UNDEF;
 	}
 
 }

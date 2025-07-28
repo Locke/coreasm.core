@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jgrapht.EdgeFactory;
-
 import org.coreasm.engine.absstorage.Element;
 import org.coreasm.engine.plugins.collection.AbstractListElement;
 
@@ -77,20 +75,6 @@ public class EdgeElement extends TupleElement {
 	 */
 	public Element getTarget() {
 		return target;
-	}
-
-	/**
-	 * The default edge factory for edge elements.
-	 *
-	 * @author Roozbeh Farahbod
-	 */
-	public static class DefaultEdgeFactory implements EdgeFactory<Element, Element> {
-
-		@Override
-		public Element createEdge(Element sourceVertex, Element targetVertex) {
-			return new EdgeElement(sourceVertex, targetVertex);
-		}
-
 	}
 
 	@Override
