@@ -23,12 +23,12 @@ jobs:
   pre_job:
     if: ${{ !contains(github.event.head_commit.message, 'NOCI') }}
 
-    continue-on-error: true # errors that happen when checking here wether to skip or not should not lead to skipping
+    continue-on-error: true # errors that happen when checking here whether to skip or not should not lead to skipping
     runs-on: ubuntu-latest
 
     # Map a step output to a job output
     outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_test: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
@@ -39,7 +39,7 @@ jobs:
   build:
     needs: pre_job
 
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' && !contains(github.event.head_commit.message, 'NOCI') }}
+    if: ${{ !contains(github.event.head_commit.message, 'NOCI') }}
 
     strategy:
       fail-fast: false # don't stop other OS/JDK
@@ -54,7 +54,7 @@ jobs:
         include:
           - os: 'ubuntu-latest'
             jdk: '17'
-            coverage: true
+            coverage: ${{ github.ref == 'refs/heads/locke' }}
             checkstyle: true
             failFast: false
             experimental: false
@@ -98,5 +98,5 @@ jobs:
       run: mvn -B checkstyle:check
 
     - name: Test without coverage
-      if: ${{ !matrix.coverage }}
+      if: ${{ !matrix.coverage && needs.pre_job.outputs.should_skip_test != 'true' }}
       run: mvn -B verify "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml
