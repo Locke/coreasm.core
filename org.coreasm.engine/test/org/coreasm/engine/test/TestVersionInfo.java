@@ -39,6 +39,7 @@ public class TestVersionInfo {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> VersionInfo.valueOf("-1"));
 		Assertions.assertEquals(new VersionInfo(1, 0, 0, "2"), VersionInfo.valueOf("1.-2"));
 		Assertions.assertEquals(new VersionInfo(1, 2, 0, "3"), VersionInfo.valueOf("1.2.-3"));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> VersionInfo.valueOf("1.2.3.4"));
 
 		Assertions.assertThrows(NumberFormatException.class, () -> VersionInfo.valueOf("x"));
 		Assertions.assertThrows(NumberFormatException.class, () -> VersionInfo.valueOf("1.y"));
