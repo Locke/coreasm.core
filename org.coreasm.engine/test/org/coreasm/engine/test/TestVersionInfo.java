@@ -1,5 +1,10 @@
 package org.coreasm.engine.test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -49,4 +54,28 @@ public class TestVersionInfo {
 		Assertions.assertThrows(NumberFormatException.class, () -> VersionInfo.valueOf("0xdead"));
 	}
 
+	@Test
+	public void performVersionInfoComparableTest() {
+		List<VersionInfo> expected = Arrays.asList(
+			new VersionInfo(0, 0, 0, "a"),
+			new VersionInfo(0, 0, 1, ""),
+			new VersionInfo(0, 0, 1, "a"),
+			new VersionInfo(0, 0, 1, "b"),
+			new VersionInfo(0, 0, 5, ""),
+			new VersionInfo(0, 1, 0, ""),
+			new VersionInfo(0, 1, 2, ""),
+			new VersionInfo(1, 0, 0, ""),
+			new VersionInfo(1, 0, 0, "a"),
+			new VersionInfo(2, 0, 2, "a"),
+			new VersionInfo(2, 2, 1, "a")
+		);
+
+		List<VersionInfo> actual = new ArrayList<>(expected);
+
+		Collections.reverse(actual);
+
+		Collections.sort(actual);
+
+		Assertions.assertEquals(expected, actual);
+	}
 }
