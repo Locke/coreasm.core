@@ -14,6 +14,7 @@ package org.coreasm.engine;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +76,19 @@ import org.coreasm.util.Tools;
  *
  */
 public class Engine implements ControlAPI {
-	public static final VersionInfo VERSION_INFO = new VersionInfo(1, 7, 3, "SNAPSHOT");
+	public static final String VERSION_STRING;
+	static {
+		String v;
+		Properties properties = new Properties();
+        try (InputStream input = Engine.class.getClassLoader().getResourceAsStream("coreasm.engine.build.properties")) {
+			properties.load(input);
+			v = properties.getProperty("version");
+		} catch (IOException e) {
+			v = "0.0.0-unknown";
+		}
+		VERSION_STRING = v;
+	};
+	public static final VersionInfo VERSION_INFO = VersionInfo.valueOf(VERSION_STRING);
 
 	private static final Logger logger = LoggerFactory.getLogger(Engine.class);
 
