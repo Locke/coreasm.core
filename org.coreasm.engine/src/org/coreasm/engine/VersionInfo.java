@@ -18,54 +18,58 @@ import java.util.StringTokenizer;
 /**
  * Holds version information of a module.
  *
- * @author  Roozbeh Farahbod
- *
+ * @author Roozbeh Farahbod
  */
-public class VersionInfo implements Comparable<VersionInfo> {
+public record VersionInfo(int major, int minor, int patch, String postfix) implements Comparable<VersionInfo> {
 
-	private static final long MAX_VALUE = 9999;
+	public VersionInfo(int major) {
+		this(major, 0, 0, "");
+	}
 
-	public final int major;
-	public final int minor;
-	public final int build;
-	public final String postfix;
+	public VersionInfo(int major, int minor) {
+		this(major, minor, 0, "");
+	}
 
-	public VersionInfo(int major, int minor, int build, String postfix) {
-		if (major > MAX_VALUE || minor > MAX_VALUE || build > MAX_VALUE)
-			throw new IllegalArgumentException("All version values must be below " + MAX_VALUE + ".");
+	public VersionInfo(int major, int minor, int patch) {
+		this(major, minor, patch, "");
+	}
+
+	public VersionInfo(int major, int minor, int patch, String postfix) {
+		if (major < 0 || minor < 0 || patch < 0)
+			throw new IllegalArgumentException("All version components must be positive");
+		if (postfix == null)
+			throw new IllegalArgumentException("postfix must not be null");
 		this.major = major;
 		this.minor = minor;
-		this.build = build;
-		if (postfix == null)
-			this.postfix = "";
-		else
-			this.postfix = postfix;
+		this.patch = patch;
+		this.postfix = postfix;
 	}
 
 	public String toString() {
-		String str = major + "." + minor + "." + build;
-		if (postfix != null && postfix.length() > 0)
-			str = str + "-" + postfix;
-		return str;
-	}
-
-	private long combinedValue() {
-		return (MAX_VALUE+1) * (MAX_VALUE+1) * major +
-			   (MAX_VALUE+1) * minor + build;
+		StringBuilder sb = new StringBuilder().append(major).append(".").append(minor).append(".").append(patch);
+		if (!postfix.isEmpty())
+			sb.append("-").append(postfix);
+		return sb.toString();
 	}
 
 	@Override
 	public int compareTo(VersionInfo o) {
-		long dl = this.combinedValue();
-		long dr = o.combinedValue();
-
-		if (dl < dr)
-			return -1;
-		else
-			if (dl > dr)
-				return +1;
-			else
-				return this.postfix.compareTo(o.postfix);
+		int c1 = Integer.compare(this.major, o.major);
+		if (c1 != 0) {
+			return c1;
+		} else {
+			int c2 = Integer.compare(this.minor, o.minor);
+			if (c2 != 0) {
+				return c2;
+			} else {
+				int c3 = Integer.compare(this.patch, o.patch);
+				if (c3 != 0) {
+					return c3;
+				} else {
+					return this.postfix.compareTo(o.postfix);
+				}
+			}
+		}
 	}
 
 	/**
@@ -82,34 +86,31 @@ public class VersionInfo implements Comparable<VersionInfo> {
 	 * @param str
 	 */
 	public static VersionInfo valueOf(String str) {
-		String major = null;
-		String minor = "0";
-		String build = "0";
+		int major;
+		int minor = 0;
+		int build = 0;
 		String postfix = "";
-		StringTokenizer tokenizer = new StringTokenizer(str, ".-");
+
+		String[] post = str.split("-", 2);
+		if (post.length > 1)
+			postfix = post[1];
+
+		StringTokenizer tokenizer = new StringTokenizer(post[0], ".");
 		if (tokenizer.hasMoreTokens()) {
-			major = tokenizer.nextToken();
+			major = Integer.parseInt(tokenizer.nextToken(), 10);
 			if (tokenizer.hasMoreTokens()) {
-				minor = tokenizer.nextToken();
+				minor = Integer.parseInt(tokenizer.nextToken(), 10);
 				if (tokenizer.hasMoreTokens()) {
-					build = tokenizer.nextToken();
+					build = Integer.parseInt(tokenizer.nextToken(), 10);
 					if (tokenizer.hasMoreTokens())
-						postfix = tokenizer.nextToken();
+						throw new IllegalArgumentException("to many version components, expected max 3");
 				}
 			}
 		}
-
-		if (major == null)
-			return null;
 		else {
-			try {
-				int iMajor = Integer.parseInt(major);
-				int iMinor = Integer.parseInt(minor);
-				int iBuild = Integer.parseInt(build);
-				return new VersionInfo(iMajor, iMinor, iBuild, postfix);
-			} catch (NumberFormatException e) {
-				return null;
-			}
+			throw new IllegalArgumentException("no major version component");
 		}
+
+		return new VersionInfo(major, minor, build, postfix);
 	}
 }
