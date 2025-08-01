@@ -474,7 +474,7 @@
 		</profile>
 
 		<profile>
-			<!-- This "coverage" profile can be activated manually with `-P release` -->
+			<!-- This "coverage" profile can be activated manually with `-P coverage` -->
 
 			<id>coverage</id>
 			<activation>
