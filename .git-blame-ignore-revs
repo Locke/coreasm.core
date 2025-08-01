@@ -6,3 +6,12 @@
 
 # 2022-04-08 21:15:47 expand spaces to tab(s)
 c0ceff7c92b7e06ed96016d15e3fe11fdb0bb713
+
+# 2025-05-04 17:52:34 style.css: remove trailing whitespaces
+299681ee54cc9affda27497db8b9b1ed0261897f
+
+# 2025-05-04 18:13:18 style.css: consistently indent with one tab
+29c60e94615dcff44e8539b5acae2a49556ce09d
+
+# 2025-02-08 09:36:36 fix encoding
+0eb7e9c2bca13f11dfc05f19cb96adef0583faa2
