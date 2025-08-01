@@ -117,17 +117,6 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -196,16 +185,6 @@
 				</plugin>
 
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>3.1.1</version>
-					<configuration>
-						<!-- maven-release-plugin can activate the release profile, instead of manually doing release steps and profile activation -->
-						<releaseProfiles>release</releaseProfiles>
-					</configuration>
-				</plugin>
-
-				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>flatten-maven-plugin</artifactId>
 					<version>1.7.2</version>
@@ -237,6 +216,7 @@
 				</plugin>
 
 				<plugin>
+					<!-- activated with `release` profile -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
 					<version>3.2.8</version>
@@ -252,6 +232,7 @@
 				</plugin>
 
 				<plugin>
+					<!-- activated with `release` profile -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>3.11.2</version>
@@ -269,18 +250,18 @@
 				</plugin>
 
 				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.7.0</version>
+					<!-- activated with `release` profile -->
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>0.8.0</version>
 					<extensions>true</extensions>
 					<configuration>
-						<serverId>ossrh</serverId>
-						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						<publishingServerId>central</publishingServerId>
 					</configuration>
 				</plugin>
 
 				<plugin>
+					<!-- activated with `release` profile -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>3.3.1</version>
@@ -295,10 +276,10 @@
 				</plugin>
 
 				<plugin>
+					<!-- activated with `coverage` profile -->
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.8.13</version>
-					<!-- activate with coverage profile -->
 				</plugin>
 
 				<plugin>
@@ -377,14 +358,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<releaseProfiles>release</releaseProfiles>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
 			</plugin>
@@ -394,21 +367,22 @@
 
 	<profiles>
 		<profile>
-			<!-- This release profile can be activated automatically via the maven-release-plugin or manually with `-P release` -->
+			<!-- This release profile can be activated manually with `-P release` -->
+			<!-- This release profile should be enabled when publishing, e.g. via `mvn clean deploy -P release` -->
 
 			<id>release</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
 
-			<!-- requires the following entries in your maven setting.xml:
-				* ossrh account with access to https://issues.sonatype.org/browse/OSSRH-11541 (CoreASM at osshr)
-				* gpg2 / pgp signing information for ossrh maven central repository (default key of the system is used)
+			<!-- requires the following entries in your maven setting file (typically at `~/.m2/settings.xml`):
+				* mandatory: Sonatype Central account with access to https://central.sonatype.com/namespace/de.athalis.coreasm (CoreASM at Sonatype Central)
+				* optional: gpg2 / pgp signing information (default key of the system is used)
 
 				<settings>
 					<servers>
 						<server>
-							<id>ossrh</id>
+							<id>central</id>
 							<username>XXXXXXXXX</username>
 							<password>XXXXXXXXX</password>
 						</server>
@@ -444,29 +418,8 @@
 					</plugin>
 
 					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<configuration>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-							<!-- Keep changes in the local repo, push will be done afterwards -->
-							<pushChanges>false</pushChanges>
-							<localCheckout>true</localCheckout>
-							<!-- Use a better name for the tag -->
-							<tagNameFormat>v@{project.version}</tagNameFormat>
-							<goals>deploy</goals>
-							<dependencies>
-								<dependency>
-									<groupId>org.apache.maven.scm</groupId>
-									<artifactId>maven-scm-provider-gitexe</artifactId>
-									<version>2.1.0</version>
-								</dependency>
-							</dependencies>
-						</configuration>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
 					</plugin>
 
 				</plugins>
