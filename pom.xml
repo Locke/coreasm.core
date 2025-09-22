@@ -150,7 +150,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.5.3</version>
+					<version>3.5.4</version>
 					<configuration>
 						<skipTests>${skipTests}</skipTests>
 						<reuseForks>false</reuseForks>
@@ -161,7 +161,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.14.0</version>
+					<version>3.14.1</version>
 					<configuration>
 						<release>${jdk-release}</release>
 					</configuration>
@@ -187,7 +187,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>flatten-maven-plugin</artifactId>
-					<version>1.7.2</version>
+					<version>1.7.3</version>
 					<configuration>
 						<flattenMode>ossrh</flattenMode>
 					</configuration>
@@ -235,7 +235,7 @@
 					<!-- activated with `release` profile -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.11.3</version>
+					<version>3.12.0</version>
 					<executions>
 						<execution>
 							<id>attach-javadocs</id>
@@ -290,7 +290,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>11.0.0</version>
+							<version>11.0.1</version>
 						</dependency>
 					</dependencies>
 					<configuration>
