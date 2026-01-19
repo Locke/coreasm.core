@@ -212,7 +212,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>buildnumber-maven-plugin</artifactId>
-					<version>3.2.1</version>
+					<version>3.3.0</version>
 				</plugin>
 
 				<plugin>
@@ -253,7 +253,7 @@
 					<!-- activated with `release` profile -->
 					<groupId>org.sonatype.central</groupId>
 					<artifactId>central-publishing-maven-plugin</artifactId>
-					<version>0.9.0</version>
+					<version>0.10.0</version>
 					<extensions>true</extensions>
 					<configuration>
 						<publishingServerId>central</publishingServerId>
@@ -290,7 +290,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>12.3.0</version>
+							<version>13.0.0</version>
 						</dependency>
 					</dependencies>
 					<configuration>
