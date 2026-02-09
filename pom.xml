@@ -137,12 +137,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.9.0</version>
+					<version>3.10.0</version>
 					<dependencies>
 						<dependency>
 							<groupId>org.apache.maven.shared</groupId>
 							<artifactId>maven-dependency-analyzer</artifactId>
-							<version>1.16.0</version>
+							<version>1.17.0</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -161,7 +161,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.14.1</version>
+					<version>3.15.0</version>
 					<configuration>
 						<release>${jdk-release}</release>
 					</configuration>
@@ -212,7 +212,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>buildnumber-maven-plugin</artifactId>
-					<version>3.2.1</version>
+					<version>3.3.0</version>
 				</plugin>
 
 				<plugin>
@@ -253,7 +253,7 @@
 					<!-- activated with `release` profile -->
 					<groupId>org.sonatype.central</groupId>
 					<artifactId>central-publishing-maven-plugin</artifactId>
-					<version>0.9.0</version>
+					<version>0.10.0</version>
 					<extensions>true</extensions>
 					<configuration>
 						<publishingServerId>central</publishingServerId>
@@ -290,7 +290,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>12.3.0</version>
+							<version>13.2.0</version>
 						</dependency>
 					</dependencies>
 					<configuration>
