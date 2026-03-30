@@ -90,7 +90,7 @@ jobs:
       run: mvn -B verify "-DTestUtils.failFast=${{ matrix.failFast }}" --file pom.xml -P coverage
     - name: Upload coverage
       if: ${{ matrix.coverage }}
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Check Java style
