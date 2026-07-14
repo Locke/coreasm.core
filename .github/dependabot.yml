@@ -7,6 +7,15 @@ version: 2
 updates:
   - package-ecosystem: "maven" # See documentation for possible values
     directory: "/" # Location of package manifests
+    exclude-paths:
+      - "org.coreasm.config/**"
+      - "org.coreasm.eclipse/**"
+      - "org.coreasm.eclipse.feature/**"
+      - "org.coreasm.eclipse.parent/**"
+      - "org.coreasm.eclipse.repository/**"
+      - "org.coreasm.engine/**"
+      - "org.coreasm.ui.carma/**"
+      - "org.coreasm.util/**"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
