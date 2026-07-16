@@ -10,8 +10,8 @@ function g : -> GRAPH
  * @minsteps 1
  * @maxsteps 1
  *
- * @require "g: ([a, b, c], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c), (c:a)=(c,a)])"
- * @require "asUndirectedGraph(g): ([a, b, c], [(a:b)={a,b}, (b:c)={b,c}, (a:c)={a,c}, (c:a)={c,a}])"
+ * @require "g: ([a, b, c], [(a:b)=(a,b), (a:c)=(a,c), (b:c)=(b,c), (c:a)=(c,a)])"
+ * @require "asUndirectedGraph(g): ([a, b, c], [(a:b)={a,b}, (a:c)={a,c}, (b:c)={b,c}, (c:a)={c,a}])"
  * @require "dijkstraShortestPath(g, c, b): [(c:a), (a:b)]"
  * @require "dijkstraShortestPath(asUndirectedGraph(g), c, b): [(b:c)]"
  */
