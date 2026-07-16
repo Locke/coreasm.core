@@ -11,8 +11,8 @@ function g2 : -> GRAPH
  * @minsteps 1
  * @maxsteps 1
  *
- * @require "g1: ([a, b, c], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c)])"
- * @require "g2: ([a, b, c], [(a:b)=(a,b), (b:c)=(b,c), (a:c)=(a,c), (c:a)=(c,a)])"
+ * @require "g1: ([a, b, c], [(a:b)=(a,b), (a:c)=(a,c), (b:c)=(b,c)])"
+ * @require "g2: ([a, b, c], [(a:b)=(a,b), (a:c)=(a,c), (b:c)=(b,c), (c:a)=(c,a)])"
  * @require "hasCycle(g1): false"
  * @require "hasCycle(g2): true"
  */
